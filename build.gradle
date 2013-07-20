@@ -118,8 +118,8 @@ jar {
 uploadArchives {
     repositories {
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
+            // Maven does allow more than one jar per pom file. Filter is used to make many artifacts.
+            // There may be a better way to do this. See
             //http://stackoverflow.com/questions/7826652/how-to-upload-an-existing-collection-of-3rd-party-jars-to-a-maven-server-in-grad
             //http://www.gradle.org/docs/current/userguide/userguide_single.html#sub:multiple_artifacts_per_project
 

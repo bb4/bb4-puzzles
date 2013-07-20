@@ -1,12 +1,13 @@
 # bb4-puzzle
 
-A java puzzle framework with generator and solver implementations for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.
+A java puzzle framework with generator and solver implementations for puzzles like
+[Sudoku](http://barrybecker4.com/applets/sudoku_en.html), [Hi-Q](http://barrybecker4.com/applets/hiq_en.html), [One Tough Puzzle](http://barrybecker4.com/applets/redpuzzle_en.html), [Tantrix](http://barrybecker4.com/applets/tantrix_en.html), and others.
 
 
 ### How to Build
-Type 'gradle build' at the root. 
+Type 'gradle build' at the root.
 If you want to open the source in Intellij, then first run 'gradle idea'.
-Use gradle tasks to see all the differen puzzles that can be run using a command like 'gradle runRedPuzzle'
+Use gradle tasks to see all the different puzzles that can be run using a command like 'gradle runRedPuzzle'
 
 When there is a new release, versioned artifacts will be published by Barry Becker to [Sonatype](https://oss.sonatype.org).
 
