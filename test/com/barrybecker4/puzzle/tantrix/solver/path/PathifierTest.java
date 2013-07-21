@@ -67,7 +67,7 @@ public class PathifierTest extends TestCase {
         try {
             pathifier.reorder(new Tantrix(tileList));
             fail("did not expect to get here");
-        } catch (AssertionError e) {
+        } catch (IllegalStateException e) {
             // success
         }
     }

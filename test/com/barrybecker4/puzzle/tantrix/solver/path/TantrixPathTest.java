@@ -83,7 +83,7 @@ public class TantrixPathTest extends TestCase {
             new TantrixPath(board.getTantrix(), board.getPrimaryColor());
             fail("did not expect to get here");
         }
-        catch (AssertionError e) {
+        catch (IllegalStateException e) {
             // success
         }
     }

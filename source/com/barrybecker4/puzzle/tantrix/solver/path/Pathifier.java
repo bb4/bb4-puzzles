@@ -29,7 +29,9 @@ public class Pathifier {
      */
     public Pathifier(PathColor primaryColor) {
 
-        assert primaryColor != null;
+        if (primaryColor == null) {
+            throw new IllegalArgumentException("primaryColor cannot be null");
+        }
         primaryPathColor_ = primaryColor;
     }
 
@@ -62,7 +64,9 @@ public class Pathifier {
         if (outgoing.hasNext())  {
             addBackwardTiles(newList, outgoing.next(), tileList, tantrix);
         }
-        assert (newList.size() == tantrix.size()) : "Did not find a path among " + tileList;
+        if (newList.size() != tantrix.size()) {
+             throw new IllegalStateException("Did not find a path among " + tileList);
+        }
 
         return new TilePlacementList(newList);
     }
