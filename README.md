@@ -5,6 +5,9 @@ A java puzzle framework with generator and solver implementations for puzzles li
 
 
 ### How to Build
+
+If you have not already done so, first install [Git](http://git-scm.com/), [Gradle](http://www.gradle.org/), and [Intellij](http://www.jetbrains.com/idea/).
+
 Type 'gradle build' at the root.
 If you want to open the source in Intellij, then first run 'gradle idea'.
 Use gradle tasks to see all the different puzzles that can be run using a command like 'gradle runRedPuzzle'
