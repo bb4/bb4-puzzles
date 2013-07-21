@@ -4,7 +4,7 @@ A java puzzle framework with generator and solver implementations for puzzles li
 [Sudoku](http://barrybecker4.com/applets/sudoku_en.html), [Hi-Q](http://barrybecker4.com/applets/hiq_en.html), [One Tough Puzzle](http://barrybecker4.com/applets/redpuzzle_en.html), [Tantrix](http://barrybecker4.com/applets/tantrix_en.html), and others.
 
 
-### How to Build
+### [How to Build](https://github.com/barrybecker4/bb4-common/wiki/Building-bb4-Projects)
 
 If you have not already done so, first install [Git](http://git-scm.com/), [Gradle](http://www.gradle.org/), and [Intellij](http://www.jetbrains.com/idea/).
 
