@@ -120,7 +120,7 @@ class StoryMenu extends JMenu implements ActionListener  {
     }
 
     private File getDefaultDir() {
-        String defaultDir = FileUtil.PROJECT_HOME + Story.STORIES_ROOT;
+        String defaultDir = FileUtil.getHomeDir() + Story.STORIES_ROOT;
         return new File(defaultDir);
     }
 

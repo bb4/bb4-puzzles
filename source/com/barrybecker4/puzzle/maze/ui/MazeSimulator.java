@@ -3,19 +3,18 @@ package com.barrybecker4.puzzle.maze.ui;
 
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.maze.MazeController;
-import com.barrybecker4.ui.components.ResizableAppletPanel;
+import com.barrybecker4.ui.application.ApplicationApplet;
 import com.barrybecker4.ui.util.GUIUtil;
 
-import javax.swing.JApplet;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentListener;
 
 /**
  * A maze generator and solver application.
  * @author Barry Becker
  */
-public class MazeSimulator extends JApplet {
+public class MazeSimulator extends ApplicationApplet {
 
     /** constructor */
     public MazeSimulator() {
@@ -27,7 +26,7 @@ public class MazeSimulator extends JApplet {
      * (init required for applet)
      */
     @Override
-    public void init() {
+    public JPanel createMainPanel() {
         final MazePanel mazePanel = new MazePanel();
         MazeController controller = new MazeController(mazePanel);
         TopControlPanel topControls = new TopControlPanel(controller);
@@ -37,11 +36,12 @@ public class MazeSimulator extends JApplet {
         panel.add(topControls, BorderLayout.NORTH);
         panel.add(mazePanel, BorderLayout.CENTER);
 
-        ResizableAppletPanel resizablePanel = new ResizableAppletPanel(panel);
-        getContentPane().add(resizablePanel);
+        //ResizableAppletPanel resizablePanel = new ResizableAppletPanel(panel);
+        //getContentPane().add(resizablePanel);
 
         ComponentListener compListener = new ResizeAdapter(mazePanel, topControls);
-        getContentPane().addComponentListener(compListener);
+        panel.addComponentListener(compListener);
+        return panel;
     }
 
     @Override

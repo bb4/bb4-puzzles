@@ -59,7 +59,6 @@ public class TopControlPanel extends JPanel
         JPanel fill = new JPanel();
         fill.setPreferredSize(new Dimension(1000, 10));
 
-
         regenerateButton = new GradientButton( "Generate" );
         regenerateButton.addActionListener(this);
         add(regenerateButton);
@@ -69,7 +68,6 @@ public class TopControlPanel extends JPanel
         add(solveButton);
         add(fill);
     }
-
 
     /**
      * called when a button is pressed.
@@ -91,8 +89,8 @@ public class TopControlPanel extends JPanel
         controller.regenerate(getThickness(), getAnimationSpeed(),
                     getForwardPropability(), getLeftProbability(), getRightProbability());
         invalidate();
+        this.repaint();
     }
-
 
     private int getThickness() {
         return  thicknessField.getIntValue();
