@@ -1,5 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
 description = 'A library project containing a collection of heuristic optimization algorithms.'
 group = 'com.barrybecker4'
 version = '1.1.2-SNAPSHOT'
@@ -98,14 +100,10 @@ task tantrixJar(type: Jar) {
     baseName = 'bb4-tantrix'
 }
 
+def jarTasks = [puzzleJar, adventureJar, hiqJar, mazeJar, redpuzzleJar, sudokuJar, tantrixJar]
+
 artifacts {
-    archives puzzleJar
-    archives adventureJar
-    archives hiqJar
-    archives mazeJar
-    archives redpuzzleJar
-    archives sudokuJar
-    archives tantrixJar
+    jarTasks.each{ jarTask -> archives jarTask }
 
     archives sourcesJar
     archives javadocJar
@@ -116,34 +114,17 @@ jar {
     enabled = false
 }
 
+// I don't want this in every gradle file. Can it be moved to bb4.gradle? Maybe jarTasks can be a project var?
+// Unfortunately, this processing happens at configuration time.
 uploadArchives {
     repositories {
         mavenDeployer {
-            // Maven does allow more than one jar per pom file. Filter is used to make many artifacts.
-            // There may be a better way to do this. See
-            //http://stackoverflow.com/questions/7826652/how-to-upload-an-existing-collection-of-3rd-party-jars-to-a-maven-server-in-grad
-            //http://www.gradle.org/docs/current/userguide/userguide_single.html#sub:multiple_artifacts_per_project
-
-            addFilter('bb4-puzzle') {artifact, file ->
-                artifact.name == 'bb4-puzzle'
-            }
-            addFilter('bb4-hiq') {artifact, file ->
-                artifact.name == 'bb4-hiq'
-            }
-            addFilter('bb4-maze') {artifact, file ->
-                artifact.name == 'bb4-maze'
-            }
-            addFilter('bb4-redpuzzle') {artifact, file ->
-                artifact.name == 'bb4-redpuzzle'
-            }
-            addFilter('bb4-sudoku') {artifact, file ->
-                artifact.name == 'bb4-sudoku'
-            }
-            addFilter('bb4-tantrix') {artifact, file ->
-                artifact.name == 'bb4-tantrix'
-            }
-            addFilter('bb4-adventure') {artifact, file ->
-                artifact.name == 'bb4-adventure'
+            // Maven does not allow more than one jar per pom file. Filter is used to make many artifacts.
+            jarTasks.each{ jarTask ->
+                def jarName = 'bb4-' + jarTask.name - 'Jar'
+                addFilter(jarTask.name) {artifact, file ->
+                    artifact.name == jarName
+                }
             }
         }
     }
