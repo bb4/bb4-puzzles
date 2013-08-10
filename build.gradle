@@ -1,15 +1,18 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 
-import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
-
-description = 'A library project containing a collection of heuristic optimization algorithms.'
+description = 'A java puzzle framework with generator and solver implementations ' +
+        'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
-version = '1.1.2-SNAPSHOT'
-
+version = '1.1.2'
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4.gradle'
-
 project.archivesBaseName = 'bb4-puzzle'
 mainClassName = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
+
+dependencies {
+   compile 'com.barrybecker4:bb4-sound:1.1.2'
+   compile 'com.barrybecker4:bb4-optimization:1.1.2'
+}
+
 
 task runAdventure(type: JavaExec, depends: classes) {
     main = 'com.barrybecker4.puzzle.adventure.ui.GraphicalAdventure'
@@ -49,13 +52,6 @@ task runHiQ(type: JavaExec, depends: classes) {
     classpath = sourceSets.main.runtimeClasspath
     args = ['-locale', 'ENGLISH']
 }
-
-
-dependencies {
-   compile 'com.barrybecker4:bb4-sound:1.1.2-SNAPSHOT'
-   compile 'com.barrybecker4:bb4-optimization:1.1.2-SNAPSHOT'
-}
-
 
 task puzzleJar(type: Jar) {
     from sourceSets.main.output
@@ -100,32 +96,13 @@ task tantrixJar(type: Jar) {
     baseName = 'bb4-tantrix'
 }
 
-def jarTasks = [puzzleJar, adventureJar, hiqJar, mazeJar, redpuzzleJar, sudokuJar, tantrixJar]
-
-artifacts {
-    jarTasks.each{ jarTask -> archives jarTask }
-
-    archives sourcesJar
-    archives javadocJar
-}
-
 jar {
     // skip building the default jar that contains everything
     enabled = false
 }
 
-// I don't want this in every gradle file. Can it be moved to bb4.gradle? Maybe jarTasks can be a project var?
-// Unfortunately, this processing happens at configuration time.
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            // Maven does not allow more than one jar per pom file. Filter is used to make many artifacts.
-            jarTasks.each{ jarTask ->
-                def jarName = 'bb4-' + jarTask.name - 'Jar'
-                addFilter(jarTask.name) {artifact, file ->
-                    artifact.name == jarName
-                }
-            }
-        }
-    }
-}
+ext.jarTasks = [
+    puzzleJar, adventureJar, hiqJar, mazeJar, redpuzzleJar, sudokuJar, tantrixJar
+]
+
+apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
