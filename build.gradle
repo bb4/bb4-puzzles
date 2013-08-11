@@ -53,56 +53,16 @@ task runHiQ(type: JavaExec, depends: classes) {
     args = ['-locale', 'ENGLISH']
 }
 
-task puzzleJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/common/**'
-    baseName = 'bb4-puzzle'
-    manifest {
-        attributes 'Implementation-Title': 'Puzzle common code',
-            'Implementation-Version': version,
-            provider: 'gradle',
-            'Main-Class': mainClassName
-    }
-}
-task adventureJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/adventure/**'
-    exclude 'com/barrybecker4/puzzle/adventure/**/*.pdf'
-    baseName = 'bb4-adventure'
-}
-task hiqJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/hiq/**'
-    baseName = 'bb4-hiq'
-}
-task mazeJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/maze/**'
-    baseName = 'bb4-maze'
-}
-task redpuzzleJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/redpuzzle/**'
-    baseName = 'bb4-redpuzzle'
-}
-task sudokuJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/sudoku/**'
-    baseName = 'bb4-sudoku'
-}
-task tantrixJar(type: Jar) {
-    from sourceSets.main.output
-    include 'com/barrybecker4/puzzle/tantrix/**'
-    baseName = 'bb4-tantrix'
-}
+ext.appMap = new LinkedHashMap()
+appMap.put('puzzle', [include:'com/barrybecker4/puzzle/common/**'])
+appMap.put('adventure',
+    [include:'com/barrybecker4/puzzle/adventure/**',
+     exclude:'com/barrybecker4/puzzle/adventure/**/*.pdf'])
+appMap.put('hiq', [include:'com/barrybecker4/puzzle/hiq/**'])
+appMap.put('maze', [include:'com/barrybecker4/puzzle/maze/**'])
+appMap.put('redpuzzle', [include:'com/barrybecker4/puzzle/redpuzzle/**'])
+appMap.put('sudoku', [include:'com/barrybecker4/puzzle/sudoku/**'])
+appMap.put('tantrix', [include:'com/barrybecker4/puzzle/tantrix/**'])
 
-jar {
-    // skip building the default jar that contains everything
-    enabled = false
-}
-
-ext.jarTasks = [
-    puzzleJar, adventureJar, hiqJar, mazeJar, redpuzzleJar, sudokuJar, tantrixJar
-]
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
