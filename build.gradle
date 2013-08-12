@@ -54,15 +54,15 @@ task runHiQ(type: JavaExec, depends: classes) {
 }
 
 ext.appMap = new LinkedHashMap()
-appMap.put('puzzle', [include:'com/barrybecker4/puzzle/common/**'])
+appMap.put('puzzle', [include:['com/barrybecker4/puzzle/common/**']])
 appMap.put('adventure',
-    [include:'com/barrybecker4/puzzle/adventure/**',
-     exclude:'com/barrybecker4/puzzle/adventure/**/*.pdf'])
-appMap.put('hiq', [include:'com/barrybecker4/puzzle/hiq/**'])
-appMap.put('maze', [include:'com/barrybecker4/puzzle/maze/**'])
-appMap.put('redpuzzle', [include:'com/barrybecker4/puzzle/redpuzzle/**'])
-appMap.put('sudoku', [include:'com/barrybecker4/puzzle/sudoku/**'])
-appMap.put('tantrix', [include:'com/barrybecker4/puzzle/tantrix/**'])
+    [include:['com/barrybecker4/puzzle/adventure/**'],
+     exclude:['com/barrybecker4/puzzle/adventure/**/*.pdf']])
+appMap.put('hiq', [include:['com/barrybecker4/puzzle/hiq/**']])
+appMap.put('maze', [include:['com/barrybecker4/puzzle/maze/**']])
+appMap.put('redpuzzle', [include:['com/barrybecker4/puzzle/redpuzzle/**']])
+appMap.put('sudoku', [include:['com/barrybecker4/puzzle/sudoku/**']])
+appMap.put('tantrix', [include:['com/barrybecker4/puzzle/tantrix/**']])
 
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
