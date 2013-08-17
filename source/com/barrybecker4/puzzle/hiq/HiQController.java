@@ -5,6 +5,7 @@ import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.hiq.model.MoveGenerator;
 import com.barrybecker4.puzzle.hiq.model.PegBoard;
+import com.barrybecker4.puzzle.hiq.model.PegBoardSymmetries;
 import com.barrybecker4.puzzle.hiq.model.PegMove;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
     public synchronized boolean alreadySeen(PegBoard position, Set<PegBoard> seen) {
 
         boolean visited = false;
-        for (int i = 0; i < PegBoard.SYMMETRIES; i++) {
+        for (int i = 0; i < PegBoardSymmetries.SYMMETRIES; i++) {
               if (seen.contains(position.symmetry(i))) {
                   visited = true;
                   break;
