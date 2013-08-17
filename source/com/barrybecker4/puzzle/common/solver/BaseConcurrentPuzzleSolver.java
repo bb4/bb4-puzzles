@@ -14,10 +14,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * ConcurrentPuzzleSolver
- * <p/>
  * Concurrent version of puzzle solver.
  * Does not recognize when there is no solution (use ConcurrentPuzzle Solver instead)
+ * P is the Puzzle type
+ * M is the move type
  *
  * @author Brian Goetz and Tim Peierls
  */

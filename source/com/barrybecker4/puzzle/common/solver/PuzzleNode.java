@@ -6,10 +6,10 @@ import java.util.List;
 
 
 /**
- * PuzzleNode
- * <p/>
  * Link node for the puzzle solving framework.
  * Contains a puzzle position (immutable state) and a move (transition that got us to that position from the previous state).
+ * P is the Puzzle type
+ * M is the move type
  *
  * @author Brian Goetz and Tim Peierls
  */

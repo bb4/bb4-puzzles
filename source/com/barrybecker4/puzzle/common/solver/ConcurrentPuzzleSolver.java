@@ -7,17 +7,11 @@ import com.barrybecker4.puzzle.common.Refreshable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * PuzzleSolver
- * <p/>
  * Solver that recognizes when no solution exists and stops running if that happens.
  *
  * @author Brian Goetz and Tim Peierls
  */
 public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P, M> {
-
-    public ConcurrentPuzzleSolver(PuzzleController<P, M> puzzle, Refreshable<P, M> ui) {
-        super(puzzle, ui);
-    }
 
     /**
      * @param puzzle the puzzle to solve

@@ -5,8 +5,6 @@ import java.util.concurrent.CountDownLatch;
 
 
 /**
- * ValueLatch
- * <p/>
  * Result-bearing latch used by ConcurrentPuzzleSolver
  * ThreadSafe
  *
