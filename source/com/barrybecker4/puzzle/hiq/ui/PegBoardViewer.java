@@ -43,7 +43,9 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
     @Override
     public void finalRefresh(List<PegMove> path, PegBoard board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
-        showPath(path, board);
+        if (board != null)  {
+            showPath(path, board);
+        }
     }
 
     @Override

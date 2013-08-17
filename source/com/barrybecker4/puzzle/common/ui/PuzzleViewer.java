@@ -38,7 +38,7 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
     }
 
     @Override
-    public void finalRefresh(List<M> path, P board, long numTries, long millis) {
+    public void finalRefresh(List<M> path, P position, long numTries, long millis) {
 
         float time = (float)millis / 1000.0f;
         status_ = "Did not find solution.";
@@ -47,7 +47,9 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
                     + createStatusMessage(numTries);
         }
         System.out.println(status_);
-        simpleRefresh(board, numTries);
+        if (position != null) {
+            simpleRefresh(position, numTries);
+        }
         System.gc();
     }
 

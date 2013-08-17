@@ -49,7 +49,7 @@ public abstract class TantrixSolver<P, K>
     }
 
     /**
-     * @return  the number of different ways we have tried to fit pieces together so far.
+     * @return the number of different ways we have tried to fit pieces together so far.
      */
     public long getNumIterations() {
         return numTries_;

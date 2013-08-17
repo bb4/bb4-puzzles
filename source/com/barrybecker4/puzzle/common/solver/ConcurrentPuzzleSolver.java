@@ -36,6 +36,7 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
         return new CountingSolverTask(p, m, n);
     }
 
+
     class CountingSolverTask extends SolverTask {
         CountingSolverTask(P pos, M move, PuzzleNode<P, M> prev) {
             super(pos, move, prev);

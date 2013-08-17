@@ -15,14 +15,19 @@ import java.util.List;
  */
 //@Immutable
 public class PuzzleNode<P, M> {
-    final P position;
-    final M move;
+
+    private final P position;
+    private final M move;
     PuzzleNode<P, M> previous;
 
     public PuzzleNode(P pos, M move, PuzzleNode<P, M> prev) {
         this.position = pos;
         this.move = move;
         this.previous = prev;
+    }
+
+    public P getPosition() {
+        return position;
     }
 
     List<M> asMoveList() {

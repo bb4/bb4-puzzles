@@ -47,16 +47,17 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     }
 
     private List<M> search(PuzzleNode<P, M> node) {
-        if (!puzzle.alreadySeen(node.position, seen)) {
-            if (puzzle.isGoal(node.position)) {
+        if (!puzzle.alreadySeen(node.getPosition(), seen)) {
+            if (puzzle.isGoal(node.getPosition())) {
                 List<M> path = node.asMoveList();
+                P position = node.getPosition();
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                ui.finalRefresh(path, node.position, numTries, elapsedTime);
+                ui.finalRefresh(path, position, numTries, elapsedTime);
                 return path;
             }
-            List<M> moves = puzzle.legalMoves(node.position);
+            List<M> moves = puzzle.legalMoves(node.getPosition());
             for (M move : moves) {
-                P position = puzzle.move(node.position, move);
+                P position = puzzle.move(node.getPosition(), move);
 
                 // don't necessarily refresh every time as that would put too much load on the processor
                 if (ui != null) {

@@ -41,7 +41,6 @@ public final class TantrixViewer extends PuzzleViewer<TantrixBoard, TilePlacemen
     protected void paintComponent( Graphics g ) {
 
         super.paintComponent(g);
-        //System.out.println("now drawing ******** board_=" + board_);
         renderer_.render(g, board_, getWidth(), getHeight());
     }
 

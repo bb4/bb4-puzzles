@@ -23,8 +23,6 @@ import static com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_T
 public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlacement>
                                  implements Optimizee, OptimizationListener {
 
-
-
     /** either genetic or concurrent genetic strategy. */
     private OptimizationStrategyType strategy;
     private int numTries_;
@@ -108,9 +106,9 @@ public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlaceme
     }
 
     /**
-     * called when the optimizer has made some progress optimizing.
-     * We show the current status.
-     * @param params
+     * Called when the optimizer has made some progress optimizing.
+     * Shows the current status.
+     * @param params optimized array of parameters representing tiles
      */
     public void optimizerChanged(ParameterArray params) {
         // update our current best guess at the solution.

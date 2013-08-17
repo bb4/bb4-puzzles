@@ -8,8 +8,7 @@ package com.barrybecker4.puzzle.redpuzzle.model;
  *
  * @author Barry Becker
  */
-public final class Piece
-{
+public final class Piece {
 
     /** The suits of the edges. */
     private Nub[] nubs_ = null;

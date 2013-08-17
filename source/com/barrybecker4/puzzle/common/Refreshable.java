@@ -20,7 +20,7 @@ public interface Refreshable <P, M> {
     /**
      *Show the path to the solution at the end.
      *@param path list of moves that gets to the solution. If path is null then there was not solution found.
-     *@param position the final board state.
+     *@param position the final board state in the path. It may be null if no solution was found.
      *@param numTries number of tries it took to find that final state.
      *@param elapsedMillis number of milliseconds it took to find the solution.
      */

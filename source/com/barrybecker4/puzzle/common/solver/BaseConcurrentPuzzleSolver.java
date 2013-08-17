@@ -75,11 +75,12 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
             long startTime = System.currentTimeMillis();
             exec.execute(newTask(p, null, null));
             // block until solution found
-            PuzzleNode<P, M> solutionnPuzzleNode = solution.getValue();
-            List<M> path = (solutionnPuzzleNode == null) ? null: solutionnPuzzleNode.asMoveList();
+            PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
+            List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
             if (ui != null) {
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                ui.finalRefresh(path, solutionnPuzzleNode.position, numTries, elapsedTime);
+                P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
+                ui.finalRefresh(path, position, numTries, elapsedTime);
             }
             return path;
         } finally {
@@ -108,19 +109,19 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
         public void run() {
 
             numTries++;
-            if (solution.isSet() || puzzle.alreadySeen(position, seen)) {
+            if (solution.isSet() || puzzle.alreadySeen(getPosition(), seen)) {
                 return; // already solved or seen this position
             }
             if (ui != null && !solution.isSet()) {
 
-                ui.refresh(position, numTries);
+                ui.refresh(getPosition(), numTries);
             }
-            if (puzzle.isGoal(position)) {
+            if (puzzle.isGoal(getPosition())) {
                 solution.setValue(this);
             }
             else {
-                for (M move : puzzle.legalMoves(position)) {
-                    SolverTask task = newTask(puzzle.move(position, move), move, this);
+                for (M move : puzzle.legalMoves(getPosition())) {
+                    SolverTask task = newTask(puzzle.move(getPosition(), move), move, this);
 
                     // either process the children sequentially or concurrently based on  depthBreadthFactor
                     if (RANDOM.nextFloat() > depthBreadthFactor)
