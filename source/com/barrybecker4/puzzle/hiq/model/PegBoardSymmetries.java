@@ -5,13 +5,13 @@ package com.barrybecker4.puzzle.hiq.model;
  * Static PegBoard symmetries.
  * @author Barry Becker
  */
-public class PegBoardSymmetries {
+class PegBoardSymmetries {
 
     /**
      *  The number of symmetries the board has.
      *  Each odd and even pair are mirror images of a 90 degree rotation.
      */
-    public static final int SYMMETRIES = 8;
+    static final int SYMMETRIES = 8;
 
     /**
      * The 8 fold symmetry of the board.

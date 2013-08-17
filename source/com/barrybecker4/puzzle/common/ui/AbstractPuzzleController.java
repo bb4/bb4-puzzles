@@ -57,12 +57,11 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     @Override
     public synchronized boolean alreadySeen(P position, Set<P> seen) {
 
-        boolean visited = true;
         if (!seen.contains(position)) {
-             visited = false;
-             seen.add(position);
+            seen.add(position);
+            return false;
         }
-        return visited;
+        return true;
     }
 
     /**

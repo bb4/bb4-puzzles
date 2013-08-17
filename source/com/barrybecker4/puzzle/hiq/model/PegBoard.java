@@ -6,6 +6,7 @@ import com.barrybecker4.common.geometry.Location;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Immutable representation of a PegBoard.
@@ -103,7 +104,7 @@ public class PegBoard {
 
     /**
      * Because of symmetry, there is really only one first move not 4.
-     * @return PegMove the first move.
+     * @return Move the first move.
      */
     public PegMove getFirstMove() {
        return new PegMove(CENTER, (byte)(CENTER-2), CENTER, CENTER);
@@ -209,6 +210,17 @@ public class PegBoard {
         return nPegsLeft;
     }
 
+    public boolean containedIn(Set<PegBoard> setOfBoards) {
+        boolean visited = false;
+        for (int i = 0; i < PegBoardSymmetries.SYMMETRIES; i++) {
+              if (setOfBoards.contains(symmetry(i))) {
+                  visited = true;
+                  break;
+              }
+        }
+        return visited;
+    }
+
     /**
      * Check all 8 symmetries
      * if rotateIndex = 0 then no rotation
@@ -217,7 +229,7 @@ public class PegBoard {
      * if rotateIndex = 3 then mirror image of 2, etc
      * @return specified rotation of the board.
      */
-    public PegBoard symmetry(int symmIndex) {
+    private PegBoard symmetry(int symmIndex) {
         return (symmIndex==0) ? this : rotate(PegBoardSymmetries.getSymmetry(symmIndex));
     }
 

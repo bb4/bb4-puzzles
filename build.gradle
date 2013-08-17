@@ -53,12 +53,19 @@ task runHiQ(type: JavaExec, depends: classes) {
     args = ['-locale', 'ENGLISH']
 }
 
+task runSlidingPuzzle(type: JavaExec, depends: classes) {
+    main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
 ext.appMap = new LinkedHashMap()
 appMap.put('puzzle', [include:['com/barrybecker4/puzzle/common/**']])
 appMap.put('adventure',
     [include:['com/barrybecker4/puzzle/adventure/**'],
      exclude:['com/barrybecker4/puzzle/adventure/**/*.pdf']])
 appMap.put('hiq', [include:['com/barrybecker4/puzzle/hiq/**']])
+appMap.put('slidingpuzzle', [include:['com/barrybecker4/puzzle/hiq/**']])
 appMap.put('maze', [include:['com/barrybecker4/puzzle/maze/**']])
 appMap.put('redpuzzle', [include:['com/barrybecker4/puzzle/redpuzzle/**']])
 appMap.put('sudoku', [include:['com/barrybecker4/puzzle/sudoku/**']])
