@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Generate a Sudoku puzzle.
- * Initially created with grandma Becker on Date: Jul 8, 2006
+ * Initially created with grandma Becker July 8, 2006
  *
  * @author Barry Becker
  */

@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.maze;
 import com.barrybecker4.common.concurrency.Worker;
 import com.barrybecker4.puzzle.maze.ui.MazePanel;
 
+import javax.swing.*;
 import java.awt.Cursor;
 
 /**
@@ -18,6 +19,7 @@ public final class MazeController {
     private Worker generateWorker;
     private MazeGenerator generator;
     private MazeSolver solver;
+    private JPanel repaintListener;
 
     /**
      * Constructor.
@@ -27,6 +29,14 @@ public final class MazeController {
         solver = new MazeSolver(mazePanel);
     }
 
+    /**
+     * This panel will be repainted when the regeneration is complete.
+     * Without this, the top controls do not refresh properly when shown in an applet (and only the applet).
+     * @param panel
+     */
+    public void setRepaintListener(JPanel panel) {
+        repaintListener = panel;
+    }
 
     /**
      * regenerate the maze based on the current UI parameter settings
@@ -61,7 +71,9 @@ public final class MazeController {
             @Override
             public void finished() {
                 mazePanel.setCursor(Cursor.getDefaultCursor());
-                mazePanel.repaint();
+                if (repaintListener != null)  {
+                    repaintListener.repaint();
+                }
             }
         };
         generateWorker.start();

@@ -36,9 +36,6 @@ public class MazeSimulator extends ApplicationApplet {
         panel.add(topControls, BorderLayout.NORTH);
         panel.add(mazePanel, BorderLayout.CENTER);
 
-        //ResizableAppletPanel resizablePanel = new ResizableAppletPanel(panel);
-        //getContentPane().add(resizablePanel);
-
         ComponentListener compListener = new ResizeAdapter(mazePanel, topControls);
         panel.addComponentListener(compListener);
         return panel;

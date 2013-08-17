@@ -1,12 +1,14 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2000-2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.maze.ui;
 
 import com.barrybecker4.puzzle.maze.MazeController;
 import com.barrybecker4.ui.components.GradientButton;
 import com.barrybecker4.ui.components.NumberInput;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,6 +40,12 @@ public class TopControlPanel extends JPanel
     /** constructor */
     public TopControlPanel(MazeController controller) {
 
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+
         this.controller = controller;
         thicknessField = new NumberInput("Thickness", PASSAGE_THICKNESS,
                                           "The passage thickness", 2, 200, true);
@@ -50,14 +58,11 @@ public class TopControlPanel extends JPanel
                                          "The probability of moving left", 0, 1.0, false);
         rightProbField = new NumberInput("Right", 0.33,
                                           "The probability of moving right", 0, 1.0, false);
-
         add(thicknessField);
         add(animationSpeedField);
         add(forwardProbField);
         add(leftProbField);
         add(rightProbField);
-        JPanel fill = new JPanel();
-        fill.setPreferredSize(new Dimension(1000, 10));
 
         regenerateButton = new GradientButton( "Generate" );
         regenerateButton.addActionListener(this);
@@ -66,7 +71,8 @@ public class TopControlPanel extends JPanel
         solveButton = new GradientButton( "Solve" );
         solveButton.addActionListener(this);
         add(solveButton);
-        add(fill);
+
+        controller.setRepaintListener(this);
     }
 
     /**
@@ -88,8 +94,8 @@ public class TopControlPanel extends JPanel
     public void regenerate() {
         controller.regenerate(getThickness(), getAnimationSpeed(),
                     getForwardPropability(), getLeftProbability(), getRightProbability());
-        invalidate();
-        this.repaint();
+        //invalidate();
+        //this.repaint();
     }
 
     private int getThickness() {
