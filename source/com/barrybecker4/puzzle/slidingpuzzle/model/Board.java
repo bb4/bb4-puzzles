@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
+import com.barrybecker4.common.math.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class Board {
         for (int i=0; i<numTiles; i++) {
             ints.add(i);
         }
-        Collections.shuffle(ints);
+        Collections.shuffle(ints, MathUtil.RANDOM);
 
         int ct = 0;
         for (byte i=0; i<size; i++) {

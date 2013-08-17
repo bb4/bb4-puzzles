@@ -25,7 +25,7 @@ final class RedPuzzleViewer extends PuzzleViewer<PieceList, Piece> {
     /** slows down the animation.  */
     private int animationSpeed_ = INITIAL_ANIM_SPEED;
 
-    // play a sound effect when a piece goes into place.
+    /** play a sound effect when a piece goes into place. */
     private MusicMaker musicMaker_ = new MusicMaker();
 
     private RedPuzzleRenderer renderer_;

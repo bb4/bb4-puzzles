@@ -38,7 +38,6 @@ public class MoveGenerator  {
         List<Move> moves = new LinkedList<Move>();
 
         Location blankLocation = board.getEmptyLocation();
-        System.out.println("empty loc = "+ blankLocation);
 
         for (ByteLocation loc : OFFSETS) {
             int row = blankLocation.getRow() + loc.getRow();
@@ -47,7 +46,6 @@ public class MoveGenerator  {
                 moves.add(new Move(new ByteLocation(row, col), blankLocation)) ;
             }
         }
-        //System.out.println("generated moves = "+ moves);
         return moves;
     }
 }

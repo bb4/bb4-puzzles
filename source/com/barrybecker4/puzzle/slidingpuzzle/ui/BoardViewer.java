@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.ui;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Board;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
+import com.barrybecker4.sound.MusicMaker;
 
 import java.awt.Graphics;
 import java.util.List;
@@ -18,6 +19,9 @@ final class BoardViewer extends PuzzleViewer<Board, Move>
     private BoardRenderer renderer_ = new BoardRenderer();
     private List<Move> path_;
     private DoneListener doneListener;
+
+    /** play a sound effect when a piece goes into place. */
+    private MusicMaker musicMaker_ = new MusicMaker();
 
     /**
      * Constructor.
@@ -48,9 +52,12 @@ final class BoardViewer extends PuzzleViewer<Board, Move>
         }
     }
 
-    @Override
+
+    /**
+     * make a little click noise when the piece fits into place.
+     */
     public void makeSound() {
-        // add sound
+        musicMaker_.playNote(60, 20, 940);
     }
 
 
