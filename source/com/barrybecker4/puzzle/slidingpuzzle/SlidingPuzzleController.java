@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.slidingpuzzle;
 
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Board;
+import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator;
 
@@ -15,39 +15,39 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class SlidingPuzzleController extends AbstractPuzzleController<Board, Move> {
+public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Move> {
 
     private static final int DEFAULT_SIZE = 3;
 
-    private Board initialPosition;
+    private Slider initialPosition;
 
     /**
      * @param ui shows the current state on the screen.
      */
-    public SlidingPuzzleController(Refreshable<Board, Move> ui) {
+    public SlidingPuzzleController(Refreshable<Slider, Move> ui) {
         super(ui);
-        initialPosition = new Board(DEFAULT_SIZE);
+        initialPosition = new Slider(DEFAULT_SIZE);
         // set default
         algorithm_ = Algorithm.CONCURRENT_OPTIMUM;
     }
 
     @Override
-    public Board initialPosition() {
+    public Slider initialPosition() {
         return initialPosition;
     }
 
     @Override
-    public boolean isGoal(Board position) {
+    public boolean isGoal(Slider position) {
         return position.isSolved();
     }
 
     @Override
-    public List<Move> legalMoves(Board position) {
+    public List<Move> legalMoves(Slider position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public Board move(Board position, Move move) {
+    public Slider move(Slider position, Move move) {
         return position.doMove(move);
     }
 }

@@ -51,7 +51,7 @@ public class RedPuzzleRenderer implements PuzzleRenderer<PieceList> {
     public RedPuzzleRenderer() {}
 
     /**
-     * This renders the current state of the Board to the screen.
+     * This renders the current state of the Slider to the screen.
      */
     public void render( Graphics g, PieceList board,  int width, int height ) {
 

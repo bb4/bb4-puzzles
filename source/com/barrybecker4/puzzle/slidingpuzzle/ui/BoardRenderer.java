@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.ui;
 
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Board;
+import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,7 +14,7 @@ import java.awt.Graphics;
  *
  * @author Barry Becker
  */
-public class BoardRenderer implements PuzzleRenderer<Board> {
+public class BoardRenderer implements PuzzleRenderer<Slider> {
 
     public static final int INC = 60;
     public static final int SEPARATION = INC/20;
@@ -33,10 +33,10 @@ public class BoardRenderer implements PuzzleRenderer<Board> {
     public BoardRenderer() {}
 
     /**
-     * This renders the current state of the Board to the screen.
+     * This renders the current state of the Slider to the screen.
      */
     @Override
-    public void render( Graphics g, Board board, int width, int height ) {
+    public void render( Graphics g, Slider board, int width, int height ) {
 
         int size = board.getSize();
         int rightEdgePos = LEFT_MARGIN + INC * size;
@@ -72,7 +72,7 @@ public class BoardRenderer implements PuzzleRenderer<Board> {
         }
     }
 
-    private void drawTile(Graphics g, Board board, byte row, byte col) {
+    private void drawTile(Graphics g, Slider board, byte row, byte col) {
         int xpos = LEFT_MARGIN + col * INC ;
         int ypos = TOP_MARGIN + row * INC;
 
@@ -81,7 +81,7 @@ public class BoardRenderer implements PuzzleRenderer<Board> {
         Color c = empty ?  BLANK_COLOR : TILE_COLOR;
         g.setColor(c);
 
-        g.fillRect(xpos , ypos, INC - SEPARATION, INC - SEPARATION);
+        g.fillRect(xpos, ypos, INC - SEPARATION, INC - SEPARATION);
         g.setColor(Color.BLACK);
         g.drawString(Integer.toString(value), xpos + INC/3, ypos + INC/2);
         g.drawRect(xpos , ypos, INC - SEPARATION, INC - SEPARATION);

@@ -5,7 +5,7 @@ import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter;
 
 /**
- *  The Board describes the physical layout of the puzzle.
+ *  The Slider describes the physical layout of the puzzle.
  *
  *  @author Barry Becker
  */

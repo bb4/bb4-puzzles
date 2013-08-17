@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MoveGenerator  {
 
-    Board board;
+    Slider board;
 
     private static final ByteLocation[] OFFSETS = {
         new ByteLocation(-1, 0),
@@ -26,7 +26,7 @@ public class MoveGenerator  {
     /**
      * Constructor
      */
-    public MoveGenerator(Board board) {
+    public MoveGenerator(Slider board) {
         this.board = board;
     }
 

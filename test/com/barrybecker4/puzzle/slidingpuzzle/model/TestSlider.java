@@ -10,13 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Barry Becker Date: Jul 3, 2006
+ * @author Barry Becker
  */
-public class TestBoard extends TestCase {
-
-    /** instance under test */
-    Board board;
-
+public class TestSlider extends TestCase {
 
     @Override
     public void setUp() {
@@ -25,21 +21,21 @@ public class TestBoard extends TestCase {
     }
 
     public void testBoardConstruction() {
-        Board board = new Board(3);
+        Slider board = new Slider(3);
         assertEquals("Unexpected board size", 3, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(2, 1), board.getEmptyLocation());
     }
 
     public void testLargeBoardConstruction() {
-        Board board = new Board(5);
+        Slider board = new Slider(5);
         assertEquals("Unexpected board size", 5, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(2, 2), board.getEmptyLocation());
     }
 
     public void testBoardEquals() {
-        Board board1 = new Board(3);
-        Board board2 = new Board(board1);
-        Board board3 = new Board(3);
+        Slider board1 = new Slider(3);
+        Slider board2 = new Slider(board1);
+        Slider board3 = new Slider(3);
         assertTrue(board1.equals(board2) && board2.equals(board1));
         assertTrue(board1.hashCode() == board2.hashCode());
 
@@ -49,11 +45,11 @@ public class TestBoard extends TestCase {
 
     public void testBoardHash() {
 
-        Set<Board> boards = new HashSet<Board>();
-        Board board1 = new Board(3);
-        Board board2 = new Board(board1);
-        Board board3 = new Board(3);
-        Board board4 = new Board(3);
+        Set<Slider> boards = new HashSet<Slider>();
+        Slider board1 = new Slider(3);
+        Slider board2 = new Slider(board1);
+        Slider board3 = new Slider(3);
+        Slider board4 = new Slider(3);
 
         boards.add(board1);
         boards.add(board2);

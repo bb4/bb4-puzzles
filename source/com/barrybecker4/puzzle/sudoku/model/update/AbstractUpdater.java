@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.sudoku.model.update;
 import com.barrybecker4.puzzle.sudoku.model.board.Board;
 
 /**
- *  The Board describes the physical layout of the puzzle.
+ *  The Slider describes the physical layout of the puzzle.
  *
  *  @author Barry Becker
  */

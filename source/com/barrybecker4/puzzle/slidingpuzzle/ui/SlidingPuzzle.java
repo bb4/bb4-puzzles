@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.slidingpuzzle.Algorithm;
 import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Board;
+import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
 import com.barrybecker4.ui.util.GUIUtil;
 
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * This program solves a very difficult classic solitaire puzzle
  * where you slide tiles to form an image or correct sequence.
  */
-public final class SlidingPuzzle extends PuzzleApplet<Board, Move>
+public final class SlidingPuzzle extends PuzzleApplet<Slider, Move>
                              implements DoneListener {
 
     private NavigationPanel navPanel;
@@ -34,17 +34,17 @@ public final class SlidingPuzzle extends PuzzleApplet<Board, Move>
 
 
     @Override
-    protected PuzzleViewer<Board, Move> createViewer() {
+    protected PuzzleViewer<Slider, Move> createViewer() {
         return new BoardViewer(this);
     }
 
     @Override
-    protected PuzzleController<Board, Move> createController(Refreshable<Board, Move> viewer_) {
+    protected PuzzleController<Slider, Move> createController(Refreshable<Slider, Move> viewer_) {
         return new SlidingPuzzleController(viewer_);
     }
 
     @Override
-    protected AlgorithmEnum<Board, Move>[] getAlgorithmValues() {
+    protected AlgorithmEnum<Slider, Move>[] getAlgorithmValues() {
         return Algorithm.values();
     }
 

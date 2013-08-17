@@ -11,10 +11,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Immutable representation of a Board.
+ * Immutable representation of a Slider.
  * @author Barry Becker
  */
-public class Board {
+public class Slider {
 
     /** Size of the board edge. If size = 4, then there will be 16-1 = 15 tiles. */
     private int size = 3;
@@ -24,7 +24,7 @@ public class Board {
     /**
      * Do not use this constructor since outsiders cannot create mutable boards.
      */
-    public Board(int size) {
+    public Slider(int size) {
         this.size = size;
         tiles = new int[size][size];
 
@@ -46,7 +46,7 @@ public class Board {
     /**
      * Copy constructor.
      */
-    public Board(Board board) {
+    public Slider(Slider board) {
         this(board.size);
         for (byte i=0; i<size; i++) {
             for (byte j=0; j<size; j++) {
@@ -57,10 +57,10 @@ public class Board {
 
     /**
      * Constructor
-     * create a new Board by applying a move to another Board.
+     * create a new Slider by applying a move to another Slider.
      * Applying the same move a second time will undo it because it just swaps tiles.
      */
-    public Board(Board pos, Move move) {
+    public Slider(Slider pos, Move move) {
         this(pos);
 
         byte fromRow = move.getFromRow();
@@ -114,8 +114,8 @@ public class Board {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public Board doMove(Move move) {
-        return new Board(this, move);
+    public Slider doMove(Move move) {
+        return new Slider(this, move);
     }
 
     /**
@@ -136,9 +136,9 @@ public class Board {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Board)) return false;
+        if (!(o instanceof Slider)) return false;
 
-        Board board = (Board) o;
+        Slider board = (Slider) o;
         if (size != board.size) return false;
 
         for (int i=0; i<size; i++) {
@@ -157,7 +157,7 @@ public class Board {
 
     @Override
     public String toString() {
-        StringBuilder bldr = new StringBuilder("Board:");
+        StringBuilder bldr = new StringBuilder("Slider:");
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
                bldr.append(tiles[i][j]).append(',');

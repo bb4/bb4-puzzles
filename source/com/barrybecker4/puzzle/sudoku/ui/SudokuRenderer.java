@@ -72,7 +72,7 @@ public class SudokuRenderer implements CellLocator {
     }
 
     /**
-     * This renders the current state of the Board to the screen.
+     * This renders the current state of the Slider to the screen.
      */
     public void render(Graphics g, UserEnteredValues userEnteredValues, Location currentFocusLocation,
                        int width, int height)  {

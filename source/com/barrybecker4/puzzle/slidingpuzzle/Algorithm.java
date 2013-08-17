@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Board;
+import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
 
 /**
@@ -16,7 +16,7 @@ import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
  *
  * @author Barry Becker
  */
-public enum Algorithm implements AlgorithmEnum<Board, Move> {
+public enum Algorithm implements AlgorithmEnum<Slider, Move> {
 
     SEQUENTIAL,
     CONCURRENT_BREADTH,
@@ -42,17 +42,17 @@ public enum Algorithm implements AlgorithmEnum<Board, Move> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<Board, Move> createSolver(PuzzleController<Board, Move> controller, Refreshable<Board, Move> ui) {
+    public PuzzleSolver<Slider, Move> createSolver(PuzzleController<Slider, Move> controller, Refreshable<Slider, Move> ui) {
 
         switch (this) {
             case SEQUENTIAL :
-                return new SequentialPuzzleSolver<Board, Move>(controller, ui);
+                return new SequentialPuzzleSolver<Slider, Move>(controller, ui);
             case CONCURRENT_BREADTH :
-                return new ConcurrentPuzzleSolver<Board, Move>(controller, 0.4f, ui);
+                return new ConcurrentPuzzleSolver<Slider, Move>(controller, 0.4f, ui);
             case CONCURRENT_DEPTH :
-                return new ConcurrentPuzzleSolver<Board, Move>(controller, 0.12f, ui);
+                return new ConcurrentPuzzleSolver<Slider, Move>(controller, 0.12f, ui);
             case CONCURRENT_OPTIMUM :
-                return new ConcurrentPuzzleSolver<Board, Move>(controller, 0.2f, ui);
+                return new ConcurrentPuzzleSolver<Slider, Move>(controller, 0.2f, ui);
         }
         return null;
     }

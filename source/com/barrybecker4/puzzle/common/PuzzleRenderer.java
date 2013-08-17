@@ -13,7 +13,7 @@ import java.awt.Graphics;
 public interface PuzzleRenderer<P> {
 
     /**
-     * This renders the current state of the Board to the screen.
+     * This renders the current state of the Slider to the screen.
      */
     void render( Graphics g, P board, int width, int height );
 }
