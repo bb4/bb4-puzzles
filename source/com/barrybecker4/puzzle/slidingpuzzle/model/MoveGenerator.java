@@ -16,7 +16,7 @@ public class MoveGenerator  {
 
     Slider board;
 
-    private static final ByteLocation[] OFFSETS = {
+    public static final ByteLocation[] OFFSETS = {
         new ByteLocation(-1, 0),
         new ByteLocation(1, 0),
         new ByteLocation(0, -1),
@@ -42,8 +42,9 @@ public class MoveGenerator  {
         for (ByteLocation loc : OFFSETS) {
             int row = blankLocation.getRow() + loc.getRow();
             int col = blankLocation.getCol() + loc.getCol();
-            if (board.isValidPosition(row, col)) {
-                moves.add(new SlideMove(new ByteLocation(row, col), blankLocation)) ;
+            ByteLocation newLoc = new ByteLocation(row, col);
+            if (board.isValidPosition(newLoc)) {
+                moves.add(new SlideMove(newLoc, blankLocation)) ;
             }
         }
         return moves;

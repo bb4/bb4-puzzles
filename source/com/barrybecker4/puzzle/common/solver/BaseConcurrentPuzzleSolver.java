@@ -54,7 +54,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
 
     /**
      * The amount that you want the search to use depth first or breadth first search.
-     * If factor is 0, then all depth first traversal and not concurrent, if 1 then all breadth first search and not sequential.
+     * If factor is 0, then all depth first traversal and no concurrent,
+     * if 1, then all breadth first search and not sequential.
      * If the search is large, it is easier to run out of memory at the extremes.
      * Must be greater than 0 to have some amount of concurrency used.
      * @param factor a number between 0 and 1. One being all breadth first search and not sequential.
@@ -64,25 +65,13 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
     }
 
     private ExecutorService initThreadPool() {
-        //return Executors.newCachedThreadPool();
         return Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
     @Override
     public List<M> solve() throws InterruptedException {
         try {
-            P p = puzzle.initialPosition();
-            long startTime = System.currentTimeMillis();
-            exec.execute(newTask(p, null, null));
-            // block until solution found
-            PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
-            List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
-            if (ui != null) {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
-                ui.finalRefresh(path, position, numTries, elapsedTime);
-            }
-            return path;
+            return doSolve();
         } finally {
             try {
                 exec.shutdown();
@@ -91,6 +80,23 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
                         "Probably because running in a secure sandbox.");
             }
         }
+    }
+
+    private List<M> doSolve() throws InterruptedException {
+        P p = puzzle.initialPosition();
+        long startTime = System.currentTimeMillis();
+        exec.execute(newTask(p, null, null));
+
+        // block until solution found
+        PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
+
+        List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
+        if (ui != null) {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
+            ui.finalRefresh(path, position, numTries, elapsedTime);
+        }
+        return path;
     }
 
     protected SolverTask newTask(P p, M m, PuzzleNode<P, M> n) {
@@ -113,7 +119,6 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
                 return; // already solved or seen this position
             }
             if (ui != null && !solution.isSet()) {
-
                 ui.refresh(getPosition(), numTries);
             }
             if (puzzle.isGoal(getPosition())) {
@@ -123,11 +128,14 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
                 for (M move : puzzle.legalMoves(getPosition())) {
                     SolverTask task = newTask(puzzle.move(getPosition(), move), move, this);
 
-                    // either process the children sequentially or concurrently based on  depthBreadthFactor
-                    if (RANDOM.nextFloat() > depthBreadthFactor)
+                    // either process the children sequentially or concurrently based on depthBreadthFactor
+                    if (RANDOM.nextFloat() > depthBreadthFactor) {
+                        // go deep
                         task.run();
-                    else
+                    } else {
+                        // go wide
                         exec.execute(task);
+                    }
                 }
             }
         }

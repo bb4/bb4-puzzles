@@ -36,30 +36,36 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     @Override
     public List<M> solve() {
         P pos = puzzle.initialPosition();
+        System.out.println("num seen = "+ seen.size());
         System.out.println("initial position=" + pos);
         startTime =  System.currentTimeMillis();
         List<M> pathToSolution = search(new PuzzleNode<P, M>(pos, null, null));
 
         System.out.println((pathToSolution == null)?
-                "No Solution" :
+                "No Solution found!" :
                 "Number of steps in path to solution = " + pathToSolution.size());
         return pathToSolution;
     }
 
+    /**
+     *
+     * @param node the current state of the puzzle.
+     * @return list of moves leading to a solution. Null if no solution.
+     */
     private List<M> search(PuzzleNode<P, M> node) {
-        if (!puzzle.alreadySeen(node.getPosition(), seen)) {
-            if (puzzle.isGoal(node.getPosition())) {
+        P currentState = node.getPosition();
+        if (!puzzle.alreadySeen(currentState, seen)) {
+            if (puzzle.isGoal(currentState)) {
                 List<M> path = node.asMoveList();
-                P position = node.getPosition();
+
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                ui.finalRefresh(path, position, numTries, elapsedTime);
+                ui.finalRefresh(path, currentState, numTries, elapsedTime);
                 return path;
             }
-            List<M> moves = puzzle.legalMoves(node.getPosition());
+            List<M> moves = puzzle.legalMoves(currentState);
             for (M move : moves) {
-                P position = puzzle.move(node.getPosition(), move);
+                P position = puzzle.move(currentState, move);
 
-                // don't necessarily refresh every time as that would put too much load on the processor
                 if (ui != null) {
                     ui.refresh(position, numTries);
                 }

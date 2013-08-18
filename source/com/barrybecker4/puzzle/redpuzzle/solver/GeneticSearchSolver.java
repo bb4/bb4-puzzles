@@ -24,6 +24,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
 
     /** bonuses given to the scoring algorithm if 3 nubs fit on a side piece. */
     public static final double THREE_FIT_BOOST = 0.1;
+
     /** bonuses given to the scoring algorithm if 4 nubs on the center piece fit. */
     public static final double FOUR_FIT_BOOST = 0.6;
 
@@ -133,9 +134,9 @@ public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
     }
 
     /**
-     * called when the optimizer has made some progress optimizing.
-     * We show the current status.
-     * @param params
+     * Called when the optimizer has made some progress optimizing.
+     * Shows the current status.
+     * @param params optimization parameters
      */
     public void optimizerChanged(ParameterArray params) {
         // update our current best guess at the solution.

@@ -56,7 +56,7 @@ task runHiQ(type: JavaExec, depends: classes) {
 task runSlidingPuzzle(type: JavaExec, depends: classes) {
     main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
     classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss8m"]
+    jvmArgs = ["-Xss64m"]
 }
 
 

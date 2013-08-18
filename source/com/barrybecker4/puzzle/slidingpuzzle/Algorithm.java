@@ -47,13 +47,15 @@ public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
 
         switch (this) {
             case SEQUENTIAL :
+                // this will find a solution, but not necessary the shortest path
                 return new SequentialPuzzleSolver<Slider, SlideMove>(controller, ui);
             case CONCURRENT_BREADTH :
-                return new ConcurrentPuzzleSolver<Slider, SlideMove>(controller, 0.4f, ui);
+                // this will find the shortest path to a solution if one exists, but takes longer
+                return new ConcurrentPuzzleSolver<Slider, SlideMove>(controller, 1.0f, ui);
             case CONCURRENT_DEPTH :
                 return new ConcurrentPuzzleSolver<Slider, SlideMove>(controller, 0.12f, ui);
             case CONCURRENT_OPTIMUM :
-                return new ConcurrentPuzzleSolver<Slider, SlideMove>(controller, 0.2f, ui);
+                return new ConcurrentPuzzleSolver<Slider, SlideMove>(controller, 0.3f, ui);
         }
         return null;
     }

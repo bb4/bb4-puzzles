@@ -43,8 +43,9 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
         float time = (float)millis / 1000.0f;
         status_ = "Did not find solution.";
         if (path != null)  {
-            status_ = "Found solution in " + FormatUtil.formatNumber(time) + " seconds. "
+            status_ = "Found solution with "+ path.size() + " steps in " + FormatUtil.formatNumber(time) + " seconds. "
                     + createStatusMessage(numTries);
+
         }
         System.out.println(status_);
         if (position != null) {

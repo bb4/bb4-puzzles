@@ -16,7 +16,7 @@ import java.util.List;
  *  @author Barry Becker
  */
 final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
-                           implements PathNavigator {
+                         implements PathNavigator {
 
     private SliderRenderer renderer_ = new SliderRenderer();
     private List<SlideMove> path_;
@@ -27,6 +27,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
 
     /**
      * Constructor.
+     * @param listener called when the puzzle has been solved.
      */
     SliderViewer(DoneListener listener) {
         doneListener = listener;
@@ -40,7 +41,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
     @Override
     public void refresh(Slider board, long numTries) {
         board_ = board;
-        if (numTries % 6000 == 0) {
+        if (numTries % 500 == 0) {
             makeSound();
             status_ = createStatusMessage(numTries);
             simpleRefresh(board, numTries);
@@ -59,7 +60,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
      * make a little click noise when the piece fits into place.
      */
     public void makeSound() {
-        musicMaker_.playNote(60, 20, 940);
+        musicMaker_.playNote(60, 5, 940);
     }
 
     @Override

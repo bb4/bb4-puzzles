@@ -5,10 +5,11 @@ import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Immutable representation of a Slider board.
@@ -19,26 +20,26 @@ public class Slider {
     /** Size of the board edge. If size = 4, then there will be 16-1 = 15 tiles. */
     private int size = 3;
 
+    private static final List<Integer> INDICES = Arrays.asList(0, 1, 2, 3);
+
     private int[][] tiles;
 
     /**
      * Do not use this constructor since outsiders cannot create mutable boards.
      */
     public Slider(int size) {
+        initializeTiles(size);
+        shuffleTiles();
+    }
+
+    private void initializeTiles(int size) {
         this.size = size;
         tiles = new int[size][size];
 
-        int numTiles = size * size;
-        List<Integer> ints = new ArrayList<Integer>(numTiles);
-        for (int i=0; i<numTiles; i++) {
-            ints.add(i);
-        }
-        Collections.shuffle(ints, MathUtil.RANDOM);
-
         int ct = 0;
-        for (byte i=0; i<size; i++) {
-            for (byte j=0; j<size; j++) {
-                tiles[i][j] = ints.get(ct++);
+        for (byte row=0; row<size; row++) {
+            for (byte col=0; col<size; col++) {
+                tiles[row][col] = ct++;
             }
         }
     }
@@ -47,11 +48,12 @@ public class Slider {
      * Copy constructor.
      */
     public Slider(Slider board) {
-        this(board.size);
+        initializeTiles(board.size);
         for (byte i=0; i<size; i++) {
-            for (byte j=0; j<size; j++) {
-                tiles[i][j] = board.tiles[i][j];
-            }
+            System.arraycopy(board.tiles[i], 0, tiles[i], 0, size);
+            //for (byte j=0; j<size; j++) {
+            //    tiles[i][j] = board.tiles[i][j];
+            //}
         }
     }
 
@@ -62,16 +64,9 @@ public class Slider {
      */
     public Slider(Slider pos, SlideMove move) {
         this(pos);
-
-        byte fromRow = move.getFromRow();
-        byte fromCol = move.getFromCol();
-        byte toRow = move.getToRow();
-        byte toCol = move.getToCol();
-
-        int value = getPosition(fromRow, fromCol);
-        setPosition(fromRow, fromCol, getPosition(toRow, toCol));
-        setPosition(toRow, toCol, value);
+        applyMove(move);
     }
+
 
     public int getSize() {
         return size;
@@ -82,6 +77,46 @@ public class Slider {
     }
 
     /**
+     * If the tiles are randomly placed, it is not guaranteed that there will be a solution.
+     * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
+     * To shuffle, move tiles around until the blank position has been everywhere.
+     */
+    private void shuffleTiles() {
+
+        Set<Location> visited = new HashSet<Location>();
+        Location blankLocation = getEmptyLocation();
+        visited.add(blankLocation);
+
+        int numTiles = size * size;
+
+        while (visited.size() < numTiles) {
+            Collections.shuffle(INDICES, MathUtil.RANDOM);
+            Location loc;
+            int ct = 0;
+            do {
+              loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS[INDICES.get(ct++)]);
+            } while (!isValidPosition(loc));
+
+            SlideMove move = new SlideMove(blankLocation, loc);
+            applyMove(move);
+            blankLocation = loc;
+            visited.add(blankLocation);
+        }
+    }
+
+
+    private void applyMove(SlideMove move) {
+        byte fromRow = move.getFromRow();
+        byte fromCol = move.getFromCol();
+        byte toRow = move.getToRow();
+        byte toCol = move.getToCol();
+
+        int value = getPosition(fromRow, fromCol);
+        setPosition(fromRow, fromCol, getPosition(toRow, toCol));
+        setPosition(toRow, toCol, value);
+    }
+
+    /**
      * Private so others can not modify our immutable state after construction.
      */
     private void setPosition(byte row, byte col, int val) {
@@ -89,10 +124,10 @@ public class Slider {
     }
 
     /**
-     *@return true if the coordinates refer to one of the tiles.
+     * @return true if the coordinates refer to one of the tiles.
      */
-    public boolean isValidPosition(int row , int col) {
-        return (row >= 0 && row  < size && col >= 0 && col < size);
+    public boolean isValidPosition(Location loc) {
+        return (loc.getRow() >= 0 && loc.getRow()  < size && loc.getCol() >= 0 && loc.getCol() < size);
     }
 
     /**
@@ -100,11 +135,11 @@ public class Slider {
      */
     public boolean isSolved() {
         int last = -1;
-        for (int i=0; i<size; i++) {
-            for (int j=0; j<size; j++) {
-                if (tiles[i][j] < last)
+        for (int row=0; row<size; row++) {
+            for (int col=0; col<size; col++) {
+                if (tiles[row][col] < last)
                     return false;
-                last = tiles[i][j];
+                last = tiles[row][col];
             }
         }
         return true;
@@ -132,7 +167,6 @@ public class Slider {
         throw new IllegalStateException("There should have been a blank space");
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,7 +181,6 @@ public class Slider {
             }
         }
         return true;
-        //return size == board.size && Arrays.deepEquals(tiles, board.tiles);
     }
 
     @Override

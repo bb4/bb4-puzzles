@@ -51,6 +51,7 @@ public final class SliderTopControls extends TopControlPanel<Slider, SlideMove>
     @Override
     public void itemStateChanged(ItemEvent e) {
 
+        super.itemStateChanged(e);
         if (e.getSource() == sizeSelector_)  {
             ((SlidingPuzzleController)controller_).setSize(sizeSelector_.getSelectedSize());
         }
