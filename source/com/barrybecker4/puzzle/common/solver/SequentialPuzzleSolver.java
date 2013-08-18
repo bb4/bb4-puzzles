@@ -42,7 +42,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
         System.out.println((pathToSolution == null)?
                 "No Solution" :
-                "Path to solution = " + pathToSolution);
+                "Number of steps in path to solution = " + pathToSolution.size());
         return pathToSolution;
     }
 

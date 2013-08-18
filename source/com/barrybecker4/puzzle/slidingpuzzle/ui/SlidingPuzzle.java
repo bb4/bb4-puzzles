@@ -38,7 +38,7 @@ public final class SlidingPuzzle extends PuzzleApplet<Slider, SlideMove>
 
     @Override
     protected PuzzleViewer<Slider, SlideMove> createViewer() {
-        return new BoardViewer(this);
+        return new SliderViewer(this);
     }
 
     @Override

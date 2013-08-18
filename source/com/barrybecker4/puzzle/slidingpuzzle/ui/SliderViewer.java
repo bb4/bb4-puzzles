@@ -15,10 +15,10 @@ import java.util.List;
  *  UI for drawing the current best solution to the puzzle.
  *  @author Barry Becker
  */
-final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
+final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
                            implements PathNavigator {
 
-    private BoardRenderer renderer_ = new BoardRenderer();
+    private SliderRenderer renderer_ = new SliderRenderer();
     private List<SlideMove> path_;
     private DoneListener doneListener;
 
@@ -28,7 +28,7 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
     /**
      * Constructor.
      */
-    BoardViewer(DoneListener listener) {
+    SliderViewer(DoneListener listener) {
         doneListener = listener;
     }
 
@@ -81,7 +81,6 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
     public void showPath(List<SlideMove> path, Slider board) {
         path_ = path;
         board_ = board;
-        System.out.println("path size = "+ path.size());  // NON-NLS
         if (doneListener != null) {
             doneListener.done();
         }

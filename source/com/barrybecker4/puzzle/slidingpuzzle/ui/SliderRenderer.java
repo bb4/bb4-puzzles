@@ -9,17 +9,17 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 /**
- * Singleton class that takes a PieceList and renders it for the BoardViewer.
+ * Singleton class that takes a PieceList and renders it for the SliderViewer.
  * Having the renderer separate from the viewer helps to separate out the rendering logic
- * from other features of the BoardViewer.
+ * from other features of the SliderViewer.
  *
  * @author Barry Becker
  */
-public class BoardRenderer implements PuzzleRenderer<Slider> {
+public class SliderRenderer implements PuzzleRenderer<Slider> {
 
     public static final int INC = 60;
     public static final int SEPARATION = INC/10;
-    public static final int TILE_WIDTH = INC - SEPARATION;
+    public static final int TILE_EDGE = INC - SEPARATION;
 
     private static final int LEFT_MARGIN = 40;
     private static final int TOP_MARGIN = 55;
@@ -33,7 +33,7 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
      * private constructor because this class is a singleton.
      * Use getPieceRenderer instead.
      */
-    public BoardRenderer() {}
+    public SliderRenderer() {}
 
     /**
      * This renders the current state of the Slider to the screen.
@@ -86,12 +86,12 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
         if (!empty) {
             Color c = TILE_COLOR;
             g.setColor(c);
-            g.fillRect(xpos, ypos, TILE_WIDTH, TILE_WIDTH);
+            g.fillRect(xpos, ypos, TILE_EDGE, TILE_EDGE);
 
             g.setColor(Color.BLACK);
             g.setFont(FONT);
-            g.drawString(Integer.toString(value), xpos + INC/4, ypos + INC/3);
-            g.drawRect(xpos , ypos, TILE_WIDTH, TILE_WIDTH);
+            g.drawString(Integer.toString(value), xpos + INC/4, ypos + 2*INC/3);
+            g.drawRect(xpos , ypos, TILE_EDGE, TILE_EDGE);
         }
     }
 }
