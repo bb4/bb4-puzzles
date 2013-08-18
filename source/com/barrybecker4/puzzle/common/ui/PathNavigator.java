@@ -19,9 +19,9 @@ public interface PathNavigator {
 
     /**
      * Switch from the current move in the sequence forwards or backwards stepSize.
-     * @param currentPosition current position in path
-     * @param stepSize num steps to move forward or backwards (depending on sign. e.g. -2 means two steps back).
+     * @param currentStep current position in path
+     * @param undo whether to make the move or undo it. For some puzzles applying the same move a second time undoes it.
      */
-    void moveInPath(int currentPosition, int stepSize);
+    void makeMove(int currentStep, boolean undo);
 
 }

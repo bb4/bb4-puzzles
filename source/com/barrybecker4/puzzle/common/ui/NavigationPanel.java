@@ -46,7 +46,7 @@ public final class NavigationPanel extends JPanel
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton_) {
             moveInPath(-1);
-            backButton_.setEnabled((currentStep_ > 0));
+            backButton_.setEnabled((currentStep_ >= 0));
             forwardButton_.setEnabled(true);
         }
         else if (e.getSource() == forwardButton_) {
@@ -63,8 +63,23 @@ public final class NavigationPanel extends JPanel
      */
     public void moveInPath(int stepSize) {
         if (stepSize == 0) return;
-        navigator.moveInPath(currentStep_, stepSize);
+        moveInPath(currentStep_, stepSize);
         currentStep_ += stepSize;
+    }
+
+
+    public void moveInPath(int currentPosition, int stepSize) {
+        int currentStep = currentPosition;
+        int inc = stepSize > 0 ? 1 : -1;
+        int toStep = currentStep + stepSize;
+        if (inc > 0) {
+            currentStep++;
+            toStep++;
+        }
+        do {
+            navigator.makeMove(currentStep, (inc < 0));
+            currentStep += inc;
+        } while (currentStep != toStep);
     }
 }
 

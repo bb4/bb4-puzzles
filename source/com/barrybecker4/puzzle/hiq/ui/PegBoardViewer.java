@@ -56,19 +56,9 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
     }
 
     @Override
-    public void moveInPath(int currentPosition, int stepSize) {
-        int currentStep = currentPosition;
-        int inc = stepSize > 0 ? 1 : -1;
-        int toStep = currentStep + stepSize;
-        do {
-            makeMove(currentStep, (inc < 0));
-            currentStep += inc;
-        } while (currentStep != toStep);
-        repaint();
-    }
-
     public void makeMove(int currentStep, boolean undo) {
         board_ = board_.doMove(getPath().get(currentStep), undo);
+        repaint();
     }
 
     /**

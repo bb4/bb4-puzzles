@@ -55,6 +55,7 @@ public final class SlideMove implements Move {
         return (byte) toPosition.getCol();
     }
 
+    /** @return the from and to positions */
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

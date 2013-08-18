@@ -42,7 +42,8 @@ public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<Slider, SlideMove> createSolver(PuzzleController<Slider, SlideMove> controller, Refreshable<Slider, SlideMove> ui) {
+    public PuzzleSolver<Slider, SlideMove> createSolver(
+            PuzzleController<Slider, SlideMove> controller, Refreshable<Slider, SlideMove> ui) {
 
         switch (this) {
             case SEQUENTIAL :

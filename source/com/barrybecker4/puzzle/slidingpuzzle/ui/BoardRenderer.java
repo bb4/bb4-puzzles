@@ -17,12 +17,12 @@ import java.awt.Graphics;
 public class BoardRenderer implements PuzzleRenderer<Slider> {
 
     public static final int INC = 60;
-    public static final int SEPARATION = INC/20;
+    public static final int SEPARATION = INC/10;
+    public static final int TILE_WIDTH = INC - SEPARATION;
 
     private static final int LEFT_MARGIN = 40;
     private static final int TOP_MARGIN = 55;
 
-    private static final Color BLANK_COLOR = new Color(255, 255, 255);
     private static final Color TILE_COLOR = new Color(235, 145, 255);
 
 
@@ -42,7 +42,7 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
         int rightEdgePos = LEFT_MARGIN + INC * size;
         int bottomEdgePos = TOP_MARGIN + INC * size;
 
-        drawGrid(g, size, rightEdgePos, bottomEdgePos);
+        drawBorder(g, size, rightEdgePos, bottomEdgePos);
 
 
         // now draw the pieces that we have so far
@@ -56,19 +56,20 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
     /**
      *  draw the hatches which delineate the cells
      */
-    private void drawGrid(Graphics g, int size, int rightEdgePos, int bottomEdgePos) {
+    private void drawBorder(Graphics g, int size, int rightEdgePos, int bottomEdgePos) {
         int i, ypos, xpos;
+        int offset = SEPARATION/2;
 
         g.setColor( Color.darkGray );
-        for ( i = 0; i <= size; i++ )  //   -----
+        for ( i = 0; i <= size; i+=size )  //   -----
         {
-            ypos = TOP_MARGIN + i * INC;
-            g.drawLine( LEFT_MARGIN, ypos, rightEdgePos, ypos );
+            ypos = TOP_MARGIN + i * INC - offset;
+            g.drawLine( LEFT_MARGIN - offset, ypos, rightEdgePos - offset, ypos );
         }
-        for ( i = 0; i <= size; i++ )  //   ||||
+        for ( i = 0; i <= size; i+=size )  //   ||||
         {
-            xpos = LEFT_MARGIN + i * INC;
-            g.drawLine( xpos, TOP_MARGIN, xpos, bottomEdgePos );
+            xpos = LEFT_MARGIN + i * INC - offset;
+            g.drawLine( xpos, TOP_MARGIN - offset, xpos, bottomEdgePos - offset );
         }
     }
 
@@ -78,13 +79,16 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
 
         int value = board.getPosition(row, col);
         boolean empty = value == 0;
-        Color c = empty ?  BLANK_COLOR : TILE_COLOR;
-        g.setColor(c);
 
-        g.fillRect(xpos, ypos, INC - SEPARATION, INC - SEPARATION);
-        g.setColor(Color.BLACK);
-        g.drawString(Integer.toString(value), xpos + INC/3, ypos + INC/2);
-        g.drawRect(xpos , ypos, INC - SEPARATION, INC - SEPARATION);
+        if (!empty) {
+            Color c = TILE_COLOR;
+            g.setColor(c);
+            g.fillRect(xpos, ypos, TILE_WIDTH, TILE_WIDTH);
+
+            g.setColor(Color.BLACK);
+            g.drawString(Integer.toString(value), xpos + INC/3, ypos + INC/2);
+            g.drawRect(xpos , ypos, TILE_WIDTH, TILE_WIDTH);
+        }
     }
 }
 

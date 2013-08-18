@@ -54,7 +54,6 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
         }
     }
 
-
     /**
      * make a little click noise when the piece fits into place.
      */
@@ -62,21 +61,10 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
         musicMaker_.playNote(60, 20, 940);
     }
 
-
     @Override
-    public void moveInPath(int currentPosition, int stepSize) {
-        int currentStep = currentPosition;
-        int inc = stepSize > 0 ? 1 : -1;
-        int toStep = currentStep + stepSize;
-        do {
-            makeMove(currentStep);
-            currentStep += inc;
-        } while (currentStep != toStep);
-        repaint();
-    }
-
-    public void makeMove(int currentStep) {
+    public void makeMove(int currentStep, boolean undo) {
         board_ = board_.doMove(getPath().get(currentStep));
+        repaint();
     }
 
     /**
@@ -90,10 +78,9 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
     }
 
     public void showPath(List<SlideMove> path, Slider board) {
-
         path_ = path;
         board_ = board;
-        //System.out.println("path size="+ path.size());  // NON-NLS
+        System.out.println("path size = "+ path.size());  // NON-NLS
         if (doneListener != null) {
             doneListener.done();
         }
