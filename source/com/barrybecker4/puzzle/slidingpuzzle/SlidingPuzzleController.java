@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.slidingpuzzle;
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Move> {
+public class SlidingPuzzleController extends AbstractPuzzleController<Slider, SlideMove> {
 
     private static final int DEFAULT_SIZE = 3;
 
@@ -24,7 +24,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Mo
     /**
      * @param ui shows the current state on the screen.
      */
-    public SlidingPuzzleController(Refreshable<Slider, Move> ui) {
+    public SlidingPuzzleController(Refreshable<Slider, SlideMove> ui) {
         super(ui);
         initialPosition = new Slider(DEFAULT_SIZE);
         // set default
@@ -42,12 +42,12 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Mo
     }
 
     @Override
-    public List<Move> legalMoves(Slider position) {
+    public List<SlideMove> legalMoves(Slider position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public Slider move(Slider position, Move move) {
+    public Slider move(Slider position, SlideMove move) {
         return position.doMove(move);
     }
 }

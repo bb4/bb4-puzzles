@@ -2,15 +2,15 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model;
 
 
-import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
+import com.barrybecker4.puzzle.common.model.Move;
 
 /**
  * Definition for a peg jumping another peg.
  * Immutable.
  *@author Barry Becker
  */
-public final class Move {
+public final class SlideMove implements Move {
 
     /* the position to move to */
     private Location toPosition;
@@ -28,14 +28,8 @@ public final class Move {
      * All we need to know is the from position (which can be stored in 6 bits) and the to direction (which can be stored in 2 bits)
      * I know that a jump is always 2 spaces.
      */
-    Move(byte fromRow, byte fromCol,
-         byte destinationRow, byte destinationCol) {
-        fromPosition = new ByteLocation(fromRow, fromCol);
-        toPosition = new ByteLocation(destinationRow, destinationCol);
-    }
-
-    Move(Location fromPosition,
-         Location destinationPosition) {
+    SlideMove(Location fromPosition,
+              Location destinationPosition) {
         this.fromPosition = fromPosition.copy();
         this.toPosition = destinationPosition.copy();
     }
@@ -43,8 +37,8 @@ public final class Move {
     /**
      * @return a deep copy.
      */
-    public Move copy() {
-        return new Move(fromPosition, toPosition);
+    public SlideMove copy() {
+        return new SlideMove(fromPosition, toPosition);
     }
 
     public byte getFromRow() {

@@ -1,9 +1,11 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.slidingpuzzle.ui;
 
+import com.barrybecker4.puzzle.common.ui.DoneListener;
+import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
 import com.barrybecker4.sound.MusicMaker;
 
 import java.awt.Graphics;
@@ -13,11 +15,11 @@ import java.util.List;
  *  UI for drawing the current best solution to the puzzle.
  *  @author Barry Becker
  */
-final class BoardViewer extends PuzzleViewer<Slider, Move>
+final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
                            implements PathNavigator {
 
     private BoardRenderer renderer_ = new BoardRenderer();
-    private List<Move> path_;
+    private List<SlideMove> path_;
     private DoneListener doneListener;
 
     /** play a sound effect when a piece goes into place. */
@@ -31,7 +33,7 @@ final class BoardViewer extends PuzzleViewer<Slider, Move>
     }
 
     @Override
-    public List<Move> getPath() {
+    public List<SlideMove> getPath() {
         return path_;
     }
 
@@ -45,7 +47,7 @@ final class BoardViewer extends PuzzleViewer<Slider, Move>
     }
 
     @Override
-    public void finalRefresh(List<Move> path, Slider board, long numTries, long millis) {
+    public void finalRefresh(List<SlideMove> path, Slider board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
             showPath(path, board);
@@ -87,11 +89,11 @@ final class BoardViewer extends PuzzleViewer<Slider, Move>
             renderer_.render(g, board_, getWidth(), getHeight());
     }
 
-    public void showPath(List<Move> path, Slider board) {
+    public void showPath(List<SlideMove> path, Slider board) {
 
         path_ = path;
         board_ = board;
-        System.out.println("path size="+ path.size());  // NON-NLS
+        //System.out.println("path size="+ path.size());  // NON-NLS
         if (doneListener != null) {
             doneListener.done();
         }

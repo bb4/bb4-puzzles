@@ -4,12 +4,15 @@ package com.barrybecker4.puzzle.slidingpuzzle.ui;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.ui.DoneListener;
+import com.barrybecker4.puzzle.common.ui.NavigationPanel;
+import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.slidingpuzzle.Algorithm;
 import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Move;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import javax.swing.JPanel;
@@ -19,7 +22,7 @@ import javax.swing.JPanel;
  * This program solves a very difficult classic solitaire puzzle
  * where you slide tiles to form an image or correct sequence.
  */
-public final class SlidingPuzzle extends PuzzleApplet<Slider, Move>
+public final class SlidingPuzzle extends PuzzleApplet<Slider, SlideMove>
                              implements DoneListener {
 
     private NavigationPanel navPanel;
@@ -34,17 +37,17 @@ public final class SlidingPuzzle extends PuzzleApplet<Slider, Move>
 
 
     @Override
-    protected PuzzleViewer<Slider, Move> createViewer() {
+    protected PuzzleViewer<Slider, SlideMove> createViewer() {
         return new BoardViewer(this);
     }
 
     @Override
-    protected PuzzleController<Slider, Move> createController(Refreshable<Slider, Move> viewer_) {
+    protected PuzzleController<Slider, SlideMove> createController(Refreshable<Slider, SlideMove> viewer_) {
         return new SlidingPuzzleController(viewer_);
     }
 
     @Override
-    protected AlgorithmEnum<Slider, Move>[] getAlgorithmValues() {
+    protected AlgorithmEnum<Slider, SlideMove>[] getAlgorithmValues() {
         return Algorithm.values();
     }
 

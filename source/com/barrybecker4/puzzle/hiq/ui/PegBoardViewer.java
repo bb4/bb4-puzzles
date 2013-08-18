@@ -1,6 +1,8 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.hiq.ui;
 
+import com.barrybecker4.puzzle.common.ui.DoneListener;
+import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.hiq.model.PegBoard;
 import com.barrybecker4.puzzle.hiq.model.PegMove;
@@ -52,7 +54,6 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
     public void makeSound() {
         // add sound
     }
-
 
     @Override
     public void moveInPath(int currentPosition, int stepSize) {

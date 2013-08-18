@@ -72,10 +72,6 @@ public class PegBoard {
         setPosition(toRow, toCol, !undo);
     }
 
-    public int getSize() {
-        return SIZE;
-    }
-
     public boolean getPosition(byte row, byte col) {
         return get(getIndexForPosition(row, col));
     }

@@ -34,8 +34,8 @@ public class MoveGenerator  {
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public List<Move> generateMoves() {
-        List<Move> moves = new LinkedList<Move>();
+    public List<SlideMove> generateMoves() {
+        List<SlideMove> moves = new LinkedList<SlideMove>();
 
         Location blankLocation = board.getEmptyLocation();
 
@@ -43,7 +43,7 @@ public class MoveGenerator  {
             int row = blankLocation.getRow() + loc.getRow();
             int col = blankLocation.getCol() + loc.getCol();
             if (board.isValidPosition(row, col)) {
-                moves.add(new Move(new ByteLocation(row, col), blankLocation)) ;
+                moves.add(new SlideMove(new ByteLocation(row, col), blankLocation)) ;
             }
         }
         return moves;

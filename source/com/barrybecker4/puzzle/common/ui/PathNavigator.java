@@ -1,7 +1,8 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.hiq.ui;
+package com.barrybecker4.puzzle.common.ui;
 
-import com.barrybecker4.puzzle.hiq.model.PegMove;
+
+import com.barrybecker4.puzzle.common.model.Move;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface PathNavigator {
     /**
      * @return the path to navigate on.
      */
-    List<PegMove> getPath();
+    List<? extends Move> getPath();
 
     /**
      * Switch from the current move in the sequence forwards or backwards stepSize.

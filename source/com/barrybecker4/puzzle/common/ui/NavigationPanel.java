@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle.ui;
+package com.barrybecker4.puzzle.common.ui;
 
 import com.barrybecker4.common.app.AppContext;
 
@@ -21,7 +21,7 @@ public final class NavigationPanel extends JPanel
 
     private PathNavigator navigator;
 
-    NavigationPanel() {
+    public NavigationPanel() {
         super(new BorderLayout());
 
         backButton_ = new JButton(AppContext.getLabel("BACKWARD"));
@@ -35,7 +35,7 @@ public final class NavigationPanel extends JPanel
         add(forwardButton_, BorderLayout.EAST);
     }
 
-    void setPathNavigator(PathNavigator navigator) {
+    public void setPathNavigator(PathNavigator navigator) {
         this.navigator = navigator;
         currentStep_ = navigator.getPath().size()-1;
         backButton_.setEnabled(true);

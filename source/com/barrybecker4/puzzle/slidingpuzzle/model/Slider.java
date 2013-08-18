@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Immutable representation of a Slider.
+ * Immutable representation of a Slider board.
  * @author Barry Becker
  */
 public class Slider {
@@ -60,7 +60,7 @@ public class Slider {
      * create a new Slider by applying a move to another Slider.
      * Applying the same move a second time will undo it because it just swaps tiles.
      */
-    public Slider(Slider pos, Move move) {
+    public Slider(Slider pos, SlideMove move) {
         this(pos);
 
         byte fromRow = move.getFromRow();
@@ -114,7 +114,7 @@ public class Slider {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public Slider doMove(Move move) {
+    public Slider doMove(SlideMove move) {
         return new Slider(this, move);
     }
 
