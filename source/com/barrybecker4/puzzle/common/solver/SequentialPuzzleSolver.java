@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Sequential puzzle solver.
+ * Naive Sequential puzzle solver.
  * Performs a depth first search on the state space.
+ * If will find a solution if there is one, but it may not be the best solution or the shortest path to it.
+ * See A* for a better way to search that involves priority sorting of current paths.
  *
  * @author Brian Goetz, Tim Peierls  (Java Concurrency in Practice)
  * @author Barry Becker
@@ -48,7 +50,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     }
 
     /**
-     *
+     * Depth first search for a solution to the puzzle.
      * @param node the current state of the puzzle.
      * @return list of moves leading to a solution. Null if no solution.
      */
