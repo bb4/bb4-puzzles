@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class SlidingPuzzleController extends AbstractPuzzleController<Slider, SlideMove> {
 
-    private static final int DEFAULT_SIZE = 2;
+    private static final int DEFAULT_SIZE = 3;
 
     private Slider initialPosition;
 

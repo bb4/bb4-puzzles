@@ -70,14 +70,15 @@ public final class NavigationPanel extends JPanel
 
     public void moveInPath(int currentPosition, int stepSize) {
         int currentStep = currentPosition;
-        int inc = stepSize > 0 ? 1 : -1;
-        int toStep = currentStep + stepSize;
-        if (inc > 0) {
+        boolean moveForward = stepSize > 0;
+        int inc = moveForward ? 1 : -1;
+        int toStep = currentStep + inc;
+        if (moveForward) {
             currentStep++;
             toStep++;
         }
         do {
-            navigator.makeMove(currentStep, (inc < 0));
+            navigator.makeMove(currentStep, !moveForward);
             currentStep += inc;
         } while (currentStep != toStep);
     }

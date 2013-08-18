@@ -5,6 +5,7 @@ import com.barrybecker4.puzzle.common.PuzzleRenderer;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -24,6 +25,8 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
     private static final int TOP_MARGIN = 55;
 
     private static final Color TILE_COLOR = new Color(235, 145, 255);
+
+    private static final Font FONT = new Font("Sans Serif", Font.PLAIN, INC/2);
 
 
     /**
@@ -86,7 +89,8 @@ public class BoardRenderer implements PuzzleRenderer<Slider> {
             g.fillRect(xpos, ypos, TILE_WIDTH, TILE_WIDTH);
 
             g.setColor(Color.BLACK);
-            g.drawString(Integer.toString(value), xpos + INC/3, ypos + INC/2);
+            g.setFont(FONT);
+            g.drawString(Integer.toString(value), xpos + INC/4, ypos + INC/3);
             g.drawRect(xpos , ypos, TILE_WIDTH, TILE_WIDTH);
         }
     }

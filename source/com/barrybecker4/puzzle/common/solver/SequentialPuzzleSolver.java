@@ -61,7 +61,6 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
                 // don't necessarily refresh every time as that would put too much load on the processor
                 if (ui != null) {
-                    ui.makeSound();
                     ui.refresh(position, numTries);
                 }
 

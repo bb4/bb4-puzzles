@@ -41,6 +41,7 @@ final class BoardViewer extends PuzzleViewer<Slider, SlideMove>
     public void refresh(Slider board, long numTries) {
         board_ = board;
         if (numTries % 6000 == 0) {
+            makeSound();
             status_ = createStatusMessage(numTries);
             simpleRefresh(board, numTries);
         }
