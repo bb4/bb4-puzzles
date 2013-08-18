@@ -45,24 +45,27 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
         controller_ = createController(viewer_);
         viewer_.refresh(controller_.initialPosition(), 0);
 
-
-        TopControlPanel<P, M> topPanel =
-            new TopControlPanel<P, M>(controller_, getAlgorithmValues());
+        TopControlPanel<P, M> topPanel = createTopControls();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(viewer_, BorderLayout.CENTER);
-        JPanel customControls = createCustomControls();
-        if (customControls != null) {
-            mainPanel.add(customControls, BorderLayout.SOUTH);
+        JPanel bottomControls = createBottomControls();
+        if (bottomControls != null) {
+            mainPanel.add(bottomControls, BorderLayout.SOUTH);
         }
         return mainPanel;
     }
+
 
     protected abstract PuzzleViewer<P, M> createViewer();
 
     protected abstract PuzzleController<P, M> createController(Refreshable<P, M> viewer);
 
-    protected JPanel createCustomControls() {
+    protected TopControlPanel<P, M> createTopControls() {
+        return new TopControlPanel<P, M>(controller_, getAlgorithmValues());
+    }
+
+    protected JPanel createBottomControls() {
         return null;
     }
 

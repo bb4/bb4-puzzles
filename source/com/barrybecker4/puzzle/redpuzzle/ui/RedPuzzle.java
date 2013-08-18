@@ -64,7 +64,7 @@ public final class RedPuzzle extends PuzzleApplet<PieceList, Piece>
     }
 
     @Override
-    protected JPanel createCustomControls() {
+    protected JPanel createBottomControls() {
 
         animSpeedSlider_ =
             new LabeledSlider("Speed ",

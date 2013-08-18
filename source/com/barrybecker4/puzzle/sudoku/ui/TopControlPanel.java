@@ -35,14 +35,14 @@ public final class TopControlPanel extends JPanel
     private JCheckBox showCandidatesCheckBox_;
 
     /** initial value of the show candidates checkbox. */
-    private static final boolean DEFAUL_SHOW_CANDIDATES = false;
+    private static final boolean DEFAULT_SHOW_CANDIDATES = false;
 
     /**
      * The solve and generate button at the top.
      */
     public TopControlPanel(SudokuController controller) {
         controller_ = controller;
-        controller_.setShowCandidates(DEFAUL_SHOW_CANDIDATES);
+        controller_.setShowCandidates(DEFAULT_SHOW_CANDIDATES);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(createRowOneControls());
         add(createRowTwoControls());
@@ -81,7 +81,7 @@ public final class TopControlPanel extends JPanel
         JPanel rowTwo = new JPanel();
         rowTwo.setLayout(new BoxLayout(rowTwo, BoxLayout.X_AXIS));
 
-        showCandidatesCheckBox_ = new JCheckBox("Show Candidates", DEFAUL_SHOW_CANDIDATES);
+        showCandidatesCheckBox_ = new JCheckBox("Show Candidates", DEFAULT_SHOW_CANDIDATES);
         showCandidatesCheckBox_.addActionListener(this);
 
         speedSelector_ = new SpeedSelector();

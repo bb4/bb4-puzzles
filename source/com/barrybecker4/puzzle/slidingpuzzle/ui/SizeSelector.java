@@ -1,5 +1,5 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
-package com.barrybecker4.puzzle.sudoku.ui;
+package com.barrybecker4.puzzle.slidingpuzzle.ui;
 
 import java.awt.Choice;
 
@@ -10,18 +10,18 @@ import java.awt.Choice;
  */
 public final class SizeSelector extends Choice {
 
-    private static final String[] SIZE_MENU_ITEMS = {
-        "4 cells on a side",
-        "9 cells on a side",
-        "16 cells on a side",
-        "25 cells (prepare to wait)"
+    private static final String[] MENU_ITEMS = {
+        "3 Tiles",
+        "8 Tiles",
+        "15 Tiles",
+        "24 Tiles"
     };
 
     /**
      * Constructor.
      */
     public SizeSelector() {
-        for (final String item : SIZE_MENU_ITEMS) {
+        for (final String item : MENU_ITEMS) {
             add(item);
         }
         select(1);

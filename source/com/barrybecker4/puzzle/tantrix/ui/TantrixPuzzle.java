@@ -63,7 +63,7 @@ public final class TantrixPuzzle extends PuzzleApplet<TantrixBoard, TilePlacemen
     }
 
     @Override
-    protected JPanel createCustomControls() {
+    protected JPanel createBottomControls() {
         JLabel label = new JLabel("Number of Tiles");
         SpinnerModel model = new SpinnerNumberModel(DEFAULT_NUM_TILES, 3, 30, 1);
         spinner = new JSpinner(model);

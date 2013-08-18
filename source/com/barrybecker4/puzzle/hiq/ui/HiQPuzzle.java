@@ -80,7 +80,7 @@ public final class HiQPuzzle extends PuzzleApplet<PegBoard, PegMove>
     }
 
     @Override
-    protected JPanel createCustomControls() {
+    protected JPanel createBottomControls() {
 
         navPanel = new NavigationPanel();
         return navPanel;

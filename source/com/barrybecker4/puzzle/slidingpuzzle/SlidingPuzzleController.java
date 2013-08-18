@@ -31,6 +31,12 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
         algorithm_ = Algorithm.CONCURRENT_OPTIMUM;
     }
 
+    /** @param size the edge length of the puzzle to be solved */
+    public void setSize(int size) {
+        initialPosition = new Slider(size);
+        ui_.refresh(initialPosition, 0);
+    }
+
     @Override
     public Slider initialPosition() {
         return initialPosition;

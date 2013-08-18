@@ -51,8 +51,12 @@ public final class SlidingPuzzle extends PuzzleApplet<Slider, SlideMove>
         return Algorithm.values();
     }
 
+    protected SliderTopControls createTopControls() {
+        return new SliderTopControls(controller_, getAlgorithmValues());
+    }
+
     @Override
-    protected JPanel createCustomControls() {
+    protected JPanel createBottomControls() {
         navPanel = new NavigationPanel();
         return navPanel;
     }

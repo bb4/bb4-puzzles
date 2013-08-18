@@ -6,7 +6,6 @@ import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.ui.components.GradientButton;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,7 +41,10 @@ public class TopControlPanel<P, M> extends JPanel
 
         add(solveButton_);
         add(createAlgorithmDropdown());
-        add(Box.createHorizontalGlue());
+    }
+
+    protected PuzzleController<P, M> getController() {
+        return controller_;
     }
 
     /**
@@ -61,7 +63,7 @@ public class TopControlPanel<P, M> extends JPanel
 
     /**
      * algorithm selected.
-     * @param e
+     * @param e item event
      */
     @Override
     public void itemStateChanged(ItemEvent e) {
