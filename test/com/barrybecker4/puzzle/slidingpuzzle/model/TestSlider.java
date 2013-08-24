@@ -23,13 +23,13 @@ public class TestSlider extends TestCase {
     public void testBoardConstruction() {
         Slider board = new Slider(3);
         assertEquals("Unexpected board size", 3, board.getSize());
-        assertEquals("Unexpected empty location", new ByteLocation(2, 1), board.getEmptyLocation());
+        assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
     }
 
     public void testLargeBoardConstruction() {
         Slider board = new Slider(5);
         assertEquals("Unexpected board size", 5, board.getSize());
-        assertEquals("Unexpected empty location", new ByteLocation(2, 2), board.getEmptyLocation());
+        assertEquals("Unexpected empty location", new ByteLocation(4, 3), board.getEmptyLocation());
     }
 
     public void testBoardEquals() {

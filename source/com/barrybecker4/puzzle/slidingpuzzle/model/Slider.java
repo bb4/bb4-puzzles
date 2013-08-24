@@ -28,7 +28,7 @@ public class Slider {
     /**
      * Constructor to create a shuffled slider configuration.
      */
-    public Slider(byte size) {
+    public Slider(int size) {
         this(size, true);
     }
 
@@ -37,8 +37,8 @@ public class Slider {
      * @param shuffle if true then the created slider will have the tiles shuffled,
      *                else they will be in the goal state.
      */
-    public Slider(byte size, boolean shuffle) {
-        initializeTiles(size);
+    public Slider(int size, boolean shuffle) {
+        initializeTiles((byte)size);
         if (shuffle) shuffleTiles();
     }
 
