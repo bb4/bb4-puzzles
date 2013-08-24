@@ -1,5 +1,5 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
-package com.barrybecker4.puzzle.common.solver;
+package com.barrybecker4.puzzle.common.model;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,15 +39,11 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
         return position;
     }
 
-    public M getMove() {
-        return move;
-    }
-
     public int getEstimatedFutureCost() {
         return estimatedFutureCost;
     }
 
-    List<M> asMoveList() {
+    public List<M> asMoveList() {
         List<M> solution = new LinkedList<M>();
         for (PuzzleNode<P, M> n = this; n.move != null; n = n.previous) {
             solution.add(0, n.move);

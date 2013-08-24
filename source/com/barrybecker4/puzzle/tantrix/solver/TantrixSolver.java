@@ -21,8 +21,6 @@ public abstract class TantrixSolver<P, K>
     protected TantrixBoard board;
     protected TantrixBoard solution_;
 
-    /** some measure of the number of iterations the solver needs to solve the puzzle. */
-    private long numTries_ = 0;
 
     protected Refreshable<TantrixBoard, TilePlacement> puzzlePanel_;
 
@@ -32,7 +30,6 @@ public abstract class TantrixSolver<P, K>
      */
     public TantrixSolver(TantrixBoard board) {
         this.board = board;
-        //this.solution_ = new TilePlacementList();
     }
 
     /**
@@ -52,7 +49,7 @@ public abstract class TantrixSolver<P, K>
      * @return the number of different ways we have tried to fit pieces together so far.
      */
     public long getNumIterations() {
-        return numTries_;
+        return 0;
     }
 
 }

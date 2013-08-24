@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.model.PuzzleNode;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
