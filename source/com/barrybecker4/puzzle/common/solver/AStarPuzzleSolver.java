@@ -10,12 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 /**
  * Sequential puzzle solver that uses the A* search algorithm.
  * See http://en.wikipedia.org/wiki/A*_search_algorithm
- *
+ * A concurrent version fo this algorithm could perhaps be made using PriorityBlockingQueue
  * @author Barry Becker
  */
 public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
@@ -25,7 +26,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     private final Set<P> visited = new HashSet<P>();
 
     /** candidate nodes to search on the frontier. */
-    private final PriorityQueue<PuzzleNode<P, M>> open;
+    private final Queue<PuzzleNode<P, M>> open;
 
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
     private final Map<P, Integer> pathCost = new HashMap<P, Integer>();

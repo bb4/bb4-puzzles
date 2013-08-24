@@ -51,7 +51,7 @@ public class TantrixPath extends PermutedParameterArray {
      * The list of tiles that are passed in must be a continuous primary path,
      * but it is not required that it be a loop, or that any of the secondary colors match.
      * @param tantrix ordered path tiles.
-     * @param primaryColor
+     * @param primaryColor primary color
      */
     public TantrixPath(Tantrix tantrix, PathColor primaryColor) {
         this(new Pathifier(primaryColor).reorder(tantrix), primaryColor);
@@ -59,7 +59,7 @@ public class TantrixPath extends PermutedParameterArray {
 
     /**
      * Creates a random path given a board state.
-     * @param board
+     * @param board placed tiles
      */
     public TantrixPath(TantrixBoard board) {
 

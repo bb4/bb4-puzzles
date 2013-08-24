@@ -9,6 +9,8 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm;
+import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator;
+import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
 /**
  * The controller allows the solver to do its thing by providing the PuzzleController api.
@@ -25,6 +27,8 @@ public class TantrixController
 
     public static final int MIN_NUM_TILES = 3;
     int numTiles = MIN_NUM_TILES;
+
+    private PathEvaluator evaluator = new PathEvaluator();
 
     /**
      * Creates a new instance of the Controller
@@ -58,4 +62,14 @@ public class TantrixController
     public TantrixBoard move(TantrixBoard position, TilePlacement move) {
         return position.placeTile(move);
     }
+
+    /**
+     * @return estimate of the cost to reach the goal from the specified position
+     */
+    public int distanceFromGoal(TantrixBoard position) {
+        TantrixPath path = new TantrixPath(position.getTantrix(), position.getPrimaryColor());
+        double fitness = evaluator.evaluateFitness(path);
+        return (int) (10.0 * Math.max(0, PathEvaluator.SOLVED_THRESH - fitness));
+    }
+
 }

@@ -32,7 +32,6 @@ public class Slider {
         this(size, true);
     }
 
-
     /**
      * Constructor.
      * @param shuffle if true then the created slider will have the tiles shuffled,
@@ -42,7 +41,6 @@ public class Slider {
         initializeTiles(size);
         if (shuffle) shuffleTiles();
     }
-
 
     private void initializeTiles(byte size) {
         this.size = size;
@@ -63,9 +61,6 @@ public class Slider {
         initializeTiles(board.size);
         for (byte i=0; i<size; i++) {
             System.arraycopy(board.tiles[i], 0, tiles[i], 0, size);
-            //for (byte j=0; j<size; j++) {
-            //    tiles[i][j] = board.tiles[i][j];
-            //}
         }
     }
 
@@ -204,13 +199,13 @@ public class Slider {
 
     @Override
     public String toString() {
-        StringBuilder bldr = new StringBuilder("Slider:");
+        StringBuilder builder = new StringBuilder("Slider:");
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
-               bldr.append(tiles[i][j]).append(',');
+               builder.append(tiles[i][j]).append(',');
             }
         }
 
-        return bldr.toString();    //To change body of overridden methods use File | Settings | File Templates.
+        return builder.toString();    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

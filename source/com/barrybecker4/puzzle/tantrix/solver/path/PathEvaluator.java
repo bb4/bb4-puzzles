@@ -16,7 +16,7 @@ import java.util.Set;
 
 /**
  * Evaluates the fitness of a tantrix path.
- * It gets the top score if it is a loop and all the path colors match
+ * It gets the top score if it is a loop and all the path colors match.
  *
  * @author Barry Becker
  */
@@ -49,7 +49,7 @@ public class PathEvaluator {
      *  1) How close the ends of the path are to each other. Perfection achieved when we have a closed loop.
      *  2) Better if more matching secondary path colors
      *  3) Fewer inner spaces and a bbox with less area.
-     * @return  the number of different ways we have tried to fit pieces together so far.
+     * @return the number of different ways we have tried to fit pieces together so far.
      */
     public double evaluateFitness(TantrixPath path) {
 
@@ -89,7 +89,7 @@ public class PathEvaluator {
      * First dd all the tiles to a hash keyed on location.
      * Then for every one of the six sides of each tile, add one if the
      * neighbor is in the hash. Return (num nbrs in hash - 2(numTiles-1))/numTiles
-     * @param path
+     * @param path the path to determine compactness of.
      * @return measure of path compactness between 0 and ~1
      */
     private double determineCompactness(TantrixPath path) {
