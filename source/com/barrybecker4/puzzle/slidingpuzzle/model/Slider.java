@@ -18,25 +18,37 @@ import java.util.Set;
 public class Slider {
 
     /** Size of the board edge. If size = 4, then there will be 16-1 = 15 tiles. */
-    private int size = 3;
+    private byte size;
 
     private static final List<Integer> INDICES = Arrays.asList(0, 1, 2, 3);
 
-    private int[][] tiles;
+    private byte[][] tiles;
+
 
     /**
-     * Do not use this constructor since outsiders cannot create mutable boards.
+     * Constructor to create a shuffled slider configuration.
      */
-    public Slider(int size) {
-        initializeTiles(size);
-        shuffleTiles();
+    public Slider(byte size) {
+        this(size, true);
     }
 
-    private void initializeTiles(int size) {
-        this.size = size;
-        tiles = new int[size][size];
 
-        int ct = 0;
+    /**
+     * Constructor.
+     * @param shuffle if true then the created slider will have the tiles shuffled,
+     *                else they will be in the goal state.
+     */
+    public Slider(byte size, boolean shuffle) {
+        initializeTiles(size);
+        if (shuffle) shuffleTiles();
+    }
+
+
+    private void initializeTiles(byte size) {
+        this.size = size;
+        tiles = new byte[size][size];
+
+        byte ct = 0;
         for (byte row=0; row<size; row++) {
             for (byte col=0; col<size; col++) {
                 tiles[row][col] = ct++;
@@ -67,12 +79,11 @@ public class Slider {
         applyMove(move);
     }
 
-
-    public int getSize() {
+    public byte getSize() {
         return size;
     }
 
-    public int getPosition(byte row, byte col) {
+    public byte getPosition(byte row, byte col) {
         return tiles[row][col];
     }
 
@@ -81,7 +92,7 @@ public class Slider {
      * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
      * To shuffle, move tiles around until the blank position has been everywhere.
      */
-    private void shuffleTiles() {
+    public void shuffleTiles() {
 
         Set<Location> visited = new HashSet<Location>();
         Location blankLocation = getEmptyLocation();
@@ -104,14 +115,13 @@ public class Slider {
         }
     }
 
-
     private void applyMove(SlideMove move) {
         byte fromRow = move.getFromRow();
         byte fromCol = move.getFromCol();
         byte toRow = move.getToRow();
         byte toCol = move.getToCol();
 
-        int value = getPosition(fromRow, fromCol);
+        byte value = getPosition(fromRow, fromCol);
         setPosition(fromRow, fromCol, getPosition(toRow, toCol));
         setPosition(toRow, toCol, value);
     }
@@ -119,7 +129,7 @@ public class Slider {
     /**
      * Private so others can not modify our immutable state after construction.
      */
-    private void setPosition(byte row, byte col, int val) {
+    private void setPosition(byte row, byte col, byte val) {
         tiles[row][col] = val;
     }
 
@@ -165,6 +175,10 @@ public class Slider {
             }
         }
         throw new IllegalStateException("There should have been a blank space");
+    }
+
+    public int distanceToGoal() {
+        return new ManhattanDistanceFinder().findDistance(this);
     }
 
     @Override

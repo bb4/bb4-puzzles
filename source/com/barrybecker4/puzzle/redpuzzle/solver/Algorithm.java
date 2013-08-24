@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.redpuzzle.solver;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
@@ -19,6 +20,7 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
 
     BRUTE_FORCE_ORIGINAL("Brute force (hand crafted)"),
     BRUTE_FORCE_SEQUENTIAL("Brute force (sequential)"),
+    A_STAR_SEQUENTIAL("A* search (sequential)"),
     BRUTE_FORCE_CONCURRENT("Brute force (concurrent)"),
     BREADTH_FIRST_CONCURRENT("Mostly breath first concurrent"),
     GENETIC_SEARCH("Genetic search"),
@@ -49,6 +51,8 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
                 return new BruteForceSolver(pieces, ui);
             case BRUTE_FORCE_SEQUENTIAL :
                 return new SequentialPuzzleSolver<PieceList, Piece>(controller, ui);
+            case A_STAR_SEQUENTIAL :
+                return new AStarPuzzleSolver<PieceList, Piece>(controller, ui);
             case BRUTE_FORCE_CONCURRENT :
                 return new ConcurrentPuzzleSolver<PieceList, Piece>(controller, 0.2f, ui);
             case BREADTH_FIRST_CONCURRENT :

@@ -65,6 +65,16 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     }
 
     /**
+     * Override this to help some search algorithms prioritize the order in which they search.
+     * By default this is provides no information.
+     * It can only be used for puzzles that have a path from an initial state to a solution.
+     * @return estimate of the cost to reach the goal from the specified position
+     */
+    public int distanceFromGoal(P position) {
+        return 1;
+    }
+
+    /**
      * Begin the process of solving.
      * Do it in a separate worker thread so the UI is not blocked.
      */

@@ -90,16 +90,14 @@ public class PieceList {
     }
 
     /**
-     * copy constructor
-     * @param pieces
+     * Copy constructor
      */
     public PieceList(PieceList pieces) {
         this(pieces.pieces_);
     }
 
     /**
-     * copy constructor
-     * @param pieces
+     * private copy constructor
      */
     private PieceList(List<Piece> pieces) {
         this();

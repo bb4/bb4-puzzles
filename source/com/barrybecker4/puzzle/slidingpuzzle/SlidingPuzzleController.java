@@ -12,12 +12,13 @@ import java.util.List;
 /**
  * Sliding Puzzle Controller.
  * See puzzle.common for puzzle framework classes.
+ * See http://kociemba.org/fifteen/fifteensolver.html
  *
  * @author Barry Becker
  */
 public class SlidingPuzzleController extends AbstractPuzzleController<Slider, SlideMove> {
 
-    private static final int DEFAULT_SIZE = 3;
+    private static final byte DEFAULT_SIZE = 3;
 
     private Slider initialPosition;
 
@@ -28,12 +29,12 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
         super(ui);
         initialPosition = new Slider(DEFAULT_SIZE);
         // set default
-        algorithm_ = Algorithm.SEQUENTIAL;
+        algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
     }
 
     /** @param size the edge length of the puzzle to be solved */
     public void setSize(int size) {
-        initialPosition = new Slider(size);
+        initialPosition = new Slider((byte)size);
         ui_.refresh(initialPosition, 0);
     }
 
@@ -55,5 +56,18 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
     @Override
     public Slider move(Slider position, SlideMove move) {
         return position.doMove(move);
+    }
+
+    /**
+     * There are several commonly used "admissible" heuristics for determining this distance.
+     * Here they are in order of easy/low quality to hard/high quality. Option 2 (manhattan) is implemented here.
+     * 1) Number of tiles not in final position. Easies, but not that great.
+     * 2) Manhattan distance: for each piece, sum the manhattan distance to its goal position. Easy, but not the best
+     * 3) Walking distance (http://www.ic-net.or.jp/home/takaken/e/15pz/wd.gif). Hard, but better.
+     * 4) disjoint pattern databases. See http://heuristicswiki.wikispaces.com/pattern+database
+     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
+     */
+    public int distanceFromGoal(Slider position) {
+        return position.distanceToGoal();
     }
 }

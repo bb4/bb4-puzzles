@@ -41,6 +41,11 @@ public interface PuzzleController<P, M> {
     boolean alreadySeen(P position, Set<P> seen);
 
     /**
+     * @return estimate of the cost to reach the goal from the specified position
+     */
+    int distanceFromGoal(P position);
+
+    /**
      *specify the algorithm to use.
      */
     void setAlgorithm(AlgorithmEnum<P, M> algorithm);

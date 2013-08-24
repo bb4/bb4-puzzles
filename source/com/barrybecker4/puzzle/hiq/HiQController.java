@@ -48,6 +48,16 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
     }
 
     /**
+     * A simple estimate of the future cost to the goal is the number of
+     * pegs remaining. Other secondary factors like how spread out the remaining
+     * pegs are may be used to improve this estimate.
+     * @return estimate of the cost to reach the a single bag remaining
+     */
+    public int distanceFromGoal(PegBoard position) {
+        return position.getNumPegsLeft();
+    }
+
+    /**
      * Check all board symmetries to be sure it has or has not been seen.
      * If it was never seen before add it.
      * Must be synchronized because some solvers use concurrency.

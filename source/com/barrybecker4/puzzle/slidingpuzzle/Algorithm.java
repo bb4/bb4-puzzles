@@ -5,6 +5,7 @@ import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
@@ -18,7 +19,8 @@ import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
  */
 public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
 
-    SEQUENTIAL,
+    A_STAR_SEQUENTIAL,
+    SIMPLE_SEQUENTIAL,
     CONCURRENT_BREADTH,
     CONCURRENT_DEPTH,
     CONCURRENT_OPTIMUM;
@@ -46,7 +48,9 @@ public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
             PuzzleController<Slider, SlideMove> controller, Refreshable<Slider, SlideMove> ui) {
 
         switch (this) {
-            case SEQUENTIAL :
+            case A_STAR_SEQUENTIAL :
+                return new AStarPuzzleSolver<Slider, SlideMove>(controller, ui);
+            case SIMPLE_SEQUENTIAL :
                 // this will find a solution, but not necessary the shortest path
                 return new SequentialPuzzleSolver<Slider, SlideMove>(controller, ui);
             case CONCURRENT_BREADTH :

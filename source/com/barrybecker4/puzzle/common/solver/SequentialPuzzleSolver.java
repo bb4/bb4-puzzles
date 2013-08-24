@@ -20,6 +20,7 @@ import java.util.Set;
 public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
     private final PuzzleController<P, M> puzzle;
+    /** set of visited nodes. Do not re-search them */
     private final Set<P> seen = new HashSet<P>();
     private final Refreshable<P, M> ui;
     private long numTries = 0;
@@ -38,8 +39,6 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     @Override
     public List<M> solve() {
         P pos = puzzle.initialPosition();
-        System.out.println("num seen = "+ seen.size());
-        System.out.println("initial position=" + pos);
         startTime =  System.currentTimeMillis();
         List<M> pathToSolution = search(new PuzzleNode<P, M>(pos, null, null));
 
@@ -67,10 +66,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
             List<M> moves = puzzle.legalMoves(currentState);
             for (M move : moves) {
                 P position = puzzle.move(currentState, move);
-
-                if (ui != null) {
-                    ui.refresh(position, numTries);
-                }
+                ui.refresh(position, numTries);
 
                 PuzzleNode<P, M> child = new PuzzleNode<P, M>(position, move, node);
                 numTries++;

@@ -5,6 +5,7 @@ import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
@@ -18,7 +19,8 @@ import com.barrybecker4.puzzle.hiq.model.PegMove;
  */
 public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
 
-    SEQUENTIAL,
+    SIMPLE_SEQUENTIAL,
+    A_STAR_SEQUENTIAL,
     CONCURRENT_BREADTH,
     CONCURRENT_DEPTH,
     CONCURRENT_OPTIMUM;
@@ -45,8 +47,10 @@ public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
     public PuzzleSolver<PegBoard, PegMove> createSolver(PuzzleController<PegBoard, PegMove> controller, Refreshable<PegBoard, PegMove> ui) {
 
         switch (this) {
-            case SEQUENTIAL :
+            case SIMPLE_SEQUENTIAL :
                 return new SequentialPuzzleSolver<PegBoard, PegMove>(controller, ui);
+            case A_STAR_SEQUENTIAL :
+                return new AStarPuzzleSolver<PegBoard, PegMove>(controller, ui);
             case CONCURRENT_BREADTH :
                 return new ConcurrentPuzzleSolver<PegBoard, PegMove>(controller, 0.4f, ui);
             case CONCURRENT_DEPTH :

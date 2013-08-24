@@ -9,6 +9,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm;
 
 import java.util.LinkedList;
 import java.util.List;
+import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.NUM_PIECES;
 
 /**
  * The controller allows the solver to do its thing by providing the PuzzleController api.
@@ -24,7 +25,6 @@ import java.util.List;
  */
 public class RedPuzzleController extends AbstractPuzzleController<PieceList, Piece> {
 
-    public static final int NUM_PIECES = PieceList.NUM_PIECES;
     private final PieceList SHUFFLED_PIECES = PieceList.getInitialPuzzlePieces();
 
     /**
@@ -46,6 +46,15 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
         // we have reached our goal if we have 9 pieces that fit
         return (position.size() == NUM_PIECES);
     }
+
+    /**
+     * The simplest estimate of the cost to reach the goal is 9 - number of pieces placed so far.
+     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
+     */
+    public int distanceFromGoal(PieceList position) {
+        return NUM_PIECES - position.size();
+    }
+
 
     /**
      * For each piece that we have not tried yet, see if it fits.
