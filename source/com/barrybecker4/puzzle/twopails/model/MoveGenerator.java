@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.model;
 
 import java.util.LinkedList;
@@ -32,7 +32,7 @@ public class MoveGenerator  {
      */
     public List<PourOperation> generateMoves() {
 
-        List<PourOperation> moves = new LinkedList<PourOperation>();
+        List<PourOperation> moves = new LinkedList<>();
         for (Action action : Action.values()) {
 
             switch(action) {
@@ -50,6 +50,7 @@ public class MoveGenerator  {
                     break;
             }
         }
+        System.out.println("cand moves = "  + moves);
         return moves;
     }
 }

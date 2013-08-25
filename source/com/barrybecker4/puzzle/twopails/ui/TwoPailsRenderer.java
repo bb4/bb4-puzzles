@@ -1,4 +1,4 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.twopails.ui;
 
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
@@ -68,10 +68,10 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
         g.drawRect(middle + (int)(TEXT_WIDTH * width), height - MARGIN - cont2Height, contWidth, cont2Height);
 
         g.setColor(LIQUID_COLOR);
-        int fillHeight = (int)((float)pails.getFill1()/biggest * height);
-        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
-        fillHeight = (int)((float)pails.getFill2()/biggest * height);
-        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
+        int fillHeight = (int)((float)pails.getFill1()/biggest * MAX_CONTAINER_HEIGHT * height);
+        g.fillRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
+        fillHeight = (int)((float)pails.getFill2()/biggest * MAX_CONTAINER_HEIGHT * height);
+        g.fillRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
     }
 
 }

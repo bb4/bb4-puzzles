@@ -1,4 +1,4 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.twopails.model;
 
 import static com.barrybecker4.puzzle.twopails.model.PourOperation.Container.*;
@@ -14,6 +14,7 @@ public class Pails {
     private byte fill2;
 
     /**
+
      * Constructor to create two empty pails.
      */
     public Pails(PailParams params) {
@@ -42,7 +43,7 @@ public class Pails {
         return fill1 < params.getPail1Size();
     }
     boolean pail2HasRoom() {
-        return fill1 < params.getPail2Size();
+        return fill2 < params.getPail2Size();
     }
 
     public PailParams getParams() {
@@ -71,21 +72,30 @@ public class Pails {
     private void applyMove(PourOperation move) {
         switch (move.getAction()) {
             case FILL :
-                if (move.getContainer() == FIRST )
+                if (move.getContainer() == FIRST)
                     fill1 = params.getPail1Size();
                 else fill2 = params.getPail2Size();
                 break;
             case EMPTY :
-                if (move.getContainer() == FIRST )
+                if (move.getContainer() == FIRST)
                     fill1 = 0;
                 else fill2 = 0;
                 break;
             case TRANSFER:
-                if (move.getContainer() == FIRST )
-                    fill2 = (byte) Math.min(fill1, params.getPail2Size());
-                else fill1 = (byte) Math.min(fill2, params.getPail1Size()); ;
+                if (move.getContainer() == FIRST)  {
+                    // transfer from first container to second
+                    int space = params.getPail2Size() - fill2;
+                    fill2 = (byte) Math.min(fill1 + fill2, params.getPail2Size());
+                    fill1 = (byte) Math.max(0, fill1 - space);
+                } else {
+                    // transfer from second container to first
+                    int space = params.getPail1Size() - fill1;
+                    fill1 = (byte) Math.min(fill1 + fill2, params.getPail1Size());
+                    fill2 = (byte) Math.max(0, fill2 - space);
+                }
                 break;
         }
+        System.out.println(move + " f1=" + fill1 + " f2=" + fill2);
     }
 
     /**
@@ -97,11 +107,31 @@ public class Pails {
         return fill1 == target || fill2 == target;
     }
 
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Pails:");
         builder.append('[').append(fill1).append(" ").append(fill2).append(']');
         return builder.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pails pails = (Pails) o;
+
+        if (fill1 != pails.fill1) return false;
+        if (fill2 != pails.fill2) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) fill1;
+        result = 31 * result + (int) fill2;
+        return result;
+    }
+
 }
