@@ -18,17 +18,17 @@ import java.awt.Graphics;
  */
 public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
 
-    public static final float MAX_CONTAINER_HEIGHT = 0.7f;
+    public static final float MAX_CONTAINER_HEIGHT = 0.8f;
     public static final float CONTAINER_WIDTH = 0.2f;
-    public static final float TEXT_WIDTH = 0.2f;
+    public static final float TEXT_WIDTH = 0.11f;
     public static final float SEPARATION = 0.1f;
 
-    private static final int MARGIN = 50;
+    private static final int MARGIN = 70;
 
     private static final Color CONTAINER_COLOR = new Color(5, 0, 80);
     private static final Color LIQUID_COLOR = new Color(95, 145, 255);
 
-    private static final Font FONT = new Font("Sans Serif", Font.PLAIN, 20);
+    private static final Font FONT = new Font("Sans Serif", Font.PLAIN, 16);
 
 
     /**
@@ -57,11 +57,21 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
         g.setFont(FONT);
         g.drawString("First container", MARGIN, MARGIN);
         g.drawString("Max  = " + params.getPail1Size(), MARGIN, 2 * MARGIN);
-        g.drawString("Fill = " + pails.getFill1(), MARGIN, 3 * MARGIN);
+        g.drawString("Fill = " + pails.getFill1(), MARGIN, height - MARGIN);
 
         g.drawString("Second container", middle, MARGIN);
         g.drawString("Max = " + params.getPail2Size(), middle, 2 * MARGIN);
-        g.drawString("Fill = " + pails.getFill2(), middle, 3 * MARGIN);
+        g.drawString("Fill = " + pails.getFill2(), middle, height - MARGIN);
+
+        g.setColor(CONTAINER_COLOR);
+        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - cont1Height, contWidth, cont1Height);
+        g.drawRect(middle + (int)(TEXT_WIDTH * width), height - MARGIN - cont2Height, contWidth, cont2Height);
+
+        g.setColor(LIQUID_COLOR);
+        int fillHeight = (int)((float)pails.getFill1()/biggest * height);
+        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
+        fillHeight = (int)((float)pails.getFill2()/biggest * height);
+        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
     }
 
 }

@@ -1,6 +1,8 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.twopails.model;
 
+import static com.barrybecker4.puzzle.twopails.model.PourOperation.Container.*;
+
 /**
  * Immutable representation of the two Pails and the amount of liquid they each contain at the moment.
  * @author Barry Becker
@@ -69,6 +71,20 @@ public class Pails {
     private void applyMove(PourOperation move) {
         switch (move.getAction()) {
             case FILL :
+                if (move.getContainer() == FIRST )
+                    fill1 = params.getPail1Size();
+                else fill2 = params.getPail2Size();
+                break;
+            case EMPTY :
+                if (move.getContainer() == FIRST )
+                    fill1 = 0;
+                else fill2 = 0;
+                break;
+            case TRANSFER:
+                if (move.getContainer() == FIRST )
+                    fill2 = (byte) Math.min(fill1, params.getPail2Size());
+                else fill1 = (byte) Math.min(fill2, params.getPail1Size()); ;
+                break;
         }
     }
 

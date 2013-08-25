@@ -4,11 +4,15 @@ package com.barrybecker4.puzzle.twopails.ui;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.ui.TopControlPanel;
+import com.barrybecker4.puzzle.twopails.TwoPailsPuzzleController;
+import com.barrybecker4.puzzle.twopails.model.PailParams;
 import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import com.barrybecker4.ui.components.NumberInput;
 
 import javax.swing.Box;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import static com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY;
 
@@ -17,7 +21,7 @@ import static com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY;
  *
  * @author Barry Becker
  */
-public final class TopControls extends TopControlPanel<Pails, PourOperation> {
+public final class TopControls extends TopControlPanel<Pails, PourOperation> implements KeyListener {
 
     /** click this button to generate a new puzzle */
     //private JButton generateButton;
@@ -42,9 +46,10 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> {
                           "The fill capacity of the first container", 1, MAX_CAPACITY, true);
         secondPailSize = new NumberInput("Second Pail Size", 4,
                           "The fill capacity of the second container", 1, MAX_CAPACITY, true);
-        targetMeasure = new NumberInput("Target measure", 4,
+        targetMeasure = new NumberInput("Target measure", 6,
                           "The amount of liquid that is to be measured out exactly", 1, MAX_CAPACITY, true);
 
+        firstPailSize.addKeyListener(this);
         //generateButton = new GradientButton("Generate");
         //generateButton.addActionListener(this);
 
@@ -56,4 +61,18 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> {
         add(Box.createHorizontalGlue());
     }
 
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+        PailParams params =
+                new PailParams(firstPailSize.getIntValue(), secondPailSize.getIntValue(), targetMeasure.getIntValue());
+        ((TwoPailsPuzzleController)controller_).setParams(params);
+    }
 }
