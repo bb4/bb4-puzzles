@@ -9,8 +9,6 @@ import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 
 import javax.swing.Box;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -20,13 +18,9 @@ import java.awt.event.ItemListener;
  * @author Barry Becker
  */
 public final class SliderTopControls extends TopControlPanel<Slider, SlideMove>
-                                   implements ActionListener, ItemListener {
-
-    /** click this button to generate a new puzzle */
-    private JButton generateButton_;
+                                   implements ItemListener {
 
     private SizeSelector sizeSelector_;
-
 
 
     /**

@@ -5,6 +5,7 @@ import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Immutable representation of a Slider board.
+ * Immutable representation of a slider board.
  * @author Barry Becker
  */
 public class Slider {
@@ -89,18 +90,19 @@ public class Slider {
      */
     public void shuffleTiles() {
 
-        Set<Location> visited = new HashSet<Location>();
+        Set<Location> visited = new HashSet<>();
         Location blankLocation = getEmptyLocation();
         visited.add(blankLocation);
 
         int numTiles = size * size;
+        List<Integer> indices = new ArrayList<>(INDICES);
 
         while (visited.size() < numTiles) {
-            Collections.shuffle(INDICES, MathUtil.RANDOM);
+            Collections.shuffle(indices, MathUtil.RANDOM);
             Location loc;
             int ct = 0;
             do {
-              loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS[INDICES.get(ct++)]);
+                loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS[indices.get(ct++)]);
             } while (!isValidPosition(loc));
 
             SlideMove move = new SlideMove(blankLocation, loc);

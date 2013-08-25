@@ -93,7 +93,7 @@ public class TopControlPanel extends JPanel
 
     public void regenerate() {
         controller.regenerate(getThickness(), getAnimationSpeed(),
-                    getForwardPropability(), getLeftProbability(), getRightProbability());
+                    getForwardProbability(), getLeftProbability(), getRightProbability());
         //invalidate();
         //this.repaint();
     }
@@ -102,7 +102,7 @@ public class TopControlPanel extends JPanel
         return  thicknessField.getIntValue();
     }
 
-    private double getForwardPropability() {
+    private double getForwardProbability() {
         return forwardProbField.getValue();
     }
 

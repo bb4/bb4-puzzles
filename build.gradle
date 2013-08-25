@@ -54,7 +54,13 @@ task runHiQ(type: JavaExec, depends: classes) {
 }
 
 task runSlidingPuzzle(type: JavaExec, depends: classes) {
-    main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
+    main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.TwoPailsPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ["-Xss64m"]
+}
+
+task runTwoPailsPuzzle(type: JavaExec, depends: classes) {
+    main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
@@ -71,6 +77,7 @@ appMap.put('maze', [include:['com/barrybecker4/puzzle/maze/**']])
 appMap.put('redpuzzle', [include:['com/barrybecker4/puzzle/redpuzzle/**']])
 appMap.put('sudoku', [include:['com/barrybecker4/puzzle/sudoku/**']])
 appMap.put('tantrix', [include:['com/barrybecker4/puzzle/tantrix/**']])
+appMap.put('twopails', [include:['com/barrybecker4/puzzle/twopails/**']])
 
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
