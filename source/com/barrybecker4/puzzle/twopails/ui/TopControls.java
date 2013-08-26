@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import com.barrybecker4.ui.components.NumberInput;
 
-import javax.swing.Box;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -40,8 +39,6 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
 
         super(controller, algorithmValues);
 
-        //public NumberInput( String labelText, double initialValue, String toolTip,
-        //                double minAllowed, double maxAllowed, boolean integerOnly )
         firstPailSize = new NumberInput("First Pail Size", 9,
                           "The fill capacity of the first container", 1, MAX_CAPACITY, true);
         secondPailSize = new NumberInput("Second Pail Size", 4,
@@ -58,7 +55,7 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
         add(secondPailSize);
         add(targetMeasure);
         //add(generateButton);
-        add(Box.createHorizontalGlue());
+        //add(Box.createHorizontalGlue());
     }
 
 
