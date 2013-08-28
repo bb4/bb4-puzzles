@@ -39,6 +39,18 @@ public final class PourOperation implements Move {
         return container;
     }
 
+    /** @return the revers of this operation */
+    PourOperation reverse() {
+        Action action = getAction();
+        Container container = getContainer();
+        switch (getAction()) {
+            case FILL : action = Action.EMPTY; break;
+            case EMPTY: action = Action.FILL; break;
+            case TRANSFER: container = getContainer() == Container.FIRST ? Container.SECOND : Container.FIRST;
+        }
+        return new PourOperation(action, container);
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

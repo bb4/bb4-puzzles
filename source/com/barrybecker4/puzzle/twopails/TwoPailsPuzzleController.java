@@ -58,6 +58,6 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
 
     @Override
     public Pails move(Pails position, PourOperation move) {
-        return position.doMove(move);
+        return position.doMove(move, false);
     }
 }

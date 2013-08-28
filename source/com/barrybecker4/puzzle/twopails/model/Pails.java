@@ -54,35 +54,36 @@ public class Pails {
      * creates a new Pails by applying a move to another Pails.
      * Does not violate immutability.
      */
-    public Pails doMove(PourOperation move) {
-        return new Pails(this, move, false);
+    public Pails doMove(PourOperation move, boolean undo) {
+        return new Pails(this, move, undo);
     }
 
     /**
-     *
      * @param pos current state
      * @param move transition to apply to it
      * @param undo if true, then undoes the transition rather than applying it.
      */
     public Pails(Pails pos, PourOperation move, boolean undo) {
         this(pos);
-        applyMove(move);
+        applyMove(move, undo);
     }
 
-    private void applyMove(PourOperation move) {
-        switch (move.getAction()) {
+    private void applyMove(PourOperation move, boolean undo) {
+        PourOperation op = undo? move.reverse() : move;
+
+        switch (op.getAction()) {
             case FILL :
-                if (move.getContainer() == FIRST)
+                if (op.getContainer() == FIRST)
                     fill1 = params.getPail1Size();
                 else fill2 = params.getPail2Size();
                 break;
             case EMPTY :
-                if (move.getContainer() == FIRST)
+                if (op.getContainer() == FIRST)
                     fill1 = 0;
                 else fill2 = 0;
                 break;
             case TRANSFER:
-                if (move.getContainer() == FIRST)  {
+                if (op.getContainer() == FIRST)  {
                     // transfer from first container to second
                     int space = params.getPail2Size() - fill2;
                     fill2 = (byte) Math.min(fill1 + fill2, params.getPail2Size());

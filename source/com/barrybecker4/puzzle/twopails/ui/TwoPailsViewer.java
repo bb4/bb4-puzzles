@@ -65,7 +65,7 @@ final class TwoPailsViewer extends PuzzleViewer<Pails, PourOperation>
 
     @Override
     public void makeMove(int currentStep, boolean undo) {
-        board_ = board_.doMove(getPath().get(currentStep));
+        board_ = board_.doMove(getPath().get(currentStep), undo);
         repaint();
     }
 
