@@ -9,6 +9,7 @@ import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 
 import javax.swing.Box;
+import javax.swing.JPanel;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -30,12 +31,15 @@ public final class SliderTopControls extends TopControlPanel<Slider, SlideMove>
             PuzzleController<Slider, SlideMove> controller, AlgorithmEnum<Slider,  SlideMove>[] algorithmValues) {
 
         super(controller, algorithmValues);
+    }
 
+    protected void addFirstRowControls(JPanel panel) {
+        super.addFirstRowControls(panel);
         sizeSelector_ = new SizeSelector();
         sizeSelector_.addItemListener(this);
 
-        add(sizeSelector_);
-        add(Box.createHorizontalGlue());
+        panel.add(sizeSelector_);
+        panel.add(Box.createHorizontalGlue());
     }
 
     /**

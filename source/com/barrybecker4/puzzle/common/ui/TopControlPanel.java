@@ -8,6 +8,7 @@ import com.barrybecker4.ui.components.GradientButton;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -35,12 +36,38 @@ public class TopControlPanel<P, M> extends JPanel
         controller_ = controller;
         algorithmValues_ = algorithmValues;
 
-        setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+        JPanel firstRowPanel = new JPanel(createLayout());
+        addFirstRowControls(firstRowPanel);
+        firstRowPanel.add(new JPanel());
+
+        JPanel additionalControlsPanel = new JPanel(createLayout());
+        addAdditionalControls(additionalControlsPanel);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(firstRowPanel, BorderLayout.NORTH);
+        if (additionalControlsPanel.getComponents().length > 0)  {
+            mainPanel.add(additionalControlsPanel, BorderLayout.CENTER);
+        }
+        add(mainPanel);
+    }
+
+    private FlowLayout createLayout() {
+        FlowLayout layout = new FlowLayout();
+        layout.setAlignment(FlowLayout.LEADING);
+        return layout;
+    }
+
+    protected void addFirstRowControls(JPanel firstRowPanel)  {
+
         solveButton_ = new GradientButton(AppContext.getLabel("SOLVE"));
                 solveButton_.addActionListener(this);
 
-        add(solveButton_);
-        add(createAlgorithmDropdown());
+        firstRowPanel.add(solveButton_);
+        firstRowPanel.add(createAlgorithmDropdown());
+    }
+
+    protected void addAdditionalControls(JPanel panel) {
+        // override to add stuff
     }
 
     protected PuzzleController<P, M> getController() {

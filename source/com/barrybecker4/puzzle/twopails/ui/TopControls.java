@@ -10,6 +10,7 @@ import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import com.barrybecker4.ui.components.NumberInput;
 
+import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -38,6 +39,11 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
             PuzzleController<Pails, PourOperation> controller, AlgorithmEnum<Pails, PourOperation>[] algorithmValues) {
 
         super(controller, algorithmValues);
+    }
+
+    @Override
+    protected void addAdditionalControls(JPanel panel) {
+        super.addAdditionalControls(panel);
 
         firstPailSize = new NumberInput("First Pail Size", 9,
                           "The fill capacity of the first container", 1, MAX_CAPACITY, true);
@@ -50,14 +56,12 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
         //generateButton = new GradientButton("Generate");
         //generateButton.addActionListener(this);
 
-
-        add(firstPailSize);
-        add(secondPailSize);
-        add(targetMeasure);
+        panel.add(firstPailSize);
+        panel.add(secondPailSize);
+        panel.add(targetMeasure);
         //add(generateButton);
         //add(Box.createHorizontalGlue());
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {}
