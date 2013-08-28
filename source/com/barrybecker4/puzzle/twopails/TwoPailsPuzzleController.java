@@ -30,7 +30,7 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
         super(ui);
         initialPosition = new Pails(DEFAULT_PARAMS);
         // set default
-        algorithm_ = Algorithm.SIMPLE_SEQUENTIAL;
+        algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
     }
 
     /**

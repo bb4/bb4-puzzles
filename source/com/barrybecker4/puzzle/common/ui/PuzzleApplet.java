@@ -8,6 +8,8 @@ import com.barrybecker4.ui.application.ApplicationApplet;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for Puzzle applets.
@@ -56,6 +58,11 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
         return mainPanel;
     }
 
+    protected List<String> getResourceList() {
+        List<String> resources = new ArrayList<>(super.getResourceList());
+        resources.add("com.barrybecker4.puzzle.common.ui.message");
+        return resources;
+    }
 
     protected abstract PuzzleViewer<P, M> createViewer();
 
