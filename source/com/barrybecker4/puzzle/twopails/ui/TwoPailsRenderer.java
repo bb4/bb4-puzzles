@@ -68,10 +68,13 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
         g.drawRect(middle + (int)(TEXT_WIDTH * width), height - MARGIN - cont2Height, contWidth, cont2Height);
 
         g.setColor(LIQUID_COLOR);
-        int fillHeight = (int)((float)pails.getFill1()/biggest * MAX_CONTAINER_HEIGHT * height);
+        // show fill for first container
+        int fillHeight = (int)((float)pails.getFill1()/biggest * cont1Height);
         g.fillRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
-        fillHeight = (int)((float)pails.getFill2()/biggest * MAX_CONTAINER_HEIGHT * height);
-        g.fillRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
+
+        // show fill for second container
+        fillHeight = (int)((float)pails.getFill2()/biggest * cont2Height);
+        g.fillRect(middle + (int)(TEXT_WIDTH * width), height - MARGIN - fillHeight, contWidth, fillHeight);
     }
 
 }
