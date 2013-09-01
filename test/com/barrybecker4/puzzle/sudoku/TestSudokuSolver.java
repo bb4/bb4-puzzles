@@ -72,7 +72,6 @@ public class TestSudokuSolver {
         for (int r=0; r < 40; r++)
             MathUtil.RANDOM.setSeed(r);
             generateAndSolve(3);
-
     }
 
     /** The large tests takes a long time because of the exponential growth with the size of the puzzle. */

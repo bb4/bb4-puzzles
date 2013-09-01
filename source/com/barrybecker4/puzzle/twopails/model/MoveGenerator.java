@@ -28,6 +28,7 @@ public class MoveGenerator  {
     /**
      * Next moves are all the pour operations that make sense given the current pail fill states.
      * For example, it does not make sense to empty and empty pail.
+     * Similarly, you cannot transfer any liquid when both pails are completely full.
      * @return List of all valid tile slides
      */
     public List<PourOperation> generateMoves() {

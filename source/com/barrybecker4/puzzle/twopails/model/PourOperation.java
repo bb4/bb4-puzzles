@@ -57,5 +57,25 @@ public final class PourOperation implements Move {
         s.append(action).append(" ").append(container);
         return s.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PourOperation that = (PourOperation) o;
+
+        if (action != that.action) return false;
+        if (container != that.container) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = action.hashCode();
+        result = 31 * result + container.hashCode();
+        return result;
+    }
 }
 

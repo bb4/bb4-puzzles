@@ -14,7 +14,6 @@ public class Pails {
     private byte fill2;
 
     /**
-
      * Constructor to create two empty pails.
      */
     public Pails(PailParams params) {
@@ -120,11 +119,8 @@ public class Pails {
         if (o == null || getClass() != o.getClass()) return false;
 
         Pails pails = (Pails) o;
+        return fill1 == pails.fill1 && fill2 == pails.fill2;
 
-        if (fill1 != pails.fill1) return false;
-        if (fill2 != pails.fill2) return false;
-
-        return true;
     }
 
     @Override
