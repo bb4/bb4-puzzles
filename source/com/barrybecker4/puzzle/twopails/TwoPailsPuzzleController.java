@@ -39,7 +39,8 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
      */
     public void setParams(PailParams params) {
         initialPosition = new Pails(params);
-        ui_.refresh(initialPosition, 0);
+        if (ui_ != null)
+            ui_.refresh(initialPosition, 0);
     }
 
     @Override

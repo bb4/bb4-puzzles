@@ -1,6 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
+import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
@@ -8,7 +9,6 @@ import com.barrybecker4.puzzle.common.model.PuzzleNode;
 import java.security.AccessControlException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,7 +35,6 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
     private volatile int numTries;
     /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
     private float depthBreadthFactor = 0.4f;
-    private static final Random RANDOM = new Random(1);
 
     /**
      * Constructor
@@ -46,7 +45,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
         this.ui = ui;
         this.puzzle = puzzle;
         this.exec = initThreadPool();
-        this.seen = new HashSet<P>();
+        this.seen = new HashSet<>();
+        numTries = 0;
         if (exec instanceof ThreadPoolExecutor) {
             ThreadPoolExecutor tpe = (ThreadPoolExecutor) exec;
             tpe.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
@@ -130,7 +130,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
                     SolverTask task = newTask(puzzle.move(getPosition(), move), move, this);
 
                     // either process the children sequentially or concurrently based on depthBreadthFactor
-                    if (RANDOM.nextFloat() > depthBreadthFactor) {
+                    if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) {
                         // go deep
                         task.run();
                     } else {

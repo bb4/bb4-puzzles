@@ -36,4 +36,8 @@ public class PailParams {
     public byte getBiggest() {
         return (byte) Math.max(pail1Size, pail2Size);
     }
+
+    public String toString() {
+        return "pail1="+ pail1Size + " pail2="+ pail2Size + " target=" + targetMeasureSize;
+    }
 }

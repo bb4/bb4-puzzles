@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P, M> {
 
+    private final AtomicInteger taskCount = new AtomicInteger(0);
+
     /**
      * @param puzzle the puzzle to solve
      * @param depthBreadthFactor the ratio of depth first to breadth first searching to use.
@@ -23,9 +25,10 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
     public ConcurrentPuzzleSolver(PuzzleController<P, M> puzzle, float  depthBreadthFactor, Refreshable<P, M> ui) {
         super(puzzle, ui);
         setDepthBreadthFactor(depthBreadthFactor);
+        taskCount.set(0);
     }
 
-    private final AtomicInteger taskCount = new AtomicInteger(0);
+
 
     @Override
     protected SolverTask newTask(P p, M m, PuzzleNode<P, M> n) {

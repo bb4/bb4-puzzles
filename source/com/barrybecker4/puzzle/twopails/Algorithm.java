@@ -49,16 +49,16 @@ public enum Algorithm implements AlgorithmEnum<Pails, PourOperation> {
         switch (this) {
             case SIMPLE_SEQUENTIAL :
                 // this will find a solution, but not necessary the shortest path
-                return new SequentialPuzzleSolver<Pails, PourOperation>(controller, ui);
+                return new SequentialPuzzleSolver<>(controller, ui);
             case A_STAR_SEQUENTIAL :
-                return new AStarPuzzleSolver<Pails, PourOperation>(controller, ui);
+                return new AStarPuzzleSolver<>(controller, ui);
             case CONCURRENT_BREADTH :
                 // this will find the shortest path to a solution if one exists, but takes longer
-                return new ConcurrentPuzzleSolver<Pails, PourOperation>(controller, 1.0f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 1.0f, ui);
             case CONCURRENT_DEPTH :
-                return new ConcurrentPuzzleSolver<Pails, PourOperation>(controller, 0.12f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.05f, ui);
             case CONCURRENT_OPTIMUM :
-                return new ConcurrentPuzzleSolver<Pails, PourOperation>(controller, 0.3f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.3f, ui);
         }
         return null;
     }

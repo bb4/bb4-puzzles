@@ -61,13 +61,13 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
                 List<M> path = node.asMoveList();
 
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                ui.finalRefresh(path, currentState, numTries, elapsedTime);
+                if (ui!=null) ui.finalRefresh(path, currentState, numTries, elapsedTime);
                 return path;
             }
             List<M> moves = puzzle.legalMoves(currentState);
             for (M move : moves) {
                 P position = puzzle.move(currentState, move);
-                ui.refresh(position, numTries);
+                if (ui != null) ui.refresh(position, numTries);
 
                 PuzzleNode<P, M> child = new PuzzleNode<P, M>(position, move, node);
                 numTries++;

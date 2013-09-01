@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.common.ui;
 
 import com.barrybecker4.common.format.FormatUtil;
+import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.Refreshable;
 
 import javax.swing.JPanel;
@@ -67,7 +68,7 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
     protected String createStatusMessage(long numTries) {
         String msg = "\nNumber of tries :" + FormatUtil.formatNumber(numTries);
         // I think this might be an expensive operation so don't do it every time
-        if (Math.random() <.05) {
+        if (MathUtil.RANDOM.nextDouble() <.05) {
             totalMem_ = Runtime.getRuntime().totalMemory()/1000;
             freeMem_ = Runtime.getRuntime().freeMemory()/1000;
         }

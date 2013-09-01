@@ -47,6 +47,10 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
     @Override
     public List<M> solve() {
+        open.clear();
+        visited.clear();
+        pathCost.clear();
+
         P startingPos = puzzle.initialPosition();
         startTime =  System.currentTimeMillis();
         PuzzleNode<P, M> startNode =
@@ -67,7 +71,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
             System.out.println("Number of steps in path to solution = " + pathToSolution.size());
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-            ui.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
+        if (ui!=null) ui.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
         return pathToSolution;
     }
 
@@ -80,7 +84,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
         while (!open.isEmpty())  {
             PuzzleNode<P, M> currentNode = open.peek();
             P currentPosition = currentNode.getPosition();
-            ui.refresh(currentPosition, numTries);
+            if (ui != null) ui.refresh(currentPosition, numTries);
 
             if (puzzle.isGoal(currentPosition)) {
                 return currentNode;  // success

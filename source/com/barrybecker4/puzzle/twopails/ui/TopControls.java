@@ -23,9 +23,6 @@ import static com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY;
  */
 public final class TopControls extends TopControlPanel<Pails, PourOperation> implements KeyListener {
 
-    /** click this button to generate a new puzzle */
-    //private JButton generateButton;
-
     // ui for entering the direction probabilities.
     protected NumberInput firstPailSize;
     protected NumberInput secondPailSize;
@@ -36,7 +33,8 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
      * The solve and generate button at the top.
      */
     public TopControls(
-            PuzzleController<Pails, PourOperation> controller, AlgorithmEnum<Pails, PourOperation>[] algorithmValues) {
+            PuzzleController<Pails, PourOperation> controller,
+            AlgorithmEnum<Pails, PourOperation>[] algorithmValues) {
 
         super(controller, algorithmValues);
     }
@@ -53,14 +51,12 @@ public final class TopControls extends TopControlPanel<Pails, PourOperation> imp
                           "The amount of liquid that is to be measured out exactly", 1, MAX_CAPACITY, true);
 
         firstPailSize.addKeyListener(this);
-        //generateButton = new GradientButton("Generate");
-        //generateButton.addActionListener(this);
+        secondPailSize.addKeyListener(this);
+        targetMeasure.addKeyListener(this);
 
         panel.add(firstPailSize);
         panel.add(secondPailSize);
         panel.add(targetMeasure);
-        //add(generateButton);
-        //add(Box.createHorizontalGlue());
     }
 
     @Override

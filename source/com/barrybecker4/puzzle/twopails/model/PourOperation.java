@@ -39,7 +39,9 @@ public final class PourOperation implements Move {
         return container;
     }
 
-    /** @return the revers of this operation */
+    /**
+     * @return the reverse of this operation
+     */
     PourOperation reverse() {
         Action action = getAction();
         Container container = getContainer();
@@ -64,11 +66,7 @@ public final class PourOperation implements Move {
         if (o == null || getClass() != o.getClass()) return false;
 
         PourOperation that = (PourOperation) o;
-
-        if (action != that.action) return false;
-        if (container != that.container) return false;
-
-        return true;
+        return action == that.action && container == that.container;
     }
 
     @Override
