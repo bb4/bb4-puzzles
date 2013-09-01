@@ -4,24 +4,27 @@ package com.barrybecker4.puzzle.tantrix.model;
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
-public class RandomPathGeneratorTest extends TestCase {
+public class RandomPathGeneratorTest {
 
     /** instance under test */
     private RandomPathGenerator pathGenerator;
 
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(0);
     }
 
+    @Test
     public void test3TilesPathGen() {
         pathGenerator = new RandomPathGenerator(place3UnsolvedTiles());
         TantrixPath rPath = pathGenerator.generateRandomPath();

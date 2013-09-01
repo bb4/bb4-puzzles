@@ -4,13 +4,16 @@ package com.barrybecker4.puzzle.sudoku;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.sudoku.data.TestData;
 import com.barrybecker4.puzzle.sudoku.model.board.Board;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Barry Becker
  */
-public class TestSudokuSolver extends TestCase {
+public class TestSudokuSolver {
 
     /** instance under test. */
     SudokuSolver solver;
@@ -20,55 +23,50 @@ public class TestSudokuSolver extends TestCase {
     /**
      * common initialization for all go test cases.
      */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         MathUtil.RANDOM.setSeed(0);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
+    @Test
     public void testCaseSimpleSample() {
 
         solver = new SudokuSolver();
         boolean solved = solver.solvePuzzle(new Board(TestData.SIMPLE_9));
-        Assert.assertTrue( "Did not solve SIMPLE_9 successfully", solved);
+        assertTrue("Did not solve SIMPLE_9 successfully", solved);
     }
 
     /** negative test case */
+    @Test
     public void testImpossiblePuzzle() {
 
         solver = new SudokuSolver();
         boolean solved = solver.solvePuzzle(new Board(TestData.INCONSISTENT_9));
 
-        Assert.assertFalse( "Solved impossible SIMPLE_9 puzzle. Should not have.", solved);
+        assertFalse("Solved impossible SIMPLE_9 puzzle. Should not have.", solved);
     }
 
-
-    /** negative test case */
+    @Test
     public void testSolving16x16Puzzle() {
 
         solver = new SudokuSolver();
         boolean solved = solver.solvePuzzle(new Board(TestData.COMPLEX_16));
 
-        Assert.assertTrue("Unexpected could not solve 16x16 puzzle.", solved);
+        assertTrue("Unexpected could not solve 16x16 puzzle.", solved);
     }
 
-
+    @Test
     public void testGenerateAndSolve2() {
-
-            generateAndSolve(2);
+        generateAndSolve(2);
     }
 
+    @Test
     public void testGenerateAndSolve3() {
 
-            generateAndSolve(3);
+        generateAndSolve(3);
     }
 
+    @Test
     public void testGenerateLotsAndSolveMany() {
 
         for (int r=0; r < 40; r++)
@@ -78,6 +76,7 @@ public class TestSudokuSolver extends TestCase {
     }
 
     /** The large tests takes a long time because of the exponential growth with the size of the puzzle. */
+    @Test
     public void testGenerateAndSolve() {
         // super exponential run time
         generateAndSolve(2);  // 16  cells       32 ms
@@ -105,6 +104,6 @@ public class TestSudokuSolver extends TestCase {
         long start = System.currentTimeMillis();
         boolean solved = solver.solvePuzzle(board);
         System.out.println("Time to solve was "+ (System.currentTimeMillis() - start));
-        Assert.assertTrue("Unexpectedly not solved.", solved);
+        assertTrue("Unexpectedly not solved.", solved);
     }
 }

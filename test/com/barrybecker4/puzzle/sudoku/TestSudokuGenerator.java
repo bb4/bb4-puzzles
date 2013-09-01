@@ -3,24 +3,26 @@ package com.barrybecker4.puzzle.sudoku;
 
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.sudoku.model.board.Board;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Barry Becker
  */
-public class TestSudokuGenerator extends TestCase {
+public class TestSudokuGenerator {
 
     /** instance under test. */
     SudokuGenerator generator;
 
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(0);
     }
 
+    @Test
     public void testGenerateInitialSolution2() {
         Board board = generateInitialSolution(2);
 
@@ -34,6 +36,7 @@ public class TestSudokuGenerator extends TestCase {
         assertEquals("Unexpected generated board", expBoard, board);
     }
 
+    @Test
     public void testGenerateInitialSolution3() {
         Board board = generateInitialSolution(3);
 
@@ -53,19 +56,21 @@ public class TestSudokuGenerator extends TestCase {
     }
 
     /** works only half the time!    */
+    @Test
     public void testGenerateInitialSolution4Many() {
 
-        List<Boolean> passed = new ArrayList<Boolean>();
+        //List<Boolean> passed = new ArrayList<>();
 
-        for (int i=10; i<10; i++)  {
+        for (int i=0; i < 10; i++)  {
             MathUtil.RANDOM.setSeed(i);
             Board board = generateInitialSolution(4);
             System.out.println(board);
-            passed.add(board != null);
+            //passed.add(board != null);
+            assertNotNull("Could not create a consistent board", board);
         }
-        //assertNotNull("Could not create a consistent board", board);
     }
 
+    @Test
     public void testGenerateInitialSolution4() {
 
         MathUtil.RANDOM.setSeed(0);
@@ -74,7 +79,7 @@ public class TestSudokuGenerator extends TestCase {
         assertNotNull("Could not create a consistent board", board);
     }
 
-
+    @Test
     public void testGeneratePuzzle2() {
         Board board = generatePuzzle(2);
 

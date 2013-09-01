@@ -3,20 +3,22 @@ package com.barrybecker4.puzzle.tantrix.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Barry Becker
  */
-public class TantrixTest extends TestCase {
+public class TantrixTest {
 
     /** instance under test */
     Tantrix tantrix;
 
-
+    @Test
     public void test3TilePlacement() {
         tantrix = place3SolvedTiles().getTantrix();
 
@@ -33,6 +35,7 @@ public class TantrixTest extends TestCase {
                 loc, placement.getLocation());
     }
 
+    @Test
     public void testGetNeighborLocationOnOddRow() {
         tantrix = place3UnsolvedTiles().getTantrix();
 
@@ -46,6 +49,7 @@ public class TantrixTest extends TestCase {
                 new ByteLocation(2, 1), HexUtil.getNeighborLocation(loc, 5));
     }
 
+    @Test
     public void testGetNeighborLocationOnEvenRow() {
         tantrix = place3UnsolvedTiles().getTantrix();
 
@@ -58,6 +62,7 @@ public class TantrixTest extends TestCase {
                 new ByteLocation(3, 3), HexUtil.getNeighborLocation(loc, 5));
     }
 
+    @Test
     public void testGetNeighborFromUnrotatedTile() {
         tantrix = place3SolvedTiles().getTantrix();
         assertEquals("Unexpected right neighbor",
@@ -72,6 +77,7 @@ public class TantrixTest extends TestCase {
                 bottomRight, tantrix.getNeighbor(tantrix.getTilePlacement(2, 2), (byte) 5));
     }
 
+    @Test
     public void testGetNeighborFromRotatedTile() {
         tantrix = place3SolvedTiles().getTantrix();
         assertEquals("Unexpected right neighbor",

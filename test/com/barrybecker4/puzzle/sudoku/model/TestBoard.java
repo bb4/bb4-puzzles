@@ -7,26 +7,32 @@ import com.barrybecker4.puzzle.sudoku.model.board.Board;
 import com.barrybecker4.puzzle.sudoku.model.board.Candidates;
 import com.barrybecker4.puzzle.sudoku.model.board.ValuesList;
 import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
- * @author Barry Becker Date: Jul 3, 2006
+ * @author Barry Becker
  */
-public class TestBoard extends TestCase {
+public class TestBoard  {
 
     /** instance under test */
     Board board;
 
 
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(1);
     }
 
+    @Test
     public void testBoardConstruction() {
         Board board = new Board(3);
 
@@ -44,6 +50,7 @@ public class TestBoard extends TestCase {
         assertEquals("Unexpected board constructed", expectedBoard, board);
     }
 
+    @Test
     public void testFindCellCandidatesForAll() {
 
         board = new Board(TestData.SIMPLE_4);
@@ -73,6 +80,7 @@ public class TestBoard extends TestCase {
         }
     }
 
+    @Test
     public void testFindShuffledCellCandidates2() {
 
         board = new Board(TestData.SIMPLE_4);
@@ -81,6 +89,7 @@ public class TestBoard extends TestCase {
         checkCandidates(Arrays.asList(2, 3, 1), cands);
     }
 
+    @Test
     public void testFindShuffledCellCandidates3() {
 
         board = new Board(TestData.SIMPLE_9);
@@ -101,12 +110,13 @@ public class TestBoard extends TestCase {
                 expCands, actCands);
     }
 
+    @Test
     public void testNotSolved() {
         board = new Board(TestData.SIMPLE_4);
         assertFalse("Unexpectedly solved", board.solved());
     }
 
-
+    @Test
     public void testSolved() {
         board = new Board(TestData.SIMPLE_4_SOLVED);
         assertTrue("Unexpectedly not solved", board.solved());

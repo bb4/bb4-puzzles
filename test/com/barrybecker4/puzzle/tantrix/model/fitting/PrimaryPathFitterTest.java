@@ -6,16 +6,19 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.List;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Barry Becker
  */
-public class PrimaryPathFitterTest extends TestCase {
+public class PrimaryPathFitterTest  {
 
     /** instance under test */
     PrimaryPathFitter fitter;
@@ -28,6 +31,7 @@ public class PrimaryPathFitterTest extends TestCase {
      *        1
      *    (3)   2
      */
+    @Test
     public void testFitOnTwoWhereOnePossible() {
 
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
@@ -41,6 +45,7 @@ public class PrimaryPathFitterTest extends TestCase {
      *        1
      *    (4)   2
      */
+    @Test
     public void testFitOnTwoWhereNonePossible() {
 
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
@@ -55,6 +60,7 @@ public class PrimaryPathFitterTest extends TestCase {
      *     1   (3)
      *       2
      */
+    @Test
     public void testFitOnTwoWhereNoPrimaryMatchPossible() {
 
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
@@ -71,6 +77,7 @@ public class PrimaryPathFitterTest extends TestCase {
      *     (4)    1
      *         3    2
      */
+    @Test
     public void testFitOnThreeLoop() {
 
         tantrix = place3SolvedTiles().getTantrix();
@@ -86,6 +93,7 @@ public class PrimaryPathFitterTest extends TestCase {
      *    1
      * (2)  3
      */
+    @Test
     public void testPlacementDoesNotFit0() {
         tantrix = place2of3Tiles_OneThenThree().getTantrix();
         System.out.println("tantrix="+tantrix);
@@ -94,6 +102,7 @@ public class PrimaryPathFitterTest extends TestCase {
         assertTrue("Unexpectedly did not fit.", fitter.isFit(tile2));
     }
 
+    @Test
     public void testPlacementDoesNotFit60() {
         tantrix = place2of3Tiles_OneThenThree().getTantrix();
         TilePlacement tile2 = new TilePlacement(TILES.getTile(2), loc(2, 0), Rotation.ANGLE_60);
@@ -101,6 +110,7 @@ public class PrimaryPathFitterTest extends TestCase {
         assertFalse("Unexpectedly fit.", fitter.isFit(tile2));
     }
 
+    @Test
     public void testPlacementFits() {
         tantrix = place2of3Tiles_OneThenThree().getTantrix();
 
@@ -109,6 +119,7 @@ public class PrimaryPathFitterTest extends TestCase {
         assertTrue("Unexpectedly did not fit.", fitter.isFit(tile2));
     }
 
+    @Test
     public void testTile2PlacementFits() {
         tantrix = place1of3Tiles_startingWithTile2().getTantrix();
 
@@ -120,6 +131,7 @@ public class PrimaryPathFitterTest extends TestCase {
     }
 
     /* The tiles form a path but not a loop */
+    @Test
     public void testNumFitsFor3UnsolvedTiles() {
 
         tantrix = place3UnsolvedTiles().getTantrix();
@@ -128,6 +140,7 @@ public class PrimaryPathFitterTest extends TestCase {
     }
 
     /* The tiles do not even form a path */
+    @Test
     public void testNumFitsFor3NonPathTiles() {
 
         tantrix = place3NonPathTiles().getTantrix();

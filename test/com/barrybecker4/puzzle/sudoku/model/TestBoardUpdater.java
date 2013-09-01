@@ -7,25 +7,28 @@ import com.barrybecker4.puzzle.sudoku.model.board.Board;
 import com.barrybecker4.puzzle.sudoku.model.update.ReflectiveBoardUpdater;
 import com.barrybecker4.puzzle.sudoku.model.update.updaters.LoneRangerUpdater;
 import com.barrybecker4.puzzle.sudoku.model.update.updaters.StandardCRBUpdater;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
 @SuppressWarnings("unchecked")
-public class TestBoardUpdater extends TestCase {
+public class TestBoardUpdater {
 
     /** instance under test */
     ReflectiveBoardUpdater updater;
     Board board;
 
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(1);
         board = new Board(TestData.SIMPLE_4);
     }
 
-
+    @Test
     public void testUpdateAndSetStandardCRB() {
 
         updater = new ReflectiveBoardUpdater(StandardCRBUpdater.class);
@@ -40,7 +43,7 @@ public class TestBoardUpdater extends TestCase {
         verifySetValues(expectedSetValues, board);
     }
 
-
+    @Test
     public void testUpdateAndSetStandardCRBAndLoneRanger() {
 
         updater = new ReflectiveBoardUpdater(StandardCRBUpdater.class, LoneRangerUpdater.class);
@@ -55,6 +58,7 @@ public class TestBoardUpdater extends TestCase {
         verifySetValues(expectedSetValues, board);
     }
 
+    @Test
     public void testUpdateAndSetLoneRangerAndStandardCRB() {
 
         updater = new ReflectiveBoardUpdater(LoneRangerUpdater.class, StandardCRBUpdater.class);
@@ -69,6 +73,7 @@ public class TestBoardUpdater extends TestCase {
         verifySetValues(expectedSetValues, board);
     }
 
+    @Test
     public void testUpdateAndSetLoneRangerOnly() {
 
         updater = new ReflectiveBoardUpdater(LoneRangerUpdater.class);

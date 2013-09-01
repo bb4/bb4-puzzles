@@ -4,7 +4,8 @@ package com.barrybecker4.puzzle.slidingpuzzle.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.math.MathUtil;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,18 +14,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Barry Becker
  */
-public class TestSlider extends TestCase {
+public class TestSlider  {
 
-
-    @Override
+    @Before
     public void setUp() {
         // this makes sure the random shuffle is repeatable
         MathUtil.RANDOM.setSeed(1);
     }
 
+    @Test
     public void testRandom() {
         assertEquals("unexpected first rnd ", 985, MathUtil.RANDOM.nextInt(1000));
         assertEquals("unexpected second rnd ", 588, MathUtil.RANDOM.nextInt(1000));
@@ -38,24 +43,28 @@ public class TestSlider extends TestCase {
         assertEquals("lists not equal", expList, nums);
     }
 
+    @Test
     public void testBoardConstruction() {
         Slider board = new Slider(3);
         assertEquals("Unexpected board size", 3, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
     }
 
+    @Test
     public void testMediumBoardConstruction() {
         Slider board = new Slider(4);
         assertEquals("Unexpected board size", 4, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 3), board.getEmptyLocation());
     }
 
+    @Test
     public void testLargeBoardConstruction() {
         Slider board = new Slider(5);
         assertEquals("Unexpected board size", 5, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
     }
 
+    @Test
     public void testBoardEquals() {
         Slider board1 = new Slider(3);
         Slider board2 = new Slider(board1);
@@ -67,6 +76,7 @@ public class TestSlider extends TestCase {
         assertFalse(board1.hashCode() == board3.hashCode());
     }
 
+    @Test
     public void testBoardHash() {
         Set<Slider> boards = new HashSet<Slider>();
         Slider board1 = new Slider(3);

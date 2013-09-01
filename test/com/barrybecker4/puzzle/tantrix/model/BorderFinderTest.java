@@ -2,22 +2,26 @@
 package com.barrybecker4.puzzle.tantrix.model;
 
 import com.barrybecker4.common.geometry.Location;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Set;
 
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.threeTiles;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
-public class BorderFinderTest extends TestCase {
+public class BorderFinderTest {
 
     /** instance under test */
     BorderFinder borderFinder;
     Tantrix tantrix;
 
-
+    @Test
     public void testFindBorderForFirstTileOfThree() {
         tantrix = new TantrixBoard(threeTiles).getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
@@ -26,6 +30,7 @@ public class BorderFinderTest extends TestCase {
         assertEquals("Unexpected number of border locations.", 6, positions.size());
     }
 
+    @Test
     public void testFindBorderForTwoOfThreeTilesA() {
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
@@ -34,6 +39,7 @@ public class BorderFinderTest extends TestCase {
         assertEquals("Unexpected number of border locations.", 8, positions.size());
     }
 
+    @Test
     public void testFindBorderForTwoOfThreeTilesB() {
         tantrix = place2of3Tiles_OneThenThree().getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
@@ -43,6 +49,7 @@ public class BorderFinderTest extends TestCase {
         assertEquals("Unexpected number of border locations.", 8, positions.size());
     }
 
+    @Test
     public void testFindBorderForThreeSolvedTiles() {
         tantrix = place3SolvedTiles().getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
@@ -51,7 +58,7 @@ public class BorderFinderTest extends TestCase {
         assertEquals("Unexpected number of border locations.", 9, positions.size());
     }
 
-
+    @Test
     public void testFindBorderForTwoOfThreeTilesA_ConstrainedByBorder() {
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
         borderFinder = new BorderFinder(tantrix, 1, PathColor.YELLOW);
@@ -60,6 +67,7 @@ public class BorderFinderTest extends TestCase {
         assertEquals("Unexpected number of border locations.", 2, positions.size());
     }
 
+    @Test
     public void testFindBorderForTwoOfThreeTilesB_ConstrainedByBorder() {
         tantrix = place2of3Tiles_OneThenThree().getTantrix();
         borderFinder = new BorderFinder(tantrix, 1, PathColor.YELLOW);
