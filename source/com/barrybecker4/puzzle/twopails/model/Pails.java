@@ -96,7 +96,6 @@ public class Pails {
                 }
                 break;
         }
-        System.out.println(move + " f1=" + fill1 + " f2=" + fill2);
     }
 
     /**

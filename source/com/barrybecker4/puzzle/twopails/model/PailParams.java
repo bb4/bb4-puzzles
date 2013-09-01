@@ -9,7 +9,7 @@ package com.barrybecker4.puzzle.twopails.model;
 public class PailParams {
 
     /** the maximum capacity of any pail */
-    public static final int MAX_CAPACITY = 20;
+    public static final int MAX_CAPACITY = 99;
 
     private byte pail1Size;
     private byte pail2Size;

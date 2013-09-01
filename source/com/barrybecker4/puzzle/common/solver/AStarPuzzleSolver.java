@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.common.model.PuzzleNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -51,23 +50,32 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
         P startingPos = puzzle.initialPosition();
         startTime =  System.currentTimeMillis();
         PuzzleNode<P, M> startNode =
-                new PuzzleNode<P, M>(startingPos, null, null, puzzle.distanceFromGoal(startingPos));
+                new PuzzleNode<>(startingPos, null, null, puzzle.distanceFromGoal(startingPos));
         open.add(startNode);
         pathCost.put(startingPos, 0);
 
-        List<M> pathToSolution = search();
+        PuzzleNode<P, M> solutionState = search();
 
-        System.out.println((pathToSolution == null)?
-                "No Solution found!" :
-                "Number of steps in path to solution = " + pathToSolution.size());
+        List<M> pathToSolution = null;
+        P solution = null;
+        if (solutionState == null) {
+            System.out.println("No Solution found!");
+        }
+        else {
+            pathToSolution = solutionState.asMoveList();
+            solution = solutionState.getPosition();
+            System.out.println("Number of steps in path to solution = " + pathToSolution.size());
+        }
+        long elapsedTime = System.currentTimeMillis() - startTime;
+            ui.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
         return pathToSolution;
     }
 
     /**
      * Depth first search for a solution to the puzzle.
-     * @return list of moves leading to a solution. Null if no solution.
+     * @return the solution state node if found which has the path leading to a solution. Null if no solution.
      */
-    private List<M> search() {
+    private PuzzleNode<P, M> search() {
 
         while (!open.isEmpty())  {
             PuzzleNode<P, M> currentNode = open.peek();
@@ -75,10 +83,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
             ui.refresh(currentPosition, numTries);
 
             if (puzzle.isGoal(currentPosition)) {
-                List<M> path = currentNode.asMoveList();
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                ui.finalRefresh(path, currentPosition, numTries, elapsedTime);
-                return path;  // success
+                return currentNode;  // success
             }
             visited.add(open.remove().getPosition());
             List<M> moves = puzzle.legalMoves(currentPosition);
@@ -89,7 +94,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
                 if (!visited.contains(nbr) || estPathCost < pathCost.get(nbr)) {
                     int estFutureCost = estPathCost + puzzle.distanceFromGoal(nbr);
                     PuzzleNode<P, M> child =
-                            new PuzzleNode<P, M>(nbr, move, currentNode, estFutureCost);
+                            new PuzzleNode<>(nbr, move, currentNode, estFutureCost);
                     pathCost.put(nbr, estPathCost);
                     if (!open.contains(child)) {
                         open.add(child);
@@ -98,6 +103,6 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
                 }
             }
         }
-        return new LinkedList<M>();  // failure
+        return null;  // failure
     }
 }

@@ -1,6 +1,7 @@
 /** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.twopails.ui;
 
+import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.ui.DoneListener;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
@@ -8,6 +9,7 @@ import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import com.barrybecker4.sound.MusicMaker;
 
+import javax.swing.JOptionPane;
 import java.awt.Graphics;
 import java.util.List;
 
@@ -50,8 +52,14 @@ final class TwoPailsViewer extends PuzzleViewer<Pails, PourOperation>
 
     @Override
     public void finalRefresh(List<PourOperation> path, Pails pails, long numTries, long millis) {
+
         super.finalRefresh(path, pails, numTries, millis);
-        if (pails != null)  {
+
+        if (path == null)  {
+            JOptionPane.showMessageDialog(this,
+                    AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"), JOptionPane.WARNING_MESSAGE);
+        }
+        else {
             showPath(path, pails);
         }
     }

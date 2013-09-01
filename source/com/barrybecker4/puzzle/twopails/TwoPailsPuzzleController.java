@@ -34,7 +34,8 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
     }
 
     /**
-     * puzzle parameters determine the size of the containers and target measure
+     * Puzzle parameters determine the size of the containers and target measure.
+     * @param params new parameters to use when solving
      */
     public void setParams(PailParams params) {
         initialPosition = new Pails(params);

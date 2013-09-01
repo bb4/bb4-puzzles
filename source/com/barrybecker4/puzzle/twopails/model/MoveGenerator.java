@@ -50,7 +50,6 @@ public class MoveGenerator  {
                     break;
             }
         }
-        System.out.println("cand moves = "  + moves);
         return moves;
     }
 }
