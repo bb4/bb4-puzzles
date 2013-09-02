@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Brian Goetz, and Tim Peierls
  */
-public interface PuzzleController<P, M> {
+public interface PuzzleController<P, M> extends Refreshable<P, M> {
 
     P initialPosition();
 

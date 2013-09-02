@@ -5,7 +5,6 @@ import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer;
-import com.barrybecker4.sound.MusicMaker;
 
 import java.awt.Graphics;
 
@@ -18,9 +17,6 @@ import java.awt.Graphics;
 public final class TantrixViewer extends PuzzleViewer<TantrixBoard, TilePlacement> {
 
     private TantrixBoardRenderer renderer_;
-
-    /** play a sound effect when a piece goes into place.  */
-    private MusicMaker musicMaker_ = new MusicMaker();
 
     /**
      * Constructor.

@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
 
 import java.util.HashMap;
@@ -31,17 +30,13 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
     private final Map<P, Integer> pathCost = new HashMap<P, Integer>();
 
-    private final Refreshable<P, M> ui;
-    private long startTime;
     private long numTries = 0;
 
     /**
      * @param puzzle the puzzle to solve
-     * @param ui the thing that can show its current state.
      */
-    public AStarPuzzleSolver(PuzzleController<P, M> puzzle, Refreshable<P, M> ui) {
+    public AStarPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
-        this.ui = ui;
         open = new PriorityQueue<PuzzleNode<P, M>>(10);
     }
 
@@ -52,7 +47,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
         pathCost.clear();
 
         P startingPos = puzzle.initialPosition();
-        startTime =  System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         PuzzleNode<P, M> startNode =
                 new PuzzleNode<>(startingPos, null, null, puzzle.distanceFromGoal(startingPos));
         open.add(startNode);
@@ -71,7 +66,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
             System.out.println("Number of steps in path to solution = " + pathToSolution.size());
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        if (ui!=null) ui.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
+        puzzle.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
         return pathToSolution;
     }
 
@@ -84,7 +79,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
         while (!open.isEmpty())  {
             PuzzleNode<P, M> currentNode = open.peek();
             P currentPosition = currentNode.getPosition();
-            if (ui != null) ui.refresh(currentPosition, numTries);
+            puzzle.refresh(currentPosition, numTries);
 
             if (puzzle.isGoal(currentPosition)) {
                 return currentNode;  // success

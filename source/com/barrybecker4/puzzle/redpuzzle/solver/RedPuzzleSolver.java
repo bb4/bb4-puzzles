@@ -1,7 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.redpuzzle.solver;
 
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
@@ -28,14 +28,15 @@ public abstract class RedPuzzleSolver<P, K>
     /** some measure of the number of iterations the solver needs to solve the puzzle. */
     protected int numTries_ = 0;
 
-    protected Refreshable<PieceList, Piece> puzzlePanel_;
+    PuzzleController<PieceList, Piece> puzzle;
 
     /**
      * Constructor
-     * @param pieces the unsorted pieces.
+     * @param puzzle the puzzle to solve.
      */
-    public RedPuzzleSolver(PieceList pieces) {
-        pieces_ = pieces;
+    public RedPuzzleSolver(PuzzleController<PieceList, Piece> puzzle) {
+        this.puzzle = puzzle;
+        pieces_ = PieceList.getInitialPuzzlePieces(); //puzzle.initialPosition();
         solution_ = new PieceList();
     }
 

@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.common.ui;
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.sound.MusicMaker;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -26,6 +27,9 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
     long totalMem_ = Runtime.getRuntime().totalMemory();
     long freeMem_ = Runtime.getRuntime().freeMemory();
 
+    /** play a sound effect when a piece goes into place. */
+    protected MusicMaker musicMaker_ = new MusicMaker();
+
     /**
      * Creates a new instance of PuzzleViewer
      */
@@ -36,6 +40,7 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
     public void refresh(P board, long numTries) {
         status_ = createStatusMessage(numTries);
         simpleRefresh(board, numTries);
+        makeSound();
     }
 
     @Override
@@ -59,6 +64,11 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
         board_ = board;
         numTries_ = numTries;
         repaint();
+    }
+
+
+    public void makeSound() {
+        musicMaker_.playNote(60, 5, 940);
     }
 
     /**

@@ -25,9 +25,4 @@ public interface Refreshable <P, M> {
      *@param elapsedMillis number of milliseconds it took to find the solution.
      */
     void finalRefresh(List<M> path, P position, long numTries, long elapsedMillis);
-
-    /**
-     *Make a sound of some sort
-     */
-    void makeSound();
 }

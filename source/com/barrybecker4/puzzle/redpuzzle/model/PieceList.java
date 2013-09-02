@@ -86,7 +86,7 @@ public class PieceList {
     private PieceList(int numPieces) {
 
         assert(numPieces==4 || numPieces == 9);
-        pieces_ = new LinkedList<Piece>();
+        pieces_ = new LinkedList<>();
     }
 
     /**

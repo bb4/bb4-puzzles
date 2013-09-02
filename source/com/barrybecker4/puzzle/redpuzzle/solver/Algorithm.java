@@ -43,24 +43,24 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
     /**
      * Create an instance of the algorithm given the controller and a refreshable.
      */
-    public PuzzleSolver<PieceList, Piece> createSolver(PuzzleController<PieceList, Piece> controller,
-                                                       Refreshable<PieceList, Piece> ui) {
-        PieceList pieces =  PieceList.getInitialPuzzlePieces();
+    public PuzzleSolver<PieceList, Piece> createSolver(
+            PuzzleController<PieceList, Piece> controller) {
+
         switch (this) {
             case BRUTE_FORCE_ORIGINAL :
-                return new BruteForceSolver(pieces, ui);
+                return new BruteForceSolver(controller);
             case BRUTE_FORCE_SEQUENTIAL :
-                return new SequentialPuzzleSolver<PieceList, Piece>(controller, ui);
+                return new SequentialPuzzleSolver<>(controller);
             case A_STAR_SEQUENTIAL :
-                return new AStarPuzzleSolver<PieceList, Piece>(controller, ui);
+                return new AStarPuzzleSolver<>(controller);
             case BRUTE_FORCE_CONCURRENT :
-                return new ConcurrentPuzzleSolver<PieceList, Piece>(controller, 0.2f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.2f);
             case BREADTH_FIRST_CONCURRENT :
-                return new ConcurrentPuzzleSolver<PieceList, Piece>(controller, 0.1f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.1f);
             case GENETIC_SEARCH :
-                return new GeneticSearchSolver(pieces, ui, false);
+                return new GeneticSearchSolver(controller, false);
             case CONCURRENT_GENETIC_SEARCH :
-                return new GeneticSearchSolver(pieces, ui, true);
+                return new GeneticSearchSolver(controller, true);
         }
         return null; //never reached
     }

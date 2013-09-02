@@ -36,7 +36,7 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
 
     @Override
     public void refresh(PegBoard board, long numTries) {
-        if (numTries % 6000 == 0) {
+        if (numTries % 1000 == 0) {
             status_ = createStatusMessage(numTries);
             simpleRefresh(board, numTries);
         }
@@ -46,13 +46,9 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
     public void finalRefresh(List<PegMove> path, PegBoard board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
+            makeSound();
             showPath(path, board);
         }
-    }
-
-    @Override
-    public void makeSound() {
-        // add sound
     }
 
     @Override

@@ -121,7 +121,7 @@ public class TestSolving {
 
         for (TestCase testCase : cases) {
             controller.setParams(testCase.params);
-            PuzzleSolver<Pails, PourOperation> solver =  algorithm.createSolver(controller, null);
+            PuzzleSolver<Pails, PourOperation> solver =  algorithm.createSolver(controller);
             System.out.println("initial pos = " + controller.initialPosition());
             List<PourOperation> path = solver.solve();
             assertNotNull("No solution found for case params: " + testCase.params, path);
@@ -139,7 +139,7 @@ public class TestSolving {
     @Test
     public void testSolutionNotFound() throws Exception {
         TwoPailsPuzzleController controller = new TwoPailsPuzzleController(null);
-        PuzzleSolver<Pails, PourOperation> solver =  Algorithm.A_STAR_SEQUENTIAL.createSolver(controller, null);
+        PuzzleSolver<Pails, PourOperation> solver =  Algorithm.A_STAR_SEQUENTIAL.createSolver(controller);
 
         for (PailParams testCase : NEGATIVE_CASES) {
             controller.setParams(testCase);

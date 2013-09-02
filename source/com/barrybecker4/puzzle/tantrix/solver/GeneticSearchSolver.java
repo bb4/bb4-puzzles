@@ -6,7 +6,7 @@ import com.barrybecker4.optimization.Optimizee;
 import com.barrybecker4.optimization.Optimizer;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
@@ -28,13 +28,14 @@ public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlaceme
     private int numTries_;
 
     private PathEvaluator evaluator;
+    private PuzzleController<TantrixBoard, TilePlacement> controller;
 
 
     /** Constructor */
-    public GeneticSearchSolver(TantrixBoard board, Refreshable<TantrixBoard, TilePlacement> puzzlePanel,
+    public GeneticSearchSolver(PuzzleController<TantrixBoard, TilePlacement> controller,
                                boolean useConcurrency) {
-        super(board);
-        puzzlePanel_ = puzzlePanel;
+        super(controller.initialPosition());
+        this.controller = controller;
         strategy = useConcurrency ? OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH :
                                     OptimizationStrategyType.GENETIC_SEARCH;
         evaluator = new PathEvaluator();
@@ -66,7 +67,7 @@ public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlaceme
             moves = null;
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        puzzlePanel_.finalRefresh(moves, solution_, numTries_, elapsedTime);
+        controller.finalRefresh(moves, solution_, numTries_, elapsedTime);
 
         return moves;
     }
@@ -114,6 +115,6 @@ public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlaceme
         // update our current best guess at the solution.
         TantrixPath path = (TantrixPath)params;
         solution_ = new TantrixBoard(path.getTilePlacements(), path.getPrimaryPathColor());
-        puzzlePanel_.refresh(solution_, numTries_++);
+        controller.refresh(solution_, numTries_++);
     }
 }

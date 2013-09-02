@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
-import com.barrybecker4.sound.MusicMaker;
 
 import javax.swing.JOptionPane;
 import java.awt.Graphics;
@@ -23,9 +22,6 @@ final class TwoPailsViewer extends PuzzleViewer<Pails, PourOperation>
     private TwoPailsRenderer renderer_ = new TwoPailsRenderer();
     private List<PourOperation> path_;
     private DoneListener doneListener;
-
-    /** play a sound effect when a piece goes into place. */
-    private MusicMaker musicMaker_ = new MusicMaker();
 
     /**
      * Constructor.
@@ -43,11 +39,9 @@ final class TwoPailsViewer extends PuzzleViewer<Pails, PourOperation>
     @Override
     public void refresh(Pails pails, long numTries) {
         board_ = pails;
-        if (numTries % 500 == 0) {
-            makeSound();
-            status_ = createStatusMessage(numTries);
-            simpleRefresh(pails, numTries);
-        }
+        makeSound();
+        status_ = createStatusMessage(numTries);
+        simpleRefresh(pails, numTries);
     }
 
     @Override
@@ -57,19 +51,13 @@ final class TwoPailsViewer extends PuzzleViewer<Pails, PourOperation>
 
         if (path == null)  {
             JOptionPane.showMessageDialog(this,
-                    AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"), JOptionPane.WARNING_MESSAGE);
+                AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"), JOptionPane.WARNING_MESSAGE);
         }
         else {
             showPath(path, pails);
         }
     }
 
-    /**
-     * make a little click noise when the piece fits into place.
-     */
-    public void makeSound() {
-        musicMaker_.playNote(60, 5, 940);
-    }
 
     @Override
     public void makeMove(int currentStep, boolean undo) {

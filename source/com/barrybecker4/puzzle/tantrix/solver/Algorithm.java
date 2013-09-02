@@ -43,24 +43,24 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
     /**
      * Create an instance of the algorithm given the controller and a refreshable.
      */
-    public PuzzleSolver<TantrixBoard, TilePlacement> createSolver(PuzzleController<TantrixBoard, TilePlacement> controller,
-                                                                  Refreshable<TantrixBoard, TilePlacement> ui) {
+    public PuzzleSolver<TantrixBoard, TilePlacement> createSolver(
+            PuzzleController<TantrixBoard, TilePlacement> controller) {
 
         switch (this) {
             case SEQUENTIAL :
-                return new SequentialPuzzleSolver<TantrixBoard, TilePlacement>(controller, ui);
+                return new SequentialPuzzleSolver<>(controller);
             case A_STAR :
-                return new AStarPuzzleSolver<TantrixBoard, TilePlacement>(controller, ui);
+                return new AStarPuzzleSolver<>(controller);
             case CONCURRENT_BREADTH :
-                return new ConcurrentPuzzleSolver<TantrixBoard, TilePlacement>(controller, 0.4f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.4f);
             case CONCURRENT_DEPTH :
-                return new ConcurrentPuzzleSolver<TantrixBoard, TilePlacement>(controller, 0.12f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.12f);
             case CONCURRENT_OPTIMUM :
-                return new ConcurrentPuzzleSolver<TantrixBoard, TilePlacement>(controller, 0.2f, ui);
+                return new ConcurrentPuzzleSolver<>(controller, 0.2f);
             case GENETIC_SEARCH :
-                return new GeneticSearchSolver(controller.initialPosition(), ui, false);
+                return new GeneticSearchSolver(controller, false);
             case CONCURRENT_GENETIC_SEARCH :
-                return new GeneticSearchSolver(controller.initialPosition(), ui, true);
+                return new GeneticSearchSolver(controller, true);
         }
         return null;
     }

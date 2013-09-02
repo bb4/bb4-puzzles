@@ -15,7 +15,6 @@ public interface AlgorithmEnum<P, M> {
 
     int ordinal();
 
-    PuzzleSolver<P, M> createSolver(PuzzleController<P, M> controller,
-                                               Refreshable<P, M> ui);
+    PuzzleSolver<P, M> createSolver(PuzzleController<P, M> controller);
 
 }

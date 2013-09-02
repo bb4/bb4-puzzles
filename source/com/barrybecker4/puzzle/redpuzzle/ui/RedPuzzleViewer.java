@@ -5,7 +5,6 @@ import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
-import com.barrybecker4.sound.MusicMaker;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,9 +23,6 @@ final class RedPuzzleViewer extends PuzzleViewer<PieceList, Piece> {
     public static final int INITIAL_ANIM_SPEED = 20;
     /** slows down the animation.  */
     private int animationSpeed_ = INITIAL_ANIM_SPEED;
-
-    /** play a sound effect when a piece goes into place. */
-    private MusicMaker musicMaker_ = new MusicMaker();
 
     private RedPuzzleRenderer renderer_;
 
@@ -49,8 +45,13 @@ final class RedPuzzleViewer extends PuzzleViewer<PieceList, Piece> {
 
     @Override
     public void refresh(PieceList pieces, long numTries) {
-        super.refresh(pieces, numTries);
+        status_ = createStatusMessage(numTries);
+        simpleRefresh(pieces, numTries);
+
         if ((animationSpeed_ < MAX_ANIM_SPEED)) {
+            if (numTries % 5 == 0) {
+                makeSound();
+            }
             // give it a chance to repaint.
             ThreadUtil.sleep(8 * MAX_ANIM_SPEED / animationSpeed_);
         }

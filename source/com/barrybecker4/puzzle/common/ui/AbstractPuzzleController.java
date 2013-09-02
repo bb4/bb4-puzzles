@@ -7,11 +7,14 @@ import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * Provides default implementation for a PuzzleController.
  * The puzzle controller updates the ui (refreshable) and determines what algorithm is used to solve it.
+ * If a non null Refreshable is pass into the constructor that that will be delegated to when the controller
+ * is asked to do a refresh.
  *
  * @author Barry Becker
  */
@@ -74,6 +77,20 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
         return 1;
     }
 
+
+    public void refresh(P pos, long numTries) {
+        if (ui_ != null) {
+            ui_.refresh(pos, numTries);
+        }
+    }
+
+
+    public void finalRefresh(List<M> path, P position, long numTries, long elapsedMillis) {
+        if (ui_ != null) {
+            ui_.finalRefresh(path, position, numTries, elapsedMillis);
+        }
+    }
+
     /**
      * Begin the process of solving.
      * Do it in a separate worker thread so the UI is not blocked.
@@ -82,7 +99,7 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     public void startSolving() {
 
         // Use either concurrent or sequential solver strategy
-        final PuzzleSolver<P, M> solver = algorithm_.createSolver(this, ui_);
+        final PuzzleSolver<P, M> solver = algorithm_.createSolver(this);
 
         Worker worker = new Worker()  {
 
@@ -101,4 +118,5 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
 
         worker.start();
     }
+
 }

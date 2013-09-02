@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
 
 import java.util.HashSet;
@@ -23,18 +22,15 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     private final PuzzleController<P, M> puzzle;
     /** set of visited nodes. Do not re-search them */
     private final Set<P> seen = new HashSet<P>();
-    private final Refreshable<P, M> ui;
     private long numTries = 0;
     private long startTime;
 
     /**
      *
      * @param puzzle the puzzle to solve
-     * @param ui the thing that can show its current state.
      */
-    public SequentialPuzzleSolver(PuzzleController<P, M> puzzle, Refreshable<P, M> ui) {
+    public SequentialPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
-        this.ui = ui;
     }
 
     @Override
@@ -61,15 +57,15 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
                 List<M> path = node.asMoveList();
 
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                if (ui!=null) ui.finalRefresh(path, currentState, numTries, elapsedTime);
+                puzzle.finalRefresh(path, currentState, numTries, elapsedTime);
                 return path;
             }
             List<M> moves = puzzle.legalMoves(currentState);
             for (M move : moves) {
                 P position = puzzle.move(currentState, move);
-                if (ui != null) ui.refresh(position, numTries);
+                puzzle.refresh(position, numTries);
 
-                PuzzleNode<P, M> child = new PuzzleNode<P, M>(position, move, node);
+                PuzzleNode<P, M> child = new PuzzleNode<>(position, move, node);
                 numTries++;
                 List<M> result = search(child);
                 if (result != null) {

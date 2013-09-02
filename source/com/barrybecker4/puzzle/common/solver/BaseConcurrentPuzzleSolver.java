@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
 
 import java.security.AccessControlException;
@@ -31,7 +30,6 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
 
     private final Set<P> seen;
     protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<PuzzleNode<P, M>>();
-    private final Refreshable<P, M> ui;
     private volatile int numTries;
     /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
     private float depthBreadthFactor = 0.4f;
@@ -39,10 +37,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
     /**
      * Constructor
      * @param puzzle the puzzle instance to solve.
-     * @param ui shows visible state
      */
-    public BaseConcurrentPuzzleSolver(PuzzleController<P, M> puzzle, Refreshable<P, M> ui) {
-        this.ui = ui;
+    public BaseConcurrentPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
         this.exec = initThreadPool();
         this.seen = new HashSet<>();
@@ -92,11 +88,11 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
         PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
 
         List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
-        if (ui != null) {
-            long elapsedTime = System.currentTimeMillis() - startTime;
-            P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
-            ui.finalRefresh(path, position, numTries, elapsedTime);
-        }
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
+        puzzle.finalRefresh(path, position, numTries, elapsedTime);
+
         return path;
     }
 
@@ -119,9 +115,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
             if (solution.isSet() || puzzle.alreadySeen(getPosition(), seen)) {
                 return; // already solved or seen this position
             }
-            if (ui != null && !solution.isSet()) {
-                ui.refresh(getPosition(), numTries);
-            }
+            puzzle.refresh(getPosition(), numTries);
+
             if (puzzle.isGoal(getPosition())) {
                 solution.setValue(this);
             }

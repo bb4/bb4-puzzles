@@ -6,7 +6,7 @@ import com.barrybecker4.optimization.Optimizee;
 import com.barrybecker4.optimization.Optimizer;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray;
@@ -40,10 +40,9 @@ public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
 
 
     /** Constructor */
-    public GeneticSearchSolver(PieceList pieces, Refreshable<PieceList, Piece> puzzlePanel,
+    public GeneticSearchSolver(PuzzleController<PieceList, Piece> puzzle,
                                boolean useConcurrency) {
-        super(pieces);
-        puzzlePanel_ = puzzlePanel;
+        super(puzzle);
         strategy = useConcurrency ? OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH :
                                     OptimizationStrategyType.GENETIC_SEARCH;
     }
@@ -73,7 +72,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
             moves = null;
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        puzzlePanel_.finalRefresh(moves, solution_, numTries_, elapsedTime);
+        puzzle.finalRefresh(moves, solution_, numTries_, elapsedTime);
 
         return moves;
     }
@@ -142,6 +141,6 @@ public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
         // update our current best guess at the solution.
         solution_ = ((PieceParameterArray) params).getPieceList();
         numTries_ ++;
-        puzzlePanel_.refresh(solution_, numTries_);
+        puzzle.refresh(solution_, numTries_);
     }
 }

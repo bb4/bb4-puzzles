@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver;
 
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
@@ -20,9 +19,6 @@ public abstract class TantrixSolver<P, K>
 
     protected TantrixBoard board;
     protected TantrixBoard solution_;
-
-
-    protected Refreshable<TantrixBoard, TilePlacement> puzzlePanel_;
 
     /**
      * Constructor
