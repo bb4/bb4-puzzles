@@ -1,6 +1,10 @@
 /** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
-package com.barrybecker4.puzzle.slidingpuzzle.ui;
+package com.barrybecker4.puzzle.bridge.ui;
 
+import com.barrybecker4.puzzle.bridge.Algorithm;
+import com.barrybecker4.puzzle.bridge.BridgePuzzleController;
+import com.barrybecker4.puzzle.bridge.model.Bridge;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.Refreshable;
@@ -9,50 +13,45 @@ import com.barrybecker4.puzzle.common.ui.NavigationPanel;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
-import com.barrybecker4.puzzle.slidingpuzzle.Algorithm;
-import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import javax.swing.JPanel;
 
 /**
- * Sliding Puzzle - http://en.wikipedia.org/wiki/Sliding_puzzle.
  * This program solves a very difficult classic solitaire puzzle
- * where you slide tiles to form an image or correct sequence.
+ * where you select pairs of people to move across a bridge at night to get them all to the other side.
  */
-public final class SlidingPuzzle extends PuzzleApplet<Slider, SlideMove>
+public final class BridgePuzzle extends PuzzleApplet<Bridge, BridgeMove>
                              implements DoneListener {
 
     private NavigationPanel navPanel;
 
     /** Construct the applet */
-    public SlidingPuzzle() {}
+    public BridgePuzzle() {}
 
     /** Construct the application */
-    public SlidingPuzzle(String[] args) {
+    public BridgePuzzle(String[] args) {
         super(args);
     }
 
 
     @Override
-    protected PuzzleViewer<Slider, SlideMove> createViewer() {
-        return new SliderViewer(this);
+    protected PuzzleViewer<Bridge, BridgeMove> createViewer() {
+        return new BridgeViewer(this);
     }
 
     @Override
-    protected PuzzleController<Slider, SlideMove> createController(Refreshable<Slider, SlideMove> viewer_) {
-        return new SlidingPuzzleController(viewer_);
+    protected PuzzleController<Bridge, BridgeMove> createController(Refreshable<Bridge, BridgeMove> viewer_) {
+        return new BridgePuzzleController(viewer_);
     }
 
     @Override
-    protected AlgorithmEnum<Slider, SlideMove>[] getAlgorithmValues() {
+    protected AlgorithmEnum<Bridge, BridgeMove>[] getAlgorithmValues() {
         return Algorithm.values();
     }
 
-    protected SliderTopControls createTopControls() {
-        return new SliderTopControls(controller_, getAlgorithmValues());
+    protected BridgeTopControls createTopControls() {
+        return new BridgeTopControls(controller_, getAlgorithmValues());
     }
 
     @Override
@@ -71,7 +70,7 @@ public final class SlidingPuzzle extends PuzzleApplet<Slider, SlideMove>
      */
     public static void main(String[] args) {
 
-        PuzzleApplet applet = new SlidingPuzzle(args);
+        PuzzleApplet applet = new BridgePuzzle(args);
 
         // this will call applet.init() and start() methods instead of the browser
         GUIUtil.showApplet(applet);

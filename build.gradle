@@ -65,6 +65,13 @@ task runTwoPailsPuzzle(type: JavaExec, depends: classes) {
     jvmArgs = ["-Xss64m"]
 }
 
+task runBridgePuzzle(type: JavaExec, depends: classes) {
+    main = 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ["-Xss64m"]
+}
+
+
 
 ext.appMap = new LinkedHashMap()
 appMap.put('puzzle', [include:['com/barrybecker4/puzzle/common/**']])

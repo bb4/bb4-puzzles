@@ -4,7 +4,6 @@ import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.i18n.StubMessageContext;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.twopails.model.PailParams;
-import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -119,7 +118,7 @@ public class TestSolving {
 
         for (TestCase testCase : cases) {
             controller.setParams(testCase.params);
-            PuzzleSolver<Pails, PourOperation> solver =  algorithm.createSolver(controller);
+            PuzzleSolver<PourOperation> solver =  algorithm.createSolver(controller);
             System.out.println("initial pos = " + controller.initialPosition());
             List<PourOperation> path = solver.solve();
             assertNotNull("No solution found for case params: " + testCase.params, path);
@@ -137,7 +136,7 @@ public class TestSolving {
     @Test
     public void testSolutionNotFound() throws Exception {
         TwoPailsPuzzleController controller = new TwoPailsPuzzleController(null);
-        PuzzleSolver<Pails, PourOperation> solver =  Algorithm.A_STAR_SEQUENTIAL.createSolver(controller);
+        PuzzleSolver<PourOperation> solver =  Algorithm.A_STAR_SEQUENTIAL.createSolver(controller);
 
         for (PailParams testCase : NEGATIVE_CASES) {
             controller.setParams(testCase);

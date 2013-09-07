@@ -82,6 +82,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
             }
             visited.add(open.remove().getPosition());
             List<M> moves = puzzle.legalMoves(currentPosition);
+            System.out.println("moves="+ moves);
             for (M move : moves) {
                 P nbr = puzzle.move(currentPosition, move);
                 // for now, assume the distance to all nbrs from the current position is 1

@@ -1,3 +1,4 @@
+/** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.twopails.model;
 
 import org.junit.Test;
@@ -14,14 +15,10 @@ import static org.junit.Assert.assertEquals;
  */
 public class MoveGeneratorTest {
 
-    /** instance under test */
-    private MoveGenerator generator;
-
     @Test
     public void testGenerateMovesWhenBothEmpty() {
 
         Pails pails = new Pails(new PailParams(9, 4, 6));
-        generator = new MoveGenerator(pails);
 
         List<PourOperation> expectedOps =
                 Arrays.asList(new PourOperation(FILL, FIRST), new PourOperation(FILL, SECOND));
@@ -122,7 +119,7 @@ public class MoveGeneratorTest {
 
     private void verifyGeneratedMoves(Pails initialState, List<PourOperation> expectedOps) {
 
-        generator = new MoveGenerator(initialState);
+        MoveGenerator generator = new MoveGenerator(initialState);
         List<PourOperation> possibleOps = generator.generateMoves();
 
         assertEquals("Unexpected list of candidate operations",
