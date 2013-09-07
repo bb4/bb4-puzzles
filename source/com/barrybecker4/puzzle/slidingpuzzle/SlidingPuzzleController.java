@@ -28,7 +28,6 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
     public SlidingPuzzleController(Refreshable<Slider, SlideMove> ui) {
         super(ui);
         initialPosition = new Slider(DEFAULT_SIZE);
-        // set default
         algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
     }
 
