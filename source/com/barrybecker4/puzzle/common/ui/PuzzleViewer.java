@@ -1,6 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.ui;
 
+import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.Refreshable;
@@ -44,20 +45,18 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
     }
 
     @Override
-    public void finalRefresh(List<M> path, P position, long numTries, long millis) {
+    public void finalRefresh(List<M> path, final P position, final long numTries, long millis) {
 
-        float time = (float)millis / 1000.0f;
-        status_ = "Did not find solution.";
-        if (path != null)  {
-            status_ = "Found solution with "+ path.size() + " steps in " + FormatUtil.formatNumber(time) + " seconds. "
-                    + createStatusMessage(numTries);
-
-        }
+        System.gc();
+        status_ = createFinalStatusMessage(numTries, millis, path);
         System.out.println(status_);
+
         if (position != null) {
             simpleRefresh(position, numTries);
+            // give other repaints a chance to process. hack :(
+            ThreadUtil.sleep(100);
+            simpleRefresh(position, numTries);
         }
-        System.gc();
     }
 
     protected void simpleRefresh(P board, long numTries) {
@@ -83,6 +82,17 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
             freeMem_ = Runtime.getRuntime().freeMemory()/1000;
         }
         msg += "    Memory used = "+ FormatUtil.formatNumber(totalMem_ - freeMem_) +"k";
+        return msg;
+    }
+
+    protected String createFinalStatusMessage(long numTries, long millis, List<M> path) {
+        float time = (float) millis / 1000.0f;
+        String msg = "Did not find solution.";
+        if (path != null)  {
+            msg = "Found solution with " + path.size() + " steps in "
+                    + FormatUtil.formatNumber(time) + " seconds. "
+                    + createStatusMessage(numTries);
+        }
         return msg;
     }
 
@@ -112,7 +122,6 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
         for (String line : lines) {
             offset += 14;
             g.drawString( line, x, y + offset );
-            //System.out.println("drawing " + line);
         }
     }
 

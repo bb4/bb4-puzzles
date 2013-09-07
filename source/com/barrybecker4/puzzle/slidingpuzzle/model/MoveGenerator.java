@@ -35,7 +35,7 @@ public class MoveGenerator  {
      * @return List of all valid tile slides
      */
     public List<SlideMove> generateMoves() {
-        List<SlideMove> moves = new LinkedList<SlideMove>();
+        List<SlideMove> moves = new LinkedList<>();
 
         Location blankLocation = board.getEmptyLocation();
 

@@ -36,7 +36,7 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
 
     @Override
     public void refresh(PegBoard board, long numTries) {
-        if (numTries % 1000 == 0) {
+        if (numTries % 4000 == 0) {
             status_ = createStatusMessage(numTries);
             simpleRefresh(board, numTries);
         }

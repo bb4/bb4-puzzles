@@ -21,9 +21,10 @@ public class Slider {
     /** Size of the board edge. If size = 4, then there will be 16-1 = 15 tiles. */
     private byte size;
 
+    /** Represents the four different directions that a tile can move */
     private static final List<Integer> INDICES = Arrays.asList(0, 1, 2, 3);
 
-    private byte[][] tiles;
+    private final byte[][] tiles;
 
 
     /**
@@ -39,29 +40,30 @@ public class Slider {
      *                else they will be in the goal state.
      */
     public Slider(int size, boolean shuffle) {
-        initializeTiles((byte)size);
-        if (shuffle) shuffleTiles();
-    }
-
-    private void initializeTiles(byte size) {
-        this.size = size;
+        this.size = (byte)size;
         tiles = new byte[size][size];
-
-        byte ct = 0;
-        for (byte row=0; row<size; row++) {
-            for (byte col=0; col<size; col++) {
-                tiles[row][col] = ct++;
-            }
-        }
+        initializeTiles();
+        if (shuffle) shuffleTiles();
     }
 
     /**
      * Copy constructor.
      */
     public Slider(Slider board) {
-        initializeTiles(board.size);
+        this.size = board.size;
+        tiles = new byte[size][size];
+        initializeTiles();
         for (byte i=0; i<size; i++) {
             System.arraycopy(board.tiles[i], 0, tiles[i], 0, size);
+        }
+    }
+
+    private void initializeTiles() {
+        byte ct = 0;
+        for (byte row=0; row < size; row++) {
+            for (byte col=0; col < size; col++) {
+                tiles[row][col] = ct++;
+            }
         }
     }
 
@@ -88,7 +90,7 @@ public class Slider {
      * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
      * To shuffle, move tiles around until the blank position has been everywhere.
      */
-    public void shuffleTiles() {
+    private synchronized void shuffleTiles() {
 
         Set<Location> visited = new HashSet<>();
         Location blankLocation = getEmptyLocation();
@@ -134,7 +136,7 @@ public class Slider {
      * @return true if the coordinates refer to one of the tiles.
      */
     public boolean isValidPosition(Location loc) {
-        return (loc.getRow() >= 0 && loc.getRow()  < size && loc.getCol() >= 0 && loc.getCol() < size);
+        return (loc.getRow() >= 0 && loc.getRow() < size && loc.getCol() >= 0 && loc.getCol() < size);
     }
 
     /**
@@ -142,8 +144,8 @@ public class Slider {
      */
     public boolean isSolved() {
         int last = -1;
-        for (int row=0; row<size; row++) {
-            for (int col=0; col<size; col++) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
                 if (tiles[row][col] < last)
                     return false;
                 last = tiles[row][col];
@@ -164,8 +166,8 @@ public class Slider {
      * @return the position of the empty space (there is only one).
      */
     public Location getEmptyLocation() {
-        for (byte i = 0; i<size; i++) {
-            for (byte j = 0; j<size; j++) {
+        for (byte i = 0; i < size; i++) {
+            for (byte j = 0; j < size; j++) {
                 if (getPosition(i, j) == 0) {
                     return new ByteLocation(i, j);
                 }
@@ -201,13 +203,14 @@ public class Slider {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("Slider:");
+        StringBuilder builder = new StringBuilder("Slider:\n");
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
                builder.append(tiles[i][j]).append(',');
             }
+            builder.append('\n');
         }
 
-        return builder.toString();    //To change body of overridden methods use File | Settings | File Templates.
+        return builder.toString();
     }
 }

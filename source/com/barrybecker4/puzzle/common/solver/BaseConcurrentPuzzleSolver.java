@@ -29,7 +29,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
     private final ExecutorService exec;
 
     private final Set<P> seen;
-    protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<PuzzleNode<P, M>>();
+    protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<>();
     private volatile int numTries;
     /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
     private float depthBreadthFactor = 0.4f;
@@ -88,9 +88,10 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
         PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
 
         List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
-
         long elapsedTime = System.currentTimeMillis() - startTime;
         P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
+        System.out.println("solution = " + position);
+
         puzzle.finalRefresh(path, position, numTries, elapsedTime);
 
         return path;

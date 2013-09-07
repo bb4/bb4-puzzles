@@ -6,9 +6,9 @@ import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.puzzle.common.model.Move;
 
 /**
- * Definition for a peg jumping another peg.
+ * Definition for tile that slides around on the Slider board.
  * Immutable.
- *@author Barry Becker
+ * @author Barry Becker
  */
 public final class SlideMove implements Move {
 
@@ -21,12 +21,6 @@ public final class SlideMove implements Move {
 
     /**
      * create a move object representing a transition on the board.
-     * A naive implementation might use 4 four byte integers to store the from and to values.
-     * This would use 16 bytes of memory per move.
-     * If we do this, we will quickly run out of memory because fo the vast numbers of moves that must be stored.
-     * I will use just 1 byte to store the move information.
-     * All we need to know is the from position (which can be stored in 6 bits) and the to direction (which can be stored in 2 bits)
-     * I know that a jump is always 2 spaces.
      */
     SlideMove(Location fromPosition,
               Location destinationPosition) {

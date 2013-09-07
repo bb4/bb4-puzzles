@@ -25,7 +25,6 @@ public class ManhattanDistanceFinder {
     }
 
     private int distance(int goalRow, int goalCol, byte value, byte size) {
-        int dist = Math.abs((value / size) - goalRow) + Math.abs((value % size) - goalCol);
-        return dist;
+        return Math.abs((value / size) - goalRow) + Math.abs((value % size) - goalCol);
     }
 }
