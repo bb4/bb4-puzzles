@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.redpuzzle.solver;
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
@@ -43,7 +42,7 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
     /**
      * Create an instance of the algorithm given the controller and a refreshable.
      */
-    public PuzzleSolver<PieceList, Piece> createSolver(
+    public PuzzleSolver<Piece> createSolver(
             PuzzleController<PieceList, Piece> controller) {
 
         switch (this) {

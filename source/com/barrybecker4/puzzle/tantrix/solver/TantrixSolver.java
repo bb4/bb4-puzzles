@@ -14,8 +14,8 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
  *
  * @author Barry Becker
  */
-public abstract class TantrixSolver<P, K>
-                implements PuzzleSolver<TantrixBoard, TilePlacement> {
+public abstract class TantrixSolver
+                implements PuzzleSolver<TilePlacement> {
 
     protected TantrixBoard board;
     protected TantrixBoard solution_;

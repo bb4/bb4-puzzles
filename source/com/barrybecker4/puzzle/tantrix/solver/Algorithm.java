@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.tantrix.solver;
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
@@ -29,10 +28,10 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
     private String label;
 
     /**
-     *Private constructor
+     * Private constructor
      * Creates a new instance of Algorithm
      */
-    Algorithm(String label) {
+    private Algorithm(String label) {
         this.label = label;
     }
 
@@ -43,7 +42,7 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
     /**
      * Create an instance of the algorithm given the controller and a refreshable.
      */
-    public PuzzleSolver<TantrixBoard, TilePlacement> createSolver(
+    public PuzzleSolver<TilePlacement> createSolver(
             PuzzleController<TantrixBoard, TilePlacement> controller) {
 
         switch (this) {

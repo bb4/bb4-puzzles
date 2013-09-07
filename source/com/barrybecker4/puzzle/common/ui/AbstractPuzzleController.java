@@ -77,15 +77,23 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
         return 1;
     }
 
-
+    /** Called when the puzzle solver wants to show progress to the user somehow */
     public void refresh(P pos, long numTries) {
         if (ui_ != null) {
             ui_.refresh(pos, numTries);
         }
     }
 
-
+    /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
     public void finalRefresh(List<M> path, P position, long numTries, long elapsedMillis) {
+
+        if (path == null) {
+            System.out.println("No Solution found!");
+        }
+        else {
+            System.out.println("The number of steps in path to solution = " + path.size());
+        }
+
         if (ui_ != null) {
             ui_.finalRefresh(path, position, numTries, elapsedMillis);
         }
@@ -99,15 +107,15 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     public void startSolving() {
 
         // Use either concurrent or sequential solver strategy
-        final PuzzleSolver<P, M> solver = algorithm_.createSolver(this);
+        final PuzzleSolver<M> solver = algorithm_.createSolver(this);
 
         Worker worker = new Worker()  {
 
             @Override
             public Object construct()  {
 
-                // this does all the heavy work of solving it.
                 try {
+                    // this does all the heavy work of solving it.
                     solver.solve();
                 } catch (InterruptedException e) {
                     assert false: "Thread interrupted. " + e.getMessage();
@@ -118,5 +126,4 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
 
         worker.start();
     }
-
 }

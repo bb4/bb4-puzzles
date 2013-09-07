@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestSolving {
 
-
     /** initial states that have solutions */
     private static final List<TestCase> A_STAR_CASES = Arrays.asList(
             new TestCase(new PailParams(9, 4, 6), 8),
@@ -110,9 +109,8 @@ public class TestSolving {
     }
 
     /**
-     *
      * @param withMaxPathLen if true then the expected path length value is a maximum.
-     *                       This is needed for concurrent tests - which may not find the best deterministically.
+     *    This is needed for concurrent tests - which may not find the best deterministically.
      */
     public void runSolvingTests(Algorithm algorithm, List<TestCase> cases,
                                 boolean withMaxPathLen) throws Exception {

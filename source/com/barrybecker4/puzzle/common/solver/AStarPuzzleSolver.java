@@ -15,20 +15,21 @@ import java.util.Set;
 /**
  * Sequential puzzle solver that uses the A* search algorithm.
  * See http://en.wikipedia.org/wiki/A*_search_algorithm
- * A concurrent version fo this algorithm could perhaps be made using PriorityBlockingQueue
+ * A concurrent version of this algorithm could perhaps be made using PriorityBlockingQueue
  * @author Barry Becker
  */
-public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
+public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
     private final PuzzleController<P, M> puzzle;
+
     /** nodes that have been visited, but they may be replaced if we can reach them by a better path */
-    private final Set<P> visited = new HashSet<P>();
+    private final Set<P> visited = new HashSet<>();
 
     /** candidate nodes to search on the frontier. */
-    private final Queue<PuzzleNode<P, M>> open;
+    private final Queue<PuzzleNode<P, M>> open = new PriorityQueue<>(10);
 
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
-    private final Map<P, Integer> pathCost = new HashMap<P, Integer>();
+    private final Map<P, Integer> pathCost = new HashMap<>();
 
     private long numTries = 0;
 
@@ -37,7 +38,6 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
      */
     public AStarPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
-        open = new PriorityQueue<PuzzleNode<P, M>>(10);
     }
 
     @Override
@@ -57,13 +57,9 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
         List<M> pathToSolution = null;
         P solution = null;
-        if (solutionState == null) {
-            System.out.println("No Solution found!");
-        }
-        else {
+        if (solutionState != null) {
             pathToSolution = solutionState.asMoveList();
             solution = solutionState.getPosition();
-            System.out.println("Number of steps in path to solution = " + pathToSolution.size());
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
         puzzle.finalRefresh(pathToSolution, solution, numTries, elapsedTime);

@@ -42,19 +42,19 @@ public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<PegBoard, PegMove> createSolver(PuzzleController<PegBoard, PegMove> controller) {
+    public PuzzleSolver<PegMove> createSolver(PuzzleController<PegBoard, PegMove> controller) {
 
         switch (this) {
             case SIMPLE_SEQUENTIAL :
-                return new SequentialPuzzleSolver<PegBoard, PegMove>(controller);
+                return new SequentialPuzzleSolver<>(controller);
             case A_STAR_SEQUENTIAL :
-                return new AStarPuzzleSolver<PegBoard, PegMove>(controller);
+                return new AStarPuzzleSolver<>(controller);
             case CONCURRENT_BREADTH :
-                return new ConcurrentPuzzleSolver<PegBoard, PegMove>(controller, 0.4f);
+                return new ConcurrentPuzzleSolver<>(controller, 0.4f);
             case CONCURRENT_DEPTH :
-                return new ConcurrentPuzzleSolver<PegBoard, PegMove>(controller, 0.12f);
+                return new ConcurrentPuzzleSolver<>(controller, 0.12f);
             case CONCURRENT_OPTIMUM :
-                return new ConcurrentPuzzleSolver<PegBoard, PegMove>(controller, 0.2f);
+                return new ConcurrentPuzzleSolver<>(controller, 0.2f);
         }
         return null;
     }

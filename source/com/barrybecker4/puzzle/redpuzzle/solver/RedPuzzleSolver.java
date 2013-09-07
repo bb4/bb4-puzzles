@@ -16,8 +16,8 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public abstract class RedPuzzleSolver<P, K>
-                implements PuzzleSolver<PieceList, Piece> {
+public abstract class RedPuzzleSolver
+                implements PuzzleSolver<Piece> {
 
     /** the unsorted pieces that we draw from and place in the solvedPieces list. */
     protected PieceList pieces_;
@@ -46,19 +46,5 @@ public abstract class RedPuzzleSolver<P, K>
      */
     @Override
     public abstract List<Piece> solve();
-
-    /**
-     * @return the list of successfully placed pieces so far.
-     */
-    public PieceList getSolvedPieces() {
-        return solution_;
-    }
-
-    /**
-     * @return  the number of different ways we have tried to fit pieces together so far.
-     */
-    public int getNumIterations() {
-        return numTries_;
-    }
 
 }

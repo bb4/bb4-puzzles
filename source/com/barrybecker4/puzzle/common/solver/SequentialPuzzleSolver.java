@@ -17,13 +17,13 @@ import java.util.Set;
  * @author Brian Goetz, Tim Peierls  (Java Concurrency in Practice)
  * @author Barry Becker
  */
-public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
+public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
     private final PuzzleController<P, M> puzzle;
+
     /** set of visited nodes. Do not re-search them */
     private final Set<P> seen = new HashSet<P>();
     private long numTries = 0;
-    private long startTime;
 
     /**
      *
@@ -36,12 +36,18 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
     @Override
     public List<M> solve() {
         P pos = puzzle.initialPosition();
-        startTime =  System.currentTimeMillis();
-        List<M> pathToSolution = search(new PuzzleNode<P, M>(pos, null, null));
+        long startTime = System.currentTimeMillis();
+        PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos, null, null));
 
-        System.out.println((pathToSolution == null)?
-                "No Solution found!" :
-                "Number of steps in path to solution = " + pathToSolution.size());
+        List<M> pathToSolution = null;
+        P solution = null;
+        if (solutionState != null) {
+            pathToSolution = solutionState.asMoveList();
+            solution = solutionState.getPosition();
+        }
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        puzzle.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
+
         return pathToSolution;
     }
 
@@ -50,15 +56,11 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
      * @param node the current state of the puzzle.
      * @return list of moves leading to a solution. Null if no solution.
      */
-    private List<M> search(PuzzleNode<P, M> node) {
+    private PuzzleNode<P, M> search(PuzzleNode<P, M> node) {
         P currentState = node.getPosition();
         if (!puzzle.alreadySeen(currentState, seen)) {
             if (puzzle.isGoal(currentState)) {
-                List<M> path = node.asMoveList();
-
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                puzzle.finalRefresh(path, currentState, numTries, elapsedTime);
-                return path;
+                return node;
             }
             List<M> moves = puzzle.legalMoves(currentState);
             for (M move : moves) {
@@ -67,7 +69,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<P, M> {
 
                 PuzzleNode<P, M> child = new PuzzleNode<>(position, move, node);
                 numTries++;
-                List<M> result = search(child);
+                PuzzleNode<P, M> result = search(child);
                 if (result != null) {
                     return result;
                 }

@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class GeneticSearchSolver extends RedPuzzleSolver<PieceList, Piece>
+public class GeneticSearchSolver extends RedPuzzleSolver
                                  implements Optimizee, OptimizationListener {
 
     /** bonuses given to the scoring algorithm if 3 nubs fit on a side piece. */

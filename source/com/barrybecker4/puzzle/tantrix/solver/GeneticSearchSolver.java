@@ -20,7 +20,7 @@ import static com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_T
  *
  * @author Barry Becker
  */
-public class GeneticSearchSolver extends TantrixSolver<TantrixBoard, TilePlacement>
+public class GeneticSearchSolver extends TantrixSolver
                                  implements Optimizee, OptimizationListener {
 
     /** either genetic or concurrent genetic strategy. */

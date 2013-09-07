@@ -29,7 +29,7 @@ public enum Algorithm implements AlgorithmEnum<Pails, PourOperation> {
     /**
      * Private constructor
      */
-    Algorithm() {
+    private Algorithm() {
         this.label = AppContext.getLabel(this.name());
     }
 
@@ -42,7 +42,7 @@ public enum Algorithm implements AlgorithmEnum<Pails, PourOperation> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<Pails, PourOperation> createSolver(
+    public PuzzleSolver<PourOperation> createSolver(
             PuzzleController<Pails, PourOperation> controller) {
 
         switch (this) {

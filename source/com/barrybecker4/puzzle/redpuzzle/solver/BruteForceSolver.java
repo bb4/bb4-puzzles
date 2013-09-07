@@ -9,15 +9,12 @@ import java.util.List;
 
 /**
  * Works really well in spite of being brute force.
- * @see GeneticSearchSolver
- * for a potentially better alternative.
- *
- * Solves the puzzle in  10 seconds on Core2Duo sequentially.
+ * Solves the puzzle in 10 seconds on Core2Duo sequentially.
  *
  * @author Barry Becker
  */
 public class BruteForceSolver
-       extends RedPuzzleSolver<PieceList, Piece> {
+       extends RedPuzzleSolver {
 
 
     public BruteForceSolver(PuzzleController<PieceList, Piece> puzzle) {
@@ -86,12 +83,11 @@ public class BruteForceSolver
             // backtrack.
             Piece p = solution_.getLast();
             solution_ = solution_.removeLast();
-            // put it back where we took it from,
-            // so our list of unplaced pieces does not get out of order.
+            // put it back where we took it from, so the list of unplaced pieces is still in order.
             pieces = pieces.add(i, p);
         }
 
-        // if we get here and pieces is empty, we did not find a puzzlePanel.
+        // if we get here and pieces is empty, we did not find a solution.
         return pieces;
     }
 }

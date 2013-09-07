@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.common.model;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * Link node for the puzzle solving framework.
  * Contains a puzzle position (immutable state) and a move
@@ -44,7 +43,7 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
     }
 
     public List<M> asMoveList() {
-        List<M> solution = new LinkedList<M>();
+        List<M> solution = new LinkedList<>();
         for (PuzzleNode<P, M> n = this; n.move != null; n = n.previous) {
             solution.add(0, n.move);
         }

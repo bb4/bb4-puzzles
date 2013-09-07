@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  * @author Brian Goetz and Tim Peierls
  */
-public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<P, M> {
+public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
 
     private static final int THREAD_POOL_SIZE = 100;
 
