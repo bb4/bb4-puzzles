@@ -40,15 +40,17 @@ public class Bridge {
     /**
      * Constructor
      * create a new bridge state by applying th specified move
-     * Applying the same move a second time will undo it because it just swaps tiles.
+     * @param move the move to apply
+     * @param reverse if false then moving across the bridge, if true then revers traversal back to the start.
      */
-    public Bridge applyMove(BridgeMove move) {
+    public Bridge applyMove(BridgeMove move, boolean reverse) {
         List<Integer> uncrossed = new ArrayList<>();
         List<Integer> crossed = new ArrayList<>();
         uncrossed.addAll(getUncrossedPeople());
         crossed.addAll(getCrossedPeople());
 
-        if (move.getDirection()) {
+        boolean direction = reverse ? !move.getDirection() : move.getDirection();
+        if (direction) {
             crossed.addAll(move.getPeople());
             uncrossed.removeAll(move.getPeople());
         }
@@ -56,7 +58,7 @@ public class Bridge {
             crossed.removeAll(move.getPeople());
             uncrossed.addAll(move.getPeople());
         }
-        return new Bridge(uncrossed, crossed, move.getDirection());
+        return new Bridge(uncrossed, crossed, direction);
     }
 
     public List<Integer> getUncrossedPeople() {

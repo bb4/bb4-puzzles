@@ -14,14 +14,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 /**
- * Buttons at the top for generating and solving the puzzle using different strategies.
+ * Buttons at the top for generating and solving the puzzle using different strategies, and initial configurations.
  *
  * @author Barry Becker
  */
 public final class BridgeTopControls extends TopControlPanel<Bridge, BridgeMove>
                                    implements ItemListener {
 
-    private InitialConfigurationSelector sizeSelector_;
+    private InitialConfigurationSelector configurationSelector;
 
 
     /**
@@ -35,10 +35,10 @@ public final class BridgeTopControls extends TopControlPanel<Bridge, BridgeMove>
 
     protected void addFirstRowControls(JPanel panel) {
         super.addFirstRowControls(panel);
-        sizeSelector_ = new InitialConfigurationSelector();
-        sizeSelector_.addItemListener(this);
+        configurationSelector = new InitialConfigurationSelector();
+        configurationSelector.addItemListener(this);
 
-        panel.add(sizeSelector_);
+        panel.add(configurationSelector);
         panel.add(Box.createHorizontalGlue());
     }
 
@@ -50,8 +50,8 @@ public final class BridgeTopControls extends TopControlPanel<Bridge, BridgeMove>
     public void itemStateChanged(ItemEvent e) {
 
         super.itemStateChanged(e);
-        if (e.getSource() == sizeSelector_)  {
-            ((BridgePuzzleController)controller_).setConfiguration(sizeSelector_.getSelectedConfiguration());
+        if (e.getSource() == configurationSelector)  {
+            ((BridgePuzzleController)controller_).setConfiguration(configurationSelector.getSelectedConfiguration());
         }
     }
 }

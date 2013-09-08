@@ -47,6 +47,7 @@ public class MoveGenerator  {
             }
         }
 
+        //Collections.sort(moves);   not sure if needed
         return moves;
     }
 }

@@ -2,7 +2,9 @@
 package com.barrybecker4.puzzle.common.model;
 
 /**
- * A marker interface for puzzle movements (i.e. state transitions).
+ * Marker interface for puzzle moves.
+ * Represents some puzzle movement (i.e. state transitions).
+ *
  * @author Barry Becker
  */
 public interface Move {

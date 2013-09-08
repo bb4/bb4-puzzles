@@ -41,9 +41,14 @@ public interface PuzzleController<P, M> extends Refreshable<P, M> {
     boolean alreadySeen(P position, Set<P> seen);
 
     /**
-     * @return estimate of the cost to reach the goal from the specified position
+     * @return estimate of the cost to reach the goal from the specified position.
      */
     int distanceFromGoal(P position);
+
+    /**
+     * @return the cost of making a single move. Usually a constant like 1, but for some puzzles it matters.
+     */
+    int getCost(M move);
 
     /**
      *specify the algorithm to use.

@@ -86,7 +86,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
             for (M move : moves) {
                 P nbr = puzzle.move(currentPosition, move);
                 // for now, assume the distance to all nbrs from the current position is 1
-                int estPathCost = pathCost.get(currentPosition) + 1;
+                int estPathCost = pathCost.get(currentPosition) + puzzle.getCost(move);
                 if (!visited.contains(nbr) || estPathCost < pathCost.get(nbr)) {
                     int estFutureCost = estPathCost + puzzle.distanceFromGoal(nbr);
                     PuzzleNode<P, M> child =

@@ -77,6 +77,15 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
         return 1;
     }
 
+    /**
+     * Override this when moves have varying cost (rare - see bridge problem for example).
+     * @param move the move to determine cost of
+     * @return cost of a single move
+     */
+    public int getCost(M move) {
+        return 1;
+    }
+
     /** Called when the puzzle solver wants to show progress to the user somehow */
     public void refresh(P pos, long numTries) {
         if (ui_ != null) {

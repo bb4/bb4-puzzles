@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.bridge.ui;
 
 import java.awt.Choice;
-import java.util.Arrays;
+
+import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.*;
 
 /**
  * A combo box that allows the user to select the sort of people that need to cross
@@ -11,14 +12,12 @@ import java.util.Arrays;
  */
 public final class InitialConfigurationSelector extends Choice {
 
-    public static final Integer[] STANDARD_CONFIG =  new Integer[] {1, 2, 5, 8};
-    public static final Integer[] ALTERNATIVE_CONFIG =  new Integer[] {5, 10, 20, 25};
-    public static final Integer[] DIFFICULT_CONFIG =  new Integer[] {1, 2, 5, 7, 8, 12, 15};
 
     private static final String[] MENU_ITEMS = {
-        "Standard problem: " + Arrays.toString(STANDARD_CONFIG),
-        "Alternative problem: " + Arrays.toString(DIFFICULT_CONFIG),
-        "Difficult problem: " + Arrays.toString(DIFFICULT_CONFIG)
+        STANDARD_PROBLEM.getLabel(),
+        ALTERNATIVE_PROBLEM.getLabel(),
+        DIFFICULT_PROBLEM.getLabel(),
+        SUPER_HARD.getLabel()
     };
 
     /**
@@ -37,9 +36,10 @@ public final class InitialConfigurationSelector extends Choice {
     public Integer[] getSelectedConfiguration() {
         int selected = getSelectedIndex();
         switch(selected) {
-            case 0 : return STANDARD_CONFIG;
-            case 1 : return ALTERNATIVE_CONFIG;
-            case 2 : return DIFFICULT_CONFIG;
+            case 0 : return STANDARD_PROBLEM.getPeopleSpeeds();
+            case 1 : return ALTERNATIVE_PROBLEM.getPeopleSpeeds();
+            case 2 : return DIFFICULT_PROBLEM.getPeopleSpeeds();
+            case 3 : return SUPER_HARD.getPeopleSpeeds();
             default: throw new IllegalArgumentException("Unexpected selected index: " + selected);
         }
     }

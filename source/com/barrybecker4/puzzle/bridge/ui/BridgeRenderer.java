@@ -19,13 +19,15 @@ import java.util.List;
 public class BridgeRenderer implements PuzzleRenderer<Bridge> {
 
     public static final int INC = 60;
-    public static final int BRIDGE_WIDTH = 250;
+    public static final int BRIDGE_WIDTH = 380;
 
     private static final int MARGIN = 50;
-    private static final int TEXT_WIDTH = 100;
-    private static final int TEXT_Y = 100;
+    private static final int TEXT_WIDTH = 200;
+    private static final int TEXT_Y = 120;
 
     private static final Font FONT = new Font("Sans Serif", Font.PLAIN, INC/2);
+
+    private static final int LIGHT_RADIUS = 30;
 
 
     /**
@@ -72,12 +74,14 @@ public class BridgeRenderer implements PuzzleRenderer<Bridge> {
 
     private void drawLight(Graphics g, boolean isLightCrossed) {
 
-        int leftPos = MARGIN + 10;
-        int rightPos = MARGIN + TEXT_WIDTH + BRIDGE_WIDTH + 10;
+        int leftPos = MARGIN + 20;
+        int rightPos = MARGIN + TEXT_WIDTH + BRIDGE_WIDTH + 20;
         int xpos = isLightCrossed ? rightPos : leftPos;
 
         g.setColor(Color.YELLOW);
-        g.fillOval(xpos, TEXT_Y + 30, 10, 10);
+        g.fillOval(xpos, TEXT_Y + 40, LIGHT_RADIUS, LIGHT_RADIUS);
+        g.setColor(Color.BLACK);
+        g.drawOval(xpos, TEXT_Y + 40, LIGHT_RADIUS, LIGHT_RADIUS);
     }
 
 }

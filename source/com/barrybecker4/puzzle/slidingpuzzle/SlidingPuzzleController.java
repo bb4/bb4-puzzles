@@ -34,7 +34,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
     /** @param size the edge length of the puzzle to be solved */
     public void setSize(int size) {
         initialPosition = new Slider((byte)size);
-        ui_.refresh(initialPosition, 0);
+        if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     @Override

@@ -32,12 +32,12 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
         super(ui);
         initialPosition = new Bridge(DEFAULT_PEOPLE);
         algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
-        ui_.refresh(initialPosition, 0);
+        if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     public void setConfiguration(Integer[] config) {
         initialPosition = new Bridge(config);
-        ui_.refresh(initialPosition, 0);
+        if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
 
     @Override
     public Bridge move(Bridge position, BridgeMove move) {
-        return position.applyMove(move);
+        return position.applyMove(move, false);
     }
 
     /**
@@ -65,5 +65,9 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
      */
     public int distanceFromGoal(Bridge position) {
         return position.distanceFromGoal();
+    }
+
+    public int getCost(BridgeMove move) {
+        return move.getCost();
     }
 }

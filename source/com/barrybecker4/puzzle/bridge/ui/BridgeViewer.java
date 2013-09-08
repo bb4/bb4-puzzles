@@ -1,6 +1,7 @@
 /** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.bridge.ui;
 
+import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.puzzle.bridge.model.Bridge;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove;
 import com.barrybecker4.puzzle.common.ui.DoneListener;
@@ -35,16 +36,6 @@ final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
     }
 
     @Override
-    public void refresh(Bridge board, long numTries) {
-        board_ = board;
-        //if (numTries % 500 == 0) {
-            makeSound();
-            status_ = createStatusMessage(numTries);
-            simpleRefresh(board, numTries);
-        //}
-    }
-
-    @Override
     public void finalRefresh(List<BridgeMove> path, Bridge board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
@@ -54,8 +45,28 @@ final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
 
     @Override
     public void makeMove(int currentStep, boolean undo) {
-        board_ = board_.applyMove(getPath().get(currentStep));
+        board_ = board_.applyMove(getPath().get(currentStep), undo);
         repaint();
+    }
+
+
+    protected String createFinalStatusMessage(long numTries, long millis, List<BridgeMove> path) {
+        float time = (float) millis / 1000.0f;
+        String msg = "Did not find solution.";
+        if (path != null)  {
+            msg = "Found solution with total time = " + findCost(path) + " in "
+                    + FormatUtil.formatNumber(time) + " seconds. "
+                    + createStatusMessage(numTries);
+        }
+        return msg;
+    }
+
+    private int findCost(List<BridgeMove> path) {
+        int totalCost = 0;
+        for (BridgeMove m : path) {
+            totalCost += m.getCost();
+        }
+        return totalCost;
     }
 
     /**
