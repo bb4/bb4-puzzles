@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
@@ -17,7 +17,7 @@ import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
  * Base class for sub path mutator tests.
  * @author Barry Becker
  */
-public abstract class SubPathMutatorBase extends TestCase {
+public abstract class SubPathMutatorBase {
 
     /** instance under test */
     protected SubPathMutator mutator;
@@ -25,6 +25,7 @@ public abstract class SubPathMutatorBase extends TestCase {
     /** creates the mutator to test */
     protected abstract SubPathMutator createMutator(PathColor primaryColor);
 
+    @Test
     public void testMutating1TilePath() {
 
         HexTile pivotTile = TILES.getTile(1);
@@ -45,6 +46,7 @@ public abstract class SubPathMutatorBase extends TestCase {
         verifyMutated1TilePath(resultPath);
     }
 
+    @Test
     public void testMutating2TilePath() {
 
         HexTile pivotTile = TILES.getTile(1);
@@ -66,6 +68,7 @@ public abstract class SubPathMutatorBase extends TestCase {
         verifyMutated2TilePath(resultPath);
     }
 
+    @Test
     public void testMutating3TilePath() {
 
         HexTile pivotTile = TILES.getTile(3);
@@ -91,6 +94,7 @@ public abstract class SubPathMutatorBase extends TestCase {
         verifyMutated3TilePath(resultPath);
     }
 
+    @Test
     public void testMutating3aTilePath() {
 
         HexTile pivotTile = TILES.getTile(3);

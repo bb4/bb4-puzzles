@@ -41,7 +41,7 @@ public class TestSolving {
             new TestCase(new PailParams(1, 2, 1), 2),
             new TestCase(new PailParams(5, 2, 1), 8),
             new TestCase(new PailParams(55, 17, 3), 102),
-            new TestCase(new PailParams(55, 7, 5), 32),
+            new TestCase(new PailParams(55, 7, 5), 90),
             new TestCase(new PailParams(97, 23, 32), 130)
     );
 

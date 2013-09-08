@@ -10,6 +10,7 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker

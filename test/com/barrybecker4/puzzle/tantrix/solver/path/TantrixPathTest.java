@@ -9,19 +9,26 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3NonPathTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Barry Becker
  */
-public class TantrixPathTest extends TestCase {
+public class TantrixPathTest {
 
     /** instance under test */
     private TantrixPath path;
 
-
+    @Test
     public void test2TilePathConstruction() {
 
         HexTile pivotTile = TILES.getTile(1);
@@ -42,6 +49,7 @@ public class TantrixPathTest extends TestCase {
      * We should get an error if the tiles are not in path order, even if they
      * do form path.
      */
+    @Test(expected = IllegalStateException.class)
     public void test5TilePathConstructionWhenPathTilesUnorder() {
 
         TilePlacement first =
@@ -57,49 +65,42 @@ public class TantrixPathTest extends TestCase {
 
         TilePlacementList tileList = new TilePlacementList(first, second, third, fourth, fifth);
 
-        try {
-            new TantrixPath(tileList, PathColor.RED);
-            fail("should have failed because unordered.");
-        } catch (IllegalStateException e) {
-            // success
-        }
-        // assertEquals("Unexpected path tiles", tileList, path.getTilePlacements());
+        new TantrixPath(tileList, PathColor.RED);
     }
 
 
     /** we expect an exception because the tiles passed to the constructor do not form a primary path */
+    @Test
     public void testNonLoopPathConstruction() {
         TantrixBoard board = place3UnsolvedTiles();
 
         path =  new TantrixPath(board.getTantrix(), board.getPrimaryColor());
-
         assertEquals("Unexpected length", 3, path.size());
     }
 
     /** we expect an exception because the tiles passed to the constructor do not form a primary path */
+    @Test(expected = IllegalStateException.class)
     public void testInvalidPathConstruction() {
         TantrixBoard board = place3NonPathTiles();
-        try {
-            new TantrixPath(board.getTantrix(), board.getPrimaryColor());
-            fail("did not expect to get here");
-        }
-        catch (IllegalStateException e) {
-            // success
-        }
+
+        new TantrixPath(board.getTantrix(), board.getPrimaryColor());
     }
 
+    @Test
     public void testIsLoop() {
         TantrixBoard board = place3SolvedTiles();
         TantrixPath path = new TantrixPath(board.getTantrix(), board.getPrimaryColor());
         assertTrue("Unexpectedly not a loop", path.isLoop());
     }
 
+    @Test
     public void testIsNotLoop() {
         TantrixBoard board = place3UnsolvedTiles();
         TantrixPath path = new TantrixPath(board.getTantrix(), board.getPrimaryColor());
         assertFalse("Unexpectedly a loop", path.isLoop());
     }
 
+    @Test
     public void testFindRandomNeighbor() {
         MathUtil.RANDOM.setSeed(0);
         TantrixBoard board = place3UnsolvedTiles();
@@ -113,7 +114,7 @@ public class TantrixPathTest extends TestCase {
                         new TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), Rotation.ANGLE_240));
         TantrixPath expectedPath = new TantrixPath(tiles, PathColor.YELLOW);
 
-        TantrixPath expNbr = new TantrixPath(tiles, board.getPrimaryColor());
+        //TantrixPath expNbr = new TantrixPath(tiles, board.getPrimaryColor());
         assertEquals("Unexpected random neighbor.", expectedPath, nbr);
     }
 }

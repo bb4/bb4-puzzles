@@ -7,25 +7,28 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
-public class PathifierTest extends TestCase {
+public class PathifierTest {
 
     /** instance under test */
     private Pathifier pathifier;
 
 
-    @Override
+    @Before
     public void setUp() {
         pathifier = new Pathifier(TILES.getTile(1).getPrimaryColor());
     }
 
+    @Test
     public void test2TilePathConstruction() {
 
         TilePlacement firstTilePlacement =
@@ -40,6 +43,7 @@ public class PathifierTest extends TestCase {
         assertEquals("Unexpected tiles", tileList, pathifier.reorder(new Tantrix(tileList)));
     }
 
+    @Test
     public void test3TilePathConstruction() {
 
         TilePlacement first =
@@ -55,6 +59,7 @@ public class PathifierTest extends TestCase {
     }
 
     /** We should get an error if there is no path that can be found from rearranging the tiles without rotation. */
+    @Test (expected = IllegalStateException.class)
     public void testOutOfOrder2TilePathConstruction() {
 
         TilePlacement first =
@@ -64,14 +69,10 @@ public class PathifierTest extends TestCase {
 
         TilePlacementList tileList = new TilePlacementList(first, second);
 
-        try {
-            pathifier.reorder(new Tantrix(tileList));
-            fail("did not expect to get here");
-        } catch (IllegalStateException e) {
-            // success
-        }
+        pathifier.reorder(new Tantrix(tileList));
     }
 
+    @Test
     public void testOutOfOrder5TilePathConstruction() {
 
 

@@ -22,11 +22,10 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     private final PuzzleController<P, M> puzzle;
 
     /** set of visited nodes. Do not re-search them */
-    private final Set<P> seen = new HashSet<P>();
+    private final Set<P> seen = new HashSet<>();
     private long numTries = 0;
 
     /**
-     *
      * @param puzzle the puzzle to solve
      */
     public SequentialPuzzleSolver(PuzzleController<P, M> puzzle) {

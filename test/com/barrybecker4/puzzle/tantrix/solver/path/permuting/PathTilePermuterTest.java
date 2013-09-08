@@ -7,27 +7,29 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
-public class PathTilePermuterTest extends TestCase {
+public class PathTilePermuterTest {
 
     /** instance under test */
     private PathTilePermuter permuter;
 
-
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(0);
     }
 
-    public void testPermut3TileLoop1() {
+    @Test
+    public void testPermute3TileLoop1() {
         TantrixPath path = LOOP_PATH.copy();
         permuter = new PathTilePermuter(path);
 
@@ -41,7 +43,8 @@ public class PathTilePermuterTest extends TestCase {
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
 
-    public void testPermut3TileLoop2() {
+    @Test
+    public void testPermute3TileLoop2() {
         TantrixPath path = LOOP_PATH.copy();
         permuter = new PathTilePermuter(path);
         TantrixPath permutedPath = permuter.permute(Arrays.asList(1, 2), Arrays.asList(2, 1));
@@ -54,7 +57,8 @@ public class PathTilePermuterTest extends TestCase {
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
 
-    public void testPermut3TileNonLoopPath1() {
+    @Test
+    public void testPermute3TileNonLoopPath1() {
 
         TantrixPath path = NON_LOOP_PATH3.copy();
         permuter = new PathTilePermuter(path);
@@ -68,6 +72,7 @@ public class PathTilePermuterTest extends TestCase {
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
 
+    @Test
     public void testSwapIn3TileNonLoopPath2() {
 
         TantrixPath path = NON_LOOP_PATH3.copy();
@@ -83,33 +88,38 @@ public class PathTilePermuterTest extends TestCase {
 
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
+  /*
+   java.lang.IllegalStateException: could not fit
+      tileNum=6 colors: [Y, R, B, Y, B, R] at (row=22, column=23)
+    in
+     [tileNum=1 colors: [R, B, R, B, Y, Y] at (row=22, column=23) ANGLE_0]
+     [tileNum=2 colors: [B, Y, Y, B, R, R] at (row=22, column=22) ANGLE_0]
+     [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=22, column=21) ANGLE_180]
+     [tileNum=5 colors: [R, B, B, R, Y, Y] at (row=22, column=20) ANGLE_300]
+     [tileNum=7 colors: [R, Y, R, Y, B, B] at (row=21, column=24) ANGLE_300]
+     [tileNum=6 colors: [Y, R, B, Y, B, R] at (row=21, column=21) ANGLE_120]
+     [tileNum=3 colors: [B, B, R, R, Y, Y] at (row=21, column=23) ANGLE_300]
+   */
 
     /*
+    @Test (expected = IllegalStateException.class)
     public void testSwapIn4TileLoopPathWideArc() {
 
         TantrixPath path = LOOP_PATH4.copy();
         permuter = new PathTilePermuter(path);
-        try  {
-            permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
-            fail();
-        } catch (IllegalStateException e) {
-            // expected
-        }
-    }  */
 
-    /*
+        permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
+    }
+
+    @Test (expected = IllegalStateException.class)
     public void testSwapIn4TileNonLoopPathWideArc() {
 
         TantrixPath path = NON_LOOP_PATH4.copy();
         permuter = new PathTilePermuter(path);
-        try  {
-            permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
-            fail();
-        } catch (IllegalStateException e) {
-            // expected
-        }
-    } */
+        permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
+    }    */
 
+    @Test
     public void testSwapIn4TileNonLoopPathTightArc() {
 
         TantrixPath path = NON_LOOP_PATH4.copy();
@@ -132,14 +142,10 @@ public class PathTilePermuterTest extends TestCase {
      * We get an exception if the tiles cannot be swapped.
      * Should not be able to swap a tile with itself
      *
+    @Test (expected = IllegalStateException.class)
     public void testSwapInvalid() {
 
         permuter = new PathTilePermuter(NON_LOOP_PATH3);
-        try {
-            permuter.permute(Arrays.asList(0, 0), Arrays.asList(0, 0));
-            fail();
-        } catch (AssertionError e) {
-             //   success
-        }
+        permuter.permute(Arrays.asList(0, 0), Arrays.asList(0, 0));
     }*/
 }

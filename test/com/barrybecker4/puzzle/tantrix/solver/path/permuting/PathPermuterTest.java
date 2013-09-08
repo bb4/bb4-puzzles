@@ -11,22 +11,23 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Barry Becker
  */
-public class PathPermuterTest extends TestCase {
+public class PathPermuterTest {
 
     /** instance under test */
     private PathPivotPermuter permuter;
 
-
+    @Test
     public void testPermute3TilePath() {
 
         TantrixBoard board = TantrixTstUtil.place3UnsolvedTiles();

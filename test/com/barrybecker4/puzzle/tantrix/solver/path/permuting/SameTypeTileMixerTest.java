@@ -12,28 +12,36 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.PathType;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
-import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.*;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.LOWER_LEFT;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.LOWER_RIGHT;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.TILE1;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.TILE2;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.TILE3;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.UPPER;
+import static org.junit.Assert.assertEquals;
 
 
 /**
  * @author Barry Becker
  */
-public class SameTypeTileMixerTest extends TestCase {
+public class SameTypeTileMixerTest {
 
     /** instance under test */
     private SameTypeTileMixer mixer;
 
-    @Override
+    @Before
     public void setUp() {
         MathUtil.RANDOM.setSeed(1);
     }
 
+    @Test
     public void testMix3TilesTIGHT() {
 
         TantrixBoard board = TantrixTstUtil.place3SolvedTiles();
@@ -58,6 +66,7 @@ public class SameTypeTileMixerTest extends TestCase {
         assertEquals("Unexpected permuted paths.", expPathList, permutedPathList);
     }
 
+    @Test
     public void testMix3TilesWIDE() {
 
         TantrixBoard board = TantrixTstUtil.place3SolvedTiles();
@@ -68,6 +77,7 @@ public class SameTypeTileMixerTest extends TestCase {
         assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size());
     }
 
+    @Test
     public void testMix3TilesSTRAIGHT() {
 
         TantrixBoard board = TantrixTstUtil.place3SolvedTiles();
@@ -77,6 +87,7 @@ public class SameTypeTileMixerTest extends TestCase {
         assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size());
     }
 
+    @Test
     public void testMix5TilesTIGHT() {
 
         TantrixPath origPath = createPathOf5Tiles();
@@ -97,6 +108,7 @@ public class SameTypeTileMixerTest extends TestCase {
         assertEquals("Unexpected permuted paths.", expPathList, permutedPathList);
     }
 
+    @Test
     public void testMix5TilesWIDE() {
 
         TantrixPath origPath = createPathOf5Tiles();
@@ -118,6 +130,7 @@ public class SameTypeTileMixerTest extends TestCase {
         assertEquals("Unexpected permuted paths.", expPathList, permutedPathList);
     }
 
+    @Test
     public void testMix5TilesSTRAIGHT() {
 
         TantrixPath origPath = createPathOf5Tiles();
