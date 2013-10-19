@@ -6,7 +6,6 @@ import com.barrybecker4.puzzle.sudoku.data.TestData;
 import com.barrybecker4.puzzle.sudoku.model.board.Board;
 import com.barrybecker4.puzzle.sudoku.model.board.Candidates;
 import com.barrybecker4.puzzle.sudoku.model.board.ValuesList;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,7 +73,7 @@ public class TestBoard  {
         for (int i=0; i<board.getEdgeLength(); i++) {
             for (int j=0; j<board.getEdgeLength(); j++) {
                 Candidates cands = board.getCell(i, j).getCandidates();
-                Assert.assertEquals( "Did find correct candidates for cell row=" + i + " j="+ j,
+                assertEquals( "Did find correct candidates for cell row=" + i + " j="+ j,
                     expCands[i][j], cands);
             }
         }
@@ -106,7 +105,7 @@ public class TestBoard  {
     }
 
     private void checkCandidates(List<Integer> expCands, ValuesList actCands) {
-        Assert.assertEquals("Did find correct candidates",
+        assertEquals("Did find correct candidates",
                 expCands, actCands);
     }
 

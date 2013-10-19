@@ -14,63 +14,62 @@ dependencies {
 }
 
 
-task runAdventure(type: JavaExec, depends: classes) {
+task runAdventure(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.adventure.ui.GraphicalAdventure'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task runTextAdventure(type: JavaExec, depends: classes) {
+task runTextAdventure(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.adventure.TextAdventure'
     classpath = sourceSets.main.runtimeClasspath
     args = ['ludlow/ludlowScript.xml']
 }
 
-task runMaze(type: JavaExec, depends: classes) {
+task runMaze(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.maze.ui.MazeSimulator'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task runRedPuzzle(type: JavaExec, depends: classes) {
+task runRedPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.redpuzzle.ui.RedPuzzle'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task runTantrixPuzzle(type: JavaExec, depends: classes) {
+task runTantrixPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     //args = ['-name', 'galactic',  '-locale', 'ENGLISH']
 }
 
-task runSudoku(type: JavaExec, depends: classes) {
+task runSudoku(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-ea"]
 }
 
-task runHiQ(type: JavaExec, depends: classes) {
+task runHiQ(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     args = ['-locale', 'ENGLISH']
 }
 
-task runSlidingPuzzle(type: JavaExec, depends: classes) {
+task runSlidingPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
 
-task runTwoPailsPuzzle(type: JavaExec, depends: classes) {
+task runTwoPailsPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
 
-task runBridgePuzzle(type: JavaExec, depends: classes) {
+task runBridgePuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
-
 
 
 ext.appMap = new LinkedHashMap()

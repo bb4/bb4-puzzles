@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver;
 
 import com.barrybecker4.optimization.OptimizationListener;
-import com.barrybecker4.optimization.Optimizee;
+import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.Optimizer;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;

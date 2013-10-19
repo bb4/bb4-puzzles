@@ -16,8 +16,8 @@ import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.ALTERNAT
 import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.DIFFICULT_PROBLEM;
 import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.STANDARD_PROBLEM;
 import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.TRIVIAL_PROBLEM;
-import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * These are more integration tests than unit tests.
