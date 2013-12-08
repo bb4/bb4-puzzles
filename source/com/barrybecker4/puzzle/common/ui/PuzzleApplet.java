@@ -69,7 +69,7 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
     protected abstract PuzzleController<P, M> createController(Refreshable<P, M> viewer);
 
     protected TopControlPanel<P, M> createTopControls() {
-        return new TopControlPanel<P, M>(controller_, getAlgorithmValues());
+        return new TopControlPanel<>(controller_, getAlgorithmValues());
     }
 
     protected JPanel createBottomControls() {

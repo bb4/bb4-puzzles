@@ -61,7 +61,7 @@ public class GeneticSearchSolver extends TantrixSolver
             new TantrixBoard(((TantrixPath)solution).getTilePlacements(), board.getPrimaryColor());
 
         TilePlacementList moves;
-        if (evaluateFitness(solution) >= SOLVED_THRESH) {
+        if (evaluateFitness(solution) <= 0) {
             moves = ((TantrixPath)solution).getTilePlacements();
         } else {
             moves = null;
@@ -80,7 +80,7 @@ public class GeneticSearchSolver extends TantrixSolver
      * terminate the solver if we find a solution with this fitness.
      */
     public double getOptimalFitness() {
-        return SOLVED_THRESH;
+        return 0;
     }
 
     public boolean evaluateByComparison() {
@@ -96,7 +96,7 @@ public class GeneticSearchSolver extends TantrixSolver
      */
     public double evaluateFitness(ParameterArray params) {
 
-        double fitness = evaluator.evaluateFitness((TantrixPath) params);
+        double fitness = SOLVED_THRESH - evaluator.evaluateFitness((TantrixPath) params);
         params.setFitness(fitness);
         return fitness;
     }

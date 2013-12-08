@@ -101,7 +101,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
      */
     public double evaluateFitness(ParameterArray params) {
         PieceList pieces = ((PieceParameterArray) params).getPieceList();
-        double fitness = getNumFits(pieces);
+        double fitness = MAX_FITS - getNumFits(pieces);
         params.setFitness(fitness);
         return fitness;
     }
