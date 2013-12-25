@@ -5,6 +5,8 @@ import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.parameter.PermutedParameterArray;
 
+import java.util.List;
+
 /**
  * The parameter array to use when searching (using optimization) to find a red puzzle solution.
  * It has some unique properties.
@@ -141,6 +143,17 @@ public class PieceParameterArray extends PermutedParameterArray {
        return new PieceParameterArray(shuffledPieces);
     }
 
+    @Override
+    public void setPermutation(List<Integer> indices) {
+
+        PieceList newParams = new PieceList();
+
+        for (int i : indices) {
+            newParams.add(pieces_.get(i));
+        }
+        pieces_ = newParams;
+    }
+
     /**
      *
      * @return the piece list corresponding to the encoded parameter array.
@@ -148,7 +161,6 @@ public class PieceParameterArray extends PermutedParameterArray {
     public PieceList getPieceList() {
         return pieces_;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -43,7 +43,7 @@ public class PathPivotPermuter extends PermutedParameterArray {
      */
     public List<TantrixPath> findAllPermutedPaths() {
 
-        List<TantrixPath> pathPermutations = new ArrayList<TantrixPath>();
+        List<TantrixPath> pathPermutations = new ArrayList<>();
 
         int lowerIndexStart = 1;
         int upperIndexStop = path_.size() - 2;
@@ -58,6 +58,18 @@ public class PathPivotPermuter extends PermutedParameterArray {
         }
 
         return pathPermutations;
+    }
+
+    @Override
+    public void setPermutation(List<Integer> indices) {
+
+        TilePlacementList tilePlacements = new TilePlacementList();
+
+        for (int i : indices) {
+            tilePlacements.add(path_.getTilePlacements().get(i));
+        }
+
+        path_ = new TantrixPath(tilePlacements, path_.getPrimaryPathColor());
     }
 
     /**
