@@ -7,3 +7,6 @@ build/
 bin/
 *.iml
 *.class
+*.iws
+*.ipr
+
