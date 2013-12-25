@@ -15,7 +15,7 @@ import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 /**
  * @author Barry Becker
  */
-class PathTstUtil {
+public class PathTstUtil {
 
     static final Location LOWER_LEFT = new ByteLocation(22, 20);
     static final Location LOWER_RIGHT = new ByteLocation(22, 21);
@@ -27,19 +27,19 @@ class PathTstUtil {
     static final HexTile TILE3 = TILES.getTile(3);
     static final HexTile TILE4 = TILES.getTile(4);
 
-    static final TantrixPath LOOP_PATH =
+    public static final TantrixPath LOOP_PATH =
             createPath(
                     new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_60),
                     new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
                     new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120));
 
-    static final TantrixPath NON_LOOP_PATH3 =
+    public static final TantrixPath NON_LOOP_PATH3 =
             createPath(
                     new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_0),
                     new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
                     new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120));
 
-    static final TantrixPath LOOP_PATH4 = new TantrixPath(
+    public static final TantrixPath LOOP_PATH4 = new TantrixPath(
             new TilePlacementList(
                     new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_0),
                     new TilePlacement(TILE3, LOWER_RIGHT, Rotation.ANGLE_0),
@@ -47,7 +47,7 @@ class PathTstUtil {
                     new TilePlacement(TILE2, UPPER_LEFT, Rotation.ANGLE_60)),
             PathColor.RED);
 
-    static final TantrixPath NON_LOOP_PATH4 = new TantrixPath(
+    public static final TantrixPath NON_LOOP_PATH4 = new TantrixPath(
             new TilePlacementList(
                     new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_120),
                     new TilePlacement(TILE2, UPPER_LEFT, Rotation.ANGLE_60),
