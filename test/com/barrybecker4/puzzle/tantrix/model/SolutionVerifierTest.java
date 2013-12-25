@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.tantrix.model;
 import com.barrybecker4.puzzle.tantrix.model.verfication.SolutionVerifier;
 import org.junit.Test;
 
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place10LoopWithInnerSpace;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3NonPathTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
@@ -57,4 +58,9 @@ public class SolutionVerifierTest {
         assertTrue("Unexpectedly not solved", verifier.isSolved());
     }
 
+    @Test
+    public void test10TilesWithSpacesIsNotSolved() {
+        verifier = new SolutionVerifier(place10LoopWithInnerSpace());
+        assertFalse("Unexpectedly solved", verifier.isSolved());
+    }
 }

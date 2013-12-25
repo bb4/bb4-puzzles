@@ -78,7 +78,7 @@ public class HexTiles extends HexTileList {
 
     /**
      * Get a specific tile by its tantrix number (base index of 1, not 0).
-     * @param tantrixNumber
+     * @param tantrixNumber the number on the back of the tile.
      */
     public HexTile getTile(int tantrixNumber) {
         return super.get(tantrixNumber - 1);

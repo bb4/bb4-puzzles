@@ -63,7 +63,7 @@ public class LoopDetector {
             PathColor color = currentPlacement.getPathColor(i);
             if (color == board.getPrimaryColor()) {
                 TilePlacement nbr = board.getNeighbor(currentPlacement, i);
-                if (nbr != null && !nbr.equals(previousTile)) {
+                if (nbr != null && !nbr.equals(previousTile) && nbr.getPathColor(i + 3) == color) {
                     return nbr;
                 }
             }

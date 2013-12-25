@@ -46,8 +46,8 @@ public class HexUtil {
 
     /**
      * Convert to cartesian space, then computer the distance.
-     * @param loc1
-     * @param loc2
+     * @param loc1 first location
+     * @param loc2 second location
      * @return distance between two hex locations.
      */
     public static double distanceBetween(Location loc1, Location loc2) {

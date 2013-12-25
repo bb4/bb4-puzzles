@@ -9,7 +9,7 @@ import java.util.List;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.threeTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,7 +48,7 @@ public class MoveGeneratorTest {
 
     @Test
     public void testMoveGenerationFromFirstTileOfThree() {
-        board = new TantrixBoard(threeTiles);
+        board = new TantrixBoard(THREE_TILES);
         generator = new MoveGenerator(board);
 
         List<TilePlacement> moves = generator.generateMoves();

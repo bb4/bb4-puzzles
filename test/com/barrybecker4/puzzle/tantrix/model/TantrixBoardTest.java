@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place10LoopWithInnerSpace;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place4SolvedTiles;
@@ -65,6 +66,13 @@ public class TantrixBoardTest {
     public void test4TilesIsSolved() {
         board = place4SolvedTiles();
         assertTrue("Unexpectedly not solved", board.isSolved());
+    }
+
+
+    @Test
+    public void test10TilesWithSpaceIsNotSolved() {
+        board = place10LoopWithInnerSpace();
+        assertFalse("Unexpectedly solved", board.isSolved());
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.Set;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.threeTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -23,7 +23,7 @@ public class BorderFinderTest {
 
     @Test
     public void testFindBorderForFirstTileOfThree() {
-        tantrix = new TantrixBoard(threeTiles).getTantrix();
+        tantrix = new TantrixBoard(THREE_TILES).getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
 
         Set<Location> positions = borderFinder.findBorderPositions();

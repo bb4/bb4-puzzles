@@ -43,6 +43,7 @@ public class Tantrix extends HashMap<Location, TilePlacement>{
      */
     public Tantrix(Tantrix tantrix) {
         putAll(tantrix);
+        lastTile = tantrix.getLastTile();
     }
 
     /**
