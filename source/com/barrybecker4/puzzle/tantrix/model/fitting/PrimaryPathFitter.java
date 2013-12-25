@@ -76,7 +76,7 @@ public class PrimaryPathFitter extends AbstractFitter {
             if (nbr != null) {
                 PathColor pathColor = placement.getPathColor(i);
 
-                if (pathColor == primaryColor && pathColor == nbr.getPathColor(i+3)) {
+                if (pathColor == primaryColor && pathColor == nbr.getPathColor(i + 3)) {
                     numFits++;
                 }
             }

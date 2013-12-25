@@ -154,7 +154,7 @@ public class TantrixBoard {
     }
 
     /**
-     * @param location
+     * @param location get the tile placement for this location.
      * @return null of there is no placement at that location.
      */
     public TilePlacement getTilePlacement(Location location) {
@@ -177,9 +177,8 @@ public class TantrixBoard {
     }
 
     /**
-     * If the new location is in the 0 row or column, we will return 1, to indicate
-     * that everything has been shifted down and to the right one.
-     * @return return the offset (1) if the tantrix was extended. or 0.
+     * Initialize the state of the board given some other board
+     * @param board the board to initialize from.
      */
     private void initializeFromOldBoard(TantrixBoard board) {
 

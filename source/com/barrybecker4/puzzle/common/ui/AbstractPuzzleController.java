@@ -39,7 +39,6 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
      *
      * @param algorithm strategy to use for solving the puzzle.
      */
-    @Override
     public void setAlgorithm(AlgorithmEnum<P, M> algorithm) {
         algorithm_ = algorithm;
     }
@@ -47,7 +46,6 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     /**
      * get the solver algorithm..
      */
-    @Override
     public AlgorithmEnum getAlgorithm() {
         return algorithm_;
     }
@@ -57,7 +55,6 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
      * Must be synchronized because some solvers use concurrency.
      * @return true if this position was already seen while searching.
      */
-    @Override
     public synchronized boolean alreadySeen(P position, Set<P> seen) {
 
         if (!seen.contains(position)) {
@@ -112,7 +109,6 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
      * Begin the process of solving.
      * Do it in a separate worker thread so the UI is not blocked.
      */
-    @Override
     public void startSolving() {
 
         // Use either concurrent or sequential solver strategy

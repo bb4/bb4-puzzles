@@ -71,5 +71,4 @@ public class TileFitter extends AbstractFitter {
         }
         return null;
     }
-
 }

@@ -37,7 +37,7 @@ public class PrimaryPathFitterTest  {
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
         fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW);
         List<TilePlacement> placements = fitter.getFittingPlacements(tiles.getTile(3), loc(2, 0));
-        assertEquals("Unexpected fitting Placements. placements=\n"+placements, 1, placements.size());
+        assertEquals("Unexpected fitting Placements. placements=\n" + placements, 1, placements.size());
     }
 
     /**
@@ -51,11 +51,11 @@ public class PrimaryPathFitterTest  {
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
         fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW);
         List<TilePlacement> placements = fitter.getFittingPlacements(tiles.getTile(4), loc(2, 0));
-        assertEquals("Unexpected fitting Placements. placements=\n"+placements, 0, placements.size());
+        assertEquals("Unexpected fitting Placements. placements=\n" + placements, 0, placements.size());
     }
 
     /**
-     * Here we ask if there are fits at a location where none are possible,  but
+     * Here we ask if there are fits at a location where no primary path connections are possible, but
      * we consider fits where no primary paths touch, hence 3 is expected.
      *     1   (3)
      *       2
@@ -67,7 +67,7 @@ public class PrimaryPathFitterTest  {
         fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW);
         List<TilePlacement> placements = fitter.getFittingPlacements(tiles.getTile(3), loc(1, 2));
         System.out.println("tantrix="+ tantrix.values());
-        System.out.println("  placements=" +  placements);
+        System.out.println(" placements=" +  placements);
         assertEquals("Unexpected fitting Placements.", 3, placements.size());
     }
 
