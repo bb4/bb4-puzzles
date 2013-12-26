@@ -62,16 +62,6 @@ public class TilePlacement {
     }
 
     /**
-     * Turn the new tile based on the old tile, but rotated.
-     * @param turns positive (c-clockwise) or negative (clockwise) number of turns.
-     * @return new immutable TilePlacement instance.
-     */
-    public TilePlacement rotate(int turns) {
-        Rotation newRotation = Rotation.values()[(rotation.ordinal() + turns) % NUM_SIDES];
-        return new TilePlacement(tile, location, newRotation);
-    }
-
-    /**
      * Turn the new tile based on the old tile, but rotated counter-clockwise once.
      * @return new immutable TilePlacement instance.
      */

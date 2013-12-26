@@ -42,15 +42,6 @@ public class TilePlacementList extends LinkedList<TilePlacement> {
         }
         return super.set(index, placement);
     }
-
-    /*
-    public TilePlacement getFirst() {
-        return this.get(0);
-    }
-
-    public TilePlacement getLast() {
-        return this.get(this.size()-1);
-    }*/
 }
 
 

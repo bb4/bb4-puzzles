@@ -42,11 +42,11 @@ public class RandomTilePlacer {
             boolean isLast = unplacedTiles.isEmpty();
             nextMove = findPrimaryPathPlacementForTile(board, tile, isLast);
         }
-        /*
+
         if (nextMove == null) {
             throw new IllegalStateException("We could not find a placement on \n" + board
                     + "\nusing these unplaced tiles:"  + unplacedTiles + " primColor="+ board.getPrimaryColor());
-        }*/
+        }
         return nextMove;
     }
 
@@ -93,27 +93,4 @@ public class RandomTilePlacer {
 
         return validFits.get(MathUtil.RANDOM.nextInt(validFits.size()));
     }
-
-    /**
-     * Avoid having the random extension to the path loop back and retouch the tantrix.
-     * We remove those placements from consideration (unless it is the last one).
-     *
-    private void cullPlacementsThatRetouch(TantrixBoard board, TilePlacement lastPlaced, TilePlacementList validFits) {
-        Iterator<TilePlacement> iter = validFits.iterator();
-        while (iter.hasNext()) {
-            TilePlacement fit = iter.next();
-            Map<Integer, Location> outgoing = fit.getOutgoingPathLocations(primaryColor);
-            boolean retouchesTantrix = false;
-
-            for (int i : outgoing.keySet()) {
-                TilePlacement p = board.getTilePlacement(outgoing.get(i));
-                if (p != null && !p.equals(lastPlaced)) {
-                    retouchesTantrix = true;
-                }
-            }
-            if (retouchesTantrix) {
-                iter.remove();
-            }
-        }
-    } */
 }
