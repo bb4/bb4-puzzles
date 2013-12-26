@@ -22,6 +22,7 @@ public class TantrixTstUtil {
     public static final HexTileList THREE_TILES = TILES.createOrderedList(3);
     public static final HexTileList FOUR_TILES = TILES.createOrderedList(4);
     public static final HexTileList TEN_TILES = TILES.createOrderedList(10);
+    public static final HexTileList FOURTEEN_TILES = TILES.createOrderedList(14);
 
     private TantrixTstUtil() {}
 
@@ -140,6 +141,27 @@ public class TantrixTstUtil {
         tiles.add(new TilePlacement(TILES.getTile(8), loc(-1, 3), Rotation.ANGLE_60));
         tiles.add(new TilePlacement(TILES.getTile(9), loc(0,2), Rotation.ANGLE_60));
         tiles.add(new TilePlacement(TILES.getTile(7), loc(1, 2), Rotation.ANGLE_60));
+
+        for (TilePlacement tile :  tiles) {
+            board = new TantrixBoard(board, tile);
+        }
+        return board;
+    }
+
+
+    /** There are 9 tiles that almost form a loop. One more will complete it. */
+    public static TantrixBoard place9AlmostLoop() {
+        TantrixBoard board = new TantrixBoard(FOURTEEN_TILES);
+
+        TilePlacementList tiles = new TilePlacementList();
+        tiles.add(new TilePlacement(TILES.getTile(5), loc(0, 0), Rotation.ANGLE_120));
+        tiles.add(new TilePlacement(TILES.getTile(6), loc(-1, 0), Rotation.ANGLE_0));
+        tiles.add(new TilePlacement(TILES.getTile(2), loc(-2, 0), Rotation.ANGLE_0));
+        tiles.add(new TilePlacement(TILES.getTile(3), loc(-1, 1), Rotation.ANGLE_300));
+        tiles.add(new TilePlacement(TILES.getTile(10), loc(-2, 1), Rotation.ANGLE_0));
+        tiles.add(new TilePlacement(TILES.getTile(4), loc(-2, 2), Rotation.ANGLE_60));
+        tiles.add(new TilePlacement(TILES.getTile(8), loc(-1, 3), Rotation.ANGLE_60));
+        tiles.add(new TilePlacement(TILES.getTile(9), loc(0,2), Rotation.ANGLE_60));
 
         for (TilePlacement tile :  tiles) {
             board = new TantrixBoard(board, tile);

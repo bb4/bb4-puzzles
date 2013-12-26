@@ -103,6 +103,4 @@ public class PrimaryPathFitter extends AbstractFitter {
     public Tantrix getTantrix() {
         return tantrix;
     }
-
-
 }

@@ -15,7 +15,7 @@ public class MoveGenerator {
 
     private TantrixBoard board;
 
-    /** a set of all the places that a next tile might be placed next. */
+    /** a set of all the places that a tile might be placed next. */
     private Set<Location> borderSpaces;
 
 

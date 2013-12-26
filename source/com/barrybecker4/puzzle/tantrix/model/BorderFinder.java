@@ -16,6 +16,8 @@ import static com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES;
 /**
  * Finds the set of moves on the border of the current 'tantrix'.
  * The 'tantrix' is the set of currently played consistent tiles.
+ * The moves on the border will extend the primary path, but not such that
+ * its width or height is more than half the length of the total finished path length.
  *
  * @author Barry Becker
  */
@@ -43,14 +45,16 @@ public class BorderFinder {
      * @return list of legal next placements
      */
     public Set<Location> findBorderPositions() {
-        Set<Location> positions = new LinkedHashSet<Location>();
-        visited = new HashSet<Location>();
+        Set<Location> positions = new LinkedHashSet<>();
+        visited = new HashSet<>();
 
         TilePlacement lastPlaced = tantrix.getLastTile();
 
         Queue<TilePlacement> searchQueue = new TilePlacementList();
         searchQueue.add(lastPlaced);
-        visited.add(lastPlaced.getLocation());
+        for (TilePlacement placement : tantrix.values()) {
+           visited.add(placement.getLocation());
+        }
 
         while (!searchQueue.isEmpty()) {
             TilePlacement placement = searchQueue.remove();
@@ -62,14 +66,15 @@ public class BorderFinder {
     }
 
     /**
-     * @return all the empty neighbor positions next to the specified placement
+     * @return all the empty neighbor positions next to the specified placement with primary path match.
      */
     private List<Location> findEmptyNeighborLocations(TilePlacement placement) {
-        List<Location> emptyNbrLocations = new LinkedList<Location>();
-        for (byte i=0; i< NUM_SIDES; i++) {
+        List<Location> emptyNbrLocations = new LinkedList<>();
+        for (byte i=0; i < NUM_SIDES; i++) {
 
             Location nbrLoc = HexUtil.getNeighborLocation(placement.getLocation(), i);
-            if (tantrix.get(nbrLoc) == null) {
+            TilePlacement nbr = tantrix.get(nbrLoc);
+            if (nbr == null && placement.getPathColor(i) == primaryColor) {
                 Box newBox = new Box(boundingBox, nbrLoc);
                 if (newBox.getMaxDimension() <= maxHalfPathLength) {
                     emptyNbrLocations.add(nbrLoc);
@@ -86,7 +91,7 @@ public class BorderFinder {
     private TilePlacementList findPrimaryPathNeighbors(TilePlacement previous) {
 
         TilePlacementList pathNbrs = new TilePlacementList();
-        for (byte i=0; i< NUM_SIDES; i++) {
+        for (byte i=0; i < NUM_SIDES; i++) {
             PathColor color = previous.getPathColor(i);
             if (color == primaryColor) {
                 TilePlacement nbr = tantrix.getNeighbor(previous, i);
