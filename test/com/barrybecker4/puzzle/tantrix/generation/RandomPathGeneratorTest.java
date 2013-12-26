@@ -1,8 +1,12 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model;
+package com.barrybecker4.puzzle.tantrix.generation;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.math.MathUtil;
+import com.barrybecker4.puzzle.tantrix.model.PathColor;
+import com.barrybecker4.puzzle.tantrix.model.Rotation;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 import org.junit.Before;
 import org.junit.Test;

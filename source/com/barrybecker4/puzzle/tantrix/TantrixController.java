@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix;
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.tantrix.model.HexTiles;
-import com.barrybecker4.puzzle.tantrix.model.MoveGenerator;
+import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;

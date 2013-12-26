@@ -73,7 +73,7 @@ public class HexTiles extends HexTileList {
         add(new HexTile(i++, WHITE, new PathColors(GREEN, YELLOW, YELLOW, BLUE, GREEN, BLUE)));
         add(new HexTile(i++, WHITE, new PathColors( BLUE, YELLOW, YELLOW, GREEN, BLUE, GREEN)));
         add(new HexTile(i++, WHITE, new PathColors( GREEN, BLUE, BLUE, YELLOW, GREEN, YELLOW)));
-        add(new HexTile(i++, WHITE, new PathColors( YELLOW, BLUE, BLUE, GREEN, YELLOW, GREEN)));
+        add(new HexTile(i, WHITE, new PathColors( YELLOW, BLUE, BLUE, GREEN, YELLOW, GREEN)));
     }
 
     /**

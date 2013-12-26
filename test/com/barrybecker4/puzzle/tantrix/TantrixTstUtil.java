@@ -21,6 +21,7 @@ public class TantrixTstUtil {
     public static final HexTiles TILES = new HexTiles();
     public static final HexTileList THREE_TILES = TILES.createOrderedList(3);
     public static final HexTileList FOUR_TILES = TILES.createOrderedList(4);
+    public static final HexTileList SIX_TILES = TILES.createOrderedList(6);
     public static final HexTileList TEN_TILES = TILES.createOrderedList(10);
     public static final HexTileList FOURTEEN_TILES = TILES.createOrderedList(14);
 
@@ -46,8 +47,17 @@ public class TantrixTstUtil {
 
     /** Places first tile in the middle */
     public static TantrixBoard place3UnsolvedTiles() {
+        return place3Unsolved(THREE_TILES);
+    }
 
-        TantrixBoard board = new TantrixBoard(THREE_TILES);
+
+    /** Places first tile in the middle. Three unplaced tiles remain. */
+    public static TantrixBoard place3of6UnsolvedTiles() {
+        return place3Unsolved(SIX_TILES);
+    }
+
+    private static TantrixBoard place3Unsolved(HexTileList tiles) {
+        TantrixBoard board = new TantrixBoard(tiles);
         TilePlacement tile2 = new TilePlacement(TILES.getTile(2), loc(2, 0), Rotation.ANGLE_0);
         TilePlacement tile3 = new TilePlacement(TILES.getTile(3), loc(2, 1), Rotation.ANGLE_180);
         board = new TantrixBoard(board, tile2);
@@ -80,8 +90,16 @@ public class TantrixTstUtil {
 
     /** constructor places first tile in the middle */
     public static TantrixBoard place3SolvedTiles() {
-        System.out.println("3 tiles =" + THREE_TILES);
-        TantrixBoard board = new TantrixBoard(THREE_TILES);
+        return place3Solved(THREE_TILES);
+    }
+
+    /** constructor places first tile in the middle */
+    public static TantrixBoard place3of6SolvedTiles() {
+        return place3Solved(SIX_TILES);
+    }
+
+    private static TantrixBoard place3Solved(HexTileList tiles) {
+        TantrixBoard board = new TantrixBoard(tiles);
 
         TilePlacement tile2 = new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_60);
         TilePlacement tile3 = new TilePlacement(TILES.getTile(3), loc(2, 0), Rotation.ANGLE_120);
@@ -90,6 +108,7 @@ public class TantrixTstUtil {
         System.out.println(board);
         return board;
     }
+
 
     /** Places second tile in the middle */
     public static TantrixBoard place1of3Tiles_startingWithTile2() {

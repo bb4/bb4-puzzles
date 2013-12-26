@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model.verification;
+package com.barrybecker4.puzzle.tantrix.analysis.verification;
 
 import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.Tantrix;
-import com.barrybecker4.puzzle.tantrix.model.verfication.ConsistencyChecker;
+import com.barrybecker4.puzzle.tantrix.analysis.verfication.ConsistencyChecker;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 import com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil;
 import org.junit.Test;

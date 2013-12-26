@@ -1,22 +1,18 @@
 // Copyright by Barry G. Becker, 2012-2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model;
+package com.barrybecker4.puzzle.tantrix.generation;
 
 import com.barrybecker4.common.geometry.IntLocation;
 import com.barrybecker4.common.geometry.Location;
+import com.barrybecker4.puzzle.tantrix.model.PathColor;
+import com.barrybecker4.puzzle.tantrix.model.Tantrix;
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place10LoopWithInnerSpace;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place4SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place4UnsolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place9AlmostLoop;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -39,7 +35,6 @@ public class BorderFinderTest {
     public void testFindBorderForTwoOfThreeTilesA() {
         tantrix = place2of3Tiles_OneThenTwo().getTantrix();
         borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW);
-
         verifyBorderLocations(new IntLocation(22, 20));
     }
 

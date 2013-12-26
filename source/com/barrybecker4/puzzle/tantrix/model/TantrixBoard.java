@@ -4,8 +4,8 @@ package com.barrybecker4.puzzle.tantrix.model;
 import com.barrybecker4.common.geometry.Box;
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix.model.fitting.TantrixTileFitter;
-import com.barrybecker4.puzzle.tantrix.model.verfication.SolutionVerifier;
+import com.barrybecker4.puzzle.tantrix.analysis.fitting.TantrixTileFitter;
+import com.barrybecker4.puzzle.tantrix.analysis.verfication.SolutionVerifier;
 
 import java.util.Set;
 

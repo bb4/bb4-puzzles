@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model;
+package com.barrybecker4.puzzle.tantrix.generation;
 
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
 /**
@@ -31,9 +33,6 @@ public class RandomPathGenerator {
 
         while (!currentBoard.getUnplacedTiles().isEmpty()) {
             TilePlacement placement = tilePlacer.generatePlacement(currentBoard);
-            //if (placement == null) {
-            //    currentBoard.undoLastPlaced();
-            //}
             currentBoard = currentBoard.placeTile(placement);
         }
         return new TantrixPath(currentBoard.getTantrix(), initialBoard.getPrimaryColor());

@@ -7,7 +7,7 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
-import com.barrybecker4.puzzle.tantrix.model.fitting.PrimaryPathFitter;
+import com.barrybecker4.puzzle.tantrix.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
 import java.util.List;

@@ -1,15 +1,18 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model;
+package com.barrybecker4.puzzle.tantrix.generation;
 
 import com.barrybecker4.common.geometry.ByteLocation;
+import com.barrybecker4.puzzle.tantrix.model.Rotation;
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import org.junit.Test;
 
 import java.util.List;
 
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
 import static org.junit.Assert.assertEquals;
 
 /**

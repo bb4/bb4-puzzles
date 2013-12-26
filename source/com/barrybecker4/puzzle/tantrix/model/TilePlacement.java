@@ -33,13 +33,6 @@ public class TilePlacement {
     }
 
     /**
-     * Constructor for empty location.
-     */
-    public TilePlacement(Location location) {
-        this(null, location, Rotation.ANGLE_0);
-    }
-
-    /**
      * Constructor.
      */
     public HexTile getTile() {

@@ -1,9 +1,15 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model;
+package com.barrybecker4.puzzle.tantrix.generation;
 
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.tantrix.model.fitting.PrimaryPathFitter;
+import com.barrybecker4.puzzle.tantrix.analysis.fitting.PrimaryPathFitter;
+import com.barrybecker4.puzzle.tantrix.model.HexTile;
+import com.barrybecker4.puzzle.tantrix.model.HexTileList;
+import com.barrybecker4.puzzle.tantrix.model.PathColor;
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
+import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,10 +31,11 @@ public class RandomTilePlacer {
     }
 
     /**
-     * For each unplaced tile, find all valid placements given current configuration.
+     * Considering each unplaced tile, find a single random placement given current configuration.
      * Valid placements must extend the primary path but not necessarily match secondary paths.
-     * @return List of all valid tile placements for the current tantrix state.
-     *  returns null of no placement is possible.
+     * @return a random tile placement for the current tantrix state and set of unplaced tiles.
+     *  returns null if no placement is possible - such as when we have a loop, then end is blocked, or there
+     *  are no more unplaced tiles.
      */
     public TilePlacement generatePlacement(TantrixBoard board) {
 
@@ -37,15 +44,9 @@ public class RandomTilePlacer {
 
         TilePlacement nextMove = null;
         int i=0;
-        while (nextMove == null && i<unplacedTiles.size())   {
+        while (nextMove == null && i < unplacedTiles.size())   {
             HexTile tile = unplacedTiles.get(i++);
-            boolean isLast = unplacedTiles.isEmpty();
-            nextMove = findPrimaryPathPlacementForTile(board, tile, isLast);
-        }
-
-        if (nextMove == null) {
-            throw new IllegalStateException("We could not find a placement on \n" + board
-                    + "\nusing these unplaced tiles:"  + unplacedTiles + " primColor="+ board.getPrimaryColor());
+            nextMove = findPrimaryPathPlacementForTile(board, tile);
         }
         return nextMove;
     }
@@ -57,9 +58,9 @@ public class RandomTilePlacer {
      *
      * There are usually two ways to place a tile, but there are some rare cases where there can be four.
      * For example, given:
-     * [tileNum=6 colors: [Y, R, B, Y, B, R] at (row=20, column=21) ANGLE_240]
-     * [tileNum=2 colors: [B, Y, Y, B, R, R] at (row=20, column=20) ANGLE_60]
-     * [tileNum=7 colors: [R, Y, R, Y, B, B] at (row=21, column=21) ANGLE_0]
+     *  [tileNum=6 colors: [Y, R, B, Y, B, R] at (row=20, column=21) ANGLE_240]
+     *  [tileNum=2 colors: [B, Y, Y, B, R, R] at (row=20, column=20) ANGLE_60]
+     *  [tileNum=7 colors: [R, Y, R, Y, B, B] at (row=21, column=21) ANGLE_0]
      *
      * There are these 4 valid placements:
      *  [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_0],
@@ -68,9 +69,9 @@ public class RandomTilePlacer {
      *  [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_300]]
      *  but all of them cause retouching to the main path.
      *
-     * @return a valid primary pth placement.
+     * @return a valid primary path placement.
      */
-    private TilePlacement findPrimaryPathPlacementForTile(TantrixBoard board, HexTile tile, boolean isLast) {
+    private TilePlacement findPrimaryPathPlacementForTile(TantrixBoard board, HexTile tile) {
 
         TilePlacement lastPlaced = board.getLastTile();
         PrimaryPathFitter fitter = new PrimaryPathFitter(board.getTantrix(), board.getPrimaryColor());
@@ -82,10 +83,12 @@ public class RandomTilePlacer {
                 nextLocation = outgoing.get(i);
             }
         }
-        assert nextLocation != null;
+        // this could happen if there is a loop, or the open end of the primary path is blocked.
+        if (nextLocation == null) {
+            return null;
+        }
 
-        TilePlacementList validFits =
-                fitter.getFittingPlacements(tile, nextLocation);
+        TilePlacementList validFits = fitter.getFittingPlacements(tile, nextLocation);
 
         if (validFits.isEmpty())  {
             return null;
