@@ -9,7 +9,7 @@ import java.util.Random;
 import static com.barrybecker4.puzzle.tantrix.model.PathColor.*;
 
 /**
- * The complete set of hexagonal tantrix tiles
+ * The complete set of hexagonal tantrix tiles. There are 56 of them.
  *
  * @author Barry Becker
  */

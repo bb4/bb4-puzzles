@@ -17,22 +17,23 @@ import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
  */
 public class PathTstUtil {
 
-    static final Location LOWER_LEFT = new ByteLocation(22, 20);
-    static final Location LOWER_RIGHT = new ByteLocation(22, 21);
-    static final Location UPPER = new ByteLocation(21, 21);
-    static final Location UPPER_LEFT = new ByteLocation(21, 20);
+    public static final Location LOWER_LEFT = new ByteLocation(22, 20);
+    public static final Location LOWER_RIGHT = new ByteLocation(22, 21);
+    public static final Location UPPER = new ByteLocation(21, 21);
+    public static final Location UPPER_LEFT = new ByteLocation(21, 20);
 
-    static final HexTile TILE1 = TILES.getTile(1);
-    static final HexTile TILE2 = TILES.getTile(2);
-    static final HexTile TILE3 = TILES.getTile(3);
-    static final HexTile TILE4 = TILES.getTile(4);
+    public static final HexTile TILE1 = TILES.getTile(1);
+    public static final HexTile TILE2 = TILES.getTile(2);
+    public static final HexTile TILE3 = TILES.getTile(3);
+    public static final HexTile TILE4 = TILES.getTile(4);
 
-    public static final TantrixPath LOOP_PATH =
+    public static final TantrixPath LOOP_PATH3 =
             createPath(
                     new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_60),
                     new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
                     new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120));
 
+    /** left end of the yellow path is blocked by tile 2 */
     public static final TantrixPath NON_LOOP_PATH3 =
             createPath(
                     new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_0),

@@ -2,15 +2,17 @@
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting;
 
 import com.barrybecker4.common.geometry.Location;
+import com.barrybecker4.puzzle.tantrix.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix.model.HexTile;
 import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
-import com.barrybecker4.puzzle.tantrix.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Swap tiles in place in a specified originalPath.
@@ -27,23 +29,28 @@ public class PathTilePermuter {
         this.color = path.getPrimaryPathColor();
     }
 
+    /**
+     * Permutes the tiles at oldIndices to new positions at new Indices
+     * @param oldIndices old positions in the path
+     * @param newIndices new positions to place the tiles at.
+     * @return the new rearranged path.
+     */
     public TantrixPath permute(List<Integer> oldIndices, List<Integer> newIndices) {
-        TantrixPath permutedPath = originalPath.copy();
 
+        TantrixPath permutedPath = originalPath.copy();
         TilePlacementList auxList = new TilePlacementList();
 
-        //System.out.println("new indices = " + newIndices);
-        //System.out.println("old indices = " + oldIndices);
+        assert consistent(oldIndices, newIndices);
 
-        for (int i=0; i<oldIndices.size(); i++) {
-           auxList.set(i, permutedPath.getTilePlacements().get(newIndices.get(i)));
+        for (int i=0; i < oldIndices.size(); i++) {
+            auxList.set(i, permutedPath.getTilePlacements().get(newIndices.get(i)));
         }
 
         PrimaryPathFitter fitter =
-                new PrimaryPathFitter(permutedPath.getTilePlacements(), color);
+            new PrimaryPathFitter(permutedPath.getTilePlacements(), color);
 
         TilePlacementList origPlacements = permutedPath.getTilePlacements();
-        for (int i=0; i<newIndices.size(); i++) {
+        for (int i=0; i < newIndices.size(); i++) {
 
             int oldIndex = oldIndices.get(i);
             TilePlacement oldPlacement = auxList.get(i);
@@ -55,15 +62,21 @@ public class PathTilePermuter {
         return permutedPath;
     }
 
+    private boolean consistent(List<Integer> oldIndices, List<Integer> newIndices) {
+        Set<Integer> uniqueVals = new HashSet<>();
+        uniqueVals.addAll(oldIndices);
+        return uniqueVals.size() == oldIndices.size() && oldIndices.containsAll(newIndices);
+    }
+
     /**
      * @return The new placement with the tile rotated so it fits at the new location.
      */
     private TilePlacement findNewPlacement(HexTile tile, Location location, PrimaryPathFitter fitter) {
-        TilePlacement newPlacement =
-                new TilePlacement(tile, location, Rotation.ANGLE_0);
+
+        TilePlacement newPlacement = new TilePlacement(tile, location, Rotation.ANGLE_0);
+
         int ct = 0;
         while (!fitter.isFit(newPlacement) && ct < HexTile.NUM_SIDES) {
-            //System.out.println("new placement = " + newPlacement);
             newPlacement = newPlacement.rotate();
             ct++;
         }

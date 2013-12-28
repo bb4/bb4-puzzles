@@ -4,10 +4,10 @@ package com.barrybecker4.puzzle.tantrix.solver.path;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.parameter.PermutedParameterArray;
+import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator;
 import com.barrybecker4.puzzle.tantrix.model.HexTileList;
 import com.barrybecker4.puzzle.tantrix.model.HexUtil;
 import com.barrybecker4.puzzle.tantrix.model.PathColor;
-import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator;
 import com.barrybecker4.puzzle.tantrix.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
@@ -84,7 +84,7 @@ public class TantrixPath extends PermutedParameterArray {
     }
 
     /**
-     * There is a ordered primary path if all the successive tiles are connected by the primary path.
+     * There is an ordered primary path if all the successive tiles are connected by the primary path.
      * @return true if there exists a primary path or loop.
      */
     public static boolean hasOrderedPrimaryPath(TilePlacementList tiles, PathColor primaryColor) {
@@ -92,7 +92,7 @@ public class TantrixPath extends PermutedParameterArray {
 
         TilePlacement lastTile = tiles.get(0);
 
-        for (int i=1; i<tiles.size(); i++)  {
+        for (int i=1; i < tiles.size(); i++)  {
             TilePlacement currentTile = tiles.get(i);
             Map<Integer, Location> outgoing = currentTile.getOutgoingPathLocations(primaryColor);
             if (!outgoing.containsValue(lastTile.getLocation())) {

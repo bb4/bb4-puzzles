@@ -34,11 +34,13 @@ public class TilePlacementList extends LinkedList<TilePlacement> {
         addAll(Arrays.asList(placements));
     }
 
+    /** Increase the size of this list if index is out of bounds. */
     @Override
     public TilePlacement set(int index, TilePlacement placement) {
+
         int diff = index - this.size();
         while (diff-- >= 0) {
-           add(placement);
+           this.add(null);
         }
         return super.set(index, placement);
     }

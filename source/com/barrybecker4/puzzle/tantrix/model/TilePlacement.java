@@ -64,7 +64,7 @@ public class TilePlacement {
     }
 
     public Map<Integer, Location> getOutgoingPathLocations(PathColor primaryColor) {
-        Map<Integer, Location> outgoingPathLocations = new HashMap<Integer, Location>();
+        Map<Integer, Location> outgoingPathLocations = new HashMap<>();
         for (int i=0; i < NUM_SIDES; i++)  {
             if (primaryColor == getPathColor(i)) {
                 outgoingPathLocations.put(i, HexUtil.getNeighborLocation(getLocation(), i));

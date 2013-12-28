@@ -12,8 +12,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class HexUtilTest {
 
-    /** instance under test */
-    HexUtil hexUtil;
+    private static final double TOL = 0.001;
 
     Tantrix tantrix;
 
@@ -42,5 +41,33 @@ public class HexUtilTest {
 
         assertEquals("Unexpected neighbor location.",
                 new IntLocation(21, 22), HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 6));
+    }
+
+    @Test
+    public void testGetDistanceBetweenDiag() {
+
+        assertEquals("Unexpected distance.",
+                1.8027, HexUtil.distanceBetween(new IntLocation(19, 21), new IntLocation(20, 22)), TOL);
+    }
+
+    @Test
+    public void testGetDistanceBetweenSameRow() {
+
+        assertEquals("Unexpected distance.",
+                1.0, HexUtil.distanceBetween(new IntLocation(19, 21), new IntLocation(19, 22)), TOL);
+    }
+
+    @Test
+    public void testGetDistanceBetweenSameCol() {
+
+        assertEquals("Unexpected distance.",
+                2.0, HexUtil.distanceBetween(new IntLocation(19, 20), new IntLocation(19, 22)), TOL);
+    }
+
+    @Test
+    public void testGetDistanceBetweenSameSpace() {
+
+        assertEquals("Unexpected distance.",
+                0.0, HexUtil.distanceBetween(new IntLocation(20, 21), new IntLocation(20, 21)), TOL);
     }
 }

@@ -21,6 +21,7 @@ public class HexTile {
      * Constructor.
      */
     public HexTile(byte tantrixNumber, PathColor primaryColor, List<PathColor> edgeColors) {
+        assert edgeColors.size() == 6;
         this.tantrixNumber = tantrixNumber;
         this.primaryColor = primaryColor;
         this.edgeColors = edgeColors;

@@ -69,7 +69,7 @@ public class LoopDetectorTest {
     /** Three loop has 3 fitting tiles. */
     @Test
     public void testLoopPath3HasLoop() {
-        TantrixPath path = PathTstUtil.LOOP_PATH;
+        TantrixPath path = PathTstUtil.LOOP_PATH3;
         board = new TantrixBoard(path.getTilePlacements(), PathColor.YELLOW);
         verifyHasLoop(true);
 

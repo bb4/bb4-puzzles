@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.LOOP_PATH;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.LOOP_PATH3;
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.NON_LOOP_PATH4;
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +29,7 @@ public class TilesOfTypeIndicesTest {
     @Test
     public void testTIGHTIndicesIn3TileLoop() {
 
-        indices = new TilesOfTypeIndices(PathType.TIGHT_CURVE, LOOP_PATH);
+        indices = new TilesOfTypeIndices(PathType.TIGHT_CURVE, LOOP_PATH3);
 
         assertEquals("Unexpected ",
                 Arrays.asList(0, 1, 2), indices);
@@ -38,7 +38,7 @@ public class TilesOfTypeIndicesTest {
     @Test
     public void testWIDEIndicesIn3TileLoop() {
 
-        indices = new TilesOfTypeIndices(PathType.WIDE_CURVE, LOOP_PATH);
+        indices = new TilesOfTypeIndices(PathType.WIDE_CURVE, LOOP_PATH3);
 
         assertEquals("Unexpected ",
                 Collections.<TilesOfTypeIndices>emptyList(), indices);

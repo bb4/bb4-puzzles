@@ -29,8 +29,8 @@ public class PathTilePermuterTest {
     }
 
     @Test
-    public void testPermute3TileLoop1() {
-        TantrixPath path = LOOP_PATH.copy();
+    public void testPermute3TileLoopFirstTwoPermuted() {
+        TantrixPath path = LOOP_PATH3.copy();
         permuter = new PathTilePermuter(path);
 
         TantrixPath permutedPath = permuter.permute(Arrays.asList(0, 1), Arrays.asList(1, 0));
@@ -44,8 +44,8 @@ public class PathTilePermuterTest {
     }
 
     @Test
-    public void testPermute3TileLoop2() {
-        TantrixPath path = LOOP_PATH.copy();
+    public void testPermute3TileLoopSecond2Permuted() {
+        TantrixPath path = LOOP_PATH3.copy();
         permuter = new PathTilePermuter(path);
         TantrixPath permutedPath = permuter.permute(Arrays.asList(1, 2), Arrays.asList(2, 1));
 
@@ -53,6 +53,37 @@ public class PathTilePermuterTest {
                 createPath(new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_60),
                            new TilePlacement(TILE3, UPPER, Rotation.ANGLE_0),
                            new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_120));
+
+        assertEquals("Unexpected permuted path.", expPath, permutedPath);
+    }
+
+    @Test
+    public void testPermute3TileLoopAll3PermutedA() {
+        TantrixPath path = LOOP_PATH3.copy();
+        permuter = new PathTilePermuter(path);
+
+        TantrixPath permutedPath = permuter.permute(Arrays.asList(0, 1, 2), Arrays.asList(2, 1, 0));
+
+        TantrixPath expPath =
+            createPath(new TilePlacement(TILE3, LOWER_RIGHT, Rotation.ANGLE_240),
+                       new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
+                       new TilePlacement(TILE2, LOWER_LEFT, Rotation.ANGLE_300));
+
+        assertEquals("Unexpected permuted path.", expPath, permutedPath);
+    }
+
+
+    @Test
+    public void testPermute3TileLoopAll3PermutedB() {
+        TantrixPath path = LOOP_PATH3.copy();
+        permuter = new PathTilePermuter(path);
+
+        TantrixPath permutedPath = permuter.permute(Arrays.asList(0, 1, 2), Arrays.asList(1, 2, 0));
+
+        TantrixPath expPath =
+            createPath(new TilePlacement(TILE1, LOWER_RIGHT, Rotation.ANGLE_240),
+                       new TilePlacement(TILE3, UPPER, Rotation.ANGLE_0),
+                       new TilePlacement(TILE2, LOWER_LEFT, Rotation.ANGLE_300));
 
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
@@ -101,8 +132,7 @@ public class PathTilePermuterTest {
      [tileNum=3 colors: [B, B, R, R, Y, Y] at (row=21, column=23) ANGLE_300]
    */
 
-    /*
-    @Test (expected = IllegalStateException.class)
+    @Test
     public void testSwapIn4TileLoopPathWideArc() {
 
         TantrixPath path = LOOP_PATH4.copy();
@@ -111,13 +141,13 @@ public class PathTilePermuterTest {
         permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test
     public void testSwapIn4TileNonLoopPathWideArc() {
 
         TantrixPath path = NON_LOOP_PATH4.copy();
         permuter = new PathTilePermuter(path);
         permuter.permute(Arrays.asList(0, 2), Arrays.asList(2, 0));
-    }    */
+    }
 
     @Test
     public void testSwapIn4TileNonLoopPathTightArc() {
@@ -127,25 +157,35 @@ public class PathTilePermuterTest {
         TantrixPath permutedPath = permuter.permute(Arrays.asList(1, 3), Arrays.asList(3, 1));
 
         TantrixPath expPath =
-                new TantrixPath(new TilePlacementList(
-                        new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_120),
-                        new TilePlacement(TILE3, UPPER_LEFT, Rotation.ANGLE_180),
-                        new TilePlacement(TILE4, UPPER, Rotation.ANGLE_60),
-                        new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_180)),
-                PathColor.RED);
-
+            new TantrixPath(new TilePlacementList(
+                new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_120),
+                new TilePlacement(TILE3, UPPER_LEFT, Rotation.ANGLE_180),
+                new TilePlacement(TILE4, UPPER, Rotation.ANGLE_60),
+                new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_180)),
+            PathColor.RED);
 
         assertEquals("Unexpected permuted path.", expPath, permutedPath);
     }
 
     /**
      * We get an exception if the tiles cannot be swapped.
-     * Should not be able to swap a tile with itself
-     *
-    @Test (expected = IllegalStateException.class)
-    public void testSwapInvalid() {
+     * Should not be able to swap a tile with itself.
+     */
+    @Test (expected = AssertionError.class)
+    public void testSwapDuplicateIdices() {
 
         permuter = new PathTilePermuter(NON_LOOP_PATH3);
         permuter.permute(Arrays.asList(0, 0), Arrays.asList(0, 0));
-    }*/
+    }
+
+    /**
+     * We get an exception if the tiles cannot be swapped.
+     * The permutation indices need to match.
+     */
+    @Test (expected = AssertionError.class)
+    public void testSwapInvalidIndices() {
+
+        permuter = new PathTilePermuter(NON_LOOP_PATH3);
+        permuter.permute(Arrays.asList(0, 2), Arrays.asList(0, 1));
+    }
 }

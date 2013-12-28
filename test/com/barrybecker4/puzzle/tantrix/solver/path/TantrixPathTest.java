@@ -16,9 +16,11 @@ import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3NonPathTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 
 /**
  * @author Barry Becker
@@ -50,7 +52,7 @@ public class TantrixPathTest {
      * do form path.
      */
     @Test(expected = IllegalStateException.class)
-    public void test5TilePathConstructionWhenPathTilesUnorder() {
+    public void test5TilePathConstructionWhenPathTilesUnordered() {
 
         TilePlacement first =
                 new TilePlacement(TILES.getTile(4), new ByteLocation(21, 22), Rotation.ANGLE_0);
@@ -101,6 +103,26 @@ public class TantrixPathTest {
     }
 
     @Test
+    public void testHasOrderedPrimaryPathYellow() {
+        TilePlacementList tiles = new TilePlacementList(
+                new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_60),
+                new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
+                new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120));
+
+        assertTrue("Unexpectedly not a loop", TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.YELLOW));
+    }
+
+    @Test
+    public void testHasOrderedPrimaryPathRed() {
+        TilePlacementList tiles = new TilePlacementList(
+                new TilePlacement(TILE2, LOWER_RIGHT, Rotation.ANGLE_60),
+                new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0),
+                new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120));
+
+        assertFalse("Unexpectedly found a loop", TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED));
+    }
+
+    @Test
     public void testFindRandomNeighbor() {
         MathUtil.RANDOM.setSeed(0);
         TantrixBoard board = place3UnsolvedTiles();
@@ -114,7 +136,6 @@ public class TantrixPathTest {
                         new TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), Rotation.ANGLE_240));
         TantrixPath expectedPath = new TantrixPath(tiles, PathColor.YELLOW);
 
-        //TantrixPath expNbr = new TantrixPath(tiles, board.getPrimaryColor());
         assertEquals("Unexpected random neighbor.", expectedPath, nbr);
     }
 }

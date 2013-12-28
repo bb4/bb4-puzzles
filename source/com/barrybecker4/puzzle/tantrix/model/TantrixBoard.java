@@ -132,7 +132,7 @@ public class TantrixBoard {
     public HexTileList getAllTiles() {
         HexTileList tiles = new HexTileList();
         tiles.addAll(getUnplacedTiles());
-        for (Location loc: getTantrixLocations()) {
+        for (Location loc : getTantrixLocations()) {
             tiles.add(getTilePlacement(loc).getTile());
         }
         return tiles;

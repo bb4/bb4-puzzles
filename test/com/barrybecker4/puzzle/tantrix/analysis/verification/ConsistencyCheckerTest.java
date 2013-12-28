@@ -71,7 +71,7 @@ public class ConsistencyCheckerTest {
     /** Three loop has 3 fitting tiles. */
     @Test
     public void testLoopPath3Consistency() {
-        TantrixPath path = PathTstUtil.LOOP_PATH;
+        TantrixPath path = PathTstUtil.LOOP_PATH3;
 
         checker = new ConsistencyChecker(path.getTilePlacements(), PathColor.YELLOW);
         assertEquals("Unexpected number of fitting tiles.", 3, checker.numFittingTiles());
