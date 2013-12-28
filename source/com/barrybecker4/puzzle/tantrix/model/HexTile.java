@@ -43,4 +43,5 @@ public class HexTile {
     public String toString() {
         return "tileNum=" + tantrixNumber + " colors: " + edgeColors;
     }
+
 }

@@ -10,13 +10,7 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.THREE_TILES;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.SIX_TILES;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3of6SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3of6UnsolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place4UnsolvedTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -94,6 +88,21 @@ public class RandomTilePlacerTest {
         tantrix = place4UnsolvedTiles();
         verifyPlacement(null);
     }
+
+    @Test
+    public void testFindRandomPlacementFor9AlmostLoopBlue() {
+        placer = new RandomTilePlacer(PathColor.BLUE);
+        tantrix = place9AlmostLoop();
+        verifyPlacement(new TilePlacement(FOURTEEN_TILES.get(13), new IntLocation(21,23), Rotation.ANGLE_180));
+    }
+
+    @Test
+    public void testFindRandomPlacementFor9AlmostLoopRed() {
+        placer = new RandomTilePlacer(PathColor.RED);
+        tantrix = place9AlmostLoop();
+        verifyPlacement(new TilePlacement(FOURTEEN_TILES.get(13), new IntLocation(21,22), Rotation.ANGLE_300));
+    }
+
 
     private void verifyPlacement(TilePlacement expPlacement) {
 
