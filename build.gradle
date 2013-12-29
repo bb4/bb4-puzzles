@@ -39,6 +39,7 @@ task runTantrixPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     //args = ['-name', 'galactic',  '-locale', 'ENGLISH']
+    jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
 }
 
 task runSudoku(type: JavaExec) {

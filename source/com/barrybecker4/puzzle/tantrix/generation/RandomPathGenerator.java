@@ -29,12 +29,19 @@ public class RandomPathGenerator {
      */
     public TantrixPath generateRandomPath() {
 
-        TantrixBoard currentBoard = initialBoard;
+        TantrixBoard currentBoard;
 
-        while (!currentBoard.getUnplacedTiles().isEmpty()) {
-            TilePlacement placement = tilePlacer.generateRandomPlacement(currentBoard);
-            currentBoard = currentBoard.placeTile(placement);
-        }
+        boolean foundPath = false;
+        do {
+            currentBoard = initialBoard;
+            while (!currentBoard.getUnplacedTiles().isEmpty()) {
+                TilePlacement placement = tilePlacer.generateRandomPlacement(currentBoard);
+                if (placement == null) break;
+                currentBoard = currentBoard.placeTile(placement);
+            }
+            foundPath = currentBoard.getUnplacedTiles().isEmpty();
+        } while (!foundPath);
+
         return new TantrixPath(currentBoard.getTantrix(), initialBoard.getPrimaryColor());
     }
 }

@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place1of5UnsolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3of6UnsolvedTiles;
 import static org.junit.Assert.assertEquals;
@@ -53,7 +54,6 @@ public class RandomPathGeneratorTest {
 
         assertEquals("Unexpected length for randomly generated path.", 6, rPath.size());
 
-
         TilePlacementList tiles = new TilePlacementList(
                 new TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), Rotation.ANGLE_60),
                 new TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), Rotation.ANGLE_180),
@@ -69,5 +69,15 @@ public class RandomPathGeneratorTest {
         // make sure we get a different random path on the second call.
         TantrixPath rPath2 = pathGenerator.generateRandomPath();
         assertNotEquals("Unexpected path.", expectedPath, rPath2);
+    }
+
+    @Test
+    public void test5TilesPathGenNeverNull() {
+        pathGenerator = new RandomPathGenerator(place1of5UnsolvedTiles());
+
+        for (int i=0; i<100; i++) {
+            TantrixPath rPath = pathGenerator.generateRandomPath();
+            assertEquals("Unexpected length for randomly generated path.", 5, rPath.size());
+        }
     }
 }

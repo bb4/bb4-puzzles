@@ -21,6 +21,7 @@ public class TantrixTstUtil {
     public static final HexTiles TILES = new HexTiles();
     public static final HexTileList THREE_TILES = TILES.createOrderedList(3);
     public static final HexTileList FOUR_TILES = TILES.createOrderedList(4);
+    public static final HexTileList FIVE_TILES = TILES.createOrderedList(5);
     public static final HexTileList SIX_TILES = TILES.createOrderedList(6);
     public static final HexTileList TEN_TILES = TILES.createOrderedList(10);
     public static final HexTileList FOURTEEN_TILES = TILES.createOrderedList(14);
@@ -63,6 +64,11 @@ public class TantrixTstUtil {
         board = new TantrixBoard(board, tile2);
         board = new TantrixBoard(board, tile3);
         return board;
+    }
+
+    /** Places first tile in the middle. Three unplaced tiles remain. */
+    public static TantrixBoard place1of5UnsolvedTiles() {
+        return new TantrixBoard(FIVE_TILES);
     }
 
     /** its a yellow path but not a loop */
