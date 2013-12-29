@@ -17,17 +17,16 @@ import static org.junit.Assert.assertEquals;
  */
 public class SubPathReverserTest extends SubPathMutatorBase {
 
-
     @Override
     protected SubPathMutator createMutator(PathColor primaryColor) {
         return new SubPathReverser(primaryColor);
     }
 
-
     @Override
     protected void verifyMutated1TilePath(TantrixPath resultPath) {
         assertEquals("Unexpected result for " + mutator,
                 1, resultPath.size());
+
         TilePlacement first = new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_60);
         TilePlacementList expList = new TilePlacementList(first);
         assertEquals("Unexpected reversal.", expList, resultPath.getTilePlacements());

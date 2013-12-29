@@ -191,8 +191,8 @@ public class TantrixPath extends PermutedParameterArray {
     }
 
     /**
-     *
-     * @return  the distance between the path end points. A distance of 0 does not automatically mean there is a loop.
+     * Two adjacent tiles have a distance of 1. If the path length is one, then distance of 1 is returned.
+     * @return the distance between the path end points. A distance of 1 does not automatically mean there is a loop.
      */
     public double getEndPointDistance() {
         if (tiles_.isEmpty()) {

@@ -146,7 +146,7 @@ public class TantrixTstUtil {
     }
 
 
-    /** There are 10 tiles that form a loop, and there are two empty spaces within the loop.  */
+    /** There are 10 tiles that form a red loop, and there are two empty spaces within the loop.  */
     public static TantrixBoard place10LoopWithInnerSpace() {
         TantrixBoard board = new TantrixBoard(TEN_TILES);
 
@@ -168,7 +168,7 @@ public class TantrixTstUtil {
     }
 
 
-    /** There are 9 tiles that almost form a loop. One more will complete it. */
+    /** There are 9 tiles that almost form a red loop. One more will complete it. */
     public static TantrixBoard place9AlmostLoop() {
         TantrixBoard board = new TantrixBoard(FOURTEEN_TILES);
 
@@ -181,6 +181,26 @@ public class TantrixTstUtil {
         tiles.add(new TilePlacement(TILES.getTile(4), loc(-2, 2), Rotation.ANGLE_60));
         tiles.add(new TilePlacement(TILES.getTile(8), loc(-1, 3), Rotation.ANGLE_60));
         tiles.add(new TilePlacement(TILES.getTile(9), loc(0,2), Rotation.ANGLE_60));
+
+        for (TilePlacement tile :  tiles) {
+            board = new TantrixBoard(board, tile);
+        }
+        return board;
+    }
+
+    /** There are 9 tiles that almost form a red loop. One more will complete it. */
+    public static TantrixBoard placeJumbled9() {
+        TantrixBoard board = new TantrixBoard(FOURTEEN_TILES);
+
+        TilePlacementList tiles = new TilePlacementList();
+        tiles.add(new TilePlacement(TILES.getTile(9), loc(0, 0), Rotation.ANGLE_120));
+        tiles.add(new TilePlacement(TILES.getTile(3), loc(-1, 0), Rotation.ANGLE_60));
+        tiles.add(new TilePlacement(TILES.getTile(6), loc(-2, 0), Rotation.ANGLE_0));
+        tiles.add(new TilePlacement(TILES.getTile(5), loc(-1, 1), Rotation.ANGLE_300));
+        tiles.add(new TilePlacement(TILES.getTile(8), loc(-2, 1), Rotation.ANGLE_0));
+        tiles.add(new TilePlacement(TILES.getTile(2), loc(-2, 2), Rotation.ANGLE_60));
+        tiles.add(new TilePlacement(TILES.getTile(10), loc(-1, 3), Rotation.ANGLE_60));
+        tiles.add(new TilePlacement(TILES.getTile(4), loc(0,2), Rotation.ANGLE_60));
 
         for (TilePlacement tile :  tiles) {
             board = new TantrixBoard(board, tile);

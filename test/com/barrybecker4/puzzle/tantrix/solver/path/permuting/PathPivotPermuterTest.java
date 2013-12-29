@@ -9,7 +9,6 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.Rotation;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 import org.junit.Test;
 
@@ -17,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.TILES;
+import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.createPath;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -71,9 +71,5 @@ public class PathPivotPermuterTest {
 
         List<TantrixPath> permutedPathList = permuter.findPermutedPaths(1, 1);
         assertEquals("Unexpected number of permuted paths.", 7, permutedPathList.size());
-    }
-
-    private TantrixPath createPath(TilePlacement placement1, TilePlacement placement2, TilePlacement placement3) {
-        return  new TantrixPath(new TilePlacementList(placement1, placement2, placement3), PathColor.YELLOW);
     }
 }

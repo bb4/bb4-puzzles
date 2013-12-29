@@ -8,9 +8,9 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 
 
 /**
- * Abstract base class for puzzle solver strategies (see strategy pattern).
+ * Abstract base class for tantrix puzzle solving strategies (see strategy pattern).
  * Subclasses do the hard work of actually solving the puzzle.
- * Controller in the model-view-controller pattern.
+ * This is the controller in the model-view-controller pattern.
  *
  * @author Barry Becker
  */

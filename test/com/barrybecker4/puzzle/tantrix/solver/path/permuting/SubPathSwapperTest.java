@@ -68,7 +68,7 @@ public class SubPathSwapperTest extends SubPathMutatorBase {
         TilePlacement second =
                 new TilePlacement(TILES.getTile(1), new ByteLocation(23, 21), Rotation.ANGLE_0);
         TilePlacement third =
-                new TilePlacement(TILES.getTile(4), new ByteLocation(22, 20), Rotation.ANGLE_60);  // was 23, 22
+                new TilePlacement(TILES.getTile(4), new ByteLocation(22, 20), Rotation.ANGLE_60);
 
         TilePlacementList expList = new TilePlacementList(first, second, third);
         assertEquals("Unexpected reversal.", expList, resultPath.getTilePlacements());

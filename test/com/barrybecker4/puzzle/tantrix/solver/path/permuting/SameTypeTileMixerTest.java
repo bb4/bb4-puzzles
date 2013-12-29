@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting;
 
-
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil;
@@ -26,7 +25,6 @@ import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.TILE3;
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.UPPER;
 import static org.junit.Assert.assertEquals;
-
 
 /**
  * @author Barry Becker

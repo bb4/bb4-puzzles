@@ -7,11 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.LOOP_PATH3;
 import static com.barrybecker4.puzzle.tantrix.solver.path.permuting.PathTstUtil.NON_LOOP_PATH4;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Barry Becker
@@ -31,7 +31,7 @@ public class TilesOfTypeIndicesTest {
 
         indices = new TilesOfTypeIndices(PathType.TIGHT_CURVE, LOOP_PATH3);
 
-        assertEquals("Unexpected ",
+        assertEquals("Unexpected indices.",
                 Arrays.asList(0, 1, 2), indices);
     }
 
@@ -40,8 +40,7 @@ public class TilesOfTypeIndicesTest {
 
         indices = new TilesOfTypeIndices(PathType.WIDE_CURVE, LOOP_PATH3);
 
-        assertEquals("Unexpected ",
-                Collections.<TilesOfTypeIndices>emptyList(), indices);
+        assertTrue("Unexpected wide curve tiles found.", indices.isEmpty());
     }
 
     @Test
@@ -49,7 +48,7 @@ public class TilesOfTypeIndicesTest {
 
         indices = new TilesOfTypeIndices(PathType.TIGHT_CURVE, NON_LOOP_PATH4);
 
-        assertEquals("Unexpected ",
+        assertEquals("Unexpected indices.",
                 Arrays.asList(1, 3), indices);
     }
 
@@ -58,7 +57,7 @@ public class TilesOfTypeIndicesTest {
 
         indices = new TilesOfTypeIndices(PathType.WIDE_CURVE, NON_LOOP_PATH4);
 
-        assertEquals("Unexpected ",
+        assertEquals("Unexpected indices.",
                 Arrays.asList(0, 2), indices);
     }
 

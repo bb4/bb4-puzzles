@@ -29,6 +29,18 @@ public class PathifierTest {
     }
 
     @Test
+    public void test1TilePathConstruction() {
+
+        TilePlacement firstTilePlacement =
+                new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_0);
+
+        TilePlacementList tileList = new TilePlacementList();
+        tileList.add(firstTilePlacement);
+
+        assertEquals("Unexpected tiles", tileList, pathifier.reorder(new Tantrix(tileList)));
+    }
+
+    @Test
     public void test2TilePathConstruction() {
 
         TilePlacement firstTilePlacement =
@@ -75,7 +87,6 @@ public class PathifierTest {
     @Test
     public void testOutOfOrder5TilePathConstruction() {
 
-
         pathifier = new Pathifier(PathColor.RED);
 
         TilePlacement first =
@@ -90,10 +101,8 @@ public class PathifierTest {
                 new TilePlacement(TILES.getTile(5), new ByteLocation(21, 21), Rotation.ANGLE_240);
 
         TilePlacementList tileList = new TilePlacementList(first, second, third, fourth, fifth);
-        //TilePlacementList expReorderedList = new TilePlacementList(third, second, first, fourth, fifth);
         TilePlacementList expReorderedList = new TilePlacementList(fifth, fourth, first, second, third);
 
         assertEquals("Unexpected tiles", expReorderedList, pathifier.reorder(new Tantrix(tileList)));
     }
-
 }

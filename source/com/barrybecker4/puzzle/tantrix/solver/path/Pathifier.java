@@ -37,13 +37,13 @@ public class Pathifier {
 
     /**
      * Attempt to reorder the tiles into a path if possible.
-     * Throw an error if not. Should not change the order if the tiles are already arranged on a path.
-     * @param tantrix
+     * Throw an error if no path. Should not change the order if the tiles are already arranged in a path.
+     * @param tantrix the tantrix containing the tiles to reorder.
      * @return the tiles in path order. Error if no path.
      */
     public TilePlacementList reorder(Tantrix tantrix) {
         TilePlacementList tiles = new TilePlacementList(tantrix);
-        if (tantrix.size() < 2) {
+        if (tantrix.size() <= 1) {
             return tiles;
         }
 
@@ -53,7 +53,7 @@ public class Pathifier {
     /** make an ordered path list from the tiles in tileList */
     private TilePlacementList reorderTiles(TilePlacementList tileList, Tantrix tantrix) {
 
-        LinkedList<TilePlacement> newList = new LinkedList<TilePlacement>();
+        LinkedList<TilePlacement> newList = new LinkedList<>();
         TilePlacement lastAdded = tileList.remove(0);
         newList.add(lastAdded);
 
@@ -65,7 +65,7 @@ public class Pathifier {
             addBackwardTiles(newList, outgoing.next(), tileList, tantrix);
         }
         if (newList.size() != tantrix.size()) {
-             throw new IllegalStateException("Did not find a path among " + tileList);
+             throw new IllegalStateException("Did not find a " + primaryPathColor_.name() + " path among " + tileList);
         }
 
         return new TilePlacementList(newList);

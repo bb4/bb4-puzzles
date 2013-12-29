@@ -39,11 +39,11 @@ public class SameTypeTileMixer {
 
     private List<TantrixPath> findPermutedPaths(TilesOfTypeIndices indices) {
 
-        List<TantrixPath> permutedPaths = new LinkedList<TantrixPath>();
+        List<TantrixPath> permutedPaths = new LinkedList<>();
         PathTilePermuter permuter = new PathTilePermuter(originalPath);
 
         if (indices.size() == 2) {
-            List<Integer> newOrder = new ArrayList<Integer>(indices);
+            List<Integer> newOrder = new ArrayList<>(indices);
             Collections.reverse(newOrder);
             TantrixPath permutedPath = permuter.permute(newOrder, indices);
             permutedPaths.add(permutedPath);
@@ -55,7 +55,7 @@ public class SameTypeTileMixer {
             int numIter = Math.min(originalPath.size() + 1, MAX_ITER);
 
             for (int i = 0; i < numIter; i++) {
-                List<Integer> newOrder = new ArrayList<Integer>(indices);
+                List<Integer> newOrder = new ArrayList<>(indices);
                 Collections.shuffle(newOrder, MathUtil.RANDOM);
                 TantrixPath permutedPath = permuter.permute(newOrder, indices);
                 if (!permutedPaths.contains(permutedPath)) {

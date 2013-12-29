@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.analysis.verification;
 
+import com.barrybecker4.puzzle.tantrix.TantrixTstUtil;
 import com.barrybecker4.puzzle.tantrix.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix.analysis.verfication.InnerSpaceDetector;
 import org.junit.Test;
@@ -61,6 +62,13 @@ public class InnerSpaceDetectorTest {
     public void test10TileLoopWithInnerSpace() {
         tantrix = place10LoopWithInnerSpace().getTantrix();
         verifyHasInnerSpaces(true);
+    }
+
+    /** This is a loop, but it has inner space. */
+    @Test
+    public void testJumbled9() {
+        tantrix = TantrixTstUtil.placeJumbled9().getTantrix();
+        verifyHasInnerSpaces(false);
     }
 
     /**

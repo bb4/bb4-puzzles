@@ -1,14 +1,11 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path;
 
+import com.barrybecker4.puzzle.tantrix.model.PathColor;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import org.junit.Test;
 
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place1of3Tiles_startingWithTile2;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenThree;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place2of3Tiles_OneThenTwo;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3SolvedTiles;
-import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.place3UnsolvedTiles;
+import static com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,8 +45,38 @@ public class PathEvaluatorTest {
         verifyFitness(place1of3Tiles_startingWithTile2(), 0.0);
     }
 
+    @Test
+    public void testEvaluate4UnsolvedTiles() {
+        verifyFitness(place4UnsolvedTiles(), 1.19634);
+    }
+
+    @Test
+    public void testEvaluate4SolvedTiles() {
+        verifyFitness(place4SolvedTiles(), 4.2927);
+    }
+
+    @Test
+    public void testEvaluate10LoopWithInnerSpace() {
+        verifyFitness(place10LoopWithInnerSpace(), 2.277, PathColor.RED);
+    }
+
+    @Test
+    public void testEvaluate9AlmostLoop() {
+        verifyFitness(place9AlmostLoop(), 1.303938, PathColor.RED);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testEvaluateJumbled9() {
+        verifyFitness(placeJumbled9(), 1.303938, PathColor.RED);
+    }
+
     private void verifyFitness(TantrixBoard board, double expectedFitness) {
-        TantrixPath path = new TantrixPath(board.getTantrix(), board.getPrimaryColor());
+        verifyFitness(board, expectedFitness, board.getPrimaryColor());
+    }
+
+
+    private void verifyFitness(TantrixBoard board, double expectedFitness, PathColor color) {
+        TantrixPath path = new TantrixPath(board.getTantrix(), color);
         assertEquals("Unexpected fitness",
                 expectedFitness, evaluator.evaluateFitness(path), TOL);
     }

@@ -120,13 +120,13 @@ public class Tantrix extends HashMap<Location, TilePlacement>{
 
 
     public String toString() {
-        StringBuilder bldr = new StringBuilder("\n");
+        StringBuilder builder = new StringBuilder("\n");
         for (Location loc: keySet()) {
              TilePlacement placement = get(loc);
-             bldr.append(placement);
-             bldr.append(" ");
+             builder.append(placement);
+             builder.append(" ");
         }
 
-        return bldr.toString();
+        return builder.toString();
     }
 }

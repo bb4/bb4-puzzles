@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of indices that point to tiles having a primary path of the specified type.
+ * A list of indices that point to tiles having a specified type within the primary path.
  *
  * @author Barry Becker
  */
@@ -22,7 +22,7 @@ public class TilesOfTypeIndices extends ArrayList<Integer> {
     /**
      * Constructor
      * @param type type of the arc on a tile.
-     * @param path
+     * @param path tantrix primary path of a single color.
      */
     public TilesOfTypeIndices(PathType type, TantrixPath path) {
         initialize(type, path);
@@ -33,7 +33,7 @@ public class TilesOfTypeIndices extends ArrayList<Integer> {
         TilePlacementList tiles = path.getTilePlacements();
         primColor = path.getPrimaryPathColor();
 
-        for (int i=0; i<path.size(); i++) {
+        for (int i=0; i < path.size(); i++) {
             HexTile tile = tiles.get(i).getTile();
 
             if (isTileType(tile, type)) {
@@ -44,8 +44,8 @@ public class TilesOfTypeIndices extends ArrayList<Integer> {
 
     private boolean isTileType(HexTile tile, PathType type) {
 
-        List<Integer> pathEdges = new ArrayList<Integer>(2);
-        int ct=0;
+        List<Integer> pathEdges = new ArrayList<>(2);
+        int ct = 0;
         while (pathEdges.size() < 2) {
             if (tile.getEdgeColor(ct) == primColor) {
                pathEdges.add(ct);

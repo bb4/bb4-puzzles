@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * When finding a random neighbor, we select a tile at random and then consider all the
  * 7 other permutations of attaching the current path segments on either side. If any of those give a path
- * with a higher score that is what we use for the permuted path.
+ * with a higher score, that is what we use for the permuted path.
  * Includes a cache to avoid trying the same random path multiple times.
  *
  * @author Barry Becker
@@ -26,8 +26,7 @@ import java.util.Set;
 public class PathPermutationGenerator  {
 
     private TantrixPath path;
-    private PathEvaluator evaluator_ = new PathEvaluator();
-    private static Set<TantrixPath> cache = new HashSet<TantrixPath>();
+    private static Set<TantrixPath> cache = new HashSet<>();
 
     /**
      * Constructor
@@ -58,7 +57,7 @@ public class PathPermutationGenerator  {
         assert (!pathPermutations.isEmpty()) :
                 "Could not find any permutations of " + this;
         //System.out.println("selecting from among " + pathPermutations.size() +" paths");
-        return selectPath(pathPermutations);
+        return new PathSelector().selectPath(pathPermutations);
     }
 
     /**
@@ -140,56 +139,5 @@ public class PathPermutationGenerator  {
             cache.add(pathToAdd);
             //System.out.println("csize=" + cache.size());
         }
-    }
-
-    /**
-     * @param paths list of paths to evaluate.
-     * @return the path with the best score. In other words the path which is closest to a valid solution.
-     */
-    private TantrixPath selectBestPath(List<TantrixPath> paths) {
-
-        double bestScore = -1;
-        TantrixPath bestPath = null;
-
-        for (TantrixPath path : paths) {
-            double score = evaluator_.evaluateFitness(path);
-            if (score > bestScore) {
-                bestPath = path;
-                bestScore = score;
-            }
-        }
-        return bestPath;
-    }
-
-    /**
-     * Skew toward selecting the best, but don't always select the best because then we
-     * might always return the same random neighbor.
-     * @param paths list of paths to evaluate.
-     * @return the path with the best score. In other words the path which is closest to a valid solution.
-     */
-    private TantrixPath selectPath(List<TantrixPath> paths) {
-
-        double totalScore = 0;
-        List<Double> scores = new ArrayList<Double>(paths.size() + 1);
-
-        for (TantrixPath path : paths) {
-            double score = evaluator_.evaluateFitness(path);
-            if (score >= PathEvaluator.SOLVED_THRESH)  {
-               return path;
-            }
-            totalScore += score;
-            scores.add(score);
-        }
-        scores.add(10000.0);
-
-        double r = MathUtil.RANDOM.nextDouble() * totalScore;
-
-        double total = 0;
-        int ct = 0;
-        do {
-           total += scores.get(ct++);
-        } while (r > total);
-
-        return paths.get(ct-1);
     }
 }
