@@ -32,7 +32,7 @@ public class RandomPathGenerator {
         TantrixBoard currentBoard = initialBoard;
 
         while (!currentBoard.getUnplacedTiles().isEmpty()) {
-            TilePlacement placement = tilePlacer.generatePlacement(currentBoard);
+            TilePlacement placement = tilePlacer.generateRandomPlacement(currentBoard);
             currentBoard = currentBoard.placeTile(placement);
         }
         return new TantrixPath(currentBoard.getTantrix(), initialBoard.getPrimaryColor());

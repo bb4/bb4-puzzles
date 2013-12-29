@@ -54,9 +54,9 @@ public class RandomTilePlacerTest {
     /** no tile to place if already a loop */
     @Test
     public void testFindRandomPlacement3of6Unsolved() {
-        placer = new RandomTilePlacer(PathColor.YELLOW);
+        placer = new RandomTilePlacer(PathColor.BLUE);
         tantrix = place3of6UnsolvedTiles();
-        verifyPlacement(new TilePlacement(SIX_TILES.get(5), new IntLocation(21, 22), Rotation.ANGLE_180));
+        verifyPlacement(new TilePlacement(SIX_TILES.get(5), new IntLocation(19, 21), Rotation.ANGLE_120));
     }
 
     /** no tile to place if already a loop */
@@ -106,7 +106,7 @@ public class RandomTilePlacerTest {
 
     private void verifyPlacement(TilePlacement expPlacement) {
 
-        TilePlacement placement = placer.generatePlacement(tantrix);
+        TilePlacement placement = placer.generateRandomPlacement(tantrix);
         assertEquals("Unexpected placement.", expPlacement, placement);
     }
 

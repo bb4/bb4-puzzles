@@ -43,6 +43,8 @@ public class TantrixBoard {
     public TantrixBoard(TantrixBoard board, TilePlacement placement) {
         initializeFromOldBoard(board);
 
+        assert unplacedTiles != null;
+        assert placement != null;
         boolean removed = unplacedTiles.remove(placement.getTile());
         assert(removed) : "Did not remove " + placement.getTile() + " from " + unplacedTiles;
         tantrix = tantrix.placeTile(placement);

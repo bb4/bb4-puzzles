@@ -34,19 +34,23 @@ public class RandomTilePlacer {
      * Considering each unplaced tile, find a single random placement given current configuration.
      * Valid placements must extend the primary path but not necessarily match secondary paths.
      * @return a random tile placement for the current tantrix state and set of unplaced tiles.
-     *  returns null if no placement is possible - such as when we have a loop, then end is blocked, or there
-     *  are no more unplaced tiles.
+     *  returns null if no placement is possible - such as when we have a loop, the end is blocked,
+     *  or there are no more unplaced tiles.
      */
-    public TilePlacement generatePlacement(TantrixBoard board) {
+    public TilePlacement generateRandomPlacement(TantrixBoard board) {
 
         HexTileList unplacedTiles = (HexTileList) board.getUnplacedTiles().clone();
         Collections.shuffle(unplacedTiles, MathUtil.RANDOM);
 
         TilePlacement nextMove = null;
         int i=0;
-        while (nextMove == null && i < unplacedTiles.size())   {
+        while (nextMove == null && i < unplacedTiles.size()) {
             HexTile tile = unplacedTiles.get(i++);
             nextMove = findPrimaryPathPlacementForTile(board, tile);
+        }
+        if (nextMove == null) {
+            System.out.println("no valid placements found among " + unplacedTiles
+                    + " to match existing tantrix of "+ board.getTantrix());
         }
         return nextMove;
     }

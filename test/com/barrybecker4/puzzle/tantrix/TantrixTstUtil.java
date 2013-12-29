@@ -50,18 +50,44 @@ public class TantrixTstUtil {
         return place3Unsolved(THREE_TILES);
     }
 
+    /** Places first tile in the middle */
+    public static TantrixBoard place6UnsolvedTiles() {
+        return place6Unsolved(SIX_TILES);
+    }
 
     /** Places first tile in the middle. Three unplaced tiles remain. */
     public static TantrixBoard place3of6UnsolvedTiles() {
-        return place3Unsolved(SIX_TILES);
+        TantrixBoard board = new TantrixBoard(SIX_TILES);
+        TilePlacement tile2 = new TilePlacement(TILES.getTile(2), loc(0, 1), Rotation.ANGLE_60);
+        TilePlacement tile3 = new TilePlacement(TILES.getTile(3), loc(-1, 2), Rotation.ANGLE_180);
+        board = new TantrixBoard(board, tile2);
+        board = new TantrixBoard(board, tile3);
+        return board;
     }
 
+    /** its a yellow path but not a loop */
     private static TantrixBoard place3Unsolved(HexTileList tiles) {
         TantrixBoard board = new TantrixBoard(tiles);
         TilePlacement tile2 = new TilePlacement(TILES.getTile(2), loc(2, 0), Rotation.ANGLE_0);
         TilePlacement tile3 = new TilePlacement(TILES.getTile(3), loc(2, 1), Rotation.ANGLE_180);
         board = new TantrixBoard(board, tile2);
         board = new TantrixBoard(board, tile3);
+        return board;
+    }
+
+    /** its a blue path but not a loop */
+    private static TantrixBoard place6Unsolved(HexTileList tiles) {
+        TantrixBoard board = new TantrixBoard(tiles);
+        TilePlacementList tileList= new TilePlacementList(
+              new TilePlacement(TILES.getTile(2), loc(0, 1), Rotation.ANGLE_60),
+              new TilePlacement(TILES.getTile(3), loc(-1, 2), Rotation.ANGLE_180),
+              new TilePlacement(TILES.getTile(4), loc(-1, 1), Rotation.ANGLE_0),
+              new TilePlacement(TILES.getTile(5), loc(-1, 0), Rotation.ANGLE_240),
+              new TilePlacement(TILES.getTile(6), loc(0, 0), Rotation.ANGLE_240)
+        );
+        for (TilePlacement placement : tileList) {
+            board = new TantrixBoard(board, placement);
+        }
         return board;
     }
 

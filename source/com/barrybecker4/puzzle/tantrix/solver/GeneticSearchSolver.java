@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.tantrix.solver;
 
 import com.barrybecker4.optimization.OptimizationListener;
-import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.Optimizer;
+import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -60,16 +60,16 @@ public class GeneticSearchSolver extends TantrixSolver
         solution_ =
             new TantrixBoard(((TantrixPath)solution).getTilePlacements(), board.getPrimaryColor());
 
-        TilePlacementList moves;
+        TilePlacementList tilePlacements;
         if (evaluateFitness(solution) <= 0) {
-            moves = ((TantrixPath)solution).getTilePlacements();
+            tilePlacements = ((TantrixPath)solution).getTilePlacements();
         } else {
-            moves = null;
+            tilePlacements = null;
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        controller.finalRefresh(moves, solution_, numTries_, elapsedTime);
+        controller.finalRefresh(tilePlacements, solution_, numTries_, elapsedTime);
 
-        return moves;
+        return tilePlacements;
     }
 
     public String getName() {
@@ -88,8 +88,7 @@ public class GeneticSearchSolver extends TantrixSolver
     }
 
     /**
-     * Return a high score if there are a lot of fits among the pieces.
-     * For every nub that fits we count 1
+     * Return 0 or less if a perfect solution has been found.
      *
      * @param params  parameters
      * @return fitness value. High is good.

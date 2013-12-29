@@ -56,7 +56,6 @@ public class PathPermutationGenerator  {
 
         assert (!pathPermutations.isEmpty()) :
                 "Could not find any permutations of " + this;
-        //System.out.println("selecting from among " + pathPermutations.size() +" paths");
         return new PathSelector().selectPath(pathPermutations);
     }
 
@@ -137,7 +136,6 @@ public class PathPermutationGenerator  {
         if (!cache.contains(pathToAdd)) {
             permutedPaths.add(pathToAdd);
             cache.add(pathToAdd);
-            //System.out.println("csize=" + cache.size());
         }
     }
 }
