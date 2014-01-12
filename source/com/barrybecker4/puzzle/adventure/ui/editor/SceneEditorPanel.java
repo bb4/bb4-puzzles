@@ -52,7 +52,7 @@ class SceneEditorPanel extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(EDITOR_WIDTH, 600));
 
         this.setBorder(
-                BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),"Edit current Scene" ) );
+                BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Edit current Scene" ) );
 
         nameInput_= new TextInput("name:", scene_.getName());
         nameInput_.setColumns(50);

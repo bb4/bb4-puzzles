@@ -1,0 +1,21 @@
+<!ELEMENT script       (scene)*>
+<!ELEMENT scene        (description,choices?)>
+<!ELEMENT description  (#PCDATA)>
+<!ELEMENT choices      (choice)*>
+<!ELEMENT choice       EMPTY>
+
+<!ATTLIST script
+    title      NMTOKENS   #REQUIRED
+    name    CDATA      #REQUIRED
+    date       CDATA      #IMPLIED
+    author     NMTOKENS   #IMPLIED
+>
+
+<!ATTLIST scene
+    name       ID         #REQUIRED
+>
+
+<!ATTLIST choice
+    description    CDATA  #REQUIRED
+    resultScene    IDREF  #REQUIRED
+>

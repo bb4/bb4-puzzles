@@ -55,7 +55,7 @@ class StoryMenu extends JMenu implements ActionListener  {
 
     /**
      * called when the user has selected a different story file option.
-     * @param e
+     * @param e action event
      */
     public void actionPerformed( ActionEvent e ) {
          JMenuItem item = (JMenuItem) e.getSource();
@@ -120,7 +120,8 @@ class StoryMenu extends JMenu implements ActionListener  {
     }
 
     private File getDefaultDir() {
-        String defaultDir = FileUtil.getHomeDir() + Story.STORIES_ROOT;
+        String defaultDir = FileUtil.getHomeDir() + "source/" + Story.STORIES_ROOT;
+        System.out.println("defaultDir = "+ defaultDir);
         return new File(defaultDir);
     }
 

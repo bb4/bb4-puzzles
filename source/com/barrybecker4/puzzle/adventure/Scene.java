@@ -99,6 +99,7 @@ public class Scene {
             soundURL_ = FileUtil.getURL(soundPath, false);
 
             String imagePath = resourcePath + "images/" +name + ".jpg";
+            System.out.println("reading image from " + imagePath);
             image_ = GUIUtil.getBufferedImage(imagePath);
         } catch (NoClassDefFoundError e) {
             System.err.println("You are trying to load sounds and images when only text scenes are supported. " +

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE script SYSTEM "http://barrybecker4.com/schema/script.dtd">
+<script author="Barry Becker" date="1/10/2014" name="learnBinary" title="A Tutorial for Binary Numbers Using the Socratic Method">
+    <scene name="how_many_fingers">
+        <description>
+***************************************************
+********* Binary Numbers *********
+***************************************************
+      Adapted from http://www.garlikov.com/Soc_Meth.html
+
+      How many fingers are shown on the right?
+        </description>
+        <choices>
+            <choice description="5" resultScene="five_fingers"/>
+            <choice description="10" resultScene="ten_fingers"/>
+            <choice description="100" resultScene="hundred_fingers"/>
+        </choices>
+    </scene>
+    <scene name="five_fingers">
+        <description>
+        There are two hands.
+        </description>
+        <choices/>
+    </scene>
+    <scene name="ten_fingers">
+        <description>
+        Right!
+        
+
+Which of the following are valid representations of 10?
+</description>
+        <choices>
+            <choice description=" All of the above" resultScene="letters"/>
+        </choices>
+    </scene>
+    <scene name="hundred_fingers">
+        <description>
+        You are just being silly
+        </description>
+        <choices/>
+    </scene>
+    <scene name="letters">
+        <description> --- describe the scene here ---</description>
+        <choices/>
+    </scene>
+</script>
