@@ -1,3 +1,4 @@
+/** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.maze.model;
 
 import com.barrybecker4.common.math.MathUtil;
@@ -16,6 +17,9 @@ public class Probabilities {
     private double leftProb;
     private double rightProb;
 
+    /**
+     * Constructor that takes the 3 probabilities.
+     */
     public Probabilities(double fwdProb, double leftProb, double rightProb) {
 
         double total = fwdProb + leftProb + rightProb;

@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
  * These are more integration tests than unit tests.
  * @author Barry Becker
  */
-public class TestSolving {
+public class SolvingTest {
 
     /** initial states that have solutions */
     private static final List<TestCase> A_STAR_CASES = Arrays.asList(

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Barry Becker
  */
-public class TestSlider  {
+public class SliderTest {
 
     @Before
     public void setUp() {
