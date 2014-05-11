@@ -74,8 +74,8 @@ public class MazeModel {
 
         assert(x<width_);
         assert(y<height_);
-        return grid_[Math.min(x, grid_.length-1)][Math.min(y, grid_[0].length-1)];
-        //return grid_[x][y];
+        //return grid_[Math.min(x, grid_.length-1)][Math.min(y, grid_[0].length-1)];
+        return grid_[x][y];
     }
 
     public int getWidth() {

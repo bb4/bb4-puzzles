@@ -20,7 +20,7 @@ public class MazeRenderer {
 
     // rendering attributes
     private static final Color WALL_COLOR = new Color( 80, 0, 150 );
-    private static final Color PATH_COLOR = new Color( 255, 220, 50);
+    private static final Color PATH_COLOR = new Color( 255, 230, 10);
 
     private static final Color TEXT_COLOR = new Color( 250, 0, 100 );
     private static final Color BG_COLOR = new Color( 205, 220, 250 );
@@ -51,8 +51,8 @@ public class MazeRenderer {
         int lineWidth = (int) (WALL_LINE_WIDTH * cellSize / 30.0);
         int pathWidth = (int) (PATH_LINE_WIDTH * cellSize / 30.0);
 
-        wallStroke = new BasicStroke( lineWidth );
-        pathStroke = new BasicStroke( pathWidth );
+        wallStroke = new BasicStroke(lineWidth);
+        pathStroke = new BasicStroke(pathWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
 
         int fontSize = 2 + (cellSize >> 1);
         textFont = new Font(GUIUtil.DEFAULT_FONT_FAMILY, Font.BOLD, fontSize);
@@ -92,8 +92,7 @@ public class MazeRenderer {
 
                 if ( c.visited ) {
                     g2.setColor( VISITED_COLOR );
-                    g2.fillRect( xpos + 1, ypos + 1, cellSize, cellSize );
-                    //g2.setColor(PathColor.black);
+                    g2.fillRect( xpos + 1, ypos + 1, cellSize, cellSize);
                 }
             }
         }
@@ -133,16 +132,16 @@ public class MazeRenderer {
                 int ypos = j * cellSize;
 
                 assert c != null;
-                if ( c.eastPath )  {
+                if ( c.eastPath ) {
                      g2.drawLine( xpos + halfCellSize, ypos + halfCellSize, xpos + cellSize, ypos + halfCellSize );
                 }
-                if ( c.westPath )  {
+                if ( c.westPath ) {
                      g2.drawLine( xpos, ypos + halfCellSize, xpos + halfCellSize, ypos + halfCellSize );
                 }
-                if ( c.northPath )  {
+                if ( c.northPath ) {
                      g2.drawLine( xpos + halfCellSize, ypos + halfCellSize, xpos + halfCellSize, ypos );
                 }
-                if ( c.southPath )  {
+                if ( c.southPath ) {
                      g2.drawLine( xpos + halfCellSize, ypos + cellSize, xpos + halfCellSize, ypos + halfCellSize );
                 }
              }

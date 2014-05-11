@@ -5,10 +5,10 @@ import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.geometry.IntLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.maze.model.Direction;
 import com.barrybecker4.puzzle.maze.model.GenState;
 import com.barrybecker4.puzzle.maze.model.MazeCell;
 import com.barrybecker4.puzzle.maze.model.MazeModel;
+import com.barrybecker4.puzzle.maze.model.Probabilities;
 import com.barrybecker4.puzzle.maze.model.StateStack;
 import com.barrybecker4.puzzle.maze.ui.MazePanel;
 
@@ -29,7 +29,7 @@ public class MazeGenerator {
 
     private MazeModel maze;
     private MazePanel panel;
-    private final StateStack stack;
+    private StateStack stack;
 
     /** put the stop point at the maximum search depth. */
     private int maxDepth = 0;
@@ -42,7 +42,6 @@ public class MazeGenerator {
         this.panel = panel;
         interrupted = false;
         maze = this.panel.getMaze();
-        stack = new StateStack();
     }
 
     /**
@@ -52,9 +51,8 @@ public class MazeGenerator {
 
         maxDepth = 0;
 
-        Direction.FORWARD.setProbability(forwardProb);
-        Direction.LEFT.setProbability(leftProb);
-        Direction.RIGHT.setProbability(rightProb);
+        Probabilities probs = new Probabilities(forwardProb, leftProb, rightProb);
+        stack = new StateStack(probs);
 
         search();
         panel.repaint();
@@ -83,7 +81,9 @@ public class MazeGenerator {
     /** Stop current work and clear the search stack of states. */
     public void interrupt() {
         interrupted = true;
-        stack.clear();
+        if (stack != null) {
+            stack.clear();
+        }
     }
 
     /** Find the next cell to visit, given the last cell */

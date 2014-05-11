@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.maze.ui;
 import com.barrybecker4.puzzle.maze.MazeController;
 import com.barrybecker4.ui.components.GradientButton;
 import com.barrybecker4.ui.components.NumberInput;
+import com.barrybecker4.ui.sliders.LabeledSlider;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -29,7 +30,9 @@ public class TopControlPanel extends JPanel
     protected NumberInput forwardProbField;
     protected NumberInput leftProbField;
     protected NumberInput rightProbField;
-    protected NumberInput animationSpeedField;
+
+    /** allows you to change the animation speed. */
+    private LabeledSlider animSpeedSlider;
 
     protected GradientButton regenerateButton;
     protected GradientButton solveButton;
@@ -49,8 +52,11 @@ public class TopControlPanel extends JPanel
         this.controller = controller;
         thicknessField = new NumberInput("Thickness", PASSAGE_THICKNESS,
                                          "The passage thickness", 2, 200, true);
-        animationSpeedField = new NumberInput("Speed", INITIAL_ANIMATION_SPEED,
-                                              "The animation speed (large number is slow).", 1, 100, true);
+        animSpeedSlider =
+            new LabeledSlider("Speed ", INITIAL_ANIMATION_SPEED, 1, 100);
+        animSpeedSlider.setResolution(99);
+        animSpeedSlider.setShowAsInteger(true);
+        animSpeedSlider.addChangeListener(controller);
 
         forwardProbField = new NumberInput("Forward", 0.34,
                                            "The probability of moving straight forward", 0, 1.0, false);
@@ -59,10 +65,10 @@ public class TopControlPanel extends JPanel
         rightProbField = new NumberInput("Right", 0.33,
                                          "The probability of moving right", 0, 1.0, false);
         add(thicknessField);
-        add(animationSpeedField);
         add(forwardProbField);
         add(leftProbField);
         add(rightProbField);
+        add(animSpeedSlider);
 
         regenerateButton = new GradientButton( "Generate" );
         regenerateButton.addActionListener(this);
@@ -94,8 +100,6 @@ public class TopControlPanel extends JPanel
     public void regenerate() {
         controller.regenerate(getThickness(), getAnimationSpeed(),
                     getForwardProbability(), getLeftProbability(), getRightProbability());
-        //invalidate();
-        //this.repaint();
     }
 
     private int getThickness() {
@@ -115,7 +119,7 @@ public class TopControlPanel extends JPanel
     }
 
     private int getAnimationSpeed() {
-        return animationSpeedField.getIntValue();
+        return (int) animSpeedSlider.getValue();
     }
 
 }

@@ -3,8 +3,10 @@ package com.barrybecker4.puzzle.maze;
 
 import com.barrybecker4.common.concurrency.Worker;
 import com.barrybecker4.puzzle.maze.ui.MazePanel;
+import com.barrybecker4.ui.sliders.LabeledSlider;
+import com.barrybecker4.ui.sliders.SliderChangeListener;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.awt.Cursor;
 
 /**
@@ -13,7 +15,7 @@ import java.awt.Cursor;
  *
  * @author Barry Becker
  */
-public final class MazeController {
+public final class MazeController implements SliderChangeListener {
 
     private MazePanel mazePanel;
     private Worker generateWorker;
@@ -36,6 +38,13 @@ public final class MazeController {
      */
     public void setRepaintListener(JPanel panel) {
         repaintListener = panel;
+    }
+
+
+    /** called when the animation speed changes */
+    @Override
+    public void sliderChanged(LabeledSlider slider) {
+        mazePanel.setAnimationSpeed((int)slider.getValue());
     }
 
     /**
@@ -89,10 +98,9 @@ public final class MazeController {
      */
     public void solve(final int animationSpeed) {
 
-        if (generateWorker.isWorking() || solver.isWorking()) {
-            if (solver.isWorking()) {
-                solver.interrupt();
-            }
+        if (generateWorker.isWorking()) return;
+        if (solver.isWorking()) {
+            solver.interrupt();
         }
 
         Worker worker = new Worker() {

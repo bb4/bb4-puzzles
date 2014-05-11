@@ -80,10 +80,11 @@ public class MazePanel extends JComponent {
             }
         }
         else  {
-            if (MathUtil.RANDOM.nextDouble() < (8.0/(double)(animationSpeed_ * animationSpeed_)))  {
-                paintAll();
-            }
-            else {
+            double rand = MathUtil.RANDOM.nextDouble();
+            //if (rand < (6.0/(double)(animationSpeed_ * animationSpeed_)))  {
+            //    paintAll();
+            //}
+            if (rand < 1.0/animationSpeed_) {
                 this.repaint(xpos-csized2, ypos-csized2, (2*cellSize), (2*cellSize));
             }
         }

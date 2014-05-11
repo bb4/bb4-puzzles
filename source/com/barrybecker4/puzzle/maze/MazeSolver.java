@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Solves a maze.
+ * Solves a maze using depth first search.
  * @author Barry Becker
  */
 public class MazeSolver {
@@ -33,13 +33,24 @@ public class MazeSolver {
         interrupted = false;
     }
 
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    /** Stop current work and clear the search stack of states. */
+    public void interrupt() {
+        interrupted = true;
+        stack.clear();
+    }
+
     /**
-     * do a depth first search (without recursion) of the grid space to determine the solution to the maze.
-     * very similar to search (see MazeGenerator), but now we are solving it.
+     * Do a depth first search (without recursion) of the grid space to determine the solution to the maze.
+     * Very similar to search (see MazeGenerator), but now we are solving it.
      */
     public void solve() {
 
         isWorking = true;
+        interrupted = false;
         maze.unvisitAll();
         stack.clear();
 
@@ -49,10 +60,12 @@ public class MazeSolver {
         isWorking = false;
     }
 
+    /**
+     * Keep track of the current path, since backtracking along it may be necessary if we encounter a dead end.
+     */
     private void findSolution() {
 
-        // Keep track of our current path. We may need to backtrack along it if we encounter a dead end.
-        List<Location> solutionPath = new LinkedList<Location>();
+        List<Location> solutionPath = new LinkedList<>();
 
         Location currentPosition = maze.getStartPosition();
         MazeCell currentCell = maze.getCell(currentPosition);
@@ -88,16 +101,6 @@ public class MazeSolver {
 
             search(solutionPath, currentCell, dir, depth, nextPosition);
         }
-    }
-
-    public boolean isWorking() {
-        return isWorking;
-    }
-
-    /** Stop current work and clear the search stack of states. */
-    public void interrupt() {
-        interrupted = true;
-        stack.clear();
     }
 
     private void search(List<Location> solutionPath, MazeCell currentCell,

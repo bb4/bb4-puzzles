@@ -14,33 +14,19 @@ import com.barrybecker4.common.geometry.Location;
  */
 public enum Direction {
 
-    FORWARD(0.5) {
+    FORWARD() {
         @Override
         public Location apply(Location position) { return position; }
     },
-    LEFT(0.28) {
+    LEFT() {
         @Override
         public Location apply(Location position) { return leftOf(position); }
     },
-    RIGHT(0.22) {
+    RIGHT() {
         @Override
         public Location apply(Location position) { return rightOf(position); }
     };
 
-    private double probability_;
-
-
-    Direction(double probability) {
-        probability_ = probability;
-    }
-
-    public double getProbability() {
-        return probability_;
-    }
-
-    public void setProbability(double probability) {
-        probability_ = probability;
-    }
 
     public abstract Location apply(Location dir);
 
