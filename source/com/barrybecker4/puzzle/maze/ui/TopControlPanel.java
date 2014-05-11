@@ -48,16 +48,16 @@ public class TopControlPanel extends JPanel
 
         this.controller = controller;
         thicknessField = new NumberInput("Thickness", PASSAGE_THICKNESS,
-                                          "The passage thickness", 2, 200, true);
+                                         "The passage thickness", 2, 200, true);
         animationSpeedField = new NumberInput("Speed", INITIAL_ANIMATION_SPEED,
-                                               "The animation speed (large number is slow).", 1, 100, true);
+                                              "The animation speed (large number is slow).", 1, 100, true);
 
         forwardProbField = new NumberInput("Forward", 0.34,
-                                            "The probability of moving straight forward", 0, 1.0, false);
+                                           "The probability of moving straight forward", 0, 1.0, false);
         leftProbField = new NumberInput("Left", 0.33,
-                                         "The probability of moving left", 0, 1.0, false);
+                                        "The probability of moving left", 0, 1.0, false);
         rightProbField = new NumberInput("Right", 0.33,
-                                          "The probability of moving right", 0, 1.0, false);
+                                         "The probability of moving right", 0, 1.0, false);
         add(thicknessField);
         add(animationSpeedField);
         add(forwardProbField);

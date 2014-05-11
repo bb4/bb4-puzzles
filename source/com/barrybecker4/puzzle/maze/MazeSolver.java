@@ -22,6 +22,7 @@ public class MazeSolver {
     private MazeModel maze;
     private StateStack stack;
     private boolean isWorking;
+    private boolean interrupted;
 
     /** Constructor */
     public MazeSolver(MazePanel panel) {
@@ -29,6 +30,7 @@ public class MazeSolver {
         maze = panel_.getMaze();
         stack = new StateStack();
         isWorking = false;
+        interrupted = false;
     }
 
     /**
@@ -64,7 +66,7 @@ public class MazeSolver {
         boolean solved = false;
 
         // while there are still paths to try and we have not yet encountered the finish
-        while ( !stack.isEmpty() && !solved ) {
+        while ( !stack.isEmpty() && !solved && !interrupted) {
 
             GenState state = stack.remove(0);  // pop
 
@@ -90,6 +92,12 @@ public class MazeSolver {
 
     public boolean isWorking() {
         return isWorking;
+    }
+
+    /** Stop current work and clear the search stack of states. */
+    public void interrupt() {
+        interrupted = true;
+        stack.clear();
     }
 
     private void search(List<Location> solutionPath, MazeCell currentCell,
@@ -141,7 +149,7 @@ public class MazeSolver {
 
     /**
      * Back up to the next path that will be tried
-     * @param solutionPath
+     * @param solutionPath list of locations leading ot the solution.
      */
     private void backTrack(List<Location> solutionPath) {
         GenState lastState = stack.get(0);

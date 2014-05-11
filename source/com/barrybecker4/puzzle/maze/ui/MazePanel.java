@@ -33,8 +33,8 @@ public class MazePanel extends JComponent {
         return maze_;
     }
 
-    public void setAnimationSpeed(int animSpeed) {
-        animationSpeed_ = animSpeed;
+    public void setAnimationSpeed(int animationSpeed) {
+        animationSpeed_ = animationSpeed;
     }
 
     public int getAnimationSpeed() {
@@ -76,7 +76,7 @@ public class MazePanel extends JComponent {
             // this paints just the cell immediately (sorta slow)
             this.paintImmediately( xpos-csized2, ypos-csized2, (2*cellSize), (2*cellSize));
             if (animationSpeed_ < 9) {
-                ThreadUtil.sleep(200 / (animationSpeed_+2) - 20);
+                ThreadUtil.sleep(400 / (animationSpeed_) - 40);
             }
         }
         else  {

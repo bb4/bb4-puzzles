@@ -49,7 +49,6 @@ public class StateStack extends LinkedList<GenState> {
         double sum = fwdProb + leftProb + rightProb;
         fwdProb /= sum;
         leftProb /= sum;
-        rightProb /= sum;
 
         if (rnd < fwdProb) {
             directions.add( originalDirections.remove( 0 ) );
@@ -67,7 +66,6 @@ public class StateStack extends LinkedList<GenState> {
         directions.add( originalDirections.remove( 0 ) );
         return directions;
     }
-
 
     /**
      * Determine the second direction in the list given a probability

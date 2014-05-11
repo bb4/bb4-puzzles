@@ -6,7 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 /**
- * Called whenever the maze window resizes. Avoid redrawing if the size did not change.
+ * Called whenever the maze window resizes. Avoids redrawing if the size did not change.
  * @author Barry Becker
  */
 public class ResizeAdapter extends ComponentAdapter {

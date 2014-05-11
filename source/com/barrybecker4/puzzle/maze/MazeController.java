@@ -32,7 +32,7 @@ public final class MazeController {
     /**
      * This panel will be repainted when the regeneration is complete.
      * Without this, the top controls do not refresh properly when shown in an applet (and only the applet).
-     * @param panel
+     * @param panel the repaint listener
      */
     public void setRepaintListener(JPanel panel) {
         repaintListener = panel;
@@ -45,7 +45,10 @@ public final class MazeController {
     public void regenerate(final int thickness, final int animationSpeed,
                            final double forwardP, final double leftP, final double rightP) {
 
-        if ((solver.isWorking())) return;
+        if (solver.isWorking()) {
+            solver.interrupt();
+        }
+
         if (generator != null)
         {
             generator.interrupt();
@@ -80,9 +83,17 @@ public final class MazeController {
     }
 
 
+    /**
+     * Don't solve if already generating or solving.
+     * @param animationSpeed the speed at which to show the solution.
+     */
     public void solve(final int animationSpeed) {
 
-        if (generateWorker.isWorking() || solver.isWorking()) return;
+        if (generateWorker.isWorking() || solver.isWorking()) {
+            if (solver.isWorking()) {
+                solver.interrupt();
+            }
+        }
 
         Worker worker = new Worker() {
 

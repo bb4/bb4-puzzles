@@ -1,6 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.maze;
 
+import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.geometry.IntLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
@@ -22,6 +23,9 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel;
  *  @author Barry Becker
  */
 public class MazeGenerator {
+
+    /** if the animatino speed is less than this things will slow down a lot */
+    private static final int SLOW_SPEED_THRESH = 10;
 
     private MazeModel maze;
     private MazePanel panel;
@@ -76,15 +80,13 @@ public class MazeGenerator {
         }
     }
 
-    public void interrupt()
-    {
+    /** Stop current work and clear the search stack of states. */
+    public void interrupt() {
         interrupted = true;
-        if (stack != null)  {
-            stack.clear();
-        }
+        stack.clear();
     }
 
-    /** find the next cell to visit, given the last cell */
+    /** Find the next cell to visit, given the last cell */
     private MazeCell findNextCell(MazeCell lastCell) {
 
         boolean moved = false;
@@ -149,8 +151,13 @@ public class MazeGenerator {
 
     /** this can be really slow if you do a refresh every time */
     private void refresh() {
-        if (MathUtil.RANDOM.nextDouble() < 4.0/(Math.pow(panel.getAnimationSpeed(), 2) + 1)) {
+        int speed = panel.getAnimationSpeed();
+        if (MathUtil.RANDOM.nextDouble() < (2.0 / speed)) {
             panel.paintAll();
+            if (speed < SLOW_SPEED_THRESH) {
+                int diff = SLOW_SPEED_THRESH - speed;
+                ThreadUtil.sleep(diff * diff * 8);
+            }
         }
     }
 
