@@ -28,8 +28,8 @@ public class StateStack extends LinkedList<GenState> {
         // check all the directions except the one we came from
         for ( int i = 0; i < 3; i++ ) {
             Direction direction = directions.get(i);
-            Location dir = direction.apply(currentDir);
-            this.add(0, new GenState(currentPosition, dir, depth));
+            Location movement = direction.apply(currentDir);
+            this.add(0, new GenState(currentPosition, movement, depth));
         }
     }
 

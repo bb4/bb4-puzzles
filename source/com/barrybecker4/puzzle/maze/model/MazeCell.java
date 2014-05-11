@@ -18,9 +18,9 @@ public class MazeCell {
     public boolean southWall;
 
     // the 4 possible paths (e, w, n, s)
-    // we show 0 or 2 of them at any given time in a cell when solving the maze
+    // Show 0 or 2 of them at any given time in a cell when solving the maze
     public boolean eastPath;
-    public boolean westPath ;
+    public boolean westPath;
     public boolean northPath;
     public boolean southPath;
 
@@ -39,8 +39,8 @@ public class MazeCell {
         return depth;
     }
 
-    public void setDepth(int d) {
-        depth = d;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public Location getNextPosition(Location currentPosition, Location dir) {

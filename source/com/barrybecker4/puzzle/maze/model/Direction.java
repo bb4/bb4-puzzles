@@ -16,15 +16,15 @@ public enum Direction {
 
     FORWARD(0.5) {
         @Override
-        public Location apply(Location p) { return p; }
+        public Location apply(Location position) { return position; }
     },
     LEFT(0.28) {
         @Override
-        public Location apply(Location p) { return leftOf(p); }
+        public Location apply(Location position) { return leftOf(position); }
     },
     RIGHT(0.22) {
         @Override
-        public Location apply(Location p) { return rightOf(p); }
+        public Location apply(Location position) { return rightOf(position); }
     };
 
     private double probability_;
@@ -46,21 +46,21 @@ public enum Direction {
 
 
     /**
-     *  find the direction which is counterclockwise 90 (to the left) of the specified dir.
+     * Find the direction which is counterclockwise 90 (to the left) of the specified dir.
      */
     protected Location leftOf( Location dir ) {
         IntLocation newDir;
         if ( dir.getX() == 0 ) {
-            newDir = new IntLocation(0, (dir.getY() > 0)? -1 : 1 );
+            newDir = new IntLocation(0, (dir.getY() > 0) ? -1 : 1 );
         }
         else {  // assumed dir.y == 0
-            newDir = new IntLocation(( dir.getX() > 0)? 1 : -1, 0);
+            newDir = new IntLocation(( dir.getX() > 0) ? 1 : -1, 0);
         }
         return newDir;
     }
 
     /**
-     * find the direction which is clockwise 90 (to the right) of the specified dir.
+     * Find the direction which is clockwise 90 (to the right) of the specified dir.
      */
     protected Location rightOf( Location dir ) {
         IntLocation newDir ;

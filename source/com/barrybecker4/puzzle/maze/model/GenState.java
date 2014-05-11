@@ -12,21 +12,28 @@ import com.barrybecker4.common.geometry.Location;
 public class GenState {
 
     private Location position_;
-    private Location direction_;
+    private Location movement_;
     private int depth_;
 
-    public GenState(Location pos, Location dir, int d ) {
+    /**
+     * Constructor
+     * @param pos current position
+     * @param movement movement to make relative to current position.
+     * @param depth depth in the search
+     */
+    public GenState(Location pos, Location movement, int depth ) {
         position_ = pos;
-        direction_ = dir;
-        depth_ = d;
+        movement_ = movement;
+        depth_ = depth;
     }
 
     public Location getPosition() {
         return position_;
     }
 
-    public Location getDirection() {
-        return direction_;
+    /** The amount to move relative to the current position */
+    public Location getRelativeMovement() {
+        return movement_;
     }
 
     public int getDepth() {
@@ -34,7 +41,7 @@ public class GenState {
     }
 
     public String toString() {
-        return "[pos=" + position_ + " dir="+ direction_ + " depth="+ depth_ + "]";  // NON-NLS
+        return "[pos=" + position_ + " move="+ movement_ + " depth="+ depth_ + "]";  // NON-NLS
     }
 }
 

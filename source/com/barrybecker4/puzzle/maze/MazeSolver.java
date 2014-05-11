@@ -77,7 +77,7 @@ public class MazeSolver {
                 solved = true;
             }
 
-            dir = state.getDirection();
+            dir = state.getRelativeMovement();
             depth = state.getDepth();
             if ( depth > currentCell.getDepth() ) {
                 currentCell.setDepth(depth);

@@ -24,7 +24,7 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel;
  */
 public class MazeGenerator {
 
-    /** if the animatino speed is less than this things will slow down a lot */
+    /** if the animation speed is less than this things will slow down a lot */
     private static final int SLOW_SPEED_THRESH = 10;
 
     private MazeModel maze;
@@ -100,7 +100,7 @@ public class MazeGenerator {
             GenState state = stack.remove(0);  // pop
 
             currentPosition = state.getPosition();
-            dir = state.getDirection();
+            dir = state.getRelativeMovement();
             depth = state.getDepth();
 
             if ( depth > maxDepth) {
@@ -135,6 +135,7 @@ public class MazeGenerator {
         return nextCell;
     }
 
+    /** Place a wall when the path is blocked */
     private void addWall(MazeCell currentCell, Location dir, MazeCell nextCell) {
         // add a wall
         if ( dir.getX() == 1 ) {         // east
@@ -156,7 +157,7 @@ public class MazeGenerator {
             panel.paintAll();
             if (speed < SLOW_SPEED_THRESH) {
                 int diff = SLOW_SPEED_THRESH - speed;
-                ThreadUtil.sleep(diff * diff * 8);
+                ThreadUtil.sleep(diff * diff * 6);
             }
         }
     }
