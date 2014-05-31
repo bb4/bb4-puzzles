@@ -13,7 +13,6 @@ import java.util.List;
  * Immutable.
  * @author Barry Becker
  */
-
 public final class BridgeMove implements Move, Comparable<BridgeMove> {
 
     /** if true then crossing */
@@ -55,10 +54,7 @@ public final class BridgeMove implements Move, Comparable<BridgeMove> {
     /** @return the from and to positions */
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("people: ").append(people)
-                .append(direction ? " -> " : " <- ");
-        return s.toString();
+        return "people: " + people + (direction ? " -> " : " <- ");
     }
 
     @Override

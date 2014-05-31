@@ -1,4 +1,3 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -9,7 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Solver that recognizes when no solution exists and stops running if that happens.
  *
- * @author Brian Goetz and Tim Peierls
+ * @author Brian Goetz
+ * @author Tim Peierls
  */
 public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P, M> {
 

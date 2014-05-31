@@ -1,4 +1,3 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
 import java.util.concurrent.CountDownLatch;
@@ -8,7 +7,8 @@ import java.util.concurrent.CountDownLatch;
  * Result-bearing latch used by ConcurrentPuzzleSolver
  * ThreadSafe
  *
- * @author Brian Goetz and Tim Peierls
+ * @author Brian Goetz
+ * @author Tim Peierls
  */
 public class ValueLatch <T> {
     private T value = null;

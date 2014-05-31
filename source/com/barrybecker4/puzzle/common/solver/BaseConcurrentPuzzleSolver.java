@@ -1,4 +1,3 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.common.math.MathUtil;
@@ -19,7 +18,9 @@ import java.util.concurrent.ThreadPoolExecutor;
  * P is the Puzzle type
  * M is the move type
  *
- * @author Brian Goetz and Tim Peierls
+ * @author Brian Goetz
+ * @author Tim Peierls
+ * @author Barry Becker
  */
 public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
 
@@ -61,6 +62,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
         depthBreadthFactor = factor;
     }
 
+    /** initialize the thread pool with some initial fixed size */
     private ExecutorService initThreadPool() {
         return Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
@@ -79,6 +81,12 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
         }
     }
 
+    /**
+     * Solve the puzzle concurrently
+     * @return list fo moves leading to the solution (assuming one was found).
+     *  Null is returned if there was no solution.
+     * @throws InterruptedException if interrupted during processing.
+     */
     private List<M> doSolve() throws InterruptedException {
         P p = puzzle.initialPosition();
         long startTime = System.currentTimeMillis();

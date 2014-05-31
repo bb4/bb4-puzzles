@@ -75,7 +75,7 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     }
 
     /**
-     * Override this when moves have varying cost (rare - see bridge problem for example).
+     * Override this when moves have varying cost for a move (rare - see bridge problem for example).
      * @param move the move to determine cost of
      * @return cost of a single move
      */

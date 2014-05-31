@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.bridge;
 
 import com.barrybecker4.puzzle.bridge.model.Bridge;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove;
+import com.barrybecker4.puzzle.bridge.model.InitialConfiguration;
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.bridge.model.MoveGenerator;
@@ -20,8 +21,9 @@ import java.util.List;
  */
 public class BridgePuzzleController extends AbstractPuzzleController<Bridge, BridgeMove> {
 
-    /* this is the standard bridge crossing problem with 4 people */
-    private static final Integer[] DEFAULT_PEOPLE = new Integer[] {1, 2, 5, 8};
+    /** this is the standard bridge crossing problem with 4 people */
+    private static final Integer[] DEFAULT_PEOPLE =
+            InitialConfiguration.STANDARD_PROBLEM.getPeopleSpeeds();
 
     private Bridge initialPosition;
 

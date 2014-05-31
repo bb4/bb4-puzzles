@@ -27,6 +27,10 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
         this(pos, move, prev, 1);
     }
 
+    public PuzzleNode(P pos, int estimatedFutureCost) {
+        this(pos, null, null, estimatedFutureCost);
+    }
+
     public PuzzleNode(P pos, M move, PuzzleNode<P, M> prev, int estimatedFutureCost) {
         this.position = pos;
         this.move = move;
@@ -34,14 +38,21 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
         this.estimatedFutureCost = estimatedFutureCost;
     }
 
+    /** @return an instance of the puzzle at this state */
     public P getPosition() {
         return position;
     }
 
+    /**
+     * @return An estimate of how much it will cost to go from this position to the goal state
+     */
     public int getEstimatedFutureCost() {
         return estimatedFutureCost;
     }
 
+    /**
+     * @return a list of nodes from the start state to this state.
+     */
     public List<M> asMoveList() {
         List<M> solution = new LinkedList<>();
         for (PuzzleNode<P, M> n = this; n.move != null; n = n.previous) {

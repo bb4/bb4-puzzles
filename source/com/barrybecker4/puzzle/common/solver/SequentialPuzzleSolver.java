@@ -1,4 +1,3 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -14,7 +13,8 @@ import java.util.Set;
  * If will find a solution if there is one, but it may not be the best solution or the shortest path to it.
  * See A* for a better way to search that involves priority sorting of current paths.
  *
- * @author Brian Goetz, Tim Peierls  (Java Concurrency in Practice)
+ * @author Brian Goetz
+ * @author Tim Peierls  (Java Concurrency in Practice)
  * @author Barry Becker
  */
 public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {

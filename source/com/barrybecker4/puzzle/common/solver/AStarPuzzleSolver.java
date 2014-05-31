@@ -1,4 +1,4 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2012-2014. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -26,7 +26,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     private final Set<P> visited = new HashSet<>();
 
     /** candidate nodes to search on the frontier. */
-    private final Queue<PuzzleNode<P, M>> open = new PriorityQueue<>(10);
+    private final Queue<PuzzleNode<P, M>> open = new PriorityQueue<>(20);
 
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
     private final Map<P, Integer> pathCost = new HashMap<>();
@@ -49,7 +49,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
         P startingPos = puzzle.initialPosition();
         long startTime = System.currentTimeMillis();
         PuzzleNode<P, M> startNode =
-                new PuzzleNode<>(startingPos, null, null, puzzle.distanceFromGoal(startingPos));
+                new PuzzleNode<>(startingPos, puzzle.distanceFromGoal(startingPos));
         open.add(startNode);
         pathCost.put(startingPos, 0);
 
@@ -67,24 +67,23 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     }
 
     /**
-     * Depth first search for a solution to the puzzle.
+     * Best first search for a solution to the puzzle.
      * @return the solution state node if found which has the path leading to a solution. Null if no solution.
      */
     private PuzzleNode<P, M> search() {
 
         while (!open.isEmpty())  {
-            PuzzleNode<P, M> currentNode = open.peek();
+            PuzzleNode<P, M> currentNode = open.remove();
             P currentPosition = currentNode.getPosition();
             puzzle.refresh(currentPosition, numTries);
 
             if (puzzle.isGoal(currentPosition)) {
                 return currentNode;  // success
             }
-            visited.add(open.remove().getPosition());
+            visited.add(currentPosition);
             List<M> moves = puzzle.legalMoves(currentPosition);
             for (M move : moves) {
                 P nbr = puzzle.move(currentPosition, move);
-                // for now, assume the distance to all nbrs from the current position is 1
                 int estPathCost = pathCost.get(currentPosition) + puzzle.getCost(move);
                 if (!visited.contains(nbr) || estPathCost < pathCost.get(nbr)) {
                     int estFutureCost = estPathCost + puzzle.distanceFromGoal(nbr);

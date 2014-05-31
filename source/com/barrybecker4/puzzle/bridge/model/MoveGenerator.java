@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Sliding Puzzle move generator. Generates valid next moves.
+ * Bridge Puzzle move generator. Generates valid next moves.
  *
  * @author Barry Becker
  */

@@ -43,7 +43,6 @@ public class BridgeRenderer implements PuzzleRenderer<Bridge> {
     @Override
     public void render( Graphics g, Bridge board, int width, int height ) {
 
-
         drawBridge(g);
 
         drawPeople(g, board.getUncrossedPeople(), MARGIN);
