@@ -78,7 +78,7 @@ public class SliderTest {
 
     @Test
     public void testBoardHash() {
-        Set<Slider> boards = new HashSet<Slider>();
+        Set<Slider> boards = new HashSet<>();
         Slider board1 = new Slider(3);
         Slider board2 = new Slider(board1);
         Slider board3 = new Slider(3);
