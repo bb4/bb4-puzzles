@@ -20,25 +20,32 @@ import java.util.Set;
  */
 public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
-    private final PuzzleController<P, M> puzzle;
+    protected PuzzleController<P, M> puzzle;
 
     /** nodes that have been visited, but they may be replaced if we can reach them by a better path */
-    private final Set<P> visited = new HashSet<>();
+    protected Set<P> visited;
 
     /** candidate nodes to search on the frontier. */
-    private final Queue<PuzzleNode<P, M>> open = new PriorityQueue<>(20);
+    protected Queue<PuzzleNode<P, M>> open;
 
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
-    private final Map<P, Integer> pathCost = new HashMap<>();
+    protected Map<P, Integer> pathCost;
 
-    private long numTries = 0;
+    protected volatile PuzzleNode<P, M> solution;
+
+    protected long numTries = 0;
 
     /**
      * @param puzzle the puzzle to solve
      */
     public AStarPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
+        visited = new HashSet<>();
+        open = new PriorityQueue<>(20);
+        pathCost = new HashMap<>();
     }
+
+    protected AStarPuzzleSolver() {}
 
     @Override
     public List<M> solve() {
@@ -53,7 +60,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
         open.add(startNode);
         pathCost.put(startingPos, 0);
 
-        PuzzleNode<P, M> solutionState = search();
+        PuzzleNode<P, M> solutionState = doSearch();
 
         List<M> pathToSolution = null;
         P solution = null;
@@ -70,14 +77,22 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
      * Best first search for a solution to the puzzle.
      * @return the solution state node if found which has the path leading to a solution. Null if no solution.
      */
-    private PuzzleNode<P, M> search() {
+    protected PuzzleNode<P, M> doSearch() {
+        return search();
+    }
+    /**
+     * Best first search for a solution to the puzzle.
+     * @return the solution state node if found which has the path leading to a solution. Null if no solution.
+     */
+    protected PuzzleNode<P, M> search() {
 
-        while (!open.isEmpty())  {
+        while (nodesAvailable())  {
             PuzzleNode<P, M> currentNode = open.remove();
             P currentPosition = currentNode.getPosition();
             puzzle.refresh(currentPosition, numTries);
 
             if (puzzle.isGoal(currentPosition)) {
+                solution = currentNode;
                 return currentNode;  // success
             }
             visited.add(currentPosition);
@@ -98,5 +113,9 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
             }
         }
         return null;  // failure
+    }
+
+    protected boolean nodesAvailable() {
+        return !open.isEmpty();
     }
 }
