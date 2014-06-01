@@ -21,7 +21,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
     private final PuzzleController<P, M> puzzle;
 
-    /** set of visited nodes. Do not re-search them */
+    /** The set of visited nodes. Do not re-search them. */
     private final Set<P> seen = new HashSet<>();
     private long numTries = 0;
 
@@ -36,7 +36,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     public List<M> solve() {
         P pos = puzzle.initialPosition();
         long startTime = System.currentTimeMillis();
-        PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos, null, null));
+        PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos));
 
         List<M> pathToSolution = null;
         P solution = null;
@@ -58,6 +58,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     private PuzzleNode<P, M> search(PuzzleNode<P, M> node) {
         P currentState = node.getPosition();
         if (!puzzle.alreadySeen(currentState, seen)) {
+            System.out.println("num seen = " + seen.size());
             if (puzzle.isGoal(currentState)) {
                 return node;
             }
@@ -68,7 +69,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
                 PuzzleNode<P, M> child = new PuzzleNode<>(position, move, node);
                 numTries++;
-                PuzzleNode<P, M> result = search(child);
+                PuzzleNode<P, M> result = search(child); // recursive call
                 if (result != null) {
                     return result;
                 }

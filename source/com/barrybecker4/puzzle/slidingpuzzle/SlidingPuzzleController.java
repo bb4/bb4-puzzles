@@ -13,6 +13,7 @@ import java.util.List;
  * Sliding Puzzle Controller.
  * See puzzle.common for puzzle framework classes.
  * See http://kociemba.org/fifteen/fifteensolver.html
+ * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
  *
  * @author Barry Becker
  */

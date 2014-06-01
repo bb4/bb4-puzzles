@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Sequential puzzle solver that uses the A* search algorithm.
  * See http://en.wikipedia.org/wiki/A*_search_algorithm
- * A concurrent version of this algorithm could perhaps be made using PriorityBlockingQueue
+ * A concurrent version of this algorithm could perhaps be made using a PriorityBlockingQueue for {@code open}
  * @author Barry Becker
  */
 public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {

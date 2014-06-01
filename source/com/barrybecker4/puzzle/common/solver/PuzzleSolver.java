@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.common.solver;
 import java.util.List;
 
 /**
- * PuzzleSolver interface
+ * PuzzleSolver strategy pattern interface.
  * <p/>
  * P is the Puzzle type
  * M is the move type

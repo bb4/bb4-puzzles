@@ -16,6 +16,7 @@ import java.util.List;
  * See http://en.wikipedia.org/wiki/Bridge_and_torch_problem#cite_note-eatcs-4
  * See http://page.mi.fu-berlin.de/rote/Papers/pdf/Crossing+the+bridge+at+night.pdf
  * for analysis of general problem.
+ * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
  *
  * @author Barry Becker
  */

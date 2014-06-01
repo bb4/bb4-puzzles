@@ -18,7 +18,7 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
     /**
      * @param puzzle the puzzle to solve
      * @param depthBreadthFactor the ratio of depth first to breadth first searching to use.
-     *                           May have significant performance impact.
+     *    May have significant performance impact.
      */
     public ConcurrentPuzzleSolver(PuzzleController<P, M> puzzle, float  depthBreadthFactor) {
         super(puzzle);
@@ -33,6 +33,9 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
     }
 
 
+    /**
+     * Inner class to identify when all tasks have been run without finding a solution.
+     */
     class CountingSolverTask extends SolverTask {
         CountingSolverTask(P pos, M move, PuzzleNode<P, M> prev) {
             super(pos, move, prev);
@@ -44,8 +47,10 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
             try {
                 super.run();
             } finally {
-                if (taskCount.decrementAndGet() == 0)
+                if (taskCount.decrementAndGet() == 0) {
+                    // then there was no solution found
                     solution.setValue(null);
+                }
             }
         }
     }

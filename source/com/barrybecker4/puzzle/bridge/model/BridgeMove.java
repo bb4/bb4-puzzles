@@ -21,6 +21,7 @@ public final class BridgeMove implements Move, Comparable<BridgeMove> {
     /** the speeds of the person or people that are crossing */
     private List<Integer> people;
 
+    /** The time for the slowest person out of everyone crossing at the same time */
     private int cost;
 
     /**

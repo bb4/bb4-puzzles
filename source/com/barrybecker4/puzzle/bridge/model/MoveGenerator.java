@@ -47,7 +47,8 @@ public class MoveGenerator  {
             }
         }
 
-        //Collections.sort(moves);   not sure if needed
+        // Put them in order of fastest to cross first. This speeds A*, but slows sequential a lot.
+        //Collections.sort(moves);
         return moves;
     }
 }

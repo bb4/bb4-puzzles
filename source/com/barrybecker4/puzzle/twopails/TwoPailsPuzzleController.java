@@ -14,6 +14,7 @@ import java.util.List;
  * Two pails puzzle Controller.
  * See http://www.cut-the-knot.org/ctk/CartWater.shtml#solve
  *     http://demonstrations.wolfram.com/WaterPouringProblem/
+ * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
  *
  * @author Barry Becker
  */

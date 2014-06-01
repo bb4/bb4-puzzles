@@ -18,6 +18,7 @@ public class Bridge {
     /** Represents the the people (really their speeds) that have crossed */
     private List<Integer> peopleCrossed;
 
+    /** True if the light has crossed the bridge */
     private boolean lightCrossed;
 
     /**
@@ -93,7 +94,7 @@ public class Bridge {
     }
 
     /**
-     * @return true if all the tiles, when read across and down, are in increasing order.
+     * @return true when everyone has crossed the bridge.
      */
     public boolean isSolved() {
         return peopleUncrossed.isEmpty();

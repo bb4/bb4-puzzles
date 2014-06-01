@@ -27,6 +27,10 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
         this(pos, move, prev, 1);
     }
 
+    public PuzzleNode(P pos) {
+        this(pos, null, null, 1);
+    }
+
     public PuzzleNode(P pos, int estimatedFutureCost) {
         this(pos, null, null, estimatedFutureCost);
     }

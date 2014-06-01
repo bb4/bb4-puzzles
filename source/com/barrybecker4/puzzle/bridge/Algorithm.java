@@ -56,7 +56,7 @@ public enum Algorithm implements AlgorithmEnum<Bridge, BridgeMove> {
                 // this will find the shortest path to a solution if one exists, but takes longer
                 return new ConcurrentPuzzleSolver<>(controller, 1.0f);
             case CONCURRENT_DEPTH :
-                return new ConcurrentPuzzleSolver<>(controller, 0.12f);
+                return new ConcurrentPuzzleSolver<>(controller, 0.1f);
             case CONCURRENT_OPTIMUM :
                 return new ConcurrentPuzzleSolver<>(controller, 0.3f);
         }

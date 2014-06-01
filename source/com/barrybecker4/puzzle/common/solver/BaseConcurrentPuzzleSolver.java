@@ -29,9 +29,15 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
     private final PuzzleController<P, M> puzzle;
     private final ExecutorService exec;
 
+    /** Set of positions that have been visited */
     private final Set<P> seen;
+
+    /**  */
     protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<>();
+
+    /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
     private volatile int numTries;
+
     /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
     private float depthBreadthFactor = 0.4f;
 
@@ -111,6 +117,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
 
     /**
      * Runnable used to solve a puzzle.
+     * The {depthBreadthFactor} determines whether to process the children
+     * sequentially or concurrently based on depthBreadthFactor.
      */
     protected class SolverTask extends PuzzleNode<P, M> implements Runnable {
         SolverTask(P pos, M move, PuzzleNode<P, M> prev) {
@@ -122,7 +130,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
 
             numTries++;
             if (solution.isSet() || puzzle.alreadySeen(getPosition(), seen)) {
-                return; // already solved or seen this position
+                return; // already solved or seen this position, so skip
             }
             puzzle.refresh(getPosition(), numTries);
 
@@ -133,7 +141,6 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
                 for (M move : puzzle.legalMoves(getPosition())) {
                     SolverTask task = newTask(puzzle.move(getPosition(), move), move, this);
 
-                    // either process the children sequentially or concurrently based on depthBreadthFactor
                     if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) {
                         // go deep
                         task.run();
