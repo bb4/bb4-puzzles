@@ -12,7 +12,7 @@ public class ManhattanDistanceFinder {
      * @param board to evaluate
      * @return estimate of distance to solution.
      */
-    public int findDistance(Slider board) {
+    public int findDistance(SliderBoard board) {
         byte size = board.getSize();
 
 

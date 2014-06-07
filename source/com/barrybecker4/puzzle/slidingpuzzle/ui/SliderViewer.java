@@ -5,7 +5,7 @@ import com.barrybecker4.puzzle.common.ui.DoneListener;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
 
 import java.awt.Graphics;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  *  UI for drawing the current best solution to the puzzle.
  *  @author Barry Becker
  */
-final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
+final class SliderViewer extends PuzzleViewer<SliderBoard, SlideMove>
                          implements PathNavigator {
 
     private SliderRenderer renderer_ = new SliderRenderer();
@@ -35,7 +35,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
     }
 
     @Override
-    public void refresh(Slider board, long numTries) {
+    public void refresh(SliderBoard board, long numTries) {
         board_ = board;
         if (numTries % 500 == 0) {
             makeSound();
@@ -45,7 +45,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
     }
 
     @Override
-    public void finalRefresh(List<SlideMove> path, Slider board, long numTries, long millis) {
+    public void finalRefresh(List<SlideMove> path, SliderBoard board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
             showPath(path, board);
@@ -68,7 +68,7 @@ final class SliderViewer extends PuzzleViewer<Slider, SlideMove>
             renderer_.render(g, board_, getWidth(), getHeight());
     }
 
-    public void showPath(List<SlideMove> path, Slider board) {
+    public void showPath(List<SlideMove> path, SliderBoard board) {
         path_ = path;
         board_ = board;
         if (doneListener != null) {

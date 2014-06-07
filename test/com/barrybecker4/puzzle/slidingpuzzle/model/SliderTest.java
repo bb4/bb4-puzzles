@@ -45,30 +45,30 @@ public class SliderTest {
 
     @Test
     public void testBoardConstruction() {
-        Slider board = new Slider(3);
+        SliderBoard board = new SliderBoard(3);
         assertEquals("Unexpected board size", 3, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
     }
 
     @Test
     public void testMediumBoardConstruction() {
-        Slider board = new Slider(4);
+        SliderBoard board = new SliderBoard(4);
         assertEquals("Unexpected board size", 4, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 3), board.getEmptyLocation());
     }
 
     @Test
     public void testLargeBoardConstruction() {
-        Slider board = new Slider(5);
+        SliderBoard board = new SliderBoard(5);
         assertEquals("Unexpected board size", 5, board.getSize());
         assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
     }
 
     @Test
     public void testBoardEquals() {
-        Slider board1 = new Slider(3);
-        Slider board2 = new Slider(board1);
-        Slider board3 = new Slider(3);
+        SliderBoard board1 = new SliderBoard(3);
+        SliderBoard board2 = new SliderBoard(board1);
+        SliderBoard board3 = new SliderBoard(3);
         assertTrue(board1.equals(board2) && board2.equals(board1));
         assertTrue(board1.hashCode() == board2.hashCode());
 
@@ -78,11 +78,11 @@ public class SliderTest {
 
     @Test
     public void testBoardHash() {
-        Set<Slider> boards = new HashSet<>();
-        Slider board1 = new Slider(3);
-        Slider board2 = new Slider(board1);
-        Slider board3 = new Slider(3);
-        Slider board4 = new Slider(3);
+        Set<SliderBoard> boards = new HashSet<>();
+        SliderBoard board1 = new SliderBoard(3);
+        SliderBoard board2 = new SliderBoard(board1);
+        SliderBoard board3 = new SliderBoard(3);
+        SliderBoard board4 = new SliderBoard(3);
 
         boards.add(board1);
         boards.add(board2);

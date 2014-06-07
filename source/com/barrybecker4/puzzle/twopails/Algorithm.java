@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.twopails;
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
@@ -20,6 +21,7 @@ public enum Algorithm implements AlgorithmEnum<Pails, PourOperation> {
 
     SIMPLE_SEQUENTIAL,
     A_STAR_SEQUENTIAL,
+    A_STAR_CONCURRENT,
     CONCURRENT_BREADTH,
     CONCURRENT_DEPTH,
     CONCURRENT_OPTIMUM;
@@ -51,6 +53,8 @@ public enum Algorithm implements AlgorithmEnum<Pails, PourOperation> {
                 return new SequentialPuzzleSolver<>(controller);
             case A_STAR_SEQUENTIAL :
                 return new AStarPuzzleSolver<>(controller);
+            case A_STAR_CONCURRENT :
+                return new AStarConcurrentPuzzleSolver<>(controller);
             case CONCURRENT_BREADTH :
                 // this will find the shortest path to a solution if one exists, but takes longer
                 return new ConcurrentPuzzleSolver<>(controller, 1.0f);

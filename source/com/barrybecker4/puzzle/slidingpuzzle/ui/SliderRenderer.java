@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.ui;
 
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,7 +15,7 @@ import java.awt.Graphics;
  *
  * @author Barry Becker
  */
-public class SliderRenderer implements PuzzleRenderer<Slider> {
+public class SliderRenderer implements PuzzleRenderer<SliderBoard> {
 
     public static final int INC = 60;
     public static final int SEPARATION = INC/10;
@@ -39,7 +39,7 @@ public class SliderRenderer implements PuzzleRenderer<Slider> {
      * This renders the current state of the Slider to the screen.
      */
     @Override
-    public void render( Graphics g, Slider board, int width, int height ) {
+    public void render( Graphics g, SliderBoard board, int width, int height ) {
 
         int size = board.getSize();
         int rightEdgePos = LEFT_MARGIN + INC * size;
@@ -76,7 +76,7 @@ public class SliderRenderer implements PuzzleRenderer<Slider> {
         }
     }
 
-    private void drawTile(Graphics g, Slider board, byte row, byte col) {
+    private void drawTile(Graphics g, SliderBoard board, byte row, byte col) {
         int xpos = LEFT_MARGIN + col * INC ;
         int ypos = TOP_MARGIN + row * INC;
 

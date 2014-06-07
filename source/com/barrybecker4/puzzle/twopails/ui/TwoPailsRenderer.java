@@ -18,17 +18,18 @@ import java.awt.Graphics;
  */
 public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
 
-    public static final float MAX_CONTAINER_HEIGHT = 0.8f;
     public static final float CONTAINER_WIDTH = 0.2f;
-    public static final float TEXT_WIDTH = 0.11f;
-    public static final float SEPARATION = 0.1f;
+    public static final float SEPARATION = 0.11f;
+    public static final int TEXT_WIDTH = 70;
+    public static final int TEXT_OFFSET = 10;
 
-    private static final int MARGIN = 70;
+    private static final int TOP_MARGIN = 160;
+    private static final int MARGIN = 60;
 
     private static final Color CONTAINER_COLOR = new Color(5, 0, 80);
     private static final Color LIQUID_COLOR = new Color(95, 145, 255);
 
-    private static final Font FONT = new Font("Sans Serif", Font.PLAIN, 16);
+    private static final Font FONT = new Font("Sans Serif", Font.BOLD, 16);
 
 
     /**
@@ -48,33 +49,38 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
         float size1 = (float)params.getPail1Size() / biggest;
         float size2 = (float)params.getPail2Size() / biggest;
 
-        int contWidth = (int)(CONTAINER_WIDTH * width);
-        int cont1Height = (int)(size1 * MAX_CONTAINER_HEIGHT * height);
-        int cont2Height = (int)(size2 * MAX_CONTAINER_HEIGHT * height);
+        int usableWidth = width - MARGIN;
+        int contWidth = (int)(CONTAINER_WIDTH * usableWidth);
+        int cont1Height = (int)(size1 * (height - TOP_MARGIN));
+        int cont2Height = (int)(size2 * (height - TOP_MARGIN));
 
-        int middle = MARGIN + (int)((TEXT_WIDTH + CONTAINER_WIDTH + SEPARATION) * width);
+        int middle = MARGIN + TEXT_WIDTH + (int)((CONTAINER_WIDTH + SEPARATION) * usableWidth);
+        int container1Y = height - MARGIN - cont1Height;
+        int container2Y = height - MARGIN - cont2Height;
+
         g.setColor(Color.BLACK);
         g.setFont(FONT);
-        g.drawString("First container", MARGIN, MARGIN);
-        g.drawString("Max  = " + params.getPail1Size(), MARGIN, 2 * MARGIN);
+        g.drawString("First container", MARGIN, MARGIN + TEXT_OFFSET);
+        g.drawString("Max  = " + params.getPail1Size(), MARGIN, container1Y + TEXT_OFFSET );
         g.drawString("Fill = " + pails.getFill1(), MARGIN, height - MARGIN);
 
-        g.drawString("Second container", middle, MARGIN);
-        g.drawString("Max = " + params.getPail2Size(), middle, 2 * MARGIN);
+        g.drawString("Second container", middle, MARGIN + TEXT_OFFSET);
+        g.drawString("Max = " + params.getPail2Size(), middle, container2Y + TEXT_OFFSET);
         g.drawString("Fill = " + pails.getFill2(), middle, height - MARGIN);
 
+        // show outlines for two containers
         g.setColor(CONTAINER_COLOR);
-        g.drawRect(MARGIN + (int)(TEXT_WIDTH * width), height - MARGIN - cont1Height, contWidth, cont1Height);
-        g.drawRect(middle + (int)(TEXT_WIDTH * width), height - MARGIN - cont2Height, contWidth, cont2Height);
+        g.drawRect(MARGIN + TEXT_WIDTH, container1Y, contWidth, cont1Height);
+        g.drawRect(middle + TEXT_WIDTH, container2Y, contWidth, cont2Height);
 
         g.setColor(LIQUID_COLOR);
         // show fill for first container
         int fillHeight = (int)((float)pails.getFill1()/biggest * cont1Height) - 2;
-        g.fillRect(MARGIN + (int)(TEXT_WIDTH * width) + 1, height - MARGIN - fillHeight, contWidth-1, fillHeight);
+        g.fillRect(MARGIN + TEXT_WIDTH + 1, height - MARGIN - fillHeight, contWidth-1, fillHeight);
 
         // show fill for second container
         fillHeight = (int)((float)pails.getFill2()/biggest * cont1Height) - 2;
-        g.fillRect(middle + (int)(TEXT_WIDTH * width) + 1, height - MARGIN - fillHeight, contWidth-1, fillHeight);
+        g.fillRect(middle + TEXT_WIDTH + 1, height - MARGIN - fillHeight, contWidth-1, fillHeight);
     }
 
 }

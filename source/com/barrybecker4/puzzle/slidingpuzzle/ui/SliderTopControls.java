@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.ui.TopControlPanel;
 import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -18,7 +18,7 @@ import java.awt.event.ItemListener;
  *
  * @author Barry Becker
  */
-public final class SliderTopControls extends TopControlPanel<Slider, SlideMove>
+public final class SliderTopControls extends TopControlPanel<SliderBoard, SlideMove>
                                    implements ItemListener {
 
     private SizeSelector sizeSelector_;
@@ -28,7 +28,7 @@ public final class SliderTopControls extends TopControlPanel<Slider, SlideMove>
      * The solve and generate button at the top.
      */
     public SliderTopControls(
-            PuzzleController<Slider, SlideMove> controller, AlgorithmEnum<Slider,  SlideMove>[] algorithmValues) {
+            PuzzleController<SliderBoard, SlideMove> controller, AlgorithmEnum<SliderBoard,  SlideMove>[] algorithmValues) {
 
         super(controller, algorithmValues);
     }

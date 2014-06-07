@@ -1,8 +1,10 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.redpuzzle.solver;
 
+import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
@@ -17,13 +19,14 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
  */
 public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
 
-    BRUTE_FORCE_ORIGINAL("Brute force (hand crafted)"),
-    BRUTE_FORCE_SEQUENTIAL("Brute force (sequential)"),
-    A_STAR_SEQUENTIAL("A* search (sequential)"),
-    BRUTE_FORCE_CONCURRENT("Brute force (concurrent)"),
-    BREADTH_FIRST_CONCURRENT("Mostly breath first concurrent"),
-    GENETIC_SEARCH("Genetic search"),
-    CONCURRENT_GENETIC_SEARCH("Concurrent Genetic search");
+    BRUTE_FORCE_ORIGINAL,
+    BRUTE_FORCE_SEQUENTIAL,
+    A_STAR_SEQUENTIAL,
+    A_STAR_CONCURRENT,
+    BRUTE_FORCE_CONCURRENT,
+    BREADTH_FIRST_CONCURRENT,
+    GENETIC_SEARCH,
+    CONCURRENT_GENETIC_SEARCH;
 
     private String label;
 
@@ -31,8 +34,8 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
      *Private constructor
      * Creates a new instance of Algorithm
      */
-    Algorithm(String label) {
-        this.label = label;
+    Algorithm() {
+        this.label = AppContext.getLabel(this.name());
     }
 
     public String getLabel() {
@@ -52,6 +55,8 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
                 return new SequentialPuzzleSolver<>(controller);
             case A_STAR_SEQUENTIAL :
                 return new AStarPuzzleSolver<>(controller);
+            case A_STAR_CONCURRENT :
+                return new AStarConcurrentPuzzleSolver<>(controller);
             case BRUTE_FORCE_CONCURRENT :
                 return new ConcurrentPuzzleSolver<>(controller, 0.2f);
             case BREADTH_FIRST_CONCURRENT :

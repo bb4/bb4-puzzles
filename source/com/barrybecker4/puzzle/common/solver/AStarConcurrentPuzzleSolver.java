@@ -30,7 +30,7 @@ public class AStarConcurrentPuzzleSolver<P, M> extends AStarPuzzleSolver<P, M> {
     public AStarConcurrentPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
         visited = Collections.synchronizedSet(new HashSet<P>());
-        open = new PriorityBlockingQueue<>(20);
+        openQueue = new PriorityBlockingQueue<>(20);
         pathCost = Collections.synchronizedMap(new HashMap<P, Integer>());
     }
 
@@ -52,11 +52,16 @@ public class AStarConcurrentPuzzleSolver<P, M> extends AStarPuzzleSolver<P, M> {
         return solution;
     }
 
+    /**
+     * Since this version is concurrent, initially we might ask fro nodes off the queue
+     * faster than they are added. That is the reason for the short sleep.
+     * @return true if nodes are in the queue and not found a solution yet.
+     */
     protected synchronized boolean nodesAvailable() {
-        if (open.isEmpty()) {
+        if (openQueue.isEmpty()) {
             ThreadUtil.sleep(10);
         }
-        return !open.isEmpty() && solution == null;
+        return !openQueue.isEmpty() && solution == null;
     }
 
     /** search worker */

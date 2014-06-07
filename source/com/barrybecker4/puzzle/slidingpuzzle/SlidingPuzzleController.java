@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.slidingpuzzle;
 
 import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator;
 
@@ -17,44 +17,44 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class SlidingPuzzleController extends AbstractPuzzleController<Slider, SlideMove> {
+public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoard, SlideMove> {
 
     private static final byte DEFAULT_SIZE = 3;
 
-    private Slider initialPosition;
+    private SliderBoard initialPosition;
 
     /**
      * @param ui shows the current state on the screen.
      */
-    public SlidingPuzzleController(Refreshable<Slider, SlideMove> ui) {
+    public SlidingPuzzleController(Refreshable<SliderBoard, SlideMove> ui) {
         super(ui);
-        initialPosition = new Slider(DEFAULT_SIZE);
+        initialPosition = new SliderBoard(DEFAULT_SIZE);
         algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
     }
 
     /** @param size the edge length of the puzzle to be solved */
     public void setSize(int size) {
-        initialPosition = new Slider((byte)size);
+        initialPosition = new SliderBoard((byte)size);
         if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     @Override
-    public Slider initialPosition() {
+    public SliderBoard initialPosition() {
         return initialPosition;
     }
 
     @Override
-    public boolean isGoal(Slider position) {
+    public boolean isGoal(SliderBoard position) {
         return position.isSolved();
     }
 
     @Override
-    public List<SlideMove> legalMoves(Slider position) {
+    public List<SlideMove> legalMoves(SliderBoard position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public Slider move(Slider position, SlideMove move) {
+    public SliderBoard move(SliderBoard position, SlideMove move) {
         return position.doMove(move);
     }
 
@@ -67,7 +67,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<Slider, Sl
      * 4) disjoint pattern databases. See http://heuristicswiki.wikispaces.com/pattern+database
      * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
      */
-    public int distanceFromGoal(Slider position) {
+    public int distanceFromGoal(SliderBoard position) {
         return position.distanceToGoal();
     }
 }

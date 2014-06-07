@@ -87,7 +87,7 @@ public class RandomTilePlacer {
                 nextLocation = outgoing.get(i);
             }
         }
-        // this could happen if there is a loop, or the open end of the primary path is blocked.
+        // this could happen if there is a loop, or the openQueue end of the primary path is blocked.
         if (nextLocation == null) {
             return null;
         }

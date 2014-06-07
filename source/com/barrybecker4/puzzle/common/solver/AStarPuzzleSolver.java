@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Sequential puzzle solver that uses the A* search algorithm.
  * See http://en.wikipedia.org/wiki/A*_search_algorithm
- * A concurrent version of this algorithm could perhaps be made using a PriorityBlockingQueue for {@code open}
+ * A concurrent version of this algorithm could perhaps be made using a PriorityBlockingQueue for {@code openQueue}
  * @author Barry Becker
  */
 public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
@@ -26,14 +26,14 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     protected Set<P> visited;
 
     /** candidate nodes to search on the frontier. */
-    protected Queue<PuzzleNode<P, M>> open;
+    protected Queue<PuzzleNode<P, M>> openQueue;
 
     /** provides the value for the lowest cost path from the start node to the specified node (g score) */
     protected Map<P, Integer> pathCost;
 
     protected volatile PuzzleNode<P, M> solution;
 
-    protected long numTries = 0;
+    protected long numTries;
 
     /**
      * @param puzzle the puzzle to solve
@@ -41,7 +41,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     public AStarPuzzleSolver(PuzzleController<P, M> puzzle) {
         this.puzzle = puzzle;
         visited = new HashSet<>();
-        open = new PriorityQueue<>(20);
+        openQueue = new PriorityQueue<>(20);
         pathCost = new HashMap<>();
     }
 
@@ -49,15 +49,12 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
     @Override
     public List<M> solve() {
-        open.clear();
-        visited.clear();
-        pathCost.clear();
 
         P startingPos = puzzle.initialPosition();
         long startTime = System.currentTimeMillis();
         PuzzleNode<P, M> startNode =
                 new PuzzleNode<>(startingPos, puzzle.distanceFromGoal(startingPos));
-        open.add(startNode);
+        openQueue.add(startNode);
         pathCost.put(startingPos, 0);
 
         PuzzleNode<P, M> solutionState = doSearch();
@@ -80,6 +77,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     protected PuzzleNode<P, M> doSearch() {
         return search();
     }
+
     /**
      * Best first search for a solution to the puzzle.
      * @return the solution state node if found which has the path leading to a solution. Null if no solution.
@@ -87,7 +85,7 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     protected PuzzleNode<P, M> search() {
 
         while (nodesAvailable())  {
-            PuzzleNode<P, M> currentNode = open.remove();
+            PuzzleNode<P, M> currentNode = openQueue.remove();
             P currentPosition = currentNode.getPosition();
             puzzle.refresh(currentPosition, numTries);
 
@@ -105,8 +103,8 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
                     PuzzleNode<P, M> child =
                             new PuzzleNode<>(nbr, move, currentNode, estFutureCost);
                     pathCost.put(nbr, estPathCost);
-                    if (!open.contains(child)) {
-                        open.add(child);
+                    if (!openQueue.contains(child)) {
+                        openQueue.add(child);
                         numTries++;
                     }
                 }
@@ -116,6 +114,6 @@ public class AStarPuzzleSolver<P, M> implements PuzzleSolver<M> {
     }
 
     protected boolean nodesAvailable() {
-        return !open.isEmpty();
+        return !openQueue.isEmpty();
     }
 }

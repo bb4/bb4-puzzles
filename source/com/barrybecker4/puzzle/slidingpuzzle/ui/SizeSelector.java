@@ -14,7 +14,7 @@ public final class SizeSelector extends Choice {
         "3 Tiles",
         "8 Tiles",
         "15 Tiles",
-        "24 Tiles"
+        "24 Tiles (long time to solve)"
     };
 
     /**

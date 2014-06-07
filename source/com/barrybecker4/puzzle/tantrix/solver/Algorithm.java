@@ -1,8 +1,10 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver;
 
+import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
@@ -17,13 +19,14 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
  */
 public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
 
-    SEQUENTIAL("Solve sequentially (May run out of mem if >10)"),
-    A_STAR("Solve sequentially using A* search"),
-    CONCURRENT_BREADTH("Solve concurrently (mostly breadth first)"),
-    CONCURRENT_DEPTH("Solve concurrently (mostly depth first)"),
-    CONCURRENT_OPTIMUM("Solve concurrently (optimized between depth and breadth search)"),
-    GENETIC_SEARCH("Genetic search"),
-    CONCURRENT_GENETIC_SEARCH("Concurrent Genetic search");
+    SEQUENTIAL,
+    A_STAR_SEQUENTIAL,
+    A_STAR_CONCURRENT,
+    CONCURRENT_BREADTH,
+    CONCURRENT_DEPTH,
+    CONCURRENT_OPTIMUM,
+    GENETIC_SEARCH,
+    CONCURRENT_GENETIC_SEARCH;
 
     private String label;
 
@@ -31,8 +34,8 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
      * Private constructor
      * Creates a new instance of Algorithm
      */
-    private Algorithm(String label) {
-        this.label = label;
+    private Algorithm() {
+        this.label = AppContext.getLabel(this.name());
     }
 
     public String getLabel() {
@@ -48,8 +51,10 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
         switch (this) {
             case SEQUENTIAL :
                 return new SequentialPuzzleSolver<>(controller);
-            case A_STAR :
+            case A_STAR_SEQUENTIAL:
                 return new AStarPuzzleSolver<>(controller);
+            case A_STAR_CONCURRENT :
+                return new AStarConcurrentPuzzleSolver<>(controller);
             case CONCURRENT_BREADTH :
                 return new ConcurrentPuzzleSolver<>(controller, 0.4f);
             case CONCURRENT_DEPTH :

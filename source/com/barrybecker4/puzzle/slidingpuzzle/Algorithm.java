@@ -10,14 +10,14 @@ import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.Slider;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
 
 /**
  * Type of solver to use.
  *
  * @author Barry Becker
  */
-public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
+public enum Algorithm implements AlgorithmEnum<SliderBoard, SlideMove> {
 
     A_STAR_SEQUENTIAL,
     A_STAR_CONCURRENT,
@@ -46,7 +46,7 @@ public enum Algorithm implements AlgorithmEnum<Slider, SlideMove> {
      */
     @Override
     public PuzzleSolver<SlideMove> createSolver(
-            PuzzleController<Slider, SlideMove> controller) {
+            PuzzleController<SliderBoard, SlideMove> controller) {
 
         switch (this) {
             case A_STAR_SEQUENTIAL :

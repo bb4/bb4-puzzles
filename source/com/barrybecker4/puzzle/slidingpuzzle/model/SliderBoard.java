@@ -16,7 +16,7 @@ import java.util.Set;
  * Immutable representation of a slider board.
  * @author Barry Becker
  */
-public class Slider {
+public class SliderBoard {
 
     /** Size of the board edge. If size = 4, then there will be 16-1 = 15 tiles. */
     private byte size;
@@ -30,7 +30,7 @@ public class Slider {
     /**
      * Constructor to create a shuffled slider configuration.
      */
-    public Slider(int size) {
+    public SliderBoard(int size) {
         this(size, true);
     }
 
@@ -39,7 +39,7 @@ public class Slider {
      * @param shuffle if true then the created slider will have the tiles shuffled,
      *                else they will be in the goal state.
      */
-    public Slider(int size, boolean shuffle) {
+    public SliderBoard(int size, boolean shuffle) {
         this.size = (byte)size;
         tiles = new byte[size][size];
         initializeTiles();
@@ -49,7 +49,7 @@ public class Slider {
     /**
      * Copy constructor.
      */
-    public Slider(Slider board) {
+    public SliderBoard(SliderBoard board) {
         this.size = board.size;
         tiles = new byte[size][size];
         initializeTiles();
@@ -72,7 +72,7 @@ public class Slider {
      * create a new Slider by applying a move to another Slider.
      * Applying the same move a second time will undo it because it just swaps tiles.
      */
-    public Slider(Slider pos, SlideMove move) {
+    public SliderBoard(SliderBoard pos, SlideMove move) {
         this(pos);
         applyMove(move);
     }
@@ -158,8 +158,8 @@ public class Slider {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public Slider doMove(SlideMove move) {
-        return new Slider(this, move);
+    public SliderBoard doMove(SlideMove move) {
+        return new SliderBoard(this, move);
     }
 
     /**
@@ -183,9 +183,9 @@ public class Slider {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Slider)) return false;
+        if (!(o instanceof SliderBoard)) return false;
 
-        Slider board = (Slider) o;
+        SliderBoard board = (SliderBoard) o;
         if (size != board.size) return false;
 
         for (int i=0; i<size; i++) {
