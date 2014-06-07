@@ -23,8 +23,8 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
     BRUTE_FORCE_SEQUENTIAL,
     A_STAR_SEQUENTIAL,
     A_STAR_CONCURRENT,
-    BRUTE_FORCE_CONCURRENT,
-    BREADTH_FIRST_CONCURRENT,
+    CONCURRENT_DEPTH,
+    CONCURRENT_BREADTH,
     GENETIC_SEARCH,
     CONCURRENT_GENETIC_SEARCH;
 
@@ -57,10 +57,10 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
                 return new AStarPuzzleSolver<>(controller);
             case A_STAR_CONCURRENT :
                 return new AStarConcurrentPuzzleSolver<>(controller);
-            case BRUTE_FORCE_CONCURRENT :
-                return new ConcurrentPuzzleSolver<>(controller, 0.2f);
-            case BREADTH_FIRST_CONCURRENT :
+            case CONCURRENT_DEPTH :
                 return new ConcurrentPuzzleSolver<>(controller, 0.1f);
+            case CONCURRENT_BREADTH :
+                return new ConcurrentPuzzleSolver<>(controller, 0.25f);
             case GENETIC_SEARCH :
                 return new GeneticSearchSolver(controller, false);
             case CONCURRENT_GENETIC_SEARCH :

@@ -17,7 +17,7 @@ public class ValueLatchTest {
         assertEquals("Unexpected counter value", (Integer) 4950, valueLatch.getValue());
     }
 
-    /** onlyt the first result is retained. Successive results that are set are ignored */
+    /** only the first result is retained. Successive results that are set are ignored */
     @Test
     public void testValueLatchMultipleSets() throws Exception {
         computeResult(10);

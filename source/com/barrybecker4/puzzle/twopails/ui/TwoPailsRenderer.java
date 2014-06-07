@@ -60,11 +60,11 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
 
         g.setColor(Color.BLACK);
         g.setFont(FONT);
-        g.drawString("First container", MARGIN, MARGIN + TEXT_OFFSET);
+        g.drawString("First Pail", MARGIN, MARGIN + TEXT_OFFSET);
         g.drawString("Max  = " + params.getPail1Size(), MARGIN, container1Y + TEXT_OFFSET );
         g.drawString("Fill = " + pails.getFill1(), MARGIN, height - MARGIN);
 
-        g.drawString("Second container", middle, MARGIN + TEXT_OFFSET);
+        g.drawString("Second Pail", middle, MARGIN + TEXT_OFFSET);
         g.drawString("Max = " + params.getPail2Size(), middle, container2Y + TEXT_OFFSET);
         g.drawString("Fill = " + pails.getFill2(), middle, height - MARGIN);
 
