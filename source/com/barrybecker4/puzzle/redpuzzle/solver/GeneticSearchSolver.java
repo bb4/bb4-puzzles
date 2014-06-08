@@ -1,9 +1,9 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2000-2014. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.redpuzzle.solver;
 
 import com.barrybecker4.optimization.OptimizationListener;
-import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.Optimizer;
+import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -12,6 +12,8 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray;
 
 import java.util.List;
+
+import static com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS;
 
 /**
  * Solve the red puzzle using a genetic search algorithm.
@@ -22,22 +24,11 @@ import java.util.List;
 public class GeneticSearchSolver extends RedPuzzleSolver
                                  implements Optimizee, OptimizationListener {
 
-    /** bonuses given to the scoring algorithm if 3 nubs fit on a side piece. */
-    public static final double THREE_FIT_BOOST = 0.1;
-
-    /** bonuses given to the scoring algorithm if 4 nubs on the center piece fit. */
-    public static final double FOUR_FIT_BOOST = 0.6;
-
-    /**
-     * The puzzle is solved if we reach this score.
-     * There are 24 nubs that need to fit for all the pieces.
-     * There are 4 edge pieces that get THREE_FIT_BOOST if all 3 nubs fit.
-     */
-    public static final double MAX_FITS = 24 + 4 * THREE_FIT_BOOST + FOUR_FIT_BOOST;
 
     /** either genetic or concurrent genetic strategy. */
     private OptimizationStrategyType strategy;
 
+    private FitnessFinder fitnessFinder;
 
     /** Constructor */
     public GeneticSearchSolver(PuzzleController<PieceList, Piece> puzzle,
@@ -45,6 +36,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
         super(puzzle);
         strategy = useConcurrency ? OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH :
                                     OptimizationStrategyType.GENETIC_SEARCH;
+        fitnessFinder = new FitnessFinder();
     }
 
     /**
@@ -58,7 +50,6 @@ public class GeneticSearchSolver extends RedPuzzleSolver
         long startTime = System.currentTimeMillis();
 
         Optimizer optimizer = new Optimizer(this);
-
         optimizer.setListener(this);
 
         ParameterArray solution =
@@ -101,7 +92,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
      */
     public double evaluateFitness(ParameterArray params) {
         PieceList pieces = ((PieceParameterArray) params).getPieceList();
-        double fitness = MAX_FITS - getNumFits(pieces);
+        double fitness = fitnessFinder.calculateFitness(pieces);
         params.setFitness(fitness);
         return fitness;
     }
@@ -109,27 +100,6 @@ public class GeneticSearchSolver extends RedPuzzleSolver
     public double compareFitness(ParameterArray params1, ParameterArray params2) {
         assert false : "compareFitness not used since we evaluate in an absolute way.";
         return 0;
-    }
-
-    /**
-     * @return the number of matches for all the nubs.
-     */
-    private static double getNumFits(PieceList pieces) {
-        double totalFits = 0;
-        for (int i=0; i < pieces.size(); i++) {
-            double nFits = pieces.getNumFits(i);
-            totalFits += nFits;
-            // give a boost if a give piece has 3 or 4 fits.
-            if (nFits == 3) {
-                totalFits += THREE_FIT_BOOST;
-            } else if (nFits == 4) {
-                // center piece
-                totalFits += FOUR_FIT_BOOST;
-            }
-        }
-        assert(totalFits <= MAX_FITS) :
-                "fits exceeded " + MAX_FITS +". Fits="+totalFits +" pieces="+pieces;
-        return totalFits;
     }
 
     /**

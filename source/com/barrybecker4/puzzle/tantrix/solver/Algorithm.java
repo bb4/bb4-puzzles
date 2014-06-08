@@ -19,7 +19,7 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
  */
 public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
 
-    SEQUENTIAL,
+    SIMPLE_SEQUENTIAL,
     A_STAR_SEQUENTIAL,
     A_STAR_CONCURRENT,
     CONCURRENT_BREADTH,
@@ -49,7 +49,7 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
             PuzzleController<TantrixBoard, TilePlacement> controller) {
 
         switch (this) {
-            case SEQUENTIAL :
+            case SIMPLE_SEQUENTIAL :
                 return new SequentialPuzzleSolver<>(controller);
             case A_STAR_SEQUENTIAL:
                 return new AStarPuzzleSolver<>(controller);

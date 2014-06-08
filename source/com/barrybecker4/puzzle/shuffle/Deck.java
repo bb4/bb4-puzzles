@@ -60,7 +60,7 @@ public class Deck {
         StringBuilder buf = new StringBuilder("Deck: ");
 
         for (int i=0; i<data_.length-1; i++) {
-            buf.append(data_[i]+", ");
+            buf.append(data_[i]).append(", ");
         }
         buf.append(data_[data_.length - 1]);
         return buf.toString();

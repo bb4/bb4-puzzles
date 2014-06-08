@@ -80,7 +80,7 @@ public class GeneticSearchSolver extends TantrixSolver
      * terminate the solver if we find a solution with this fitness.
      */
     public double getOptimalFitness() {
-        return 0;
+        return SOLVED_THRESH;
     }
 
     public boolean evaluateByComparison() {
@@ -95,7 +95,7 @@ public class GeneticSearchSolver extends TantrixSolver
      */
     public double evaluateFitness(ParameterArray params) {
 
-        double fitness = SOLVED_THRESH - evaluator.evaluateFitness((TantrixPath) params);
+        double fitness = evaluator.evaluateFitness((TantrixPath) params);
         params.setFitness(fitness);
         return fitness;
     }

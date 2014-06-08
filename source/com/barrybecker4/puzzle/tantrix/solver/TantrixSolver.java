@@ -41,11 +41,4 @@ public abstract class TantrixSolver
         return solution_;
     }
 
-    /**
-     * @return the number of different ways we have tried to fit pieces together so far.
-     */
-    public long getNumIterations() {
-        return 0;
-    }
-
 }

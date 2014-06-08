@@ -5,6 +5,7 @@ import com.barrybecker4.puzzle.common.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm;
 
 import java.util.LinkedList;
@@ -20,12 +21,11 @@ import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.NUM_PIECES;
  * and the Piece to represent a move. The way a move is applied is simply to add the piece to the
  * end of the current list.
  *
- * Created on August 11, 2007
  * @author Barry Becker
  */
 public class RedPuzzleController extends AbstractPuzzleController<PieceList, Piece> {
 
-    private final PieceList SHUFFLED_PIECES = PieceList.getInitialPuzzlePieces();
+    private final PieceList SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces();
 
     /**
      * Creates a new instance of RedPuzzleController

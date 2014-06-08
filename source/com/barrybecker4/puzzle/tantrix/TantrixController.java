@@ -35,7 +35,7 @@ public class TantrixController
      */
     public TantrixController(Refreshable<TantrixBoard, TilePlacement> ui) {
         super(ui);
-        algorithm_ = Algorithm.SEQUENTIAL;
+        algorithm_ = Algorithm.SIMPLE_SEQUENTIAL;
     }
 
     public void setNumTiles(int numTiles) {

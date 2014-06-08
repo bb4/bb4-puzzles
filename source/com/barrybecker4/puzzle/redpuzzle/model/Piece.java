@@ -10,6 +10,9 @@ package com.barrybecker4.puzzle.redpuzzle.model;
  */
 public final class Piece {
 
+    /** there are exactly 4 sides to every piece. There are no edge or corner pieces in this puzzle. */
+    private static final int NUM_SIDES = 4;
+
     /** The suits of the edges. */
     private Nub[] nubs_ = null;
 
@@ -35,7 +38,7 @@ public final class Piece {
      */
     private Piece( Nub topNub, Nub rightNub, Nub bottomNub, Nub leftNub,
                   int pieceNumber, Direction orientation) {
-        nubs_ = new Nub[4];
+        nubs_ = new Nub[NUM_SIDES];
 
         nubs_[Direction.TOP.ordinal()] = topNub;
         nubs_[Direction.RIGHT.ordinal()] = rightNub;
@@ -49,11 +52,11 @@ public final class Piece {
 
     /**
      * Copy constructor.
-     * @param p
+     * @param piece the piece to copy
      */
-    public Piece(Piece p) {
-        this(p.nubs_[0], p.nubs_[1], p.nubs_[2], p.nubs_[3], p.getNumber());
-        this.orientation_ = p.getOrientation();
+    public Piece(Piece piece) {
+        this(piece.nubs_[0], piece.nubs_[1], piece.nubs_[2], piece.nubs_[3], piece.getNumber());
+        this.orientation_ = piece.getOrientation();
     }
 
     public Nub getTopNub() {
@@ -70,7 +73,7 @@ public final class Piece {
     }
 
     /**
-     * @param dir
+     * @param dir nub orientation direction.
      * @return the suit of the nub fot the specified direction.
      */
     private Nub getNub(Direction dir) {
@@ -112,7 +115,7 @@ public final class Piece {
     }
 
     /**
-     *Two pieces are equal if they have the same nubs, even if they are rotated differently.
+     * Two pieces are equal if they have the same nubs, even if they are rotated differently.
      * @param piece to compare to
      * @return true if logically equal (independent of rotation).
      */
@@ -154,7 +157,7 @@ public final class Piece {
 
     public String toRawString() {
         StringBuilder buf = new StringBuilder("Piece "+ getNumber() + ":");
-        for (int i=0; i<4; i++) {
+        for (int i=0; i<NUM_SIDES; i++) {
             buf.append(nubs_[i].toString()).append(" ");
         }
         return buf.toString();

@@ -5,6 +5,7 @@ import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public abstract class RedPuzzleSolver
      */
     public RedPuzzleSolver(PuzzleController<PieceList, Piece> puzzle) {
         this.puzzle = puzzle;
-        pieces_ = PieceList.getInitialPuzzlePieces(); //puzzle.initialPosition();
+        pieces_ = PieceLists.getInitialPuzzlePieces();
         solution_ = new PieceList();
     }
 
