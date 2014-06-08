@@ -41,7 +41,7 @@ public class RedPuzzleRenderer implements PuzzleRenderer<PieceList> {
     private static char[] symb_ = new char[1];
 
      // num pieces on edge
-    private static final int DIM = (int) Math.sqrt(PieceList.NUM_PIECES);
+    private static final int DIM = (int) Math.sqrt(PieceList.DEFAULT_NUM_PIECES);
 
 
     /**

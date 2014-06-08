@@ -38,7 +38,7 @@ public class FitnessFinder  {
     /**
      * @return the number of matches for all the nubs.
      */
-    private static double getNumFits(PieceList pieces) {
+    private double getNumFits(PieceList pieces) {
         double totalFits = 0;
         for (int i=0; i < pieces.size(); i++) {
             double nFits = pieces.getNumFits(i);

@@ -47,7 +47,7 @@ public class PieceLists {
 
 
     public static PieceList getInitialPuzzlePieces() {
-        return getInitialPuzzlePieces(PieceList.NUM_PIECES);
+        return getInitialPuzzlePieces(PieceList.DEFAULT_NUM_PIECES);
     }
 
 

@@ -18,10 +18,14 @@ import java.util.Random;
 public class PieceList {
 
     /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
-    public static final int NUM_PIECES = 9;
+    public static final int DEFAULT_NUM_PIECES = 9;
 
     /** use the same seed for repeatable results. */
     private static final int SEED = 5;
+
+    /** There are either 4 or 9 or 16 pieces. */
+    private int numPieces = DEFAULT_NUM_PIECES;
+    private int edgeLen;
 
     /**
      * 0 solves in 25,797 tries.
@@ -33,8 +37,6 @@ public class PieceList {
      */
     private static Random RANDOM = new Random(SEED);
 
-    private int EDGE_LENGTH = (int)Math.sqrt(NUM_PIECES);
-
     private List<Piece> pieces_;
 
 
@@ -42,8 +44,7 @@ public class PieceList {
      * a list of 9 puzzle pieces.
      */
     public PieceList() {
-
-        this(NUM_PIECES);
+        this(DEFAULT_NUM_PIECES);
     }
 
     /**
@@ -51,7 +52,11 @@ public class PieceList {
      */
     private PieceList(int numPieces) {
 
-        assert(numPieces==4 || numPieces == 9);
+        if (numPieces == 0)
+            throw new IllegalArgumentException("Num pieces should not be 0");
+        assert(numPieces==4 || numPieces == 9 || numPieces == 16);
+        this.numPieces = numPieces;
+        this.edgeLen = (int)Math.sqrt(numPieces);
         pieces_ = new LinkedList<>();
     }
 
@@ -59,25 +64,23 @@ public class PieceList {
      * a list of puzzle pieces with pieces to use specified.
      * @param pieces array of pieces to use.
      */
-    PieceList(Piece[] pieces) {
-        assert(pieces.length==4 || pieces.length == 9);
-        pieces_ = new LinkedList<>();
+    public PieceList(Piece[] pieces) {
+        this(pieces.length);
         addPieces(pieces);
     }
-
 
     /**
      * Copy constructor
      */
     public PieceList(PieceList pieces) {
-        this(pieces.pieces_);
+        this(pieces.pieces_, pieces.getTotalNum());
     }
 
     /**
      * private copy constructor
      */
-    private PieceList(List<Piece> pieces) {
-        this();
+    private PieceList(List<Piece> pieces, int numTotal) {
+        this(numTotal);
         for (Piece p : pieces) {
             pieces_.add(new Piece(p));
         }
@@ -92,8 +95,8 @@ public class PieceList {
      * @return the i'th piece.
      */
     public Piece get(int i)  {
-        assert i < NUM_PIECES :
-                "there are only " + NUM_PIECES + " pieces, but you tried to get the "+(i+1)+"th";
+        assert i < numPieces :
+                "there are only " + numPieces + " pieces, but you tried to get the " + (i+1) + "th";
         return pieces_.get(i);
     }
 
@@ -106,12 +109,26 @@ public class PieceList {
     }
 
     /**
-     *? Does this need to be made immutable?
+     * @return The total number of pieces in the puzzle.
+     */
+    public int getTotalNum() {
+        return numPieces;
+    }
+
+    /**
+     * @return the number of pieces in the list.
+     */
+    public int size() {
+        return pieces_.size();
+    }
+
+    /**
+     * Does this need to be made immutable?
      * Swap 2 pieces.
      */
     public void doSwap(int p1Pos, int p2Pos) {
-       assert p1Pos <= NUM_PIECES && p2Pos < NUM_PIECES :
-                "The position indices must be less than " + NUM_PIECES + ".  You had " + p1Pos + ",  " + p2Pos;
+       assert p1Pos <= numPieces&& p2Pos < numPieces :
+                "The position indices must be less than " + numPieces + ".  You had " + p1Pos + ",  " + p2Pos;
         Piece piece2 = get(p2Pos);
         Piece piece1 = pieces_.remove(p1Pos);
         pieces_.add(p1Pos, piece2);
@@ -132,8 +149,8 @@ public class PieceList {
      public PieceList add(int i, Piece p) {
          PieceList newPieceList = new PieceList(this);
          newPieceList.pieces_.add(i, p);
-         assert newPieceList.pieces_.size() <= NUM_PIECES :
-                "there can only be at most " + NUM_PIECES + " pieces.";
+         assert newPieceList.pieces_.size() <= numPieces :
+                "there can only be at most " + numPieces + " pieces.";
          return newPieceList;
     }
 
@@ -144,7 +161,7 @@ public class PieceList {
     public PieceList remove(Piece p) {
         PieceList newPieceList = new PieceList(this);
         boolean removed = newPieceList.pieces_.remove(p);
-        assert removed: " could not remove "+p+" from "+newPieceList.pieces_;
+        assert removed: " could not remove " + p + " from " + newPieceList.pieces_;
         return newPieceList;
     }
 
@@ -165,7 +182,7 @@ public class PieceList {
     }
 
     /**
-     *? Does this need to be made immutable?
+     * ? Does this need to be made immutable?
      */
     public void rotate(int k, int numRotations) {
         Piece p = pieces_.get(k);
@@ -184,7 +201,7 @@ public class PieceList {
             plist.add(newp);
         }
         Collections.shuffle(plist, RANDOM);
-        return new PieceList(plist);
+        return new PieceList(plist, numPieces);
     }
 
     /**
@@ -197,8 +214,8 @@ public class PieceList {
         // it needs to match the piece to the left and above (if present)
         boolean fits = true;
         int numSolved = size();
-        int row = numSolved / EDGE_LENGTH;
-        int col = numSolved % EDGE_LENGTH;
+        int row = numSolved / edgeLen;
+        int col = numSolved % edgeLen;
         if ( col > 0 ) {
             // if other than a left edge piece, then we need to match to the left side nub.
             Piece leftPiece = getLast();
@@ -207,7 +224,7 @@ public class PieceList {
         }
         if ( row > 0 ) {
             // then we need to match with the top one
-            Piece topPiece = get( numSolved - EDGE_LENGTH );
+            Piece topPiece = get( numSolved - edgeLen );
             if (!topPiece.getBottomNub().fitsWith(piece.getTopNub()) )
                 fits = false;
         }
@@ -216,21 +233,14 @@ public class PieceList {
     }
 
     /**
-     * @return the number of pieces in the list.
-     */
-    public int size() {
-        return pieces_.size();
-    }
-
-    /**
      * @return the number of matches for the nubs on this piece
      */
-    public  int getNumFits(int i) {
+    public int getNumFits(int i) {
 
-        assert(i<9);
+        assert(i < numPieces);
         // it needs to match the piece to the left and above (if present)
         int numFits = 0;
-        int dim = 3;
+        int dim = edgeLen;
         int row = i / dim;
         int col = i % dim;
         Piece piece = get(i);

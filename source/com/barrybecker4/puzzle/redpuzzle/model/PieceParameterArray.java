@@ -18,7 +18,6 @@ import java.util.List;
 public class PieceParameterArray extends PermutedParameterArray {
 
     private PieceList pieces_ ;
-    private static final int NUM_PIECES = 9;
     private static final int SAMPLE_POPULATION_SIZE = 400;
 
 
@@ -58,7 +57,7 @@ public class PieceParameterArray extends PermutedParameterArray {
         //assert !this.equals(new PieceParameterArray(pieces)) :
         //    "The piecelists should not be equal new=" + pieces + " orig=" + pieces_;
 
-        assert (pieces.size() == NUM_PIECES);
+        assert (pieces.size() == pieces.getTotalNum());
         // make a pass over all the pieces.
         // If rotating a piece leads to more fits, then do it.
         for ( int k = 0; k < pieces.size(); k++) {
@@ -89,11 +88,11 @@ public class PieceParameterArray extends PermutedParameterArray {
      * The probability of selecting pieces that already have fits is sharply reduced.
      * The denominator is 1 + the number of fits that the piece has.
      */
-    private static void doPieceSwap(PieceList pieces) {
+    private void doPieceSwap(PieceList pieces) {
 
         double[] swapProbabilities = findSwapProbabilities(pieces);
         double totalProb = 0;
-        for (int i = 0; i < NUM_PIECES; i++) {
+        for (int i = 0; i < pieces.getTotalNum(); i++) {
             totalProb += swapProbabilities[i];
         }
         int p1 = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble(), swapProbabilities);
@@ -106,15 +105,14 @@ public class PieceParameterArray extends PermutedParameterArray {
     }
 
     /**
-     *
-     * @param pieces
+     * @param pieces piece list to find probabilities for.
      * @return probability used to determine if we do a piece swap.
      *   Pieces that already fit have a low probability of being swapped.
      */
     private static double[] findSwapProbabilities(PieceList pieces) {
 
-        double[] swapProbabilities = new double[NUM_PIECES];
-        for (int i=0; i<NUM_PIECES; i++) {
+        double[] swapProbabilities = new double[pieces.getTotalNum()];
+        for (int i=0; i<pieces.getTotalNum(); i++) {
             swapProbabilities[i] = 1.0 / (1.0 + pieces.getNumFits(i)); //Math.pow(pieces.getNumFits(i), 2));
         }
         return swapProbabilities;
@@ -124,10 +122,10 @@ public class PieceParameterArray extends PermutedParameterArray {
      * @param p some value between 0 and the totalProbability (i.e. 100%).
      * @return the piece that was selected given the probability.
      */
-    private static int getPieceFromProb(double p, double[] probabilities) {
+    private int getPieceFromProb(double p, double[] probabilities) {
         double total = 0;
         int i = 0;
-        while (total < p && i<NUM_PIECES) {
+        while (total < p && i<pieces_.getTotalNum()) {
             total += probabilities[i++];
         }
         return --i;

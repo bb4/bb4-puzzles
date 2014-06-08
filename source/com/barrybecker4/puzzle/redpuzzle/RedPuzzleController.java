@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm;
 
 import java.util.LinkedList;
 import java.util.List;
-import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.NUM_PIECES;
+import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES;
 
 /**
  * The controller allows the solver to do its thing by providing the PuzzleController api.
@@ -44,7 +44,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
     @Override
     public boolean isGoal(PieceList position) {
         // we have reached our goal if we have 9 pieces that fit
-        return (position.size() == NUM_PIECES);
+        return (position.size() == DEFAULT_NUM_PIECES);
     }
 
     /**
@@ -52,7 +52,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
      * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
      */
     public int distanceFromGoal(PieceList position) {
-        return NUM_PIECES - position.size();
+        return DEFAULT_NUM_PIECES - position.size();
     }
 
 
@@ -66,7 +66,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
     public List<Piece> legalMoves(PieceList position) {
 
         List<Piece> moves = new LinkedList<Piece>();
-        for  (int i = 0; i < NUM_PIECES; i++) {
+        for  (int i = 0; i < DEFAULT_NUM_PIECES; i++) {
             Piece p = SHUFFLED_PIECES.get(i);
             if (!position.contains(p)) {
                 int r = 0;
