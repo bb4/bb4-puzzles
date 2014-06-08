@@ -83,19 +83,20 @@ public class FitnessFinderTest {
     @Test
     public void test9PieceAllFit() {
         PieceList pieceList = new PieceList(new Piece[] {
-            new Piece( Nub.OUTY_SPADE,  Nub.OUTY_CLUB,  Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
-            new Piece( Nub.OUTY_CLUB,  Nub.OUTY_HEART,  Nub.INNY_DIAMOND, Nub.INNY_CLUB, 2),
-            new Piece( Nub.OUTY_HEART,  Nub.OUTY_SPADE,  Nub.INNY_SPADE, Nub.INNY_HEART, 3),
-            new Piece( Nub.OUTY_CLUB,  Nub.OUTY_HEART,  Nub.INNY_SPADE, Nub.INNY_HEART, 4),
-            new Piece( Nub.OUTY_DIAMOND, Nub.INNY_HEART,  Nub.OUTY_SPADE,   Nub.OUTY_DIAMOND, 5),
-            new Piece( Nub.OUTY_HEART,  Nub.OUTY_DIAMOND,  Nub.INNY_DIAMOND, Nub.INNY_HEART, 6),
-            new Piece( Nub.OUTY_HEART,  Nub.OUTY_DIAMOND,  Nub.INNY_CLUB, Nub.INNY_CLUB, 7),
-            new Piece( Nub.OUTY_DIAMOND,  Nub.OUTY_CLUB,  Nub.INNY_CLUB, Nub.INNY_DIAMOND, 8),
-            new Piece( Nub.OUTY_SPADE,  Nub.OUTY_SPADE,  Nub.INNY_HEART, Nub.INNY_CLUB, 9),
+            new Piece( Nub.OUTY_SPADE,  Nub.OUTY_DIAMOND,  Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
+            new Piece( Nub.INNY_CLUB,  Nub.OUTY_CLUB,  Nub.OUTY_HEART, Nub.INNY_DIAMOND, 2),
+            new Piece( Nub.INNY_CLUB,  Nub.OUTY_HEART,  Nub.OUTY_DIAMOND, Nub.INNY_CLUB, 3),
+            new Piece( Nub.OUTY_HEART,  Nub.OUTY_SPADE,  Nub.INNY_SPADE, Nub.INNY_CLUB, 4),
+            new Piece( Nub.INNY_HEART, Nub.OUTY_CLUB,  Nub.OUTY_HEART,   Nub.INNY_SPADE, 5),
+            new Piece( Nub.INNY_DIAMOND,  Nub.OUTY_DIAMOND,  Nub.OUTY_CLUB, Nub.INNY_CLUB, 6),
+            new Piece( Nub.OUTY_SPADE,  Nub.OUTY_DIAMOND,  Nub.INNY_SPADE, Nub.INNY_HEART, 7),
+            new Piece( Nub.INNY_HEART,  Nub.OUTY_HEART,  Nub.OUTY_DIAMOND, Nub.INNY_DIAMOND, 8),
+            new Piece( Nub.INNY_CLUB,  Nub.OUTY_SPADE,  Nub.OUTY_SPADE, Nub.INNY_HEART, 9)
+
         });
 
         assertEquals("Unexpected number of fits.",
-                10.1, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                25.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
 }
