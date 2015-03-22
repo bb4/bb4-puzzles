@@ -6,8 +6,7 @@ import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.ui.components.GradientButton;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.FlowLayout;
@@ -27,7 +26,7 @@ public class TopControlPanel<P, M> extends JPanel
     protected AlgorithmEnum<P, M>[] algorithmValues_;
 
     private JButton solveButton_;
-    private Choice algorithmChoice_;
+    private JComboBox<String> algorithmChoice_;
 
     /**
      * Constructor.
@@ -78,13 +77,13 @@ public class TopControlPanel<P, M> extends JPanel
      * The dropdown menu at the top for selecting an algorithm for solving the puzzle.
      * @return a dropdown/down component.
      */
-    private Choice createAlgorithmDropdown() {
-        algorithmChoice_ = new Choice();
+    private JComboBox createAlgorithmDropdown() {
+        algorithmChoice_ = new JComboBox<>();
         algorithmChoice_.addItemListener(this);
         for (AlgorithmEnum a: algorithmValues_) {
-            algorithmChoice_.add(a.getLabel());
+            algorithmChoice_.addItem(a.getLabel());
         }
-        algorithmChoice_.select(controller_.getAlgorithm().ordinal());
+        algorithmChoice_.setSelectedIndex(controller_.getAlgorithm().ordinal());
         return algorithmChoice_;
     }
 
