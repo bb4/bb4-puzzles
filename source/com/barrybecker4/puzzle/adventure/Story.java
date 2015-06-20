@@ -120,7 +120,7 @@ public class Story {
         copySceneMap(story.getSceneMap());
         //this.currentScene_ = story.currentScene_;
         this.advanceToScene(story.getCurrentScene().getName());
-        this.visitedScenes_ = new LinkedList<Scene>();
+        this.visitedScenes_ = new LinkedList<>();
         this.visitedScenes_.addAll(story.visitedScenes_);
     }
 
@@ -212,7 +212,7 @@ public class Story {
 
     /** must be ordered */
     private LinkedHashMap<String, Scene> createSceneMap(int size) {
-       return new LinkedHashMap<String, Scene>(size);
+       return new LinkedHashMap<>(size);
     }
 
     private void copySceneMap(LinkedHashMap<String, Scene> fromMap) {
@@ -233,7 +233,7 @@ public class Story {
         verifyScenes();
 
         currentScene_ = scenes[0];
-        visitedScenes_ = new LinkedList<Scene>();
+        visitedScenes_ = new LinkedList<>();
     }
 
     public Scene getCurrentScene()  {
@@ -277,7 +277,7 @@ public class Story {
      * @return a list of all the scenes that led to the current scene.
      */
     public List<Scene> getParentScenes()  {
-        List<Scene> parentScenes = new ArrayList<Scene>();
+        List<Scene> parentScenes = new ArrayList<>();
         // loop through all the scenes, and if any of them have us as a child, add to the list
         for (String sceneName : sceneMap_.keySet()) {
             Scene s = sceneMap_.get(sceneName);
@@ -307,7 +307,7 @@ public class Story {
      *   that are not already included in the current scene's list of choices.
      */
     public List<String> getCandidateDestinationSceneNames() {
-        List<String> candidateSceneNames = new ArrayList<String>();
+        List<String> candidateSceneNames = new ArrayList<>();
 
          for (String sceneName : sceneMap_.keySet()) {
             if (!getCurrentScene().getChoices().isDestination(sceneName)) {
@@ -318,7 +318,7 @@ public class Story {
     }
 
     public List<String> getAllSceneNames() {
-        return new ArrayList<String>(sceneMap_.keySet());
+        return new ArrayList<>(sceneMap_.keySet());
     }
 
     /**

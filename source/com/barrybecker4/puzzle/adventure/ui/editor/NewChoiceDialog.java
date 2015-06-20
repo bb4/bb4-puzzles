@@ -56,7 +56,7 @@ class NewChoiceDialog extends AbstractDialog
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
 
-        sceneSelector_ = new JComboBox(candidateDestinations_.toArray());
+        sceneSelector_ = new JComboBox<>(candidateDestinations_.toArray());
         sceneSelector_.setAlignmentX( Component.LEFT_ALIGNMENT);
         sceneSelector_.setBorder(
                 BorderFactory.createTitledBorder("Select an existing scene or type in the name for a new scene."));
