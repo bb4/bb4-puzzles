@@ -35,6 +35,13 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
         this(pos, null, null, estimatedFutureCost);
     }
 
+    /**
+     * Puzzle state
+     * @param pos the current position state
+     * @param move the transformation that got to this state
+     * @param prev the previous state
+     * @param estimatedFutureCost the cost of getting here plus the estimated future cost to get to the finish.
+     */
     public PuzzleNode(P pos, M move, PuzzleNode<P, M> prev, int estimatedFutureCost) {
         this.position = pos;
         this.move = move;

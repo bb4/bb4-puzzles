@@ -33,7 +33,7 @@ public class PathRenderer {
     public PathRenderer() {}
 
     /**
-     * Draw one of the tile paths which takes one of three forms.
+     * Draw one of the tile paths which takes one of three forms: corner, curved, or straight
      */
     public void drawPath(Graphics2D g2, int pathNumber, TilePlacement tilePlacement,
                          Point position, double size) {
