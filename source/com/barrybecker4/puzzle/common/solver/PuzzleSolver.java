@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * PuzzleSolver strategy pattern interface.
  * <p/>
- * P is the Puzzle type
  * M is the move type
  *
  * @author Barry Becker

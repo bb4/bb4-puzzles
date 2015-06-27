@@ -40,7 +40,7 @@ public class AStarConcurrentPuzzleSolver<P, M> extends AStarPuzzleSolver<P, M> {
      */
     protected PuzzleNode<P, M> doSearch() {
 
-        Parallelizer parallelizer = new Parallelizer<Worker>();
+        Parallelizer parallelizer = new Parallelizer<>();
 
         List<Runnable> workers = new ArrayList<>(NUM_WORKERS);
         for (int i = 0; i < NUM_WORKERS; i++) {
@@ -53,7 +53,7 @@ public class AStarConcurrentPuzzleSolver<P, M> extends AStarPuzzleSolver<P, M> {
     }
 
     /**
-     * Since this version is concurrent, initially we might ask fro nodes off the queue
+     * Since this version is concurrent, initially we might ask for nodes off the queue
      * faster than they are added. That is the reason for the short sleep.
      * @return true if nodes are in the queue and not found a solution yet.
      */
