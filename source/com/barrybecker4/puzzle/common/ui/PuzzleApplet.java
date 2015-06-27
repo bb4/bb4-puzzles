@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.common.ui;
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.ui.application.ApplicationApplet;
 
 import javax.swing.JPanel;

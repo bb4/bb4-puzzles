@@ -1,7 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.puzzle.hiq;
 
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.hiq.model.MoveGenerator;
 import com.barrybecker4.puzzle.hiq.model.PegBoard;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * HiQ Puzzle Controller.
- *See puzzle.common for puzzle framework classes.
+ * See puzzle.common for puzzle framework classes.
  *
  * @author Barry Becker
  */

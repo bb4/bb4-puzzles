@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.bridge;
 import com.barrybecker4.puzzle.bridge.model.Bridge;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove;
 import com.barrybecker4.puzzle.bridge.model.InitialConfiguration;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.bridge.model.MoveGenerator;
 

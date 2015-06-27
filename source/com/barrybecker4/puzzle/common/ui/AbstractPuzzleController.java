@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.common.ui;
 import com.barrybecker4.common.concurrency.Worker;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 
 import java.util.List;

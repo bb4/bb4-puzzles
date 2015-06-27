@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.common.ui;
 import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.common.Refreshable;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.sound.MusicMaker;
 
 import javax.swing.JPanel;
