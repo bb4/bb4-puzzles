@@ -34,7 +34,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
 
     @Override
     public List<M> solve() {
-        P pos = puzzle.initialPosition();
+        P pos = puzzle.initialState();
         long startTime = System.currentTimeMillis();
         PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos));
 
@@ -62,9 +62,9 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
             if (puzzle.isGoal(currentState)) {
                 return node;
             }
-            List<M> moves = puzzle.legalMoves(currentState);
+            List<M> moves = puzzle.legalTransitions(currentState);
             for (M move : moves) {
-                P position = puzzle.move(currentState, move);
+                P position = puzzle.transition(currentState, move);
                 puzzle.refresh(position, numTries);
 
                 PuzzleNode<P, M> child = new PuzzleNode<>(position, move, node);

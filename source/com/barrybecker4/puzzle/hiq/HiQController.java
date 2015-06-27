@@ -27,7 +27,7 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
     }
 
     @Override
-    public PegBoard initialPosition() {
+    public PegBoard initialState() {
         return PegBoard.INITIAL_BOARD_POSITION;
     }
 
@@ -37,12 +37,12 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
     }
 
     @Override
-    public List<PegMove> legalMoves(PegBoard position) {
+    public List<PegMove> legalTransitions(PegBoard position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public PegBoard move(PegBoard position, PegMove move) {
+    public PegBoard transition(PegBoard position, PegMove move) {
         return position.doMove(move, false);
     }
 

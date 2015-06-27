@@ -42,7 +42,7 @@ public class TantrixController
         this.numTiles = numTiles;
     }
 
-    public TantrixBoard initialPosition() {
+    public TantrixBoard initialState() {
         //MathUtil.RANDOM.setSeed(1);
         return new TantrixBoard(new HexTiles().createRandomList(numTiles));
     }
@@ -55,11 +55,11 @@ public class TantrixController
         return position.isSolved();
     }
 
-    public TilePlacementList legalMoves(TantrixBoard position) {
+    public TilePlacementList legalTransitions(TantrixBoard position) {
         return new MoveGenerator(position).generateMoves();
     }
 
-    public TantrixBoard move(TantrixBoard position, TilePlacement move) {
+    public TantrixBoard transition(TantrixBoard position, TilePlacement move) {
         return position.placeTile(move);
     }
 

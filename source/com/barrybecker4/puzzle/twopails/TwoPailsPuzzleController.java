@@ -46,7 +46,7 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
     }
 
     @Override
-    public Pails initialPosition() {
+    public Pails initialState() {
         return initialPosition;
     }
 
@@ -56,12 +56,12 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
     }
 
     @Override
-    public List<PourOperation> legalMoves(Pails position) {
+    public List<PourOperation> legalTransitions(Pails position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public Pails move(Pails position, PourOperation move) {
+    public Pails transition(Pails position, PourOperation move) {
         return position.doMove(move, false);
     }
 }

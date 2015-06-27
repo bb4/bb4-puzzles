@@ -119,7 +119,7 @@ public class TestSolving {
         for (TestCase testCase : cases) {
             controller.setParams(testCase.params);
             PuzzleSolver<PourOperation> solver =  algorithm.createSolver(controller);
-            System.out.println("initial pos = " + controller.initialPosition());
+            System.out.println("initial pos = " + controller.initialState());
             List<PourOperation> path = solver.solve();
             assertNotNull("No solution found for case params: " + testCase.params, path);
 

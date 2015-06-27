@@ -76,7 +76,7 @@ public class SolvingTest {
         for (TestCase testCase : cases) {
             controller.setConfiguration(testCase.config.getPeopleSpeeds());
             PuzzleSolver<BridgeMove> solver =  algorithm.createSolver(controller);
-            System.out.println("initial pos = " + controller.initialPosition());
+            System.out.println("initial pos = " + controller.initialState());
             List<BridgeMove> path = solver.solve();
             assertNotNull("No solution found for case: " + testCase.config.getLabel(), path);
 

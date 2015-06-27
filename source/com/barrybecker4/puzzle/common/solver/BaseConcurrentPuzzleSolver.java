@@ -94,7 +94,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
      * @throws InterruptedException if interrupted during processing.
      */
     private List<M> doSolve() throws InterruptedException {
-        P p = puzzle.initialPosition();
+        P p = puzzle.initialState();
         long startTime = System.currentTimeMillis();
         exec.execute(newTask(p, null, null));
 
@@ -138,8 +138,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
                 solution.setValue(this);
             }
             else {
-                for (M move : puzzle.legalMoves(getPosition())) {
-                    SolverTask task = newTask(puzzle.move(getPosition(), move), move, this);
+                for (M move : puzzle.legalTransitions(getPosition())) {
+                    SolverTask task = newTask(puzzle.transition(getPosition(), move), move, this);
 
                     if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) {
                         // go deep

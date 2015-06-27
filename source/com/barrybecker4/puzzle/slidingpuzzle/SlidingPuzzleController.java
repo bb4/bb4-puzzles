@@ -39,7 +39,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoar
     }
 
     @Override
-    public SliderBoard initialPosition() {
+    public SliderBoard initialState() {
         return initialPosition;
     }
 
@@ -49,12 +49,12 @@ public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoar
     }
 
     @Override
-    public List<SlideMove> legalMoves(SliderBoard position) {
+    public List<SlideMove> legalTransitions(SliderBoard position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public SliderBoard move(SliderBoard position, SlideMove move) {
+    public SliderBoard transition(SliderBoard position, SlideMove move) {
         return position.doMove(move);
     }
 

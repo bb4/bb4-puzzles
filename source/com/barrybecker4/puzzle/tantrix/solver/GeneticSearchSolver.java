@@ -34,7 +34,7 @@ public class GeneticSearchSolver extends TantrixSolver
     /** Constructor */
     public GeneticSearchSolver(PuzzleController<TantrixBoard, TilePlacement> controller,
                                boolean useConcurrency) {
-        super(controller.initialPosition());
+        super(controller.initialState());
         this.controller = controller;
         strategy = useConcurrency ? OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH :
                                     OptimizationStrategyType.GENETIC_SEARCH;

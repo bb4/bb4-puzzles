@@ -36,7 +36,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
     }
 
     @Override
-    public PieceList initialPosition() {
+    public PieceList initialState() {
         // empty piece list
         return new PieceList();
     }
@@ -63,9 +63,9 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
      * @return list of legal moves that can be made from current position.
      */
     @Override
-    public List<Piece> legalMoves(PieceList position) {
+    public List<Piece> legalTransitions(PieceList position) {
 
-        List<Piece> moves = new LinkedList<Piece>();
+        List<Piece> moves = new LinkedList<>();
         for  (int i = 0; i < DEFAULT_NUM_PIECES; i++) {
             Piece p = SHUFFLED_PIECES.get(i);
             if (!position.contains(p)) {
@@ -84,7 +84,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
     }
 
     @Override
-    public PieceList move(PieceList position, Piece move) {
+    public PieceList transition(PieceList position, Piece move) {
         // To make a move, simple add the piece to the end of our list
         assert position.fits(move) : move  +" does not fit in  "+position;
         return position.add(move);

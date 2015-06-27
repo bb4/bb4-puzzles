@@ -45,7 +45,7 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
 
         viewer_ = createViewer();
         controller_ = createController(viewer_);
-        viewer_.refresh(controller_.initialPosition(), 0);
+        viewer_.refresh(controller_.initialState(), 0);
 
         TopControlPanel<P, M> topPanel = createTopControls();
 

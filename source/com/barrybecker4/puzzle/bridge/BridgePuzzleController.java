@@ -44,7 +44,7 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
     }
 
     @Override
-    public Bridge initialPosition() {
+    public Bridge initialState() {
         return initialPosition;
     }
 
@@ -54,12 +54,12 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
     }
 
     @Override
-    public List<BridgeMove> legalMoves(Bridge position) {
+    public List<BridgeMove> legalTransitions(Bridge position) {
         return new MoveGenerator(position).generateMoves();
     }
 
     @Override
-    public Bridge move(Bridge position, BridgeMove move) {
+    public Bridge transition(Bridge position, BridgeMove move) {
         return position.applyMove(move, false);
     }
 
