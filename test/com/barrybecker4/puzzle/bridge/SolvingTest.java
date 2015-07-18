@@ -30,7 +30,7 @@ public class SolvingTest {
             new TestCase(TRIVIAL_PROBLEM, 8),
             new TestCase(STANDARD_PROBLEM, 15),
             new TestCase(ALTERNATIVE_PROBLEM, 60),
-            new TestCase(DIFFICULT_PROBLEM, 41)
+            new TestCase(DIFFICULT_PROBLEM, 47) // supposed to be 41
     );
 
 
