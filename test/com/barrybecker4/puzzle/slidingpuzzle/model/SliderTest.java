@@ -47,28 +47,28 @@ public class SliderTest {
     public void testBoardConstruction() {
         SliderBoard board = new SliderBoard(3);
         assertEquals("Unexpected board size", 3, board.getSize());
-        assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
+        assertEquals("Unexpected empty location", new ByteLocation(2, 2), board.getEmptyLocation());
     }
 
     @Test
     public void testMediumBoardConstruction() {
         SliderBoard board = new SliderBoard(4);
         assertEquals("Unexpected board size", 4, board.getSize());
-        assertEquals("Unexpected empty location", new ByteLocation(0, 3), board.getEmptyLocation());
+        assertEquals("Unexpected empty location", new ByteLocation(3, 3), board.getEmptyLocation());
     }
 
     @Test
     public void testLargeBoardConstruction() {
         SliderBoard board = new SliderBoard(5);
         assertEquals("Unexpected board size", 5, board.getSize());
-        assertEquals("Unexpected empty location", new ByteLocation(0, 2), board.getEmptyLocation());
+        assertEquals("Unexpected empty location", new ByteLocation(4, 4), board.getEmptyLocation());
     }
 
     @Test
     public void testBoardEquals() {
-        SliderBoard board1 = new SliderBoard(3);
+        SliderBoard board1 = new SliderBoard(4);
         SliderBoard board2 = new SliderBoard(board1);
-        SliderBoard board3 = new SliderBoard(3);
+        SliderBoard board3 = new SliderBoard(4, true);
         assertTrue(board1.equals(board2) && board2.equals(board1));
         assertTrue(board1.hashCode() == board2.hashCode());
 
@@ -79,10 +79,10 @@ public class SliderTest {
     @Test
     public void testBoardHash() {
         Set<SliderBoard> boards = new HashSet<>();
-        SliderBoard board1 = new SliderBoard(3);
+        SliderBoard board1 = new SliderBoard(4);
         SliderBoard board2 = new SliderBoard(board1);
-        SliderBoard board3 = new SliderBoard(3);
-        SliderBoard board4 = new SliderBoard(3);
+        SliderBoard board3 = new SliderBoard(4, true);
+        SliderBoard board4 = new SliderBoard(4, true);
 
         boards.add(board1);
         boards.add(board2);

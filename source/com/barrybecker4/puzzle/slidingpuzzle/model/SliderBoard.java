@@ -26,12 +26,15 @@ public class SliderBoard {
 
     private final byte[][] tiles;
 
+    private byte hamming;
+    private short manhattan;
+
 
     /**
-     * Constructor to create a shuffled slider configuration.
+     * Constructor to create a slider configuration in the goal configuration.
      */
     public SliderBoard(int size) {
-        this(size, true);
+        this(size, false);
     }
 
     /**
@@ -44,6 +47,20 @@ public class SliderBoard {
         tiles = new byte[size][size];
         initializeTiles();
         if (shuffle) shuffleTiles();
+        this.hamming = -1;
+        this.manhattan = calculateManhattan();
+    }
+
+    public SliderBoard(int[][] tiles) {
+        this.size = (byte)tiles.length;
+        this.tiles = new byte[size][size];
+        for (byte row=0; row < size; row++) {
+            for (byte col=0; col < size; col++) {
+                this.tiles[row][col] = (byte) tiles[row][col];
+            }
+        }
+        this.hamming = -1;
+        this.manhattan = calculateManhattan();
     }
 
     /**
@@ -56,15 +73,18 @@ public class SliderBoard {
         for (byte i=0; i<size; i++) {
             System.arraycopy(board.tiles[i], 0, tiles[i], 0, size);
         }
+        this.hamming = board.hamming;
+        this.manhattan = board.manhattan;
     }
 
     private void initializeTiles() {
-        byte ct = 0;
+        byte ct = 1;
         for (byte row=0; row < size; row++) {
             for (byte col=0; col < size; col++) {
                 tiles[row][col] = ct++;
             }
         }
+        tiles[size-1][size-1] = 0;
     }
 
     /**
@@ -75,7 +95,53 @@ public class SliderBoard {
     public SliderBoard(SliderBoard pos, SlideMove move) {
         this(pos);
         applyMove(move);
+        this.hamming = -1;
+        this.manhattan = calculateManhattan();
     }
+
+    public byte getHamming() {
+        if (hamming == -1) {
+            hamming = calculateHamming();
+        }
+        return hamming;
+    }
+
+    public short getManhattan() {
+        return manhattan;
+    }
+
+    private byte calculateHamming() {
+        byte expected = 0;
+        byte hamCount = 0;
+        for (byte i=0; i < size; i++) {
+            for (byte j=0; j < size; j++) {
+                byte value = tiles[i][j];
+                expected++;
+                if (value != 0 && value != expected) {
+                    hamCount++;
+                }
+            }
+        }
+        return hamCount;
+    }
+
+    private short calculateManhattan() {
+        short totalDistance = 0;
+        for (byte i=0; i < size; i++) {
+            for (byte j=0; j < size; j++) {
+                int value = tiles[i][j];
+                if (value != 0) {
+                    int expCol = (value - 1) % size;
+                    int expRow = (value - 1) / size;
+                    int deltaRow = Math.abs(expRow - i);
+                    int deltaCol = Math.abs(expCol - j);
+                    totalDistance += deltaRow + deltaCol;
+                }
+            }
+        }
+        return totalDistance;
+    }
+
 
     public byte getSize() {
         return size;
@@ -136,22 +202,17 @@ public class SliderBoard {
      * @return true if the coordinates refer to one of the tiles.
      */
     public boolean isValidPosition(Location loc) {
-        return (loc.getRow() >= 0 && loc.getRow() < size && loc.getCol() >= 0 && loc.getCol() < size);
+        return loc.getRow() >= 0
+                && loc.getRow() < size
+                && loc.getCol() >= 0
+                && loc.getCol() < size;
     }
 
     /**
      * @return true if all the tiles, when read across and down, are in increasing order.
      */
     public boolean isSolved() {
-        int last = -1;
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                if (tiles[row][col] < last)
-                    return false;
-                last = tiles[row][col];
-            }
-        }
-        return true;
+        return getHamming() == 0;
     }
 
     /**
@@ -173,11 +234,11 @@ public class SliderBoard {
                 }
             }
         }
-        throw new IllegalStateException("There should have been a blank space");
+        throw new IllegalStateException("There should have been a blank space in\n" + toString());
     }
 
     public int distanceToGoal() {
-        return new ManhattanDistanceFinder().findDistance(this);
+        return manhattan;
     }
 
     @Override
@@ -188,6 +249,9 @@ public class SliderBoard {
         SliderBoard board = (SliderBoard) o;
         if (size != board.size) return false;
 
+        if (this.getHamming() != board.getHamming()) {
+            return false;
+        }
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
                 if (tiles[i][j] != board.tiles[i][j]) return false;

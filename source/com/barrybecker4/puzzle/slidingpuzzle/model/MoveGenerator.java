@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class MoveGenerator  {
 
-    SliderBoard board;
-
     public static final ByteLocation[] OFFSETS = {
         new ByteLocation(-1, 0),
         new ByteLocation(1, 0),
@@ -23,18 +21,12 @@ public class MoveGenerator  {
         new ByteLocation(0, 1)
     };
 
-    /**
-     * Constructor
-     */
-    public MoveGenerator(SliderBoard board) {
-        this.board = board;
-    }
 
     /**
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public List<SlideMove> generateMoves() {
+    public List<SlideMove> generateMoves(SliderBoard board) {
         List<SlideMove> moves = new LinkedList<>();
 
         Location blankLocation = board.getEmptyLocation();

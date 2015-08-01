@@ -20,6 +20,7 @@ import java.util.List;
 public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoard, SlideMove> {
 
     private static final byte DEFAULT_SIZE = 3;
+    private static final MoveGenerator generator = new MoveGenerator();
 
     private SliderBoard initialPosition;
 
@@ -28,13 +29,13 @@ public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoar
      */
     public SlidingPuzzleController(Refreshable<SliderBoard, SlideMove> ui) {
         super(ui);
-        initialPosition = new SliderBoard(DEFAULT_SIZE);
+        initialPosition = new SliderBoard(DEFAULT_SIZE, true);
         algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
     }
 
     /** @param size the edge length of the puzzle to be solved */
     public void setSize(int size) {
-        initialPosition = new SliderBoard((byte)size);
+        initialPosition = new SliderBoard((byte)size, true);
         if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
@@ -50,7 +51,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoar
 
     @Override
     public List<SlideMove> legalTransitions(SliderBoard position) {
-        return new MoveGenerator(position).generateMoves();
+        return generator.generateMoves(position);
     }
 
     @Override
