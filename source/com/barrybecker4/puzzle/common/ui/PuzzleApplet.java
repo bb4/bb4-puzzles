@@ -21,12 +21,16 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
     protected PuzzleController<P, M> controller_;
     protected PuzzleViewer<P, M> viewer_;
 
+    private static final String DEFAULT_PUZZLE = "com.barrybecker4.puzzle.maze.FractalExplorer";
+
 
     /**
      * Construct the applet.
      * No argument constructor needed for applet instantiation by reflection.
      */
-    public PuzzleApplet() {}
+    public PuzzleApplet()  {
+        super(new String[] {});
+    }
 
     /**
      * Construct the application.
@@ -77,5 +81,6 @@ public abstract class PuzzleApplet<P, M> extends ApplicationApplet {
     }
 
     protected abstract AlgorithmEnum<P, M>[] getAlgorithmValues();
+
 }
 

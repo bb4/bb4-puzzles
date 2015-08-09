@@ -1,5 +1,6 @@
 package com.barrybecker4.puzzle.common.solver;
 
+import com.barrybecker4.common.concurrency.ThreadUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,10 +18,14 @@ public class ValueLatchTest {
         assertEquals("Unexpected counter value", (Integer) 4950, valueLatch.getValue());
     }
 
-    /** only the first result is retained. Successive results that are set are ignored */
+    /**
+     * only the first result is retained. Successive results that are set are ignored.
+     * Sometimes fails with 190 instead of 45.
+     */
     @Test
     public void testValueLatchMultipleSets() throws Exception {
         computeResult(10);
+        ThreadUtil.sleep(50);
         computeResult(20);
         assertEquals("Unexpected counter value", (Integer) 45, valueLatch.getValue());
     }
