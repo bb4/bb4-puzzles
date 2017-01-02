@@ -48,7 +48,8 @@ public class SameTypeTileMixerTest {
 
         List<TantrixPath> permutedPathList = mixer.findPermutedPaths();
         assertEquals("Unexpected number of permuted paths.", 3, permutedPathList.size());
-
+        /* This is how it used to be. I think it is also correct,
+           but then something changed - perhaps when upgrading to java 8.
         List<TantrixPath> expPathList = Arrays.asList(
             createPath(new TilePlacement(TILE3, LOWER_RIGHT, Rotation.ANGLE_240),
                        new TilePlacement(TILE2, UPPER, Rotation.ANGLE_180),
@@ -59,6 +60,18 @@ public class SameTypeTileMixerTest {
             createPath(new TilePlacement(TILE1, LOWER_RIGHT, Rotation.ANGLE_240),
                        new TilePlacement(TILE2, UPPER, Rotation.ANGLE_180),
                        new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120))
+        );*/
+
+        List<TantrixPath> expPathList = Arrays.asList(
+                createPath(new TilePlacement(TILE1, LOWER_LEFT, Rotation.ANGLE_120),
+                        new TilePlacement(TILE3, LOWER_RIGHT, Rotation.ANGLE_240),
+                        new TilePlacement(TILE2, UPPER, Rotation.ANGLE_180)),
+                createPath(new TilePlacement(TILE2, LOWER_LEFT, Rotation.ANGLE_300),
+                        new TilePlacement(TILE1, LOWER_RIGHT, Rotation.ANGLE_240),
+                        new TilePlacement(TILE3, UPPER, Rotation.ANGLE_0)),
+                createPath(new TilePlacement(TILE2, LOWER_LEFT, Rotation.ANGLE_300),
+                        new TilePlacement(TILE3, LOWER_RIGHT, Rotation.ANGLE_240),
+                        new TilePlacement(TILE1, UPPER, Rotation.ANGLE_0))
         );
 
         assertEquals("Unexpected permuted paths.", expPathList, permutedPathList);

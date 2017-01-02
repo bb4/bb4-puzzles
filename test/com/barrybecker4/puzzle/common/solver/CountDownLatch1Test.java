@@ -43,13 +43,13 @@ public class CountDownLatch1Test {
         assertEquals("Unexpected counter value", 102, counter);
     }
 
-    void doSomethingElse() {
+    private void doSomethingElse() {
         System.out.println("Something else... counter=" + counter);
         counter++;
     }
 
 
-    void runDriver(int numThreads) throws InterruptedException {
+    private void runDriver(int numThreads) throws InterruptedException {
 
         CountDownLatch startSignal = new CountDownLatch(1);
         CountDownLatch doneSignal = new CountDownLatch(numThreads);
@@ -58,7 +58,7 @@ public class CountDownLatch1Test {
             new Thread(new Worker(startSignal, doneSignal)).start();
         }
 
-         doSomethingElse();            // don't let run yet
+         doSomethingElse();            // don't let it run yet
          startSignal.countDown();      // let all threads proceed
          doSomethingElse();
          doneSignal.await();           // wait for all to finish
@@ -84,7 +84,7 @@ public class CountDownLatch1Test {
            }
 
            void doWork() {
-               System.out.print("Before working. counter=" + counter);
+               System.out.println("Before working. counter=" + counter);
                counter += 10;
                System.out.println("...  After working. counter=" + counter);
            }

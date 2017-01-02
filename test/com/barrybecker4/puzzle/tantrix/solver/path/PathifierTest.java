@@ -44,9 +44,9 @@ public class PathifierTest {
     public void test2TilePathConstruction() {
 
         TilePlacement firstTilePlacement =
-                new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_0);
-        TilePlacement secondTilePlacement =
                 new TilePlacement(TILES.getTile(3), loc(1, 2), Rotation.ANGLE_0);
+        TilePlacement secondTilePlacement =
+                new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_0);
 
         TilePlacementList tileList = new TilePlacementList();
         tileList.add(firstTilePlacement);
@@ -59,11 +59,11 @@ public class PathifierTest {
     public void test3TilePathConstruction() {
 
         TilePlacement first =
-                new TilePlacement(TILES.getTile(1), loc(1, 1), Rotation.ANGLE_0);
+                new TilePlacement(TILES.getTile(3), loc(1, 2), Rotation.ANGLE_0);
         TilePlacement second =
                 new TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_0);
         TilePlacement third =
-                new TilePlacement(TILES.getTile(3), loc(1, 2), Rotation.ANGLE_0);
+                new TilePlacement(TILES.getTile(1), loc(1, 1), Rotation.ANGLE_0);
 
         TilePlacementList tileList = new TilePlacementList(first, second, third);
 

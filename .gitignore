@@ -6,7 +6,6 @@ classes/
 build/
 bin/
 *.iml
-*.class
 *.iws
 *.ipr
-
+out/

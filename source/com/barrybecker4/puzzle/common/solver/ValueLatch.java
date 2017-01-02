@@ -35,7 +35,7 @@ public class ValueLatch <T> {
     /**
      * This blocks until the final value is available.
      * @return the final computed value
-     * @throws InterruptedException
+     * @throws InterruptedException if interrupted
      */
     public T getValue() throws InterruptedException {
         done.await();

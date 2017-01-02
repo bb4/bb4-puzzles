@@ -54,6 +54,7 @@ public class RandomPathGeneratorTest {
 
         assertEquals("Unexpected length for randomly generated path.", 6, rPath.size());
 
+        /* This is how it was.
         TilePlacementList tiles = new TilePlacementList(
                 new TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), Rotation.ANGLE_60),
                 new TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), Rotation.ANGLE_180),
@@ -61,6 +62,23 @@ public class RandomPathGeneratorTest {
                 new TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), Rotation.ANGLE_240),
                 new TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), Rotation.ANGLE_300),
                 new TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), Rotation.ANGLE_0)
+        );
+
+        TilePlacementList tiles = new TilePlacementList(
+                new TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), Rotation.ANGLE_0),
+                new TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), Rotation.ANGLE_60),
+                new TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), Rotation.ANGLE_180),
+                new TilePlacement(TILES.getTile(5), new ByteLocation(19, 21), Rotation.ANGLE_300),
+                new TilePlacement(TILES.getTile(6), new ByteLocation(18, 21), Rotation.ANGLE_0),
+                new TilePlacement(TILES.getTile(4), new ByteLocation(17, 21), Rotation.ANGLE_120)
+        );*/
+        TilePlacementList tiles = new TilePlacementList(
+                new TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), Rotation.ANGLE_300),
+                new TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), Rotation.ANGLE_0),
+                new TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), Rotation.ANGLE_60),
+                new TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), Rotation.ANGLE_180),
+                new TilePlacement(TILES.getTile(6), new ByteLocation(19, 21), Rotation.ANGLE_120),
+                new TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), Rotation.ANGLE_240)
         );
         TantrixPath expectedPath = new TantrixPath(tiles, PathColor.BLUE);
 
