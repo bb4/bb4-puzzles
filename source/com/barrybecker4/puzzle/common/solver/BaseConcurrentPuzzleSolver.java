@@ -104,9 +104,9 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
         PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
 
         // there has to be a better way to do this
-        Option<Seq<M>> path = (Option<Seq<M>>)((solutionPuzzleNode == null) ?
+        Option<Seq<M>> path = (solutionPuzzleNode == null) ?
                 Option.apply(null) :
-                Option.apply(solutionPuzzleNode.asMoveList()));
+                Option.apply(solutionPuzzleNode.asMoveList());
         long elapsedTime = System.currentTimeMillis() - startTime;
         P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
         System.out.println("solution = " + position);
