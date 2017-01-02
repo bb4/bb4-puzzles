@@ -1,4 +1,4 @@
-/** Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+// Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.model;
 
 import static com.barrybecker4.puzzle.twopails.model.PourOperation.Container.*;
