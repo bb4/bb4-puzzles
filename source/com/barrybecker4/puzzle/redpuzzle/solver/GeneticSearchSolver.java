@@ -10,8 +10,9 @@ import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray;
-
-import java.util.List;
+import scala.Option;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 import static com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS;
 
@@ -31,7 +32,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
     private FitnessFinder fitnessFinder;
 
     /** Constructor */
-    public GeneticSearchSolver(PuzzleController<PieceList, Piece> puzzle,
+    GeneticSearchSolver(PuzzleController<PieceList, Piece> puzzle,
                                boolean useConcurrency) {
         super(puzzle);
         strategy = useConcurrency ? OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH :
@@ -43,7 +44,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
      * @return list of moves to a solution.
      */
     @Override
-    public List<Piece> solve()  {
+    public Option<Seq<Piece>> solve()  {
 
         ParameterArray initialGuess = new PieceParameterArray(pieces_);
         solution_ = pieces_;
@@ -56,14 +57,12 @@ public class GeneticSearchSolver extends RedPuzzleSolver
             optimizer.doOptimization(strategy, initialGuess, MAX_FITS);
 
         solution_ = ((PieceParameterArray)solution).getPieceList();
-        List<Piece> moves;
+        Option<Seq<Piece>> moves = Option.empty();
         if (evaluateFitness(solution) >= MAX_FITS) {
-            moves = solution_.getPieces();
-        } else {
-            moves = null;
+            moves = Option.apply(JavaConversions.asScalaBuffer(solution_.getPieces()).toSeq());
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        puzzle.finalRefresh(moves, solution_, numTries_, elapsedTime);
+        puzzle.finalRefresh(moves, Option.apply(solution_), numTries_, elapsedTime);
 
         return moves;
     }

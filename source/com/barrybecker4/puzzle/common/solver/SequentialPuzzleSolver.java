@@ -2,10 +2,11 @@ package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import scala.Option;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+import scala.collection.mutable.HashSet;
+import scala.collection.mutable.Set;
 
 /**
  * Naive Sequential puzzle solver.
@@ -33,16 +34,16 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     }
 
     @Override
-    public List<M> solve() {
+    public Option<Seq<M>> solve() {
         P pos = puzzle.initialState();
         long startTime = System.currentTimeMillis();
         PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos));
 
-        List<M> pathToSolution = null;
-        P solution = null;
+        Option<Seq<M>> pathToSolution = Option.empty();
+        Option<P> solution = Option.empty();
         if (solutionState != null) {
-            pathToSolution = solutionState.asMoveList();
-            solution = solutionState.getPosition();
+            pathToSolution = Option.apply(solutionState.asMoveList());
+            solution = Option.apply(solutionState.getPosition());
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
         puzzle.finalRefresh(pathToSolution, solution, numTries, elapsedTime);
@@ -62,8 +63,8 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
             if (puzzle.isGoal(currentState)) {
                 return node;
             }
-            List<M> moves = puzzle.legalTransitions(currentState);
-            for (M move : moves) {
+            Seq<M> moves = puzzle.legalTransitions(currentState);
+            for (M move : JavaConversions.asJavaCollection(moves)) {
                 P position = puzzle.transition(currentState, move);
                 puzzle.refresh(position, numTries);
 

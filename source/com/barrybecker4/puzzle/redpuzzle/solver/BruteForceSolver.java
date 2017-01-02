@@ -4,8 +4,9 @@ package com.barrybecker4.puzzle.redpuzzle.solver;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
-
-import java.util.List;
+import scala.Option;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 /**
  * Works really well in spite of being brute force.
@@ -17,7 +18,7 @@ public class BruteForceSolver
        extends RedPuzzleSolver {
 
 
-    public BruteForceSolver(PuzzleController<PieceList, Piece> puzzle) {
+    BruteForceSolver(PuzzleController<PieceList, Piece> puzzle) {
         super(puzzle);
 
         puzzle.refresh(pieces_, 0);
@@ -27,16 +28,16 @@ public class BruteForceSolver
      * @return true if a solution is found.
      */
     @Override
-    public List<Piece> solve()  {
-        List<Piece> moves = null;
+    public Option<Seq<Piece>> solve()  {
+        Option<Seq<Piece>> moves = Option.empty();
         long startTime = System.currentTimeMillis();
 
         if  (solvePuzzle(pieces_, 0).size() == 0) {
-            moves = solution_.getPieces();
+            moves = Option.apply(JavaConversions.asScalaBuffer(solution_.getPieces()).toSeq());
         }
 
         long elapsedTime = System.currentTimeMillis() - startTime;
-        puzzle.finalRefresh(moves , solution_, numTries_, elapsedTime);
+        puzzle.finalRefresh(moves , Option.apply(solution_), numTries_, elapsedTime);
 
         return moves;
     }
@@ -48,7 +49,7 @@ public class BruteForceSolver
      * @param i index of last placed piece. If we have to backtrack, we put it back where we got it.
      * @return true if successfully solved, false if no solution.
      */
-    protected PieceList solvePuzzle(PieceList pieces, int i ) {
+    private PieceList solvePuzzle(PieceList pieces, int i ) {
         boolean solved = false;
 
         // base case of the recursion. If reached, the puzzle has been solved.

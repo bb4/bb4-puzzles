@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.common.solver;
 
-import com.barrybecker4.common.search.SearchSpace;
+import com.barrybecker4.search.SearchSpace;
 
 /**
  * @author Barry Becker

@@ -2,13 +2,15 @@
 package com.barrybecker4.puzzle.common.ui;
 
 import com.barrybecker4.common.concurrency.Worker;
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
+import scala.Option;
+import scala.collection.Seq;
+import scala.collection.mutable.Set;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Provides default implementation for a PuzzleController.
@@ -92,17 +94,18 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
     }
 
     /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
-    public void finalRefresh(List<M> path, P position, long numTries, long elapsedMillis) {
+    public void finalRefresh(Option<Seq<M>> path, Option<P> position, long numTries, long elapsedMillis) {
 
-        if (path == null) {
+        if (path.isEmpty()) {
             System.out.println("No Solution found!");
         }
         else {
-            System.out.println("The number of steps in path to solution = " + path.size());
+            System.out.println("The number of steps in path to solution = " + path.get().size());
         }
 
         if (ui_ != null) {
-            ui_.finalRefresh(path, position, numTries, elapsedMillis);
+            List<M> pathList = scala.collection.JavaConversions.seqAsJavaList(path.get());
+            ui_.finalRefresh(pathList, position.get(), numTries, elapsedMillis);
         }
     }
 

@@ -3,14 +3,14 @@ package com.barrybecker4.puzzle.tantrix;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.tantrix.model.HexTiles;
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator;
+import com.barrybecker4.puzzle.tantrix.model.HexTiles;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm;
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
+import scala.collection.Seq;
 
 /**
  * The controller allows the solver to do its thing by providing the PuzzleController api.
@@ -25,8 +25,8 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 public class TantrixController
        extends AbstractPuzzleController<TantrixBoard, TilePlacement> {
 
-    public static final int MIN_NUM_TILES = 3;
-    int numTiles = MIN_NUM_TILES;
+    private static final int MIN_NUM_TILES = 3;
+    private int numTiles = MIN_NUM_TILES;
 
     private PathEvaluator evaluator = new PathEvaluator();
 
@@ -55,8 +55,8 @@ public class TantrixController
         return position.isSolved();
     }
 
-    public TilePlacementList legalTransitions(TantrixBoard position) {
-        return new MoveGenerator(position).generateMoves();
+    public Seq<TilePlacement> legalTransitions(TantrixBoard position) {
+        return new MoveGenerator(position).generateMoves().asSeq();
     }
 
     public TantrixBoard transition(TantrixBoard position, TilePlacement move) {

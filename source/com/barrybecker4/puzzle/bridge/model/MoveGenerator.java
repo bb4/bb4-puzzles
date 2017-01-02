@@ -1,6 +1,9 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.model;
 
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
  */
 public class MoveGenerator  {
 
-    Bridge board;
+    private Bridge board;
 
     /**
      * Constructor
@@ -25,14 +28,14 @@ public class MoveGenerator  {
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public List<BridgeMove> generateMoves() {
+    public Seq<BridgeMove> generateMoves() {
 
         return board.isLightCrossed()?
                 createMoves(board.getCrossedPeople(), false) :
                 createMoves(board.getUncrossedPeople(), true);
     }
 
-    private List<BridgeMove> createMoves(List<Integer> people, boolean crossing) {
+    private Seq<BridgeMove> createMoves(List<Integer> people, boolean crossing) {
         List<BridgeMove> moves = new LinkedList<>();
 
         int numPeople = people.size();
@@ -49,6 +52,6 @@ public class MoveGenerator  {
 
         // Put them in order of fastest to cross first. This speeds A*, but slows sequential a lot.
         //Collections.sort(moves);
-        return moves;
+        return JavaConversions.asScalaBuffer(moves).toSeq();
     }
 }

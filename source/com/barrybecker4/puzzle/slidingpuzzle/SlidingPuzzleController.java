@@ -3,11 +3,10 @@ package com.barrybecker4.puzzle.slidingpuzzle;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator;
-
-import java.util.List;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
+import scala.collection.Seq;
 
 /**
  * Sliding Puzzle Controller.
@@ -50,7 +49,7 @@ public class SlidingPuzzleController extends AbstractPuzzleController<SliderBoar
     }
 
     @Override
-    public List<SlideMove> legalTransitions(SliderBoard position) {
+    public Seq<SlideMove> legalTransitions(SliderBoard position) {
         return generator.generateMoves(position);
     }
 

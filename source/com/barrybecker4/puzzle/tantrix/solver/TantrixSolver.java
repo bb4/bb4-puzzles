@@ -4,7 +4,8 @@ package com.barrybecker4.puzzle.tantrix.solver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
+import scala.Option;
+import scala.collection.Seq;
 
 
 /**
@@ -32,7 +33,7 @@ public abstract class TantrixSolver
      * Derived classes must provide the implementation for this abstract method.
      * @return true if a solution is found.
      */
-    public abstract TilePlacementList solve();
+    public abstract Option<Seq<TilePlacement>> solve();
 
     /**
      * @return the list of successfully placed pieces so far.

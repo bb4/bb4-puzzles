@@ -3,10 +3,10 @@ package com.barrybecker4.puzzle.hiq.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
+import scala.collection.mutable.Set;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Immutable representation of a PegBoard.

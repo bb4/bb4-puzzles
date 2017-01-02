@@ -6,8 +6,9 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.hiq.model.MoveGenerator;
 import com.barrybecker4.puzzle.hiq.model.PegBoard;
 import com.barrybecker4.puzzle.hiq.model.PegMove;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,8 +38,8 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
     }
 
     @Override
-    public List<PegMove> legalTransitions(PegBoard position) {
-        return new MoveGenerator(position).generateMoves();
+    public Seq<PegMove> legalTransitions(PegBoard position) {
+        return JavaConversions.asScalaBuffer(new MoveGenerator(position).generateMoves()).toSeq();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
      * Must be synchronized because some solvers use concurrency.
      */
     @Override
-    public synchronized boolean alreadySeen(PegBoard position, Set<PegBoard> seen) {
+    public synchronized boolean alreadySeen(PegBoard position, scala.collection.mutable.Set<PegBoard> seen) {
 
         boolean wasSeen = position.containedIn(seen);
         if (!wasSeen) {

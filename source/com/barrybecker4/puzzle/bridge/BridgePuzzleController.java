@@ -1,14 +1,13 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge;
 
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.bridge.model.Bridge;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove;
 import com.barrybecker4.puzzle.bridge.model.InitialConfiguration;
-import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.bridge.model.MoveGenerator;
-
-import java.util.List;
+import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
+import scala.collection.Seq;
 
 /**
  * Bridge crossing Puzzle Controller.
@@ -54,7 +53,7 @@ public class BridgePuzzleController extends AbstractPuzzleController<Bridge, Bri
     }
 
     @Override
-    public List<BridgeMove> legalTransitions(Bridge position) {
+    public Seq<BridgeMove> legalTransitions(Bridge position) {
         return new MoveGenerator(position).generateMoves();
     }
 

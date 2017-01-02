@@ -8,14 +8,14 @@ import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import scala.Option;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.ALTERNATIVE_PROBLEM;
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.DIFFICULT_PROBLEM;
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.STANDARD_PROBLEM;
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.TRIVIAL_PROBLEM;
+import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -66,10 +66,7 @@ public class SolvingTest {
     }
     */
 
-    /**
-     *
-     */
-    public void runSolvingTests(Algorithm algorithm, List<TestCase> cases) throws Exception {
+    private void runSolvingTests(Algorithm algorithm, List<TestCase> cases) throws Exception {
 
         BridgePuzzleController controller = new BridgePuzzleController(null);
 
@@ -77,21 +74,21 @@ public class SolvingTest {
             controller.setConfiguration(testCase.config.getPeopleSpeeds());
             PuzzleSolver<BridgeMove> solver =  algorithm.createSolver(controller);
             System.out.println("initial pos = " + controller.initialState());
-            List<BridgeMove> path = solver.solve();
+            Option<Seq<BridgeMove>> path = solver.solve();
             assertNotNull("No solution found for case: " + testCase.config.getLabel(), path);
 
             String msg = "Unexpected minimum amount of time to cross for (" + testCase.config.getLabel() + ") " +
                         "for " + algorithm.getLabel() + ". The path was " + path + ". ";
 
-            assertEquals(msg + "path length =" + path.size(),
-                    testCase.expectedTimeToCross, pathCost(path));
+            assertEquals(msg + "path length =" + path.get().size(),
+                    testCase.expectedTimeToCross, pathCost(path.get()));
         }
     }
 
 
-    private int pathCost(List<BridgeMove> path) {
+    private int pathCost(Seq<BridgeMove> path) {
         int totalCost = 0;
-        for (BridgeMove move : path) {
+        for (BridgeMove move : JavaConversions.asJavaCollection(path)) {
             totalCost += move.getCost();
         }
         return totalCost;

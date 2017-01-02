@@ -7,9 +7,12 @@ import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES;
 
 /**
@@ -63,7 +66,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
      * @return list of legal moves that can be made from current position.
      */
     @Override
-    public List<Piece> legalTransitions(PieceList position) {
+    public Seq<Piece> legalTransitions(PieceList position) {
 
         List<Piece> moves = new LinkedList<>();
         for  (int i = 0; i < DEFAULT_NUM_PIECES; i++) {
@@ -80,7 +83,7 @@ public class RedPuzzleController extends AbstractPuzzleController<PieceList, Pie
                 }
             }
         }
-        return moves;
+        return JavaConversions.asScalaBuffer(moves).toSeq();
     }
 
     @Override

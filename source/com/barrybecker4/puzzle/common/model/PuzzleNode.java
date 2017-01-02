@@ -1,6 +1,9 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common.model;
 
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,12 +67,12 @@ public class PuzzleNode<P, M> implements Comparable<PuzzleNode<P, M>> {
     /**
      * @return a list of nodes from the start state to this state.
      */
-    public List<M> asMoveList() {
+    public Seq<M> asMoveList() {
         List<M> solution = new LinkedList<>();
         for (PuzzleNode<P, M> n = this; n.move != null; n = n.previous) {
             solution.add(0, n.move);
         }
-        return solution;
+        return JavaConversions.asScalaBuffer(solution).toSeq();
     }
 
     @Override

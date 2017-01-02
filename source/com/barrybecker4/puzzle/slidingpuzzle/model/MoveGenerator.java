@@ -3,6 +3,8 @@ package com.barrybecker4.puzzle.slidingpuzzle.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public class MoveGenerator  {
 
-    public static final ByteLocation[] OFFSETS = {
+    static final ByteLocation[] OFFSETS = {
         new ByteLocation(-1, 0),
         new ByteLocation(1, 0),
         new ByteLocation(0, -1),
@@ -26,7 +28,7 @@ public class MoveGenerator  {
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public List<SlideMove> generateMoves(SliderBoard board) {
+    public Seq<SlideMove> generateMoves(SliderBoard board) {
         List<SlideMove> moves = new LinkedList<>();
 
         Location blankLocation = board.getEmptyLocation();
@@ -39,6 +41,6 @@ public class MoveGenerator  {
                 moves.add(new SlideMove(newLoc, blankLocation)) ;
             }
         }
-        return moves;
+        return JavaConversions.asScalaBuffer(moves).toSeq();
     }
 }

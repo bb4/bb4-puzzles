@@ -3,11 +3,13 @@ package com.barrybecker4.puzzle.common.solver;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.model.PuzzleNode;
+import scala.Option;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+import scala.collection.mutable.Set;
+import scala.collection.mutable.HashSet;
 
 import java.security.AccessControlException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -74,7 +76,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
     }
 
     @Override
-    public List<M> solve() throws InterruptedException {
+    public Option<Seq<M>> solve() throws InterruptedException {
         try {
             return doSolve();
         } finally {
@@ -93,7 +95,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
      *  Null is returned if there was no solution.
      * @throws InterruptedException if interrupted during processing.
      */
-    private List<M> doSolve() throws InterruptedException {
+    private Option<Seq<M>> doSolve() throws InterruptedException {
         P p = puzzle.initialState();
         long startTime = System.currentTimeMillis();
         exec.execute(newTask(p, null, null));
@@ -101,12 +103,15 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
         // block until solution found
         PuzzleNode<P, M> solutionPuzzleNode = solution.getValue();
 
-        List<M> path = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.asMoveList();
+        // there has to be a better way to do this
+        Option<Seq<M>> path = (Option<Seq<M>>)((solutionPuzzleNode == null) ?
+                Option.apply(null) :
+                Option.apply(solutionPuzzleNode.asMoveList()));
         long elapsedTime = System.currentTimeMillis() - startTime;
         P position = (solutionPuzzleNode == null) ? null : solutionPuzzleNode.getPosition();
         System.out.println("solution = " + position);
 
-        puzzle.finalRefresh(path, position, numTries, elapsedTime);
+        puzzle.finalRefresh(path, Option.apply(position), numTries, elapsedTime);
 
         return path;
     }
@@ -138,7 +143,8 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
                 solution.setValue(this);
             }
             else {
-                for (M move : puzzle.legalTransitions(getPosition())) {
+                Seq<M> transitions = puzzle.legalTransitions(getPosition());
+                for (M move : JavaConversions.asJavaCollection(transitions) ) {
                     SolverTask task = newTask(puzzle.transition(getPosition(), move), move, this);
 
                     if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) {

@@ -9,9 +9,10 @@ import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
+import scala.Option;
+import scala.collection.Seq;
 
 import static com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH;
 
@@ -32,7 +33,7 @@ public class GeneticSearchSolver extends TantrixSolver
 
 
     /** Constructor */
-    public GeneticSearchSolver(PuzzleController<TantrixBoard, TilePlacement> controller,
+    GeneticSearchSolver(PuzzleController<TantrixBoard, TilePlacement> controller,
                                boolean useConcurrency) {
         super(controller.initialState());
         this.controller = controller;
@@ -45,7 +46,7 @@ public class GeneticSearchSolver extends TantrixSolver
      * @return list of moves to a solution.
      */
     @Override
-    public TilePlacementList solve()  {
+    public Option<Seq<TilePlacement>> solve()  {
 
         ParameterArray initialGuess = new TantrixPath(board);
         assert(initialGuess.size() > 0) : "The random path should have some tiles!";
@@ -60,14 +61,14 @@ public class GeneticSearchSolver extends TantrixSolver
         solution_ =
             new TantrixBoard(((TantrixPath)solution).getTilePlacements(), board.getPrimaryColor());
 
-        TilePlacementList tilePlacements;
+        Option<Seq<TilePlacement>> tilePlacements;
         if (evaluateFitness(solution) <= 0) {
-            tilePlacements = ((TantrixPath)solution).getTilePlacements();
+            tilePlacements = Option.apply(((TantrixPath)solution).getTilePlacements().asSeq());
         } else {
-            tilePlacements = null;
+            tilePlacements = Option.empty();
         }
         long elapsedTime = System.currentTimeMillis() - startTime;
-        controller.finalRefresh(tilePlacements, solution_, numTries_, elapsedTime);
+        controller.finalRefresh(tilePlacements, Option.apply(solution_), numTries_, elapsedTime);
 
         return tilePlacements;
     }

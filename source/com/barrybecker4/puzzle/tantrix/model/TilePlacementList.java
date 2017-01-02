@@ -1,6 +1,9 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model;
 
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -23,6 +26,10 @@ public class TilePlacementList extends LinkedList<TilePlacement> {
     /** copy constructor */
     public TilePlacementList(TilePlacementList list) {
         this.addAll(list);
+    }
+
+    public Seq<TilePlacement> asSeq() {
+        return JavaConversions.asScalaBuffer(this).toSeq();
     }
 
     /** copy constructor */

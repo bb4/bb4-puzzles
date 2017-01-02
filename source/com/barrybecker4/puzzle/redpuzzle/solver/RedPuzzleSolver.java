@@ -6,8 +6,8 @@ import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.redpuzzle.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
-
-import java.util.List;
+import scala.Option;
+import scala.collection.Seq;
 
 
 /**
@@ -35,7 +35,7 @@ public abstract class RedPuzzleSolver
      * Constructor
      * @param puzzle the puzzle to solve.
      */
-    public RedPuzzleSolver(PuzzleController<PieceList, Piece> puzzle) {
+    RedPuzzleSolver(PuzzleController<PieceList, Piece> puzzle) {
         this.puzzle = puzzle;
         pieces_ = PieceLists.getInitialPuzzlePieces();
         solution_ = new PieceList();
@@ -46,6 +46,6 @@ public abstract class RedPuzzleSolver
      * @return true if a solution is found.
      */
     @Override
-    public abstract List<Piece> solve();
+    public abstract Option<Seq<Piece>> solve();
 
 }

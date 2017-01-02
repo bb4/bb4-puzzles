@@ -8,14 +8,13 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import scala.Option;
+import scala.collection.Seq;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * These are more integration tests than unit tests.
@@ -120,15 +119,17 @@ public class TestSolving {
             controller.setParams(testCase.params);
             PuzzleSolver<PourOperation> solver =  algorithm.createSolver(controller);
             System.out.println("initial pos = " + controller.initialState());
-            List<PourOperation> path = solver.solve();
+            Option<Seq<PourOperation>> path = solver.solve();
             assertNotNull("No solution found for case params: " + testCase.params, path);
 
             String msg = "Unexpected number of steps to solve (" + testCase.params + ") " +
                         "for " + algorithm.getLabel() + ". The path was " + path + ". ";
+
+            Seq<PourOperation> thePath = path.get();
             if (withMaxPathLen)     {
-                assertTrue(msg + "path size=" + path.size(), path.size() <= testCase.expectedNumSteps);
+                assertTrue(msg + "path size=" + thePath.size(),thePath.size() <= testCase.expectedNumSteps);
             } else {
-                assertEquals(msg, testCase.expectedNumSteps, path.size());
+                assertEquals(msg, testCase.expectedNumSteps, thePath.size());
             }
         }
     }
@@ -140,8 +141,9 @@ public class TestSolving {
 
         for (PailParams testCase : NEGATIVE_CASES) {
             controller.setParams(testCase);
-            List<PourOperation> path = solver.solve();
-            assertNull("Solution unexpectedly found for params: " + testCase + " the path was " + path, path);
+            Option<Seq<PourOperation>> path = solver.solve();
+            assertTrue("Solution unexpectedly found for params: " + testCase + " the path was " + path,
+                    path.isEmpty());
         }
     }
 

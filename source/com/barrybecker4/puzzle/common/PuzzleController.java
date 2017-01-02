@@ -1,11 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common;
 
-import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.common.search.SearchSpace;
-
-import java.util.List;
-import java.util.Set;
+import com.barrybecker4.search.SearchSpace;
 
 /**
  * PuzzleController constructor.

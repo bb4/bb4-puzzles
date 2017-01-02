@@ -4,11 +4,11 @@ package com.barrybecker4.puzzle.twopails;
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.twopails.model.MoveGenerator;
+import com.barrybecker4.puzzle.twopails.model.PailParams;
 import com.barrybecker4.puzzle.twopails.model.Pails;
 import com.barrybecker4.puzzle.twopails.model.PourOperation;
-import com.barrybecker4.puzzle.twopails.model.PailParams;
-
-import java.util.List;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
 
 /**
  * Two pails puzzle Controller.
@@ -56,8 +56,8 @@ public class TwoPailsPuzzleController extends AbstractPuzzleController<Pails, Po
     }
 
     @Override
-    public List<PourOperation> legalTransitions(Pails position) {
-        return new MoveGenerator(position).generateMoves();
+    public Seq<PourOperation> legalTransitions(Pails position) {
+        return JavaConversions.asScalaBuffer(new MoveGenerator(position).generateMoves()).toSeq();
     }
 
     @Override
