@@ -12,7 +12,7 @@ public enum InitialConfiguration {
 
     STANDARD_PROBLEM("Standard Problem", 1, 2, 5, 8),       // shortest = 15
     ALTERNATIVE_PROBLEM("Alternative Problem", 5, 10, 20, 25), // shortest = 60
-    DIFFICULT_PROBLEM("Hard", 1, 2, 5, 7, 8, 12, 15), // shortest = 47
+    DIFFICULT_PROBLEM("Hard", 1, 2, 5, 7, 8, 12, 15),       // shortest = 47
     SUPER_HARD("Harder", 7, 11, 2, 3, 5, 4, 1, 3, 12, 3, 15, 19, 8), // shortest = 79
     TRIVIAL_PROBLEM("Trivial Problem", 1, 2, 5);           // shortest = 8
 

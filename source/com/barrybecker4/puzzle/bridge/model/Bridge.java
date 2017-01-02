@@ -32,7 +32,7 @@ public class Bridge {
     /**
      * Constructor with everything specified
      */
-    public Bridge(List<Integer> uncrossed, List<Integer> crossed, boolean lightCrossed) {
+    Bridge(List<Integer> uncrossed, List<Integer> crossed, boolean lightCrossed) {
         peopleUncrossed = Collections.unmodifiableList(uncrossed);
         peopleCrossed = Collections.unmodifiableList(crossed);
         this.lightCrossed = lightCrossed;
@@ -50,7 +50,7 @@ public class Bridge {
         uncrossed.addAll(getUncrossedPeople());
         crossed.addAll(getCrossedPeople());
 
-        boolean direction = reverse ? !move.getDirection() : move.getDirection();
+        boolean direction = reverse != move.getDirection();
         if (direction) {
             crossed.addAll(move.getPeople());
             uncrossed.removeAll(move.getPeople());
