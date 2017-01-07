@@ -55,6 +55,37 @@ class Bridge(val uncrossed: List[Int], val crossed: List[Int], var lightCrossed:
 
   def isLightCrossed: Boolean = lightCrossed
 
+  /**
+    * @return true when everyone has crossed the bridge.
+    */
+  def isSolved: Boolean = peopleUncrossed.isEmpty
+
+  /** @return the sum of the speeds of the people to cross is a rough estimate of the distance to the goal */
+  def distanceFromGoal: Int = {
+    var sum = 0
+    for (person <- peopleUncrossed) {
+      sum += person
+    }
+    sum
+  }
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Bridge]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Bridge =>
+      (that canEqual this) &&
+        peopleUncrossed == that.peopleUncrossed &&
+        peopleCrossed == that.peopleCrossed &&
+        lightCrossed == that.lightCrossed
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(peopleUncrossed, peopleCrossed, lightCrossed)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+
+  /*
   override def equals(o: Any): Boolean = {
     if (this == o) return true
     if (o == null || (getClass ne o.getClass)) return false
@@ -70,19 +101,5 @@ class Bridge(val uncrossed: List[Int], val crossed: List[Int], var lightCrossed:
     result = 31 * result + (if (lightCrossed) 1
     else 0)
     result
-  }
-
-  /**
-    * @return true when everyone has crossed the bridge.
-    */
-  def isSolved: Boolean = peopleUncrossed.isEmpty
-
-  /** @return the sum of the speeds of the people to cross is a rough estimate of the distance to the goal */
-  def distanceFromGoal: Int = {
-    var sum = 0
-    for (person <- peopleUncrossed) {
-      sum += person
-    }
-    sum
-  }
+  }*/
 }
