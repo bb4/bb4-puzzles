@@ -18,7 +18,7 @@ import java.util.List;
  */
 public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P, M> {
 
-    public static final int MARGIN = 15;
+    private static final int MARGIN = 15;
     private static final Color BACKGROUND_COLOR = new Color(235, 235, 240);
 
     protected P board_;

@@ -15,15 +15,9 @@ import com.barrybecker4.puzzle.common.model.Move
   * @author Barry Becker
   */
 final class BridgeMove(var people: List[Int],
-                       var direction: Boolean)
-
-/**
-  * create a move object representing a transition on the board.
-  */
-  extends Move with Comparable[BridgeMove1] {
-  cost = determineCost
+                       var direction: Boolean) extends Move with Comparable[BridgeMove] {
   /** The time for the slowest person out of everyone crossing at the same time */
-  private var cost = 0
+  private val cost = determineCost
 
   //def getPeople: List[Int] = people
   //def getDirection: Boolean = direction
@@ -38,20 +32,18 @@ final class BridgeMove(var people: List[Int],
   override def toString: String =
     "people: " + people + (if (direction) " -> " else " <- ")
 
-  override def equals(o: Any): Boolean = {
-    if (this.equals(o)) return true
-    if (o == null || (getClass ne o.getClass)) return false
-    val that = o.asInstanceOf[BridgeMove]
-    direction == that.direction && people == that.people
+
+  def compareTo(m: BridgeMove): Int = getCost - m.getCost
+
+  override def equals(other: Any): Boolean = other match {
+    case that: BridgeMove =>
+      direction == that.direction && people == that.people
+    case _ => false
   }
 
-  override def hashCode: Int = {
-    var result = if (direction) 1
-    else 0
-    result = 31 * result + people.hashCode
-    result
+  override def hashCode(): Int = {
+    val state = Seq(cost)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
-
-  def compareTo(m: BridgeMove1): Int = getCost - m.getCost
 }
 

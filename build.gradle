@@ -32,12 +32,12 @@ dependencies {
 
 
     // scala dependencies
-    compile 'org.scala-lang:scala-library:2.11.8'
+    compile('org.scala-lang:scala-library:2.11.8') { force = true }
+    //testCompile 'org.scalatest:scalatest_2.11:2.2.2'
     testCompile 'org.scalatest:scalatest_2.11:3.0.1'
     // Used to generate html unit test report
-    testRuntime 'org.pegdown:pegdown:1.6.0'
+    //testRuntime 'org.pegdown:pegdown:1.6.0'
 }
-
 
 
 

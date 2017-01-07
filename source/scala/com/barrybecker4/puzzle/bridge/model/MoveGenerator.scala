@@ -28,10 +28,10 @@ class MoveGenerator(var board: Bridge) {
       while (i < numPeople - 1) {
         var j = i + 1
         while (j < numPeople) {
-          moves ::= new BridgeMove(List(people(i), people(j)), crossing)
+          moves :+= new BridgeMove(List(people(i), people(j)), crossing)
           j += 1; j - 1
         }
-        moves ::= new BridgeMove(List(people(i + 1)), crossing)
+        moves :+= new BridgeMove(List(people(i + 1)), crossing)
         i += 1; i - 1
       }
     }

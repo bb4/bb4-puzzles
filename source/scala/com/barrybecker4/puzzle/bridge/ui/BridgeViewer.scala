@@ -9,6 +9,9 @@ import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
 import java.awt.Graphics
 
+import collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
+
 /**
   * UI for drawing the current best solution to the puzzle.
   * @param doneListener called when the puzzle has been solved.
@@ -20,9 +23,9 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   private val renderer_ = new BridgeRenderer()
   private var path_ = List[BridgeMove]()
 
-  def getPath: List[BridgeMove] = path_
+  def getPath: java.util.List[BridgeMove] = path_.asJava
 
-  override def finalRefresh(path: List[BridgeMove], board: Bridge, numTries: Long, millis: Long) {
+  override def finalRefresh(path: java.util.List[BridgeMove], board: Bridge, numTries: Long, millis: Long) {
     super.finalRefresh(path, board, numTries, millis)
     if (board != null) showPath(path, board)
   }
@@ -32,16 +35,17 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     repaint()
   }
 
-  override protected def createFinalStatusMessage(numTries: Long, millis: Long, path: List[BridgeMove]): String = {
+  override protected def createFinalStatusMessage(numTries: Long, millis: Long,
+                                                  path: java.util.List[BridgeMove]): String = {
     val time = millis.toFloat / 1000.0f
     var msg = "Did not find solution."
-    if (path != null) msg = "Found solution with total time = " + findCost(path) + " in " + FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
+    if (path != null) msg = "Found solution with total time = " + findCost(path.asScala.toList) + " in " +
+      FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
     msg
   }
 
   private def findCost(path: List[BridgeMove]) = {
     var totalCost = 0
-    import scala.collection.JavaConversions._
     for (m <- path) {
       totalCost += m.getCost
     }
@@ -56,8 +60,8 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (board_ != null) renderer_.render(g, board_, getWidth, getHeight)
   }
 
-  def showPath(path: List[BridgeMove], board: Bridge) {
-    path_ = path
+  def showPath(path: java.util.List[BridgeMove], board: Bridge) {
+    path_ = path.asScala.toList
     board_ = board
     if (doneListener != null) doneListener.done()
   }

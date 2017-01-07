@@ -22,7 +22,7 @@ class Bridge(val uncrossed: List[Int], val crossed: List[Int], var lightCrossed:
     * @param people array of people (represented by their speeds) that need to cross the bridge.
     */
   def this(people: Array[Int]) {
-    this(people, List[Int](), false)
+    this(people.toList, List[Int](), false)
   }
 
   /**
@@ -56,7 +56,7 @@ class Bridge(val uncrossed: List[Int], val crossed: List[Int], var lightCrossed:
   def isLightCrossed: Boolean = lightCrossed
 
   override def equals(o: Any): Boolean = {
-    if (this.equals(o)) return true
+    if (this == o) return true
     if (o == null || (getClass ne o.getClass)) return false
     val bridge = o.asInstanceOf[Bridge]
 
