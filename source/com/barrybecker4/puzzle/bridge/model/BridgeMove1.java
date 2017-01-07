@@ -13,7 +13,7 @@ import java.util.List;
  * Immutable.
  * @author Barry Becker
  */
-public final class BridgeMove implements Move, Comparable<BridgeMove> {
+public final class BridgeMove1 implements Move, Comparable<BridgeMove1> {
 
     /** if true then crossing */
     private boolean direction;
@@ -27,7 +27,7 @@ public final class BridgeMove implements Move, Comparable<BridgeMove> {
     /**
      * create a move object representing a transition on the board.
      */
-    BridgeMove(List<Integer> people, boolean direction) {
+    BridgeMove1(List<Integer> people, boolean direction) {
         this.people = people;
         this.direction = direction;
         cost = determineCost();
@@ -63,7 +63,7 @@ public final class BridgeMove implements Move, Comparable<BridgeMove> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BridgeMove that = (BridgeMove) o;
+        BridgeMove1 that = (BridgeMove1) o;
         return direction == that.direction && people.equals(that.people);
     }
 
@@ -75,7 +75,7 @@ public final class BridgeMove implements Move, Comparable<BridgeMove> {
     }
 
     @Override
-    public int compareTo(BridgeMove m) {
+    public int compareTo(BridgeMove1 m) {
         return getCost() - m.getCost();
     }
 }

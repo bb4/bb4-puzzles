@@ -2,8 +2,8 @@ package com.barrybecker4.puzzle.bridge;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.i18n.StubMessageContext;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
-import com.barrybecker4.puzzle.bridge.model.InitialConfiguration;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
+import com.barrybecker4.puzzle.bridge.model.InitialConfiguration1;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,7 +15,7 @@ import scala.collection.Seq;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.*;
+import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration1.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -46,35 +46,35 @@ public class SolvingTest {
 
     @Test
     public void testSolvingTestsWithAStar() throws Exception {
-        runSolvingTests(Algorithm.A_STAR_SEQUENTIAL, A_STAR_CASES);
+        runSolvingTests(Algorithm1.A_STAR_SEQUENTIAL, A_STAR_CASES);
     }
 
     /**  these will not find the shortest path
     @Test
     public void testSolvingSimpleSequentialTests() throws Exception {
-        runSolvingTests(Algorithm.SIMPLE_SEQUENTIAL, SIMPLE_SEQUENTIAL_CASES);
+        runSolvingTests(Algorithm1.SIMPLE_SEQUENTIAL, SIMPLE_SEQUENTIAL_CASES);
     }
 
     @Test
     public void testSolvingConcurrentDepthTests() throws Exception {
-        runSolvingTests(Algorithm.CONCURRENT_DEPTH, CONCURRENT_DEPTH_CASES);
+        runSolvingTests(Algorithm1.CONCURRENT_DEPTH, CONCURRENT_DEPTH_CASES);
     }
 
     @Test
     public void testSolvingConcurrentBreadthTests() throws Exception {
-        runSolvingTests(Algorithm.CONCURRENT_BREADTH, CONCURRENT_BREADTH_CASES);
+        runSolvingTests(Algorithm1.CONCURRENT_BREADTH, CONCURRENT_BREADTH_CASES);
     }
     */
 
-    private void runSolvingTests(Algorithm algorithm, List<TestCase> cases) throws Exception {
+    private void runSolvingTests(Algorithm1 algorithm, List<TestCase> cases) throws Exception {
 
-        BridgePuzzleController controller = new BridgePuzzleController(null);
+        BridgePuzzleController1 controller = new BridgePuzzleController1(null);
 
         for (TestCase testCase : cases) {
             controller.setConfiguration(testCase.config.getPeopleSpeeds());
-            PuzzleSolver<BridgeMove> solver =  algorithm.createSolver(controller);
+            PuzzleSolver<BridgeMove1> solver =  algorithm.createSolver(controller);
             System.out.println("initial pos = " + controller.initialState());
-            Option<Seq<BridgeMove>> path = solver.solve();
+            Option<Seq<BridgeMove1>> path = solver.solve();
             assertNotNull("No solution found for case: " + testCase.config.getLabel(), path);
 
             String msg = "Unexpected minimum amount of time to cross for (" + testCase.config.getLabel() + ") " +
@@ -86,19 +86,19 @@ public class SolvingTest {
     }
 
 
-    private int pathCost(Seq<BridgeMove> path) {
+    private int pathCost(Seq<BridgeMove1> path) {
         int totalCost = 0;
-        for (BridgeMove move : JavaConversions.asJavaCollection(path)) {
+        for (BridgeMove1 move : JavaConversions.asJavaCollection(path)) {
             totalCost += move.getCost();
         }
         return totalCost;
     }
 
     private static class TestCase {
-        InitialConfiguration config;
+        InitialConfiguration1 config;
         int expectedTimeToCross;
 
-        TestCase(InitialConfiguration config, int expectedTimeToCross) {
+        TestCase(InitialConfiguration1 config, int expectedTimeToCross) {
             this.config = config;
             this.expectedTimeToCross = expectedTimeToCross;
         }

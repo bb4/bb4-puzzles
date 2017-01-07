@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui;
 
-import com.barrybecker4.puzzle.bridge.model.Bridge;
+import com.barrybecker4.puzzle.bridge.model.Bridge1;
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
 
 import java.awt.Color;
@@ -10,13 +10,13 @@ import java.awt.Graphics;
 import java.util.List;
 
 /**
- * Singleton class that renders the current state of the Bridge puzzle.
+ * Singleton class that renders the current state of the Bridge1 puzzle.
  * Having the renderer separate from the viewer helps to separate out the rendering logic
- * from other features of the BridgeViewer.
+ * from other features of the BridgeViewer1.
  *
  * @author Barry Becker
  */
-public class BridgeRenderer implements PuzzleRenderer<Bridge> {
+public class BridgeRenderer1 implements PuzzleRenderer<Bridge1> {
 
     public static final int INC = 60;
     public static final int BRIDGE_WIDTH = 260;
@@ -34,14 +34,14 @@ public class BridgeRenderer implements PuzzleRenderer<Bridge> {
      * private constructor because this class is a singleton.
      * Use getPieceRenderer instead.
      */
-    public BridgeRenderer() {}
+    public BridgeRenderer1() {}
 
     /**
-     * This renders the current state of the Bridge to the screen.
+     * This renders the current state of the Bridge1 to the screen.
      * Show the people that have not yet crossed on the left; those that have on the right.
      */
     @Override
-    public void render( Graphics g, Bridge board, int width, int height ) {
+    public void render(Graphics g, Bridge1 board, int width, int height ) {
 
         drawBridge(g);
 

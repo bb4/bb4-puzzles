@@ -2,15 +2,12 @@
 package com.barrybecker4.puzzle.bridge;
 
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.bridge.model.Bridge;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
-import com.barrybecker4.puzzle.bridge.model.InitialConfiguration;
-import com.barrybecker4.puzzle.bridge.model.MoveGenerator;
+import com.barrybecker4.puzzle.bridge.model.*;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
 import scala.collection.Seq;
 
 /**
- * Bridge crossing Puzzle Controller.
+ * Bridge1 crossing Puzzle Controller.
  * See puzzle.common for puzzle framework classes.
  * See http://en.wikipedia.org/wiki/Bridge_and_torch_problem#cite_note-eatcs-4
  * See http://page.mi.fu-berlin.de/rote/Papers/pdf/Crossing+the+bridge+at+night.pdf
@@ -19,57 +16,57 @@ import scala.collection.Seq;
  *
  * @author Barry Becker
  */
-public class BridgePuzzleController extends AbstractPuzzleController<Bridge, BridgeMove> {
+public class BridgePuzzleController1 extends AbstractPuzzleController<Bridge1, BridgeMove1> {
 
     /** this is the standard bridge crossing problem with 4 people */
     private static final Integer[] DEFAULT_PEOPLE =
-            InitialConfiguration.STANDARD_PROBLEM.getPeopleSpeeds();
+            InitialConfiguration1.STANDARD_PROBLEM.getPeopleSpeeds();
 
-    private Bridge initialPosition;
+    private Bridge1 initialPosition;
 
     /**
      * @param ui shows the current state on the screen.
      */
-    public BridgePuzzleController(Refreshable<Bridge, BridgeMove> ui) {
+    public BridgePuzzleController1(Refreshable<Bridge1, BridgeMove1> ui) {
         super(ui);
-        initialPosition = new Bridge(DEFAULT_PEOPLE);
-        algorithm_ = Algorithm.A_STAR_SEQUENTIAL;
+        initialPosition = new Bridge1(DEFAULT_PEOPLE);
+        algorithm_ = Algorithm1.A_STAR_SEQUENTIAL;
         if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     public void setConfiguration(Integer[] config) {
-        initialPosition = new Bridge(config);
+        initialPosition = new Bridge1(config);
         if (ui_ != null) ui_.refresh(initialPosition, 0);
     }
 
     @Override
-    public Bridge initialState() {
+    public Bridge1 initialState() {
         return initialPosition;
     }
 
     @Override
-    public boolean isGoal(Bridge position) {
+    public boolean isGoal(Bridge1 position) {
         return position.isSolved();
     }
 
     @Override
-    public Seq<BridgeMove> legalTransitions(Bridge position) {
-        return new MoveGenerator(position).generateMoves();
+    public Seq<BridgeMove1> legalTransitions(Bridge1 position) {
+        return new MoveGenerator1(position).generateMoves();
     }
 
     @Override
-    public Bridge transition(Bridge position, BridgeMove move) {
+    public Bridge1 transition(Bridge1 position, BridgeMove1 move) {
         return position.applyMove(move, false);
     }
 
     /**
      * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
      */
-    public int distanceFromGoal(Bridge position) {
+    public int distanceFromGoal(Bridge1 position) {
         return position.distanceFromGoal();
     }
 
-    public int getCost(BridgeMove move) {
+    public int getCost(BridgeMove1 move) {
         return move.getCost();
     }
 }

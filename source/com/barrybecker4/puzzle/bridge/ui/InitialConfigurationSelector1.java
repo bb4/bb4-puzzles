@@ -3,14 +3,14 @@ package com.barrybecker4.puzzle.bridge.ui;
 
 import java.awt.Choice;
 
-import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration.*;
+import static com.barrybecker4.puzzle.bridge.model.InitialConfiguration1.*;
 
 /**
  * A combo box that allows the user to select the sort of people that need to cross
  *
  * @author Barry Becker
  */
-public final class InitialConfigurationSelector extends Choice {
+public final class InitialConfigurationSelector1 extends Choice {
 
 
     private static final String[] MENU_ITEMS = {
@@ -23,7 +23,7 @@ public final class InitialConfigurationSelector extends Choice {
     /**
      * Constructor.
      */
-    public InitialConfigurationSelector() {
+    public InitialConfigurationSelector1() {
         for (final String item : MENU_ITEMS) {
             add(item);
         }

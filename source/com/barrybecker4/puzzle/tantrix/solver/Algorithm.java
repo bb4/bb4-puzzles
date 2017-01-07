@@ -32,7 +32,7 @@ public enum Algorithm implements AlgorithmEnum<TantrixBoard, TilePlacement> {
 
     /**
      * Private constructor
-     * Creates a new instance of Algorithm
+     * Creates a new instance of Algorithm1
      */
     private Algorithm() {
         this.label = AppContext.getLabel(this.name());

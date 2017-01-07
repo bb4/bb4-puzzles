@@ -8,7 +8,7 @@ import java.util.Arrays;
  *
  * @author Barry Becker
  */
-public enum InitialConfiguration {
+public enum InitialConfiguration1 {
 
     STANDARD_PROBLEM("Standard Problem", 1, 2, 5, 8),       // shortest = 15
     ALTERNATIVE_PROBLEM("Alternative Problem", 5, 10, 20, 25), // shortest = 60
@@ -23,7 +23,7 @@ public enum InitialConfiguration {
     /**
      * Constructor.
      */
-    InitialConfiguration(String label, Integer... peopleSpeeds) {
+    InitialConfiguration1(String label, Integer... peopleSpeeds) {
         this.label = label;
         this.peopleSpeeds = peopleSpeeds;
     }

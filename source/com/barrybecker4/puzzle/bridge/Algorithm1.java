@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.bridge;
 
 import com.barrybecker4.common.app.AppContext;
-import com.barrybecker4.puzzle.bridge.model.Bridge;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
+import com.barrybecker4.puzzle.bridge.model.Bridge1;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver;
@@ -17,7 +17,7 @@ import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
  *
  * @author Barry Becker
  */
-public enum Algorithm implements AlgorithmEnum<Bridge, BridgeMove> {
+public enum Algorithm1 implements AlgorithmEnum<Bridge1, BridgeMove1> {
 
     A_STAR_SEQUENTIAL,
     A_STAR_CONCURRENT,
@@ -31,7 +31,7 @@ public enum Algorithm implements AlgorithmEnum<Bridge, BridgeMove> {
     /**
      * Private constructor
      */
-    Algorithm() {
+    Algorithm1() {
         this.label = AppContext.getLabel(this.name());
     }
 
@@ -45,8 +45,8 @@ public enum Algorithm implements AlgorithmEnum<Bridge, BridgeMove> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<BridgeMove> createSolver(
-            PuzzleController<Bridge, BridgeMove> controller) {
+    public PuzzleSolver<BridgeMove1> createSolver(
+            PuzzleController<Bridge1, BridgeMove1> controller) {
 
         switch (this) {
             case A_STAR_SEQUENTIAL :

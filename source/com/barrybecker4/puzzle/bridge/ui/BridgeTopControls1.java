@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui;
 
-import com.barrybecker4.puzzle.bridge.BridgePuzzleController;
-import com.barrybecker4.puzzle.bridge.model.Bridge;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
+import com.barrybecker4.puzzle.bridge.BridgePuzzleController1;
+import com.barrybecker4.puzzle.bridge.model.Bridge1;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.ui.TopControlPanel;
@@ -18,24 +18,24 @@ import java.awt.event.ItemListener;
  *
  * @author Barry Becker
  */
-public final class BridgeTopControls extends TopControlPanel<Bridge, BridgeMove>
+public final class BridgeTopControls1 extends TopControlPanel<Bridge1, BridgeMove1>
                                    implements ItemListener {
 
-    private InitialConfigurationSelector configurationSelector;
+    private InitialConfigurationSelector1 configurationSelector;
 
 
     /**
      * The solve and generate button at the top.
      */
-    public BridgeTopControls(
-            PuzzleController<Bridge, BridgeMove> controller, AlgorithmEnum<Bridge, BridgeMove>[] algorithmValues) {
+    public BridgeTopControls1(
+            PuzzleController<Bridge1, BridgeMove1> controller, AlgorithmEnum<Bridge1, BridgeMove1>[] algorithmValues) {
 
         super(controller, algorithmValues);
     }
 
     protected void addFirstRowControls(JPanel panel) {
         super.addFirstRowControls(panel);
-        configurationSelector = new InitialConfigurationSelector();
+        configurationSelector = new InitialConfigurationSelector1();
         configurationSelector.addItemListener(this);
 
         panel.add(configurationSelector);
@@ -51,7 +51,7 @@ public final class BridgeTopControls extends TopControlPanel<Bridge, BridgeMove>
 
         super.itemStateChanged(e);
         if (e.getSource() == configurationSelector)  {
-            ((BridgePuzzleController)controller_).setConfiguration(configurationSelector.getSelectedConfiguration());
+            ((BridgePuzzleController1)controller_).setConfiguration(configurationSelector.getSelectedConfiguration());
         }
     }
 }

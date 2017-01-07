@@ -32,7 +32,7 @@ public enum Algorithm implements AlgorithmEnum<PieceList, Piece> {
 
     /**
      *Private constructor
-     * Creates a new instance of Algorithm
+     * Creates a new instance of Algorithm1
      */
     Algorithm() {
         this.label = AppContext.getLabel(this.name());

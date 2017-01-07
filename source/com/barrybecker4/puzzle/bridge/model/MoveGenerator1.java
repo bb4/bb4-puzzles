@@ -9,18 +9,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Bridge Puzzle move generator. Generates valid next moves.
+ * Bridge1 Puzzle move generator. Generates valid next moves.
  *
  * @author Barry Becker
  */
-public class MoveGenerator  {
+public class MoveGenerator1 {
 
-    private Bridge board;
+    private Bridge1 board;
 
     /**
      * Constructor
      */
-    public MoveGenerator(Bridge board) {
+    public MoveGenerator1(Bridge1 board) {
         this.board = board;
     }
 
@@ -28,25 +28,25 @@ public class MoveGenerator  {
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public Seq<BridgeMove> generateMoves() {
+    public Seq<BridgeMove1> generateMoves() {
 
         return board.isLightCrossed()?
                 createMoves(board.getCrossedPeople(), false) :
                 createMoves(board.getUncrossedPeople(), true);
     }
 
-    private Seq<BridgeMove> createMoves(List<Integer> people, boolean crossing) {
-        List<BridgeMove> moves = new LinkedList<>();
+    private Seq<BridgeMove1> createMoves(List<Integer> people, boolean crossing) {
+        List<BridgeMove1> moves = new LinkedList<>();
 
         int numPeople = people.size();
-        moves.add(new BridgeMove(Arrays.asList(people.get(0)), crossing));
+        moves.add(new BridgeMove1(Arrays.asList(people.get(0)), crossing));
 
         if (numPeople > 1) {
             for (int i = 0; i < numPeople-1; i++) {
                 for (int j = i + 1; j < numPeople; j++) {
-                    moves.add(new BridgeMove(Arrays.asList(people.get(i), people.get(j)), crossing));
+                    moves.add(new BridgeMove1(Arrays.asList(people.get(i), people.get(j)), crossing));
                 }
-                moves.add(new BridgeMove(Arrays.asList(people.get(i + 1)), crossing));
+                moves.add(new BridgeMove1(Arrays.asList(people.get(i + 1)), crossing));
             }
         }
 

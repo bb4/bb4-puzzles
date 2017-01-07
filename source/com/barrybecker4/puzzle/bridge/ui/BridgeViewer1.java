@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.bridge.ui;
 
 import com.barrybecker4.common.format.FormatUtil;
-import com.barrybecker4.puzzle.bridge.model.Bridge;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
+import com.barrybecker4.puzzle.bridge.model.Bridge1;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
 import com.barrybecker4.puzzle.common.ui.DoneListener;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
@@ -15,28 +15,28 @@ import java.util.List;
  *  UI for drawing the current best solution to the puzzle.
  *  @author Barry Becker
  */
-final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
+final class BridgeViewer1 extends PuzzleViewer<Bridge1, BridgeMove1>
                          implements PathNavigator {
 
-    private BridgeRenderer renderer_ = new BridgeRenderer();
-    private List<BridgeMove> path_;
+    private BridgeRenderer1 renderer_ = new BridgeRenderer1();
+    private List<BridgeMove1> path_;
     private DoneListener doneListener;
 
     /**
      * Constructor.
      * @param listener called when the puzzle has been solved.
      */
-    BridgeViewer(DoneListener listener) {
+    BridgeViewer1(DoneListener listener) {
         doneListener = listener;
     }
 
     @Override
-    public List<BridgeMove> getPath() {
+    public List<BridgeMove1> getPath() {
         return path_;
     }
 
     @Override
-    public void finalRefresh(List<BridgeMove> path, Bridge board, long numTries, long millis) {
+    public void finalRefresh(List<BridgeMove1> path, Bridge1 board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
             showPath(path, board);
@@ -50,7 +50,7 @@ final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
     }
 
 
-    protected String createFinalStatusMessage(long numTries, long millis, List<BridgeMove> path) {
+    protected String createFinalStatusMessage(long numTries, long millis, List<BridgeMove1> path) {
         float time = (float) millis / 1000.0f;
         String msg = "Did not find solution.";
         if (path != null)  {
@@ -61,9 +61,9 @@ final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
         return msg;
     }
 
-    private int findCost(List<BridgeMove> path) {
+    private int findCost(List<BridgeMove1> path) {
         int totalCost = 0;
-        for (BridgeMove m : path) {
+        for (BridgeMove1 m : path) {
             totalCost += m.getCost();
         }
         return totalCost;
@@ -79,7 +79,7 @@ final class BridgeViewer extends PuzzleViewer<Bridge, BridgeMove>
             renderer_.render(g, board_, getWidth(), getHeight());
     }
 
-    public void showPath(List<BridgeMove> path, Bridge board) {
+    public void showPath(List<BridgeMove1> path, Bridge1 board) {
         path_ = path;
         board_ = board;
         if (doneListener != null) {

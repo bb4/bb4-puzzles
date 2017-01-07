@@ -1,10 +1,10 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui;
 
-import com.barrybecker4.puzzle.bridge.Algorithm;
-import com.barrybecker4.puzzle.bridge.BridgePuzzleController;
-import com.barrybecker4.puzzle.bridge.model.Bridge;
-import com.barrybecker4.puzzle.bridge.model.BridgeMove;
+import com.barrybecker4.puzzle.bridge.Algorithm1;
+import com.barrybecker4.puzzle.bridge.BridgePuzzleController1;
+import com.barrybecker4.puzzle.bridge.model.Bridge1;
+import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.common.search.Refreshable;
@@ -21,37 +21,37 @@ import javax.swing.JPanel;
  * This program solves a very difficult classic solitaire puzzle
  * where you select pairs of people to move across a bridge at night to get them all to the other side.
  */
-public final class BridgePuzzle extends PuzzleApplet<Bridge, BridgeMove>
+public final class BridgePuzzle1 extends PuzzleApplet<Bridge1, BridgeMove1>
                              implements DoneListener {
 
     private NavigationPanel navPanel;
 
     /** Construct the applet */
-    public BridgePuzzle() {}
+    public BridgePuzzle1() {}
 
     /** Construct the application */
-    public BridgePuzzle(String[] args) {
+    BridgePuzzle1(String[] args) {
         super(args);
     }
 
 
     @Override
-    protected PuzzleViewer<Bridge, BridgeMove> createViewer() {
-        return new BridgeViewer(this);
+    protected PuzzleViewer<Bridge1, BridgeMove1> createViewer() {
+        return new BridgeViewer1(this);
     }
 
     @Override
-    protected PuzzleController<Bridge, BridgeMove> createController(Refreshable<Bridge, BridgeMove> viewer_) {
-        return new BridgePuzzleController(viewer_);
+    protected PuzzleController<Bridge1, BridgeMove1> createController(Refreshable<Bridge1, BridgeMove1> viewer_) {
+        return new BridgePuzzleController1(viewer_);
     }
 
     @Override
-    protected AlgorithmEnum<Bridge, BridgeMove>[] getAlgorithmValues() {
-        return Algorithm.values();
+    protected AlgorithmEnum<Bridge1, BridgeMove1>[] getAlgorithmValues() {
+        return Algorithm1.values();
     }
 
-    protected BridgeTopControls createTopControls() {
-        return new BridgeTopControls(controller_, getAlgorithmValues());
+    protected BridgeTopControls1 createTopControls() {
+        return new BridgeTopControls1(controller_, getAlgorithmValues());
     }
 
     @Override
@@ -70,7 +70,7 @@ public final class BridgePuzzle extends PuzzleApplet<Bridge, BridgeMove>
      */
     public static void main(String[] args) {
 
-        PuzzleApplet applet = new BridgePuzzle(args);
+        PuzzleApplet applet = new BridgePuzzle1(args);
 
         // this will call applet.init() and start() methods instead of the browser
         GUIUtil.showApplet(applet);

@@ -10,7 +10,7 @@ import java.util.List;
  * Immutable representation a bridge and the state at which people have crossed or not.
  * @author Barry Becker
  */
-public class Bridge {
+public class Bridge1 {
 
     /** Represents the speeds of the people that have not crossed yet*/
     private List<Integer> peopleUncrossed;
@@ -25,14 +25,14 @@ public class Bridge {
      * Constructor that creates an initial bridge state
      * @param people array of people (represented by their speeds) that need to cross the bridge.
      */
-    public Bridge(Integer[] people) {
+    public Bridge1(Integer[] people) {
         this(Arrays.asList(people), Collections.<Integer>emptyList(), false);
     }
 
     /**
      * Constructor with everything specified
      */
-    Bridge(List<Integer> uncrossed, List<Integer> crossed, boolean lightCrossed) {
+    Bridge1(List<Integer> uncrossed, List<Integer> crossed, boolean lightCrossed) {
         peopleUncrossed = Collections.unmodifiableList(uncrossed);
         peopleCrossed = Collections.unmodifiableList(crossed);
         this.lightCrossed = lightCrossed;
@@ -44,7 +44,7 @@ public class Bridge {
      * @param move the move to apply
      * @param reverse if false then moving across the bridge, if true then revers traversal back to the start.
      */
-    public Bridge applyMove(BridgeMove move, boolean reverse) {
+    public Bridge1 applyMove(BridgeMove1 move, boolean reverse) {
         List<Integer> uncrossed = new ArrayList<>();
         List<Integer> crossed = new ArrayList<>();
         uncrossed.addAll(getUncrossedPeople());
@@ -59,7 +59,7 @@ public class Bridge {
             crossed.removeAll(move.getPeople());
             uncrossed.addAll(move.getPeople());
         }
-        return new Bridge(uncrossed, crossed, direction);
+        return new Bridge1(uncrossed, crossed, direction);
     }
 
     public List<Integer> getUncrossedPeople() {
@@ -78,7 +78,7 @@ public class Bridge {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Bridge bridge = (Bridge) o;
+        Bridge1 bridge = (Bridge1) o;
 
         return lightCrossed == bridge.lightCrossed
                 && peopleCrossed.equals(bridge.peopleCrossed)
