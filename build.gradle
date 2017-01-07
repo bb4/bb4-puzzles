@@ -5,6 +5,9 @@ description = 'A java puzzle framework with generator and solver implementations
 group = 'com.barrybecker4'
 version = '1.4-SNAPSHOT'
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4.gradle'
+apply plugin: 'scala'
+
+
 project.archivesBaseName = 'bb4-puzzle'
 mainClassName = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
 
