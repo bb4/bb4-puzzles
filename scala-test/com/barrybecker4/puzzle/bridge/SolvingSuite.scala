@@ -1,10 +1,10 @@
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.model._
 
-import scala.collection.JavaConverters
 import scala.collection.Seq
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -19,14 +19,13 @@ object SolvingSuite{
 
   /** initial states that have solutions */
   private val A_STAR_CASES = List(
-    new SolvingSuite.TestCase(TRIVIAL_PROBLEM, 8),
-    new SolvingSuite.TestCase(STANDARD_PROBLEM, 15),
-    new SolvingSuite.TestCase(ALTERNATIVE_PROBLEM, 60),
-    new SolvingSuite.TestCase(DIFFICULT_PROBLEM, 47)
+    SolvingSuite.TestCase(TRIVIAL_PROBLEM, 8),
+    SolvingSuite.TestCase(STANDARD_PROBLEM, 15),
+    SolvingSuite.TestCase(ALTERNATIVE_PROBLEM, 60),
+    SolvingSuite.TestCase(DIFFICULT_PROBLEM, 47)
   )
 
-
-  private class TestCase(var config: InitialConfiguration, var expectedTimeToCross: Int)
+  private case class TestCase(config: InitialConfiguration, expectedTimeToCross: Int)
 }
 
 class SolvingSuite extends FunSuite with BeforeAndAfterAll {
@@ -44,20 +43,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
     runSolvingTests(A_STAR_SEQUENTIAL, SolvingSuite.A_STAR_CASES)
   }
 
-  /** these will not find the shortest path
-    *
-    * public void testSolvingSimpleSequentialTests() throws Exception {
-    * runSolvingTests(Algorithm1.SIMPLE_SEQUENTIAL, SIMPLE_SEQUENTIAL_CASES);
-    * }
-    *
-    * public void testSolvingConcurrentDepthTests() throws Exception {
-    * runSolvingTests(Algorithm1.CONCURRENT_DEPTH, CONCURRENT_DEPTH_CASES);
-    * }
-    *
-    * public void testSolvingConcurrentBreadthTests() throws Exception {
-    * runSolvingTests(Algorithm1.CONCURRENT_BREADTH, CONCURRENT_BREADTH_CASES);
-    * }
-    */
+
   @throws[Exception]
   private def runSolvingTests(algorithm: Algorithm, cases: List[SolvingSuite.TestCase]) {
     val controller = new BridgePuzzleController(null)

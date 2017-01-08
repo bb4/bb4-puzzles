@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.bridge.model
+package com.barrybecker4.puzzle.hiq.model
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import org.junit.Test
@@ -12,18 +12,16 @@ import org.junit.Assert.assertEquals
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
 
   @Test def testGenerateMovesForStandardProblemInitialState() {
-    val initialState = new Bridge(List(1, 2, 5, 8), List[Int](), false)
+    val initialState = PegBoard.INITIAL_BOARD_POSITION
+
     val expectedMoves = Seq(
-      new BridgeMove(List(1), true), new BridgeMove(List(1, 2), true),
-      new BridgeMove(List(1, 5), true), new BridgeMove(List(1, 8), true),
-      new BridgeMove(List(2), true), new BridgeMove(List(2, 5), true),
-      new BridgeMove(List(2, 8), true), new BridgeMove(List(5), true),
-      new BridgeMove(List(5, 8), true), new BridgeMove(List(8), true)
+      new PegMove(3, 1, 3,3), new PegMove(3, 5, 3, 3), new PegMove(1, 3, 3, 3), new PegMove(5,3, 3, 3)
     )
+
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  private def verifyGeneratedMoves(initialState: Bridge, expectedMoves: Seq[BridgeMove]) {
+  private def verifyGeneratedMoves(initialState: PegBoard, expectedMoves: Seq[PegMove]) {
     val generator = new MoveGenerator(initialState)
     val possibleMoves = generator.generateMoves
     assertEquals("Unexpected list of candidate moves", expectedMoves, possibleMoves)

@@ -53,7 +53,7 @@ final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
   def showPath(thePath: List[PegMove], board: PegBoard) {
     path = thePath
     board_ = board
-    System.out.println("path size=" + path.size) // NON-NLS
+    System.out.println("path size=" + path.size)
     if (doneListener != null) doneListener.done()
   }
 }

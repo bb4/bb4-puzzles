@@ -19,7 +19,7 @@ object PegBoard {
   private val CORNER_SIZE = 2
 
   /** The initial board position constant */
-  val INITIAL_BOARD_POSITION = new PegBoard(0, false, false)
+  val INITIAL_BOARD_POSITION = new PegBoard()
 
   /**
     * @return true if the coordinates refer to one of the 33 board positions that can hold a peg.
@@ -28,7 +28,6 @@ object PegBoard {
     if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false
     row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
   }
-
 
   var i: Int = 0
   while (i < SIZE) {
@@ -41,24 +40,19 @@ object PegBoard {
       i += 1
   }
   INITIAL_BOARD_POSITION.setPosition(PegBoard.CENTER, PegBoard.CENTER, value = false)
-
 }
 
 /**
-  * Do not use this constructor since outsiders cannot create mutable boards.
+  * maintains the compressed peg position information for the board.
   */
-class PegBoard private(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean) {
-  /** maintains the compressed peg position information for the board. */
-  //private var bits_: Int = 0 // the first 32 positions
-  //private var finalBit_: Boolean = false // the final, 33rd position
-  //private var nextToFinalBit_: Boolean = false // the final, 32rd position
+class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean) {
 
   /**
     * Copy constructor.
     */
-  def this(board: PegBoard) {
-    this(board.bits, board.finalBit, board.nextToFinalBit)
-  }
+  def this(board: PegBoard) {this(board.bits, board.finalBit, board.nextToFinalBit) }
+
+  def this() { this(0, false, false) }
 
   /**
     * Constructor
@@ -228,10 +222,10 @@ class PegBoard private(var bits: Int, var finalBit: Boolean, var nextToFinalBit:
     * Rotate the board according to symmetry.
     * Not all are rotational symmetries, but you get the idea....
     *
-    * @return specified rotation of the board.
+    * @return new board with specified rotation applied.
     */
-  private def rotate(rotateIndices: Array[Byte]) = {
-    val rotatedBoard = new PegBoard(0, false, false)
+  private def rotate(rotateIndices: Array[Byte]): PegBoard = {
+    val rotatedBoard = new PegBoard()
     var i = 0
     while (i < PegBoard.NUM_PEG_HOLES) {
         rotatedBoard.set(i, get(rotateIndices(i)))
