@@ -10,6 +10,9 @@ import com.barrybecker4.common.math.MathUtil;
  */
 public class Deck2 {
 
+    private int[] cards;
+    private int count;
+
     public static long shuffle(int nCards, int iCut) {
 
         Deck2 deck = new Deck2(nCards);
@@ -64,7 +67,6 @@ public class Deck2 {
     }
 
 
-
     public int[] getCycles() {
 
         int[] cycles = new int[count];
@@ -99,8 +101,6 @@ public class Deck2 {
         return buffer.toString();
     }
 
-    private int[] cards;
-    private int count;
 
     public static void main(String[] args) {
 

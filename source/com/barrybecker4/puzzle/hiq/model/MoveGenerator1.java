@@ -11,22 +11,22 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class MoveGenerator  {
+public class MoveGenerator1 {
 
-    PegBoard board;
+    PegBoard1 board;
 
     /**
      * Constructor
      */
-    public MoveGenerator(PegBoard board) {
+    public MoveGenerator1(PegBoard1 board) {
         this.board = board;
     }
 
     /**
      * @return List of all valid jumps for the current board state
      */
-    public List<PegMove> generateMoves() {
-        List<PegMove> moves = new LinkedList<PegMove>();
+    public List<PegMove1> generateMoves() {
+        List<PegMove1> moves = new LinkedList<PegMove1>();
         List<Location> emptyLocations = board.getLocations(false);
         if (emptyLocations.isEmpty()) {
             moves.add(board.getFirstMove());
@@ -44,8 +44,8 @@ public class MoveGenerator  {
      * @param undo boolean find undo (peg) or redo (empty location) moves.
      * @return List
      */
-    private List<PegMove> findMovesForLocation(Location location, boolean undo) {
-        List<PegMove> moves = new LinkedList<PegMove>();
+    private List<PegMove1> findMovesForLocation(Location location, boolean undo) {
+        List<PegMove1> moves = new LinkedList<PegMove1>();
         byte r = (byte) location.getRow();
         byte c = (byte) location.getCol();
 
@@ -57,13 +57,13 @@ public class MoveGenerator  {
         return moves;
     }
 
-    private void checkMoveForDirection(byte r, byte c, int rowOffset, int colOffset, boolean undo, List<PegMove> moves) {
+    private void checkMoveForDirection(byte r, byte c, int rowOffset, int colOffset, boolean undo, List<PegMove1> moves) {
         byte fromRow = (byte)(r + rowOffset);
         byte fromCol = (byte)(c + colOffset);
-        if (PegBoard.isValidPosition(fromRow, fromCol)
+        if (PegBoard1.isValidPosition(fromRow, fromCol)
              && board.getPosition(fromRow, fromCol)!=undo
              && board.getPosition((byte)(r + rowOffset/2), (byte)(c + colOffset/2))!=undo) {
-            moves.add(new PegMove(fromRow, fromCol, r, c));
+            moves.add(new PegMove1(fromRow, fromCol, r, c));
         }
     }
 

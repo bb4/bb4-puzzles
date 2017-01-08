@@ -4,8 +4,8 @@ package com.barrybecker4.puzzle.hiq.ui;
 import com.barrybecker4.puzzle.common.ui.DoneListener;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
-import com.barrybecker4.puzzle.hiq.model.PegBoard;
-import com.barrybecker4.puzzle.hiq.model.PegMove;
+import com.barrybecker4.puzzle.hiq.model.PegBoard1;
+import com.barrybecker4.puzzle.hiq.model.PegMove1;
 
 import java.awt.Graphics;
 import java.util.List;
@@ -14,28 +14,28 @@ import java.util.List;
  *  UI for drawing the current best solution to the puzzle.
  *  @author Barry Becker
  */
-final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
+final class PegBoardViewer1 extends PuzzleViewer<PegBoard1, PegMove1>
                            implements PathNavigator {
 
-    private PegBoardRenderer renderer_ = new PegBoardRenderer();
-    private List<PegMove> path_;
+    private PegBoardRenderer1 renderer_ = new PegBoardRenderer1();
+    private List<PegMove1> path_;
     private DoneListener doneListener;
 
     /**
      * Constructor.
      */
-    PegBoardViewer(PegBoard board, DoneListener listener) {
+    PegBoardViewer1(PegBoard1 board, DoneListener listener) {
         doneListener = listener;
         board_ = board;
     }
 
     @Override
-    public List<PegMove> getPath() {
+    public List<PegMove1> getPath() {
         return path_;
     }
 
     @Override
-    public void refresh(PegBoard board, long numTries) {
+    public void refresh(PegBoard1 board, long numTries) {
         if (numTries % 4000 == 0) {
             status_ = createStatusMessage(numTries);
             simpleRefresh(board, numTries);
@@ -43,7 +43,7 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
     }
 
     @Override
-    public void finalRefresh(List<PegMove> path, PegBoard board, long numTries, long millis) {
+    public void finalRefresh(List<PegMove1> path, PegBoard1 board, long numTries, long millis) {
         super.finalRefresh(path, board, numTries, millis);
         if (board != null)  {
             makeSound();
@@ -66,7 +66,7 @@ final class PegBoardViewer extends PuzzleViewer<PegBoard, PegMove>
         renderer_.render(g, board_, getWidth(), getHeight());
     }
 
-    public void showPath(List<PegMove> path, PegBoard board) {
+    public void showPath(List<PegMove1> path, PegBoard1 board) {
 
         path_ = path;
         board_ = board;

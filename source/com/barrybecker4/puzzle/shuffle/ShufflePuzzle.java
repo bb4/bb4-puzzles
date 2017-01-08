@@ -10,7 +10,7 @@ package com.barrybecker4.puzzle.shuffle;
  *
  *    static long shuffles(int nCards, int iCut);
  *
- * Please send the result of shuffles(1002, 101) along with your program and your resume to 'resume' at nextag.com.
+ * Find the result for shuffles(1002, 101)
  *
  * @author Barry Becker Date: Jan 3, 2006
  */
@@ -18,7 +18,7 @@ public class ShufflePuzzle {
 
      private ShufflePuzzle() {}
 
-     static long shuffles(int nCards, int iCut) {
+     private static long shuffles(int nCards, int iCut) {
          assert (iCut < nCards);
          Deck deck = new Deck(nCards);
 

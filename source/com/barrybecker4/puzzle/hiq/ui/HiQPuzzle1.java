@@ -9,10 +9,10 @@ import com.barrybecker4.puzzle.common.ui.NavigationPanel;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
-import com.barrybecker4.puzzle.hiq.Algorithm;
-import com.barrybecker4.puzzle.hiq.HiQController;
-import com.barrybecker4.puzzle.hiq.model.PegBoard;
-import com.barrybecker4.puzzle.hiq.model.PegMove;
+import com.barrybecker4.puzzle.hiq.Algorithm1;
+import com.barrybecker4.puzzle.hiq.HiQController1;
+import com.barrybecker4.puzzle.hiq.model.PegBoard1;
+import com.barrybecker4.puzzle.hiq.model.PegMove1;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import javax.swing.JPanel;
@@ -50,33 +50,33 @@ import javax.swing.JPanel;
  * After optimization it  ran in about 3 minutes on a Core2Duo (189 seconds).
  * After parallelizing the algorithm using ConcurrentPuzzleSolver it is down to 93 seconds on the CoreDuo.
  */
-public final class HiQPuzzle extends PuzzleApplet<PegBoard, PegMove>
+public final class HiQPuzzle1 extends PuzzleApplet<PegBoard1, PegMove1>
                              implements DoneListener {
 
     private NavigationPanel navPanel;
 
     /** Construct the applet */
-    public HiQPuzzle() {}
+    public HiQPuzzle1() {}
 
     /** Construct the application */
-    public HiQPuzzle(String[] args) {
+    public HiQPuzzle1(String[] args) {
         super(args);
     }
 
 
     @Override
-    protected PuzzleViewer<PegBoard, PegMove> createViewer() {
-        return new PegBoardViewer(PegBoard.INITIAL_BOARD_POSITION, this);
+    protected PuzzleViewer<PegBoard1, PegMove1> createViewer() {
+        return new PegBoardViewer1(PegBoard1.INITIAL_BOARD_POSITION, this);
     }
 
     @Override
-    protected PuzzleController<PegBoard, PegMove> createController(Refreshable<PegBoard, PegMove> viewer_) {
-        return new HiQController(viewer_);
+    protected PuzzleController<PegBoard1, PegMove1> createController(Refreshable<PegBoard1, PegMove1> viewer_) {
+        return new HiQController1(viewer_);
     }
 
     @Override
-    protected AlgorithmEnum<PegBoard, PegMove>[] getAlgorithmValues() {
-        return Algorithm.values();
+    protected AlgorithmEnum<PegBoard1, PegMove1>[] getAlgorithmValues() {
+        return Algorithm1.values();
     }
 
     @Override
@@ -96,7 +96,7 @@ public final class HiQPuzzle extends PuzzleApplet<PegBoard, PegMove>
      */
     public static void main(String[] args) {
 
-        PuzzleApplet applet = new HiQPuzzle(args);
+        PuzzleApplet applet = new HiQPuzzle1(args);
 
         // this will call applet.init() and start() methods instead of the browser
         GUIUtil.showApplet(applet);

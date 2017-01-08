@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.common.ui.PuzzleViewer
 import java.awt.Graphics
 
 import collection.JavaConverters._
-import scala.collection.mutable.ListBuffer
 
 /**
   * UI for drawing the current best solution to the puzzle.

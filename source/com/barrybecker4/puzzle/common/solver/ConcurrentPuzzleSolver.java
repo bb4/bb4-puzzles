@@ -18,7 +18,7 @@ public class ConcurrentPuzzleSolver <P, M> extends BaseConcurrentPuzzleSolver<P,
     /**
      * @param puzzle the puzzle to solve
      * @param depthBreadthFactor the ratio of depth first to breadth first searching to use.
-     *    May have significant performance impact.
+     *    May have significant performance impact. If 1, then all BFS, if 0 then all DFS.
      */
     public ConcurrentPuzzleSolver(PuzzleController<P, M> puzzle, float  depthBreadthFactor) {
         super(puzzle);

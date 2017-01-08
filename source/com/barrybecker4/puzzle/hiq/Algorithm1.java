@@ -9,15 +9,15 @@ import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
-import com.barrybecker4.puzzle.hiq.model.PegBoard;
-import com.barrybecker4.puzzle.hiq.model.PegMove;
+import com.barrybecker4.puzzle.hiq.model.PegBoard1;
+import com.barrybecker4.puzzle.hiq.model.PegMove1;
 
 /**
  * Type of HiQ solver to use.
  *
  * @author Barry Becker
  */
-public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
+public enum Algorithm1 implements AlgorithmEnum<PegBoard1, PegMove1> {
 
     SIMPLE_SEQUENTIAL,
     A_STAR_SEQUENTIAL,
@@ -31,7 +31,7 @@ public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
     /**
      * Private constructor
      */
-    Algorithm() {
+    Algorithm1() {
         this.label = AppContext.getLabel(this.name());
     }
 
@@ -44,7 +44,7 @@ public enum Algorithm implements AlgorithmEnum<PegBoard, PegMove> {
      * Create an instance of the algorithm given the controller and a refreshable.
      */
     @Override
-    public PuzzleSolver<PegMove> createSolver(PuzzleController<PegBoard, PegMove> controller) {
+    public PuzzleSolver<PegMove1> createSolver(PuzzleController<PegBoard1, PegMove1> controller) {
 
         switch (this) {
             case SIMPLE_SEQUENTIAL :

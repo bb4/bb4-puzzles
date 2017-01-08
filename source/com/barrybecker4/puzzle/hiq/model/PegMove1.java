@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.common.model.Move;
  * Immutable.
  *@author Barry Becker
  */
-public final class PegMove implements Move {
+public final class PegMove1 implements Move {
 
     /* the position to move to */
     private Location toPosition;
@@ -29,14 +29,14 @@ public final class PegMove implements Move {
      * All we need to know is the from position (which can be stored in 6 bits) and the to direction (which can be stored in 2 bits)
      * I know that a jump is always 2 spaces.
      */
-    PegMove(byte fromRow, byte fromCol,
-            byte destinationRow, byte destinationCol) {
+    PegMove1(byte fromRow, byte fromCol,
+             byte destinationRow, byte destinationCol) {
         fromPosition = new ByteLocation(fromRow, fromCol);
         toPosition = new ByteLocation(destinationRow, destinationCol);
     }
 
-    PegMove(Location fromPosition,
-            Location destinationPosition) {
+    PegMove1(Location fromPosition,
+             Location destinationPosition) {
         this.fromPosition = fromPosition.copy();
         this.toPosition = destinationPosition.copy();
     }
@@ -44,8 +44,8 @@ public final class PegMove implements Move {
     /**
      * @return a deep copy.
      */
-    public PegMove copy() {
-        return new PegMove(fromPosition, toPosition);
+    public PegMove1 copy() {
+        return new PegMove1(fromPosition, toPosition);
     }
 
     public byte getFromRow() {

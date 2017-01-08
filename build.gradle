@@ -79,6 +79,13 @@ task runSudoku(type: JavaExec) {
     jvmArgs = ["-ea"]
 }
 
+task runHiQ1(type: JavaExec) {   // remove this old java version
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle1'
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['-locale', 'ENGLISH']
+}
+
 task runHiQ(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle'
@@ -100,7 +107,7 @@ task runTwoPailsPuzzle(type: JavaExec) {
     jvmArgs = ["-Xss64m"]
 }
 
-task runBridgePuzzle1(type: JavaExec) {
+task runBridgePuzzle1(type: JavaExec) {  // This java version should be removed
     group = 'application'
     main = 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle1'
     classpath = sourceSets.main.runtimeClasspath

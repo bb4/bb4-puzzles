@@ -34,7 +34,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
     /** Set of positions that have been visited */
     private final Set<P> seen;
 
-    /**  */
+    /** Prevents a value from being recieved until it is set. */
     protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<>();
 
     /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
@@ -66,7 +66,7 @@ public class BaseConcurrentPuzzleSolver<P, M>  implements PuzzleSolver<M> {
      * Must be greater than 0 to have some amount of concurrency used.
      * @param factor a number between 0 and 1. One being all breadth first search and not sequential.
      */
-    protected void setDepthBreadthFactor(float factor) {
+    void setDepthBreadthFactor(float factor) {
         depthBreadthFactor = factor;
     }
 

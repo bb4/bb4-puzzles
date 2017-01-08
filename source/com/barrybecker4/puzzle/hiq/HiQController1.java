@@ -3,13 +3,11 @@ package com.barrybecker4.puzzle.hiq;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.hiq.model.MoveGenerator;
-import com.barrybecker4.puzzle.hiq.model.PegBoard;
-import com.barrybecker4.puzzle.hiq.model.PegMove;
+import com.barrybecker4.puzzle.hiq.model.MoveGenerator1;
+import com.barrybecker4.puzzle.hiq.model.PegBoard1;
+import com.barrybecker4.puzzle.hiq.model.PegMove1;
 import scala.collection.JavaConversions;
 import scala.collection.Seq;
-
-import java.util.Set;
 
 /**
  * HiQ Puzzle Controller.
@@ -17,33 +15,33 @@ import java.util.Set;
  *
  * @author Barry Becker
  */
-public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
+public class HiQController1 extends AbstractPuzzleController<PegBoard1, PegMove1> {
 
     /**
      * @param ui shows the current state on the screen.
      */
-    public HiQController(Refreshable<PegBoard, PegMove> ui) {
+    public HiQController1(Refreshable<PegBoard1, PegMove1> ui) {
         super(ui);
-        algorithm_ = Algorithm.CONCURRENT_OPTIMUM;
+        algorithm_ = Algorithm1.CONCURRENT_OPTIMUM;
     }
 
     @Override
-    public PegBoard initialState() {
-        return PegBoard.INITIAL_BOARD_POSITION;
+    public PegBoard1 initialState() {
+        return PegBoard1.INITIAL_BOARD_POSITION;
     }
 
     @Override
-    public boolean isGoal(PegBoard position) {
+    public boolean isGoal(PegBoard1 position) {
         return position.isSolved();
     }
 
     @Override
-    public Seq<PegMove> legalTransitions(PegBoard position) {
-        return JavaConversions.asScalaBuffer(new MoveGenerator(position).generateMoves()).toSeq();
+    public Seq<PegMove1> legalTransitions(PegBoard1 position) {
+        return JavaConversions.asScalaBuffer(new MoveGenerator1(position).generateMoves()).toSeq();
     }
 
     @Override
-    public PegBoard transition(PegBoard position, PegMove move) {
+    public PegBoard1 transition(PegBoard1 position, PegMove1 move) {
         return position.doMove(move, false);
     }
 
@@ -53,7 +51,7 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
      * pegs are may be used to improve this estimate.
      * @return estimate of the cost to reach the a single bag remaining
      */
-    public int distanceFromGoal(PegBoard position) {
+    public int distanceFromGoal(PegBoard1 position) {
         return position.getNumPegsLeft();
     }
 
@@ -63,7 +61,7 @@ public class HiQController extends AbstractPuzzleController<PegBoard, PegMove> {
      * Must be synchronized because some solvers use concurrency.
      */
     @Override
-    public synchronized boolean alreadySeen(PegBoard position, scala.collection.mutable.Set<PegBoard> seen) {
+    public synchronized boolean alreadySeen(PegBoard1 position, scala.collection.mutable.Set<PegBoard1> seen) {
 
         boolean wasSeen = position.containedIn(seen);
         if (!wasSeen) {

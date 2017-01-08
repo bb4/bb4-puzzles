@@ -2,19 +2,19 @@
 package com.barrybecker4.puzzle.hiq.ui;
 
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
-import com.barrybecker4.puzzle.hiq.model.PegBoard;
+import com.barrybecker4.puzzle.hiq.model.PegBoard1;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * Singleton class that takes a PieceList and renders it for the PegBoardViewer.
+ * Singleton class that takes a PieceList and renders it for the PegBoardViewer1.
  * Having the renderer separate from the viewer helps to separate out the rendering logic
- * from other features of the PegBoardViewer.
+ * from other features of the PegBoardViewer1.
  *
  * @author Barry Becker
  */
-public class PegBoardRenderer implements PuzzleRenderer<PegBoard> {
+public class PegBoardRenderer1 implements PuzzleRenderer<PegBoard1> {
 
     public static final int INC = 10;
 
@@ -30,15 +30,15 @@ public class PegBoardRenderer implements PuzzleRenderer<PegBoard> {
      * private constructor because this class is a singleton.
      * Use getPieceRenderer instead.
      */
-    public PegBoardRenderer() {}
+    public PegBoardRenderer1() {}
 
     /**
      * This renders the current state of the Slider to the screen.
      */
     @Override
-    public void render( Graphics g, PegBoard board, int width, int height ) {
+    public void render(Graphics g, PegBoard1 board, int width, int height ) {
 
-        int size = PegBoard.SIZE;
+        int size = PegBoard1.SIZE;
         int rightEdgePos = LEFT_MARGIN + 3 * INC * size;
         int bottomEdgePos = TOP_MARGIN + 3 * INC * size;
 
@@ -49,7 +49,7 @@ public class PegBoardRenderer implements PuzzleRenderer<PegBoard> {
         for (byte row = 0; row < size; row++) {
             for (byte col = 0; col < size; col++) {
 
-                if (PegBoard.isValidPosition(row, col)) {
+                if (PegBoard1.isValidPosition(row, col)) {
 
                     drawPegLocation(g, board, row, col);
                 }
@@ -76,7 +76,7 @@ public class PegBoardRenderer implements PuzzleRenderer<PegBoard> {
         }
     }
 
-    private void drawPegLocation(Graphics g, PegBoard board, byte row, byte col) {
+    private void drawPegLocation(Graphics g, PegBoard1 board, byte row, byte col) {
         int xpos;
         int ypos;
         xpos = LEFT_MARGIN + col * 3 * INC + INC / 3;

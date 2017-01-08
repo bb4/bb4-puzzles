@@ -2,10 +2,10 @@
 package com.barrybecker4.puzzle.hiq.model;
 
 /**
- * Static PegBoard symmetries.
+ * Static PegBoard1 symmetries.
  * @author Barry Becker
  */
-class PegBoardSymmetries {
+class PegBoardSymmetries1 {
 
     /**
      *  The number of symmetries the board has.

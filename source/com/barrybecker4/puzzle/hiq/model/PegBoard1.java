@@ -9,10 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Immutable representation of a PegBoard.
+ * Immutable representation of a PegBoard1.
  * @author Barry Becker
  */
-public class PegBoard {
+public class PegBoard1 {
 
     /** this must be odd */
     public static final byte SIZE = 7;
@@ -20,7 +20,7 @@ public class PegBoard {
     /** maintains the compressed peg position information for the board. */
     private int bits_;                // the first 32 positions
     private boolean finalBit_;        // the final, 33rd position
-    private boolean nextToFinalBit_;  // the final, 32rd position
+    private boolean nextToFinalBit_;  // just before final, 32rd position
 
     private static final byte NUM_PEG_HOLES = 33;
     private static final byte CENTER = 3;
@@ -28,27 +28,27 @@ public class PegBoard {
 
 
     /** The initial board position constant */
-    public static final PegBoard INITIAL_BOARD_POSITION = new PegBoard();
+    public static final PegBoard1 INITIAL_BOARD_POSITION = new PegBoard1();
     static {
        for (byte i = 0; i<SIZE; i++) {
            for (byte j = 0; j<SIZE; j++) {
-               if (PegBoard.isValidPosition(i, j)) {
+               if (PegBoard1.isValidPosition(i, j)) {
                     INITIAL_BOARD_POSITION.setPosition(i, j, true);
                }
            }
        }
-       INITIAL_BOARD_POSITION.setPosition(PegBoard.CENTER, PegBoard.CENTER, false);
+       INITIAL_BOARD_POSITION.setPosition(PegBoard1.CENTER, PegBoard1.CENTER, false);
     }
 
     /**
      * Do not use this constructor since outsiders cannot create mutable boards.
      */
-    private PegBoard() {}
+    private PegBoard1() {}
 
     /**
      * Copy constructor.
      */
-    public PegBoard(PegBoard board) {
+    public PegBoard1(PegBoard1 board) {
         bits_ = board.bits_;
         finalBit_ = board.finalBit_;
         nextToFinalBit_ = board.nextToFinalBit_;
@@ -58,7 +58,7 @@ public class PegBoard {
      * Constructor
      * create a new BoardPosition by applying a move to another BoardPosition.
      */
-    public PegBoard(PegBoard pos, PegMove move, boolean undo) {
+    public PegBoard1(PegBoard1 pos, PegMove1 move, boolean undo) {
         this(pos);
 
         byte fromRow = move.getFromRow();
@@ -102,8 +102,8 @@ public class PegBoard {
      * Because of symmetry, there is really only one first move not 4.
      * @return Move the first move.
      */
-    public PegMove getFirstMove() {
-       return new PegMove(CENTER, (byte)(CENTER-2), CENTER, CENTER);
+    public PegMove1 getFirstMove() {
+       return new PegMove1(CENTER, (byte)(CENTER-2), CENTER, CENTER);
     }
 
     public boolean isSolved() {
@@ -114,8 +114,8 @@ public class PegBoard {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public PegBoard doMove(PegMove move, boolean undo) {
-        return new PegBoard(this, move, undo);
+    public PegBoard1 doMove(PegMove1 move, boolean undo) {
+        return new PegBoard1(this, move, undo);
     }
 
     /**
@@ -206,9 +206,9 @@ public class PegBoard {
         return nPegsLeft;
     }
 
-    public boolean containedIn(Set<PegBoard> setOfBoards) {
+    public boolean containedIn(Set<PegBoard1> setOfBoards) {
         boolean visited = false;
-        for (int i = 0; i < PegBoardSymmetries.SYMMETRIES; i++) {
+        for (int i = 0; i < PegBoardSymmetries1.SYMMETRIES; i++) {
               if (setOfBoards.contains(symmetry(i))) {
                   visited = true;
                   break;
@@ -225,13 +225,13 @@ public class PegBoard {
      * if rotateIndex = 3 then mirror image of 2, etc
      * @return specified rotation of the board.
      */
-    private PegBoard symmetry(int symmIndex) {
-        return (symmIndex==0) ? this : rotate(PegBoardSymmetries.getSymmetry(symmIndex));
+    private PegBoard1 symmetry(int symmIndex) {
+        return (symmIndex==0) ? this : rotate(PegBoardSymmetries1.getSymmetry(symmIndex));
     }
 
     @Override
     public boolean equals(Object b) {
-        PegBoard board = (PegBoard) b;
+        PegBoard1 board = (PegBoard1) b;
         return (bits_ == board.bits_
              && finalBit_ == board.finalBit_
              && nextToFinalBit_ == board.nextToFinalBit_);
@@ -250,8 +250,8 @@ public class PegBoard {
      * Not all are rotational symmetries, but you get the idea....
      * @return specified rotation of the board.
      */
-    private PegBoard rotate(byte[] rotateIndices) {
-        PegBoard rotatedBoard = new PegBoard();
+    private PegBoard1 rotate(byte[] rotateIndices) {
+        PegBoard1 rotatedBoard = new PegBoard1();
         for (int i = 0; i < NUM_PEG_HOLES; i++)  {
             rotatedBoard.set(i, get(rotateIndices[i]));
         }
