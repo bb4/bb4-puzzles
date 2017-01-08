@@ -10,7 +10,7 @@ import javax.swing.JPanel
 import java.awt.event.ItemEvent
 import java.awt.event.ItemListener
 
-import com.barrybecker4.puzzle.bridge.BridgePuzzleController1
+import com.barrybecker4.puzzle.bridge.BridgePuzzleController
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
 
 /**
@@ -21,11 +21,11 @@ import com.barrybecker4.puzzle.common.ui.TopControlPanel
 final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMove],
                               val algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])
   extends TopControlPanel[Bridge, BridgeMove](controller, algorithmValues) with ItemListener {
-  private var configurationSelector: InitialConfigurationSelector1 = _
+  private var configurationSelector: InitialConfigurationSelector = _
 
   override protected def addFirstRowControls(panel: JPanel) {
     super.addFirstRowControls(panel)
-    configurationSelector = new InitialConfigurationSelector1()
+    configurationSelector = new InitialConfigurationSelector()
     configurationSelector.addItemListener(this)
     panel.add(configurationSelector)
     panel.add(Box.createHorizontalGlue)
@@ -39,6 +39,6 @@ final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMov
   override def itemStateChanged(e: ItemEvent) {
     super.itemStateChanged(e)
     if (e.getSource eq configurationSelector)
-      controller_.asInstanceOf[BridgePuzzleController1].setConfiguration(configurationSelector.getSelectedConfiguration)
+      controller_.asInstanceOf[BridgePuzzleController].setConfiguration(configurationSelector.getSelectedConfiguration)
   }
 }

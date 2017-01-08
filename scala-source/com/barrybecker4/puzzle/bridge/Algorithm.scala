@@ -42,8 +42,8 @@ sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
       // this will find a solution, but not necessary the shortest path
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Bridge, BridgeMove](controller)
       // this will find the shortest path to a solution if one exists, but takes longer
-      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 1.0f)
-      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.1f)
+      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.9f)
+      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.05f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.3f)
       case _ => throw new IllegalArgumentException("Unexpected enum value: " + this)
     }

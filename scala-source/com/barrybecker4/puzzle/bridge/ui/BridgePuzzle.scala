@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui
 
-import com.barrybecker4.puzzle.bridge.{Algorithm, BridgePuzzleController, BridgePuzzleController1}
+import com.barrybecker4.puzzle.bridge.{Algorithm, BridgePuzzleController}
 import com.barrybecker4.puzzle.bridge.model.Bridge
 import com.barrybecker4.puzzle.bridge.model.BridgeMove
 import com.barrybecker4.puzzle.common.AlgorithmEnum
