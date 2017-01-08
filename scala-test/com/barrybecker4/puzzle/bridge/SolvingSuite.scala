@@ -3,9 +3,8 @@ package com.barrybecker4.puzzle.bridge
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.model._
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 
-import scala.collection.JavaConversions
+import scala.collection.JavaConverters
 import scala.collection.Seq
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -76,8 +75,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
 
   private def pathCost(path: Seq[BridgeMove]) = {
     var totalCost = 0
-    import scala.collection.JavaConversions._
-    for (move <- JavaConversions.asJavaCollection(path)) {
+    for (move <- path) {
       totalCost += move.getCost
     }
     totalCost

@@ -2,7 +2,6 @@ package com.barrybecker4.puzzle.bridge.model
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import org.junit.Test
-import scala.collection.JavaConversions
 import scala.collection.Seq
 import org.junit.Assert.assertEquals
 

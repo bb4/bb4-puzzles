@@ -5,9 +5,7 @@ package com.barrybecker4.puzzle.bridge.model
 sealed trait InitialConfiguration {
   def label: String
   def peopleSpeeds: Array[Int]
-
   def getLabel: String = label + ": " + peopleSpeeds.mkString(", ")
-  //def getPeopleSpeeds: Array[Int] = peopleSpeeds
 }
 
 case object STANDARD_PROBLEM extends InitialConfiguration {

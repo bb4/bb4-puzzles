@@ -13,7 +13,6 @@ import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
 
 
-
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
 case object SIMPLE_SEQUENTIAL extends Algorithm
