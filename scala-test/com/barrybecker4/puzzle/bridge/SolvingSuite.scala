@@ -22,7 +22,8 @@ object SolvingSuite{
     SolvingSuite.TestCase(TRIVIAL_PROBLEM, 8),
     SolvingSuite.TestCase(STANDARD_PROBLEM, 15),
     SolvingSuite.TestCase(ALTERNATIVE_PROBLEM, 60),
-    SolvingSuite.TestCase(DIFFICULT_PROBLEM, 47)
+    SolvingSuite.TestCase(DIFFICULT_PROBLEM, 47),
+    SolvingSuite.TestCase(BIG_PROBLEM, 126)
   )
 
   private case class TestCase(config: InitialConfiguration, expectedTimeToCross: Int)

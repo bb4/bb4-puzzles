@@ -52,5 +52,5 @@ class BridgePuzzleController(val ui: Refreshable[Bridge, BridgeMove])
     */
   override def distanceFromGoal(position: Bridge): Int = position.distanceFromGoal
 
-  override def getCost(move: BridgeMove): Int = move.getCost
+  override def getCost(move: BridgeMove): Int = move.cost
 }

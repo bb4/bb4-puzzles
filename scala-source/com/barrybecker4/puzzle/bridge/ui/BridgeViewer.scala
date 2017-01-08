@@ -46,7 +46,7 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   private def findCost(path: List[BridgeMove]) = {
     var totalCost = 0
     for (m <- path) {
-      totalCost += m.getCost
+      totalCost += m.cost
     }
     totalCost
   }

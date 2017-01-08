@@ -28,6 +28,11 @@ case object HARDER_PROBLEM extends InitialConfiguration {
   val peopleSpeeds = Array(7, 11, 2, 3, 5, 4, 1, 3, 12, 3, 15, 19, 8)   // shortest = 79
 }
 
+case object BIG_PROBLEM extends InitialConfiguration {
+  val label = "Big Problem"
+  val peopleSpeeds = Array(7, 11, 2, 3, 17, 5, 4, 3, 12, 7, 14, 16, 1, 3, 12, 3, 15, 19, 8)   // shortest = 79
+}
+
 case object TRIVIAL_PROBLEM extends InitialConfiguration {
   val label = "Trivial Problem"
   val peopleSpeeds = Array(1, 2, 5)  // shortest = 8
