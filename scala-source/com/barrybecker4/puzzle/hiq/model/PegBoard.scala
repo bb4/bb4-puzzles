@@ -193,7 +193,7 @@ class PegBoard private(var bits: Int, var finalBit: Boolean, var nextToFinalBit:
   def containedIn(setOfBoards: mutable.Set[PegBoard]): Boolean = {
     var visited = false
     var i = 0
-    while (!visited && i < PegBoardSymmetries1.SYMMETRIES) {
+    while (!visited && i < PegBoardSymmetries.SYMMETRIES) {
         if (setOfBoards.contains(symmetry(i))) {
           visited = true
         }
@@ -211,8 +211,8 @@ class PegBoard private(var bits: Int, var finalBit: Boolean, var nextToFinalBit:
     *
     * @return specified rotation of the board.
     */
-  private def symmetry(symmIndex: Int) = if (symmIndex == 0) this
-  else rotate(PegBoardSymmetries1.getSymmetry(symmIndex))
+  private def symmetry(symmIndex: Int) =
+    if (symmIndex == 0) this else rotate(PegBoardSymmetries.getSymmetry(symmIndex))
 
   override def equals(b: Any): Boolean = {
     val board = b.asInstanceOf[PegBoard]
