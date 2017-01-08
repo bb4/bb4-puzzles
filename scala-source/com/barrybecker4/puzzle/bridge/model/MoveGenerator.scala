@@ -15,9 +15,9 @@ class MoveGenerator(var board: Bridge) {
     * Next moves are all people that can move across the bridge..
     * @return List of all valid tile slides
     */
-  def generateMoves: Seq[BridgeMove] = if (board.isLightCrossed) createMoves(board.getCrossedPeople, crossing = false)
+  def generateMoves: Seq[BridgeMove] = if (board.lightCrossed) createMoves(board.crossed, crossing = false)
 
-  else createMoves(board.getUncrossedPeople, crossing = true)
+  else createMoves(board.uncrossed, crossing = true)
 
   private def createMoves(people: List[Int], crossing: Boolean) = {
     var moves = List[BridgeMove]()

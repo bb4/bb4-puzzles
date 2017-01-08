@@ -37,9 +37,9 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     */
   def render(g: Graphics, board: Bridge, width: Int, height: Int) {
     drawBridge(g)
-    drawPeople(g, board.getUncrossedPeople, MARGIN)
-    drawPeople(g, board.getCrossedPeople, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH)
-    drawLight(g, board.isLightCrossed)
+    drawPeople(g, board.uncrossed, MARGIN)
+    drawPeople(g, board.crossed, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH)
+    drawLight(g, board.lightCrossed)
   }
 
   /**

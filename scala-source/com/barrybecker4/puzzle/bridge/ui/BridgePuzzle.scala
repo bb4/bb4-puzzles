@@ -30,7 +30,7 @@ object BridgePuzzle {
 final class BridgePuzzle(args: Array[String])
   extends PuzzleApplet[Bridge, BridgeMove](args: Array[String]) with DoneListener {
 
-  private var navPanel = new NavigationPanel()
+  private val navPanel = new NavigationPanel()
 
   /** Default constructor */
   def this() {
