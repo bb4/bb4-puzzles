@@ -8,8 +8,8 @@ import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.NavigationPanel
 import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet
-import com.barrybecker4.puzzle.hiq.{Algorithm, Algorithm1, HiQController, HiQController1}
-import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegBoard1, PegMove, PegMove1}
+import com.barrybecker4.puzzle.hiq.{Algorithm, HiQController}
+import com.barrybecker4.puzzle.hiq.model.{PegBoard,  PegMove}
 import com.barrybecker4.ui.util.GUIUtil
 import javax.swing.JPanel
 
