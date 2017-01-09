@@ -43,13 +43,7 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     msg
   }
 
-  private def findCost(path: List[BridgeMove]) = {
-    var totalCost = 0
-    for (m <- path) {
-      totalCost += m.cost
-    }
-    totalCost
-  }
+  private def findCost(path: List[BridgeMove]) = path.map(_.cost).sum
 
   /**
     * This renders the current state of the puzzle to the screen.

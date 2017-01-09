@@ -13,7 +13,7 @@ import com.barrybecker4.puzzle.common.model.Move
 case class BridgeMove(people: List[Int], direction: Boolean) extends Move with Comparable[BridgeMove] {
 
   /** The time for the slowest person out of everyone crossing at the same time */
-  private val cost = if (people.size == 1) people.head else Math.max(people.head, people(1))
+  val cost: Int = if (people.size == 1) people.head else Math.max(people.head, people(1))
 
   /** @return the from and to positions */
   override def toString: String = "people: " + people + (if (direction) " -> " else " <- ")

@@ -60,11 +60,5 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
     }
   }
 
-  private def pathCost(path: Seq[BridgeMove]) = {
-    var totalCost = 0
-    for (move <- path) {
-      totalCost += move.getCost
-    }
-    totalCost
-  }
+  private def pathCost(path: Seq[BridgeMove]) = path.map(_.cost).sum
 }

@@ -12,13 +12,13 @@ import org.junit.Assert.assertEquals
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
 
   @Test def testGenerateMovesForStandardProblemInitialState() {
-    val initialState = new Bridge(List(1, 2, 5, 8), List[Int](), false)
+    val initialState = Bridge(List(1, 2, 5, 8), List[Int](), lightCrossed = false)
     val expectedMoves = Seq(
-      new BridgeMove(List(1), true), new BridgeMove(List(1, 2), true),
-      new BridgeMove(List(1, 5), true), new BridgeMove(List(1, 8), true),
-      new BridgeMove(List(2), true), new BridgeMove(List(2, 5), true),
-      new BridgeMove(List(2, 8), true), new BridgeMove(List(5), true),
-      new BridgeMove(List(5, 8), true), new BridgeMove(List(8), true)
+      BridgeMove(List(1), true), BridgeMove(List(1, 2), true),
+      BridgeMove(List(1, 5), true), BridgeMove(List(1, 8), true),
+      BridgeMove(List(2), true), BridgeMove(List(2, 5), true),
+      BridgeMove(List(2, 8), true), BridgeMove(List(5), true),
+      BridgeMove(List(5, 8), true), BridgeMove(List(8), true)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
   }
