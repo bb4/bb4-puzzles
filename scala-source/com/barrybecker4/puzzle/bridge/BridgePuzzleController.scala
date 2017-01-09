@@ -22,7 +22,6 @@ object BridgePuzzleController {
 }
 
 /**
-  *
   * @param ui shows the current state on the screen.
   */
 class BridgePuzzleController(val ui: Refreshable[Bridge, BridgeMove])
