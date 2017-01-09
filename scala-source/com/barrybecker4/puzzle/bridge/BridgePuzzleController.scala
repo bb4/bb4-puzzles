@@ -18,7 +18,7 @@ import scala.collection.Seq
   */
 object BridgePuzzleController {
   /** this is the standard bridge crossing problem with 4 people */
-  private val DEFAULT_PEOPLE = STANDARD_PROBLEM.peopleSpeeds
+  private val DEFAULT_PEOPLE = InitialConfiguration.STANDARD_PROBLEM.peopleSpeeds
 }
 
 /**

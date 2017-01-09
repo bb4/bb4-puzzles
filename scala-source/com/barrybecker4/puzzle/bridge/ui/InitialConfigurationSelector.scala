@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.bridge.ui
 
 import java.awt.Choice
-import com.barrybecker4.puzzle.bridge.model._
+import com.barrybecker4.puzzle.bridge.model.InitialConfiguration._
+
 /**
   * A combo box that allows the user to select the sort of people that need to cross
   *

@@ -9,6 +9,7 @@ import scala.collection.Seq
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
+import InitialConfiguration._
 
 /**
   * These are more integration tests than unit tests.
