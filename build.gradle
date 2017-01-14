@@ -1,5 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-
+plugins {
+    id "com.github.maiflai.scalatest" version "0.14" // needed to run scala tests
+}
 description = 'A (mostly) java (migrating to scala) puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
@@ -58,6 +60,12 @@ task runMaze(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task runMaze1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.maze1.ui.MazeSimulator'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task runRedPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.redpuzzle.ui.RedPuzzle'
@@ -106,6 +114,20 @@ task runTwoPailsPuzzle(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
+
+task sourceSetProperties << {
+    sourceSets {
+        main {
+            println "scala.srcDirs = ${scala.srcDirs}"
+            println "resources.srcDirs = ${resources.srcDirs}"
+            println "scala.files = ${scala.files.name}"
+            println "allScala.files = ${allScala.files.name}"
+            //println "resources.files = ${resources.files.name}"
+            //println "allSource.files = ${allSource.files.name}"
+        }
+    }
+}
+
 
 task runBridgePuzzle1(type: JavaExec) {  // This java version should be removed
     group = 'application'

@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze.ui;
+package com.barrybecker4.puzzle.maze1.ui;
 
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;

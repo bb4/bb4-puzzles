@@ -1,16 +1,16 @@
 // Copyright by Barry G. Becker, 2000-2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze;
+package com.barrybecker4.puzzle.maze1;
 
 import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.geometry.IntLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.maze.model.GenState;
-import com.barrybecker4.puzzle.maze.model.MazeCell;
-import com.barrybecker4.puzzle.maze.model.MazeModel;
-import com.barrybecker4.puzzle.maze.model.Probabilities;
-import com.barrybecker4.puzzle.maze.model.StateStack;
-import com.barrybecker4.puzzle.maze.ui.MazePanel;
+import com.barrybecker4.puzzle.maze1.model.GenState;
+import com.barrybecker4.puzzle.maze1.model.MazeCell;
+import com.barrybecker4.puzzle.maze1.model.MazeModel;
+import com.barrybecker4.puzzle.maze1.model.Probabilities;
+import com.barrybecker4.puzzle.maze1.model.StateStack;
+import com.barrybecker4.puzzle.maze1.ui.MazePanel;
 
 /**
  *  Program to automatically generate a Maze.

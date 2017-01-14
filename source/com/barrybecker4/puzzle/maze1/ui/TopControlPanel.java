@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze.ui;
+package com.barrybecker4.puzzle.maze1.ui;
 
-import com.barrybecker4.puzzle.maze.MazeController;
+import com.barrybecker4.puzzle.maze1.MazeController;
 import com.barrybecker4.ui.components.GradientButton;
 import com.barrybecker4.ui.components.NumberInput;
 import com.barrybecker4.ui.sliders.LabeledSlider;

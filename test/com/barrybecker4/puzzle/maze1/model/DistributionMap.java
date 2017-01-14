@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.maze.model;
+package com.barrybecker4.puzzle.maze1.model;
 
 import java.util.Arrays;
 import java.util.HashMap;

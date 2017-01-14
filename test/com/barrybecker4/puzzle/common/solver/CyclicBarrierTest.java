@@ -1,9 +1,9 @@
 package com.barrybecker4.puzzle.common.solver;
 
 import com.barrybecker4.common.concurrency.ThreadUtil;
-import com.barrybecker4.common.math.MathUtil;
 import org.junit.Test;
 
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -34,10 +34,12 @@ public class CyclicBarrierTest {
     };
 
     private static final float[][] BIG_MATRIX = new float[100][100];
+
     static {
+        Random rand = new Random(1);
         for (int i = 0; i < BIG_MATRIX.length; i++) {
             for (int j = 0; j < BIG_MATRIX.length; j++) {
-                BIG_MATRIX[i][j] = MathUtil.RANDOM.nextFloat();
+                BIG_MATRIX[i][j] = rand.nextFloat();
             }
         }
     }
@@ -104,7 +106,7 @@ public class CyclicBarrierTest {
             }
         }
 
-        public Solver(float[][] matrix) {
+        Solver(float[][] matrix) {
             data = matrix;
             N = matrix.length;
             totals = new double[N];
@@ -123,7 +125,7 @@ public class CyclicBarrierTest {
             waitUntilDone();
         }
 
-        public double getTotal() {
+        double getTotal() {
             if (!done) {
                throw new IllegalStateException("Cannot get the result until done processing.");
             }

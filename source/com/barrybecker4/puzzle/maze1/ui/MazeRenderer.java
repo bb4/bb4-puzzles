@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze.ui;
+package com.barrybecker4.puzzle.maze1.ui;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.maze.model.MazeCell;
-import com.barrybecker4.puzzle.maze.model.MazeModel;
+import com.barrybecker4.puzzle.maze1.model.MazeCell;
+import com.barrybecker4.puzzle.maze1.model.MazeModel;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import java.awt.BasicStroke;

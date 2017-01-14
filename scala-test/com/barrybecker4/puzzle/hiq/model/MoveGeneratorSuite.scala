@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.hiq.model
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.junit.Test
+import org.junit.{AfterClass, BeforeClass, Test}
+
 import scala.collection.Seq
 import org.junit.Assert.assertEquals
 
@@ -10,6 +11,7 @@ import org.junit.Assert.assertEquals
   * @author Barry Becker
   */
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
+
 
   @Test def testGenerateMovesForStandardProblemInitialState() {
     val initialState = PegBoard.INITIAL_BOARD_POSITION

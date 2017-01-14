@@ -3,20 +3,15 @@ package com.barrybecker4.puzzle.hiq
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.i18n.StubMessageContext
-import org.junit.Assert.{assertEquals, assertTrue, assertNotNull}
-import org.scalatest.{BeforeAndAfterAll, FunSuite}
+import org.junit.Assert.{assertEquals,assertTrue}
+import org.scalatest.{BeforeAndAfter,  FunSuite}
 
 
 
-class SolvingSuite extends FunSuite with BeforeAndAfterAll {
+class SolvingSuite extends FunSuite with BeforeAndAfter {
 
-  override def beforeAll() {
-    AppContext.injectMessageContext(new StubMessageContext)
-  }
-
-  override def afterAll() {
-    AppContext.injectMessageContext(null)
-  }
+  before { AppContext.injectMessageContext(new StubMessageContext) }
+  after { AppContext.injectMessageContext(null) }
 
   test("Solving tests with AStar concurrent") {
     runSolverTest(A_STAR_CONCURRENT)

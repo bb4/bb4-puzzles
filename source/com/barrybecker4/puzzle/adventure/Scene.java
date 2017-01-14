@@ -34,7 +34,7 @@ public class Scene {
      * @param sceneNode  xml element to initialize from.
      * @param resourcePath where we can find images and sounds.
      */
-    public Scene(Node sceneNode, String resourcePath, boolean isFirst) {
+    Scene(Node sceneNode, String resourcePath, boolean isFirst) {
         String description = sceneNode.getFirstChild().getTextContent();
 
         this.isFirst = isFirst;
@@ -46,7 +46,7 @@ public class Scene {
      * Copy constructor.
      * @param scene the scene to initialize from.
      */
-    public Scene(Scene scene) {
+    Scene(Scene scene) {
         this.name = scene.getName();
         this.text = scene.getText();
         this.image_ = scene.getImage();
@@ -58,7 +58,7 @@ public class Scene {
     /**
      * Constructor for a simple new scene with no media or initial choices
      */
-    public Scene(String name, String text, String resourcePath) {
+    Scene(String name, String text, String resourcePath) {
         ChoiceList choices = new ChoiceList();
         commonInit(name, text, choices, resourcePath);
     }
@@ -66,7 +66,7 @@ public class Scene {
     /**
      * @param document the document to which to append this scene as a child.
      */
-    public void appendToDocument(Document document) {
+    void appendToDocument(Document document) {
 
         Element sceneElem = document.createElement("scene");
         sceneElem.setAttribute("name", getName());
@@ -148,7 +148,7 @@ public class Scene {
      * @param scene to see if parent
      * @return true if the specified scene is our immediate parent.
      */
-    public boolean isParentOf(Scene scene) {
+    boolean isParentOf(Scene scene) {
         String sName = scene.getName();
         return choices.isDestination(sName);
     }
@@ -182,7 +182,7 @@ public class Scene {
      * @param choice navigate to the scene indicated by this choice.
      * @return the name of the next scene given the number of the choice.
      */
-    public String getNextSceneName(int choice) {
+    String getNextSceneName(int choice) {
 
         assert choice >= 0 || choice < choices.size();
 
@@ -192,7 +192,7 @@ public class Scene {
     /**
      * @return true if there are more than one coice for the user to select from.
      */
-    public boolean hasChoices() {
+    boolean hasChoices() {
         return choices != null;
     }
 
@@ -200,7 +200,7 @@ public class Scene {
      * Prints what is missing if anything for this scene.
      * @return false if something is missing.
      */
-    public boolean verifyMedia() {
+    boolean verifyMedia() {
         if (getImage() == null || !hasSound()) {
             System.out.print("scene: " + getName() );
             if (getImage() == null)
@@ -213,7 +213,7 @@ public class Scene {
         return true;
     }
 
-    public String print() {
+    String print() {
         StringBuilder buf = new StringBuilder();
         buf.append('\n').append(this.getText()).append('\n');
 

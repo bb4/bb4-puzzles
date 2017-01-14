@@ -25,15 +25,15 @@ public class ChoiceList implements List<Choice> {
     /**
      * Default constructor.
      */
-    public ChoiceList() {
-        choices_ = new ArrayList<Choice>();
+    ChoiceList() {
+        choices_ = new ArrayList<>();
     }
 
     /**
      * Constructor.
      * @param scene use the choices from this scene to initialize from.
      */
-    public ChoiceList(Scene scene) {
+    ChoiceList(Scene scene) {
         this();
         choices_.addAll(scene.getChoices());
     }
@@ -44,7 +44,7 @@ public class ChoiceList implements List<Choice> {
      * @param sceneNode to initialize from.
      * @param isFirst true if this is the first scene.
      */
-    public ChoiceList(Node sceneNode, boolean isFirst) {
+    ChoiceList(Node sceneNode, boolean isFirst) {
 
         // if there are choices they will be the second element (right after description).
         NodeList children = sceneNode.getChildNodes();

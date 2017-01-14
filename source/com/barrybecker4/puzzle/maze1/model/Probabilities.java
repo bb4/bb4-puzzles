@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze.model;
+package com.barrybecker4.puzzle.maze1.model;
 
 import com.barrybecker4.common.math.MathUtil;
 
@@ -32,7 +32,7 @@ public class Probabilities {
      * return a shuffled list of directions
      * they are ordered given the potentially skewed probabilities at the top.
      */
-    public List<Direction> getShuffledDirections() {
+    List<Direction> getShuffledDirections() {
         double rnd = MathUtil.RANDOM.nextDouble();
         List<Direction> directions = new ArrayList<>();
         List<Direction> originalDirections = new ArrayList<>();

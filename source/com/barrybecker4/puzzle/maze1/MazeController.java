@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.maze;
+package com.barrybecker4.puzzle.maze1;
 
 import com.barrybecker4.common.concurrency.Worker;
-import com.barrybecker4.puzzle.maze.ui.MazePanel;
+import com.barrybecker4.puzzle.maze1.ui.MazePanel;
 import com.barrybecker4.ui.sliders.LabeledSlider;
 import com.barrybecker4.ui.sliders.SliderChangeListener;
 

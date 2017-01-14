@@ -8,6 +8,8 @@ import com.barrybecker4.puzzle.bridge.model._
 import scala.collection.Seq
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
 
