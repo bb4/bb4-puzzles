@@ -13,12 +13,8 @@ import java.awt.Cursor
   *
   * @author Barry Becker
   */
-final class MazeController(var mazePanel: MazePanel)
+final class MazeController(var mazePanel: MazePanel) extends SliderChangeListener {
 
-/**
-  * Constructor.
-  */
-  extends SliderChangeListener {
   private var solver = new MazeSolver(mazePanel)
   private var generateWorker: Worker = _
   private var generator: MazeGenerator = _
@@ -57,7 +53,7 @@ final class MazeController(var mazePanel: MazePanel)
         mazePanel.animationSpeed = animationSpeed
         mazePanel.setThickness(thickness)
         generator.generate(forwardP / sum, leftP / sum, rightP / sum)
-        boolean2Boolean(true)
+        None
       }
 
       override def finished() {
@@ -83,7 +79,7 @@ final class MazeController(var mazePanel: MazePanel)
         mazePanel.animationSpeed = animationSpeed
         solver = new MazeSolver(mazePanel)
         solver.solve()
-        boolean2Boolean(true)
+        None
       }
 
       override def finished() {
@@ -92,6 +88,4 @@ final class MazeController(var mazePanel: MazePanel)
     }
     worker.start()
   }
-
-
 }

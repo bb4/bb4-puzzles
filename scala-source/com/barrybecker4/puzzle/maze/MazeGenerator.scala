@@ -81,7 +81,8 @@ class MazeGenerator(var panel: MazePanel) {
         maxDepth = depth
         maze.setStopPosition(currentPosition)
       }
-      if (depth > lastCell.getDepth) lastCell.setDepth(depth)
+      if (depth > lastCell.depth)
+        lastCell.depth = depth
       val currentCell = maze.getCell(currentPosition)
       val nextPosition = currentCell.getNextPosition(currentPosition, dir)
       nextCell = maze.getCell(nextPosition)

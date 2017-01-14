@@ -1,6 +1,5 @@
 package com.barrybecker4.puzzle.maze.ui
 
-import com.barrybecker4.puzzle.maze.MazeController
 import com.barrybecker4.ui.components.GradientButton
 import com.barrybecker4.ui.components.NumberInput
 import com.barrybecker4.ui.sliders.LabeledSlider
@@ -54,9 +53,7 @@ class TopControlPanel(var controller: MazeController) extends JPanel with Action
 
   controller.setRepaintListener(this)
 
-  /**
-    * called when a button is pressed.
-    */
+  /** Called when a button is pressed. */
   def actionPerformed(e: ActionEvent) {
     val source = e.getSource
     if (source eq regenerateButton) regenerate()
@@ -68,12 +65,8 @@ class TopControlPanel(var controller: MazeController) extends JPanel with Action
   }
 
   private def getThickness = thicknessField.getIntValue
-
   private def getForwardProbability = forwardProbField.getValue
-
   private def getLeftProbability = leftProbField.getValue
-
   private def getRightProbability = rightProbField.getValue
-
   private def getAnimationSpeed = animSpeedSlider.getValue.toInt
 }

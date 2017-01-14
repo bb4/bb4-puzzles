@@ -14,7 +14,7 @@ case class Probabilities(fwdProb: Double, leftProb: Double, rightProb: Double) {
   private var rightProbability = rightProb / total
 
   /**
-    * return a shuffled list of directions
+    * @return a shuffled list of directions
     * they are ordered given the potentially skewed probabilities at the top.
     */
   private[model] def getShuffledDirections = {

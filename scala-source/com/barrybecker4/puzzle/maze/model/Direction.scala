@@ -10,6 +10,10 @@ import com.barrybecker4.common.geometry.Location
   *
   * @author Barry Becker
   */
+object Direction {
+  val VALUES = Seq(FORWARD, LEFT, RIGHT)
+}
+
 abstract class Direction {
 
   def apply(dir: Location): Location
@@ -38,8 +42,4 @@ case object LEFT extends Direction {
 
 case object RIGHT extends Direction {
   override def apply(dir: Location): Location = rightOf(dir)
-}
-
-object Direction {
-  val VALUES = Seq(FORWARD, LEFT, RIGHT)
 }

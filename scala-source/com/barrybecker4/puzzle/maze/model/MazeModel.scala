@@ -62,7 +62,6 @@ class MazeModel(var width: Int, var height: Int) {
   }
 
   private def setRightLeftConstraints() {
-    var j = 0
     for (j <- 0 until height) {
       // left
       var cell = grid(0)(j)
@@ -74,7 +73,6 @@ class MazeModel(var width: Int, var height: Int) {
   }
 
   private def setTopAndBottomConstraints() {
-    var i = 0
     for (i <- 0 until width) {
         // bottom
         var cell = grid(i)(0)

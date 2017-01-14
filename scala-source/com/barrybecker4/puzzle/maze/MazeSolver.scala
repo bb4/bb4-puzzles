@@ -61,8 +61,8 @@ class MazeSolver(var panel: MazePanel) {
       }
       dir = state.getRelativeMovement
       depth = state.depth
-      if (depth > currentCell.getDepth) {
-        currentCell.setDepth(depth)
+      if (depth > currentCell.depth) {
+        currentCell.depth = depth
       }
     }
     currentCell = maze.getCell (currentPosition)

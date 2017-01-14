@@ -21,13 +21,7 @@ class MazeCell() {
   var westPath = false
   var northPath = false
   var southPath = false
-  private var depth = 0
-
-  def getDepth: Int = depth
-
-  def setDepth(depth: Int) {
-    this.depth = depth
-  }
+  var depth: Int = 0
 
   def getNextPosition(currentPosition: Location, dir: Location): Location = {
     visited = true
@@ -48,5 +42,5 @@ class MazeCell() {
     southPath = false
   }
 
-  override def toString: String = "Cell visited=" + visited + " eastWall=" + eastWall + " southWall=" + southWall // NON-NLS
+  override def toString: String = "Cell visited=" + visited + " eastWall=" + eastWall + " southWall=" + southWall
 }

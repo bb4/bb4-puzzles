@@ -1,7 +1,5 @@
 package com.barrybecker4.puzzle.maze.ui
 
-import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.puzzle.maze.MazeController
 import com.barrybecker4.ui.application.ApplicationApplet
 import com.barrybecker4.ui.util.GUIUtil
 import javax.swing._

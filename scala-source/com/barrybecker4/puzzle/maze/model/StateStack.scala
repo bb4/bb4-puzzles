@@ -13,7 +13,7 @@ import scala.collection.mutable
 class StateStack {
 
   private var stack: List[GenState] = List()
-  private[model] var probabilities = Probabilities(1.0, 1.0, 1.0)
+  private var probabilities = Probabilities(1.0, 1.0, 1.0)
 
   /** @param probs the probabilities of moving each direction. */
   def this(probs: Probabilities) {
@@ -31,7 +31,7 @@ class StateStack {
   }
 
   def peek(): GenState = stack.head
-  def isEmpty = stack.isEmpty
+  def isEmpty: Boolean = stack.isEmpty
   def clear(): Unit = { stack = List() }
 
   /**
