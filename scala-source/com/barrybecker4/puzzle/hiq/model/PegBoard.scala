@@ -29,15 +29,11 @@ object PegBoard {
     row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
   }
 
-  var i: Int = 0
-  while (i < SIZE) {
-      var j: Int = 0
-      while (j < SIZE) {
-          if (PegBoard.isValidPosition(i, j))
-            INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
-          j += 1
-      }
-      i += 1
+  for (i <- 0 until SIZE) {
+    for (j <- 0 until SIZE) {
+      if (PegBoard.isValidPosition(i, j))
+        INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
+    }
   }
   INITIAL_BOARD_POSITION.setPosition(PegBoard.CENTER, PegBoard.CENTER, value = false)
 }
@@ -102,16 +98,10 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     */
   def getLocations(pegged: Boolean): List[Location] = {
     var list = List[Location]()
-    var i = 0
-    while (i < PegBoard.SIZE) {
-        var j = 0
-        while (j < PegBoard.SIZE) {
-            if (PegBoard.isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged)
-              list :+= new ByteLocation(i, j)
-            j += 1
-        }
-        i += 1
-    }
+    for (i <- 0 until PegBoard.SIZE)
+      for (j <- 0 until PegBoard.SIZE)
+        if (PegBoard.isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged)
+          list :+= new ByteLocation(i, j)
     list
   }
 
@@ -138,8 +128,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
       case 62 => index = 30
       case 63 => index = 31
       case 64 => index = 32
-      case _ =>
-        assert(assertion = false, "invalid position row=" + row + " col=" + col)
+      case _ => assert(assertion = false, "invalid position row=" + row + " col=" + col)
     }
     index
   }
@@ -172,15 +161,8 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     */
   def getNumPegsLeft: Int = {
     var nPegsLeft = 0
-    var i = 0
-    while (i < PegBoard.NUM_PEG_HOLES) {
-      {
-        if (get(i)) nPegsLeft += 1
-      }
-      {
-        i += 1; i - 1
-      }
-    }
+    for (i <- 0 until PegBoard.NUM_PEG_HOLES)
+      if (get(i)) nPegsLeft += 1
     nPegsLeft
   }
 
@@ -188,9 +170,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     var visited = false
     var i = 0
     while (!visited && i < PegBoardSymmetries.SYMMETRIES) {
-        if (setOfBoards.contains(symmetry(i))) {
-          visited = true
-        }
+        if (setOfBoards.contains(symmetry(i))) visited = true
         i += 1
     }
     visited
@@ -226,10 +206,8 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     */
   private def rotate(rotateIndices: Array[Byte]): PegBoard = {
     val rotatedBoard = new PegBoard()
-    var i = 0
-    while (i < PegBoard.NUM_PEG_HOLES) {
+    for (i <- 0 until PegBoard.NUM_PEG_HOLES) {
         rotatedBoard.set(i, get(rotateIndices(i)))
-        i += 1
     }
     rotatedBoard
   }

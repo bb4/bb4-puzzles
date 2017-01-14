@@ -7,9 +7,7 @@ import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.ui.components.GradientButton;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Choice;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -23,7 +21,7 @@ import java.awt.event.ItemListener;
 public class TopControlPanel<P, M> extends JPanel
                                    implements ActionListener, ItemListener {
     protected PuzzleController<P, M> controller_;
-    protected AlgorithmEnum<P, M>[] algorithmValues_;
+    private AlgorithmEnum<P, M>[] algorithmValues_;
 
     private JButton solveButton_;
     private JComboBox<String> algorithmChoice_;
@@ -57,7 +55,6 @@ public class TopControlPanel<P, M> extends JPanel
     }
 
     protected void addFirstRowControls(JPanel firstRowPanel)  {
-
         solveButton_ = new GradientButton(AppContext.getLabel("SOLVE"));
                 solveButton_.addActionListener(this);
 

@@ -16,6 +16,4 @@ object InitialConfiguration {
     InitialConfiguration("Big Problem", Array(7, 11, 2, 3, 17, 5, 4, 3, 12, 7, 14, 16, 1, 3, 12, 3, 15, 19, 8), 126),
     InitialConfiguration("Trivial Problem", Array(1, 2, 5), 8)
   )
-
-
 }

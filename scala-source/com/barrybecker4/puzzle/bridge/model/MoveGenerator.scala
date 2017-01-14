@@ -11,10 +11,7 @@ import scala.collection.Seq
   */
 class MoveGenerator(var board: Bridge) {
 
-  /**
-    * Next moves are all people that can move across the bridge..
-    * @return List of all valid tile slides
-    */
+  /** @return List of next moves are all people that can move across the bridge. */
   def generateMoves: Seq[BridgeMove] = if (board.lightCrossed) createMoves(board.crossed, crossing = false)
 
   else createMoves(board.uncrossed, crossing = true)
@@ -22,21 +19,16 @@ class MoveGenerator(var board: Bridge) {
   private def createMoves(people: List[Int], crossing: Boolean) = {
     var moves = List[BridgeMove]()
     val numPeople = people.size
-    moves ::= new BridgeMove(List(people.head), crossing)
+    moves ::= BridgeMove(List(people.head), crossing)
     if (numPeople > 1) {
-      var i = 0
-      while (i < numPeople - 1) {
-        var j = i + 1
-        while (j < numPeople) {
-          moves :+= new BridgeMove(List(people(i), people(j)), crossing)
-          j += 1; j - 1
-        }
-        moves :+= new BridgeMove(List(people(i + 1)), crossing)
-        i += 1; i - 1
+      for (i <- 0 until numPeople - 1) {
+        for (j <- (i + 1) until numPeople)
+          moves :+= BridgeMove(List(people(i), people(j)), crossing)
+        moves :+= BridgeMove(List(people(i + 1)), crossing)
       }
     }
-    // Put them in order of fastest to cross first. This speeds A*, but slows sequential a lot.
-    // moves.sorted
+    // Putting them in order of fastest to cross first. This speeds A*, but slows sequential a lot.
+    //moves.sorted
     moves
   }
 }

@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq
 
 import com.barrybecker4.common.app.AppContext
@@ -30,9 +30,7 @@ sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
 
   def getLabel: String = label
 
-  /**
-    * Create an instance of the algorithm given the controller and a refreshable.
-    */
+  /** Create an instance of the algorithm given the controller and a refreshable. */
   def createSolver(controller: PuzzleController[PegBoard, PegMove]): PuzzleSolver[PegMove] = {
     this match {
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[PegBoard, PegMove](controller)
@@ -46,12 +44,10 @@ sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
   }
 
   override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
-
 }
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[PegBoard, PegMove]] = Array(
-    SIMPLE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT,
-    CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
+    SIMPLE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
   )
 }

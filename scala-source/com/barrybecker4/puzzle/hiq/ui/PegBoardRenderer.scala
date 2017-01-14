@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.ui
 
 import com.barrybecker4.puzzle.common.PuzzleRenderer
@@ -38,15 +38,9 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     val bottomEdgePos = PegBoardRenderer.TOP_MARGIN + 3 * PegBoardRenderer.INC * size
     drawGrid(g, size, rightEdgePos, bottomEdgePos)
     // now draw the pieces that we have so far
-    var row = 0
-    while (row < size) {
-        var col = 0
-        while (col < size) {
-          if (PegBoard1.isValidPosition(row, col)) drawPegLocation(g, board, row.toByte, col.toByte)
-          col += 1
-        }
-        row += 1
-    }
+    for (row <- 0 until size)
+      for (col <- 0 until size)
+        if (PegBoard1.isValidPosition(row, col)) drawPegLocation(g, board, row.toByte, col.toByte)
   }
 
   /**
@@ -57,17 +51,13 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     var ypos = 0
     var xpos = 0
     g.setColor(Color.darkGray)
-    i = 0
-    while (i <= size) { //   -----
+    for (i <- 0 until size) { //   -----
         ypos = PegBoardRenderer.TOP_MARGIN + i * 3 * PegBoardRenderer.INC
         g.drawLine(PegBoardRenderer.LEFT_MARGIN, ypos, rightEdgePos, ypos)
-        i += 1
     }
-    i = 0
-    while (i <= size) { //   ||||
+    for (i <- 0 until size) { //   ||||
         xpos = PegBoardRenderer.LEFT_MARGIN + i * 3 * PegBoardRenderer.INC
         g.drawLine(xpos, PegBoardRenderer.TOP_MARGIN, xpos, bottomEdgePos)
-        i += 1
     }
   }
 

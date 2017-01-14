@@ -18,9 +18,7 @@ class MoveGenerator(var board: PegBoard) {
     if (emptyLocations.isEmpty)
       moves :+= board.getFirstMove
     else {
-      for (pos <- emptyLocations) {
-        moves ++= findMovesForLocation(pos, undo = false)
-      }
+      for (pos <- emptyLocations) moves ++= findMovesForLocation(pos, undo = false)
     }
     moves
   }

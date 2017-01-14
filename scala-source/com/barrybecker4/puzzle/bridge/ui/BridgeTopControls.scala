@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui
 
+import java.awt.Choice
+
 import com.barrybecker4.puzzle.bridge.model.Bridge
 import com.barrybecker4.puzzle.bridge.model.BridgeMove
 import com.barrybecker4.puzzle.common.AlgorithmEnum
@@ -11,6 +13,7 @@ import java.awt.event.ItemEvent
 import java.awt.event.ItemListener
 
 import com.barrybecker4.puzzle.bridge.BridgePuzzleController
+import com.barrybecker4.puzzle.bridge.model.InitialConfiguration.CONFIGURATIONS
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
 
 /**
@@ -21,11 +24,12 @@ import com.barrybecker4.puzzle.common.ui.TopControlPanel
 final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMove],
                               val algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])
   extends TopControlPanel[Bridge, BridgeMove](controller, algorithmValues) with ItemListener {
-  private var configurationSelector: InitialConfigurationSelector = _
+  private var configurationSelector: Choice = _
 
   override protected def addFirstRowControls(panel: JPanel) {
     super.addFirstRowControls(panel)
-    configurationSelector = new InitialConfigurationSelector()
+    configurationSelector = new Choice()
+    CONFIGURATIONS.map(_.label).foreach(configurationSelector.add)
     configurationSelector.addItemListener(this)
     panel.add(configurationSelector)
     panel.add(Box.createHorizontalGlue)
@@ -38,7 +42,9 @@ final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMov
     */
   override def itemStateChanged(e: ItemEvent) {
     super.itemStateChanged(e)
-    if (e.getSource eq configurationSelector)
-      controller_.asInstanceOf[BridgePuzzleController].setConfiguration(configurationSelector.getSelectedConfiguration)
+    if (e.getSource eq configurationSelector) {
+      val people = CONFIGURATIONS(configurationSelector.getSelectedIndex).peopleSpeeds
+      controller_.asInstanceOf[BridgePuzzleController].setConfiguration(people)
+    }
   }
 }

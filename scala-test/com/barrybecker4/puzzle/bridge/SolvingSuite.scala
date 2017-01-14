@@ -35,15 +35,15 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
     runSolvingTests(A_STAR_CONCURRENT)
   }
 
-  /** One case failing and needs to be fixed
+  /** One case failing and needs to be fixed */
   test("Solving tests with concurrent optimum") {
     runSolvingTests(CONCURRENT_OPTIMUM)
-  } */
+  }
 
- /** One case failing and needs to be fixed
+ /** One case failing and needs to be fixed */
   test("Solving tests with sequential search") {
     runSolvingTests(SIMPLE_SEQUENTIAL)
-  } */
+  }
 
   @throws[Exception]
   private def runSolvingTests(algorithm: Algorithm) {
