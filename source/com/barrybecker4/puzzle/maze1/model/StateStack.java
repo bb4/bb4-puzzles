@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class StateStack extends LinkedList<GenState> {
 
-    Probabilities probabilities;
+    private Probabilities probabilities;
 
     /**
      * Constructor

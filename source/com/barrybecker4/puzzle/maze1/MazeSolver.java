@@ -25,7 +25,7 @@ public class MazeSolver {
     private boolean interrupted;
 
     /** Constructor */
-    public MazeSolver(MazePanel panel) {
+    MazeSolver(MazePanel panel) {
         panel_ = panel;
         maze = panel_.getMaze();
         stack = new StateStack();
@@ -33,12 +33,12 @@ public class MazeSolver {
         interrupted = false;
     }
 
-    public boolean isWorking() {
+    boolean isWorking() {
         return isWorking;
     }
 
     /** Stop current work and clear the search stack of states. */
-    public void interrupt() {
+    void interrupt() {
         interrupted = true;
         stack.clear();
     }

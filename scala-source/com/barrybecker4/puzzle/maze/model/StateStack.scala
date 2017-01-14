@@ -30,6 +30,10 @@ class StateStack {
     h
   }
 
+  def peek(): GenState = stack.head
+  def isEmpty = stack.isEmpty
+  def clear(): Unit = { stack = List() }
+
   /**
     * From currentPosition, try moving in each direction in a random order.
     * Assigning different probabilities to the order in which we check these directions

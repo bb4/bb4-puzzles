@@ -19,6 +19,9 @@ sourceSets {
         scala {
             srcDir 'scala-source'
         }
+        resources {
+            srcDir 'scala-source'
+        }
     }
     test {
         scala {

@@ -24,18 +24,18 @@ public class TopControlPanel extends JPanel
     private static final int PASSAGE_THICKNESS = 40;
     private static final int INITIAL_ANIMATION_SPEED = 20;
 
-    protected NumberInput thicknessField = null;
+    private NumberInput thicknessField = null;
 
     // ui for entering the direction probabilities.
-    protected NumberInput forwardProbField;
-    protected NumberInput leftProbField;
-    protected NumberInput rightProbField;
+    private NumberInput forwardProbField;
+    private NumberInput leftProbField;
+    private NumberInput rightProbField;
 
     /** allows you to change the animation speed. */
     private LabeledSlider animSpeedSlider;
 
-    protected GradientButton regenerateButton;
-    protected GradientButton solveButton;
+    private GradientButton regenerateButton;
+    private GradientButton solveButton;
 
     private MazeController controller;
 
