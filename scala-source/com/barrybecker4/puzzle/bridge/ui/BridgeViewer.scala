@@ -45,9 +45,7 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
 
   private def findCost(path: List[BridgeMove]) = path.map(_.cost).sum
 
-  /**
-    * This renders the current state of the puzzle to the screen.
-    */
+  /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
     if (board_ != null) renderer_.render(g, board_, getWidth, getHeight)

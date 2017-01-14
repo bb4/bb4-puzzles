@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui
 
 import com.barrybecker4.puzzle.bridge.{Algorithm, BridgePuzzleController}
@@ -17,9 +17,7 @@ import javax.swing.JPanel
   */
 object BridgePuzzle {
 
-  /**
-    * Use this to run as an application instead of an applet.
-    */
+  /** Use this to run as an application instead of an applet. */
   def main(args: Array[String]) {
     val applet = new BridgePuzzle(args)
     // this will call applet.init() and start() methods instead of the browser
@@ -33,9 +31,7 @@ final class BridgePuzzle(args: Array[String])
   private val navPanel = new NavigationPanel()
 
   /** Default constructor */
-  def this() {
-    this(Array[String]())
-  }
+  def this() { this(Array[String]()) }
 
   protected def createViewer = new BridgeViewer(this)
 
@@ -47,12 +43,8 @@ final class BridgePuzzle(args: Array[String])
 
   override protected def createTopControls = new BridgeTopControls(controller_, getAlgorithmValues)
 
-  override protected def createBottomControls: JPanel = {
-    navPanel
-  }
+  override protected def createBottomControls: JPanel = navPanel
 
-  def done() {
-    navPanel.setPathNavigator(viewer_.asInstanceOf[PathNavigator])
-  }
+  def done(): Unit = navPanel.setPathNavigator(viewer_.asInstanceOf[PathNavigator])
 }
 

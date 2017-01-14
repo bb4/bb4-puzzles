@@ -18,7 +18,7 @@ import scala.collection.Seq
   */
 object BridgePuzzleController {
   /** this is the standard bridge crossing problem with 4 people */
-  private val DEFAULT_PEOPLE = InitialConfiguration.CONFIGURATIONS(0).peopleSpeeds
+  private val DEFAULT_PEOPLE = InitialConfiguration.CONFIGURATIONS.head.peopleSpeeds
 }
 
 /**
@@ -46,9 +46,7 @@ class BridgePuzzleController(val ui: Refreshable[Bridge, BridgeMove])
 
   def transition(position: Bridge, move: BridgeMove): Bridge = position.applyMove(move, reverse = false)
 
-  /**
-    * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
-    */
+  /** @return estimate of the cost to reach the goal of all 9 pieces successfully placed */
   override def distanceFromGoal(position: Bridge): Int = position.distanceFromGoal
 
   override def getCost(move: BridgeMove): Int = move.cost

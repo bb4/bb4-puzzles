@@ -49,11 +49,9 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     val leftX = MARGIN + TEXT_WIDTH
     val rightX = leftX + BridgeRenderer1.BRIDGE_WIDTH
     g.setColor(Color.darkGray)
-    var i = 0
-    while (i <= 10) {
+    for (i <- 0 to 10) {
       val ypos = TEXT_Y + i
       g.drawLine(leftX, ypos, rightX, ypos)
-      i += 1; i - 1
     }
   }
 
@@ -75,8 +73,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
   private def drawLight(g: Graphics, isLightCrossed: Boolean) {
     val leftPos = MARGIN + 20
     val rightPos = MARGIN + TEXT_WIDTH + BRIDGE_WIDTH + 20
-    val xpos = if (isLightCrossed) rightPos
-    else leftPos
+    val xpos = if (isLightCrossed) rightPos else leftPos
     g.setColor(Color.YELLOW)
     g.fillOval(xpos, TEXT_Y - 80, LIGHT_RADIUS, LIGHT_RADIUS)
     g.setColor(Color.BLACK)
