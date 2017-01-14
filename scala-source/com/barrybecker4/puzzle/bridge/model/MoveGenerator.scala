@@ -27,7 +27,7 @@ class MoveGenerator(var board: Bridge) {
         moves :+= BridgeMove(List(people(i + 1)), crossing)
       }
     }
-    // Putting them in order of fastest to cross first. This speeds A*, but slows sequential a lot.
+    // Putting them in order of fastest to cross first. This speeds A*, but slows sequential.
     //moves.sorted
     moves
   }

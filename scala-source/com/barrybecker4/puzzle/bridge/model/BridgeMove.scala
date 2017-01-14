@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 20017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.model
 
 import com.barrybecker4.puzzle.common.model.Move
@@ -15,7 +15,6 @@ case class BridgeMove(people: List[Int], direction: Boolean) extends Move with C
   /** The time for the slowest person out of everyone crossing at the same time */
   val cost: Int = if (people.size == 1) people.head else Math.max(people.head, people(1))
 
-  /** @return the from and to positions */
   override def toString: String = "people: " + people + (if (direction) " -> " else " <- ")
 
   def compareTo(m: BridgeMove): Int = cost - m.cost

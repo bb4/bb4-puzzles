@@ -30,6 +30,10 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
     runSolverTest(CONCURRENT_OPTIMUM)
   }
 
+  test("Solving tests with simple sequential") {
+    runSolverTest(SIMPLE_SEQUENTIAL)
+  }
+
   @throws[Exception]
   private def runSolverTest(algorithm: Algorithm) {
     val controller = new HiQController(null)

@@ -20,7 +20,7 @@ case class Bridge(uncrossed: List[Int], crossed: List[Int], lightCrossed: Boolea
   }
 
   /**
-    * Create a new bridge state by applying th specified move
+    * Create a new bridge state by applying the specified move
     * @param move    the move to apply
     * @param reverse if false then moving across the bridge, if true then revers traversal back to the start.
     */

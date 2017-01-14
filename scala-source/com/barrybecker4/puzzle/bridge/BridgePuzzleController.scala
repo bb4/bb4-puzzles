@@ -4,7 +4,8 @@ package com.barrybecker4.puzzle.bridge
 import com.barrybecker4.common.search.Refreshable
 import com.barrybecker4.puzzle.bridge.model._
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
-import scala.collection.Seq
+import InitialConfiguration.CONFIGURATIONS
+import scala.collection.{Seq, mutable}
 
 /**
   * Bridge crossing Puzzle Controller.
@@ -13,21 +14,12 @@ import scala.collection.Seq
   * See http://page.mi.fu-berlin.de/rote/Papers/pdf/Crossing+the+bridge+at+night.pdf
   * for analysis of general problem.
   * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
-  *
-  * @author Barry Becker
-  */
-object BridgePuzzleController {
-  /** this is the standard bridge crossing problem with 4 people */
-  private val DEFAULT_PEOPLE = InitialConfiguration.CONFIGURATIONS.head.peopleSpeeds
-}
-
-/**
   * @param ui shows the current state on the screen.
   */
 class BridgePuzzleController(val ui: Refreshable[Bridge, BridgeMove])
   extends AbstractPuzzleController[Bridge, BridgeMove](ui) {
 
-  private var initialPosition: Bridge = new Bridge(BridgePuzzleController.DEFAULT_PEOPLE)
+  private var initialPosition: Bridge = new Bridge(CONFIGURATIONS.head.peopleSpeeds)
   algorithm_ = A_STAR_SEQUENTIAL
 
   if (ui_ != null) ui_.refresh(initialPosition, 0)

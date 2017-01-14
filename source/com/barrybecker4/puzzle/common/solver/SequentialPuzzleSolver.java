@@ -59,7 +59,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     private PuzzleNode<P, M> search(PuzzleNode<P, M> node) {
         P currentState = node.getPosition();
         if (!puzzle.alreadySeen(currentState, seen)) {
-            System.out.println("num seen = " + seen.size());
+            //System.out.println("num seen = " + seen.size());
             if (puzzle.isGoal(currentState)) {
                 return node;
             }
