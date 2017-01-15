@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.maze1.model;
 
 import com.barrybecker4.common.geometry.Location;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,10 +39,10 @@ public class StateStack extends LinkedList<GenState> {
     public void pushMoves(Location currentPosition, Location currentDir, int depth) {
 
         List<Direction> directions = probabilities.getShuffledDirections();
+        Collections.reverse(directions);
 
         // check all the directions except the one we came from
-        for ( int i = 0; i < 3; i++ ) {
-            Direction direction = directions.get(i);
+        for (Direction direction : directions) {
             Location movement = direction.apply(currentDir);
             this.add(0, new GenState(currentPosition, movement, depth));
         }

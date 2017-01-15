@@ -88,7 +88,6 @@ class MazeGenerator(val panel: MazePanel) {
       val nextPosition = currentCell.getNextPosition(currentPosition, dir)
       nextCell = maze.getCell(nextPosition)
       if (nextCell.visited) {
-        //println("Blocked traveling from " + currentPosition + " to " + nextPosition + " at depth = " + depth)
         addWall(currentCell, dir, nextCell)
       } else {
         moved = true

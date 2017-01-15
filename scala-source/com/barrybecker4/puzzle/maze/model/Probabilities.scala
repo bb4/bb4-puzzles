@@ -32,7 +32,6 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     else {
       directions = RIGHT +: getNextTwoDirs(List(FORWARD, LEFT), forwardProb / (forwardProb + leftProb))
     }
-    println("rnd dirs = " + directions)
     directions
   }
 

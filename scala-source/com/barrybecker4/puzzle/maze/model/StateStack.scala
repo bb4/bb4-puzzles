@@ -36,10 +36,8 @@ class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)
   def pushMoves(currentPosition: Location, currentDir: Location, depth: Int) {
     val directions = probabilities.getShuffledDirections
     // check all the directions except the one we came from
-    for (i <- 0 until 3) {
-      val direction = directions(i)
-      val movement = direction(currentDir)
-      push(GenState(currentPosition, movement, depth))
+    for (direction <- directions.reverse) {
+      push(GenState(currentPosition, direction(currentDir), depth))
     }
   }
 }

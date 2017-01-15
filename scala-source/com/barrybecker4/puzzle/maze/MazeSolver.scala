@@ -123,7 +123,6 @@ class MazeSolver(var panel: MazePanel) {
     * @param solutionPath list of locations leading ot the solution.
     */
   private def backTrack(solutionPath: List[Location]): List[Location] = {
-    println("s stack empty = " + stack.isEmpty)
     val lastState: GenState = stack.peek()
     var path = solutionPath
     var pos: Location = null
@@ -133,7 +132,6 @@ class MazeSolver(var panel: MazePanel) {
       val cell: MazeCell = maze.getCell(pos)
       cell.clearPath()
     } while (!pos.eq(lastState.position))
-    println("path len after bactracking: " + path.length)
     path
   }
 }
