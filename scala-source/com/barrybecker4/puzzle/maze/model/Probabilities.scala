@@ -18,7 +18,7 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     * they are ordered given the potentially skewed probabilities at the top.
     */
   def getShuffledDirections: List[Direction] = {
-    //scala.util.Random.shuffle(Direction.VALUES)
+    //scala.util.Random.shuffleUntilSorted(Direction.VALUES)
 
     val rnd = MathUtil.RANDOM.nextDouble
     var directions: List[Direction] = List()

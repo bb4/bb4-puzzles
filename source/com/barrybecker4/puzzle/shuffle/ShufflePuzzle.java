@@ -2,13 +2,13 @@
 package com.barrybecker4.puzzle.shuffle;
 
 /**
- * Given a deck of nCards unique cards, cut the deck iCut cards from top and perform a perfect shuffle.
- * A perfect shuffle begins by putting down the bottom card from the top portion of the deck followed by the bottom card
+ * Given a deck of nCards unique cards, cut the deck iCut cards from top and perform a perfect shuffleUntilSorted.
+ * A perfect shuffleUntilSorted begins by putting down the bottom card from the top portion of the deck followed by the bottom card
  * from the bottom portion of the deck followed by the next card from the top portion, etc., alternating cards
  * until one portion is used up. The remaining cards go on top. The problem is to find the number of
  * perfect shuffles required to return the deck to its original order. Your function should be declared as:
  *
- *    static long shuffles(int nCards, int iCut);
+ *    static long shuffleUntilSorted(int nCards, int iCut);
  *
  * Find the result for shuffles(1002, 101)
  *
@@ -16,34 +16,28 @@ package com.barrybecker4.puzzle.shuffle;
  */
 public class ShufflePuzzle {
 
-     private ShufflePuzzle() {}
+    private ShufflePuzzle() {}
 
-     private static long shuffles(int nCards, int iCut) {
-         assert (iCut < nCards);
-         Deck deck = new Deck(nCards);
-
-         int ct = 1;
-         deck.doPerfectShuffle(iCut);
-         while (!deck.isSorted() && ct < Integer.MAX_VALUE)  {
-
-             deck.doPerfectShuffle(iCut);
-             ct++;
-             if (ct % 100000 == 0)  {
-                System.out.println(ct + "  " + deck);
-             }
-         }
-         assert (ct < Integer.MAX_VALUE) : "No amount of shuffling will restore the order";
-         return ct;
-     }
-
-    public static void main(String[] args) {
+    private void shuffleUntilSorted(Deck deck, int iCut) {
         long time = System.currentTimeMillis();
 
+        long numShuffles = deck.shuffleUntilSorted(iCut);
+
+        System.out.println("A sorted deck of " + deck.size() + " cards, cut at " + iCut + " deep takes "
+                + numShuffles + " perfect shuffles to restore the deck.");
+        System.out.println("time elapsed = " + (System.currentTimeMillis() - time) +" milliseconds");
+    }
+
+
+    public static void main(String[] args) {
         int nCards = 402;
         int iCut = 101;
-        System.out.println("A sorted deck of " + nCards + " cards, cut " + iCut + " deep takes "
-                           + shuffles(nCards, iCut) + " perfect shuffles to restore the deck.");
-        System.out.println("time elapsed = " + (System.currentTimeMillis() - time) +" milliseconds");
+
+        ShufflePuzzle puzzle = new ShufflePuzzle();
+
+        // Copare the two types of algorithm
+        puzzle.shuffleUntilSorted(new Deck1(nCards), iCut);
+        puzzle.shuffleUntilSorted(new Deck2(nCards), iCut);
     }
 }
 

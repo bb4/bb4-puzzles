@@ -1,4 +1,3 @@
-// Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.shuffle;
 
 import com.barrybecker4.common.math.MathUtil;
@@ -8,19 +7,19 @@ import com.barrybecker4.common.math.MathUtil;
  *
  * @author Scott Sauyet (from http://www.oreillynet.com/pub/wlg/5094)
  */
-public class Deck2 {
+public class Deck2 implements Deck {
 
     private int[] cards;
     private int count;
 
-    public static long shuffle(int nCards, int iCut) {
+    public long shuffleUntilSorted(int iCut) {
 
-        Deck2 deck = new Deck2(nCards);
-        deck.shuffle(iCut);
-        return MathUtil.lcm(deck.getCycles());
+        //Deck2 deck = new Deck2(nCards);
+        this.doPerfectShuffle(iCut);
+        return MathUtil.lcm(getCycles());
     }
 
-    public Deck2(int count) {
+    Deck2(int count) {
 
         if (count < 1) {
             throw new IllegalArgumentException("Deck must contain at least " +
@@ -34,7 +33,15 @@ public class Deck2 {
         }
     }
 
-    public void shuffle(int cut) {
+    public int size() {
+        return cards.length;
+    }
+
+    public int get(int i) {
+        return cards[i];
+    }
+
+    public void doPerfectShuffle(int cut) {
 
         cut %= count;
         int[] top = new int[cut];
@@ -57,7 +64,6 @@ public class Deck2 {
         }
 
         for (int i = 0; i < shared; i++) {
-
             updated[count - (2 * i) - 1] = top[cut - i - 1];
             updated[count - (2 * i) - 2] = bottom[count - cut - i - 1];
         }
@@ -66,8 +72,7 @@ public class Deck2 {
         cards = updated;
     }
 
-
-    public int[] getCycles() {
+    private int[] getCycles() {
 
         int[] cycles = new int[count];
 
@@ -104,34 +109,29 @@ public class Deck2 {
 
     public static void main(String[] args) {
 
-        if (args.length != 2 && args.length != 0) {
-            System.out.println("Usage: java Deck nCards iCut");
-            System.exit(1);
-        }
+        assert (args.length == 2) : "Usage: java Deck nCards iCut";
 
         int cards = 1002;
         int cut = 101;
 
-        if (args.length == 2) {
-            try {
-                cards = Integer.parseInt(args[0]);
-                cut = Integer.parseInt(args[1]);
-            } catch (NumberFormatException nfe) {
-                System.out.println("Arguments must be numeric.");
-                System.exit(2);
-            }
+        try {
+            cards = Integer.parseInt(args[0]);
+            cut = Integer.parseInt(args[1]);
+        } catch (NumberFormatException nfe) {
+            System.out.println("Arguments must be numeric.");
+            System.exit(2);
         }
 
         long start = System.currentTimeMillis();
-        long result = shuffle(cards, cut);
+        Deck2 deck = new Deck2(cards);
+        long result = deck.shuffleUntilSorted(cut);
         long time = System.currentTimeMillis() - start;
 
-        System.out.println("A perfect shuffle on " + cards + " cards, cut " + cut
+        System.out.println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
                            + " deep, takes " + result + " iterations to restore"
                            + " the deck.");
 
         System.out.println("Calculation performed in " + time + "ms.");
     }
-
 }
 

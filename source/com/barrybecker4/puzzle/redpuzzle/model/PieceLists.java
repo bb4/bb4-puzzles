@@ -65,7 +65,7 @@ public class PieceLists {
         }
         PieceList pieces = new PieceList(initialPieces);
 
-        // shuffle the pieces so we get difference solutions -
+        // shuffleUntilSorted the pieces so we get difference solutions -
         // or at least different approaches to the solution if there is only one.
         return pieces.shuffle();
     }

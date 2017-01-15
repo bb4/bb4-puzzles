@@ -154,7 +154,7 @@ public class SliderBoard {
     /**
      * If the tiles are randomly placed, it is not guaranteed that there will be a solution.
      * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
-     * To shuffle, move tiles around until the blank position has been everywhere.
+     * To shuffleUntilSorted, move tiles around until the blank position has been everywhere.
      */
     private synchronized void shuffleTiles() {
 

@@ -25,7 +25,7 @@ public class SliderTest {
 
     @Before
     public void setUp() {
-        // this makes sure the random shuffle is repeatable
+        // this makes sure the random shuffleUntilSorted is repeatable
         MathUtil.RANDOM.setSeed(1);
     }
 
