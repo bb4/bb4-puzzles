@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
  *
  * @author Barry Becker
  */
-public class FitnessFinder  {
+class FitnessFinder  {
 
     /** bonuses given to the scoring algorithm if 3 nubs fit on a side piece. */
     private static final double THREE_FIT_BOOST = 0.1;
@@ -21,7 +21,7 @@ public class FitnessFinder  {
      * There are 24 nubs that need to fit for all the pieces.
      * There are 4 edge pieces that get THREE_FIT_BOOST if all 3 nubs fit.
      */
-    public static final double MAX_FITS = 24 + 4 * THREE_FIT_BOOST + FOUR_FIT_BOOST;
+    static final double MAX_FITS = 24 + 4 * THREE_FIT_BOOST + FOUR_FIT_BOOST;
 
 
     /**
@@ -31,7 +31,7 @@ public class FitnessFinder  {
      * @param pieces the current state of the pieces
      * @return fitness value. High is good.
      */
-    public double calculateFitness(PieceList pieces) {
+    double calculateFitness(PieceList pieces) {
         return getNumFits(pieces);
     }
 

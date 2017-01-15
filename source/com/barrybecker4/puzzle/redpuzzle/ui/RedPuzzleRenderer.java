@@ -48,7 +48,7 @@ public class RedPuzzleRenderer implements PuzzleRenderer<PieceList> {
      * private constructor because this class is a singleton.
      * Use getPieceRenderer instead.
      */
-    public RedPuzzleRenderer() {}
+    RedPuzzleRenderer() {}
 
     /**
      * This renders the current state of the Slider to the screen.

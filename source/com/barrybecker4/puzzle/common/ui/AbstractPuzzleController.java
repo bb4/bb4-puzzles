@@ -101,11 +101,11 @@ public abstract class AbstractPuzzleController<P, M> implements PuzzleController
         }
         else {
             System.out.println("The number of steps in path to solution = " + path.get().size());
-        }
 
-        if (ui_ != null) {
-            List<M> pathList = scala.collection.JavaConversions.seqAsJavaList(path.get());
-            ui_.finalRefresh(pathList, position.get(), numTries, elapsedMillis);
+            if (ui_ != null) {
+                List<M> pathList = scala.collection.JavaConversions.seqAsJavaList(path.get());
+                ui_.finalRefresh(pathList, position.get(), numTries, elapsedMillis);
+            }
         }
     }
 

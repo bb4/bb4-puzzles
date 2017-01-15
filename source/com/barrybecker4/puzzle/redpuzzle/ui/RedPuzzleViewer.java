@@ -19,8 +19,8 @@ import java.util.List;
  */
 final class RedPuzzleViewer extends PuzzleViewer<PieceList, Piece> {
 
-    public static final int MAX_ANIM_SPEED = 100;
-    public static final int INITIAL_ANIM_SPEED = 20;
+    static final int MAX_ANIM_SPEED = 100;
+    static final int INITIAL_ANIM_SPEED = 20;
     /** slows down the animation.  */
     private int animationSpeed_ = INITIAL_ANIM_SPEED;
 
@@ -38,7 +38,7 @@ final class RedPuzzleViewer extends PuzzleViewer<PieceList, Piece> {
     /**
      * @param speed higher the faster up to MAX_ANIM_SPEED.
      */
-    public void setAnimationSpeed(int speed) {
+    void setAnimationSpeed(int speed) {
         assert (speed > 0 && speed <= MAX_ANIM_SPEED);
         animationSpeed_ = speed;
     }

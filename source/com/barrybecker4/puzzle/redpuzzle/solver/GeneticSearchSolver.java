@@ -25,7 +25,6 @@ import static com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS;
 public class GeneticSearchSolver extends RedPuzzleSolver
                                  implements Optimizee, OptimizationListener {
 
-
     /** either genetic or concurrent genetic strategy. */
     private OptimizationStrategyType strategy;
 
@@ -57,6 +56,8 @@ public class GeneticSearchSolver extends RedPuzzleSolver
             optimizer.doOptimization(strategy, initialGuess, MAX_FITS);
 
         solution_ = ((PieceParameterArray)solution).getPieceList();
+        System.out.println("Solution = " + solution_);
+
         Option<Seq<Piece>> moves = Option.empty();
         if (evaluateFitness(solution) >= MAX_FITS) {
             moves = Option.apply(JavaConversions.asScalaBuffer(solution_.getPieces()).toSeq());
