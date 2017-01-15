@@ -21,7 +21,7 @@ public abstract class AbstractFitter {
     /**
      * Used to check the consistency of all the paths.
      */
-    public AbstractFitter(PathColor primaryColor) {
+    AbstractFitter(PathColor primaryColor) {
         this.primaryColor = primaryColor;
     }
 

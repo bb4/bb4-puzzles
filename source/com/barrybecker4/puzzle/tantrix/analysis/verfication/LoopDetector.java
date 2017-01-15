@@ -14,7 +14,7 @@ import static com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES;
  */
 public class LoopDetector {
 
-    TantrixBoard board;
+    private TantrixBoard board;
 
     /**
      * Constructor.

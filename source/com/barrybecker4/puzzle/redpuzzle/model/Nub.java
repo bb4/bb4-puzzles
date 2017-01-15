@@ -44,7 +44,7 @@ public class Nub {
     /**
      * @return the suit shape of the nub.
      */
-    public Suit getSuit() {
+    Suit getSuit() {
         return suit_;
     }
 
@@ -60,7 +60,7 @@ public class Nub {
      * @param nub other nub to try and fit with.
      * @return true if the nubs fit together.
      */
-    public boolean fitsWith(Nub nub) {
+    boolean fitsWith(Nub nub) {
         boolean suitMatch = this.getSuit() == nub.getSuit();
         boolean nubMatch =  this.isOuty() != nub.isOuty();
         return suitMatch && nubMatch;

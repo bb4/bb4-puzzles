@@ -23,7 +23,7 @@ import static com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES;
  */
 public class InnerSpaceDetector {
 
-    Tantrix tantrix;
+    private Tantrix tantrix;
 
     /**
      * Constructor.

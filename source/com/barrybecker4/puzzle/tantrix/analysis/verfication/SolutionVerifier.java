@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
  */
 public class SolutionVerifier {
 
-    TantrixBoard board;
+    private TantrixBoard board;
 
     /**
      * Constructor.
