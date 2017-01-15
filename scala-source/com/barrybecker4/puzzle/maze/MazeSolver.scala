@@ -10,6 +10,7 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel
 
 /**
   * Solves a maze using depth first search.
+  * Its non-recursive to avoid stack overflow.
   *
   * @author Barry Becker
   */
@@ -51,6 +52,7 @@ class MazeSolver(var panel: MazePanel) {
     var dir: Location = null
     var depth: Int = 0
     var solved: Boolean = false
+
     // while there are still paths to try and we have not yet encountered the finish
     while (!stack.isEmpty && !solved && !interrupted) {
       val state: GenState = stack.pop()
@@ -64,10 +66,10 @@ class MazeSolver(var panel: MazePanel) {
       if (depth > currentCell.depth) {
         currentCell.depth = depth
       }
+      currentCell = maze.getCell (currentPosition)
+      val nextPosition: Location = currentCell.getNextPosition (currentPosition, dir)
+      search(solutionPath, currentCell, dir, depth, nextPosition)
     }
-    currentCell = maze.getCell (currentPosition)
-    val nextPosition: Location = currentCell.getNextPosition (currentPosition, dir)
-    search(solutionPath, currentCell, dir, depth, nextPosition)
   }
 
   /** @return path to the solution */
