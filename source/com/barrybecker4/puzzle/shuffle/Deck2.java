@@ -4,8 +4,13 @@ import com.barrybecker4.common.math.MathUtil;
 
 /**
  * Analytic solution to the card shuffling problem.
+ * Web references:
+ *  http://www.math.ucsd.edu/~ronspubs/83_05_shuffles.pdf
+ *  http://www.oreillynet.com/pub/wlg/5094 (Scott's original link, now broken)
+ *  https://www.math.hmc.edu/funfacts/ffiles/20001.1-6.shtml
+ *  https://coderanch.com/t/35113/Card-Shuffle
  *
- * @author Scott Sauyet (from http://www.oreillynet.com/pub/wlg/5094)
+ * @author Scott Sauyet
  */
 public class Deck2 implements Deck {
 

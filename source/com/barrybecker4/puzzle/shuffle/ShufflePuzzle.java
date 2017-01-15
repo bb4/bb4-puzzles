@@ -10,6 +10,8 @@ package com.barrybecker4.puzzle.shuffle;
  *
  *    static long shuffleUntilSorted(int nCards, int iCut);
  *
+ * Find the result for shuffles(402, 101)
+ * Find the result for shuffles(802, 101)
  * Find the result for shuffles(1002, 101)
  *
  * @author Barry Becker Date: Jan 3, 2006
@@ -30,14 +32,14 @@ public class ShufflePuzzle {
 
 
     public static void main(String[] args) {
-        int nCards = 402;
+        int nCards = 802;  // 402, 802, 1002
         int iCut = 101;
 
         ShufflePuzzle puzzle = new ShufflePuzzle();
 
         // Copare the two types of algorithm
-        puzzle.shuffleUntilSorted(new Deck1(nCards), iCut);
-        puzzle.shuffleUntilSorted(new Deck2(nCards), iCut);
+        puzzle.shuffleUntilSorted(new Deck2(nCards), iCut); // analytic
+        puzzle.shuffleUntilSorted(new Deck1(nCards), iCut); // brute force
     }
 }
 
