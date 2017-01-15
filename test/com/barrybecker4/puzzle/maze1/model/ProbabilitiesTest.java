@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class ProbabilitiesTest {
 
     /** instance under test */
-    Probabilities probs;
+    private Probabilities probs;
 
     @Before
     public void setUp() {

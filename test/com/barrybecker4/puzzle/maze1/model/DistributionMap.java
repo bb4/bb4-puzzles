@@ -27,7 +27,7 @@ public class DistributionMap extends HashMap<Direction, List<Integer>> {
         increment(directions.get(2), 2);
     }
 
-    void increment(Direction dir, int position) {
+    private void increment(Direction dir, int position) {
         get(dir).set(position, get(dir).get(position) + 1);
     }
 }
