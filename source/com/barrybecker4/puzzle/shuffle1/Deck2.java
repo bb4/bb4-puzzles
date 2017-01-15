@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.shuffle;
+package com.barrybecker4.puzzle.shuffle1;
 
 import com.barrybecker4.common.math.MathUtil;
 

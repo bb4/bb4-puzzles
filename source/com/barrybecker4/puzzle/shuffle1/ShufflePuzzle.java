@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.shuffle;
+package com.barrybecker4.puzzle.shuffle1;
 
 /**
  * Given a deck of nCards unique cards, cut the deck iCut cards from top and perform a perfect shuffleUntilSorted.
