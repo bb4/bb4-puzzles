@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.redpuzzle.solver;
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
 
 /**
- * Calculates the number of matching nubs and uses that as a fitness value.
+ * Calculates the number of matching nubs and uses MAX_FITS minus that as a fitness value.
  *
  * @author Barry Becker
  */
@@ -32,7 +32,7 @@ class FitnessFinder  {
      * @return fitness value. High is good.
      */
     double calculateFitness(PieceList pieces) {
-        return getNumFits(pieces);
+        return MAX_FITS - getNumFits(pieces);
     }
 
     /**
@@ -40,7 +40,7 @@ class FitnessFinder  {
      */
     private double getNumFits(PieceList pieces) {
         double totalFits = 0;
-        for (int i=0; i < pieces.size(); i++) {
+        for (int i = 0; i < pieces.size(); i++) {
             double nFits = pieces.getNumFits(i);
             totalFits += nFits;
             // give a boost if a give piece has 3 or 4 fits.
@@ -52,7 +52,7 @@ class FitnessFinder  {
             }
         }
         assert(totalFits <= MAX_FITS) :
-                "fits exceeded " + MAX_FITS +". Fits="+totalFits +" pieces="+pieces;
+                "fits exceeded " + MAX_FITS + ". Fits=" + totalFits + " pieces=" + pieces;
         return totalFits;
     }
 }

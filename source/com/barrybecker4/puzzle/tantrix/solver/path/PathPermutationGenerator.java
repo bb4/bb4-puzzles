@@ -23,7 +23,7 @@ import java.util.Set;
  *
  * @author Barry Becker
  */
-public class PathPermutationGenerator  {
+class PathPermutationGenerator  {
 
     private TantrixPath path;
     private static Set<TantrixPath> cache = new HashSet<>();
@@ -32,7 +32,7 @@ public class PathPermutationGenerator  {
      * Constructor
      * @param path to permute
      */
-    public PathPermutationGenerator(TantrixPath path) {
+    PathPermutationGenerator(TantrixPath path) {
         this.path = path;
     }
 
@@ -50,7 +50,7 @@ public class PathPermutationGenerator  {
      *   more than one spot.
      * @return the random nbr (potential solution).
      */
-    public PermutedParameterArray getRandomNeighbor(double radius) {
+    PermutedParameterArray getRandomNeighbor(double radius) {
 
         List<TantrixPath> pathPermutations = findPermutedPaths(radius);
 
@@ -60,13 +60,13 @@ public class PathPermutationGenerator  {
     }
 
     /**
-     * try the seven cases and take the one that works best
+     * Try the seven permutation case, and take the one that works best.
      * @param radius the larger the radius the wider the variance of the random paths returned.
      * @return 7 permuted path cases.
      */
     private List<TantrixPath> findPermutedPaths(double radius) {
 
-        List<TantrixPath> permutedPaths = new ArrayList<TantrixPath>();
+        List<TantrixPath> permutedPaths = new ArrayList<>();
         PathPivotPermuter permuter = new PathPivotPermuter(path);
         TilePlacementList tiles = path.getTilePlacements();
         int numTiles = path.size();
@@ -102,10 +102,10 @@ public class PathPermutationGenerator  {
 
             List<TantrixPath> paths;
             do {
-                int pivotIndex1 = 1 + MathUtil.RANDOM.nextInt(tiles.size()-2);
-                int pivotIndex2 = 1 + MathUtil.RANDOM.nextInt(tiles.size()-2);
+                int pivotIndex1 = 1 + MathUtil.RANDOM.nextInt(tiles.size() - 2);
+                int pivotIndex2 = 1 + MathUtil.RANDOM.nextInt(tiles.size() - 2);
                 paths = permuter.findPermutedPaths(pivotIndex1, pivotIndex2);
-                System.out.println("paths unexpectedly empty! when p1="+pivotIndex1 + " p2="+ pivotIndex2);
+                System.out.println("paths unexpectedly empty! when p1=" + pivotIndex1 + " p2=" + pivotIndex2);
             } while (paths.isEmpty());
             return paths;
         }

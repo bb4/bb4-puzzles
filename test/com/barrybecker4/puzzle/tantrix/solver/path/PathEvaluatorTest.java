@@ -21,48 +21,48 @@ public class PathEvaluatorTest {
 
     @Test
     public void testEvaluateLoopPathWith3Tiles() {
-        verifyFitness(place3SolvedTiles(), 4.257);
+        verifyFitness(place3SolvedTiles(), 0);
     }
 
     @Test
     public void testEvaluateNonLoopPathWith2Tiles_1_2() {
-        verifyFitness(place2of3Tiles_OneThenTwo(), 1.2857);
+        verifyFitness(place2of3Tiles_OneThenTwo(), 1.8142857142857145);
     }
 
     @Test
     public void testEvaluateNonLoopPathWith2Tiles_1_3() {
-        verifyFitness(place2of3Tiles_OneThenThree(), 1.2857);
+        verifyFitness(place2of3Tiles_OneThenThree(), 1.8142857142857145);
     }
 
     /** high score because all paths (even secondary) match  */
     @Test
     public void testEvaluateNonLoopPathWith3Tiles() {
-        verifyFitness(place3UnsolvedTiles(), 1.26025);
+        verifyFitness(place3UnsolvedTiles(), 1.8397849462365594);
     }
 
     @Test
     public void testEvaluateNonLoopPathWith1Tile() {
-        verifyFitness(place1of3Tiles_startingWithTile2(), 0.0);
+        verifyFitness(place1of3Tiles_startingWithTile2(), 3.1);
     }
 
     @Test
     public void testEvaluate4UnsolvedTiles() {
-        verifyFitness(place4UnsolvedTiles(), 1.19634);
+        verifyFitness(place4UnsolvedTiles(), 1.9036585365853658);
     }
 
     @Test
     public void testEvaluate4SolvedTiles() {
-        verifyFitness(place4SolvedTiles(), 4.2927);
+        verifyFitness(place4SolvedTiles(), 0);
     }
 
     @Test
     public void testEvaluate10LoopWithInnerSpace() {
-        verifyFitness(place10LoopWithInnerSpace(), 2.277, PathColor.RED);
+        verifyFitness(place10LoopWithInnerSpace(), 0.8229702970297034, PathColor.RED);
     }
 
     @Test
     public void testEvaluate9AlmostLoop() {
-        verifyFitness(place9AlmostLoop(), 1.303938, PathColor.RED);
+        verifyFitness(place9AlmostLoop(), 1.7960622005113114, PathColor.RED);
     }
 
     @Test(expected = IllegalStateException.class)

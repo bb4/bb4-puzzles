@@ -23,7 +23,7 @@ public class FitnessFinderTest {
         PieceList pieceList = new PieceList(PieceLists.getInitialPuzzlePieces());
 
         assertEquals("Unexpected number of fits.",
-                2.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                23.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class FitnessFinderTest {
         });
 
         assertEquals("Unexpected number of fits.",
-                2.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                23.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
     @Test
@@ -51,14 +51,14 @@ public class FitnessFinderTest {
         });
 
         assertEquals("Unexpected number of fits.",
-                8.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                17.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
     @Test
     public void test9PieceSomeFits() {
         PieceList pieceList = PieceLists.getInitialPuzzlePieces();
         assertEquals("Unexpected number of fits.",
-                2.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                23.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
     /** should get exactly 1 3 fit bonus */
@@ -77,7 +77,7 @@ public class FitnessFinderTest {
         });
 
         assertEquals("Unexpected number of fits.",
-                10.1, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                14.9, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class FitnessFinderTest {
         });
 
         assertEquals("Unexpected number of fits.",
-                25.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
+                0.0, fitnessFinder.calculateFitness(pieceList), 0.0001);
     }
 
 }

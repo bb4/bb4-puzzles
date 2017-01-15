@@ -30,6 +30,8 @@ public class GeneticSearchSolver extends RedPuzzleSolver
 
     private FitnessFinder fitnessFinder;
 
+    private double currentBestFitness = MAX_FITS;
+
     /** Constructor */
     GeneticSearchSolver(PuzzleController<PieceList, Piece> puzzle,
                                boolean useConcurrency) {
@@ -76,7 +78,7 @@ public class GeneticSearchSolver extends RedPuzzleSolver
      * terminate the solver if we find a solution with this fitness.
      */
     public double getOptimalFitness() {
-        return MAX_FITS;
+        return 0;
     }
 
     public boolean evaluateByComparison() {
@@ -84,15 +86,17 @@ public class GeneticSearchSolver extends RedPuzzleSolver
     }
 
     /**
-     * Return a high score if there are a lot of fits among the pieces.
-     * For every nub that fits we count 1
+     * Return a low score if there are a lot of fits among the pieces.
      *
      * @param params  parameters
-     * @return fitness value. High is good.
+     * @return fitness value. Low is good.
      */
     public double evaluateFitness(ParameterArray params) {
         PieceList pieces = ((PieceParameterArray) params).getPieceList();
         double fitness = fitnessFinder.calculateFitness(pieces);
+        if (fitness < currentBestFitness) {
+            currentBestFitness = fitness;
+        }
         params.setFitness(fitness);
         return fitness;
     }
@@ -112,5 +116,6 @@ public class GeneticSearchSolver extends RedPuzzleSolver
         solution_ = ((PieceParameterArray) params).getPieceList();
         numTries_ ++;
         puzzle.refresh(solution_, numTries_);
+        System.out.println("current best = " + currentBestFitness);
     }
 }

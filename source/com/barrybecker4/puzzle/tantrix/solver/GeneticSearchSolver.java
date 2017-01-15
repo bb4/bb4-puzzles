@@ -30,6 +30,7 @@ public class GeneticSearchSolver extends TantrixSolver
 
     private PathEvaluator evaluator;
     private PuzzleController<TantrixBoard, TilePlacement> controller;
+    private double currentBestFitness = SOLVED_THRESH;
 
 
     /** Constructor */
@@ -81,7 +82,7 @@ public class GeneticSearchSolver extends TantrixSolver
      * terminate the solver if we find a solution with this fitness.
      */
     public double getOptimalFitness() {
-        return SOLVED_THRESH;
+        return 0 /* SOLVED_THRESH*/;
     }
 
     public boolean evaluateByComparison() {
@@ -98,6 +99,9 @@ public class GeneticSearchSolver extends TantrixSolver
 
         double fitness = evaluator.evaluateFitness((TantrixPath) params);
         params.setFitness(fitness);
+        if (fitness < currentBestFitness) {
+            currentBestFitness = fitness;
+        }
         return fitness;
     }
 
@@ -116,5 +120,6 @@ public class GeneticSearchSolver extends TantrixSolver
         TantrixPath path = (TantrixPath)params;
         solution_ = new TantrixBoard(path.getTilePlacements(), path.getPrimaryPathColor());
         controller.refresh(solution_, numTries_++);
+        System.out.println("current best fitness = " + currentBestFitness);
     }
 }

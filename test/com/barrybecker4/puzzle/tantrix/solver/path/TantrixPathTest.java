@@ -129,11 +129,10 @@ public class TantrixPathTest {
         TantrixPath path = new TantrixPath(board.getTantrix(), board.getPrimaryColor());
         TantrixPath nbr = (TantrixPath) path.getRandomNeighbor(0.5);
 
-        TilePlacementList tiles =
-                new TilePlacementList(
-                        new TilePlacement(TILES.getTile(2), new ByteLocation(22, 20), Rotation.ANGLE_300),
-                        new TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), Rotation.ANGLE_0),
-                        new TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), Rotation.ANGLE_240));
+        TilePlacementList tiles = new TilePlacementList(
+            new TilePlacement(TILES.getTile(2), new ByteLocation(22, 20), Rotation.ANGLE_300),
+            new TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), Rotation.ANGLE_0),
+            new TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), Rotation.ANGLE_240));
         TantrixPath expectedPath = new TantrixPath(tiles, PathColor.YELLOW);
 
         assertEquals("Unexpected random neighbor.", expectedPath, nbr);

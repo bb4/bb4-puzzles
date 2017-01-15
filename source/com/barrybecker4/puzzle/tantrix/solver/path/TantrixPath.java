@@ -141,7 +141,7 @@ public class TantrixPath extends PermutedParameterArray {
      * The main criteria for quality of the path is
      *  1) How close the ends of the path are to each other. Perfection achieved when we have a closed loop.
      *  2) Better if more matching secondary path colors
-     *  3) Fewer inner spaces and a bbox with less area.
+     *  3) Fewer inner spaces and a bounding box with less area.
      *
      * @param radius proportional to the amount of variation. This might be a little difficult for tantrix.
      *   If the radius is small, or there is a closed loop, consider swapping pieces who's

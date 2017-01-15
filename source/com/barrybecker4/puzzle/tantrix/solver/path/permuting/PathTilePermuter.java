@@ -19,12 +19,12 @@ import java.util.Set;
  *
  * @author Barry Becker
  */
-public class PathTilePermuter {
+class PathTilePermuter {
 
     private TantrixPath originalPath;
     private PathColor color;
 
-    public PathTilePermuter(TantrixPath path) {
+    PathTilePermuter(TantrixPath path) {
         this.originalPath = path;
         this.color = path.getPrimaryPathColor();
     }
@@ -35,7 +35,7 @@ public class PathTilePermuter {
      * @param newIndices new positions to place the tiles at.
      * @return the new rearranged path.
      */
-    public TantrixPath permute(List<Integer> oldIndices, List<Integer> newIndices) {
+    TantrixPath permute(List<Integer> oldIndices, List<Integer> newIndices) {
 
         TantrixPath permutedPath = originalPath.copy();
         TilePlacementList auxList = new TilePlacementList();

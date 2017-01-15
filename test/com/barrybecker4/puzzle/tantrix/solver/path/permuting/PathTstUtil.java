@@ -68,7 +68,7 @@ public class PathTstUtil {
         HexTile tile2 = TILES.getTile(2);
         HexTile tile3 = TILES.getTile(3);
 
-        List<TantrixPath> pathList =  Arrays.asList(
+        return Arrays.asList(
                 createPath(new TilePlacement(tile2, lowerLeft, Rotation.ANGLE_0), pivot,
                         new TilePlacement(tile3, lowerRight, Rotation.ANGLE_240)),
                 createPath(new TilePlacement(tile2, lowerLeft, Rotation.ANGLE_300), pivot,
@@ -84,10 +84,9 @@ public class PathTstUtil {
                 createPath(new TilePlacement(tile3, lowerLeft, Rotation.ANGLE_180), pivot,
                         new TilePlacement(tile2, lowerRight, Rotation.ANGLE_0))
         );
-        return pathList;
     }
 
-    public static TantrixPath createPath(TilePlacement... placements) {
+    static TantrixPath createPath(TilePlacement... placements) {
         return  new TantrixPath(new TilePlacementList(placements), PathColor.YELLOW);
     }
 

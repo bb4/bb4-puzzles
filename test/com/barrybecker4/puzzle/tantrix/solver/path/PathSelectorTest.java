@@ -34,7 +34,7 @@ public class PathSelectorTest {
     @Test
     public void testIntegrationSelect() {
         selector = new PathSelector();
-        // two is always returned because thta is a perfect path
+        // two is always returned because that is a perfect path
         verifySelectedPathIndices(2, 2, 2, 2, 2);
     }
 
@@ -61,7 +61,7 @@ public class PathSelectorTest {
 
         List<TantrixPath> paths = PathTstUtil.createPathList();
 
-        for (int i=0; i<indices.length; i++) {
+        for (int i=0; i < indices.length; i++) {
            assertEquals("Unexpected path index " + i + ".",
                    indices[i], paths.indexOf(selector.selectPath(paths)));
         }

@@ -73,7 +73,7 @@ public class PathPivotPermuter extends PermutedParameterArray {
     }
 
     /**
-     * try the seven cases and take any that are valid.
+     * Try the seven cases and take any that are valid.
      * @return no more than 7 permuted path cases.
      */
     public List<TantrixPath> findPermutedPaths(int pivotIndex1, int pivotIndex2) {
@@ -128,8 +128,8 @@ public class PathPivotPermuter extends PermutedParameterArray {
 
     /**
      * Combine supPath1 and subPath2 to make a new path. SubPath1 needs to be reversed when adding.
-     * @param subPath1
-     * @param subPath2
+     * @param subPath1 first path
+     * @param subPath2 second path
      * @return null if the resulting permuted path is not valid (i.e. has overlaps)
      */
     private TantrixPath createPermutedPath(TantrixPath subPath1, TantrixPath subPath2) {
@@ -154,7 +154,7 @@ public class PathPivotPermuter extends PermutedParameterArray {
     }
 
     /**
-     * @param tiles
+     * @param tiles tiles to check
      * @return true if no overlapping tiles.
      */
     private boolean isValid(TilePlacementList tiles) {

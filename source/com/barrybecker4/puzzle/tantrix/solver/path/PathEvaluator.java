@@ -71,18 +71,18 @@ public class PathEvaluator {
         }
         assert numFits <= numTiles;
 
-        double fitness =
-                LOOP_PROXIMITY_WEIGHT * (numTiles - distance) / (0.1 + numTiles)
-                + (isLoop ? LOOP_WEIGHT : 0)
-                + (double)numFits / numTiles * PATH_MATCH_WEIGHT
-                + compactness * COMPACTNESS
-                + (consistentLoop ? CONSISTENT_LOOP_BONUS : 0)
-                + (perfectLoop ? PERFECT_LOOP_BONUS : 0);
+        double fitness = SOLVED_THRESH
+                - LOOP_PROXIMITY_WEIGHT * (numTiles - distance) / (0.1 + numTiles)
+                - (isLoop ? LOOP_WEIGHT : 0)
+                - (double)numFits / numTiles * PATH_MATCH_WEIGHT
+                - compactness * COMPACTNESS
+                - (consistentLoop ? CONSISTENT_LOOP_BONUS : 0)
+                - (perfectLoop ? PERFECT_LOOP_BONUS : 0);
 
         assert !Double.isNaN(fitness) :
                 "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop
                 + " numTiles=" + numTiles + " distance=" + distance;
-        return fitness;
+        return Math.max(0, fitness);
     }
 
     /**
