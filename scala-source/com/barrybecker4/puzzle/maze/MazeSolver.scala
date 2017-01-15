@@ -84,7 +84,7 @@ class MazeSolver(var panel: MazePanel) {
       advanceToNextCell(currentCell, dir, depth, nextPosition, nextCell)
     }
     else {
-      path = backTrack(solutionPath)
+      path = backTrack(path)
     }
     path
   }
@@ -126,11 +126,12 @@ class MazeSolver(var panel: MazePanel) {
     var path = solutionPath
     var pos: Location = null
     do {
-      pos = solutionPath.head
-      path = solutionPath.tail
-      val cell: MazeCell = maze.getCell (pos)
-      cell.clearPath ()
+      pos = path.head
+      path = path.tail
+      val cell: MazeCell = maze.getCell(pos)
+      cell.clearPath()
     } while (!pos.eq(lastState.position))
+    println("path len after bactracking: " + path.length)
     path
   }
 }

@@ -9,51 +9,41 @@ import com.barrybecker4.common.math.MathUtil
   */
 case class Probabilities(fwdProbability: Double, leftProbability: Double, rightProbability: Double) {
   val total: Double = fwdProbability + leftProbability + rightProbability
-  private var forwardProb = fwdProbability / total
-  private var leftProb = leftProbability / total
-  private var rightProb = rightProbability / total
+  private val forwardProb = fwdProbability / total
+  private val leftProb = leftProbability / total
+  private val rightProb = rightProbability / total
 
   /**
     * @return a shuffled list of directions
     * they are ordered given the potentially skewed probabilities at the top.
     */
-  private[model] def getShuffledDirections = {
-    scala.util.Random.shuffle(Direction.VALUES)
-    /* This was all wrong
+  def getShuffledDirections: List[Direction] = {
+    //scala.util.Random.shuffle(Direction.VALUES)
+
     val rnd = MathUtil.RANDOM.nextDouble
     var directions: List[Direction] = List()
-    var originalDirections = Direction.VALUES
-    val sum = forwardProb + leftProb + rightProb
-    forwardProb /= sum
-    leftProb /= sum
+
     if (rnd < forwardProb) {
-      directions :+= originalDirections.head
-      originalDirections = originalDirections.tail
-      directions :+= getSecondDir(originalDirections, leftProb / (leftProb + rightProb))
+      directions = FORWARD +: getNextTwoDirs(List(LEFT, RIGHT), leftProb / (leftProb + rightProb))
     }
     else if (rnd >= forwardProb && rnd < (forwardProb + leftProbability)) {
-      directions :+= originalDirections(1)
-      originalDirections = originalDirections.drop(1)
-      directions :+= getSecondDir(originalDirections, forwardProb / (forwardProb + rightProb))
+      directions = LEFT +: getNextTwoDirs(List(FORWARD, RIGHT), forwardProb / (forwardProb + rightProb))
     }
     else {
-      directions :+= originalDirections(2)
-      originalDirections = originalDirections.dropRight(1)
-      directions :+= getSecondDir(originalDirections, forwardProb / (forwardProb + leftProb))
+      directions = RIGHT +: getNextTwoDirs(List(FORWARD, LEFT), forwardProb / (forwardProb + leftProb))
     }
-    // the third direction is whatever remains
-    directions :+= originalDirections.head
-    originalDirections = originalDirections.tail
-    directions*/
+    println("rnd dirs = " + directions)
+    directions
   }
 
   /**
     * Determine the second direction in the list given a probability
-    *
+    * @param prob probability of taking the first of the two directions as the next element
     * @return the second direction.
     */
-  private def getSecondDir(twoDirections: Seq[Direction], p1: Double): Direction = {
+  private def getNextTwoDirs(twoDirections: Seq[Direction], prob: Double): List[Direction] = {
     val rnd = MathUtil.RANDOM.nextDouble
-    if (rnd < p1) twoDirections.tail.head else twoDirections.head
+    if (rnd < prob) List(twoDirections.tail.head, twoDirections.head)
+    else List(twoDirections.head, twoDirections.tail.head)
   }
 }
