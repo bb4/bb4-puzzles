@@ -15,7 +15,7 @@ class MazeCell() {
   // when these are true, we render walls
   var eastWall = false
   var southWall = false
-  // the 4 possible paths (e, w, n, s)
+  // the 4 possible exiting paths are: e, w, n, s
   // Show 0 or 2 of them at any given time in a cell when solving the maze
   var eastPath = false
   var westPath = false

@@ -116,7 +116,7 @@ class MazeRenderer() {
   private def drawStartFinish(g2: Graphics2D, maze: MazeModel) {
     g2.setFont(textFont)
     g2.setColor(MazeRenderer.TEXT_COLOR)
-    MazeRenderer.drawChar("S", maze.getStartPosition, cellSize, g2)
-    MazeRenderer.drawChar("F", maze.getStopPosition, cellSize, g2)
+    MazeRenderer.drawChar("S", maze.startPosition, cellSize, g2)
+    MazeRenderer.drawChar("F", maze.stopPosition, cellSize, g2)
   }
 }

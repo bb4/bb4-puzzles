@@ -7,19 +7,13 @@ import scala.collection.mutable
 
 /**
   * Stack of GenStates to try during the search.
-  *
+  * @param probabilities the probabilities of moving each direction.
   * @author Barry Becker
   */
-class StateStack {
+class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)) {
 
+  // Push and pop from the beginning of the list
   private var stack: List[GenState] = List()
-  private var probabilities = Probabilities(1.0, 1.0, 1.0)
-
-  /** @param probs the probabilities of moving each direction. */
-  def this(probs: Probabilities) {
-    this()
-    probabilities = probs
-  }
 
   // +:= to prepend, :+= to append
   def push(state: GenState): Unit = stack +:= state

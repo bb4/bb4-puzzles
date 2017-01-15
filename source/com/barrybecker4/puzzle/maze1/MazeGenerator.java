@@ -79,7 +79,7 @@ public class MazeGenerator {
     }
 
     /** Stop current work and clear the search stack of states. */
-    public void interrupt() {
+    void interrupt() {
         interrupted = true;
         if (stack != null) {
             stack.clear();

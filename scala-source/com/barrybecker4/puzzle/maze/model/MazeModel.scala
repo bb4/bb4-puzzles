@@ -13,8 +13,8 @@ class MazeModel(var width: Int, var height: Int) {
 
   /** The grid of cells that make up the maze paths in x,y (col, row) order. */
   private var grid: Array[Array[MazeCell]] = _
-  private val startPosition: Location = new IntLocation(2, 2)
-  private var stopPosition: Location = _
+  val startPosition: Location = new IntLocation(2, 2)
+  var stopPosition: Location = _
 
   def setDimensions(width: Int, height: Int) {
     this.width = width
@@ -34,14 +34,11 @@ class MazeModel(var width: Int, var height: Int) {
     grid
   }
 
-  def getStartPosition: Location = startPosition
-  def setStopPosition(stopPos: Location) { stopPosition = stopPos }
-  def getStopPosition: Location = stopPosition
   def getCell(p: Location): MazeCell = getCell(p.getX, p.getY)
 
   def getCell(x: Int, y: Int): MazeCell = {
-    assert(x < width)
-    assert(y < height)
+    assert(x < width, "Tried to get x = " + x + " when width = " + width)
+    assert(y < height, "Tried to get y = " + y + " when height = " + height)
     grid(x)(y)
   }
 

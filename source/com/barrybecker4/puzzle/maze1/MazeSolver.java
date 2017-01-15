@@ -71,7 +71,7 @@ public class MazeSolver {
         MazeCell currentCell = maze.getCell(currentPosition);
 
         // push the initial moves
-        stack.pushMoves( currentPosition, new IntLocation(0, 1), 1);
+        stack.pushMoves( currentPosition, new IntLocation(0, 1), 0);
         panel_.paintAll();
 
         Location dir;

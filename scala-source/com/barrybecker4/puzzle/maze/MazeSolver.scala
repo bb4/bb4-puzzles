@@ -33,20 +33,20 @@ class MazeSolver(var panel: MazePanel) {
   def solve () {
     isWorking = true
     interrupted = false
-    maze.unvisitAll ()
-    stack.clear ()
-    findSolution ()
-    panel.paintAll ()
+    maze.unvisitAll()
+    stack.clear()
+    findSolution()
+    panel.paintAll()
     isWorking = false
   }
 
   /** Keep track of the current path, since backtracking along it may be necessary if we encounter a dead end. */
   private def findSolution() {
     var solutionPath: List[Location] = List()
-    var currentPosition: Location = maze.getStartPosition
+    var currentPosition: Location = maze.startPosition
     var currentCell: MazeCell = maze.getCell(currentPosition)
     // push the initial moves
-    stack.pushMoves(currentPosition, new IntLocation (0, 1), 1)
+    stack.pushMoves(currentPosition, new IntLocation (0, 1), 0)
     panel.paintAll()
     var dir: Location = null
     var depth: Int = 0
@@ -56,7 +56,7 @@ class MazeSolver(var panel: MazePanel) {
       val state: GenState = stack.pop()
       currentPosition = state.position
       solutionPath +:= currentPosition
-      if (currentPosition == maze.getStopPosition) {
+      if (currentPosition == maze.stopPosition) {
         solved = true
       }
       dir = state.getRelativeMovement
@@ -84,7 +84,7 @@ class MazeSolver(var panel: MazePanel) {
       advanceToNextCell(currentCell, dir, depth, nextPosition, nextCell)
     }
     else {
-      path = backTrack (solutionPath)
+      path = backTrack(solutionPath)
     }
     path
   }
@@ -121,6 +121,7 @@ class MazeSolver(var panel: MazePanel) {
     * @param solutionPath list of locations leading ot the solution.
     */
   private def backTrack(solutionPath: List[Location]): List[Location] = {
+    println("s stack empty = " + stack.isEmpty)
     val lastState: GenState = stack.peek()
     var path = solutionPath
     var pos: Location = null
@@ -129,7 +130,7 @@ class MazeSolver(var panel: MazePanel) {
       path = solutionPath.tail
       val cell: MazeCell = maze.getCell (pos)
       cell.clearPath ()
-    } while (pos ne lastState.position)
+    } while (!pos.eq(lastState.position))
     path
   }
 }
