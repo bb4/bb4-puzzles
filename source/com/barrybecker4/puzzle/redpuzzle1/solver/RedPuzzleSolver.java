@@ -21,13 +21,13 @@ public abstract class RedPuzzleSolver
                 implements PuzzleSolver<Piece> {
 
     /** the unsorted pieces that we draw from and place in the solvedPieces list. */
-    protected PieceList pieces_;
+    PieceList pieces_;
 
     /** the pieces we have correctly fitted so far. */
-    protected PieceList solution_;
+    PieceList solution_;
 
     /** some measure of the number of iterations the solver needs to solve the puzzle. */
-    protected int numTries_ = 0;
+    int numTries_ = 0;
 
     PuzzleController<PieceList, Piece> puzzle;
 
