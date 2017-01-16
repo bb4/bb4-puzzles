@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2014. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.solver;
+package com.barrybecker4.puzzle.redpuzzle1.solver;
 
 import com.barrybecker4.optimization.OptimizationListener;
 import com.barrybecker4.optimization.Optimizer;
@@ -7,14 +7,14 @@ import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.redpuzzle.model.Piece;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray;
+import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceParameterArray;
 import scala.Option;
 import scala.collection.JavaConversions;
 import scala.collection.Seq;
 
-import static com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS;
+import static com.barrybecker4.puzzle.redpuzzle1.solver.FitnessFinder.MAX_FITS;
 
 /**
  * Solve the red puzzle using a genetic search algorithm.

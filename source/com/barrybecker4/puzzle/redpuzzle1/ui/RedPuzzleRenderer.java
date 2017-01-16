@@ -1,11 +1,11 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.ui;
+package com.barrybecker4.puzzle.redpuzzle1.ui;
 
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.puzzle.common.PuzzleRenderer;
-import com.barrybecker4.puzzle.redpuzzle.model.Nub;
-import com.barrybecker4.puzzle.redpuzzle.model.Piece;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.Nub;
+import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import java.awt.Color;

@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.model;
+package com.barrybecker4.puzzle.redpuzzle1.model;
 
 /**
  * Its that little thing on the edge of a piece that allows it to connect to another.
@@ -78,7 +78,7 @@ public class Nub {
     /**
      * Determines the shape of the nub.
      */
-    public static enum Suit {
+    private enum Suit {
 
         SPADE('S'),
         CLUB('C'),

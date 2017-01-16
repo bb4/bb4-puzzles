@@ -1,9 +1,9 @@
-package com.barrybecker4.puzzle.redpuzzle.solver;
+package com.barrybecker4.puzzle.redpuzzle1.solver;
 
-import com.barrybecker4.puzzle.redpuzzle.model.Nub;
-import com.barrybecker4.puzzle.redpuzzle.model.Piece;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
+import com.barrybecker4.puzzle.redpuzzle1.model.Nub;
+import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceLists;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

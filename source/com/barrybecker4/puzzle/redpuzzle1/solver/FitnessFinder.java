@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.solver;
+package com.barrybecker4.puzzle.redpuzzle1.solver;
 
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 
 /**
  * Calculates the number of matching nubs and uses MAX_FITS minus that as a fitness value.

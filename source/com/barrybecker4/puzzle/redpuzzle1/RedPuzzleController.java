@@ -1,19 +1,19 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle;
+package com.barrybecker4.puzzle.redpuzzle1;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.redpuzzle.model.Piece;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceLists;
-import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm;
+import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceLists;
+import com.barrybecker4.puzzle.redpuzzle1.solver.Algorithm;
 import scala.collection.JavaConversions;
 import scala.collection.Seq;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES;
+import static com.barrybecker4.puzzle.redpuzzle1.model.PieceList.DEFAULT_NUM_PIECES;
 
 /**
  * The controller allows the solver to do its thing by providing the PuzzleController api.

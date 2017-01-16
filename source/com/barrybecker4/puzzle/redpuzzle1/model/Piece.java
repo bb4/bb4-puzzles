@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.model;
+package com.barrybecker4.puzzle.redpuzzle1.model;
 
 /**
  * One of the 9 board pieces in the Red Puzzle.

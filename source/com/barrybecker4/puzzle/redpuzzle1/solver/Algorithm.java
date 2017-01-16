@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.redpuzzle.solver;
+package com.barrybecker4.puzzle.redpuzzle1.solver;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
@@ -9,8 +9,8 @@ import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
-import com.barrybecker4.puzzle.redpuzzle.model.Piece;
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList;
+import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
+import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 
 /**
  * Enum for type of solver to employ when solving the puzzle.

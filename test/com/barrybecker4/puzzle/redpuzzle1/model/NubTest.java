@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.redpuzzle.model;
+package com.barrybecker4.puzzle.redpuzzle1.model;
 
 import org.junit.Test;
 
