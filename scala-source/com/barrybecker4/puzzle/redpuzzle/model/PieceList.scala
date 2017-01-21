@@ -104,7 +104,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     */
   def remove(index: Int): PieceList = {
     val newPieceList = new PieceList(this)
-    newPieceList.pieces = newPieceList.pieces.drop(index)
+    newPieceList.pieces = newPieceList.pieces.take(index) ++ newPieceList.pieces.drop(index + 1)
     newPieceList
   }
 

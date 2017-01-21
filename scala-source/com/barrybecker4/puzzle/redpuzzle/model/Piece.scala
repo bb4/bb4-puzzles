@@ -47,7 +47,7 @@ case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub,
   /** This rotates the piece the specified number of 90 degree increments. */
   def rotate(num: Int): Piece = {
     val newOrientation: Direction = Direction.DIRECTIONS((orientation.id + num) % Direction.DIRECTIONS.size)
-    var p = Piece(nubs(0), nubs(1), nubs(2), nubs(3), pieceNumber)
+    val p = Piece(nubs(0), nubs(1), nubs(2), nubs(3), pieceNumber)
     p.orientation = newOrientation
     p
   }
