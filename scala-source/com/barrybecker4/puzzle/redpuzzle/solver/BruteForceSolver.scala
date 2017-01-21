@@ -51,9 +51,11 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) 
         numTries += 1
         if (solution.fits(p)) {
           solution = solution.add(p)
-          println("nump before " + pieces.size)
+          val before = pieces.size
           pieces = pieces.remove(p)
-          println("nump after " + pieces.size)
+          println("before = " + pieces)
+          if (before - pieces.size > 1)
+            println("ERROR: nump before = " + before + " after removing "+ p+ "  pieces=" + pieces)
           puzzle.refresh(solution, numTries)
           // call solvePuzzle with a simpler case (one less piece to solve)
           pieces = solvePuzzle(pieces, k)
@@ -70,7 +72,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) 
       solution = solution.removeLast()
       // put it back where we took it from, so the list of unplaced pieces is still in order.
       pieces = pieces.add(i, p)
-      //println("put " + p + " back on pieces = " + pieces.toString)
+      println("put " + p + " back on pieces = " + pieces.toString)
     }
     // if we get here and pieces is empty, we did not find a solution.
     pieces

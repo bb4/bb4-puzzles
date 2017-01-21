@@ -78,7 +78,7 @@ public class Nub {
     /**
      * Determines the shape of the nub.
      */
-    private enum Suit {
+    enum Suit {
 
         SPADE('S'),
         CLUB('C'),

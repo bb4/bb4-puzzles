@@ -9,10 +9,10 @@ package com.barrybecker4.puzzle.redpuzzle.model
   */
 object Nub {
 
-  private val SPADE = Suit('S')
-  private val CLUB = Suit('C')
-  private val HEART = Suit('H')
-  private val DIAMOND = Suit('D')
+  val SPADE = Suit('S')
+  val CLUB = Suit('C')
+  val HEART = Suit('H')
+  val DIAMOND = Suit('D')
 
   val INNY_SPADE = new Nub(SPADE, false)
   val OUTY_SPADE = new Nub(SPADE, true)
