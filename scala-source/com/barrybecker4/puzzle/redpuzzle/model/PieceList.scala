@@ -73,8 +73,10 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
   /** @param p piece to add to the end of the list. */
   def add(p: Piece): PieceList = add(pieces.size, p)
 
-  /** @param i the position to add the piece.
-    * @param p piece to add to at the specified position in the list.  */
+  /**
+    * @param i the position to add the piece.
+    * @param p piece to add to at the specified position in the list.
+    */
   def add(i: Int, p: Piece): PieceList = {
     val newPieceList = new PieceList(this)
 

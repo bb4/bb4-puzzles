@@ -25,8 +25,8 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Piece
 
   private var strategy = if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH
                          else OptimizationStrategyType.GENETIC_SEARCH
-  private var fitnessFinder = new FitnessFinder
-  private var currentBestFitness = MAX_FITS
+  private val fitnessFinder = new FitnessFinder
+  private var currentBestFitness = 10 + MAX_FITS
 
   /** @return list of moves to a solution. */
   def solve: Option[Seq[Piece]] = {
@@ -37,9 +37,8 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Piece
     optimizer.setListener(this)
     val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
     solution = theSolution.asInstanceOf[PieceParameterArray].getPieceList
-    System.out.println("Solution = " + solution)
-    var moves: Option[List[Piece]] = Option.empty
-    if (evaluateFitness(theSolution) >= MAX_FITS) moves = Some(solution.pieces)
+    println("Solution = " + solution)
+    val moves = if (evaluateFitness(theSolution) == 0) Some(solution.pieces) else Option.empty
     val elapsedTime = System.currentTimeMillis - startTime
     puzzle.finalRefresh(moves, Option.apply(solution), numTries, elapsedTime)
     moves
@@ -61,6 +60,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Piece
   def evaluateFitness(params: ParameterArray): Double = {
     val pieces = params.asInstanceOf[PieceParameterArray].getPieceList
     val fitness = fitnessFinder.calculateFitness(pieces)
+    println("fitness = " + fitness)
     if (fitness < currentBestFitness) currentBestFitness = fitness
     params.setFitness(fitness)
     fitness

@@ -21,13 +21,8 @@ object PieceParameterArray {
     * @return probability used to determine if we do a piece swap.
     *         Pieces that already fit have a low probability of being swapped.
     */
-  private def findSwapProbabilities(pieces: PieceList) = {
-    val swapProbabilities = new Array[Double](pieces.getTotalNum)
-    for (i <- 0 until pieces.getTotalNum) {
-        swapProbabilities(i) = 1.0 / (1.0 + pieces.getNumFits(i)) //Math.pow(pieces.getNumFits(i), 2));
-    }
-    swapProbabilities
-  }
+  private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
+    for (i <- 0 until pieces.getTotalNum) yield 1.0 / (1.0 + pieces.getNumFits(i))
 }
 
 class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray {
@@ -51,7 +46,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     val pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = 1 //Math.max(1, (int) (rad * 2.0));
 
-    for (i <- 0 until numSwaps) doPieceSwap (pieceList)
+    for (i <- 0 until numSwaps) doPieceSwap(pieceList)
 
     assert (pieceList.size == pieceList.getTotalNum)
 
@@ -62,7 +57,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
       var bestRot: Int = 1
       for (i <- 0 until 3) {
         pieceList.rotate (k, 1) // fix
-        numFits = pieceList.getNumFits (k)
+        numFits = pieceList.getNumFits(k)
         if (numFits > bestNumFits) {
           bestNumFits = numFits
           bestRot = 2 + i
@@ -82,18 +77,19 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     * The denominator is 1 + the number of fits that the piece has.
     */
   def doPieceSwap(pieces: PieceList): PieceList = {
-    val swapProbabilities: Array[Double] = PieceParameterArray.findSwapProbabilities (pieces)
+    val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
     var totalProb: Double = 0
 
     for (i <- 0 until pieces.getTotalNum) {
-      totalProb += swapProbabilities (i)
+      totalProb += swapProbabilities(i)
     }
 
-    val p1: Int = getPieceFromProb (totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
+    val p1: Int = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
     var p2: Int = 0
 
-    do p2 = getPieceFromProb (totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
-    while (p2 == p1)
+    do {
+      p2 = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
+    } while (p2 == p1)
 
     pieces.doSwap(p1, p2)
     pieces
@@ -101,16 +97,16 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
   /**
     * @param p some value between 0 and the totalProbability (i.e. 100%).
-    * @return the piece that was selected given the probability.
+    * @return the index of the piece that was selected given the probability.
     */
-  def getPieceFromProb(p: Double, probabilities: Array[Double]): Int = {
+  def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
     var total: Double = 0
     var i: Int = 0
     while (total < p && i < pieces.getTotalNum) {
       total += probabilities(i)
       i += 1
     }
-    i - i
+    i - 1
   }
 
   /**
