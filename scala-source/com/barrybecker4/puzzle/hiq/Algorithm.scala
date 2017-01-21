@@ -26,7 +26,6 @@ case object CONCURRENT_OPTIMUM extends Algorithm
   */
 sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
 
-  println("about to get label for " + this.toString)
   private val label = AppContext.getLabel(this.toString)
 
   def getLabel: String = label

@@ -45,7 +45,6 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
   /** Copy constructor */
   def this(pieces: PieceList) { this(pieces.pieces, pieces.getTotalNum) }
 
-
   /**
     * @param i the index of the piece to get.
     * @return the i'th piece.
@@ -74,12 +73,13 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
   /** @param p piece to add to the end of the list. */
   def add(p: Piece): PieceList = add(pieces.size, p)
 
-  /** @param p piece to add to the end of the list.  */
+  /** @param i the position to add the piece.
+    * @param p piece to add to at the specified position in the list.  */
   def add(i: Int, p: Piece): PieceList = {
     val newPieceList = new PieceList(this)
 
     val (front, back) = newPieceList.pieces.splitAt(i)
-    newPieceList.pieces = front ++ List(p) ++ back  //.add(i, p)
+    newPieceList.pieces = front ++ List(p) ++ back
     assert(newPieceList.pieces.size <= numPieces, "there can only be at most " + numPieces + " pieces.")
     newPieceList
   }
@@ -108,9 +108,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     newPieceList
   }
 
-  /**
-    * ? Does this need to be made immutable?
-    */
+  /** ? Does this need to be made immutable? */
   def rotate(k: Int, numRotations: Int) {
     val p = pieces(k)
     val rp = p.rotate(numRotations)
@@ -119,6 +117,8 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
 
   /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
   def shuffle: PieceList = {
+    //for (p <- pieces) p.rotate(PieceList.RANDOM.nextInt(4))
+    //pieces = PieceList.RANDOM.shuffle(pieces)
     var plist = List[Piece]()
     for (p <- pieces.reverse) {
       val newp = p.rotate(PieceList.RANDOM.nextInt(4))

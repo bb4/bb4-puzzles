@@ -38,19 +38,22 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) 
     var solved = false
     var pieces = thePieces
 
-    // base case of the recursion. If reached, the puzzle has been solved.
+    // base case of the recursion. If no pieces left to place, the puzzle has been solved.
     if (pieces.size == 0) return pieces
 
     var k = 0
     while (!solved && k < pieces.size) {
       var p = pieces.get(k)
+      //println("now trying " + p + " of " + pieces.size)
       var r = 0
       // try the 4 rotations
       while (!solved && r < 4) {
         numTries += 1
         if (solution.fits(p)) {
           solution = solution.add(p)
+          println("nump before " + pieces.size)
           pieces = pieces.remove(p)
+          println("nump after " + pieces.size)
           puzzle.refresh(solution, numTries)
           // call solvePuzzle with a simpler case (one less piece to solve)
           pieces = solvePuzzle(pieces, k)
@@ -67,6 +70,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) 
       solution = solution.removeLast()
       // put it back where we took it from, so the list of unplaced pieces is still in order.
       pieces = pieces.add(i, p)
+      //println("put " + p + " back on pieces = " + pieces.toString)
     }
     // if we get here and pieces is empty, we did not find a solution.
     pieces

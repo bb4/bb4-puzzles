@@ -18,19 +18,16 @@ object Direction extends Enumeration {
   * @author Barry Becker
   */
 case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub,
-                 pieceNumber: Int, orientation: Direction) {
+                 pieceNumber: Int) {
 
   require(pieceNumber >= 1 && pieceNumber <= 9, "The piece number is not valid : " + pieceNumber)
   private var nubs: Array[Nub] = Array(topNub, rightNub, bottomNub, leftNub)
-
-  /** Assumes default orientation */
-  def this (topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub, pieceNumber: Int) {
-    this (topNub, rightNub, bottomNub, leftNub, pieceNumber, Direction.TOP)
-  }
+  var orientation: Direction = Direction.TOP
 
   /** Copy constructor. */
-  def this (piece: Piece) {
-    this (piece.nubs(0), piece.nubs(1), piece.nubs(2), piece.nubs(3), piece.pieceNumber, piece.orientation)
+  def this(piece: Piece) {
+    this(piece.nubs(0), piece.nubs(1), piece.nubs(2), piece.nubs(3), piece.pieceNumber)
+    orientation = piece.orientation
   }
 
   def getTopNub: Nub = getNub(Direction.TOP)
@@ -50,7 +47,9 @@ case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub,
   /** This rotates the piece the specified number of 90 degree increments. */
   def rotate(num: Int): Piece = {
     val newOrientation: Direction = Direction.DIRECTIONS((orientation.id + num) % Direction.DIRECTIONS.size)
-    Piece(nubs(0), nubs(1), nubs(2), nubs(3), pieceNumber, newOrientation)
+    var p = Piece(nubs(0), nubs(1), nubs(2), nubs(3), pieceNumber)
+    p.orientation = newOrientation
+    p
   }
 
   /** @return Sum of (orientation index + requested direction ) modulo the number of Directions (4). */
