@@ -1,13 +1,11 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import java.util.Random
+import scala.util.Random
 
 
 /**
-  * The pieces that are in the red puzzle.
-  * model in the model-view-controller pattern.
-  * This class is only mostly immutable.
+  * The pieces that are in the red puzzle. This class is only mostly immutable.
   * There is a cost for immutability, and I did not do it for methods that are not needed for concurrency safety.
   *
   * @author Barry Becker
@@ -17,26 +15,16 @@ object PieceList {
   val DEFAULT_NUM_PIECES = 9
 
   /** use the same seed for repeatable results. */
-  private val SEED = 5
-
-  /**
-    * 0 solves in 25,797 tries.
-    * 1 solves in 15,444
-    * 2 solves in 22,293
-    * 3 solves in 21,588
-    * 4 solves in  4,005
-    * 5 solves in  5,319
-    */
-  private val RANDOM = new Random(SEED)
+  private val RANDOM = new Random(5)
 }
 
 /** A list of puzzle pieces (initially empty). */
 class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
 
-  require(numPieces == 0, "Num pieces should not be 0")
+  require(numPieces != 0, "Num pieces should not be 0")
   require(numPieces == 4 || numPieces == 9 || numPieces == 16)
   private val edgeLen = Math.sqrt(numPieces).toInt
-  private var pieces = List[Piece]()
+  var pieces: List[Piece] = List[Piece]()
 
   /**
     * a list of puzzle pieces with pieces to use specified.
@@ -45,25 +33,18 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     */
   def this(pieces: Array[Piece]) {
     this(pieces.length)
-    addPieces(pieces)
+    this.pieces = pieces.toList
   }
 
   /** private copy constructor */
   def this(pieces: List[Piece], numTotal: Int) {
     this(numTotal)
-    for (p <- pieces) {
-      this.pieces +:= new Piece(p)
-    }
+    this.pieces = pieces
   }
 
   /** Copy constructor */
-  def this(pieces: PieceList) {
-    this(pieces.pieces, pieces.getTotalNum)
-  }
+  def this(pieces: PieceList) { this(pieces.pieces, pieces.getTotalNum) }
 
-  private def addPieces(pieces: Array[Piece]) {
-    this.pieces = pieces.toList
-  }
 
   /**
     * @param i the index of the piece to get.
@@ -85,14 +66,9 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
 
   /** Does this need to be made immutable? Swap 2 pieces. */
   def doSwap(p1Pos: Int, p2Pos: Int) {
-    assert(p1Pos <= numPieces && p2Pos < numPieces, "The position indices must be less than " + numPieces + ".  You had " + p1Pos + ",  " + p2Pos)
-    val piece2 = get(p2Pos)
-
+    assert(p1Pos <= numPieces && p2Pos < numPieces,
+      "The position indices must be less than " + numPieces + ".  You had " + p1Pos + ",  " + p2Pos)
     pieces = pieces.updated(0, pieces(p1Pos)).updated(2, pieces(p2Pos))
-    //val piece1 = pieces.remove(p1Pos)
-    //pieces.add(p1Pos, piece2)
-    //pieces.remove(piece2)
-    //pieces.add(p2Pos, piece1)
   }
 
   /** @param p piece to add to the end of the list. */
@@ -121,7 +97,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
   /**
     * @return piece list after removing the last element.
     */
-  def removeLast: PieceList = remove(pieces.size - 1)
+  def removeLast(): PieceList = remove(pieces.size - 1)
 
   /**
     * @return the list with the ith element removed.
@@ -141,17 +117,14 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     pieces = pieces.updated(k, rp)
   }
 
-  /**
-    * @return a new shuffled PieceList object based on the old.
-    */
+  /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
   def shuffle: PieceList = {
-    // randomly rotate all the pieces
     var plist = List[Piece]()
     for (p <- pieces.reverse) {
       val newp = p.rotate(PieceList.RANDOM.nextInt(4))
       plist +:= newp
     }
-    plist = scala.util.Random.shuffle(plist) // PieceList.RANDOM
+    plist = PieceList.RANDOM.shuffle(plist)
     new PieceList(plist, numPieces)
   }
 
@@ -167,22 +140,18 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     val numSolved = size
     val row = numSolved / edgeLen
     val col = numSolved % edgeLen
-    if (col > 0) {
-      // if other than a left edge piece, then we need to match to the left side nub.
+    if (col > 0) {   // if other than a left edge piece, then we need to match to the left side nub.
       val leftPiece = getLast
       if (!leftPiece.getRightNub.fitsWith(piece.getLeftNub)) fits = false
     }
-    if (row > 0) {
-      // then we need to match with the top one
+    if (row > 0) {   // then we need to match with the top one
       val topPiece = get(numSolved - edgeLen)
       if (!topPiece.getBottomNub.fitsWith(piece.getTopNub)) fits = false
     }
     fits
   }
 
-  /**
-    * @return the number of matches for the nubs on this piece
-    */
+  /** @return the number of matches for the nubs on this piece  */
   def getNumFits(i: Int): Int = {
     assert(i < numPieces)
     // it needs to match the piece to the left and above (if present)
@@ -194,30 +163,22 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
     if (col > 0) {
       // if other than a left edge piece, then we need to match to the left side nub.
       val leftPiece = get(i - 1)
-      if (leftPiece.getRightNub.fitsWith(piece.getLeftNub)) {
-        numFits += 1; numFits - 1
-      }
+      if (leftPiece.getRightNub.fitsWith(piece.getLeftNub)) numFits += 1
     }
     if (row > 0) {
       // then we need to match with the top one
       val topPiece = get(i - dim)
-      if (topPiece.getBottomNub.fitsWith(piece.getTopNub)) {
-        numFits += 1; numFits - 1
-      }
+      if (topPiece.getBottomNub.fitsWith(piece.getTopNub)) numFits += 1
     }
     if (col < (dim - 1)) {
       // if other than a right edge piece, then we need to match to the right side nub.
       val rightPiece = get(i + 1)
-      if (rightPiece.getLeftNub.fitsWith(piece.getRightNub)) {
-        numFits += 1; numFits - 1
-      }
+      if (rightPiece.getLeftNub.fitsWith(piece.getRightNub)) numFits += 1
     }
     if (row < (dim - 1)) {
       // then we need to match with the bottom one
       val bottomPiece = get(i + dim)
-      if (bottomPiece.getTopNub.fitsWith(piece.getBottomNub)) {
-        numFits += 1; numFits - 1
-      }
+      if (bottomPiece.getTopNub.fitsWith(piece.getBottomNub)) numFits += 1
     }
     numFits
   }
@@ -227,9 +188,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
 
   override def toString: String = {
     val buf = new StringBuilder("PieceList: (" + size + " pieces)\n")
-    for (p <- pieces) {
-      buf.append(p.toString).append('\n')
-    }
+    for (p <- pieces) buf.append(p.toString).append('\n')
     buf.toString
   }
 }

@@ -44,7 +44,7 @@ public final class RedPuzzle extends PuzzleApplet<PieceList, Piece>
     /**
      * Construct the application and set the look and feel.
      */
-    public RedPuzzle(String[] args) {
+    RedPuzzle(String[] args) {
        super(args);
     }
 

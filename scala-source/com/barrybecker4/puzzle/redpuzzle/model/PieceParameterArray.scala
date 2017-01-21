@@ -51,14 +51,11 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     val pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = 1 //Math.max(1, (int) (rad * 2.0));
 
-    for (i <- 0 until numSwaps) {
-      doPieceSwap (pieceList)
-    }
+    for (i <- 0 until numSwaps) doPieceSwap (pieceList)
 
     assert (pieceList.size == pieceList.getTotalNum)
-    // make a pass over all the pieces.
-    // If rotating a piece leads to more fits, then do it.
 
+    // Make a pass over all the pieces. If rotating a piece leads to more fits, then do it.
     for (k <- 0 until pieceList.size) {
       var numFits: Int = pieceList.getNumFits(k)
       var bestNumFits: Int = numFits
@@ -72,7 +69,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
         }
       }
       // rotate the piece to position of best fit.
-      pieceList.rotate (k, bestRot)
+      pieceList.rotate(k, bestRot)
     }
     new PieceParameterArray(pieceList)
   }
@@ -94,9 +91,9 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
     val p1: Int = getPieceFromProb (totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
     var p2: Int = 0
-    do {
-      p2 = getPieceFromProb (totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
-    } while (p2 == p1)
+
+    do p2 = getPieceFromProb (totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
+    while (p2 == p1)
 
     pieces.doSwap(p1, p2)
     pieces

@@ -38,8 +38,8 @@ object PieceLists {
     RED_INITIAL_PIECES_9(0),
     RED_INITIAL_PIECES_9(1),
     RED_INITIAL_PIECES_9(2),
-    RED_INITIAL_PIECES_9(3))
-
+    RED_INITIAL_PIECES_9(3)
+  )
 
   def getInitialPuzzlePieces: PieceList = getInitialPuzzlePieces(PieceList.DEFAULT_NUM_PIECES)
 

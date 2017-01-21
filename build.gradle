@@ -75,6 +75,12 @@ task runRedPuzzle(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task runRedPuzzle1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.redpuzzle1.ui.RedPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task runTantrixPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle'
