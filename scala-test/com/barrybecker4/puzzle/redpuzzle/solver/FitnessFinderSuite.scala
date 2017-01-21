@@ -42,7 +42,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
 
   @Test def test9PieceSomeFits() {
     val pieceList = PieceLists.getInitialPuzzlePieces
-    assertEquals("Unexpected number of fits.", 19.0/*23.0*/, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
   /** should get exactly 1 3 fit bonus */

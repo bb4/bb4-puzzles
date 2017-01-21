@@ -3,8 +3,7 @@ package com.barrybecker4.puzzle.redpuzzle.ui
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
-import com.barrybecker4.puzzle.redpuzzle.model.Piece
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
 import java.awt.Dimension
 import java.awt.Graphics
 import java.util
@@ -25,7 +24,7 @@ final class RedPuzzleViewer private[ui]()
 /**
   * Constructor.
   */
-  extends PuzzleViewer[PieceList, Piece] {
+  extends PuzzleViewer[PieceList, OrientedPiece] {
   val baseDim: Int = 5 * RedPuzzleRenderer.PIECE_SIZE
   setPreferredSize(new Dimension(baseDim + 200, baseDim + 100))
   private var animationSpeed: Int = RedPuzzleViewer.INITIAL_ANIM_SPEED
@@ -49,7 +48,7 @@ final class RedPuzzleViewer private[ui]()
     }
   }
 
-  override def finalRefresh(path: util.List[Piece], pieces: PieceList, numTries: Long, millis: Long) {
+  override def finalRefresh(path: util.List[OrientedPiece], pieces: PieceList, numTries: Long, millis: Long) {
     super.finalRefresh(path, pieces, numTries, millis)
     if (animationSpeed < RedPuzzleViewer.MAX_ANIM_SPEED - 1) ThreadUtil.sleep(10 * RedPuzzleViewer.MAX_ANIM_SPEED / animationSpeed)
     else ThreadUtil.sleep(20)

@@ -3,7 +3,8 @@ package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import com.barrybecker4.puzzle.redpuzzle.model.{Piece, PieceList, PieceLists}
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}
+
 import scala.collection.Seq
 
 /**
@@ -13,7 +14,7 @@ import scala.collection.Seq
   * @param puzzle the puzzle to solve.
   * @author Barry Becker
   */
-abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, Piece]) extends PuzzleSolver[Piece] {
+abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, OrientedPiece]) extends PuzzleSolver[OrientedPiece] {
 
   /** the unsorted pieces that we draw from and place in the solvedPieces list. */
   var pieces: PieceList = PieceLists.getInitialPuzzlePieces
@@ -28,5 +29,5 @@ abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, Piece]) e
     * Solve the puzzle
     * @return true if a solution is found.
     */
-  def solve: Option[Seq[Piece]]
+  def solve: Option[Seq[OrientedPiece]]
 }

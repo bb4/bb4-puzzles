@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.redpuzzle.ui
 
 import com.barrybecker4.common.format.FormatUtil
 import com.barrybecker4.puzzle.common.PuzzleRenderer
-import com.barrybecker4.puzzle.redpuzzle.model.{Direction, Nub, Piece, PieceList}
+import com.barrybecker4.puzzle.redpuzzle.model._
 import com.barrybecker4.ui.util.GUIUtil
 import java.awt.Color
 import java.awt.Font
@@ -59,7 +59,7 @@ object RedPuzzleRenderer {
   }
 
   /** Draw a puzzle piece at the specified location. */
-  private def drawPiece(g: Graphics, p: Piece, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
+  private def drawPiece(g: Graphics, p: OrientedPiece, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
     val xpos = MARGIN + col * PIECE_SIZE + PIECE_SIZE / 9
     val ypos = MARGIN + row * PIECE_SIZE + 2 * PIECE_SIZE / 9
     g.setColor(PIECE_BACKGROUND_COLOR)
@@ -75,7 +75,7 @@ object RedPuzzleRenderer {
     // draw the number in the middle
     g.setColor(TEXT_COLOR)
     g.setFont(TEXT_FONT)
-    val num = p.pieceNumber
+    val num = p.piece.pieceNumber
     g.drawString(FormatUtil.formatNumber(num), xpos + THIRD_SIZE, ypos + THIRD_SIZE)
   }
 
@@ -135,7 +135,7 @@ object RedPuzzleRenderer {
   /**
     * draw a marker line to indicate the orientation.
     */
-  private def drawOrientationMarker(g: Graphics, p: Piece, xpos: Int, ypos: Int) {
+  private def drawOrientationMarker(g: Graphics, p: OrientedPiece, xpos: Int, ypos: Int) {
     val len2 = ORIENT_ARROW_LEN >> 1
     var x1 = 0
     var y1 = 0

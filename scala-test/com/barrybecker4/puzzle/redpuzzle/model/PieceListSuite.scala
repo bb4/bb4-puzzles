@@ -34,7 +34,7 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
     pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
     assertEquals("Unexpected number of fits before rotating.", 0, pieceList.getNumFits(1))
     // after rotating there should be a fit
-    pieceList.rotate(1, 1)
-    assertEquals("Unexpected number of fits after rotating.", 1, pieceList.getNumFits(1))
+    val newPieceList = pieceList.rotate(1, 1)
+    assertEquals("Unexpected number of fits after rotating.", 1, newPieceList.getNumFits(1))
   }
 }

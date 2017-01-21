@@ -8,7 +8,7 @@ import com.barrybecker4.common.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.redpuzzle.RedPuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.{Piece, PieceList}
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm
 import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener}
 import com.barrybecker4.ui.util.GUIUtil
@@ -35,7 +35,7 @@ object RedPuzzle {
   }
 }
 
-final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Piece] with SliderChangeListener {
+final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, OrientedPiece] with SliderChangeListener {
 
   /** allows you to change the animation speed. */
   private var animSpeedSlider: LabeledSlider = _
@@ -44,11 +44,12 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Piece
 
   protected def createViewer = new RedPuzzleViewer
 
-  protected def createController(viewer: Refreshable[PieceList, Piece] ): PuzzleController[PieceList, Piece] = {
+  protected def createController(
+           viewer: Refreshable[PieceList, OrientedPiece] ): PuzzleController[PieceList, OrientedPiece] = {
     new RedPuzzleController(viewer_)
   }
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, Piece]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, OrientedPiece]] = Algorithm.VALUES
 
   override protected def createBottomControls: JPanel = {
     animSpeedSlider = new LabeledSlider("Speed ", RedPuzzleViewer.INITIAL_ANIM_SPEED, 1, RedPuzzleViewer.MAX_ANIM_SPEED)

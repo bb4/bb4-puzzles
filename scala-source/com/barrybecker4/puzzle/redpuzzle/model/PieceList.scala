@@ -5,12 +5,12 @@ import scala.util.Random
 
 
 /**
-  * The pieces that are in the red puzzle. This class is only mostly immutable.
-  * There is a cost for immutability, and I did not do it for methods that are not needed for concurrency safety.
+  * The pieces that are in the red puzzle. Immutable.
   *
   * @author Barry Becker
   */
 object PieceList {
+
   /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
   val DEFAULT_NUM_PIECES = 9
 
@@ -18,125 +18,87 @@ object PieceList {
   private val RANDOM = new Random(5)
 }
 
-/** A list of puzzle pieces (initially empty). */
-class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
+/**
+  * A list of fit puzzle pieces (initially empty) for a numPieces sized puzzle.
+  *
+  * @param pieces the currently fit pieces. Maybe be less than numTotal of them, but not more,
+  * @param numTotal the total number of pieces in the puzzle.
+  */
+case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
 
-  require(numPieces != 0, "Num pieces should not be 0")
-  require(numPieces == 4 || numPieces == 9 || numPieces == 16)
-  private val edgeLen = Math.sqrt(numPieces).toInt
-  var pieces: List[Piece] = List[Piece]()
+  require(numTotal != 0, "Total num pieces should not be 0")
+  require(numTotal == 4 || numTotal == 9 || numTotal == 16)
+  private val edgeLen = Math.sqrt(numTotal).toInt
 
-  /**
-    * a list of puzzle pieces with pieces to use specified.
-    *
-    * @param pieces array of pieces to use.
-    */
+
   def this(pieces: Array[Piece]) {
-    this(pieces.length)
-    this.pieces = pieces.toList
+    this(pieces.map(new OrientedPiece(_)).toList, pieces.length)
   }
 
-  /** private copy constructor */
-  def this(pieces: List[Piece], numTotal: Int) {
-    this(numTotal)
-    this.pieces = pieces
+  def this(numTotal: Int = PieceList.DEFAULT_NUM_PIECES) {
+    this(List[OrientedPiece](), numTotal)
   }
 
   /** Copy constructor */
-  def this(pieces: PieceList) { this(pieces.pieces, pieces.getTotalNum) }
+  def this(pieces: PieceList) { this(pieces.pieces, pieces.numTotal) }
 
   /**
     * @param i the index of the piece to get.
     * @return the i'th piece.
     */
-  def get(i: Int): Piece = {
-    assert(i < numPieces, "there are only " + numPieces + " pieces, but you tried to get the " + (i + 1) + "th")
+  def get(i: Int): OrientedPiece = {
+    assert(i < numTotal, "there are only " + numTotal + " pieces, but you tried to get the " + (i + 1) + "th")
     pieces(i)
   }
 
   /** @return the last piece added. */
-  def getLast: Piece = pieces.last
-
-  /** @return The total number of pieces in the puzzle.*/
-  def getTotalNum: Int = numPieces
+  def getLast: OrientedPiece = pieces.last
 
   /** @return the number of pieces in the list.*/
   def size: Int = pieces.size
 
   /** Does this need to be made immutable? Swap 2 pieces. */
-  def doSwap(p1Pos: Int, p2Pos: Int) {
-    assert(p1Pos <= numPieces && p2Pos < numPieces,
-      "The position indices must be less than " + numPieces + ".  You had " + p1Pos + ",  " + p2Pos)
-    pieces = pieces.updated(0, pieces(p1Pos)).updated(2, pieces(p2Pos))
+  def doSwap(p1Pos: Int, p2Pos: Int): PieceList = {
+    assert(p1Pos <= numTotal && p2Pos < numTotal,
+      "The position indices must be less than " + numTotal + ".  You had " + p1Pos + ",  " + p2Pos)
+    PieceList(pieces.updated(0, pieces(p1Pos)).updated(2, pieces(p2Pos)), numTotal)
   }
 
   /** @param p piece to add to the end of the list. */
-  def add(p: Piece): PieceList = add(pieces.size, p)
+  def add(p: OrientedPiece): PieceList = add(pieces.size, p)
 
   /**
     * @param i the position to add the piece.
     * @param p piece to add to at the specified position in the list.
     */
-  def add(i: Int, p: Piece): PieceList = {
-    val newPieceList = new PieceList(this)
-
-    val (front, back) = newPieceList.pieces.splitAt(i)
-    newPieceList.pieces = front ++ List(p) ++ back
-    assert(newPieceList.pieces.size <= numPieces, "there can only be at most " + numPieces + " pieces.")
-    newPieceList
+  def add(i: Int, p: OrientedPiece): PieceList = {
+    val (front, back) = pieces.splitAt(i)
+    PieceList(front ++ List(p) ++ back, numTotal)
   }
 
-  /**
-    * @param p the piece to remove.
-    * @return true if the list contained this element.
-    */
-  def remove(p: Piece): PieceList = {
-    val newPieceList = new PieceList(this)
-    newPieceList.pieces = newPieceList.pieces.filter(x => x != p)
-    newPieceList
-  }
+  def remove(p: Piece): PieceList = PieceList(pieces.filter(x => x.piece != p), numTotal)
 
-  /**
-    * @return piece list after removing the last element.
-    */
   def removeLast(): PieceList = remove(pieces.size - 1)
 
-  /**
-    * @return the list with the ith element removed.
-    */
-  def remove(index: Int): PieceList = {
-    val newPieceList = new PieceList(this)
-    newPieceList.pieces = newPieceList.pieces.take(index) ++ newPieceList.pieces.drop(index + 1)
-    newPieceList
-  }
+  /** @return the list with the ith element removed. */
+  def remove(index: Int): PieceList = PieceList(pieces.take(index) ++ pieces.drop(index + 1), numTotal)
 
-  /** ? Does this need to be made immutable? */
-  def rotate(k: Int, numRotations: Int) {
-    val p = pieces(k)
-    val rp = p.rotate(numRotations)
-    pieces = pieces.updated(k, rp)
+  def rotate(k: Int, numRotations: Int): PieceList = {
+    val rp = pieces(k).rotate(numRotations)
+    PieceList(pieces.updated(k, rp), numTotal)
   }
 
   /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
   def shuffle: PieceList = {
-    //for (p <- pieces) p.rotate(PieceList.RANDOM.nextInt(4))
-    //pieces = PieceList.RANDOM.shuffle(pieces)
-    var plist = List[Piece]()
-    for (p <- pieces.reverse) {
-      val newp = p.rotate(PieceList.RANDOM.nextInt(4))
-      plist +:= newp
-    }
-    plist = PieceList.RANDOM.shuffle(plist)
-    new PieceList(plist, numPieces)
+    val pieceList = for (p <- pieces) yield p.rotate(PieceList.RANDOM.nextInt(4))
+    PieceList(PieceList.RANDOM.shuffle(pieceList), numTotal)
   }
 
   /**
-    * Try the piece.
-    *
     * @param piece the piece to try to fit into our current solution.
-    * @return true if it fits.
+    * @return true if the piece fits.
     */
-  def fits(piece: Piece): Boolean = {
+  def fits(piece: OrientedPiece): Boolean = {
     // it needs to match the piece to the left and above (if present)
     var fits = true
     val numSolved = size
@@ -155,7 +117,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
 
   /** @return the number of matches for the nubs on this piece  */
   def getNumFits(i: Int): Int = {
-    assert(i < numPieces)
+    assert(i < numTotal)
     // it needs to match the piece to the left and above (if present)
     var numFits = 0
     val dim = edgeLen
@@ -186,7 +148,7 @@ class PieceList(val numPieces: Int = PieceList.DEFAULT_NUM_PIECES) {
   }
 
   /** @return true if we contain p */
-  def contains(p: Piece): Boolean = pieces.contains(p)
+  def contains(p: Piece): Boolean = pieces.map(_.piece).contains(p)
 
   override def toString: String = {
     val buf = new StringBuilder("PieceList: (" + size + " pieces)\n")

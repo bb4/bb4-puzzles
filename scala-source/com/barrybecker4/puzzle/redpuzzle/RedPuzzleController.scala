@@ -5,7 +5,7 @@ package com.barrybecker4.puzzle.redpuzzle
 
 import com.barrybecker4.common.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.{Piece, PieceList, PieceLists}
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}
 import com.barrybecker4.puzzle.redpuzzle.solver.BRUTE_FORCE_ORIGINAL
 import com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES
 
@@ -22,8 +22,8 @@ import scala.collection.Seq
   *
   * @author Barry Becker
   */
-class RedPuzzleController(val ui: Refreshable[PieceList, Piece])
-  extends AbstractPuzzleController[PieceList, Piece](ui) {
+class RedPuzzleController(val ui: Refreshable[PieceList, OrientedPiece])
+  extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {
 
   algorithm_ = BRUTE_FORCE_ORIGINAL
   final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces
@@ -47,12 +47,12 @@ class RedPuzzleController(val ui: Refreshable[PieceList, Piece])
     * @param position position to look from.
     * @return list of legal moves that can be made from current position.
     */
-  def legalTransitions(position: PieceList): Seq[Piece] = {
-    var moves = List[Piece]()
+  def legalTransitions(position: PieceList): Seq[OrientedPiece] = {
+    var moves = List[OrientedPiece]()
 
     for (i <- 0 until DEFAULT_NUM_PIECES) {
       var p = SHUFFLED_PIECES.get(i)
-      if (!position.contains(p)) {
+      if (!position.contains(p.piece)) {
         var r = 0
         // see if any of the rotations fit.
         while (!position.fits(p) && r < 4) {
@@ -65,7 +65,7 @@ class RedPuzzleController(val ui: Refreshable[PieceList, Piece])
     moves
   }
 
-  def transition(position: PieceList, move: Piece): PieceList = {
+  def transition(position: PieceList, move: OrientedPiece): PieceList = {
     // To make a move, simple add the piece to the end of our list
     assert(position.fits(move), move + " does not fit in  " + position)
     position.add(move)

@@ -8,9 +8,8 @@ import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.ParameterArray
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.Piece
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList
-import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceParameterArray}
+
 import scala.collection.Seq
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
 
@@ -20,7 +19,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
   *
   * @author Barry Becker
   */
-class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Piece], val useConcurrency: Boolean)
+class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece], val useConcurrency: Boolean)
                    extends RedPuzzleSolver(puzzle) with Optimizee with OptimizationListener {
 
   private var strategy = if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH
@@ -29,7 +28,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Piece
   private var currentBestFitness = 10 + MAX_FITS
 
   /** @return list of moves to a solution. */
-  def solve: Option[Seq[Piece]] = {
+  def solve: Option[Seq[OrientedPiece]] = {
     val initialGuess = new PieceParameterArray(pieces)
     solution = pieces
     val startTime = System.currentTimeMillis

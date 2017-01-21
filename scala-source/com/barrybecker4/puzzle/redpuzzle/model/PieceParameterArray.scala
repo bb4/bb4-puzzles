@@ -22,7 +22,7 @@ object PieceParameterArray {
     *         Pieces that already fit have a low probability of being swapped.
     */
   private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
-    for (i <- 0 until pieces.getTotalNum) yield 1.0 / (1.0 + pieces.getNumFits(i))
+    for (i <- 0 until pieces.numTotal) yield 1.0 / (1.0 + pieces.getNumFits(i))
 }
 
 class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray {
@@ -48,7 +48,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
     for (i <- 0 until numSwaps) doPieceSwap(pieceList)
 
-    assert (pieceList.size == pieceList.getTotalNum)
+    assert (pieceList.size == pieceList.numTotal)
 
     // Make a pass over all the pieces. If rotating a piece leads to more fits, then do it.
     for (k <- 0 until pieceList.size) {
@@ -80,7 +80,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
     var totalProb: Double = 0
 
-    for (i <- 0 until pieces.getTotalNum) {
+    for (i <- 0 until pieces.numTotal) {
       totalProb += swapProbabilities(i)
     }
 
@@ -102,7 +102,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
   def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
     var total: Double = 0
     var i: Int = 0
-    while (total < p && i < pieces.getTotalNum) {
+    while (total < p && i < pieces.numTotal) {
       total += probabilities(i)
       i += 1
     }
@@ -119,7 +119,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
   }
 
   override def setPermutation(indices: java.util.List[Integer]): Unit = {
-    val newParams: PieceList = new PieceList
+    var newParams: PieceList = pieces
 
     val it: java.util.Iterator[Integer] = indices.iterator()
     while (it.hasNext) {

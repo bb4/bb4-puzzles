@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.Piece
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
+
 import scala.collection.Seq
 
 /**
@@ -12,13 +12,13 @@ import scala.collection.Seq
   *
   * @author Barry Becker
   */
-class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) extends RedPuzzleSolver(puzzle) {
+class BruteForceSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece]) extends RedPuzzleSolver(puzzle) {
 
   puzzle.refresh(pieces, 0)
 
   /** @return true if a solution is found. */
-  def solve: Option[Seq[Piece]] = {
-    var moves: Option[List[Piece]] = Option.empty
+  def solve: Option[Seq[OrientedPiece]] = {
+    var moves: Option[List[OrientedPiece]] = Option.empty
     val startTime = System.currentTimeMillis
     if (solvePuzzle(pieces, 0).size == 0)
       moves = Some(solution.pieces)
@@ -51,7 +51,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Piece]) 
         if (solution.fits(p)) {
           solution = solution.add(p)
           val before = pieces.size
-          pieces = pieces.remove(p)
+          pieces = pieces.remove(p.piece)
           puzzle.refresh(solution, numTries)
           // call solvePuzzle with a simpler case (one less piece to solve)
           pieces = solvePuzzle(pieces, k)
