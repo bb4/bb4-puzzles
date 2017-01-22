@@ -9,7 +9,7 @@ import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;
 
 /**

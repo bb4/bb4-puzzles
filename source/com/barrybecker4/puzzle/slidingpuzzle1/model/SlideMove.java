@@ -21,7 +21,7 @@ public final class SlideMove implements Move {
     /**
      * create a move object representing a transition on the board.
      */
-    SlideMove(Location fromPosition,
+    public SlideMove(Location fromPosition,
               Location destinationPosition) {
         this.fromPosition = fromPosition.copy();
         this.toPosition = destinationPosition.copy();
@@ -30,31 +30,28 @@ public final class SlideMove implements Move {
     /**
      * @return a deep copy.
      */
-    public com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove copy() {
-        return new com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove(fromPosition, toPosition);
+    public SlideMove copy() {
+        return new SlideMove(fromPosition, toPosition);
     }
 
-    public byte getFromRow() {
+    byte getFromRow() {
         return (byte) fromPosition.getRow();
     }
-    public byte getFromCol() {
+    byte getFromCol() {
         return (byte) fromPosition.getCol();
     }
 
-    public byte getToRow() {
+    byte getToRow() {
         return (byte) toPosition.getRow();
     }
-    public byte getToCol() {
+    byte getToCol() {
         return (byte) toPosition.getCol();
     }
 
     /** @return the from and to positions */
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("from ").append(fromPosition).append(" to ");
-        s.append(toPosition);
-        return s.toString();
+        return "from " + fromPosition + " to " + toPosition;
     }
 }
 

@@ -4,10 +4,10 @@ package com.barrybecker4.puzzle.slidingpuzzle1.ui;
 import com.barrybecker4.puzzle.common.ui.DoneListener;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -68,7 +68,7 @@ final class SliderViewer extends PuzzleViewer<SliderBoard, SlideMove>
             renderer_.render(g, board_, getWidth(), getHeight());
     }
 
-    public void showPath(List<SlideMove> path, SliderBoard board) {
+    private void showPath(List<SlideMove> path, SliderBoard board) {
         path_ = path;
         board_ = board;
         if (doneListener != null) {

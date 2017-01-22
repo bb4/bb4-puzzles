@@ -8,7 +8,7 @@ import java.awt.Choice;
  *
  * @author Barry Becker
  */
-public final class SizeSelector extends Choice {
+final class SizeSelector extends Choice {
 
     private static final String[] MENU_ITEMS = {
         "3 Tiles",
@@ -20,7 +20,7 @@ public final class SizeSelector extends Choice {
     /**
      * Constructor.
      */
-    public SizeSelector() {
+    SizeSelector() {
         for (final String item : MENU_ITEMS) {
             add(item);
         }
@@ -30,7 +30,7 @@ public final class SizeSelector extends Choice {
     /**
      * @return  the puzzle size for what was selected.
      */
-    public int getSelectedSize() {
+    int getSelectedSize() {
         return this.getSelectedIndex() + 2;
     }
 }

@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-import com.barrybecker4.common.geometry.ByteLocation
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
 import com.barrybecker4.puzzle.common.model.Move
 
 /**
@@ -9,7 +9,7 @@ import com.barrybecker4.puzzle.common.model.Move
   *
   * @author Barry Becker
   */
-case class SlideMove(fromPosition: ByteLocation, toPosition: ByteLocation) extends Move {
+case class SlideMove(fromPosition: Location, toPosition: Location) extends Move {
 
   def getFromRow: Byte = fromPosition.getRow.toByte
   def getFromCol: Byte = fromPosition.getCol.toByte

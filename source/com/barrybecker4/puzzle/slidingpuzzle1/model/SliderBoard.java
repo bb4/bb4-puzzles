@@ -92,21 +92,21 @@ public class SliderBoard {
      * create a new Slider by applying a move to another Slider.
      * Applying the same move a second time will undo it because it just swaps tiles.
      */
-    public SliderBoard(SliderBoard pos, com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
+    public SliderBoard(SliderBoard pos, SlideMove move) {
         this(pos);
         applyMove(move);
         this.hamming = -1;
         this.manhattan = calculateManhattan();
     }
 
-    public byte getHamming() {
+    byte getHamming() {
         if (hamming == -1) {
             hamming = calculateHamming();
         }
         return hamming;
     }
 
-    public short getManhattan() {
+    short getManhattan() {
         return manhattan;
     }
 
@@ -173,14 +173,14 @@ public class SliderBoard {
                 loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS[indices.get(ct++)]);
             } while (!isValidPosition(loc));
 
-            com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move = new com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove(blankLocation, loc);
+            SlideMove move = new SlideMove(blankLocation, loc);
             applyMove(move);
             blankLocation = loc;
             visited.add(blankLocation);
         }
     }
 
-    private void applyMove(com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
+    private void applyMove(SlideMove move) {
         byte fromRow = move.getFromRow();
         byte fromCol = move.getFromCol();
         byte toRow = move.getToRow();
@@ -201,7 +201,7 @@ public class SliderBoard {
     /**
      * @return true if the coordinates refer to one of the tiles.
      */
-    public boolean isValidPosition(Location loc) {
+    boolean isValidPosition(Location loc) {
         return loc.getRow() >= 0
                 && loc.getRow() < size
                 && loc.getCol() >= 0
@@ -219,14 +219,14 @@ public class SliderBoard {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public SliderBoard doMove(com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
+    public SliderBoard doMove(SlideMove move) {
         return new SliderBoard(this, move);
     }
 
     /**
      * @return the position of the empty space (there is only one).
      */
-    public Location getEmptyLocation() {
+    Location getEmptyLocation() {
         for (byte i = 0; i < size; i++) {
             for (byte j = 0; j < size; j++) {
                 if (getPosition(i, j) == 0) {

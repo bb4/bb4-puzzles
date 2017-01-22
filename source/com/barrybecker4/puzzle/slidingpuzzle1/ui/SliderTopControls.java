@@ -5,7 +5,7 @@ import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
 import com.barrybecker4.puzzle.common.ui.TopControlPanel;
 import com.barrybecker4.puzzle.slidingpuzzle1.SlidingPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;
 
 import javax.swing.Box;
@@ -27,7 +27,7 @@ public final class SliderTopControls extends TopControlPanel<SliderBoard, SlideM
     /**
      * The solve and generate button at the top.
      */
-    public SliderTopControls(
+    SliderTopControls(
             PuzzleController<SliderBoard, SlideMove> controller, AlgorithmEnum<SliderBoard,  SlideMove>[] algorithmValues) {
 
         super(controller, algorithmValues);

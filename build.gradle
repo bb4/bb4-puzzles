@@ -117,6 +117,13 @@ task runSlidingPuzzle(type: JavaExec) {
     jvmArgs = ["-Xss64m"]
 }
 
+task runSlidingPuzzle1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.slidingpuzzle1.ui.SlidingPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ["-Xss64m"]
+}
+
 task runTwoPailsPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
