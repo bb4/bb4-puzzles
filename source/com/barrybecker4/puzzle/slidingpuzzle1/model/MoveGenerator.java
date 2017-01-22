@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle.model;
+package com.barrybecker4.puzzle.slidingpuzzle1.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
@@ -28,8 +28,8 @@ public class MoveGenerator  {
      * Next moves are all the tiles that can slide into the current empty position.
      * @return List of all valid tile slides
      */
-    public Seq<SlideMove> generateMoves(SliderBoard board) {
-        List<SlideMove> moves = new LinkedList<>();
+    public Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> generateMoves(SliderBoard board) {
+        List<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> moves = new LinkedList<>();
 
         Location blankLocation = board.getEmptyLocation();
 
@@ -38,7 +38,7 @@ public class MoveGenerator  {
             int col = blankLocation.getCol() + loc.getCol();
             ByteLocation newLoc = new ByteLocation(row, col);
             if (board.isValidPosition(newLoc)) {
-                moves.add(new SlideMove(newLoc, blankLocation)) ;
+                moves.add(new com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove(newLoc, blankLocation)) ;
             }
         }
         return JavaConversions.asScalaBuffer(moves).toSeq();

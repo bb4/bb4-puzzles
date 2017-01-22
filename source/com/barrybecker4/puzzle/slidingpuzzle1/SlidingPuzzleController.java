@@ -1,11 +1,11 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle;
+package com.barrybecker4.puzzle.slidingpuzzle1;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.MoveGenerator;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;
 import scala.collection.Seq;
 
 /**

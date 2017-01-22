@@ -42,7 +42,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfter {
     assertTrue("No solution found for case: " + path, path.isDefined)
 
     println("time to solve = " + (System.currentTimeMillis() - start) + " millis")
-    println("paths = " + path.get)
+    //println("paths = " + path.get)
 
     val EXP_NUM_STEPS = 31 // shortest path
     assertEquals("Unexpected number of steps", EXP_NUM_STEPS, path.get.size)

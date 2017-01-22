@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle;
+package com.barrybecker4.puzzle.slidingpuzzle1;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove;
-import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard;
+import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;
 
 /**
  * Type of solver to use.

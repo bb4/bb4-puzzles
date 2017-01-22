@@ -1,6 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle.model;
-
+package com.barrybecker4.puzzle.slidingpuzzle1.model;
 
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.puzzle.common.model.Move;
@@ -31,8 +30,8 @@ public final class SlideMove implements Move {
     /**
      * @return a deep copy.
      */
-    public SlideMove copy() {
-        return new SlideMove(fromPosition, toPosition);
+    public com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove copy() {
+        return new com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove(fromPosition, toPosition);
     }
 
     public byte getFromRow() {

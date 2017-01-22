@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.slidingpuzzle.model;
+package com.barrybecker4.puzzle.slidingpuzzle1.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
@@ -92,7 +92,7 @@ public class SliderBoard {
      * create a new Slider by applying a move to another Slider.
      * Applying the same move a second time will undo it because it just swaps tiles.
      */
-    public SliderBoard(SliderBoard pos, SlideMove move) {
+    public SliderBoard(SliderBoard pos, com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
         this(pos);
         applyMove(move);
         this.hamming = -1;
@@ -173,14 +173,14 @@ public class SliderBoard {
                 loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS[indices.get(ct++)]);
             } while (!isValidPosition(loc));
 
-            SlideMove move = new SlideMove(blankLocation, loc);
+            com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move = new com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove(blankLocation, loc);
             applyMove(move);
             blankLocation = loc;
             visited.add(blankLocation);
         }
     }
 
-    private void applyMove(SlideMove move) {
+    private void applyMove(com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
         byte fromRow = move.getFromRow();
         byte fromCol = move.getFromCol();
         byte toRow = move.getToRow();
@@ -219,7 +219,7 @@ public class SliderBoard {
      * Creates a new board with the move applied.
      * Does not violate immutability.
      */
-    public SliderBoard doMove(SlideMove move) {
+    public SliderBoard doMove(com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove move) {
         return new SliderBoard(this, move);
     }
 

@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.slidingpuzzle.model;
+package com.barrybecker4.puzzle.slidingpuzzle1.model;
 
 import org.junit.Test;
 
