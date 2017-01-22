@@ -2,11 +2,8 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import java.util
-import java.util.Arrays
-
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.common.geometry.Location
-
 import scala.util.Random
 import scala.collection.immutable.HashSet
 import SliderBoard.createTiles
@@ -80,19 +77,15 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
     hamming
   }
 
-  def getManhattan: Int = manhattan
   def distanceToGoal: Int = manhattan
 
   private def calculateHamming: Byte = {
     var expected = 0
     var hamCount = 0
-    for (i <- 0 until size) {
-        for (j <- 0 until size) {
-            val value = tiles(i)(j)
-            expected += 1
-            if (value != 0 && value != expected) hamCount += 1
-        }
-    }
+    tiles.foreach(_.foreach(value => {
+      expected += 1
+      if (value != 0 && value != expected) hamCount += 1
+    }))
     hamCount.toByte
   }
 

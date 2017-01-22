@@ -24,16 +24,9 @@ class MoveGenerator {
 
   /** @return List of valid next moves - all the tiles that can slide into the current empty position. */
   def generateMoves(board: SliderBoard): Seq[SlideMove] = {
-    var moves = List[SlideMove]()
     val blankLocation = board.getEmptyLocation
-    for (loc <- OFFSETS) {
-      val row = blankLocation.getRow + loc.getRow
-      val col = blankLocation.getCol + loc.getCol
-      val newLoc = new ByteLocation(row, col)
-      if (board.isValidPosition(newLoc)) {
-        moves :+= SlideMove(newLoc, blankLocation)
-      }
-    }
-    moves
+    OFFSETS.map(loc => {
+      new ByteLocation(blankLocation.getRow + loc.getRow, blankLocation.getCol + loc.getCol)
+    }).filter(board.isValidPosition).map(SlideMove(_, blankLocation))
   }
 }

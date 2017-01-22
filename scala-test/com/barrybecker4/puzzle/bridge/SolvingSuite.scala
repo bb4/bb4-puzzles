@@ -58,7 +58,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
     for (testCase <- InitialConfiguration.CONFIGURATIONS) {
       controller.setConfiguration(testCase.peopleSpeeds)
       val solver = algorithm.createSolver(controller)
-      System.out.println("initial pos = " + controller.initialState)
+      //System.out.println("initial pos = " + controller.initialState)
       val path = solver.solve
       assertNotNull("No solution found for case: " + testCase.getLabel, path)
       val msg = "Unexpected minimum amount of time to cross for (" + testCase.getLabel + ") " +

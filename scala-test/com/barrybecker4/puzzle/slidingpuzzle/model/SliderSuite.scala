@@ -22,10 +22,10 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
   val RAND = new Random(1)
 
   @Test def testRandom() {
-    assertEquals("unexpected first rnd ", 985, MathUtil.RANDOM.nextInt(1000))
-    assertEquals("unexpected second rnd ", 588, MathUtil.RANDOM.nextInt(1000))
+    assertEquals("unexpected first rnd ", 985, RAND.nextInt(1000))
+    assertEquals("unexpected second rnd ", 588, RAND.nextInt(1000))
     val nums: List[Int] = RAND.shuffle(Range(0, 10).toList)
-    val expList = List(6, 9, 7, 8, 4, 2, 0, 3, 1, 5)
+    val expList = List(5, 0, 4, 3, 9, 2, 8, 1, 6, 7)
     assertEquals("lists not equal", expList, nums)
   }
 
@@ -51,8 +51,6 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
     val board1 = new SliderBoard(4, false)
     val board2 = new SliderBoard(board1)
     val board3 = new SliderBoard(4, true)
-    println("b1 = " + board1)
-    println("b2 = " + board2)
     assertTrue(board1 == board2)
     assertTrue(board2 == board1)
     assertTrue(board1.hashCode == board2.hashCode)

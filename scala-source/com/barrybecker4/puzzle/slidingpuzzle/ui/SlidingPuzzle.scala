@@ -15,8 +15,7 @@ import javax.swing._
 
 /**
   * Sliding Puzzle - http://en.wikipedia.org/wiki/Sliding_puzzle.
-  * This program solves a very difficult classic solitaire puzzle
-  * where you slide tiles to form an image or correct sequence.
+  * This program solves a difficult classic solitaire puzzle where you slide tiles to make the correct sequence.
   */
 object SlidingPuzzle {
 
@@ -37,7 +36,8 @@ case class SlidingPuzzle(args: Array[String]) extends PuzzleApplet[SliderBoard, 
 
   protected def createViewer = new SliderViewer(this)
 
-  protected def createController(viewer: Refreshable[SliderBoard, SlideMove]): PuzzleController[SliderBoard, SlideMove] = {
+  protected def createController(
+      viewer: Refreshable[SliderBoard, SlideMove]): PuzzleController[SliderBoard, SlideMove] = {
     new SlidingPuzzleController(viewer)
   }
 
