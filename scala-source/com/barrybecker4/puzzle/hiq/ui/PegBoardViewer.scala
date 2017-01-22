@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
 import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegMove}
 import java.awt.Graphics
+import java.util
 
 import collection.JavaConverters._
 
@@ -20,7 +21,7 @@ final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
   private val renderer: PegBoardRenderer = new PegBoardRenderer()
   private var path: List[PegMove] = _
 
-  def getPath: java.util.List[PegMove] = path.asJava
+  def getPath: util.List[PegMove] = path.asJava
 
   override def refresh(board: PegBoard, numTries: Long) {
     if (numTries % 4000 == 0) {
@@ -29,7 +30,7 @@ final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
     }
   }
 
-  override def finalRefresh(path: java.util.List[PegMove], board: PegBoard, numTries: Long, millis: Long) {
+  override def finalRefresh(path: util.List[PegMove], board: PegBoard, numTries: Long, millis: Long) {
     super.finalRefresh(path, board, numTries, millis)
     if (board != null) {
       makeSound()

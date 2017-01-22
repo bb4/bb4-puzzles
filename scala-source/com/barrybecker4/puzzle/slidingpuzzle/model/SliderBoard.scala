@@ -5,11 +5,25 @@ import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.common.geometry.Location
 import scala.util.Random
 import scala.collection.immutable.HashSet
+import SliderBoard.createTiles
 
 
 object SliderBoard {
   /** Represents the four different directions that a tile can move */
   val INDICES: List[Int] = List(0, 1, 2, 3)
+
+  private def createTiles(size: Int): Array[Array[Byte]] = {
+    val tiles = Array.ofDim[Byte](size, size)
+    var ct = 1
+    for (row <- 0 until size) {
+      for (col <- 0 until size) {
+        tiles(row)(col) = ct.toByte
+        ct += 1
+      }
+    }
+    tiles(size - 1)(size - 1) = 0
+    tiles
+  }
 }
 
 /**
@@ -22,14 +36,22 @@ object SliderBoard {
   */
 case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
 
-  private val size = tiles.length
+  val size: Int = tiles.length
   if (shuffle) shuffleTiles()
   private var hamming: Byte = -1
   private var manhattan = calculateManhattan
 
-  //def this(size: Int) { this(Array.ofDim[Byte](size, size), false) }
-  //def this(size: Int, shuffle: Boolean) {this(Array.ofDim[Byte](size, size), shuffle) }
   def this(tiles: Array[Array[Int]]) { this(tiles.map(_.map(_.toByte)), false)}
+
+  /**
+    * Constructor.
+    * @param size esge length of square board
+    * @param shuffle if true then the created slider will have the tiles shuffled,
+    *                else they will be in the goal state.
+    */
+  def this(size: Int, shuffle: Boolean) {
+    this(createTiles(size), shuffle)
+  }
 
   def this(board: SliderBoard) {
     this(Array.ofDim[Byte](board.size, board.size), false)

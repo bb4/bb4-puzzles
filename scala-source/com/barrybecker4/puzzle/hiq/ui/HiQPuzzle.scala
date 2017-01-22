@@ -52,16 +52,12 @@ object HiQPuzzle {
   }
 }
 
-final class HiQPuzzle(val args: Array[String])
+case class HiQPuzzle(args: Array[String]) extends PuzzleApplet[PegBoard, PegMove] with DoneListener {
 
-   /** Construct the applet */
-  extends PuzzleApplet[PegBoard, PegMove] with DoneListener {
   private var navPanel: NavigationPanel = _
 
   /** Construct the application */
-  def this() {
-    this(Array[String]())
-  }
+  def this() {this(Array[String]()) }
 
   protected def createViewer = new PegBoardViewer(PegBoard.INITIAL_BOARD_POSITION, this)
 

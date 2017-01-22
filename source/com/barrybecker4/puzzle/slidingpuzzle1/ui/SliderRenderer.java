@@ -17,9 +17,9 @@ import java.awt.Graphics;
  */
 public class SliderRenderer implements PuzzleRenderer<SliderBoard> {
 
-    public static final int INC = 60;
-    public static final int SEPARATION = INC/10;
-    public static final int TILE_EDGE = INC - SEPARATION;
+    private static final int INC = 60;
+    private static final int SEPARATION = INC/10;
+    private static final int TILE_EDGE = INC - SEPARATION;
 
     private static final int LEFT_MARGIN = 40;
     private static final int TOP_MARGIN = 55;
@@ -27,13 +27,6 @@ public class SliderRenderer implements PuzzleRenderer<SliderBoard> {
     private static final Color TILE_COLOR = new Color(235, 145, 255);
 
     private static final Font FONT = new Font("Sans Serif", Font.PLAIN, INC/2);
-
-
-    /**
-     * private constructor because this class is a singleton.
-     * Use getPieceRenderer instead.
-     */
-    public SliderRenderer() {}
 
     /**
      * This renders the current state of the Slider to the screen.
@@ -84,8 +77,7 @@ public class SliderRenderer implements PuzzleRenderer<SliderBoard> {
         boolean empty = value == 0;
 
         if (!empty) {
-            Color c = TILE_COLOR;
-            g.setColor(c);
+            g.setColor(TILE_COLOR);
             g.fillRect(xpos, ypos, TILE_EDGE, TILE_EDGE);
 
             g.setColor(Color.BLACK);
