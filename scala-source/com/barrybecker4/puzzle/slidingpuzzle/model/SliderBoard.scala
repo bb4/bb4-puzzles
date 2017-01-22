@@ -1,8 +1,12 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
+import java.util
+import java.util.Arrays
+
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.common.geometry.Location
+
 import scala.util.Random
 import scala.collection.immutable.HashSet
 import SliderBoard.createTiles
@@ -178,17 +182,11 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
     val board = o.asInstanceOf[SliderBoard]
     if (size != board.size) return false
     if (this.getHamming != board.getHamming) return false
-    tiles.sameElements(board.tiles)
+    tiles.deep == board.tiles.deep
   }
 
-  override def hashCode: Int = tiles.hashCode()
+  override def hashCode: Int = util.Arrays.deepHashCode(tiles.toArray)
 
-  override def toString: String = {
-    val builder = new StringBuilder("Slider:\n")
-    for (i <- 0 until size) {
-        for (j <- 0 until size) builder.append(tiles(i)(j)).append(',')
-        builder.append('\n')
-    }
-    builder.toString
-  }
+  override def toString: String =
+    "Slider (ham:"+hamming+" manhattan:"+ manhattan +"):\n" + tiles.map(_.mkString("\t")).mkString("\n")
 }

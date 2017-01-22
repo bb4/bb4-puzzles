@@ -46,35 +46,35 @@ public class MoveGeneratorTest {
     @Test
     public void testFindNeighborsTopLeft() {
         board = new SliderBoard(SPACE_TOP_LEFT);
-        Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> neighbors = generator.generateMoves(board);
+        Seq<SlideMove> neighbors = generator.generateMoves(board);
         assertEquals("Unexpected num neighbors for top left", 2, neighbors.size());
     }
 
     @Test
     public void testFindNeighborsTopMiddle() {
         board = new SliderBoard(SPACE_TOP_MIDDLE);
-        Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> neighbors = generator.generateMoves(board);
+        Seq<SlideMove> neighbors = generator.generateMoves(board);
         assertEquals("Unexpected num neighbors for top left", 3, neighbors.size());
     }
 
     @Test
     public void testFindNeighborsBottomRight() {
         board = new SliderBoard(SPACE_BOTTOM_RIGHT);
-        Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> neighbors = generator.generateMoves(board);
+        Seq<SlideMove> neighbors = generator.generateMoves(board);
         assertEquals("Unexpected num neighbors for top left", 2, neighbors.size());
     }
 
     @Test
     public void testFindNeighborsInMiddle() {
         board = new SliderBoard(SPACE_IN_MIDDLE);
-        Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> neighbors = generator.generateMoves(board);
+        Seq<SlideMove> neighbors = generator.generateMoves(board);
         assertEquals("Unexpected num neighbors for top left", 4, neighbors.size());
     }
 
     @Test
     public void testFindTopLeftNeighbors() {
         board = new SliderBoard(SPACE_TOP_LEFT);
-        Seq<com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove> neighbors = generator.generateMoves(board);
+        Seq<SlideMove> neighbors = generator.generateMoves(board);
         assertEquals("Unexpected neighbors for top left",
                 "Buffer(from (row=1, column=0) to (row=0, column=0), " +
                 "from (row=0, column=1) to (row=0, column=0))",
