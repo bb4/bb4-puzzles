@@ -17,7 +17,7 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
     val initialState = PegBoard.INITIAL_BOARD_POSITION
 
     val expectedMoves = Seq(
-      new PegMove(3, 1, 3,3), new PegMove(3, 5, 3, 3), new PegMove(1, 3, 3, 3), new PegMove(5,3, 3, 3)
+      new PegMove(5,3, 3, 3), new PegMove(1, 3, 3, 3), new PegMove(3, 5, 3, 3), new PegMove(3, 1, 3,3)
     )
 
     verifyGeneratedMoves(initialState, expectedMoves)

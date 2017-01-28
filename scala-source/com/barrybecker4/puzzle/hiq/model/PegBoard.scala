@@ -101,7 +101,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     for (i <- 0 until PegBoard.SIZE)
       for (j <- 0 until PegBoard.SIZE)
         if (PegBoard.isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged)
-          list :+= new ByteLocation(i, j)
+          list +:= new ByteLocation(i, j)
     list
   }
 
