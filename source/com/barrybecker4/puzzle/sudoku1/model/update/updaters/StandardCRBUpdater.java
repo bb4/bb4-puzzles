@@ -32,7 +32,7 @@ public class StandardCRBUpdater extends AbstractUpdater {
         checkAndSetUniqueValues();
     }
 
-    protected void updateCellCandidates() {
+    private void updateCellCandidates() {
 
         ValuesList values = board.getValuesList();
         board.getRowCells().updateAll(values);

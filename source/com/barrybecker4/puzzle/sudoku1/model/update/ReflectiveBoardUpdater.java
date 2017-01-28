@@ -24,7 +24,7 @@ public class ReflectiveBoardUpdater implements IBoardUpdater {
      * Constructor
      * @param updaterClasses the updater classes to use when updating the board during an interaction of the solver.
      */
-    public ReflectiveBoardUpdater(List<Class<? extends AbstractUpdater>> updaterClasses) {
+    ReflectiveBoardUpdater(List<Class<? extends AbstractUpdater>> updaterClasses) {
         this.updaterClasses = updaterClasses;
     }
 

@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.board
 
-
 /**
   * An array of cells for a row or column in the puzzle.
   *
@@ -68,9 +67,7 @@ class CellArray private(val size: Int) extends CellSet {
 
   def numCells: Int = cells.length
 
-  /**
-    * Assume all of them, then remove the values that are represented.
-    */
+  /** Assume all of them, then remove the values that are represented. */
   def updateCandidates(values: ValuesList) {
     candidates.clear()
     candidates.addAll(values)

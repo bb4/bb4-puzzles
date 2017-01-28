@@ -27,7 +27,7 @@ object CellArrays {
 class CellArrays private(var size: Int) {
 
   /** candidate sets for a row or col.   */
-  private var cellArrays: Array[CellArray] = new Array[CellArray](n)
+  private var cellArrays: Array[CellArray] = new Array[CellArray](size)
 
   def get(i: Int): CellArray = cellArrays(i)
 

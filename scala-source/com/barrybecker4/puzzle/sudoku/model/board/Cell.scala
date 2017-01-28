@@ -95,9 +95,9 @@ class Cell(value: Int) {
       cachedCandidates
     else {
       val candidates: Candidates = new Candidates()
-      candidates.addAll(parentBigCell.getCandidates)
-      candidates.retainAll(rowCells.getCandidates)
-      candidates.retainAll(colCells.getCandidates)
+      candidates.addAll(parentBigCell.candidates)
+      candidates.retainAll(rowCells.candidates)
+      candidates.retainAll(colCells.candidates)
       cachedCandidates = candidates
       candidates
     }

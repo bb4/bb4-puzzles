@@ -9,16 +9,17 @@ import scala.collection.immutable.HashSet
   *
   * @author Barry Becker
   */
-class BigCell private[board](val board: Board, val rowOffset: Int, val colOffset: Int) extends CellSet {
-
-  /** The number of Cells in the BigCell is n * n.  */
-  private var n: Int  = board.getBaseSize
-
-  /** The internal data structures representing the game board. Row, column order. */
-  private var cells: Array[Array[Cell]] = Array.ofDim[Cell](n, n)
+class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends CellSet {
 
   /** The number which have not yet been used in this big cell. */
-  private var candidates: Candidates = new Candidates(board.getValuesList)
+  val candidates: Candidates = new Candidates(board.getValuesList)
+
+  /** The number of Cells in the BigCell is n * n.  */
+  private val n: Int  = board.getBaseSize
+
+  /** The internal data structures representing the game board. Row, column order. */
+  private val cells: Array[Array[Cell]] = Array.ofDim[Cell](n, n)
+
 
   for (i <- 0 until n) {
     for (j <- 0 until n) {
@@ -71,19 +72,18 @@ class BigCell private[board](val board: Board, val rowOffset: Int, val colOffset
     * @return row (0 to n-1) if found, else -1
     */
   def findUniqueRowFor(value: Int): Int = {
-    val rows = new HashSet[Integer]
+    var rows = new HashSet[Integer]
 
     for (i <- 0 until n) {
       for (j <- 0 until n) {
         val cands = getCell(i, j).getCandidates
         if (cands != null && cands.contains(value)) {
-          rows.add(i)
-          break //todo: break is not supported
+          rows += i
+          //break //todo: break is not supported
         }
       }
     }
-    if (rows.size == 1) rows.iterator.next
-    else -1
+    if (rows.size == 1) rows.head else -1
   }
 
   /**
@@ -94,22 +94,19 @@ class BigCell private[board](val board: Board, val rowOffset: Int, val colOffset
     * @return ro (0 to n-1) if found, else -1
     */
   def findUniqueColFor(value: Int): Int = {
-    val cols = new HashSet[Integer]
+    var cols = new HashSet[Integer]
 
     for (j <- 0 until n) {
       for (i <- 0 until n) {
         val cands = getCell(i, j).getCandidates
         if (cands != null && cands.contains(value)) {
-          cols.add(j)
-          break //todo: break is not supported
+          cols += j
+          //break //todo: break is not supported
         }
       }
     }
-    if (cols.size == 1) cols.iterator.next
-    else -1
+    if (cols.size == 1) cols.head else -1
   }
-
-  def getCandidates: Candidates = candidates
 
   def getCell(position: Int): Cell = getCell(position / n, position % n)
 

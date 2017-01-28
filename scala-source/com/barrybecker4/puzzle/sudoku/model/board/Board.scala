@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.sudoku.model.board
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.sudoku1.model.ValueConverter
+import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 
 /**
   * The Board describes the physical layout of the puzzle.
@@ -17,12 +17,15 @@ object Board {
 class Board(var n: Int) {
   assert (n > 1 && n < Board.MAX_SIZE)
   private val nn = n * n
+
   /** all the values in the big cells or rows/cols 1...nn_ */
   private var valuesList = new ValuesList() // nn
   private var cells: Array[Array[Cell]] = _
+
   // row and col cells for every row and col.
   protected var rowCells: CellArrays = _
   protected var colCells: CellArrays = _
+
   /** the internal data structures representing the game board. */
   protected var bigCells: BigCellArray = _
   private var numIterations: Int = 0

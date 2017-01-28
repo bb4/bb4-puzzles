@@ -33,12 +33,15 @@ class Candidates(list: ValuesList) {
   def addAll(seq: Iterable[Int]): Unit = seq.foreach(x => add(x))
   def retainAll(cands: Candidates): Unit = elements = elements.filter(cands.contains)
   def remove(v: Int): Unit = elements -= v
+  def removeAll(cands: Candidates): Unit = cands.elements = cands.elements.filter(x => !cands.contains(x))
   def contains(v: Int): Boolean = elements.contains(v)
+  def containsAll(cands: Candidates): Boolean = elements.forall(cands.contains)
   def clear(): Unit = { elements = Set() }
+  def size: Int = elements.size
 
   override def toString: String = {
     val bldr = new StringBuilder("[")
-    for (v <- this) {
+    for (v <- elements) {
       bldr.append(ValueConverter.getSymbol(v)).append(",")
     }
     bldr.substring(0, bldr.length - 1) + "]"

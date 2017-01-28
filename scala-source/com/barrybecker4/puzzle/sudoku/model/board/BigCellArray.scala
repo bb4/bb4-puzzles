@@ -23,8 +23,6 @@ class BigCellArray(val board: Board) {
     bigCells(i)(j)
   }
 
-  //def getSize: Int = size
-
   def update(values: ValuesList) {
     for (i <- 0 until size) {
       for (j <- 0 until size) {
@@ -38,7 +36,7 @@ class BigCellArray(val board: Board) {
     for (row <- 0 until size) {
       for (col <- 0 until size) {
         bldr.append("cands(").append(row).append(", ").append(col).append(")=")
-          .append(getBigCell(row, col).getCandidates).append("\n")
+          .append(getBigCell(row, col).candidates).append("\n")
       }
     }
     bldr.toString
