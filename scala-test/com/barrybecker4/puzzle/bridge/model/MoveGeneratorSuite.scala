@@ -17,9 +17,10 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
   @Test def testGenerateMovesForStandardProblemInitialStateMoveRight() {
     val initialState = Bridge(List(1, 2, 5, 8), List[Int](), lightCrossed = false)
     val expectedMoves = Seq(
-      BridgeMove(List(1), direction = true), BridgeMove(List(1, 2), direction = true), BridgeMove(List(1, 5), true),
-      BridgeMove(List(1, 8), true), BridgeMove(List(2), true), BridgeMove(List(2, 5), true),
-      BridgeMove(List(2, 8), true), BridgeMove(List(5), true), BridgeMove(List(5, 8), true), BridgeMove(List(8), true)
+      BridgeMove(List(8), true), BridgeMove(List(5, 8), true), BridgeMove(List(5), true), BridgeMove(List(2, 8), true),
+      BridgeMove(List(2, 5), true), BridgeMove(List(2), true), BridgeMove(List(1, 8), true),
+      BridgeMove(List(1, 5), true), BridgeMove(List(1, 2), direction = true),
+      BridgeMove(List(1), direction = true)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
   }
@@ -33,7 +34,7 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
   @Test def testGenerateMovesForStandardProblemMiddleStateMoveRight() {
     val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = false)
     val expectedMoves = Seq(
-      BridgeMove(List(1), direction = true), BridgeMove(List(1, 8), direction = true), BridgeMove(List(8), true)
+      BridgeMove(List(8), true), BridgeMove(List(1, 8), direction = true), BridgeMove(List(1), direction = true)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
   }
@@ -41,8 +42,8 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
   @Test def testGenerateMovesForStandardProblemMiddleStateMoveLeft() {
     val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = true)
     val expectedMoves = Seq(
-      BridgeMove(List(2), direction = false), BridgeMove(List(2, 5), direction = false), BridgeMove(List(2, 3), false),
-      BridgeMove(List(5), false), BridgeMove(List(5, 3), false), BridgeMove(List(3), false)
+      BridgeMove(List(3), false), BridgeMove(List(5, 3), false),BridgeMove(List(5), false),
+      BridgeMove(List(2, 3), false), BridgeMove(List(2, 5), direction = false), BridgeMove(List(2), direction = false)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
   }

@@ -23,8 +23,8 @@ class MoveGenerator(var board: Bridge) {
     if (numPeople > 1) {
       for (i <- 0 until numPeople - 1) {
         for (j <- (i + 1) until numPeople)
-          moves :+= BridgeMove(List(people(i), people(j)), crossing)
-        moves :+= BridgeMove(List(people(i + 1)), crossing)
+          moves +:= BridgeMove(List(people(i), people(j)), crossing)
+        moves +:= BridgeMove(List(people(i + 1)), crossing)
       }
     }
     // Putting them in order of fastest to cross first. This speeds A*, but slows sequential.
