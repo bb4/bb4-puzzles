@@ -59,7 +59,7 @@ class RedPuzzleController(val ui: Refreshable[PieceList, OrientedPiece])
           p = p.rotate
           r += 1
         }
-        if (r < 4) moves :+= p
+        if (r < 4) moves +:= p
       }
     }
     moves
