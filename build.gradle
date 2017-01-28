@@ -96,6 +96,13 @@ task runSudoku(type: JavaExec) {
     jvmArgs = ["-ea"]
 }
 
+task runSudoku1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.sudoku1.ui.SudokuPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ["-ea"]
+}
+
 task runHiQ1(type: JavaExec) {   // remove this old java version
     group = 'application'
     main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle1'
@@ -129,19 +136,6 @@ task runTwoPailsPuzzle(type: JavaExec) {
     main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
-}
-
-task sourceSetProperties << {
-    sourceSets {
-        main {
-            println "scala.srcDirs = ${scala.srcDirs}"
-            println "resources.srcDirs = ${resources.srcDirs}"
-            println "scala.files = ${scala.files.name}"
-            println "allScala.files = ${allScala.files.name}"
-            //println "resources.files = ${resources.files.name}"
-            //println "allSource.files = ${allSource.files.name}"
-        }
-    }
 }
 
 
