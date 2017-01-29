@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.model
 
-import com.barrybecker4.common.geometry.ByteLocation
-import com.barrybecker4.common.geometry.Location
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
+
 import scala.collection.mutable
 
 /**
@@ -29,12 +29,9 @@ object PegBoard {
     row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
   }
 
-  for (i <- 0 until SIZE) {
-    for (j <- 0 until SIZE) {
-      if (PegBoard.isValidPosition(i, j))
-        INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
-    }
-  }
+  for (i <- 0 until SIZE; j <- 0 until SIZE if PegBoard.isValidPosition(i, j))
+    INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
+
   INITIAL_BOARD_POSITION.setPosition(PegBoard.CENTER, PegBoard.CENTER, value = false)
 }
 
@@ -98,10 +95,11 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     */
   def getLocations(pegged: Boolean): List[Location] = {
     var list = List[Location]()
-    for (i <- 0 until PegBoard.SIZE)
-      for (j <- 0 until PegBoard.SIZE)
-        if (PegBoard.isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged)
-          list +:= new ByteLocation(i, j)
+    for {
+      i <- 0 until PegBoard.SIZE
+      j <- 0 until PegBoard.SIZE
+      if PegBoard.isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged
+    } list +:= new ByteLocation(i, j)
     list
   }
 
@@ -206,9 +204,8 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     */
   private def rotate(rotateIndices: Array[Byte]): PegBoard = {
     val rotatedBoard = new PegBoard()
-    for (i <- 0 until PegBoard.NUM_PEG_HOLES) {
+    for (i <- 0 until PegBoard.NUM_PEG_HOLES)
         rotatedBoard.set(i, get(rotateIndices(i)))
-    }
     rotatedBoard
   }
 

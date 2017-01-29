@@ -1,9 +1,10 @@
 // Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.ui
 
+import java.awt._
+
 import com.barrybecker4.puzzle.common.PuzzleRenderer
 import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegBoard1}
-import java.awt._
 
 /**
   * Singleton class that takes a PieceList and renders it for the PegBoardViewer1.
@@ -38,9 +39,8 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     val bottomEdgePos = PegBoardRenderer.TOP_MARGIN + 3 * PegBoardRenderer.INC * size
     drawGrid(g, size, rightEdgePos, bottomEdgePos)
     // now draw the pieces that we have so far
-    for (row <- 0 until size)
-      for (col <- 0 until size)
-        if (PegBoard1.isValidPosition(row, col)) drawPegLocation(g, board, row.toByte, col.toByte)
+    for (row <- 0 until size; col <- 0 until size if PegBoard1.isValidPosition(row, col))
+      drawPegLocation(g, board, row.toByte, col.toByte)
   }
 
   /**
