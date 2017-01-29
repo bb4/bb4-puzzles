@@ -43,7 +43,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   }
 
   /** This renders the current state of the Slider to the screen. */
-  def render (g: Graphics, userEnteredValues: Map[Location, UserValue], currentFocusLocation: Location, width: Int, height: Int) {
+  def render(g: Graphics, userEnteredValues: Map[Location, UserValue], currentFocusLocation: Location, width: Int, height: Int) {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
     val minEdge: Int = Math.min (width, height) - 20 - SudokuRenderer.MARGIN
     pieceSize = minEdge / board.getEdgeLength
@@ -64,7 +64,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
         val c: Cell = board.getCell (i, j)
         xpos = SudokuRenderer.MARGIN + j * pieceSize
         ypos = SudokuRenderer.MARGIN + i * pieceSize
-        drawCell(g2, c, xpos, ypos, userEnteredValues(new ByteLocation(i, j)))
+        drawCell(g2, c, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
       }
     }
     drawCellBoundaryGrid (g, len)
@@ -79,7 +79,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   /**
     * Draw a cell at the specified location.
     */
-  private def drawCell (g2: Graphics2D, cell: Cell, xpos: Int, ypos: Int, userValue: UserValue) {
+  private def drawCell (g2: Graphics2D, cell: Cell, xpos: Int, ypos: Int, userValue: Option[UserValue]) {
     val s: Int = getScale (pieceSize)
     val jitteredXpos: Int = xpos + (Math.random * 3 - 1).toInt
     val jitteredYpos: Int = ypos + (Math.random * 3 - 1).toInt
@@ -88,8 +88,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.setColor (if (cell.isOriginal) SudokuRenderer.CELL_ORIG_BACKGROUND_COLOR
     else SudokuRenderer.CELL_BACKGROUND_COLOR)
     g2.fillRect (xpos + 1, ypos + 1, pieceSize - 3, pieceSize - 2)
-    if (userValue != null) {
-      drawUserValue (g2, userValue, s, xpos, ypos)
+    if (userValue.isDefined) {
+      drawUserValue (g2, userValue.get, s, xpos, ypos)
     }
     else if (cell.getValue > 0) {
       g2.setColor (if (cell.isOriginal) SudokuRenderer.CELL_ORIG_TEXT_COLOR

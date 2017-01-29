@@ -9,13 +9,7 @@ import com.barrybecker4.puzzle.sudoku1.model.board.Candidates;
 import com.barrybecker4.puzzle.sudoku1.model.board.Cell;
 import com.barrybecker4.ui.util.GUIUtil;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Stroke;
+import java.awt.*;
 import java.util.Iterator;
 
 /**
@@ -114,9 +108,7 @@ public class SudokuRenderer implements CellLocator {
         return new ByteLocation(row, col);
     }
 
-    /**
-     * Draw a cell at the specified location.
-     */
+    /** Draw a cell at the specified location. */
     private void drawCell(Graphics2D g2, Cell cell, int xpos, int ypos, UserValue userValue) {
 
         int s = getScale(pieceSize);

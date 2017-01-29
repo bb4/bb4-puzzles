@@ -46,11 +46,10 @@ class Board(var n: Int) {
     this(Math.sqrt(initialData.length).toInt)
     assert(initialData.length == nn && initialData(0).length == nn)
 
-    for (i <- 0 until nn) {
-      for (j <- 0 until nn) {
-        getCell(i, j).setOriginalValue(initialData(i)(j))
-      }
-    }
+    for {
+      i <- 0 until nn
+      j <- 0 until nn
+    } getCell(i, j).setOriginalValue(initialData(i)(j))
   }
 
   /** return to original state before attempting solution. Non original values become 0. */

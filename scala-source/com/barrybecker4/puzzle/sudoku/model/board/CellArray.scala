@@ -78,7 +78,7 @@ class CellArray private(val size: Int) extends CellSet {
   }
 
   private def clearCaches() {
-    for (i <- 0 to numCells) {
+    for (i <- 0 until numCells) {
         cells(i).clearCache()
     }
   }
