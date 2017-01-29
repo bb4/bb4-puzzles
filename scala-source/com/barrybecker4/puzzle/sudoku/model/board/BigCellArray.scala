@@ -12,11 +12,8 @@ class BigCellArray(val board: Board) {
   /** n by n grid of big cells.   */
   private val bigCells = Array.ofDim[BigCell](size, size)
 
-  for (i <- 0 until size) {
-    for (j <- 0 until size) {
-      bigCells(i)(j) = new BigCell(board, size * i, size * j)
-    }
-  }
+  for (i <- 0 until size; j <- 0 until size)
+    bigCells(i)(j) = new BigCell(board, size * i, size * j)
 
   def getBigCell(i: Int, j: Int): BigCell = {
     assert(i >= 0 && i < size && j >= 0 && j < size)
@@ -24,21 +21,16 @@ class BigCellArray(val board: Board) {
   }
 
   def update(values: ValuesList) {
-    for (i <- 0 until size) {
-      for (j <- 0 until size) {
-        getBigCell(i, j).updateCandidates(values)
-      }
-    }
+    for (i <- 0 until size; j <- 0 until size)
+      getBigCell(i, j).updateCandidates(values)
   }
 
   override def toString: String = {
     val bldr = new StringBuilder
-    for (row <- 0 until size) {
-      for (col <- 0 until size) {
-        bldr.append("cands(").append(row).append(", ").append(col).append(")=")
-          .append(getBigCell(row, col).candidates).append("\n")
-      }
-    }
+    for (row <- 0 until size; col <- 0 until size)
+      bldr.append("cands(").append(row).append(", ").append(col).append(")=")
+        .append(getBigCell(row, col).candidates).append("\n")
+
     bldr.toString
   }
 }

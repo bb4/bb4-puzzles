@@ -2,11 +2,12 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import java.util
-import com.barrybecker4.common.geometry.ByteLocation
-import com.barrybecker4.common.geometry.Location
-import scala.util.Random
+
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard.createTiles
+
 import scala.collection.immutable.HashSet
-import SliderBoard.createTiles
+import scala.util.Random
 
 
 object SliderBoard {
@@ -16,11 +17,9 @@ object SliderBoard {
   private def createTiles(size: Int): Array[Array[Byte]] = {
     val tiles = Array.ofDim[Byte](size, size)
     var ct = 1
-    for (row <- 0 until size) {
-      for (col <- 0 until size) {
+    for (row <- 0 until size; col <- 0 until size) {
         tiles(row)(col) = ct.toByte
         ct += 1
-      }
     }
     tiles(size - 1)(size - 1) = 0
     tiles
@@ -91,17 +90,17 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
 
   private def calculateManhattan = {
     var totalDistance = 0
-    for (i <- 0 until size) {
-        for (j <- 0 until size) {
-            val value = tiles(i)(j)
-            if (value != 0) {
-              val expCol = (value - 1) % size
-              val expRow = (value - 1) / size
-              val deltaRow = Math.abs(expRow - i)
-              val deltaCol = Math.abs(expCol - j)
-              totalDistance += deltaRow + deltaCol
-            }
-        }
+    for {
+      i <- 0 until size
+      j <- 0 until size
+      value = tiles(i)(j)
+      if value != 0
+    } {
+      val expCol = (value - 1) % size
+      val expRow = (value - 1) / size
+      val deltaRow = Math.abs(expRow - i)
+      val deltaCol = Math.abs(expCol - j)
+      totalDistance += deltaRow + deltaCol
     }
     totalDistance
   }
@@ -162,11 +161,8 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
 
   /** @return the position of the empty space (there is only one). */
   def getEmptyLocation: Location = {
-    for (i <- 0 until size) {
-        for (j <- 0 until size) {
-            if (getPosition(i.toByte, j.toByte) == 0) return new ByteLocation(i, j)
-        }
-    }
+    for (i <- 0 until size; j <- 0 until size if getPosition(i.toByte, j.toByte) == 0)
+       return new ByteLocation(i, j)
     throw new IllegalStateException("There should have been a blank space in\n" + toString)
   }
 
@@ -181,5 +177,5 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
   override def hashCode: Int = util.Arrays.deepHashCode(tiles.toArray)
 
   override def toString: String =
-    "Slider (ham:"+hamming+" manhattan:"+ manhattan +"):\n" + tiles.map(_.mkString("\t")).mkString("\n")
+    "Slider (ham:" + hamming+" manhattan:" + manhattan +"):\n" + tiles.map(_.mkString("\t")).mkString("\n")
 }

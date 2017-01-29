@@ -1,8 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.model
 
-import com.barrybecker4.common.geometry.IntLocation
-import com.barrybecker4.common.geometry.Location
+import com.barrybecker4.common.geometry.{IntLocation, Location}
 
 /**
   * The model part of the model view controller pattern for the maze.
@@ -27,11 +26,8 @@ class MazeModel(var width: Int, var height: Int) {
 
   private def createGrid(width: Int, height: Int) = {
     val grid = Array.ofDim[MazeCell](width, height)
-    for (j <- 0 until height) {
-      for (i <- 0 until width) {
-        grid(i)(j) = new MazeCell
-      }
-    }
+    for (j <- 0 until height; i <- 0 until width)
+      grid(i)(j) = new MazeCell
     grid
   }
 
@@ -45,11 +41,9 @@ class MazeModel(var width: Int, var height: Int) {
 
   /** mark all the cells unvisited. */
   def unvisitAll() {
-    for (j <- 0 until height) {
-      for (i <- 0 until width) {
-        val c = grid(i)(j)
-        c.clear()
-      }
+    for (j <- 0 until height; i <- 0 until width) {
+      val c = grid(i)(j)
+      c.clear()
     }
   }
 

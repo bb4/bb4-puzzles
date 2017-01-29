@@ -72,8 +72,8 @@ class CellArray private(val size: Int) extends CellSet {
     candidates.clear()
     candidates.addAll(values)
     for (i <- 0 until numCells) {
-        val v = cells(i).getValue
-        if (v > 0) candidates.remove(v)
+      val v = cells(i).getValue
+      if (v > 0) candidates.remove(v)
     }
   }
 

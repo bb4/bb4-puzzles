@@ -59,13 +59,11 @@ class SudokuRenderer(var board: Board) extends CellLocator {
       drawCurrentFocus (g, currentFocusLocation)
     }
 
-    for (i <- 0 until len) {
-      for (j <- 0 until len) {
+    for (i <- 0 until len; j <- 0 until len) {
         val c: Cell = board.getCell (i, j)
         xpos = SudokuRenderer.MARGIN + j * pieceSize
         ypos = SudokuRenderer.MARGIN + i * pieceSize
         drawCell(g2, c, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
-      }
     }
     drawCellBoundaryGrid (g, len)
   }

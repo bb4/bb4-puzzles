@@ -21,11 +21,9 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   private val cells: Array[Array[Cell]] = Array.ofDim[Cell](n, n)
 
 
-  for (i <- 0 until n) {
-    for (j <- 0 until n) {
-      cells(i)(j) = board.getCell(rowOffset + i, colOffset + j)
-      cells(i)(j).setParent(this)
-    }
+  for (i <- 0 until n; j <- 0 until n) {
+    cells(i)(j) = board.getCell(rowOffset + i, colOffset + j)
+    cells(i)(j).setParent(this)
   }
 
   def numCells: Int = n * n
@@ -39,11 +37,8 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def removeCandidate(unique: Int) {
     candidates.remove(unique)
     var j = 0
-    for (j <- 0 until n) {
-      for (i <- 0 until n) {
-          getCell(i, j).remove(unique)
-      }
-    }
+    for (j <- 0 until n; i <- 0 until n)
+      getCell(i, j).remove(unique)
   }
 
   /** add to the bigCell candidate list and each cells candidates for cells not yet set in stone. */
@@ -56,11 +51,9 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def updateCandidates(values: ValuesList) {
     candidates.clear()
     candidates.addAll(values)
-    for (i <- 0 until n) {
-      for (j <- 0 until n) {
-        val v = cells(i)(j).getValue
-        if (v > 0) candidates.remove(v)
-      }
+    for (i <- 0 until n; j <- 0 until n) {
+      val v = cells(i)(j).getValue
+      if (v > 0) candidates.remove(v)
     }
   }
 
@@ -74,13 +67,11 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def findUniqueRowFor(value: Int): Int = {
     var rows = new HashSet[Integer]
 
-    for (i <- 0 until n) {
-      for (j <- 0 until n) {
-        val cands = getCell(i, j).getCandidates
-        if (cands != null && cands.contains(value)) {
-          rows += i
-          //break //todo: break is not supported
-        }
+    for (i <- 0 until n; j <- 0 until n) {
+      val cands = getCell(i, j).getCandidates
+      if (cands != null && cands.contains(value)) {
+        rows += i
+        //break //todo: break is not supported
       }
     }
     if (rows.size == 1) rows.head else -1
@@ -96,15 +87,13 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def findUniqueColFor(value: Int): Int = {
     var cols = new HashSet[Integer]
 
-    for (j <- 0 until n) {
-      for (i <- 0 until n) {
-        val cands = getCell(i, j).getCandidates
-        if (cands != null && cands.contains(value)) {
-          cols += j
-          //break //todo: break is not supported
-        }
-      }
-    }
+    for {
+      j <- 0 until n
+      i <- 0 until n
+      cands = getCell(i, j).getCandidates
+      if cands != null && cands.contains(value)
+    } cols += j  // for performance, we want to break and avoid remaining i's for j loop
+
     if (cols.size == 1) cols.head else -1
   }
 
@@ -120,8 +109,5 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     cells(row)(col)
   }
 
-  private def clearCaches() {
-    for (j <- 0 until n)
-      for (i <- 0 until n) getCell(i, j).clearCache()
-  }
+  private def clearCaches() = for (j <- 0 until n; i <- 0 until n) getCell(i, j).clearCache()
 }

@@ -35,11 +35,8 @@ class Board(var n: Int) {
   def this(b: Board) {
     this(b.getBaseSize)
     var i: Int = 0
-    for (i <- 0 until nn) {
-      for (j <- 0 until nn) {
-        getCell(i, j).setOriginalValue(b.getCell(i, j).getValue)
-      }
-    }
+    for (i <- 0 until nn; j <- 0 until nn)
+      getCell(i, j).setOriginalValue(b.getCell(i, j).getValue)
   }
 
   def this (initialData: Array[Array[Int]] ) {
@@ -98,22 +95,15 @@ class Board(var n: Int) {
     * @return true if all the cells have been filled in with a value (even if not a valid solution).
     */
   private def isFilledIn: Boolean = {
-    for (row <- 0 until nn) {
-      for (col <- 0 until nn) {
+    for (row <- 0 until nn; col <- 0 until nn) {
         val c: Cell = getCell(row, col)
         if (c.getValue <= 0) return false
-      }
     }
     true
   }
 
   private def hasNoCandidates: Boolean = {
-    for (row <- 0 until nn) {
-      for (col <- 0 until nn) {
-        val c: Cell = getCell(row, col)
-        if (c.getCandidates != null) return false
-      }
-    }
+    for (row <- 0 until nn; col <- 0 until nn if getCell(row, col).getCandidates != null) return false
     true
   }
 

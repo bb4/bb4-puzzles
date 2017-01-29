@@ -9,9 +9,8 @@ package com.barrybecker4.puzzle.sudoku.model.board
 object CellArrays {
   def createRowCellArrays(board: Board): CellArrays = {
     val cellArrays = new CellArrays(board.getEdgeLength)
-    for (i <- 0 until board.getEdgeLength) {
-        cellArrays.cellArrays(i) = CellArray.createRowCellArray(i, board)
-    }
+    for (i <- 0 until board.getEdgeLength)
+      cellArrays.cellArrays(i) = CellArray.createRowCellArray(i, board)
     cellArrays
   }
 
@@ -32,9 +31,8 @@ class CellArrays private(var size: Int) {
   def get(i: Int): CellArray = cellArrays(i)
 
   def updateAll(values: ValuesList) {
-    for (entry <- 0 until size) {
-        cellArrays(entry).updateCandidates(values)
-    }
+    for (entry <- 0 until size)
+      cellArrays(entry).updateCandidates(values)
   }
 
   override def toString: String = cellArrays.mkString(", ")

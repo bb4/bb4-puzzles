@@ -1,11 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.ui
 
+import java.awt.{Color, Font, Graphics}
+
 import com.barrybecker4.puzzle.common.PuzzleRenderer
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
-import java.awt.Color
-import java.awt.Font
-import java.awt.Graphics
 
 /**
   * Singleton class that takes a PieceList and renders it for the SliderViewer.
@@ -34,9 +33,8 @@ class SliderRenderer extends PuzzleRenderer[SliderBoard] {
     val bottomEdgePos = SliderRenderer.TOP_MARGIN + SliderRenderer.INC * size
     drawBorder(g, size, rightEdgePos, bottomEdgePos)
     // now draw the pieces that we have so far
-    for (row <- 0 until size) {
-        for  (col <- 0 until size) drawTile(g, board, row, col)
-    }
+    for (row <- 0 until size; col <- 0 until size)
+       drawTile(g, board, row, col)
   }
 
   /** draw the hatches which delineate the cells */

@@ -37,9 +37,7 @@ object Deck2 {
 class Deck2(var count: Int) extends Deck {
   if (count < 1) throw new IllegalArgumentException("Deck must contain at least " + "one card.  You entered " + count + '.')
   private var cards = new Array[Int](count)
-  for (i <- 0 until count) {
-      cards(i) = i
-  }
+  for (i <- 0 until count) cards(i) = i
 
   def shuffleUntilSorted(iCut: Int): Long = {
     this.doPerfectShuffle(iCut)
@@ -64,8 +62,8 @@ class Deck2(var count: Int) extends Deck {
     else System.arraycopy(bottom, 0, extras, 0, different)
 
     for (i <- 0 until shared) {
-        updated(count - (2 * i) - 1) = top(cut - i - 1)
-        updated(count - (2 * i) - 2) = bottom(count - cut - i - 1)
+      updated(count - (2 * i) - 1) = top(cut - i - 1)
+      updated(count - (2 * i) - 2) = bottom(count - cut - i - 1)
     }
     System.arraycopy(extras, 0, updated, 0, different)
     cards = updated

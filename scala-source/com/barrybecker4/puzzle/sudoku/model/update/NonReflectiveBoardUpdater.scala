@@ -20,9 +20,7 @@ class NonReflectiveBoardUpdater() extends IBoardUpdater {
     */
   def updateAndSet(board: Board) {
     val updaters = createUpdaters(board)
-    for (updater <- updaters) {
-      updater.updateAndSet()
-    }
+    for (updater <- updaters) updater.updateAndSet()
   }
 
   private def createUpdaters(board: Board) = List[IUpdater](

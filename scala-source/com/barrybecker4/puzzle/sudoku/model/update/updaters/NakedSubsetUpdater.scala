@@ -47,17 +47,14 @@ class NakedSubsetUpdater(val b: Board) extends AbstractUpdater(b) {
 
   private def checkNakedSubsetInCols() {
     for (i <- 0 until board.getEdgeLength) {
-        val col = board.getColCells.get(i)
-        checkNakedSubset(col)
+      val col = board.getColCells.get(i)
+      checkNakedSubset(col)
     }
   }
 
   private def checkNakedSubsetInBigCells() {
-    for (i <- 0 until board.getBaseSize) {
-      for (j <- 0 until board.getBaseSize) {
-         checkNakedSubset(board.getBigCell(i, j))
-      }
-    }
+    for (i <- 0 until board.getBaseSize; j <- 0 until board.getBaseSize)
+      checkNakedSubset(board.getBigCell(i, j))
   }
 
   private def checkNakedSubset(cells: CellSet) {

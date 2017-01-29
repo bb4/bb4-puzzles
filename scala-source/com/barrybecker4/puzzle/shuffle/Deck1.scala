@@ -7,9 +7,7 @@ package com.barrybecker4.puzzle.shuffle
 class Deck1 (val nCards: Int) extends Deck {
 
   private var data:Array[Int] = new Array[Int](nCards)
-  for (i <- 0 until nCards) {
-      data(i) = i
-  }
+  for (i <- 0 until nCards) data(i) = i
 
   def size: Int = data.length
   def get(i: Int): Int = data(i)

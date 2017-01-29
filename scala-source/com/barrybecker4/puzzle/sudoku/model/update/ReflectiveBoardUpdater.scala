@@ -1,9 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.update
 
-import com.barrybecker4.puzzle.sudoku.model.board.Board
 import java.lang.reflect.{Constructor, InvocationTargetException}
 import java.security.AccessControlException
+
+import com.barrybecker4.puzzle.sudoku.model.board.Board
 
 /**
   * Responsible for updating a board given a list of updaters to apply.
@@ -24,9 +25,7 @@ class ReflectiveBoardUpdater(updaterClasses: List[Class[_ <: AbstractUpdater]]) 
     */
   def updateAndSet(board: Board) {
     val updaters = createUpdaters(board)
-    for (updater <- updaters) {
-      updater.updateAndSet()
-    }
+    for (updater <- updaters) updater.updateAndSet()
   }
 
   /**

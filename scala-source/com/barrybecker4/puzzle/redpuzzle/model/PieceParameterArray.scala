@@ -2,8 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.optimization.parameter.ParameterArray
-import com.barrybecker4.optimization.parameter.PermutedParameterArray
+import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 
 /**
   * The parameter array to use when searching (using optimization) to find a red puzzle solution.
@@ -80,9 +79,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
     var totalProb: Double = 0
 
-    for (i <- 0 until pieces.numTotal) {
-      totalProb += swapProbabilities(i)
-    }
+    for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
 
     val p1: Int = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
     var p2: Int = 0
