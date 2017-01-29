@@ -11,7 +11,7 @@ class Cell(value: Int) {
   private var currentValue: Int = 0
 
   /** true if part of the original specification.  */
-  private var isOriginal: Boolean = false
+  var isOriginal: Boolean = false
 
   /** the BigCell to which I belong   */
   private var parentBigCell: BigCell = _

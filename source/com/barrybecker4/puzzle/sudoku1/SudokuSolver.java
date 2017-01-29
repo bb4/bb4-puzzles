@@ -7,7 +7,7 @@ import com.barrybecker4.puzzle.sudoku1.model.update.IBoardUpdater;
 import com.barrybecker4.puzzle.sudoku1.model.update.NonReflectiveBoardUpdater;
 import com.barrybecker4.puzzle.sudoku1.model.update.ReflectiveBoardUpdater;
 
-import java.awt.Container;
+import java.awt.*;
 
 /**
  * This does the hard work of actually solving the puzzle.
@@ -43,7 +43,7 @@ public class SudokuSolver {
         return solvePuzzle(board, null);
     }
 
-    public void setDelay(int delay)  {
+    void setDelay(int delay)  {
         delay_ = delay;
     }
 
@@ -73,7 +73,7 @@ public class SudokuSolver {
         return solved;
     }
 
-    public boolean doIteration(Board board)   {
+    boolean doIteration(Board board)   {
         // find missing row and column numbers
         updater_.updateAndSet(board);
         board.incrementNumIterations();

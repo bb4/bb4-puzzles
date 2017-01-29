@@ -19,7 +19,7 @@ class Board(var n: Int) {
   private val nn = n * n
 
   /** all the values in the big cells or rows/cols 1...nn_ */
-  private var valuesList = new ValuesList() // nn
+  private var valuesList = new ValuesList(nn) // nn
   private var cells: Array[Array[Cell]] = _
 
   // row and col cells for every row and col.
@@ -46,8 +46,8 @@ class Board(var n: Int) {
     this(Math.sqrt(initialData.length).toInt)
     assert(initialData.length == nn && initialData(0).length == nn)
 
-    for (i <- 0 to nn) {
-      for (j <- 0 to nn) {
+    for (i <- 0 until nn) {
+      for (j <- 0 until nn) {
         getCell(i, j).setOriginalValue(initialData(i)(j))
       }
     }

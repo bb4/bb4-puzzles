@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.sudoku1.model.ValueConverter;
 import com.barrybecker4.puzzle.sudoku1.model.board.Board;
 import com.barrybecker4.puzzle.sudoku1.model.board.Cell;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -33,7 +33,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
      */
     UserInputListener(CellLocator locator) {
         this.locator = locator;
-        listeners = new ArrayList<RepaintListener>();
+        listeners = new ArrayList<>();
         clear();
     }
 
@@ -41,11 +41,11 @@ public final class UserInputListener implements MouseListener, KeyListener {
         userEnteredValues = new UserEnteredValues();
     }
 
-    public Location getCurrentCellLocation() {
+    Location getCurrentCellLocation() {
         return currentCellLocation;
     }
 
-    public UserEnteredValues getUserEnteredValues() {
+    UserEnteredValues getUserEnteredValues() {
         return userEnteredValues;
     }
 
@@ -54,7 +54,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
         setCurrentLocation(location);
     }
 
-    public void useCorrectEntriesAsOriginal(Board board) {
+    void useCorrectEntriesAsOriginal(Board board) {
         for (Location location : userEnteredValues.keySet()) {
             UserValue value = userEnteredValues.get(location);
             if (value.isValid())  {
@@ -115,7 +115,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
 
     /**
      * Set the current location if it valid, and notify renderer of change.
-     * @param location
+     * @param location location
      */
     private void setCurrentLocation(Location location) {
        if (isValid(location)) {
@@ -136,7 +136,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
     private void handleValueEntry(char key) {
         try {
             int value = ValueConverter.getValue(key, locator.getBoard().getEdgeLength());
-            UserValue userValue = new UserValue(currentCellLocation, value);
+            UserValue userValue = new UserValue(value);
             userEnteredValues.put(currentCellLocation, userValue);
             notifyValueEntered();
         }
@@ -145,7 +145,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
         }
     }
 
-    public void validateValues(Board solvedPuzzle) {
+    void validateValues(Board solvedPuzzle) {
 
         for (Location location : userEnteredValues.keySet())  {
             assert location != null;
@@ -158,7 +158,7 @@ public final class UserInputListener implements MouseListener, KeyListener {
     }
 
 
-    public void addRepaintListener(RepaintListener listener) {
+    void addRepaintListener(RepaintListener listener) {
          listeners.add(listener);
     }
 

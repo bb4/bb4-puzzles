@@ -16,11 +16,11 @@ class Candidates(list: ValuesList) {
   list.elements.foreach(x => elements += x)
 
   def this() {
-    this(new ValuesList())
+    this(new ValuesList(0))
   }
 
   def this(cands: Candidates) {
-    this(new ValuesList(cands))
+    this(new ValuesList(cands.elements))
   }
 
   def copy = new Candidates(this)

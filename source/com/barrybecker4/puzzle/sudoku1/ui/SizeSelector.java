@@ -1,14 +1,14 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku1.ui;
 
-import java.awt.Choice;
+import java.awt.*;
 
 /**
  * A combo box that allows the user to select the size of the puzzle
  *
  * @author Barry Becker
  */
-public final class SizeSelector extends Choice {
+final class SizeSelector extends Choice {
 
     private static final String[] SIZE_MENU_ITEMS = {
         "4 cells on a side",
@@ -20,7 +20,7 @@ public final class SizeSelector extends Choice {
     /**
      * Constructor.
      */
-    public SizeSelector() {
+    SizeSelector() {
         for (final String item : SIZE_MENU_ITEMS) {
             add(item);
         }
@@ -30,7 +30,7 @@ public final class SizeSelector extends Choice {
     /**
      * @return  the puzzle size for what was selected.
      */
-    public int getSelectedSize() {
+    int getSelectedSize() {
         return this.getSelectedIndex() + 2;
     }
 }

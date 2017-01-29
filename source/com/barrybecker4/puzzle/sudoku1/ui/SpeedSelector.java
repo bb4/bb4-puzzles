@@ -1,14 +1,14 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku1.ui;
 
-import java.awt.Choice;
+import java.awt.*;
 
 /**
  * A combo box that allows the user to select the speed at which the puzzle is generated or solved.
  *
  * @author Barry Becker
  */
-public final class SpeedSelector extends Choice {
+final class SpeedSelector extends Choice {
 
     private static final int DEFAULT_SELECTION = 1;
 
@@ -23,7 +23,7 @@ public final class SpeedSelector extends Choice {
     /**
      * Constructor.
      */
-    public SpeedSelector() {
+    SpeedSelector() {
         for (final String item : SPEED_CHOICES) {
             add(item);
         }
@@ -33,7 +33,7 @@ public final class SpeedSelector extends Choice {
     /**
      * @return  the delay for selected speed.
      */
-    public int getSelectedDelay() {
+    int getSelectedDelay() {
         switch (this.getSelectedIndex())  {
             case 0 : return -1;
             case 1 : return 0;

@@ -28,21 +28,22 @@ public class SudokuGenerator {
      * Use this Constructor if you do not need to show the board in a UI.
      * @param baseSize 4, 9, or 16
      */
-    public SudokuGenerator(int baseSize) {
+    SudokuGenerator(int baseSize) {
         this(baseSize, null);
     }
+
     /**
      * Constructor
      * @param baseSize 4, 9, or 16
      * @param ppanel renders the puzzle. May be null if you do not want to see animation.
      */
-    public SudokuGenerator(int baseSize, SudokuPanel ppanel) {
+    SudokuGenerator(int baseSize, SudokuPanel ppanel) {
         size_ = baseSize;
         ppanel_ = ppanel;
         totalCt = 0;
     }
 
-    public void setDelay(int delay) {
+    void setDelay(int delay) {
         delay_ = delay;
     }
 
@@ -68,7 +69,7 @@ public class SudokuGenerator {
         return generateByRemoving(board);
     }
 
-    protected boolean generateSolution(Board board) {
+    private boolean generateSolution(Board board) {
         return generateSolution(board, 0);
     }
 
@@ -79,7 +80,7 @@ public class SudokuGenerator {
      * @param board the currently generated board (may be partial)
      * @return whether or not the current board is consistent.
      */
-    protected boolean generateSolution(Board board, int position) {
+    private boolean generateSolution(Board board, int position) {
 
         // base case of the recursion
         if (position == board.getNumCells())  {

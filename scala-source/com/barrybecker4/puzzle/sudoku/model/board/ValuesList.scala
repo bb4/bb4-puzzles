@@ -11,24 +11,26 @@ import scala.util.Random
 object ValuesList {
 
   def getShuffledCandidates(cands: Candidates): ValuesList = {
-    if (cands == null) return new ValuesList()
+    if (cands == null) return new ValuesList(0)
     ValuesList.createShuffledList(cands)
   }
 
   private def createShuffledList(cands: Candidates) = {
-    val list = new ValuesList(cands)
+    val list = new ValuesList(cands.elements)
     list.shuffle()
     list
   }
 }
 
-class ValuesList(candidates: Candidates) {
+class ValuesList(els: Iterable[Int]) {
 
   var elements: List[Int] = List()
 
-  def this() = this(new Candidates())
+  addAll(els)
 
-  def addAll(cands: Candidates): Unit = cands.elements.foreach(x => elements +:= x)
+  def this(n: Int) = this(1 to n)
+  def addAll(cands: Candidates): Unit = addAll(cands.elements)
+  def addAll(els: Iterable[Int]): Unit = els.foreach(x => elements +:= x)
 
   def shuffle(): Unit = Random.shuffle(elements)
 }

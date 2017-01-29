@@ -12,9 +12,7 @@ import java.util.HashMap;
  */
 public class UserEnteredValues extends HashMap<Location, UserValue> {
 
-
-    public UserEnteredValues() {
-    }
+    UserEnteredValues() {}
 
     public UserValue get(int row, int col)  {
         return get(new ByteLocation(row, col));
