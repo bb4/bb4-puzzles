@@ -37,11 +37,8 @@ class ValuesList(els: Iterable[Int]) {
   def addAll(els: Iterable[Int]): Unit = els.foreach(x => elements +:= x)
 
 
-  def shuffle(rand: Random = RAND): Unit = {
-    //val r = new Random(Math.round(Math.random() * 100000))
-    //println("before shuffle = " + elements.mkString(", "))
+  def shuffle(rand: Random = RAND): Unit =
     elements = rand.shuffle(elements)
-  }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[ValuesList]
 

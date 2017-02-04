@@ -38,7 +38,7 @@ class Candidates(list: ValuesList) {
   def retainAll(cands: Candidates): Unit = elements = elements.filter(cands.contains)
   def remove(v: Int): Unit = elements -= v
   def removeAll(cands: Candidates): Unit = {
-    cands.elements = cands.elements.filter(x => !cands.contains(x))
+    elements = elements.filter(x => !cands.contains(x))
   }
   def contains(v: Int): Boolean = elements.contains(v)
   def containsAll(cands: Candidates): Boolean = elements.forall(cands.contains)

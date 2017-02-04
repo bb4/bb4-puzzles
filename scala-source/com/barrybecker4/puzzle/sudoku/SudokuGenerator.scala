@@ -2,9 +2,15 @@
 package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.concurrency.ThreadUtil
+import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
 import com.barrybecker4.puzzle.sudoku.model.board.{Board, Cell, ValuesList}
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
+import scala.util.Random
+
+object SudokuGenerator {
+  val RANDOM: Random = new Random()
+}
 
 /**
   * Generate a Sudoku puzzle.
@@ -15,7 +21,7 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
   *
   * @author Barry Becker
   */
-class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
+class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   var delay: Int = 0
   private var totalCt: Long = 0L
@@ -45,7 +51,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
     generateByRemoving (board)
   }
 
-  private def generateSolution (board: Board): Boolean = generateSolution (board, 0)
+  def generateSolution(board: Board): Boolean = generateSolution(board, 0)
 
   /**
     * Recursive method to generate a completely solved, consistent sudoku board.
@@ -54,20 +60,20 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
     * @param board the currently generated board (may be partial)
     * @return whether or not the current board is consistent.
     */
-  private def generateSolution (board: Board, position: Int): Boolean = {
+  private def generateSolution(board: Board, position: Int): Boolean = {
     // base case of the recursion
     if (position == board.getNumCells) {
       // board completely solved now
       return true
     }
     val cell: Cell = board.getCell (position)
-    val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates)
+    val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates, rand)
     refresh ()
 
     for (value <- shuffledValues.elements) {
       cell.setValue (value)
       totalCt += 1
-      if (generateSolution (board, position + 1) ) {
+      if (generateSolution(board, position + 1) ) {
         return true
       }
       cell.clearValue ()
@@ -93,7 +99,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
     if (ppanel != null) {
       ppanel.setBoard(board)
     }
-    val positionList: ValuesList = getRandomPositions(size)
+    val positionList: ValuesList = getRandomPositions(size, rand)
     // we need a solver to verify that we can still deduce the original
     val solver: SudokuSolver = new SudokuSolver
     solver.delay = delay
@@ -133,10 +139,10 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
     * @param size the base size (fourth root of the number of cells).
     * @return the positions on the board in a random order in a list .
     */
-  private def getRandomPositions(size: Int): ValuesList = {
+  private def getRandomPositions(size: Int, rand: Random = RANDOM): ValuesList = {
     val numPositions: Int = size * size * size * size
     val positionList: ValuesList = new ValuesList(numPositions)
-    positionList.shuffle() //Random.shuffle(positionList)
+    positionList.shuffle(rand) //Random.shuffle(positionList)
     positionList
   }
 }
