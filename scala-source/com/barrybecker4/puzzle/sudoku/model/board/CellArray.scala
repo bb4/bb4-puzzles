@@ -7,26 +7,28 @@ package com.barrybecker4.puzzle.sudoku.model.board
   * @author Barry Becker
   */
 object CellArray {
-  private[board] def createRowCellArray(row: Int, board: Board) = {
-    val cells = new CellArray(board.getEdgeLength)
-    cells.candidates.addAll(board.getValuesList)
-    for (i <- 0 until board.getEdgeLength) {
-        val cell = board.getCell(row, i)
-        cell.rowCells = cells
-        cells.cells(i) = cell
-        if (cell.getValue > 0) cells.removeCandidate(cell.getValue)
-    }
-    cells
-  }
 
-  private[board] def createColCellArray(col: Int, board: Board) = {
+  private[board] def createRowCellArray(row: Int, board: Board) =
+    createCellArray(board, row, (row, i, cells) => {
+      val cell = board.getCell(row, i)
+      cell.rowCells = cells
+      cell
+    })
+
+  private[board] def createColCellArray(col: Int, board: Board) =
+    createCellArray(board, col, (col, i, cells) => {
+      val cell = board.getCell(i, col)
+      cell.colCells = cells
+      cell
+    })
+
+  private def createCellArray(board: Board, rowOrCol: Int, extractor: (Int, Int, CellArray) => Cell) = {
     val cells = new CellArray(board.getEdgeLength)
     cells.candidates.addAll(board.getValuesList)
     for (i <- 0 until board.getEdgeLength) {
-        val cell = board.getCell(i, col)
-        cell.colCells = cells
-        cells.cells(i) = cell
-        if (cell.getValue > 0) cells.removeCandidate(cell.getValue)
+      val cell = extractor(rowOrCol, i, cells)
+      cells.cells(i) = cell
+      if (cell.getValue > 0) cells.removeCandidate(cell.getValue)
     }
     cells
   }

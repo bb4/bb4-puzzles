@@ -69,7 +69,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
 
     for (i <- 0 until n; j <- 0 until n) {
       val cands = getCell(i, j).getCandidates
-      if (cands != null && cands.contains(value)) {
+      if (cands.isDefined && cands.get.contains(value)) {
         rows += i
         //break //todo: break is not supported
       }
@@ -91,7 +91,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
       j <- 0 until n
       i <- 0 until n
       cands = getCell(i, j).getCandidates
-      if cands != null && cands.contains(value)
+      if cands.isDefined && cands.get.contains(value)
     } cols += j  // for performance, we want to break and avoid remaining i's for j loop
 
     if (cols.size == 1) cols.head else -1

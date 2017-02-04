@@ -1,8 +1,9 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.board
 
+import com.barrybecker4.puzzle.sudoku.model.board.ValuesList.RAND
+
 import scala.util.Random
-//import ValuesList.RAND
 
 /**
   * The list of values in a bigCell (or row or column).
@@ -11,16 +12,16 @@ import scala.util.Random
   */
 object ValuesList {
 
-  //private val RAND = new Random(Math.round(Math.random() * 100000))
+  private val RAND = new Random(Math.round(Math.random() * 100000))
 
-  def getShuffledCandidates(cands: Candidates): ValuesList = {
-    if (cands == null) return new ValuesList(0)
-    ValuesList.createShuffledList(cands)
+  def getShuffledCandidates(cands: Option[Candidates], rand: Random = RAND): ValuesList = {
+    if (cands.isEmpty) return new ValuesList(0)
+    ValuesList.createShuffledList(cands.get, rand)
   }
 
-  private def createShuffledList(cands: Candidates) = {
+  private def createShuffledList(cands: Candidates, rand: Random = RAND) = {
     val list = new ValuesList(cands.elements)
-    list.shuffle()
+    list.shuffle(rand)
     list
   }
 }
@@ -36,10 +37,10 @@ class ValuesList(els: Iterable[Int]) {
   def addAll(els: Iterable[Int]): Unit = els.foreach(x => elements +:= x)
 
 
-  def shuffle(): Unit = {
+  def shuffle(rand: Random = RAND): Unit = {
     //val r = new Random(Math.round(Math.random() * 100000))
     //println("before shuffle = " + elements.mkString(", "))
-    elements = Random.shuffle(elements)
+    elements = rand.shuffle(elements)
   }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[ValuesList]

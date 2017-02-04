@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.sudoku.model.board.Board
 
 /**
   * Responsible for updating a board given a list of updaters to apply.
-  * Unfortunately we cannot use reflection in an applet without making is a signed applet
+  * Unfortunately, we cannot use reflection in an applet without making is a signed applet
   * (or have signed jars in the case of webstart), so we use NonReflectiveBoardUpdater in deployed version.
   *
   * @author Barry Becker

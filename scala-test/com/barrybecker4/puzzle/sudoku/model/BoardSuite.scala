@@ -7,6 +7,8 @@ import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, ValuesList
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
+import scala.util.Random
+
 
 /**
   * @author Barry Becker
@@ -39,16 +41,16 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
   test("FindCellCandidatesForAll") {
     board = new Board(TestData.SIMPLE_4)
     val expCands = Array(
-      Array(new Candidates(1, 2, 3), null, new Candidates(1, 3), new Candidates(1, 3)),
-      Array(new Candidates(1, 3), new Candidates(1), null, new Candidates(1, 3, 4)),
-      Array(null, null, new Candidates(1), new Candidates(1, 2)),
-      Array(new Candidates(1, 2), new Candidates(1, 2), new Candidates(1, 3, 4), new Candidates(1, 2, 3, 4))
+      Array(Some(new Candidates(1, 2, 3)), None, Some(new Candidates(1, 3)), Some(new Candidates(1, 3))),
+      Array(Some(new Candidates(1, 3)), Some(new Candidates(1)), None, Some(new Candidates(1, 3, 4))),
+      Array(None, None, Some(new Candidates(1)), Some(new Candidates(1, 2))),
+      Array(Some(new Candidates(1, 2)), Some(new Candidates(1, 2)), Some(new Candidates(1, 3, 4)), Some(new Candidates(1, 2, 3, 4)))
     )
     var valid = true
     for (i <- 0 until board.getEdgeLength) {
       for (j <- 0 until board.getEdgeLength) {
         val cands = board.getCell(i, j).getCandidates
-        if (expCands(i)(j) ne cands) valid = false
+        if (expCands(i)(j) != cands) valid = false
       }
     }
     if (!valid) System.out.println("baord = " + board)
@@ -61,18 +63,20 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("FindShuffledCellCandidates2") {
+    val rand = new Random(1)
     board = new Board(TestData.SIMPLE_4)
-    val cands = ValuesList.getShuffledCandidates(board.getCell(0).getCandidates)
+    val cands = ValuesList.getShuffledCandidates(board.getCell(0).getCandidates, rand)
     checkCandidates(List(2, 3, 1), cands)
   }
 
   test("FindShuffledCellCandidates3") {
+    val rand = new Random(1)
     board = new Board(TestData.SIMPLE_9)
-    var cands = ValuesList.getShuffledCandidates(board.getCell(0).getCandidates)
+    var cands = ValuesList.getShuffledCandidates(board.getCell(0).getCandidates, rand)
     checkCandidates(List(3, 5), cands)
-    cands = ValuesList.getShuffledCandidates(board.getCell(1).getCandidates)
-    checkCandidates(List(4, 5, 3, 1), cands)
-    cands = ValuesList.getShuffledCandidates(board.getCell(2).getCandidates)
+    cands = ValuesList.getShuffledCandidates(board.getCell(1).getCandidates, rand)
+    checkCandidates(List(1, 5, 3, 4), cands)
+    cands = ValuesList.getShuffledCandidates(board.getCell(2).getCandidates, rand)
     val expList = List()
     checkCandidates(expList, cands)
   }

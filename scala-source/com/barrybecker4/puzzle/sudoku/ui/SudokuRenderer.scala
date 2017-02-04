@@ -96,7 +96,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     }
     // draw the first 9 numbers in the candidate list, if there are any.
     if (showCandidates) {
-      drawCandidates (g2, cell.getCandidates, xpos, ypos)
+      drawCandidates(g2, cell.getCandidates, xpos, ypos)
     }
   }
 
@@ -127,12 +127,12 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawLine (rightX, topY, leftX, bottomY)
   }
 
-  private def drawCandidates (g: Graphics, candidates: Candidates, xpos: Int, ypos: Int) {
-    if (candidates != null) {
+  private def drawCandidates (g: Graphics, candidates: Option[Candidates], xpos: Int, ypos: Int) {
+    if (candidates.isDefined) {
       g.setColor (SudokuRenderer.CANDIDATE_TEXT_COLOR)
       val candidateFont: Font = new Font ("Sans Serif", Font.PLAIN, (pieceSize >> 2) - 2)
       g.setFont (candidateFont)
-      drawHints (g, candidates, xpos, ypos, getScale (pieceSize) )
+      drawHints (g, candidates.get, xpos, ypos, getScale (pieceSize) )
     }
   }
 

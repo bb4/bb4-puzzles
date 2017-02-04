@@ -103,7 +103,7 @@ class Board(var n: Int) {
   }
 
   private def hasNoCandidates: Boolean = {
-    for (row <- 0 until nn; col <- 0 until nn if getCell(row, col).getCandidates != null) return false
+    for (row <- 0 until nn; col <- 0 until nn if getCell(row, col).getCandidates.isDefined) return false
     true
   }
 

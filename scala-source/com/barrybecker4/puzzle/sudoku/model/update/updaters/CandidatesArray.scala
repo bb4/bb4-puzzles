@@ -13,7 +13,7 @@ class CandidatesArray(var candidates: Array[Candidates]) {
 
   def get(i: Int): Candidates = candidates(i)
 
-  def size: Int = candidates.length
+  val size: Int = candidates.length
 
   override def toString: String = candidates.mkString("\n")
 }

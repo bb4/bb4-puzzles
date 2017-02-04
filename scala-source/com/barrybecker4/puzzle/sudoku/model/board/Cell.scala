@@ -17,7 +17,7 @@ class Cell(value: Int) {
   private var parentBigCell: BigCell = _
   var rowCells: CellSet = _
   var colCells: CellSet = _
-  private var cachedCandidates: Candidates = _
+  private var cachedCandidates: Option[Candidates] = None
 
   def setParent(parent: BigCell) {
     parentBigCell = parent
@@ -28,7 +28,7 @@ class Cell(value: Int) {
   def isParent(bigCell: BigCell): Boolean = bigCell eq parentBigCell
 
   /**
-    * once the puzzle is started, you can only assign positive values to values of cells.
+    * Once the puzzle is started, you can only assign positive values to values of cells.
     *
     * @param value the value to set permanently in the cell (at least until cleared).
     */
@@ -77,37 +77,33 @@ class Cell(value: Int) {
   }
 
   def remove(value: Int) {
-    if (cachedCandidates != null) cachedCandidates.remove(value)
+    if (cachedCandidates.isDefined) cachedCandidates.get.remove(value)
   }
 
-  def clearCache() {
-    cachedCandidates = null
-  }
+  def clearCache() { cachedCandidates = None }
 
   /**
     * Intersect the parent big cell candidates with the row and column candidates.
     * [If after doing the intersection, we have only one value, then set it on the cell. ]
     */
-  def getCandidates: Candidates = {
-    if (currentValue > 0) return null
+  def getCandidates: Option[Candidates] = {
+    if (currentValue > 0) return None
 
-    if (cachedCandidates != null)
-      cachedCandidates
+    if (cachedCandidates.isDefined) cachedCandidates
     else {
       val candidates: Candidates = new Candidates()
       candidates.addAll(parentBigCell.candidates)
       candidates.retainAll(rowCells.candidates)
       candidates.retainAll(colCells.candidates)
-      cachedCandidates = candidates
-      candidates
+      cachedCandidates = Some(candidates)
+      cachedCandidates
     }
   }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Cell]
 
   override def equals(other: Any): Boolean = other match {
-    case that: Cell =>
-      (that canEqual this) && currentValue == that.currentValue
+    case that: Cell => (that canEqual this) && currentValue == that.currentValue
     case _ => false
   }
 

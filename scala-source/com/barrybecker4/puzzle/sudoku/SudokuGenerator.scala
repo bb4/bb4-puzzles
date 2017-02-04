@@ -61,7 +61,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
       return true
     }
     val cell: Cell = board.getCell (position)
-    val shuffledValues: ValuesList = ValuesList.getShuffledCandidates (cell.getCandidates)
+    val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates)
     refresh ()
 
     for (value <- shuffledValues.elements) {

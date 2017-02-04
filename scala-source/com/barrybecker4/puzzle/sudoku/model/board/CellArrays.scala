@@ -31,8 +31,7 @@ class CellArrays private(var size: Int) {
   def get(i: Int): CellArray = cellArrays(i)
 
   def updateAll(values: ValuesList) {
-    for (entry <- 0 until size)
-      cellArrays(entry).updateCandidates(values)
+    for (cellArray <- cellArrays) cellArray.updateCandidates(values)
   }
 
   override def toString: String = cellArrays.mkString(", ")

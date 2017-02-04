@@ -23,18 +23,26 @@ class BoardUpdaterSuite extends FunSuite with BeforeAndAfter {
     board = new Board(TestData.SIMPLE_4)
   }
 
-
   test("UpdateAndSetStandardCRB") {
     updater = new ReflectiveBoardUpdater(classOf[StandardCRBUpdater])
     updater.updateAndSet(board)
-    val expectedSetValues = Array(Array(0, 4, 0, 0), Array(0, 1, 2, 0), Array(4, 3, 1, 2), Array(0, 2, 0, 0))
+    val expectedSetValues = Array(
+      Array(0, 4, 0, 0),
+      Array(0, 1, 2, 0),
+      Array(4, 3, 1, 2),
+      Array(0, 2, 0, 0))
     verifySetValues(expectedSetValues, board)
   }
 
   test("UpdateAndSetStandardCRBAndLoneRanger") {
     updater = new ReflectiveBoardUpdater(classOf[StandardCRBUpdater], classOf[LoneRangerUpdater])
+    println("initial board = " + board)
     updater.updateAndSet(board)
-    val expectedSetValues = Array(Array(2, 4, 0, 1), Array(3, 1, 2, 4), Array(4, 3, 1, 2), Array(1, 2, 4, 3))
+    val expectedSetValues = Array(
+      Array(2, 4, 0, 1),
+      Array(3, 1, 2, 4),
+      Array(4, 3, 1, 2),
+      Array(1, 2, 4, 3))
     verifySetValues(expectedSetValues, board)
   }
 
@@ -48,7 +56,11 @@ class BoardUpdaterSuite extends FunSuite with BeforeAndAfter {
   test("UpdateAndSetLoneRangerOnly") {
     updater = new ReflectiveBoardUpdater(classOf[LoneRangerUpdater])
     updater.updateAndSet(board)
-    val expectedSetValues = Array(Array(2, 4, 0, 0), Array(3, 1, 2, 4), Array(4, 3, 0, 2), Array(1, 2, 4, 3))
+    val expectedSetValues = Array(
+      Array(2, 4, 0, 0),
+      Array(3, 1, 2, 4),
+      Array(4, 3, 0, 2),
+      Array(1, 2, 4, 3))
     verifySetValues(expectedSetValues, board)
   }
 

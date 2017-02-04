@@ -1,9 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.update.updaters
 
-import com.barrybecker4.puzzle.sudoku.model.board.BigCell
-import com.barrybecker4.puzzle.sudoku.model.board.Board
-import com.barrybecker4.puzzle.sudoku.model.board.Cell
+import com.barrybecker4.puzzle.sudoku.model.board.{BigCell, Board, Cell}
 import com.barrybecker4.puzzle.sudoku.model.update.AbstractUpdater
 
 /**
@@ -59,10 +57,11 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
     */
   private def checkIfCanSetOutsideCellValue(value: Int, cell: Cell) {
     val cands = cell.getCandidates
-    if (cands != null && cands.size == 2 && cands.contains(value)) {
-      for (candValue <- cands.elements) {
-        if (candValue != value) cell.setValue(candValue)
-      }
+
+    if (cands.isDefined) {
+      val c = cands.get
+      if (c.size == 2 && c.contains(value))
+        for (candValue <- c.elements if candValue != value) cell.setValue(candValue)
     }
   }
 }

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.sudoku.model
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, Cell}
-import org.junit.Assert.{assertEquals, assertNull}
+import org.junit.Assert.assertEquals
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 /**
@@ -25,27 +25,27 @@ class CellSuite extends FunSuite with BeforeAndAfter {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(0, 0)
     val expCands = new Candidates(1, 2, 3) // everything but 4.
-    assertEquals("Did find correct candidates", expCands, cell.getCandidates)
+    assertEquals("Did find correct candidates", expCands, cell.getCandidates.get)
   }
 
   test("FindCellCandidatesForMiddleCell") {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(1, 1)
     val expCands = new Candidates(1)
-    assertEquals("Did find correct candidates", expCands, cell.getCandidates)
+    assertEquals("Did find correct candidates", expCands, cell.getCandidates.get)
   }
 
   /** Set an appropriate legal value */
   test("SetValueValid") {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(1, 1)
-    assertEquals("Unexpected before candidates", new Candidates(1), cell.getCandidates)
+    assertEquals("Unexpected before candidates", new Candidates(1), cell.getCandidates.get)
     System.out.println("before" + board)
     cell.setValue(1)
     System.out.println("after" + board)
     // the candidate lists should be reduced.
     assertEquals("Unexpected value ", 1, cell.getValue)
-    assertNull(cell.getCandidates)
+    assertEquals(None, cell.getCandidates)
     assertEquals("Unexpected row 1 cands", new Candidates(3, 4), board.getRowCells.get(1).candidates)
     assertEquals("Unexpected col 1 cands", new Candidates(3, 4), board.getRowCells.get(1).candidates)
     assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3), board.getBigCell(0, 0).candidates)

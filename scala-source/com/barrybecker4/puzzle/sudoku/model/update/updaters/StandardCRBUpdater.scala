@@ -31,8 +31,8 @@ class StandardCRBUpdater(val b: Board) extends AbstractUpdater(b) {
       for (col <- 0 until board.getEdgeLength) {
         val cell = board.getCell(row, col)
         val cands = cell.getCandidates
-        if (cands != null && cands.size == 1) {
-          val unique = cands.getFirst
+        if (cands.isDefined && cands.get.size == 1) {
+          val unique = cands.get.getFirst
           cell.setValue(unique)
         }
       }
