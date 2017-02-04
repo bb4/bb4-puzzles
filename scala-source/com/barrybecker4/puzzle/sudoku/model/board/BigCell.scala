@@ -109,5 +109,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     cells(row)(col)
   }
 
-  private def clearCaches() = for (j <- 0 until n; i <- 0 until n) getCell(i, j).clearCache()
+  private def clearCaches() =
+    for (j <- 0 until n; i <- 0 until n) getCell(i, j).clearCache()
 }

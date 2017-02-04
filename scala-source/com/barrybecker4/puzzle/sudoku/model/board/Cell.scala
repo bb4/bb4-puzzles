@@ -75,13 +75,13 @@ class Cell(value: Int) {
       parentBigCell.removeCandidate(value)
       rowCells.removeCandidate(value)
       colCells.removeCandidate(value)
-    }
+    } else clearCache()
   }
 
   def remove(value: Int): Unit =
     getCandidates.remove(value)
 
-  def clearCache() { cachedCandidates = new Candidates() }
+  def clearCache() { cachedCandidates = null }
 
   /**
     * Intersect the parent big cell candidates with the row and column candidates.
@@ -90,12 +90,8 @@ class Cell(value: Int) {
   def getCandidates: Candidates = {
     if (currentValue > 0)
       cachedCandidates = NO_CANDIDATES
-    else if (cachedCandidates == null) {
-      val candidates: Candidates = new Candidates()
-      candidates.addAll(parentBigCell.candidates)
-      candidates.retainAll(rowCells.candidates)
-      candidates.retainAll(colCells.candidates)
-      cachedCandidates = candidates
+    else { //if (cachedCandidates == null) {
+      cachedCandidates = parentBigCell.candidates.intersect(rowCells.candidates).intersect(colCells.candidates)
     }
     cachedCandidates
   }

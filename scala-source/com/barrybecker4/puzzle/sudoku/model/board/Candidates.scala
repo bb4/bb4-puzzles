@@ -44,6 +44,7 @@ class Candidates(list: ValuesList) {
   def removeAll(cands: Candidates): Unit = elements = elements.filter(x => !cands.contains(x))
   def contains(v: Int): Boolean = elements.contains(v)
   def containsAll(cands: Candidates): Boolean = elements.forall(cands.contains)
+  def intersect(cands: Candidates): Candidates = new Candidates(elements.intersect(cands.elements).toSeq:_*)
   def clear(): Unit = { elements = Set() }
   def size: Int = elements.size
   def isEmpty: Boolean = elements.isEmpty

@@ -66,14 +66,16 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
       // board completely solved now
       return true
     }
-    val cell: Cell = board.getCell (position)
+    val cell: Cell = board.getCell(position)
     val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates, rand)
     refresh()
 
+    println("shuff cands = " + shuffledValues)
     for (value <- shuffledValues.elements) {
       cell.setValue(value)
       totalCt += 1
-      if (generateSolution(board, position + 1) ) {
+      println("totalCt =  " + totalCt + " pos= " + position + " out of "+ board.getNumCells +" val=" + value)
+      if (generateSolution(board, position + 1)) {
         return true
       }
       cell.clearValue()

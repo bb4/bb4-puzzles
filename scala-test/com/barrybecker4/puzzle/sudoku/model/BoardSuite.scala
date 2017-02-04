@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.sudoku.model
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
+import com.barrybecker4.puzzle.sudoku.model.board.Candidates.NO_CANDIDATES
 import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, ValuesList}
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -41,10 +42,10 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
   test("FindCellCandidatesForAll") {
     board = new Board(TestData.SIMPLE_4)
     val expCands = Array(
-      Array(Some(new Candidates(1, 2, 3)), None, Some(new Candidates(1, 3)), Some(new Candidates(1, 3))),
-      Array(Some(new Candidates(1, 3)), Some(new Candidates(1)), None, Some(new Candidates(1, 3, 4))),
-      Array(None, None, Some(new Candidates(1)), Some(new Candidates(1, 2))),
-      Array(Some(new Candidates(1, 2)), Some(new Candidates(1, 2)), Some(new Candidates(1, 3, 4)), Some(new Candidates(1, 2, 3, 4)))
+      Array(new Candidates(1, 2, 3), NO_CANDIDATES, new Candidates(1, 3), new Candidates(1, 3)),
+      Array(new Candidates(1, 3), new Candidates(1), NO_CANDIDATES, new Candidates(1, 3, 4)),
+      Array(NO_CANDIDATES, NO_CANDIDATES, new Candidates(1), new Candidates(1, 2)),
+      Array(new Candidates(1, 2), new Candidates(1, 2), new Candidates(1, 3, 4), new Candidates(1, 2, 3, 4))
     )
     var valid = true
     for (i <- 0 until board.getEdgeLength) {
@@ -53,7 +54,7 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
         if (expCands(i)(j) != cands) valid = false
       }
     }
-    if (!valid) System.out.println("baord = " + board)
+    if (!valid) System.out.println("board = " + board)
     for (i <- 0 until board.getEdgeLength) {
       for (j <- 0 until board.getEdgeLength) {
         val cands = board.getCell(i, j).getCandidates

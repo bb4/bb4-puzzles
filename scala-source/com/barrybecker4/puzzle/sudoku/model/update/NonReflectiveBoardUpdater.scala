@@ -21,7 +21,6 @@ class NonReflectiveBoardUpdater() extends IBoardUpdater {
   def updateAndSet(board: Board) {
     val updaters = createUpdaters(board)
     for (updater <- updaters) {
-      println("calling updateandSet for " + updater.getClass.getName)
       updater.updateAndSet()
     }
   }

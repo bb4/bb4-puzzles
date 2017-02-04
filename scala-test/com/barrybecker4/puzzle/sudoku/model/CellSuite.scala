@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.sudoku.model
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, Cell}
-import org.junit.Assert.assertEquals
+import org.junit.Assert.{assertEquals, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 /**
@@ -45,7 +45,7 @@ class CellSuite extends FunSuite with BeforeAndAfter {
     System.out.println("after" + board)
     // the candidate lists should be reduced.
     assertEquals("Unexpected value ", 1, cell.getValue)
-    assertEquals(None, cell.getCandidates)
+    assertTrue(cell.getCandidates.isEmpty)
     assertEquals("Unexpected row 1 cands", new Candidates(3, 4), board.getRowCells.get(1).candidates)
     assertEquals("Unexpected col 1 cands", new Candidates(3, 4), board.getRowCells.get(1).candidates)
     assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3), board.getBigCell(0, 0).candidates)
