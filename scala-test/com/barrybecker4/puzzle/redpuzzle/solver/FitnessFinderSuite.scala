@@ -2,11 +2,8 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.puzzle.redpuzzle.model.{Nub, Piece, PieceList, PieceLists}
-import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.junit.Test
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.assertFalse
+import org.scalatest.{BeforeAndAfter, FunSuite}
 
 /**
   * @author Barry Becker
@@ -15,12 +12,12 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
   /** instance under test */
   private val fitnessFinder = new FitnessFinder
 
-  @Test def testFits() {
+  test("Fits") {
     val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces)
     assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
-  @Test def test4PieceSomeFits() {
+  test("4PieceSomeFits") {
     val pieceList = new PieceList(Array[Piece](
       Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
       Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_DIAMOND, Nub.INNY_CLUB, 2),
@@ -30,7 +27,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
-  @Test def test4PieceAllFits() {
+  test("4PieceAllFits") {
     val pieceList = new PieceList(Array[Piece](
       Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
       Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_CLUB, Nub.INNY_DIAMOND, 2),
@@ -40,13 +37,13 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected number of fits.", 17.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
-  @Test def test9PieceSomeFits() {
+  test("9PieceSomeFits") {
     val pieceList = PieceLists.getInitialPuzzlePieces
     assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
   /** should get exactly 1 3 fit bonus */
-  @Test def test9Piece3FitBonus() {
+  test("9Piece3FitBonus") {
     val pieceList = new PieceList(Array[Piece](
       Piece(Nub.OUTY_SPADE, Nub.OUTY_CLUB, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
       Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_DIAMOND, Nub.INNY_CLUB, 2),
@@ -61,7 +58,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected number of fits.", 14.9, fitnessFinder.calculateFitness(pieceList), 0.0001)
   }
 
-  @Test def test9PieceAllFit() {
+  test("9PieceAllFit") {
     val pieceList = new PieceList(Array[Piece](
       Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1),
       Piece(Nub.INNY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_DIAMOND, 2),

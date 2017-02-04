@@ -1,11 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.model
 
+import org.junit.Assert.assertEquals
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.junit.Test
 
 import scala.collection.Seq
-import org.junit.Assert.assertEquals
 
 /**
   * @author Barry Becker
@@ -13,7 +12,7 @@ import org.junit.Assert.assertEquals
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
 
 
-  @Test def testGenerateMovesForStandardProblemInitialState() {
+  test("GenerateMovesForStandardProblemInitialState") {
     val initialState = PegBoard.INITIAL_BOARD_POSITION
 
     val expectedMoves = Seq(

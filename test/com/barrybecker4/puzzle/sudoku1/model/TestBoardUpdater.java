@@ -19,8 +19,8 @@ import static org.junit.Assert.assertEquals;
 public class TestBoardUpdater {
 
     /** instance under test */
-    ReflectiveBoardUpdater updater;
-    Board board;
+    private ReflectiveBoardUpdater updater;
+    private Board board;
 
     @Before
     public void setUp() {

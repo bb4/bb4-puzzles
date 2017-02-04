@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 public class TestSudokuSolver {
 
     /** instance under test. */
-    SudokuSolver solver;
+    private SudokuSolver solver;
 
-    SudokuGenerator generator;
+    private SudokuGenerator generator;
 
     /**
      * common initialization for all go test cases.
@@ -85,12 +85,12 @@ public class TestSudokuSolver {
     }
 
 
-    public void generateAndSolve(int baseSize) {
+    private void generateAndSolve(int baseSize) {
         Board board = generatePuzzle(baseSize);
         solve(board);
     }
 
-    public Board generatePuzzle(int baseSize) {
+    private Board generatePuzzle(int baseSize) {
         generator = new SudokuGenerator(baseSize, null);
         long start = System.currentTimeMillis();
         Board b = generator.generatePuzzleBoard();
@@ -98,7 +98,7 @@ public class TestSudokuSolver {
         return b;
     }
 
-    public void solve(Board board) {
+    private void solve(Board board) {
         SudokuSolver solver = new SudokuSolver();
         long start = System.currentTimeMillis();
         boolean solved = solver.solvePuzzle(board);

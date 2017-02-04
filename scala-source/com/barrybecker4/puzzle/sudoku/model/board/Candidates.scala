@@ -23,6 +23,10 @@ class Candidates(list: ValuesList) {
     this(new ValuesList(cands.elements))
   }
 
+  def this(cands: Int*) {
+    this(new ValuesList(cands))
+  }
+
   def copy = new Candidates(this)
 
   def getFirst: Integer = elements.iterator.next
@@ -45,5 +49,20 @@ class Candidates(list: ValuesList) {
       bldr.append(ValueConverter.getSymbol(v)).append(",")
     }
     bldr.substring(0, bldr.length - 1) + "]"
+  }
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Candidates]
+
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Candidates =>
+      (that canEqual this) &&
+        elements == that.elements
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(elements)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 }

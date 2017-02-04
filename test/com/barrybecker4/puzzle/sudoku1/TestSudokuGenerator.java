@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 public class TestSudokuGenerator {
 
     /** instance under test. */
-    SudokuGenerator generator;
+    private SudokuGenerator generator;
 
     @Before
     public void setUp() {
@@ -93,7 +93,7 @@ public class TestSudokuGenerator {
         assertEquals("Unexpected generated board", expBoard, board);
     }
 
-    public Board generateInitialSolution(int baseSize) {
+    private Board generateInitialSolution(int baseSize) {
         generator = new SudokuGenerator(baseSize);
         long start = System.currentTimeMillis();
 
@@ -106,7 +106,7 @@ public class TestSudokuGenerator {
         return b;
     }
 
-    public Board generatePuzzle(int baseSize) {
+    private Board generatePuzzle(int baseSize) {
         generator = new SudokuGenerator(baseSize, null);
         long start = System.currentTimeMillis();
         Board b = generator.generatePuzzleBoard();

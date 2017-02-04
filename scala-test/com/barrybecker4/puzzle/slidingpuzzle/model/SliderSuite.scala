@@ -3,13 +3,8 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
 
 
 import com.barrybecker4.common.geometry.ByteLocation
-import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.puzzle.redpuzzle.model.Nub
+import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.junit.Test
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.assertFalse
 
 import scala.collection.immutable.HashSet
 import scala.util.Random
@@ -21,7 +16,7 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
 
   val RAND = new Random(1)
 
-  @Test def testRandom() {
+  test("Random") {
     assertEquals("unexpected first rnd ", 985, RAND.nextInt(1000))
     assertEquals("unexpected second rnd ", 588, RAND.nextInt(1000))
     val nums: List[Int] = RAND.shuffle(Range(0, 10).toList)
@@ -29,25 +24,25 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
     assertEquals("lists not equal", expList, nums)
   }
 
-  @Test def testBoardConstruction() {
+  test("BoardConstruction") {
     val board = new SliderBoard(3, false)
     assertEquals("Unexpected board size", 3, board.size)
     assertEquals("Unexpected empty location", new ByteLocation(2, 2), board.getEmptyLocation)
   }
 
-  @Test def testMediumBoardConstruction() {
+  test("MediumBoardConstruction") {
     val board = new SliderBoard(4, false)
     assertEquals("Unexpected board size", 4, board.size)
     assertEquals("Unexpected empty location", new ByteLocation(3, 3), board.getEmptyLocation)
   }
 
-  @Test def testLargeBoardConstruction() {
+  test("LargeBoardConstruction") {
     val board = new SliderBoard(5, false)
     assertEquals("Unexpected board size", 5, board.size)
     assertEquals("Unexpected empty location", new ByteLocation(4, 4), board.getEmptyLocation)
   }
 
-  @Test def testBoardEquals() {
+  test("BoardEquals") {
     val board1 = new SliderBoard(4, false)
     val board2 = new SliderBoard(board1)
     val board3 = new SliderBoard(4, true)
@@ -58,7 +53,7 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
     assertFalse(board1.hashCode == board3.hashCode)
   }
 
-  @Test def testBoardHash() {
+  test("BoardHash") {
     var boards = HashSet[SliderBoard]()
     val board1 = new SliderBoard(4, false)
     val board2 = new SliderBoard(board1)

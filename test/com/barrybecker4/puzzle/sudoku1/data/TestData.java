@@ -4,8 +4,7 @@ package com.barrybecker4.puzzle.sudoku1.data;
 import com.barrybecker4.puzzle.sudoku1.Data;
 
 /**
- * Some sample sudoku test puzzle data
- * @@ make these into separate date files eventually an move to test.
+ * Some sample sudoku test puzzle data.
  *
  * @author Barry Becker
  */

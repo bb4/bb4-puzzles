@@ -120,7 +120,7 @@ class Board(var n: Int) {
     case that: Board =>
       (that canEqual this) &&
         nn == that.nn &&
-        (cells sameElements that.cells) &&
+        (cells.deep == that.cells.deep) &&
         n == that.n
     case _ => false
   }
@@ -133,18 +133,17 @@ class Board(var n: Int) {
   }
 
   override def toString: String = {
-    val bldr: StringBuilder = new StringBuilder ("\n")
+    val builder: StringBuilder = new StringBuilder ("\n")
     for (row <- 0 until nn) {
       for (col <- 0 until nn) {
-        bldr.append (ValueConverter.getSymbol (getCell (row, col).getValue) )
-        bldr.append (" ")
+        builder.append (ValueConverter.getSymbol (getCell (row, col).getValue) )
+        builder.append (" ")
       }
-      bldr.append ("\n")
+      builder.append ("\n")
     }
-    bldr.append ("rowCells=\n").append (rowCells)
-    //bldr.append("colCells=\n" + colCells_);
-    bldr.append ("bigCells =\n").append (getBigCells)
-    bldr.toString
+    builder.append ("rowCells=\n").append (rowCells)
+    builder.append ("bigCells =\n").append (getBigCells)
+    builder.toString
   }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Board]

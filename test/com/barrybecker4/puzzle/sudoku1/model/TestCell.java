@@ -18,8 +18,8 @@ import static org.junit.Assert.assertNull;
 public class TestCell {
 
     /** instance under test */
-    Cell cell;
-    Board board;
+    private Cell cell;
+    private Board board;
 
     @Before
     public void setUp() {
@@ -63,12 +63,15 @@ public class TestCell {
         // the candidate lists should be reduced.
         assertEquals("Unexpected value ", 1, cell.getValue());
         assertNull(cell.getCandidates());
-        assertEquals("Unexpected row 1 cands", new Candidates(3, 4), board.getRowCells().get(1).getCandidates());
-        assertEquals("Unexpected col 1 cands", new Candidates(3, 4), board.getRowCells().get(1).getCandidates());
-        assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3), board.getBigCell(0, 0).getCandidates());
+        assertEquals("Unexpected row 1 cands", new Candidates(3, 4),
+                board.getRowCells().get(1).getCandidates());
+        assertEquals("Unexpected col 1 cands", new Candidates(3, 4),
+                board.getRowCells().get(1).getCandidates());
+        assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3),
+                board.getBigCell(0, 0).getCandidates());
     }
 
-    /** Set an inappropriate illegal value and verify exception thrown
+    /* Set an inappropriate illegal value and verify exception thrown
     @Test
     public void testSetValueInvalid() {
         board = new TantrixBoard(TestData.SIMPLE_4);

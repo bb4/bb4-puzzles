@@ -1,20 +1,17 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.model
 
+import org.junit.Assert.assertEquals
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.junit.Test
 
 import scala.collection.Seq
-import org.junit.Assert.assertEquals
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 
 /**
   * @author Barry Becker
   */
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
 
-  @Test def testGenerateMovesForStandardProblemInitialStateMoveRight() {
+  test("GenerateMovesForStandardProblemInitialStateMoveRight") {
     val initialState = Bridge(List(1, 2, 5, 8), List[Int](), lightCrossed = false)
     val expectedMoves = Seq(
       BridgeMove(List(8), true), BridgeMove(List(5, 8), true), BridgeMove(List(5), true), BridgeMove(List(2, 8), true),
@@ -25,13 +22,13 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  @Test def testGenerateMovesForStandardProblemInitialStateMoveLeft() {
+  test("GenerateMovesForStandardProblemInitialStateMoveLeft") {
     val initialState = Bridge(List(2, 5, 8), List[Int](1), lightCrossed = true)
     val expectedMoves = Seq(BridgeMove(List(1), direction = false))
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  @Test def testGenerateMovesForStandardProblemMiddleStateMoveRight() {
+  test("GenerateMovesForStandardProblemMiddleStateMoveRight") {
     val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = false)
     val expectedMoves = Seq(
       BridgeMove(List(8), true), BridgeMove(List(1, 8), direction = true), BridgeMove(List(1), direction = true)
@@ -39,7 +36,7 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  @Test def testGenerateMovesForStandardProblemMiddleStateMoveLeft() {
+  test("GenerateMovesForStandardProblemMiddleStateMoveLeft") {
     val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = true)
     val expectedMoves = Seq(
       BridgeMove(List(3), false), BridgeMove(List(5, 3), false),BridgeMove(List(5), false),

@@ -36,12 +36,10 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel) {
     */
   def generatePuzzleBoard: Board = {
     val board: Board = new Board(size)
-    if (ppanel != null) {
-      ppanel.setBoard(board)
-    }
-    val success: Boolean = generateSolution (board)
+    if (ppanel != null) ppanel.setBoard(board)
+    val success: Boolean = generateSolution(board)
     if (ppanel != null) ppanel.repaint()
-    assert (success, "We were not able to generate a consistent board " + board + "numCombinations examined = " + totalCt)
+    assert(success, "We were not able to generate a consistent board " + board + "numCombinations examined: " + totalCt)
     // now start removing values until we cannot deduce the final solution from it.
     // for every position (in random order) if we can remove it, do so.
     generateByRemoving (board)

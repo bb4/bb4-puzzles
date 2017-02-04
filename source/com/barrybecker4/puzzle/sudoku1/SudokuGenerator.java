@@ -69,7 +69,7 @@ public class SudokuGenerator {
         return generateByRemoving(board);
     }
 
-    private boolean generateSolution(Board board) {
+    boolean generateSolution(Board board) {
         return generateSolution(board, 0);
     }
 
