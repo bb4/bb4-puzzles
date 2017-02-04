@@ -14,9 +14,9 @@ object ValuesList {
 
   private val RAND = new Random(Math.round(Math.random() * 100000))
 
-  def getShuffledCandidates(cands: Option[Candidates], rand: Random = RAND): ValuesList = {
+  def getShuffledCandidates(cands: Candidates, rand: Random = RAND): ValuesList = {
     if (cands.isEmpty) return new ValuesList(0)
-    ValuesList.createShuffledList(cands.get, rand)
+    ValuesList.createShuffledList(cands, rand)
   }
 
   private def createShuffledList(cands: Candidates, rand: Random = RAND) = {
@@ -35,7 +35,6 @@ class ValuesList(els: Iterable[Int]) {
   def this(n: Int) = this(1 to n)
   def addAll(cands: Candidates): Unit = addAll(cands.elements)
   def addAll(els: Iterable[Int]): Unit = els.foreach(x => elements +:= x)
-
 
   def shuffle(rand: Random = RAND): Unit =
     elements = rand.shuffle(elements)

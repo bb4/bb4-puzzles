@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.board
 
+import com.barrybecker4.puzzle.sudoku.model.board.Candidates.NO_CANDIDATES
+
 /**
   * @author Barry Becker
   */
@@ -17,7 +19,7 @@ class Cell(value: Int) {
   private var parentBigCell: BigCell = _
   var rowCells: CellSet = _
   var colCells: CellSet = _
-  private var cachedCandidates: Option[Candidates] = None
+  private var cachedCandidates: Candidates = _
 
   def setParent(parent: BigCell) {
     parentBigCell = parent
@@ -76,28 +78,26 @@ class Cell(value: Int) {
     }
   }
 
-  def remove(value: Int) {
-    if (cachedCandidates.isDefined) cachedCandidates.get.remove(value)
-  }
+  def remove(value: Int): Unit =
+    getCandidates.remove(value)
 
-  def clearCache() { cachedCandidates = None }
+  def clearCache() { cachedCandidates = new Candidates() }
 
   /**
     * Intersect the parent big cell candidates with the row and column candidates.
     * [If after doing the intersection, we have only one value, then set it on the cell. ]
     */
-  def getCandidates: Option[Candidates] = {
-    if (currentValue > 0) return None
-
-    if (cachedCandidates.isDefined) cachedCandidates
-    else {
+  def getCandidates: Candidates = {
+    if (currentValue > 0)
+      cachedCandidates = NO_CANDIDATES
+    else if (cachedCandidates == null) {
       val candidates: Candidates = new Candidates()
       candidates.addAll(parentBigCell.candidates)
       candidates.retainAll(rowCells.candidates)
       candidates.retainAll(colCells.candidates)
-      cachedCandidates = Some(candidates)
-      cachedCandidates
+      cachedCandidates = candidates
     }
+    cachedCandidates
   }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Cell]

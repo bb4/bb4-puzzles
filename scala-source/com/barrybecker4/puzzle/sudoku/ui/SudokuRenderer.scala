@@ -127,12 +127,12 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawLine (rightX, topY, leftX, bottomY)
   }
 
-  private def drawCandidates (g: Graphics, candidates: Option[Candidates], xpos: Int, ypos: Int) {
-    if (candidates.isDefined) {
+  private def drawCandidates (g: Graphics, candidates: Candidates, xpos: Int, ypos: Int) {
+    if (!candidates.isEmpty) {
       g.setColor (SudokuRenderer.CANDIDATE_TEXT_COLOR)
       val candidateFont: Font = new Font ("Sans Serif", Font.PLAIN, (pieceSize >> 2) - 2)
       g.setFont (candidateFont)
-      drawHints (g, candidates.get, xpos, ypos, getScale (pieceSize) )
+      drawHints (g, candidates, xpos, ypos, getScale (pieceSize) )
     }
   }
 

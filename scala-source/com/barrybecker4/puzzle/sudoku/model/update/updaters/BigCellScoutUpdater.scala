@@ -58,10 +58,8 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
   private def checkIfCanSetOutsideCellValue(value: Int, cell: Cell) {
     val cands = cell.getCandidates
 
-    if (cands.isDefined) {
-      val c = cands.get
-      if (c.size == 2 && c.contains(value))
-        for (candValue <- c.elements if candValue != value) cell.setValue(candValue)
-    }
+    if (cands.size == 2 && cands.contains(value))
+      for (candValue <- cands.elements if candValue != value)
+        cell.setValue(candValue)
   }
 }

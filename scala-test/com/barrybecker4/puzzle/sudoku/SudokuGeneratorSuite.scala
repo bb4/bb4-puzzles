@@ -45,14 +45,6 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected generated board", expBoard, board)
   }
 
-
-
-
-
-
-
-
-
   /** works only half the time!    */
   test("GenerateInitialSolution4Many") {
     for (i <- 0 until 10) {

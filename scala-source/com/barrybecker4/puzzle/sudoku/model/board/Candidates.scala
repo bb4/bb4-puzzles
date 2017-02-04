@@ -3,6 +3,10 @@ package com.barrybecker4.puzzle.sudoku.model.board
 
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 
+object Candidates {
+  val NO_CANDIDATES = new Candidates(new ValuesList(0))
+}
+
 /**
   * The numbers which might be the valid value for a specific cell.
   * In java, I used ConcurrentSkipListSet, but now replacing that with immutable Set
@@ -37,21 +41,14 @@ class Candidates(list: ValuesList) {
   def addAll(seq: Iterable[Int]): Unit = seq.foreach(x => add(x))
   def retainAll(cands: Candidates): Unit = elements = elements.filter(cands.contains)
   def remove(v: Int): Unit = elements -= v
-  def removeAll(cands: Candidates): Unit = {
-    elements = elements.filter(x => !cands.contains(x))
-  }
+  def removeAll(cands: Candidates): Unit = elements = elements.filter(x => !cands.contains(x))
   def contains(v: Int): Boolean = elements.contains(v)
   def containsAll(cands: Candidates): Boolean = elements.forall(cands.contains)
   def clear(): Unit = { elements = Set() }
   def size: Int = elements.size
+  def isEmpty: Boolean = elements.isEmpty
 
-  override def toString: String = {
-    val bldr = new StringBuilder("[")
-    for (v <- elements) {
-      bldr.append(ValueConverter.getSymbol(v)).append(",")
-    }
-    bldr.substring(0, bldr.length - 1) + "]"
-  }
+  override def toString: String = elements.map(ValueConverter.getSymbol).mkString(",")
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Candidates]
 

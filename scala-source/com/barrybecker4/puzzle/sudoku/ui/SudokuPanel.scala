@@ -5,8 +5,8 @@ import java.awt.Graphics
 import javax.swing.JPanel
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
 import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
 
 /**
   * Draws the current best solution to the puzzle in a panel.
@@ -14,12 +14,8 @@ import com.barrybecker4.puzzle.sudoku.model.board.Board
   *
   * @author Barry Becker
   */
-final class SudokuPanel private(val b: Board)
+final class SudokuPanel private(val b: Board) extends JPanel with RepaintListener {
 
-/**
-  * Constructor.
-  */
-  extends JPanel with RepaintListener {
   private var renderer: SudokuRenderer = new SudokuRenderer(b)
   private var inputListener = new UserInputListener(renderer)
   inputListener.addRepaintListener(this)
@@ -27,9 +23,6 @@ final class SudokuPanel private(val b: Board)
   addKeyListener(inputListener)
 
 
-  /**
-    * Constructor. Pass in data for initial Sudoku problem.
-    */
   def this(initialData: Array[Array[Int]]) {
     this(new Board(initialData))
   }

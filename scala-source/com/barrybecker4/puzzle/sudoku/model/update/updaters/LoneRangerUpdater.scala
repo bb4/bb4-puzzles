@@ -41,8 +41,8 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
     for (i <- 0 until n) {
       for (j <- 0 until n) {
         val c = bigCell.getCell(i, j).getCandidates
-        if ((i != row || j != col) && c.isDefined)
-          cands +:= c.get
+        if ((i != row || j != col) && !c.isEmpty)
+          cands +:= c
       }
     }
     new CandidatesArray(cands.toArray)
@@ -52,8 +52,8 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
     var cands = List[Candidates]()
     for (i <- 0 until board.getEdgeLength) {
       val c = board.getCell(row, i).getCandidates
-      if ((i != col) && c.isDefined)
-        cands +:= c.get
+      if ((i != col) && !c.isEmpty)
+        cands +:= c
     }
     new CandidatesArray(cands.toArray)
   }
@@ -62,17 +62,17 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
     var cands = List[Candidates]()
     for (i <- 0 until board.getEdgeLength) {
         val c = board.getCell(i, col).getCandidates
-        if ((i != row) && c.isDefined)
-          cands +:= c.get
+        if ((i != row) && !c.isEmpty)
+          cands +:= c
     }
     new CandidatesArray(cands.toArray)
   }
 
   private def checkAndSetLoneRangers(candArray: CandidatesArray, cell: Cell) {
     if (cell.getCandidates.isEmpty) return
-    val candsCopy = cell.getCandidates.get.copy
+    val candsCopy = cell.getCandidates.copy
     var i = 0
-    while (i < candArray.size && candsCopy.size > 0) {
+    while (i < candArray.size && !candsCopy.isEmpty) {
       val c = candArray.get(i)
       i += 1
       if (c != null) candsCopy.removeAll(c)

@@ -20,27 +20,22 @@ class SudokuSolver() {
 
   /**
     * Solves the puzzle.
-    * This implements the main algorithm for solving the red puzzle.
-    *
-    * @return true if solved.
-    */
-  def solvePuzzle(board: Board): Boolean = solvePuzzle(board, null)
-
-  /**
-    * Solves the puzzle.
     * This implements the main algorithm for solving the Sudoku puzzle.
     *
     * @param board       puzzle to solve
-    * @param puzzlePanel the viewer
+    * @param puzzlePanel the viewer (may be null)
     * @return true if solved.
     */
-  def solvePuzzle(board: Board, puzzlePanel: Container): Boolean = {
+  def solvePuzzle(board: Board, puzzlePanel: Container = null): Boolean = {
     var solved = false
     // not sure what this should be.
     val maxIterations = 2 * board.getEdgeLength
+    println("initial board = " + board)
     do {
       solved = doIteration(board)
       refreshWithDelay(puzzlePanel, 3)
+      println("board.getNumIterations=" + board.getNumIterations)
+      println(board)
     } while (!solved && board.getNumIterations < maxIterations)
     refresh(puzzlePanel)
     // if we get here and solved is not true, we did not find a solution.

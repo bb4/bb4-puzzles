@@ -64,14 +64,14 @@ class NakedSubsetUpdater(val b: Board) extends AbstractUpdater(b) {
       val cands = cells.getCell(i).getCandidates
       matches = HashSet[Int]()
       matches += i
-      if (cands.isDefined) {
+      if (!cands.isEmpty) {
         val n = cands.size
         for (j <- 0 until cells.numCells) {
           val cands2 = cells.getCell(j).getCandidates
-          if (j != i && cands2.isDefined && cands.get.containsAll(cands2.get)) matches += j
+          if (j != i && cands.containsAll(cands2)) matches += j
         }
         if (matches.size == n) {
-          foundSubset = cands
+          foundSubset = Some(cands)
           //  break //todo: break is not supported
         }
       }
@@ -79,7 +79,7 @@ class NakedSubsetUpdater(val b: Board) extends AbstractUpdater(b) {
     if (foundSubset.isDefined) {
       for (i <- 0 until cells.numCells) {
         val cell = cells.getCell(i)
-        if (!matches.contains(i) && cell.getCandidates.isDefined) cell.getCandidates.get.removeAll(foundSubset.get)
+        if (!matches.contains(i)) cell.getCandidates.removeAll(foundSubset.get)
       }
     }
   }

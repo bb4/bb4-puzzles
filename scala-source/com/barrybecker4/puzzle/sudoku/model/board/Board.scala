@@ -51,10 +51,10 @@ class Board(var n: Int) {
 
   /** return to original state before attempting solution. Non original values become 0. */
   def reset() {
-    cells = Array.fill[Cell](nn, nn)(new Cell(0)) //Array.ofDim[Cell](nn, nn)
+    cells = Array.fill[Cell](nn, nn)(new Cell(0))
     bigCells = new BigCellArray(this)
-    rowCells = CellArrays.createRowCellArrays (this)
-    colCells = CellArrays.createColCellArrays (this)
+    rowCells = CellArrays.createRowCellArrays(this)
+    colCells = CellArrays.createColCellArrays(this)
     numIterations = 0
   }
 
@@ -103,7 +103,7 @@ class Board(var n: Int) {
   }
 
   private def hasNoCandidates: Boolean = {
-    for (row <- 0 until nn; col <- 0 until nn if getCell(row, col).getCandidates.isDefined) return false
+    for (row <- 0 until nn; col <- 0 until nn if !getCell(row, col).getCandidates.isEmpty) return false
     true
   }
 
@@ -136,13 +136,14 @@ class Board(var n: Int) {
     val builder: StringBuilder = new StringBuilder ("\n")
     for (row <- 0 until nn) {
       for (col <- 0 until nn) {
-        builder.append (ValueConverter.getSymbol (getCell (row, col).getValue) )
-        builder.append (" ")
+        builder.append(ValueConverter.getSymbol (getCell (row, col).getValue) )
+        builder.append(" ")
       }
-      builder.append ("\n")
+      builder.append("\n")
     }
-    builder.append ("rowCells=\n").append (rowCells)
-    builder.append ("bigCells =\n").append (getBigCells)
+    builder.append("rowCells=\n").append(getRowCells)
+    builder.append("colCells=\n").append(getColCells)
+    builder.append("bigCells =\n").append(getBigCells)
     builder.toString
   }
 

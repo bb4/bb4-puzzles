@@ -25,21 +25,21 @@ class CellSuite extends FunSuite with BeforeAndAfter {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(0, 0)
     val expCands = new Candidates(1, 2, 3) // everything but 4.
-    assertEquals("Did find correct candidates", expCands, cell.getCandidates.get)
+    assertEquals("Did find correct candidates", expCands, cell.getCandidates)
   }
 
   test("FindCellCandidatesForMiddleCell") {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(1, 1)
     val expCands = new Candidates(1)
-    assertEquals("Did find correct candidates", expCands, cell.getCandidates.get)
+    assertEquals("Did find correct candidates", expCands, cell.getCandidates)
   }
 
   /** Set an appropriate legal value */
   test("SetValueValid") {
     board = new Board(TestData.SIMPLE_4)
     cell = board.getCell(1, 1)
-    assertEquals("Unexpected before candidates", new Candidates(1), cell.getCandidates.get)
+    assertEquals("Unexpected before candidates", new Candidates(1), cell.getCandidates)
     System.out.println("before" + board)
     cell.setValue(1)
     System.out.println("after" + board)

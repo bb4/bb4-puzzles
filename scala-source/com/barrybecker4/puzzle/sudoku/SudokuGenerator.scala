@@ -68,15 +68,15 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     }
     val cell: Cell = board.getCell (position)
     val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates, rand)
-    refresh ()
+    refresh()
 
     for (value <- shuffledValues.elements) {
-      cell.setValue (value)
+      cell.setValue(value)
       totalCt += 1
       if (generateSolution(board, position + 1) ) {
         return true
       }
-      cell.clearValue ()
+      cell.clearValue()
     }
     false
   }
@@ -84,8 +84,8 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
   private def refresh() {
     if (ppanel == null) return
     if (delay >= 0) {
-    ppanel.repaint ()
-      ThreadUtil.sleep (delay)
+      ppanel.repaint()
+      ThreadUtil.sleep(delay)
     }
   }
 
@@ -95,20 +95,20 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     * @param board the initially solved puzzle
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
     */
-  private def generateByRemoving (board: Board): Board = {
+  private def generateByRemoving(board: Board): Board = {
     if (ppanel != null) {
       ppanel.setBoard(board)
     }
     val positionList: ValuesList = getRandomPositions(size, rand)
     // we need a solver to verify that we can still deduce the original
-    val solver: SudokuSolver = new SudokuSolver
+    val solver: SudokuSolver = new SudokuSolver()
     solver.delay = delay
     val len: Int = size * size
     val last: Int = len * len
     // the first len can be removed without worrying about having an unsolvable puzzle.
     for (i <- 0 until len) {
       val pos: Int = positionList.elements(i).asInstanceOf[Integer] - 1
-      board.getCell (pos).clearValue ()
+      board.getCell(pos).clearValue()
     }
 
     for (i <- len until last) {
@@ -121,17 +121,17 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
   /**
     * @param pos position to try removing.
     */
-  private def tryRemovingValue (pos: Int, board: Board, solver: SudokuSolver) {
+  private def tryRemovingValue(pos: Int, board: Board, solver: SudokuSolver) {
     val cell: Cell = board.getCell(pos)
     val value: Int = cell.getValue
-    cell.clearValue ()
+    cell.clearValue()
     if (ppanel != null && delay > 0) {
       ppanel.repaint ()
     }
-    val copy: Board = new Board (board) // try to avoid this
+    val copy: Board = new Board(board) // try to avoid this
     if (!solver.solvePuzzle(copy, ppanel) ) {
       // put it back since it cannot be solved without this positions value
-      cell.setOriginalValue (value)
+      cell.setOriginalValue(value)
     }
   }
 
@@ -142,7 +142,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
   private def getRandomPositions(size: Int, rand: Random = RANDOM): ValuesList = {
     val numPositions: Int = size * size * size * size
     val positionList: ValuesList = new ValuesList(numPositions)
-    positionList.shuffle(rand) //Random.shuffle(positionList)
+    positionList.shuffle(rand)
     positionList
   }
 }
