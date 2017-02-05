@@ -23,5 +23,5 @@ final class SizeSelector() extends Choice {
   select(1)
 
   /** @return the puzzle size for what was selected.*/
-  def getSelectedSize = this.getSelectedIndex + 2
+  def getSelectedSize: Int = this.getSelectedIndex + 2
 }

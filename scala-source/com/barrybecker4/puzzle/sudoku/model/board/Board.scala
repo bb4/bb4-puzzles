@@ -37,7 +37,6 @@ class Board(val baseSize: Int) {
   private var numIterations: Int = 0
   reset()
 
-
   /** Copy constructor */
   def this(b: Board) {
     this(b.baseSize)

@@ -55,9 +55,7 @@ class Candidates(list: ValuesList) {
 
 
   override def equals(other: Any): Boolean = other match {
-    case that: Candidates =>
-      (that canEqual this) &&
-        elements == that.elements
+    case that: Candidates => (that canEqual this) && elements == that.elements
     case _ => false
   }
 

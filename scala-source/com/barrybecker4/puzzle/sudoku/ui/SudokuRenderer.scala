@@ -116,7 +116,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawString (ValueConverter.getSymbol (userValue.getValue), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
   }
 
-  private def drawBigX (g2: Graphics2D, s: Int, xpos: Int, ypos: Int) {
+  private def drawBigX(g2: Graphics2D, s: Int, xpos: Int, ypos: Int) {
     g2.setColor (SudokuRenderer.BIG_X_COLOR)
     g2.setStroke (SudokuRenderer.BIG_X_STROKE)
     val leftX: Int = xpos + (0.15 * s).toInt
@@ -127,32 +127,42 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawLine (rightX, topY, leftX, bottomY)
   }
 
-  private def drawCandidates (g: Graphics, candidates: Candidates, xpos: Int, ypos: Int) {
+  private def drawCandidates(g: Graphics, candidates: Candidates, xpos: Int, ypos: Int) {
     if (!candidates.isEmpty) {
       g.setColor (SudokuRenderer.CANDIDATE_TEXT_COLOR)
       val candidateFont: Font = new Font ("Sans Serif", Font.PLAIN, (pieceSize >> 2) - 2)
       g.setFont (candidateFont)
-      drawHints (g, candidates, xpos, ypos, getScale (pieceSize) )
+      drawHints (g, candidates, xpos, ypos, getScale(pieceSize) )
     }
   }
 
-  private def drawCurrentFocus (g: Graphics, focusLocation: Location) {
+  private def drawCurrentFocus(g: Graphics, focusLocation: Location) {
     val xpos: Int = SudokuRenderer.MARGIN + focusLocation.getCol * pieceSize
     val ypos: Int = SudokuRenderer.MARGIN + focusLocation.getRow * pieceSize
     g.setColor (SudokuRenderer.CELL_FOCUS_COLOR)
     g.fillRect (xpos, ypos, pieceSize, pieceSize)
   }
 
-  private def getScale (pieceSize: Int): Int = (pieceSize * 0.4).toInt
+  private def getScale(pieceSize: Int): Int = (pieceSize * 0.4).toInt
 
-  private def drawHints (g: Graphics, candidates: Candidates, x: Int, y: Int, scale: Int) {
+  private def drawHints(g: Graphics, candidates: Candidates, x: Int, y: Int, scale: Int) {
     val xOffsetLow: Int = (0.3 * scale).toInt
     val xOffsetMed: Int = (1.1 * scale).toInt
     val xOffsetHi: Int = (1.9 * scale).toInt
     val yOffsetLow: Int = (0.7 * scale).toInt
     val yOffsetMed: Int = (1.5 * scale).toInt
     val yOffsetHi: Int = (2.3 * scale).toInt
-    val offsets: Array[Array[Int]] = Array (Array (xOffsetLow, yOffsetLow), Array (xOffsetMed, yOffsetLow), Array (xOffsetHi, yOffsetLow), Array (xOffsetLow, yOffsetMed), Array (xOffsetMed, yOffsetMed), Array (xOffsetHi, yOffsetMed), Array (xOffsetLow, yOffsetHi), Array (xOffsetMed, yOffsetHi), Array (xOffsetHi, yOffsetHi) )
+    val offsets: Array[Array[Int]] = Array (
+      Array (xOffsetLow, yOffsetLow),
+      Array (xOffsetMed, yOffsetLow),
+      Array (xOffsetHi, yOffsetLow),
+      Array (xOffsetLow, yOffsetMed),
+      Array (xOffsetMed, yOffsetMed),
+      Array (xOffsetHi, yOffsetMed),
+      Array (xOffsetLow, yOffsetHi),
+      Array (xOffsetMed, yOffsetHi),
+      Array (xOffsetHi, yOffsetHi)
+    )
     var ct: Int = 0
     for (cand <- candidates.elements if ct < 9) {
       g.drawString(ValueConverter.getSymbol(cand), x + offsets(ct)(0), y + offsets(ct)(1) )

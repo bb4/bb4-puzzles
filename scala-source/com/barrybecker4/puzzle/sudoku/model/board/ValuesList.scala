@@ -42,9 +42,7 @@ class ValuesList(els: Iterable[Int]) {
   def canEqual(other: Any): Boolean = other.isInstanceOf[ValuesList]
 
   override def equals(other: Any): Boolean = other match {
-    case that: ValuesList =>
-      (that canEqual this) &&
-        elements == that.elements
+    case that: ValuesList => (that canEqual this) && elements == that.elements
     case _ => false
   }
 

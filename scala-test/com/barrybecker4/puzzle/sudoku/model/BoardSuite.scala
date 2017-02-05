@@ -48,15 +48,15 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
       Array(new Candidates(1, 2), new Candidates(1, 2), new Candidates(1, 3, 4), new Candidates(1, 2, 3, 4))
     )
     var valid = true
-    for (i <- 0 until board.getEdgeLength) {
-      for (j <- 0 until board.getEdgeLength) {
+    for (i <- 0 until board.edgeLength) {
+      for (j <- 0 until board.edgeLength) {
         val cands = board.getCell(i, j).getCandidates
         if (expCands(i)(j) != cands) valid = false
       }
     }
     if (!valid) System.out.println("board = " + board)
-    for (i <- 0 until board.getEdgeLength) {
-      for (j <- 0 until board.getEdgeLength) {
+    for (i <- 0 until board.edgeLength) {
+      for (j <- 0 until board.edgeLength) {
         val cands = board.getCell(i, j).getCandidates
         assertEquals("Did find correct candidates for cell row=" + i + " j=" + j, expCands(i)(j), cands)
       }

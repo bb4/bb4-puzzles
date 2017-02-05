@@ -79,17 +79,9 @@ final class SudokuPanel private(val b: Board) extends JPanel with RepaintListene
 
   def getBoard: Board = renderer.board
 
-  def valueEntered() {
-    repaint()
-  }
-
-  def cellSelected(location: Location) {
-    repaint()
-  }
-
-  def requestValidation() {
-    validatePuzzle()
-  }
+  def valueEntered() { repaint() }
+  def cellSelected(location: Location) { repaint() }
+  def requestValidation() { validatePuzzle() }
 
   /** This renders the current state of the PuzzlePanel to the screen. */
   override protected def paintComponent(g: Graphics) {

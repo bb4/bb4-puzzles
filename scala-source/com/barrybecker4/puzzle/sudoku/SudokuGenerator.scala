@@ -21,7 +21,7 @@ object SudokuGenerator {
   *
   * @author Barry Becker
   */
-class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
+class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   var delay: Int = 0
   private var totalCt: Long = 0L
@@ -103,22 +103,18 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     if (ppanel != null) {
       ppanel.setBoard(board)
     }
-    val positionList: ValuesList = getRandomPositions(size, rand)
+    val positionList: Seq[Int] = getRandomPositions(size, rand)
     // we need a solver to verify that we can still deduce the original
     val solver: SudokuSolver = new SudokuSolver()
     solver.delay = delay
     val len: Int = size * size
     val last: Int = len * len
     // the first len can be removed without worrying about having an unsolvable puzzle.
-    for (i <- 0 until len) {
-      val pos: Int = positionList.elements(i).asInstanceOf[Integer] - 1
-      board.getCell(pos).clearValue()
-    }
+    for (i <- 0 until len)
+      board.getCell(positionList(i)).clearValue()
 
-    for (i <- len until last) {
-      val pos: Int = positionList.elements(i).asInstanceOf[Integer] - 1
-      tryRemovingValue(pos, board, solver)
-    }
+    for (i <- len until last)
+      tryRemovingValue(positionList(i), board, solver)
     board
   }
 
@@ -141,10 +137,9 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     * @param size the base size (fourth root of the number of cells).
     * @return the positions on the board in a random order in a list .
     */
-  private def getRandomPositions(size: Int, rand: Random = RANDOM): ValuesList = {
+  private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[Int] = {
     val numPositions: Int = size * size * size * size
-    val positionList: ValuesList = new ValuesList(numPositions)
-    positionList.shuffle(rand)
-    positionList
+    val positionList: Seq[Int] = 0 until numPositions
+    rand.shuffle(positionList)
   }
 }

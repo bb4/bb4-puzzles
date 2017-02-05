@@ -9,6 +9,7 @@ import com.barrybecker4.common.geometry.Location
   * @author Barry Becker
   */
 trait RepaintListener {
+
   def valueEntered()
 
   def cellSelected(location: Location)

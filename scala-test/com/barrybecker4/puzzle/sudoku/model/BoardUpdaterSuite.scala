@@ -66,8 +66,8 @@ class BoardUpdaterSuite extends FunSuite with BeforeAndAfter {
 
   private def verifySetValues(expectedSetValues: Array[Array[Int]], board: Board) {
     System.out.println("board=" + board)
-    for (i <- 0 until board.getEdgeLength) {
-      for (j <- 0 until board.getEdgeLength) {
+    for (i <- 0 until board.edgeLength) {
+      for (j <- 0 until board.edgeLength) {
         assertEquals("Unexpected set value at row=" + i + " col=" + j,
           expectedSetValues(i)(j), board.getCell(i, j).getValue)
       }

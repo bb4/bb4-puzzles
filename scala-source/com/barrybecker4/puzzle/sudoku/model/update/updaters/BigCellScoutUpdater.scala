@@ -5,7 +5,7 @@ import com.barrybecker4.puzzle.sudoku.model.board.{BigCell, Board, Cell}
 import com.barrybecker4.puzzle.sudoku.model.update.AbstractUpdater
 
 /**
-  * If there is a row or column within a bigCell that uniquely contains a value in its cell candidate  lists,
+  * If there is a row or column within a bigCell that uniquely contains a value in its cell candidate lists,
   * then we can check the cells in that same row or column outside the bigCell for places where there are only
   * two candidates and one is that value. If we find places like that, then we can set those outside cells to the
   * pair value that is not the one within the bigCell.
