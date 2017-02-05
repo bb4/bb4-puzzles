@@ -29,7 +29,7 @@ class SudokuSolver() {
   def solvePuzzle(board: Board, puzzlePanel: Container = null): Boolean = {
     var solved = false
     // not sure what this should be.
-    val maxIterations = 2 * board.getEdgeLength
+    val maxIterations = 2 * board.edgeLength
     //println("initial board = " + board)
     do {
       solved = doIteration(board)

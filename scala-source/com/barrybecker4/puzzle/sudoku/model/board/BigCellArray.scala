@@ -2,13 +2,13 @@
 package com.barrybecker4.puzzle.sudoku.model.board
 
 /**
-  * An array of sets of integers representing the candidates for the cells in a row or column.
+  * An array of sets of integers representing the candidates for the cells in a big cell.
   *
   * @author Barry Becker
   */
 class BigCellArray(val board: Board) {
 
-  val size: Int = board.getBaseSize
+  val size: Int = board.baseSize
   /** n by n grid of big cells.   */
   private val bigCells = Array.ofDim[BigCell](size, size)
 
@@ -30,7 +30,6 @@ class BigCellArray(val board: Board) {
     for (row <- 0 until size; col <- 0 until size)
       bldr.append("cands(").append(row).append(", ").append(col).append(")=")
         .append(getBigCell(row, col).candidates).append("\n")
-
     bldr.toString
   }
 }

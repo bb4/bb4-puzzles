@@ -23,9 +23,9 @@ object CellArray {
     })
 
   private def createCellArray(board: Board, rowOrCol: Int, extractor: (Int, Int, CellArray) => Cell) = {
-    val cells = new CellArray(board.getEdgeLength)
-    cells.candidates.addAll(board.getValuesList)
-    for (i <- 0 until board.getEdgeLength) {
+    val cells = new CellArray(board.edgeLength)
+    cells.candidates.addAll(board.valuesList)
+    for (i <- 0 until board.edgeLength) {
       val cell = extractor(rowOrCol, i, cells)
       cells.cells(i) = cell
       if (cell.getValue > 0) cells.removeCandidate(cell.getValue)
@@ -47,14 +47,10 @@ class CellArray private(val size: Int) extends CellSet {
 
   def getCell(i: Int): Cell = cells(i)
 
-  //def getCandidates: Candidates = candidates
-
   def removeCandidate(unique: Int) {
     candidates.remove(unique)
-    var i = 0
-    for (i <- 0 until numCells) {
-        cells(i).remove(unique)
-    }
+    for (i <- 0 until numCells)
+      cells(i).remove(unique)
   }
 
   /**

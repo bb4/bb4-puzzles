@@ -63,7 +63,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     */
   private def generateSolution(board: Board, position: Int): Boolean = {
     // base case of the recursion
-    if (position == board.getNumCells) {
+    if (position == board.numCells) {
       return true // board completely solved now
     }
     val cell: Cell = board.getCell(position)
@@ -132,7 +132,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     refresh()
     val copy: Board = new Board(board) // try to avoid this
     if (!solver.solvePuzzle(copy, ppanel) ) {
-      // put it back since it cannot be solved without this positions value
+      // put it back since it cannot be solved without this position's value
       cell.setOriginalValue(value)
     }
   }

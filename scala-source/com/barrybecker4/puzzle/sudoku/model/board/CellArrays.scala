@@ -7,16 +7,17 @@ package com.barrybecker4.puzzle.sudoku.model.board
   * @author Barry Becker
   */
 object CellArrays {
+
   def createRowCellArrays(board: Board): CellArrays = {
-    val cellArrays = new CellArrays(board.getEdgeLength)
-    for (i <- 0 until board.getEdgeLength)
+    val cellArrays = new CellArrays(board.edgeLength)
+    for (i <- 0 until board.edgeLength)
       cellArrays.cellArrays(i) = CellArray.createRowCellArray(i, board)
     cellArrays
   }
 
   def createColCellArrays(board: Board): CellArrays = {
-    val cellArrays = new CellArrays(board.getEdgeLength)
-    for (i <- 0 until board.getEdgeLength) {
+    val cellArrays = new CellArrays(board.edgeLength)
+    for (i <- 0 until board.edgeLength) {
         cellArrays.cellArrays(i) = CellArray.createColCellArray(i, board)
     }
     cellArrays

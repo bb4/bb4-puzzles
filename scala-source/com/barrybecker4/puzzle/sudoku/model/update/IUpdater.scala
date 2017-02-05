@@ -12,7 +12,7 @@ package com.barrybecker4.puzzle.sudoku.model.update
 trait IUpdater {
 
   /**
-    * update candidate lists for all cells then set the unique values that are determined.
+    * Update candidate lists for all cells then set the unique values that are determined.
     * Next check for loan rangers.
     */
   def updateAndSet()

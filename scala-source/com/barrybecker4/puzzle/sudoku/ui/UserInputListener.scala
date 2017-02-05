@@ -88,13 +88,13 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
   }
 
   private def isValid(location: Location) = {
-    val n = locator.board.getEdgeLength
+    val n = locator.board.edgeLength
     location != null && location.getRow >= 0 && location.getRow < n && location.getCol >= 0 && location.getCol < n
   }
 
   private def handleValueEntry(key: Char) {
     try {
-      val value = ValueConverter.getValue(key, locator.board.getEdgeLength)
+      val value = ValueConverter.getValue(key, locator.board.edgeLength)
       val userValue = new UserValue(value)
       userEnteredValues += (currentCellLocation -> userValue)
       notifyValueEntered()

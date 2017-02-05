@@ -21,11 +21,11 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
     * all cells that are in that row (or column) and outside that mini-grid.
     */
   def updateAndSet() {
-    val n = board.getBaseSize
+    val n = board.baseSize
     for (row <- 0 until n) {
       for (col <- 0 until n) {
         val bigCell = board.getBigCell(row, col)
-        for (value <- board.getValuesList.elements) {
+        for (value <- board.valuesList.elements) {
           val uniqueRow = bigCell.findUniqueRowFor(value)
           if (uniqueRow >= 0) checkAndSetRowOutside(bigCell, uniqueRow + row * n, value)
           val uniqueCol = bigCell.findUniqueColFor(value)
@@ -37,7 +37,7 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
 
   /** Check for cells we can set in the row outside the bigCell */
   private def checkAndSetRowOutside(bigCell: BigCell, uniqueRow: Int, value: Int) {
-    for (col <- 0 until board.getEdgeLength) {
+    for (col <- 0 until board.edgeLength) {
       val cell = board.getCell(uniqueRow, col)
       if (!cell.isParent(bigCell)) checkIfCanSetOutsideCellValue(value, cell)
     }
@@ -45,7 +45,7 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
 
   /** Check for cells we can set in the column outside the bigCell */
   private def checkAndSetColOutside(bigCell: BigCell, uniqueCol: Int, value: Int) {
-    for (row <- 0 until board.getEdgeLength) {
+    for (row <- 0 until board.edgeLength) {
       val cell = board.getCell(row, uniqueCol)
       if (!cell.isParent(bigCell)) checkIfCanSetOutsideCellValue(value, cell)
     }

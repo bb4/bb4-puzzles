@@ -21,8 +21,8 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
 
   /** Look for lone rangers in row, col, and bigCell */
   private def checkForLoneRangers() {
-    val n = board.getBaseSize
-    for (row <- 0 until board.getEdgeLength; col <- 0 until board.getEdgeLength) {
+    val n = board.baseSize
+    for (row <- 0 until board.edgeLength; col <- 0 until board.edgeLength) {
       val cell = board.getCell(row, col)
       val bigCell = board.getBigCell(row / n, col / n)
       val bigCellCands = getCandidatesArrayExcluding(bigCell, row % n, col % n)
@@ -50,7 +50,7 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
 
   private def getCandidatesArrayForRowExcludingCol(row: Int, col: Int) = {
     var cands = List[Candidates]()
-    for (i <- 0 until board.getEdgeLength) {
+    for (i <- 0 until board.edgeLength) {
       val c = board.getCell(row, i).getCandidates
       if ((i != col) && !c.isEmpty)
         cands +:= c
@@ -60,7 +60,7 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
 
   private def getCandidatesArrayForColExcludingRow(row: Int, col: Int) = {
     var cands = List[Candidates]()
-    for (i <- 0 until board.getEdgeLength) {
+    for (i <- 0 until board.edgeLength) {
         val c = board.getCell(i, col).getCandidates
         if ((i != row) && !c.isEmpty)
           cands +:= c

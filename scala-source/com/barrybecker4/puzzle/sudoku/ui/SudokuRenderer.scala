@@ -46,13 +46,13 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   def render(g: Graphics, userEnteredValues: Map[Location, UserValue], currentFocusLocation: Location, width: Int, height: Int) {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
     val minEdge: Int = Math.min (width, height) - 20 - SudokuRenderer.MARGIN
-    pieceSize = minEdge / board.getEdgeLength
+    pieceSize = minEdge / board.edgeLength
     // erase what's there and redraw.
     g.setColor (SudokuRenderer.BACKGROUND_COLOR)
     g.fillRect (0, 0, width, height)
     g.setColor (SudokuRenderer.TEXT_COLOR)
     g.drawString ("Number of tries: " + board.getNumIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
-    val len: Int = board.getEdgeLength
+    val len: Int = board.edgeLength
     var xpos: Int = 0
     var ypos: Int = 0
     if (currentFocusLocation != null) {

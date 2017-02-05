@@ -14,17 +14,18 @@ class Cell(value: Int) {
   private var currentValue: Int = 0
 
   /** true if part of the original specification.  */
-  var isOriginal: Boolean = false
+  var original: Boolean = false
+  def isOriginal: Boolean = original
 
   /** the BigCell to which I belong   */
   private var parentBigCell: BigCell = _
   var rowCells: CellSet = _
   var colCells: CellSet = _
-  private var cachedCandidates: Candidates = _
+  private var cachedCandidates: Candidates = null
 
   def setParent(parent: BigCell) { parentBigCell = parent }
   def getValue: Int = currentValue
-  def isParent(bigCell: BigCell): Boolean = bigCell eq parentBigCell
+  def isParent(bigCell: BigCell): Boolean = bigCell == parentBigCell
 
   /**
     * Once the puzzle is started, you can only assign positive values to values of cells.
@@ -34,15 +35,13 @@ class Cell(value: Int) {
   def setValue(value: Int) {
     assert(value > 0)
     currentValue = value
-    isOriginal = false
-    parentBigCell.removeCandidate(currentValue)
-    rowCells.removeCandidate(currentValue)
-    colCells.removeCandidate(currentValue)
+    original = false
+    removeCurrentValue()
     clearCache()
   }
 
   /**
-    * Set the value back to unset and add the old value to the list of candidates
+    * Set the value back to unset and add the old value to the list of candidates.
     * The value should only be added back to row/col/bigCell candidates if the value is not already set
     * for respective row/col/bigCell.
     * Clear value should be the inverse of setValue.
@@ -51,10 +50,8 @@ class Cell(value: Int) {
     if (currentValue == 0) return
     val value = currentValue
     currentValue = 0
-    isOriginal = false
-    rowCells.addCandidate(value)
-    colCells.addCandidate(value)
-    parentBigCell.addCandidate(value)
+    original = false
+    addCaddidateValue(value)
     clearCache()
   }
 
@@ -67,17 +64,27 @@ class Cell(value: Int) {
     assert(value >= 0)
     currentValue = value
     // if set to 0 initially, then it is a value that needs to be filled in.
-    isOriginal = value > 0
+    original = value > 0
     if (isOriginal) {
-      parentBigCell.removeCandidate(value)
-      rowCells.removeCandidate(value)
-      colCells.removeCandidate(value)
+      removeCurrentValue()
     } else clearCache()
   }
 
-  def remove(value: Int): Unit =
-    getCandidates.remove(value)
+  private def addCaddidateValue(value: Int) = {
+    rowCells.addCandidate(value)
+    colCells.addCandidate(value)
+    parentBigCell.addCandidate(value)
+    getCandidates.add(value)
+  }
 
+  private def removeCurrentValue() = {
+    parentBigCell.removeCandidate(currentValue)
+    rowCells.removeCandidate(currentValue)
+    colCells.removeCandidate(currentValue)
+    getCandidates.remove(currentValue)
+  }
+
+  def remove(value: Int): Unit = getCandidates.remove(value)
   def clearCache() { cachedCandidates = null }
 
   /**
@@ -87,9 +94,8 @@ class Cell(value: Int) {
   def getCandidates: Candidates = {
     if (currentValue > 0)
       cachedCandidates = NO_CANDIDATES
-    else { //if (cachedCandidates == null) {
+    else if (cachedCandidates == null)
       cachedCandidates = parentBigCell.candidates.intersect(rowCells.candidates).intersect(colCells.candidates)
-    }
     cachedCandidates
   }
 
@@ -102,5 +108,5 @@ class Cell(value: Int) {
 
   override def hashCode: Int = value
 
-  override def toString: String = "Cell value=" + getValue
+  override def toString: String = "Cell value: " + getValue
 }

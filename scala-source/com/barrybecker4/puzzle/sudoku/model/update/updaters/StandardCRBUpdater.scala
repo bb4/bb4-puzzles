@@ -19,7 +19,7 @@ class StandardCRBUpdater(val b: Board) extends AbstractUpdater(b) {
   }
 
   private def updateCellCandidates() {
-    val values = board.getValuesList
+    val values = board.valuesList
     board.getRowCells.updateAll(values)
     board.getColCells.updateAll(values)
     board.getBigCells.update(values)
@@ -27,8 +27,8 @@ class StandardCRBUpdater(val b: Board) extends AbstractUpdater(b) {
 
   /** Takes the intersection of the three sets: row, col, bigCell candidates. */
   private def checkAndSetUniqueValues() {
-    for (row <- 0 until board.getEdgeLength) {
-      for (col <- 0 until board.getEdgeLength) {
+    for (row <- 0 until board.edgeLength) {
+      for (col <- 0 until board.edgeLength) {
         val cell = board.getCell(row, col)
         val cands = cell.getCandidates
         if (cands.size == 1) {

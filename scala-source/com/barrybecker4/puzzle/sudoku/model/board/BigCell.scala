@@ -12,10 +12,10 @@ import scala.collection.immutable.HashSet
 class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends CellSet {
 
   /** The numbers which have not yet been used in this big cell. */
-  val candidates: Candidates = new Candidates(board.getValuesList)
+  val candidates: Candidates = new Candidates(board.valuesList)
 
   /** The number of Cells in the BigCell is n * n.  */
-  private val n: Int  = board.getBaseSize
+  private val n: Int = board.baseSize
 
   /** The internal data structures representing the big cell. Row, column order. */
   private val cells: Array[Array[Cell]] = Array.ofDim[Cell](n, n)
@@ -58,7 +58,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     * If this bigCell has a row (0, n_-1) that has the only cells with candidates for value,
     * then return that row, else return -1.
     *
-    * @param value value
+    * @param value value to look for in candidates
     * @return row (0 to n-1) if found, else -1
     */
   def findUniqueRowFor(value: Int): Int = {
@@ -80,8 +80,8 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     * If this bigCell has a column (0, n_-1) that has the only cells with candidates for value,
     * then return that column, else return -1.
     *
-    * @param value value
-    * @return ro (0 to n-1) if found, else -1
+    * @param value value to look for in candidates
+    * @return column (0 to n-1) if found, else -1
     */
   def findUniqueColFor(value: Int): Int = {
     var cols = new HashSet[Integer]
