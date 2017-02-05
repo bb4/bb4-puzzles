@@ -30,11 +30,11 @@ class SudokuSolver() {
     var solved = false
     // not sure what this should be.
     val maxIterations = 2 * board.getEdgeLength
-    println("initial board = " + board)
+    //println("initial board = " + board)
     do {
       solved = doIteration(board)
       refreshWithDelay(puzzlePanel, 3)
-      println("iteration = " + board.getNumIterations)
+      //println("iteration = " + board.getNumIterations)
     } while (!solved && board.getNumIterations < maxIterations)
     refresh(puzzlePanel)
     // if we get here and solved is not true, we did not find a solution.
@@ -49,7 +49,10 @@ class SudokuSolver() {
   }
 
   private def refreshWithDelay(puzzlePanel: Container, relativeDelay: Int) {
-    if (delay >= 0) {
+    if (delay <= 0) {
+      if (Math.random() < 0.1) refresh(puzzlePanel)
+    }
+    else {
       refresh(puzzlePanel)
       ThreadUtil.sleep(relativeDelay * delay)
     }

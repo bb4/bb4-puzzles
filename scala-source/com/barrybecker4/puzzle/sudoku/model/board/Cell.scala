@@ -9,6 +9,7 @@ import com.barrybecker4.puzzle.sudoku.model.board.Candidates.NO_CANDIDATES
 class Cell(value: Int) {
   
   setOriginalValue(value)
+
   /** must be a number between 1 and nn  */
   private var currentValue: Int = 0
 
@@ -21,12 +22,8 @@ class Cell(value: Int) {
   var colCells: CellSet = _
   private var cachedCandidates: Candidates = _
 
-  def setParent(parent: BigCell) {
-    parentBigCell = parent
-  }
-
+  def setParent(parent: BigCell) { parentBigCell = parent }
   def getValue: Int = currentValue
-
   def isParent(bigCell: BigCell): Boolean = bigCell eq parentBigCell
 
   /**

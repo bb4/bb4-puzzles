@@ -79,15 +79,15 @@ public class NakedSubsetUpdater extends AbstractUpdater {
         Candidates foundSubset = null;
         Set<Integer> matches = null;
 
-        for (int i=0; i<cells.numCells(); i++) {
+        for (int i = 0; i < cells.numCells(); i++) {
             Candidates cands = cells.getCell(i).getCandidates();
-            matches = new HashSet<Integer>();
+            matches = new HashSet<>();
             matches.add(i);
             if (cands != null)  {
                 int n = cands.size();
-                for (int j=0; j<cells.numCells(); j++) {
+                for (int j = 0; j < cells.numCells(); j++) {
                     Candidates cands2 = cells.getCell(j).getCandidates();
-                    if (j!=i && cands2!=null && cands.containsAll(cands2)) {
+                    if (j != i && cands2 != null && cands.containsAll(cands2)) {
                        matches.add(j);
                     }
                 }

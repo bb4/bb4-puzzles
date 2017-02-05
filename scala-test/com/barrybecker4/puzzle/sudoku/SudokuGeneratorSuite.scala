@@ -45,7 +45,7 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected generated board", expBoard, board.get)
   }
 
-  /** Gerenate solutions for a bunch of random puzzles    */
+  /** Generate solutions for a bunch of random puzzles  */
   test("GenerateInitialSolution4Many") {
     for (i <- 0 to 8) {
       val rand = new Random()
@@ -73,7 +73,7 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
   }
 
   private def generateInitialSolution(baseSize: Int, rand: Random): Option[Board] = {
-    generator = new SudokuGenerator(baseSize, null, rand)
+    generator = new SudokuGenerator(baseSize, rand = rand)
     val start = System.currentTimeMillis
     val b = new Board(baseSize)
     val solved = generator.generateSolution(b)

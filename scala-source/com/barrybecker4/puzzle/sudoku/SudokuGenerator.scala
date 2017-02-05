@@ -36,7 +36,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
   }
 
   /**
-    * find a complete consistent solution.
+    * Find a complete, consistent solution.
     *
     * @return generated random board
     */
@@ -45,12 +45,13 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     if (ppanel != null) ppanel.setBoard(board)
     val success: Boolean = generateSolution(board)
     if (ppanel != null) ppanel.repaint()
-    assert(success, "We were not able to generate a consistent board " + board + "numCombinations examined: " + totalCt)
+    assert(success, "We were not able to generate a consistent board " + board + ". numCombinations examined: " + totalCt)
     // now start removing values until we cannot deduce the final solution from it.
     // for every position (in random order) if we can remove it, do so.
-    generateByRemoving (board)
+    generateByRemoving(board)
   }
 
+  /** @return whether or not the specified board has a consistent solution. */
   def generateSolution(board: Board): Boolean = generateSolution(board, 0)
 
   /**
@@ -63,29 +64,30 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
   private def generateSolution(board: Board, position: Int): Boolean = {
     // base case of the recursion
     if (position == board.getNumCells) {
-      // board completely solved now
-      return true
+      return true // board completely solved now
     }
     val cell: Cell = board.getCell(position)
     val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates, rand)
     refresh()
 
-    println("shuff cands = " + shuffledValues)
     for (value <- shuffledValues.elements) {
       cell.setValue(value)
       totalCt += 1
-      println("totalCt =  " + totalCt + " pos= " + position + " out of "+ board.getNumCells +" val=" + value)
+      //println("totalCt =  " + totalCt + " pos= " + position + " out of "+ board.getNumCells +" val=" + value)
       if (generateSolution(board, position + 1)) {
         return true
       }
       cell.clearValue()
     }
-    false
+    false // backtrack
   }
 
   private def refresh() {
     if (ppanel == null) return
-    if (delay >= 0) {
+    if (delay <= 0) {
+      if (Math.random() < 0.1) ppanel.repaint()
+    }
+    else {
       ppanel.repaint()
       ThreadUtil.sleep(delay)
     }
@@ -127,9 +129,7 @@ class SudokuGenerator (var size: Int, var ppanel: SudokuPanel = null, rand: Rand
     val cell: Cell = board.getCell(pos)
     val value: Int = cell.getValue
     cell.clearValue()
-    if (ppanel != null && delay > 0) {
-      ppanel.repaint ()
-    }
+    refresh()
     val copy: Board = new Board(board) // try to avoid this
     if (!solver.solvePuzzle(copy, ppanel) ) {
       // put it back since it cannot be solved without this positions value

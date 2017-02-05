@@ -11,8 +11,8 @@ import java.awt.Choice
 object SpeedSelector {
   private val DEFAULT_SELECTION = 1
   private val SPEED_CHOICES = Array(
-    "Fastest (no animation)",
-    "Fastest with animation",
+    "Fastest (minimal animation)",
+    "Fastest (with animation)",
     "Medium speed",
     "Slow speed",
     "Extremely slow"

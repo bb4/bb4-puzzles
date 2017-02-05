@@ -11,15 +11,14 @@ import scala.collection.immutable.HashSet
   */
 class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends CellSet {
 
-  /** The number which have not yet been used in this big cell. */
+  /** The numbers which have not yet been used in this big cell. */
   val candidates: Candidates = new Candidates(board.getValuesList)
 
   /** The number of Cells in the BigCell is n * n.  */
   private val n: Int  = board.getBaseSize
 
-  /** The internal data structures representing the game board. Row, column order. */
+  /** The internal data structures representing the big cell. Row, column order. */
   private val cells: Array[Array[Cell]] = Array.ofDim[Cell](n, n)
-
 
   for (i <- 0 until n; j <- 0 until n) {
     cells(i)(j) = board.getCell(rowOffset + i, colOffset + j)
@@ -28,9 +27,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
 
   def numCells: Int = n * n
 
-  /**
-    * @return retrieve the base size of the board - sqrt(edge magnitude).
-    */
+  /** @return retrieve the base size of the board - sqrt(edge magnitude). */
   final def getSize: Int = n
 
   /** a value has been set, so we need to remove it from all the candidate lists. */
@@ -66,20 +63,22 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     */
   def findUniqueRowFor(value: Int): Int = {
     var rows = new HashSet[Integer]
-
-    for (i <- 0 until n; j <- 0 until n) {
-      val cands = getCell(i, j).getCandidates
-      if (cands.contains(value)) {
-        rows += i
-        //break //todo: break is not supported
+    def rowContainsValue(i: Int): Boolean = {
+      for (j <- 0 until n) {  // loop over columns
+        val cands = getCell(i, j).getCandidates
+        if (cands.contains(value)) return true
       }
+      false
     }
+
+    for (i <- 0 until n)  // loop over rows
+      if (rowContainsValue(i)) rows += i
     if (rows.size == 1) rows.head else -1
   }
 
   /**
-    * If this bigCell has a row (0, n_-1) that has the only cells with candidates for value,
-    * then return that col, else return -1.
+    * If this bigCell has a column (0, n_-1) that has the only cells with candidates for value,
+    * then return that column, else return -1.
     *
     * @param value value
     * @return ro (0 to n-1) if found, else -1
@@ -87,13 +86,16 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def findUniqueColFor(value: Int): Int = {
     var cols = new HashSet[Integer]
 
-    for {
-      j <- 0 until n
-      i <- 0 until n
-      cands = getCell(i, j).getCandidates
-      if cands.contains(value)
-    } cols += j  // for performance, we want to break and avoid remaining i's for j loop
+    def colContainsValue(j: Int): Boolean = {
+      for (i <- 0 until n) {
+        val cands = getCell(i, j).getCandidates
+        if (cands.contains(value)) return true
+      }
+      false
+    }
 
+    for (j <- 0 until n)
+      if (colContainsValue(j)) cols += j
     if (cols.size == 1) cols.head else -1
   }
 
