@@ -29,8 +29,8 @@ class Board(val baseSize: Int) {
   private var cells: Array[Array[Cell]] = _
 
   // row and col cells for every row and col.
-  protected var rowCells: Array[CellArray] = _
-  protected var colCells: Array[CellArray] = _
+  protected var rowCells: Seq[CellArray] = _
+  protected var colCells: Seq[CellArray] = _
 
   /** the internal data structures representing the game board. */
   protected var bigCells: BigCellArray = _
@@ -64,8 +64,8 @@ class Board(val baseSize: Int) {
     numIterations = 0
   }
 
-  def getRowCells: Array[CellArray] = rowCells
-  def getColCells: Array[CellArray] = colCells
+  def getRowCells: Seq[CellArray] = rowCells
+  def getColCells: Seq[CellArray] = colCells
   def getBigCells: BigCellArray = bigCells
 
   /** @return the bigCell at the specified location.*/

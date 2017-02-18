@@ -8,16 +8,11 @@ package com.barrybecker4.puzzle.sudoku.model.board
   */
 object CellArray {
 
-  def createRowCellArrays(board: Board): Array[CellArray] = createCellArrays(board, CellArray.createRowCellArray)
-  def createColCellArrays(board: Board): Array[CellArray] = createCellArrays(board, CellArray.createColCellArray)
+  def createRowCellArrays(board: Board): Seq[CellArray] = createCellArrays(board, CellArray.createRowCellArray)
+  def createColCellArrays(board: Board): Seq[CellArray] = createCellArrays(board, CellArray.createColCellArray)
 
-  private def createCellArrays(board: Board, cellArrayCreator: (Int, Board) => CellArray) = {
-    val cellArrays = new Array[CellArray](board.edgeLength)
-    for (i <- 0 until board.edgeLength) {
-      cellArrays(i) = cellArrayCreator(i, board)
-    }
-    cellArrays
-  }
+  private def createCellArrays(board: Board, cellArrayCreator: (Int, Board) => CellArray) =
+    for (i <- 0 until board.edgeLength) yield cellArrayCreator(i, board)
 
   private[board] def createRowCellArray(row: Int, board: Board) =
     createCellArray(board, row, (row, i, cells) => {
