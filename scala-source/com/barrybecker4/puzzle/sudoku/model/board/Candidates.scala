@@ -45,11 +45,8 @@ class Candidates(list: ValuesList) {
 
   override def toString: String = elements.map(ValueConverter.getSymbol).mkString(",")
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Candidates]
-
-
   override def equals(other: Any): Boolean = other match {
-    case that: Candidates => (that canEqual this) && elements == that.elements
+    case that: Candidates => elements == that.elements
     case _ => false
   }
 

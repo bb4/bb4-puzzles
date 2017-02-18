@@ -125,13 +125,12 @@ class Board(val baseSize: Int) {
 
   override def toString: String = {
     val builder: StringBuilder = new StringBuilder ("\n")
-    for (row <- 0 until edgeLength) {
-      for (col <- 0 until edgeLength) {
-        builder.append(ValueConverter.getSymbol (getCell (row, col).getValue) )
-        builder.append(" ")
-      }
-      builder.append("\n")
-    }
+
+    val rows = for (row <- 0 until edgeLength)
+      yield for (col <- 0 until edgeLength)
+        yield ValueConverter.getSymbol(getCell(row, col).getValue)
+
+    builder.append(rows.map(_.mkString("Array(", ", ", "),")).mkString("\n"))
     builder.append("rowCells=\n").append(getRowCells)
     builder.append("colCells=\n").append(getColCells)
     builder.append("bigCells =\n").append(getBigCells)

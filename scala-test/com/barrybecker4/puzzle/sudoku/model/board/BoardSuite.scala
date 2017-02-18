@@ -1,10 +1,11 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.sudoku.model
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.sudoku.model.board
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import com.barrybecker4.puzzle.sudoku.model.board.Candidates.NO_CANDIDATES
-import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, ValuesList}
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
@@ -76,7 +77,7 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
     var cands = ValuesList.getShuffledCandidates(board.getCell(0).getCandidates, rand)
     checkCandidates(List(5, 3), cands)
     cands = ValuesList.getShuffledCandidates(board.getCell(1).getCandidates, rand)
-    checkCandidates(List(3, 4, 1, 5), cands)
+    checkCandidates(List(5, 1, 3, 4), cands)
     cands = ValuesList.getShuffledCandidates(board.getCell(2).getCandidates, rand)
     val expList = List()
     checkCandidates(expList, cands)

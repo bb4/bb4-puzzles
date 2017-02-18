@@ -1,9 +1,9 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.sudoku.model
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.sudoku.model.board
 
-import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
-import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, Cell}
 import org.junit.Assert.{assertEquals, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
@@ -12,14 +12,9 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
   */
 class CellSuite extends FunSuite with BeforeAndAfter {
 
-  //val RAND = new Random(1)
   /** instance under test */
   private var cell: Cell = _
   private var board: Board = _
-
-  before {
-    MathUtil.RANDOM.setSeed(1)
-  }
 
   test("FindCellCandidatesForFirstCell") {
     board = new Board(TestData.SIMPLE_4)
@@ -50,22 +45,6 @@ class CellSuite extends FunSuite with BeforeAndAfter {
     assertEquals("Unexpected col 1 cands", new Candidates(3, 4), board.getRowCells.get(1).candidates)
     assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3), board.getBigCell(0, 0).candidates)
   }
-
-  /* Set an inappropriate illegal value and verify exception thrown
-  test("SetValueInvalid") {
-      board = new TantrixBoard(TestData.SIMPLE_4);
-      cell = board.getCell(1, 1);
-
-      Assert.assertEquals("Unexpected before candidates", new Candidates(1), cell.getCandidates());
-
-      System.out.println("before" + board);
-      try {
-          cell.setValue(3);
-          Assert.fail();
-      } catch (IllegalStateException e) {
-          // success
-      }
-  }  */
 
   /** Calling clear on a cell should undo a set. */
   test("ClearReversesSet") {

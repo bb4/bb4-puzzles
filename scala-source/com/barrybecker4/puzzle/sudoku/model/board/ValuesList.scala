@@ -6,34 +6,27 @@ import com.barrybecker4.puzzle.sudoku.model.board.ValuesList.RAND
 import scala.util.Random
 
 /**
-  * The list of values in a bigCell (or row or column).
+  * The list of values in a bigCell, or a row or column).
   *
   * @author Barry Becker
   */
 object ValuesList {
 
-  private val RAND = new Random(Math.round(Math.random() * 100000))
+  private val RAND = new Random((Math.random() * 1000000).toInt)
 
   def getShuffledCandidates(cands: Candidates, rand: Random = RAND): ValuesList = {
-    if (cands.isEmpty) return new ValuesList(0)
-    ValuesList.createShuffledList(cands, rand)
-  }
-
-  private def createShuffledList(cands: Candidates, rand: Random = RAND) = {
-    val list = new ValuesList(cands.elements)
-    list.shuffle(rand)
-    list
+    //if (cands.isEmpty) return new ValuesList(0)
+    new ValuesList(rand.shuffle(cands.elements))
   }
 }
 
 class ValuesList(els: Iterable[Int]) {
 
-  var elements: List[Int] = List()
-  addAll(els)
+  var elements: List[Int] = els.toList
 
   def this(n: Int) = this(1 to n)
   def addAll(cands: Candidates): Unit = addAll(cands.elements)
-  def addAll(els: Iterable[Int]): Unit = elements = els.toList // els.foreach(x => elements +:= x)//
+  def addAll(els: Iterable[Int]): Unit = elements = els.toList
 
   def shuffle(rand: Random = RAND): Unit =
     elements = rand.shuffle(elements)
@@ -44,6 +37,5 @@ class ValuesList(els: Iterable[Int]) {
   }
 
   override def hashCode(): Int = elements.hashCode()
-
   override def toString: String = elements.mkString(",")
 }

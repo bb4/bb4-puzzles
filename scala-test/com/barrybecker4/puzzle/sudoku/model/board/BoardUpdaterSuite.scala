@@ -1,9 +1,10 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.sudoku.model
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.sudoku.model.board
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
-import com.barrybecker4.puzzle.sudoku.model.board.Board
 import com.barrybecker4.puzzle.sudoku.model.update.updaters.{LoneRangerUpdater, StandardCRBUpdater}
 import com.barrybecker4.puzzle.sudoku.model.update.{IBoardUpdater, ReflectiveBoardUpdater}
 import org.junit.Assert.assertEquals
