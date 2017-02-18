@@ -33,15 +33,24 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
   test("GenerateInitialSolution3") {
     val board = generateInitialSolution(3, rand)
     val expBoard = new Board(Array[Array[Int]](
-      Array(9, 3, 8, 7, 6, 4, 5, 2, 1),
-      Array(5, 7, 2, 3, 9, 1, 6, 4, 8),
-      Array(1, 6, 4, 2, 5, 8, 7, 3, 9),
-      Array(7, 8, 9, 5, 3, 6, 4, 1, 2),
-      Array(3, 5, 6, 4, 1, 2, 8, 9, 7),
-      Array(2, 4, 1, 9, 8, 7, 3, 5, 6),
-      Array(4, 1, 5, 8, 7, 9, 2, 6, 3),
-      Array(8, 9, 3, 6, 2, 5, 1, 7, 4),
-      Array(6, 2, 7, 1, 4, 3, 9, 8, 5)))
+      Array(7, 6,1, 9, 3, 5, 4, 2, 8),
+      Array(4, 9, 2, 6, 7, 8, 3, 5, 1),
+      Array(8, 3, 5, 2, 4, 1, 9, 6, 7),
+      Array(9, 1, 7, 4, 6, 3, 5, 8, 2),
+      Array(6, 4, 3, 5, 8, 2, 1, 7, 9),
+      Array(5, 2, 8, 7, 1, 9, 6, 4, 3),
+      Array(2, 5, 6, 1, 9, 7, 8, 3, 4),
+      Array(1, 8, 4, 3, 2, 6, 7, 9, 5),
+      Array(3, 7, 9, 8, 5, 4, 2, 1, 6)))
+    /*Array(9, 3, 8, 7, 6, 4, 5, 2, 1),
+    Array(5, 7, 2, 3, 9, 1, 6, 4, 8),
+    Array(1, 6, 4, 2, 5, 8, 7, 3, 9),
+    Array(7, 8, 9, 5, 3, 6, 4, 1, 2),
+    Array(3, 5, 6, 4, 1, 2, 8, 9, 7),
+    Array(2, 4, 1, 9, 8, 7, 3, 5, 6),
+    Array(4, 1, 5, 8, 7, 9, 2, 6, 3),
+    Array(8, 9, 3, 6, 2, 5, 1, 7, 4),
+    Array(6, 2, 7, 1, 4, 3, 9, 8, 5)))*/
     /*
      val expBoard = new Board(Array[Array[Int]](
       Array(9, 3, 8, 7, 6, 4, 5, 2, 1),
@@ -77,10 +86,14 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
   test("GeneratePuzzle2") {
     val board = generatePuzzle(2, rand)
     val expBoard = new Board(Array[Array[Int]](
-      Array(0, 2, 0, 0),
+      Array(4, 0, 0, 0),
+      Array(0, 1, 2, 0),
+      Array(0, 0, 0, 0),
+      Array(0, 4, 0, 0)))
+      /*Array(0, 2, 0, 0),
       Array(0, 0, 0, 0),
       Array(0, 0, 4, 0),
-      Array(0, 0, 1, 3))) /*
+      Array(0, 0, 1, 3))) */ /*
       Array(0, 2, 0, 0),
       Array(0, 0, 0, 0),
       Array(0, 3, 4, 0),
@@ -94,7 +107,7 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
     val start = System.currentTimeMillis
     val b = new Board(baseSize)
     val solved = generator.generateSolution(b)
-    System.out.println("SOLVED = " + solved + "  Time to generate solution for size=" + baseSize + " was " + (System.currentTimeMillis - start))
+    //System.out.println("SOLVED = " + solved + "  Time to generate solution for size=" + baseSize + " was " + (System.currentTimeMillis - start))
     //assertTrue("The board was not solved!", solved);
     if (!solved) None else Some(b)
   }
@@ -103,7 +116,7 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
     generator = new SudokuGenerator(baseSize, null, rand)
     val start = System.currentTimeMillis
     val b = generator.generatePuzzleBoard
-    System.out.println(" Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
+    //System.out.println(" Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
     b
   }
 }

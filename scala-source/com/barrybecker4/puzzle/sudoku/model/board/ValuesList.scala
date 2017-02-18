@@ -29,27 +29,21 @@ object ValuesList {
 class ValuesList(els: Iterable[Int]) {
 
   var elements: List[Int] = List()
-
   addAll(els)
 
   def this(n: Int) = this(1 to n)
   def addAll(cands: Candidates): Unit = addAll(cands.elements)
-  def addAll(els: Iterable[Int]): Unit = els.foreach(x => elements +:= x)
+  def addAll(els: Iterable[Int]): Unit = elements = els.toList // els.foreach(x => elements +:= x)//
 
   def shuffle(rand: Random = RAND): Unit =
     elements = rand.shuffle(elements)
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[ValuesList]
-
   override def equals(other: Any): Boolean = other match {
-    case that: ValuesList => (that canEqual this) && elements == that.elements
+    case that: ValuesList => elements == that.elements
     case _ => false
   }
 
-  override def hashCode(): Int = {
-    val state = Seq(elements)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
-  }
+  override def hashCode(): Int = elements.hashCode()
 
   override def toString: String = elements.mkString(",")
 }

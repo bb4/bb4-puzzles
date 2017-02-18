@@ -59,7 +59,6 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
       rand.setSeed(r)
       generateAndSolve(3, rand)
     }
-
   }
 
   /** The large tests takes a long time because of the exponential growth with the size of the puzzle. */
@@ -67,7 +66,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     // super exponential run time
     generateAndSolve(2, rand) // 16  cells       32 ms
     generateAndSolve(3, rand) // 81  cells      265 ms
-    // generateAndSolve(4);  // 256 cells    2,077 ms
+    generateAndSolve(4, rand);  // 256 cells    2,077 ms
     // generateAndSolve(5);  // 625 cells  687,600 ms    too slow
   }
 

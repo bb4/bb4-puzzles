@@ -15,23 +15,17 @@ object Candidates {
   */
 class Candidates(list: ValuesList) {
 
-  var elements: Set[Int] = Set()
-
-  list.elements.foreach(x => elements += x)
+  var elements: Set[Int] = list.elements.toSet
 
   def this() {
     this(new ValuesList(0))
-  }
-
-  def this(cands: Candidates) {
-    this(new ValuesList(cands.elements))
   }
 
   def this(cands: Int*) {
     this(new ValuesList(cands))
   }
 
-  def copy = new Candidates(this)
+  def copy = new Candidates(new ValuesList(this.elements))
 
   def getFirst: Integer = elements.iterator.next
 
@@ -59,8 +53,5 @@ class Candidates(list: ValuesList) {
     case _ => false
   }
 
-  override def hashCode(): Int = {
-    val state = Seq(elements)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
-  }
+  override def hashCode(): Int = elements.hashCode()
 }

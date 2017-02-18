@@ -33,7 +33,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   /** a value has been set, so we need to remove it from all the candidate lists. */
   def removeCandidate(unique: Int) {
     candidates.remove(unique)
-    var j = 0
     for (j <- 0 until n; i <- 0 until n)
       getCell(i, j).remove(unique)
   }
