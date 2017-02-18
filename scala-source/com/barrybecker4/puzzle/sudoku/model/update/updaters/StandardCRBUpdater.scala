@@ -20,8 +20,8 @@ class StandardCRBUpdater(val b: Board) extends AbstractUpdater(b) {
 
   private def updateCellCandidates() {
     val values = board.valuesList
-    board.getRowCells.updateAll(values)
-    board.getColCells.updateAll(values)
+    board.getRowCells.foreach(_.updateCandidates(values))
+    board.getColCells.foreach(_.updateCandidates(values))
     board.getBigCells.update(values)
   }
 
