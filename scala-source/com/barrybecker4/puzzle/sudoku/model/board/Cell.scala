@@ -21,7 +21,7 @@ class Cell(value: Int) {
   private var parentBigCell: BigCell = _
   var rowCells: CellSet = _
   var colCells: CellSet = _
-  private var cachedCandidates: Candidates = null
+  private var cachedCandidates: Candidates = _
 
   def setParent(parent: BigCell) { parentBigCell = parent }
   def getValue: Int = currentValue
@@ -51,7 +51,7 @@ class Cell(value: Int) {
     val value = currentValue
     currentValue = 0
     original = false
-    addCaddidateValue(value)
+    addCandidateValue(value)
     clearCache()
   }
 
@@ -70,7 +70,7 @@ class Cell(value: Int) {
     } else clearCache()
   }
 
-  private def addCaddidateValue(value: Int) = {
+  private def addCandidateValue(value: Int) = {
     rowCells.addCandidate(value)
     colCells.addCandidate(value)
     parentBigCell.addCandidate(value)
@@ -84,7 +84,7 @@ class Cell(value: Int) {
     getCandidates.remove(currentValue)
   }
 
-  def remove(value: Int): Unit = getCandidates.remove(value)
+  def removeCandidate(value: Int): Unit = getCandidates.remove(value)
   def clearCache() { cachedCandidates = null }
 
   /**

@@ -12,19 +12,19 @@ import com.barrybecker4.puzzle.sudoku1.model.ValueConverter;
 public class Board {
 
     /** The number of Cells in the board is n^2 * n^2, but there are n * n big cells.   */
-    protected int n_;
-    protected int nn_;  // n times n
+    private int n_;
+    private int nn_;  // n times n
 
-    static final int MAX_SIZE = 9;
+    private static final int MAX_SIZE = 9;
 
     private Cell[][] cells_;
 
     // row and col cells for every row and col.
-    protected CellArrays rowCells_;
-    protected CellArrays colCells_;
+    private CellArrays rowCells_;
+    private CellArrays colCells_;
 
     /** the internal data structures representing the game board. */
-    protected BigCellArray bigCells_;
+    private BigCellArray bigCells_;
 
     /** all the values in the big cells or rows/cols 1...nn_ */
     private final ValuesList valuesList_;

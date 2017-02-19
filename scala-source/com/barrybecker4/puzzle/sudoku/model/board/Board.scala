@@ -130,10 +130,16 @@ class Board(val baseSize: Int) {
       yield for (col <- 0 until edgeLength)
         yield ValueConverter.getSymbol(getCell(row, col).getValue)
 
+    val cellCands = for (row <- 0 until edgeLength)
+      yield for (col <- 0 until edgeLength)
+        yield getCell(row, col).getCandidates
+
     builder.append(rows.map(_.mkString("Array(", ", ", "),")).mkString("\n"))
-    builder.append("rowCells=\n").append(getRowCells)
-    builder.append("colCells=\n").append(getColCells)
-    builder.append("bigCells =\n").append(getBigCells)
+    builder.append("\ncellCandidates=\n")
+      .append(cellCands.map(_.map(_.elements.mkString("[", ",", "]")).mkString(", ")).mkString("\n"))
+    builder.append("\nrowCells=\n").append(getRowCells)
+    builder.append("\ncolCells=\n").append(getColCells)
+    builder.append("\nbigCells =\n").append(getBigCells)
     builder.toString
   }
 

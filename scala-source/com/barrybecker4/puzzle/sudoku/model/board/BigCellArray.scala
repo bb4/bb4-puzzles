@@ -26,10 +26,7 @@ class BigCellArray(val board: Board) {
   }
 
   override def toString: String = {
-    val bldr = new StringBuilder
-    for (row <- 0 until size; col <- 0 until size)
-      bldr.append("cands(").append(row).append(", ").append(col).append(")=")
-        .append(getBigCell(row, col).candidates).append("\n")
-    bldr.toString
+    val a = for (row <- 0 until size; col <- 0 until size) yield s"cands($row,$col)=${getBigCell(row, col).candidates}"
+    a.mkString("\n")
   }
 }

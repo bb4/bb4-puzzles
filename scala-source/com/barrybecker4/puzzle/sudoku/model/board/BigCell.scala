@@ -23,6 +23,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   for (i <- 0 until n; j <- 0 until n) {
     cells(i)(j) = board.getCell(rowOffset + i, colOffset + j)
     cells(i)(j).setParent(this)
+    candidates.remove(cells(i)(j).getValue)
   }
 
   def numCells: Int = n * n
@@ -34,7 +35,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   def removeCandidate(unique: Int) {
     candidates.remove(unique)
     for (j <- 0 until n; i <- 0 until n)
-      getCell(i, j).remove(unique)
+      getCell(i, j).removeCandidate(unique)
   }
 
   /** add to the bigCell candidate list and each cells candidates for cells not yet set in stone. */
@@ -93,7 +94,7 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
       false
     }
 
-    for (j <- 0 until n)
+    for (j <- 0 until n)  // loop over cols
       if (colContainsValue(j)) cols += j
     if (cols.size == 1) cols.head else -1
   }
@@ -112,4 +113,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
 
   private def clearCaches() =
     for (j <- 0 until n; i <- 0 until n) getCell(i, j).clearCache()
+
+  override def toString: String = cells.map(_.mkString(", ")).mkString("\n")
 }

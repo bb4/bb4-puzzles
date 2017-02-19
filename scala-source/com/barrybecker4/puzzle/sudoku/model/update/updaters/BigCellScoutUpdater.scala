@@ -17,7 +17,7 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
   /**
     * Have a method on a mini-grid (bigCell in my terminology) that checks all its small rows and columns
     * for values that appear only in that row or column and not the rest of the mini-grid.
-    * Then I can take any of those cells for which that value appear and remove that value from
+    * Then I can take any of those cells for which that value appears and remove that value from
     * all cells that are in that row (or column) and outside that mini-grid.
     */
   def updateAndSet() {

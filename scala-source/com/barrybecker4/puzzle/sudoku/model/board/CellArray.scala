@@ -55,8 +55,7 @@ class CellArray private(val size: Int) extends CellSet {
 
   def removeCandidate(unique: Int) {
     candidates.remove(unique)
-    for (i <- 0 until numCells)
-      cells(i).remove(unique)
+    cells.foreach(_.removeCandidate(unique))
   }
 
   /**
@@ -75,17 +74,11 @@ class CellArray private(val size: Int) extends CellSet {
   def updateCandidates(values: ValuesList) {
     candidates.clear()
     candidates.addAll(values)
-    for (i <- 0 until numCells) {
-      val v = cells(i).getValue
+    for (i <- 0 until numCells; v = cells(i).getValue)
       if (v > 0) candidates.remove(v)
-    }
   }
 
-  private def clearCaches() {
-    for (i <- 0 until numCells) {
-        cells(i).clearCache()
-    }
-  }
+  private def clearCaches() { cells.foreach(_.clearCache()) }
 
   override def toString: String = "CellArray cells:" + cells.mkString(", ") + "    cands=" + candidates + "\n"
 }
