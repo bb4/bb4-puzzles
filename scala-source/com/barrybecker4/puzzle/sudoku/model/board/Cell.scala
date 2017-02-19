@@ -28,8 +28,7 @@ class Cell(value: Int) {
   def isParent(bigCell: BigCell): Boolean = bigCell == parentBigCell
 
   /**
-    * Once the puzzle is started, you can only assign positive values to values of cells.
-    *
+    * Once the puzzle has started, you can only assign positive values to values of cells.
     * @param value the value to set permanently in the cell (at least until cleared).
     */
   def setValue(value: Int) {
@@ -55,37 +54,32 @@ class Cell(value: Int) {
     clearCache()
   }
 
-  /**
-    * Once the puzzle is started, you can only assign positive values to values of cells.
-    *
-    * @param value original value
-    */
+  /** @param value original value */
   def setOriginalValue(value: Int) {
     assert(value >= 0)
     currentValue = value
     // if set to 0 initially, then it is a value that needs to be filled in.
     original = value > 0
-    if (isOriginal) {
-      removeCurrentValue()
-    } else clearCache()
+    if (isOriginal) removeCurrentValue() else clearCache()
   }
 
   private def addCandidateValue(value: Int) = {
     rowCells.addCandidate(value)
     colCells.addCandidate(value)
     parentBigCell.addCandidate(value)
-    getCandidates.add(value)
   }
 
   private def removeCurrentValue() = {
     parentBigCell.removeCandidate(currentValue)
     rowCells.removeCandidate(currentValue)
     colCells.removeCandidate(currentValue)
-    getCandidates.remove(currentValue)
   }
 
-  def removeCandidate(value: Int): Unit = getCandidates.remove(value)
-  def clearCache() { cachedCandidates = null }
+  def removeCandidate(value: Int): Unit = {
+    getCandidates.remove(value)
+  }
+
+  def clearCache() { cachedCandidates = NO_CANDIDATES }
 
   /**
     * Intersect the parent big cell candidates with the row and column candidates.
@@ -94,15 +88,14 @@ class Cell(value: Int) {
   def getCandidates: Candidates = {
     if (currentValue > 0)
       cachedCandidates = NO_CANDIDATES
-    else if (cachedCandidates == null)
+    else if (cachedCandidates == NO_CANDIDATES)
       cachedCandidates = parentBigCell.candidates.intersect(rowCells.candidates).intersect(colCells.candidates)
+
     cachedCandidates
   }
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Cell]
-
   override def equals(other: Any): Boolean = other match {
-    case that: Cell => (that canEqual this) && currentValue == that.currentValue
+    case that: Cell => currentValue == that.currentValue
     case _ => false
   }
 

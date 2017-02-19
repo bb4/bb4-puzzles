@@ -52,6 +52,18 @@ object TestData {
     Array(9, 0, 7, 0, 0, 3, 0, 5, 0),
     Array(4, 0, 0, 7, 0, 5, 1, 0, 0)
   )
+  /** From http://norvig.com/sudoku.html
+    */
+  val NORVIG_IMPOSSIBLE_9 = Array(
+    Array(0, 0, 0, 0, 0, 5, 0, 8, 0),
+    Array(0, 0, 0, 6, 0, 1, 0, 4, 3),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 1, 0, 5, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 1, 0, 6, 0, 0, 0),
+    Array(3, 0, 0, 0, 0, 0, 0, 0, 5),
+    Array(5, 3, 0, 0, 0, 0, 0, 6, 1),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 4),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
 
   /** Complex 16x16 puzzle from grandma */
   val COMPLEX_16 = Data.SAMPLE_16

@@ -64,6 +64,7 @@ public class SudokuSolver {
         do {
             solved = doIteration(board);
             refreshWithDelay(puzzlePanel, 3);
+            //System.out.println("iteration = " + board.getNumIterations() + " board=\n" + board);
 
         } while (!solved && board.getNumIterations() < maxIterations);
 
@@ -73,7 +74,7 @@ public class SudokuSolver {
         return solved;
     }
 
-    boolean doIteration(Board board)   {
+    private boolean doIteration(Board board)   {
         // find missing row and column numbers
         updater_.updateAndSet(board);
         board.incrementNumIterations();

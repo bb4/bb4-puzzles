@@ -4,6 +4,8 @@ package com.barrybecker4.puzzle.sudoku1.model.board;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.puzzle.sudoku1.model.ValueConverter;
 
+import java.util.Arrays;
+
 /**
  *  The Slider describes the physical layout of the puzzle.
  *
@@ -229,8 +231,12 @@ public class Board {
             }
             bldr.append("\n");
         }
+        bldr.append("cellCands=\n");
+        for (int row=0; row < nn_; row++) {
+            bldr.append(Arrays.toString(cells_[row])).append("\n");
+        }
         bldr.append("rowCells=\n").append(rowCells_);
-        //bldr.append("colCells=\n" + colCells_);
+        bldr.append("colCells=\n").append(colCells_);
         bldr.append("bigCells =\n").append(getBigCells());
         return bldr.toString();
     }

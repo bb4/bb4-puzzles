@@ -59,7 +59,10 @@ class BigCellScoutUpdater(val b: Board) extends AbstractUpdater(b) {
     val cands = cell.getCandidates
 
     if (cands.size == 2 && cands.contains(value))
-      for (candValue <- cands.elements if candValue != value)
+      for (candValue <- cands.elements if candValue != value) {
+        //println("BCScout set(" + cell + ") " +candValue)
         cell.setValue(candValue)
+      }
+
   }
 }

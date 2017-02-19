@@ -34,7 +34,7 @@ class SudokuSolver() {
     do {
       solved = doIteration(board)
       refreshWithDelay(puzzlePanel, 3)
-      //println("iteration = " + board.getNumIterations)
+      //println("iteration = " + board.getNumIterations + " board=\n" + board)
     } while (!solved && board.getNumIterations < maxIterations)
     refresh(puzzlePanel)
     // if we get here and solved is not true, we did not find a solution.

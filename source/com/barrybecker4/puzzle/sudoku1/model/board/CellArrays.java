@@ -25,7 +25,7 @@ public class CellArrays {
         cellArrays_ = new CellArray[size];
     }
 
-    public static CellArrays createRowCellArrays(Board board) {
+    static CellArrays createRowCellArrays(Board board) {
 
         CellArrays cellArrays = new CellArrays(board.getEdgeLength());
         for (int i=0; i<board.getEdgeLength(); i++) {
@@ -34,7 +34,7 @@ public class CellArrays {
         return cellArrays;
     }
 
-    public static CellArrays createColCellArrays(Board board) {
+    static CellArrays createColCellArrays(Board board) {
         CellArrays cellArrays = new CellArrays(board.getEdgeLength());
         for (int i=0; i<board.getEdgeLength(); i++) {
             cellArrays.cellArrays_[i] = CellArray.createColCellArray(i, board);

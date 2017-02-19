@@ -150,6 +150,7 @@ public class Cell {
     }
 
     public String toString() {
-         return "Cell value=" + getValue();
+        //return (getCandidates() == null)? "[]" : getCandidates().toString();
+        return "v=" + getValue() + " cands="+ this.getCandidates().toString();
     }
 }

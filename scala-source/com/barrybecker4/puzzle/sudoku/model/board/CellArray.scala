@@ -14,14 +14,14 @@ object CellArray {
   private def createCellArrays(board: Board, cellArrayCreator: (Int, Board) => CellArray) =
     for (i <- 0 until board.edgeLength) yield cellArrayCreator(i, board)
 
-  private[board] def createRowCellArray(row: Int, board: Board) =
+  private def createRowCellArray(row: Int, board: Board) =
     createCellArray(board, row, (row, i, cells) => {
       val cell = board.getCell(row, i)
       cell.rowCells = cells
       cell
     })
 
-  private[board] def createColCellArray(col: Int, board: Board) =
+  private def createColCellArray(col: Int, board: Board) =
     createCellArray(board, col, (col, i, cells) => {
       val cell = board.getCell(i, col)
       cell.colCells = cells

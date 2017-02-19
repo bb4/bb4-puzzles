@@ -118,6 +118,7 @@ public class LoneRangerUpdater extends AbstractUpdater {
 
         if (candsCopy.size() == 1) {
             int unique = candsCopy.getFirst();
+            System.out.println("LoneRanger set " + unique);
             cell.setValue(unique);
         }
     }

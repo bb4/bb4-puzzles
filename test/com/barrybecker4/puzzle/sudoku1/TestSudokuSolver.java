@@ -18,8 +18,6 @@ public class TestSudokuSolver {
     /** instance under test. */
     private SudokuSolver solver;
 
-    private SudokuGenerator generator;
-
     /**
      * common initialization for all go test cases.
      */
@@ -51,6 +49,7 @@ public class TestSudokuSolver {
 
         solver = new SudokuSolver();
         boolean solved = solver.solvePuzzle(new Board(TestData.COMPLEX_16));
+
 
         assertTrue("Unexpected could not solve 16x16 puzzle.", solved);
     }
@@ -92,7 +91,7 @@ public class TestSudokuSolver {
     }
 
     private Board generatePuzzle(int baseSize) {
-        generator = new SudokuGenerator(baseSize, null);
+        SudokuGenerator generator = new SudokuGenerator(baseSize, null);
         long start = System.currentTimeMillis();
         Board b = generator.generatePuzzleBoard();
         System.out.println("Time to generate size="+baseSize +" was "+ (System.currentTimeMillis() - start));

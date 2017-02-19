@@ -79,6 +79,7 @@ class LoneRangerUpdater(val b: Board) extends AbstractUpdater(b) {
     }
     if (candsCopy.size == 1) {
       val unique = candsCopy.getFirst
+      //println("LoneRanger set " + unique)
       cell.setValue(unique)
     }
   }

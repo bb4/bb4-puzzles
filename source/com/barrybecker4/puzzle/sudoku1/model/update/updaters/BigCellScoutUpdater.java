@@ -83,6 +83,7 @@ public class BigCellScoutUpdater extends AbstractUpdater {
             for (int candValue : cands) {
 
                 if (candValue != value) {
+                    System.out.println("BCScout set " +candValue);
                     cell.setValue(candValue);
                 }
             }
