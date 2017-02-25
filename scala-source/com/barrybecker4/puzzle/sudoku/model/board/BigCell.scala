@@ -11,8 +11,6 @@ import scala.collection.immutable.HashSet
   */
 class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends CellSet {
 
-  /** The numbers which have not yet been used in this big cell. */
-  val candidates: Candidates = new Candidates(board.valuesList)
 
   /** The number of Cells in the BigCell is n * n.  */
   private val n: Int = board.baseSize
@@ -23,7 +21,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   for (i <- 0 until n; j <- 0 until n) {
     cells(i)(j) = board.getCell(rowOffset + i, colOffset + j)
     cells(i)(j).setParent(this)
-    candidates.remove(cells(i)(j).getValue)
   }
 
   def numCells: Int = n * n
@@ -31,28 +28,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
   /** @return retrieve the base size of the board - sqrt(edge magnitude). */
   final def getSize: Int = n
 
-  /** a value has been set, so we need to remove it from all the candidate lists. */
-  def removeCandidate(unique: Int) {
-    candidates.remove(unique)
-    for (j <- 0 until n; i <- 0 until n)
-      getCell(i, j).removeCandidate(unique)
-  }
-
-  /** add to the bigCell candidate list and each cells candidates for cells not yet set in stone. */
-  def addCandidate(value: Int) {
-    candidates.add(value)
-    clearCaches()
-  }
-
-  /** assume all of them, then remove those that are represented. */
-  def updateCandidates(values: ValuesList) {
-    candidates.clear()
-    candidates.addAll(values)
-    for (i <- 0 until n; j <- 0 until n) {
-      val v = cells(i)(j).getValue
-      if (v > 0) candidates.remove(v)
-    }
-  }
 
   /**
     * If this bigCell has a row (0, n_-1) that has the only cells with candidates for value,
@@ -110,9 +85,6 @@ class BigCell(val board: Board, val rowOffset: Int, val colOffset: Int) extends 
     assert(row >= 0 && row < n && col >= 0 && col < n)
     cells(row)(col)
   }
-
-  private def clearCaches() =
-    for (j <- 0 until n; i <- 0 until n) getCell(i, j).clearCache()
 
   override def toString: String = cells.map(_.mkString(", ")).mkString("\n")
 }

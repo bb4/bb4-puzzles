@@ -30,11 +30,9 @@ object CellArray {
 
   private def createCellArray(board: Board, rowOrCol: Int, extractor: (Int, Int, CellArray) => Cell) = {
     val cells = new CellArray(board.edgeLength)
-    cells.candidates.addAll(board.valuesList)
     for (i <- 0 until board.edgeLength) {
       val cell = extractor(rowOrCol, i, cells)
       cells.cells(i) = cell
-      if (cell.getValue > 0) cells.removeCandidate(cell.getValue)
     }
     cells
   }
@@ -45,40 +43,16 @@ object CellArray {
   */
 class CellArray private(val size: Int) extends CellSet {
 
-  /** the candidates for the cells in this row or column */
-  val candidates: Candidates = new Candidates
-
   /** candidate sets for a row or col.   */
   private val cells: Array[Cell] = new Array[Cell](size)
 
   def getCell(i: Int): Cell = cells(i)
 
   def removeCandidate(unique: Int) {
-    candidates.remove(unique)
-    cells.foreach(_.removeCandidate(unique))
-  }
-
-  /**
-    * We can only add the value if none of our cells already have it set.
-    *
-    * @param value value to add to cells candidate list and that of rows/cols/bigCell if possible.
-    */
-  def addCandidate(value: Int) {
-    candidates.add(value)
-    clearCaches()
+    //cells.foreach(_.removeCandidate(unique))
   }
 
   def numCells: Int = cells.length
 
-  /** Assume all of them, then remove the values that are represented. */
-  def updateCandidates(values: ValuesList) {
-    candidates.clear()
-    candidates.addAll(values)
-    for (i <- 0 until numCells; v = cells(i).getValue)
-      if (v > 0) candidates.remove(v)
-  }
-
-  private def clearCaches() { cells.foreach(_.clearCache()) }
-
-  override def toString: String = "CellArray cells:" + cells.mkString(", ") + "    cands=" + candidates + "\n"
+  override def toString: String = "CellArray cells:" + cells.mkString(", ")
 }

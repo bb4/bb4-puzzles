@@ -41,9 +41,6 @@ class CellSuite extends FunSuite with BeforeAndAfter {
     // the candidate lists should be reduced.
     assertEquals("Unexpected value ", 1, cell.getValue)
     assertTrue(cell.getCandidates.isEmpty)
-    assertEquals("Unexpected row 1 cands", new Candidates(3, 4), board.getRowCells(1).candidates)
-    assertEquals("Unexpected col 1 cands", new Candidates(3, 4), board.getRowCells(1).candidates)
-    assertEquals("Unexpected bigCell 0,0 cands", new Candidates(2, 3), board.getBigCell(0, 0).candidates)
   }
 
   /** Calling clear on a cell should undo a set. */

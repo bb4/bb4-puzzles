@@ -20,13 +20,8 @@ class BigCellArray(val board: Board) {
     bigCells(i)(j)
   }
 
-  def update(values: ValuesList) {
-    for (i <- 0 until size; j <- 0 until size)
-      getBigCell(i, j).updateCandidates(values)
-  }
-
   override def toString: String = {
-    val a = for (row <- 0 until size; col <- 0 until size) yield s"cands($row,$col)=${getBigCell(row, col).candidates}"
+    val a = for (row <- 0 until size; col <- 0 until size) yield s"v($row,$col)=${getBigCell(row, col).toString}"
     a.mkString("\n")
   }
 }

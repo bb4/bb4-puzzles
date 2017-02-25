@@ -10,16 +10,5 @@ trait CellSet {
 
   def getCell(i: Int): Cell
 
-  def candidates: Candidates
-
-  def removeCandidate(unique: Int)
-
-  def addCandidate(value: Int)
-
   def numCells: Int
-
-  /**
-    * Assume all of them, then remove the values that are represented.
-    */
-  def updateCandidates(values: ValuesList)
 }

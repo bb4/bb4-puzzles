@@ -5,7 +5,6 @@ import java.awt.Container
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.sudoku.model.board.Board
-import com.barrybecker4.puzzle.sudoku.model.update.{IBoardUpdater, NonReflectiveBoardUpdater}
 
 /**
   * This does the hard work of actually solving the puzzle.
@@ -15,7 +14,6 @@ import com.barrybecker4.puzzle.sudoku.model.update.{IBoardUpdater, NonReflective
   */
 class SudokuSolver() {
 
-  var updater: IBoardUpdater = new NonReflectiveBoardUpdater()
   var delay: Int = 0
 
   /**
@@ -31,11 +29,16 @@ class SudokuSolver() {
     // not sure what this should be.
     val maxIterations = 2 * board.edgeLength
     //println("initial board = " + board)
-    do {
-      solved = doIteration(board)
-      refreshWithDelay(puzzlePanel, 3)
-      //println("iteration = " + board.getNumIterations + " board=\n" + board)
-    } while (!solved && board.getNumIterations < maxIterations)
+
+    // first assign all the original values
+    if (board.setOriginalValues()) {
+      do {
+        solved = doIteration(board)
+        refreshWithDelay(puzzlePanel, 3)
+        //println("iteration = " + board.getNumIterations + " board=\n" + board)
+      } while (!solved && board.getNumIterations < maxIterations)
+    }
+
     refresh(puzzlePanel)
     // if we get here and solved is not true, we did not find a solution.
     solved
@@ -43,7 +46,7 @@ class SudokuSolver() {
 
   def doIteration(board: Board): Boolean = {
     // find missing row and column numbers
-    updater.updateAndSet(board)
+    //updater.updateAndSet(board)
     board.incrementNumIterations()
     board.solved
   }

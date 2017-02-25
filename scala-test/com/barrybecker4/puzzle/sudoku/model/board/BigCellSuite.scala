@@ -17,7 +17,6 @@ class BigCellSuite extends FunSuite with BeforeAndAfter {
   test("Serialize BigCell, top left corner") {
     val bcell = new BigCell(board, 0, 0)
 
-    assertResult("1,2,3"){ bcell.candidates.toString }
     assertResult("Cell value: 0, Cell value: 4\nCell value: 0, Cell value: 0"){ bcell.toString }
   }
 

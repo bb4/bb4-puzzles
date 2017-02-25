@@ -7,12 +7,14 @@ import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 /**
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
+  * These definitions in the companion object are static because they are the same for every board.
   *
   * @author Barry Becker
   */
 object Board {
   /** Maximum size of one of the big cells. The whole puzzle should be no more than MAX_SIZE raised to the 4 cells. */
   val MAX_SIZE = 8
+
 }
 
 /**
@@ -55,9 +57,22 @@ class Board(val baseSize: Int) {
     } getCell(i, j).setOriginalValue(initialData(i)(j))
   }
 
+  /**
+    *
+    * @return false if original values cause an inconsistent state
+    */
+  def setOriginalValues(): Boolean = {
+    for {
+      i <- 0 until edgeLength
+      j <- 0 until edgeLength
+      cell = getCell(i, j)
+    } if (cell.isOriginal && !cell.setValue(cell.getValue)) return false
+    true
+  }
+
   /** return to original state before attempting solution. Non original values become 0. */
   def reset() {
-    cells = Array.fill[Cell](edgeLength, edgeLength)(new Cell(0))
+    cells = Array.fill[Cell](edgeLength, edgeLength)(new Cell(0, edgeLength))
     bigCells = new BigCellArray(this)
     rowCells = CellArray.createRowCellArrays(this)
     colCells = CellArray.createColCellArrays(this)
