@@ -45,7 +45,7 @@ final class SudokuPanel private(val b: Board) extends JPanel with RepaintListene
 
   private def getSolvedPuzzle = {
     val solver = new SudokuSolver
-    val boardCopy = new Board(getBoard)
+    val boardCopy = getBoard //new Board(getBoard)
     solver.solvePuzzle(boardCopy)
     boardCopy
   }
@@ -67,7 +67,8 @@ final class SudokuPanel private(val b: Board) extends JPanel with RepaintListene
   }
 
   private def showMessage(solved: Boolean) {
-    if (solved) System.out.println("The final solution is shown. the number of iterations was:" + getBoard.getNumIterations)
+    if (solved)
+      println("The final solution is shown. the number of iterations was:" + getBoard.numIterations)
     else System.out.println("This puzzle is not solvable!")
   }
 

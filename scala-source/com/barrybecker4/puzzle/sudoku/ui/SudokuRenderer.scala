@@ -3,9 +3,9 @@ package com.barrybecker4.puzzle.sudoku.ui
 
 import java.awt._
 
-import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.common.geometry.{ByteLocation, IntLocation, Location}
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
-import com.barrybecker4.puzzle.sudoku.model.board.{Board, Candidates, Cell}
+import com.barrybecker4.puzzle.sudoku.model.board.Board
 import com.barrybecker4.ui.util.GUIUtil
 
 
@@ -38,6 +38,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   private var showCandidates: Boolean = false
   private var pieceSize: Int = 0
 
+  case class Cell(isOriginal: Boolean, value: Int, cands: Seq[Int])
+
   def setShowCandidates (show: Boolean) {
     showCandidates = show
   }
@@ -51,7 +53,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g.setColor (SudokuRenderer.BACKGROUND_COLOR)
     g.fillRect (0, 0, width, height)
     g.setColor (SudokuRenderer.TEXT_COLOR)
-    g.drawString ("Number of tries: " + board.getNumIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
+    g.drawString ("Number of tries: " + board.numIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
     val len: Int = board.edgeLength
     var xpos: Int = 0
     var ypos: Int = 0
@@ -60,7 +62,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     }
 
     for (i <- 0 until len; j <- 0 until len) {
-        val c: Cell = board.getCell (i, j)
+      val loc = new IntLocation(i, j)
+        val c: Cell = Cell(board.isOriginal(loc), board.getValue(loc), board.getValues(loc))
         xpos = SudokuRenderer.MARGIN + j * pieceSize
         ypos = SudokuRenderer.MARGIN + i * pieceSize
         drawCell(g2, c, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
@@ -89,14 +92,14 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     if (userValue.isDefined) {
       drawUserValue (g2, userValue.get, s, xpos, ypos)
     }
-    else if (cell.getValue > 0) {
+    else if (cell.value > 0) {
       g2.setColor (if (cell.isOriginal) SudokuRenderer.CELL_ORIG_TEXT_COLOR
       else SudokuRenderer.CELL_TEXT_COLOR)
-      g2.drawString (ValueConverter.getSymbol (cell.getValue), jitteredXpos + (0.8 * s).toInt, (jitteredYpos + s * 1.7).toInt)
+      g2.drawString (ValueConverter.getSymbol (cell.value), jitteredXpos + (0.8 * s).toInt, (jitteredYpos + s * 1.7).toInt)
     }
     // draw the first 9 numbers in the candidate list, if there are any.
     if (showCandidates) {
-      drawCandidates(g2, cell.getCandidates, xpos, ypos)
+      drawCandidates(g2, cell.cands, xpos, ypos)
     }
   }
 
@@ -127,8 +130,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawLine (rightX, topY, leftX, bottomY)
   }
 
-  private def drawCandidates(g: Graphics, candidates: Candidates, xpos: Int, ypos: Int) {
-    if (!candidates.isEmpty) {
+  private def drawCandidates(g: Graphics, candidates: Seq[Int], xpos: Int, ypos: Int) {
+    if (candidates.nonEmpty) {
       g.setColor (SudokuRenderer.CANDIDATE_TEXT_COLOR)
       val candidateFont: Font = new Font ("Sans Serif", Font.PLAIN, (pieceSize >> 2) - 2)
       g.setFont (candidateFont)
@@ -145,7 +148,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
 
   private def getScale(pieceSize: Int): Int = (pieceSize * 0.4).toInt
 
-  private def drawHints(g: Graphics, candidates: Candidates, x: Int, y: Int, scale: Int) {
+  private def drawHints(g: Graphics, candidates: Seq[Int], x: Int, y: Int, scale: Int) {
     val xOffsetLow: Int = (0.3 * scale).toInt
     val xOffsetMed: Int = (1.1 * scale).toInt
     val xOffsetHi: Int = (1.9 * scale).toInt
@@ -164,7 +167,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
       Array (xOffsetHi, yOffsetHi)
     )
     var ct: Int = 0
-    for (cand <- candidates.elements if ct < 9) {
+    for (cand <- candidates if ct < 9) {
       g.drawString(ValueConverter.getSymbol(cand), x + offsets(ct)(0), y + offsets(ct)(1) )
       ct += 1
     }

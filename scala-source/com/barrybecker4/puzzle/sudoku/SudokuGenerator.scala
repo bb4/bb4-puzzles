@@ -2,8 +2,9 @@
 package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.concurrency.ThreadUtil
+import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
-import com.barrybecker4.puzzle.sudoku.model.board.{Board, Cell, ValuesList}
+import com.barrybecker4.puzzle.sudoku.model.board.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 import scala.util.Random
@@ -31,8 +32,8 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     *
     * @param baseSize 4, 9, or 16
     */
-  def this (baseSize: Int) {
-    this (baseSize, null)
+  def this(baseSize: Int) {
+    this(baseSize, null)
   }
 
   /**
@@ -66,18 +67,18 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     if (position == board.numCells) {
       return true // board completely solved now
     }
-    val cell: Cell = board.getCell(position)
-    val shuffledValues: ValuesList = ValuesList.getShuffledCandidates(cell.getCandidates, rand)
+    val loc = new IntLocation(position / board.edgeLength, position % board.edgeLength)
+    val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
     refresh()
 
-    for (value <- shuffledValues.elements) {
-      cell.setValue(value)
+    for (value <- shuffledValues) {
       totalCt += 1
-      //println("totalCt =  " + totalCt + " pos= " + position + " out of "+ board.getNumCells +" val=" + value)
-      if (generateSolution(board, position + 1)) {
-        return true
+      try {
+        board.setOriginalValue(loc, value)
+        generateSolution(board, position + 1)
+      } catch {
+        case e: IllegalStateException => false
       }
-      cell.clearValue()
     }
     false // backtrack
   }
@@ -103,24 +104,23 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     if (ppanel != null) {
       ppanel.setBoard(board)
     }
-    val positionList: Seq[Int] = getRandomPositions(size, rand)
+    val positionList: Seq[(Int, Int)] = getRandomPositions(size, rand)
     // we need a solver to verify that we can still deduce the original
     val solver: SudokuSolver = new SudokuSolver()
     solver.delay = delay
     val len: Int = size * size
     val last: Int = len * len
-    // the first len can be removed without worrying about having an unsolvable puzzle.
-    for (i <- 0 until len)
-      board.getCell(positionList(i)).clearValue()
 
-    for (i <- len until last)
-      tryRemovingValue(positionList(i), board, solver)
-    board
+    var newBoard = board
+    for (i <- 0 until last)
+      newBoard = newBoard.clearValueIfPossible(positionList(i))
+
+    newBoard
   }
 
   /**
     * @param pos position to try removing.
-    */
+    *
   private def tryRemovingValue(pos: Int, board: Board, solver: SudokuSolver) {
     val cell: Cell = board.getCell(pos)
     val value: Int = cell.getValue
@@ -131,15 +131,16 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
       // put it back since it cannot be solved without this position's value
       cell.setOriginalValue(value)
     }
-  }
+  }*/
 
   /**
     * @param size the base size (fourth root of the number of cells).
     * @return the positions on the board in a random order in a list .
     */
-  private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[Int] = {
-    val numPositions: Int = size * size * size * size
-    val positionList: Seq[Int] = 0 until numPositions
+  private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[(Int, Int)] = {
+    val edgeLen = size * size
+    val numPositions: Int = edgeLen * edgeLen
+    val positionList: Seq[(Int, Int)] = (0 until numPositions).map(x => (x / edgeLen, x % edgeLen))
     rand.shuffle(positionList)
   }
 }

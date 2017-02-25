@@ -39,7 +39,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
   private[ui] def useCorrectEntriesAsOriginal(board: Board) {
     for (location <- userEnteredValues.keySet) {
       val value = userEnteredValues.get(location)
-      if (value.get.isValid) board.getCell(location).setOriginalValue(value.get.getValue)
+      if (value.get.isValid) board.setOriginalValue(location, value.get.getValue)
     }
   }
 
@@ -59,7 +59,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     }
   }
 
-  private def isOriginalCell(location: Location) = locator.board.getCell(location).isOriginal
+  private def isOriginalCell(location: Location) = locator.board.isOriginal(location)
 
   private def isArrowKey(keyCode: Int) =
     keyCode >= KeyEvent.VK_LEFT && keyCode <= KeyEvent.VK_DOWN ||
@@ -107,8 +107,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
-      val cell = solvedPuzzle.getCell(location.getRow, location.getCol)
-      val valid = userValue.get.getValue == cell.getValue
+      val valid = userValue.get.getValue == solvedPuzzle.getValue(location)
       userValue.get.setValid(valid)
     }
   }

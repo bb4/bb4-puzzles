@@ -6,12 +6,15 @@ import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents._
 
 object BoardComponents {
 
+  /** static because they are the same for every board. */
+  val COMPONENTS: Array[BoardComponents] = (2 to 5).map(i => new BoardComponents(i)).toArray
+
   /** @return the cross product of two sequences */
-  def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[(Int, Int)] =
+  private def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[(Int, Int)] =
     for (x <- seq1; y <- seq2) yield (x, y)
 
   /** @return sub sequences. e.g. for a unitSize of 9, these are Seq(1,2,3) Seq(4,5,6) Seq(7,8,9) */
-  def subCellSeqs(baseSize: Int): Seq[Seq[Int]] =
+  private def subCellSeqs(baseSize: Int): Seq[Seq[Int]] =
     for (x <- 0 until baseSize) yield {
       for (y <- 1 to baseSize) yield x * baseSize + y
     }
