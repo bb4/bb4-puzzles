@@ -7,7 +7,7 @@ import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents._
 object BoardComponents {
 
   /** static because they are the same for every board. */
-  val COMPONENTS: Array[BoardComponents] = (2 to 5).map(i => new BoardComponents(i)).toArray
+  val COMPONENTS: Array[BoardComponents] = (0 to 5).map(i => new BoardComponents(i)).toArray
 
   /** @return the cross product of two sequences */
   private def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[(Int, Int)] =

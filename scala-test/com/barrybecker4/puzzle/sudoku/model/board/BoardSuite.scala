@@ -34,19 +34,18 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
       Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
       Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
     )
-    assertEquals("Unexpected board constructed", expectedBoard, board)
+    assertEquals("Unexpected board constructed", expectedBoard.toString, board.toString)
   }
-
 
 
   test("NotSolved") {
     board = new Board(TestData.SIMPLE_4)
-    assertFalse("Unexpectedly solved", board.solved)
+    assertFalse("Unexpectedly solved", board.isSolved)
   }
 
   test("Solved") {
     board = new Board(TestData.SIMPLE_4_SOLVED)
-    assertTrue("Unexpectedly not solved", board.solved)
+    assertTrue("Unexpectedly not solved", board.isSolved)
   }
 
 }

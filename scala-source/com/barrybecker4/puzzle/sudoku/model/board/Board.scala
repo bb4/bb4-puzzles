@@ -17,6 +17,7 @@ import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents.COMPONENTS
   */
 class Board(initialData: Array[Array[Int]]) {
 
+  type ValueMap = Map[(Int, Int), Set[Int]]
   val edgeLength: Int = initialData.length
   val baseSize: Int = Math.sqrt(edgeLength).toInt
   val numCells: Int = edgeLength * edgeLength
@@ -24,12 +25,15 @@ class Board(initialData: Array[Array[Int]]) {
 
   private val comps = COMPONENTS(baseSize)
 
-  private var valuesMap: Map[(Int, Int), Set[Int]] = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
+  private var valuesMap: ValueMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
   updateFromInitialData()
 
-  def this(size: Int) = this(Array.ofDim[Int](size, size))
+  def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
 
   def isOriginal(location: Location): Boolean = initialData(location.getRow)(location.getCol) > 0
+
+  /** @return true if the board has been successfully solved. Solved if all candidates are a single value. */
+  def isSolved: Boolean = valuesMap.mapValues(_.size).forall(_ == 1)
 
   def getValue(location: Location): Int = {
     valuesMap((location.getRow, location.getCol)) match {
@@ -40,9 +44,10 @@ class Board(initialData: Array[Array[Int]]) {
 
   def getValues(location: Location): Seq[Int] = valuesMap((location.getRow, location.getCol)).toList
 
+  /** Sets an original value, and updates valuesMap accordingly */
   def setOriginalValue(location: Location, v: Int) {
     initialData(location.getRow)(location.getCol) = v
-    assign(valuesMap, (location.getRow, location.getCol), v) match {
+    assign(valuesMap, (location.getRow + 1, location.getCol + 1), v) match {
       case Some(vals) => valuesMap = vals
       case None => throw new IllegalStateException("Cannot set a value there because it would be inconsistent!")
     }
@@ -72,8 +77,7 @@ class Board(initialData: Array[Array[Int]]) {
     }
   }
 
-  private def searchForSolution(values: Option[Map[(Int, Int), Set[Int]]],
-                                panel: Container = null): Option[Map[(Int, Int), Set[Int]]] = {
+  private def searchForSolution(values: Option[ValueMap], panel: Container = null): Option[ValueMap] = {
     values match {
       case None => None
       case Some(vals) =>
@@ -92,7 +96,7 @@ class Board(initialData: Array[Array[Int]]) {
   }
 
   private def updateFromInitialData() = {
-    for (r <- comps.digits; c <- comps.digits; v = initialData(r)(c)) {
+    for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1)) {
       if (v > 0) {
         assign(valuesMap, (r, c), v) match {
           case Some(values) => valuesMap = values
@@ -103,17 +107,16 @@ class Board(initialData: Array[Array[Int]]) {
   }
 
   /**
-    * Assign a value to a squre if possible. Eliminate all the other values (except d) from values[s] and propagate.
+    * Assign a value to a square if possible. Eliminate all the other values (except d) from values[s] and propagate.
     * @return Some(values), except return None if a contradiction is detected.
     */
-  private def assign(values: Map[(Int, Int), Set[Int]], s: (Int, Int), d: Int): Option[Map[(Int, Int), Set[Int]]] = {
-
+  private def assign(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
     val otherValues: Set[Int] = values(s) - d
-
     var newValues: Option[Map[(Int, Int), Set[Int]]] = Some(values)
     for (d2 <- otherValues) {
       newValues = eliminate(newValues.get, s, d2)
-      if (newValues.isEmpty) return None
+      if (newValues.isEmpty)
+        return None
     }
     newValues
   }
@@ -122,17 +125,19 @@ class Board(initialData: Array[Array[Int]]) {
     * Eliminate d from values[s]; propagate when values or places <= 2.
     * @return Some(values), except return None if a contradiction is detected.
     */
-  private def eliminate(values: Map[(Int, Int), Set[Int]], s: (Int, Int), d: Int): Option[Map[(Int, Int), Set[Int]]] = {
+  private def eliminate(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
 
     if (!values(s).contains(d)) return Some(values)
     var newValues = values.updated(s, values(s) - d)
     // If a square s is reduced to one value, d2, then eliminate d2 from the peers.
-    if (newValues(s).isEmpty) return None // Contradiction
+    if (newValues(s).isEmpty)
+      return None // Contradiction
     else if (newValues(s).size == 1) {
       val d2 = newValues(s).head
       for (s2 <- comps.peers(s)) {
         val vals = eliminate(newValues, s2, d2)
-        if (vals.isEmpty) return None // Contradiction
+        if (vals.isEmpty)
+          return None // Contradiction
         else newValues = vals.get
       }
     }
@@ -151,16 +156,9 @@ class Board(initialData: Array[Array[Int]]) {
     Some(newValues)
   }
 
-  /** @return true if the board has been successfully solved. */
-  def solved: Boolean = false // FIX
-
-
-
   override def toString: String = {
-
     val b = for (r <- comps.digits) yield
       for (c <- comps.digits; v = valuesMap((r, c))) yield v
-
     b.map(_.map(_.map(ValueConverter.getSymbol)).mkString("[", ",", "]")).mkString("\n")
   }
 }
