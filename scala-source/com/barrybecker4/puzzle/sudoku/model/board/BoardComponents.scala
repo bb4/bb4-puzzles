@@ -27,7 +27,7 @@ object BoardComponents {
   */
 class BoardComponents(val baseSize: Int = 3) {
 
-  assert (unitSize < 5)
+  assert (baseSize <= 5, "baseSize = " + baseSize)
   val unitSize: Int = baseSize * baseSize
 
   private val subSeqs = subCellSeqs(baseSize)
@@ -39,7 +39,6 @@ class BoardComponents(val baseSize: Int = 3) {
     (for (c <- digits) yield cross(digits, Seq(c))) ++
     (for (r <- digits) yield cross(Seq(r), digits)) ++
     (for (rs <- subSeqs; cs <- subSeqs) yield cross(rs, cs))
-  //println("unitList = " + unitList.map(_.map(_.toString()).mkString(", ")).mkString("\n\n"))
 
   val units: Map[(Int, Int), Seq[Seq[(Int, Int)]]] =
     (for (s <- squares) yield {

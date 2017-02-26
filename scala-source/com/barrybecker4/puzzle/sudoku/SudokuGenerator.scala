@@ -32,9 +32,7 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     *
     * @param baseSize 4, 9, or 16
     */
-  def this(baseSize: Int) {
-    this(baseSize, null)
-  }
+  def this(baseSize: Int) { this(baseSize, null) }
 
   /**
     * Find a complete, consistent solution.
@@ -46,7 +44,8 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     if (ppanel != null) ppanel.setBoard(board)
     val success: Boolean = generateSolution(board)
     if (ppanel != null) ppanel.repaint()
-    assert(success, "We were not able to generate a consistent board " + board + ". numCombinations examined: " + totalCt)
+    assert(success, "We were not able to generate a consistent board " + board +
+      ". numCombinations examined: " + totalCt)
     // now start removing values until we cannot deduce the final solution from it.
     // for every position (in random order) if we can remove it, do so.
     generateByRemoving(board)
@@ -75,9 +74,11 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
       totalCt += 1
       try {
         board.setOriginalValue(loc, value)
-        generateSolution(board, position + 1)
+        return generateSolution(board, position + 1)
       } catch {
-        case e: IllegalStateException => false
+        case e: IllegalStateException =>
+          board.removeValueIfPossible((loc.getRow + 1, loc.getCol + 1))
+          return false
       }
     }
     false // backtrack
@@ -95,7 +96,8 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
   }
 
   /**
-    * Generate a sudoku puzzle that someone can solve.
+    * Generate a sudoku puzzle that someone can solve. Do it by removing all the values you can and still
+    * have a consistent board.
     *
     * @param board the initially solved puzzle
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
@@ -113,25 +115,10 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
 
     var newBoard = board
     for (i <- 0 until last)
-      newBoard = newBoard.clearValueIfPossible(positionList(i))
+      newBoard = newBoard.removeValueIfPossible(positionList(i))
 
     newBoard
   }
-
-  /**
-    * @param pos position to try removing.
-    *
-  private def tryRemovingValue(pos: Int, board: Board, solver: SudokuSolver) {
-    val cell: Cell = board.getCell(pos)
-    val value: Int = cell.getValue
-    cell.clearValue()
-    refresh()
-    val copy: Board = new Board(board) // try to avoid this
-    if (!solver.solvePuzzle(copy, ppanel) ) {
-      // put it back since it cannot be solved without this position's value
-      cell.setOriginalValue(value)
-    }
-  }*/
 
   /**
     * @param size the base size (fourth root of the number of cells).

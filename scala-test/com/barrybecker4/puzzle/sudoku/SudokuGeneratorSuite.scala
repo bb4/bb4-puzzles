@@ -27,34 +27,22 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
       Array(3, 1, 2, 4),
       Array(1, 3, 4, 2),
       Array(2, 4, 1, 3)))
-    assertEquals("Unexpected generated board", expBoard, board.get)
+    assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
   }
 
   test("GenerateInitialSolution3") {
     val board = generateInitialSolution(3, rand)
     val expBoard = new Board(Array[Array[Int]](
-      Array(5, 1, 6, 9, 2, 7, 3, 8, 4),
-      Array(9, 2, 7, 3, 8, 4, 5, 1, 6),
-      Array(3, 8, 4, 6, 5, 1, 9, 2, 7),
-      Array(1, 5, 9, 2, 6, 3, 7, 4, 8),
-      Array(6, 7, 2, 5, 4, 8, 1, 3, 9),
-      Array(8, 4, 3, 7, 1, 9, 6, 5, 2),
-      Array(2, 9, 5, 8, 3, 6, 4, 7, 1),
-      Array(7, 3, 1, 4, 9, 2, 8, 6, 5),
-      Array(4, 6, 8, 1, 7, 5, 2, 9, 3)))
-    /*
-     val expBoard = new Board(Array[Array[Int]](
-      Array(9, 3, 8, 7, 6, 4, 5, 2, 1),
-      Array(5, 7, 2, 3, 9, 1, 6, 4, 8),
-      Array(1, 6, 4, 2, 5, 8, 7, 3, 9),
-      Array(7, 8, 9, 4, 3, 6, 1, 5, 2 ),
-      Array(4, 1, 3, 5, 2, 9, 8, 6, 7),
-      Array(6, 2, 5, 8, 1, 7, 3, 9, 4),
-      Array(8, 5, 1, 9, 4, 3, 2, 7, 6),
-      Array(3, 4, 6, 1, 7, 2, 9, 8, 5),
-      Array(2, 9, 7, 6, 8, 5, 4, 1, 3)))
-     */
-    assertEquals("Unexpected generated board", expBoard, board.get)
+      Array(7, 6, 1, 9, 3, 5, 4, 2, 8),
+      Array(4, 9, 2, 6, 7, 8, 3, 5, 1),
+      Array(5, 8, 3, 1, 4, 2, 7, 9, 6),
+      Array(3, 2, 8, 7, 5, 6, 9, 1, 4),
+      Array(9, 1, 5, 2, 8, 4, 6, 3, 7),
+      Array(6, 4, 7, 3, 9, 1, 2, 8, 5),
+      Array(8, 7, 9, 5, 6, 3, 1, 4, 2),
+      Array(2, 5, 6, 4, 1, 9, 8, 7, 3),
+      Array(1, 3, 4, 8, 2, 7, 5, 6, 9)))
+    assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
   }
 
   /** Generate solutions for a bunch of random puzzles  */
@@ -77,38 +65,25 @@ class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
   test("GeneratePuzzle2") {
     val board = generatePuzzle(2, rand)
     val expBoard = new Board(Array[Array[Int]](
-      Array(4, 0, 0, 0),
-      Array(0, 1, 2, 0),
-      Array(0, 0, 0, 0),
-      Array(0, 4, 0, 0)))
-      /*Array(0, 2, 0, 0),
-      Array(0, 0, 0, 0),
-      Array(0, 0, 4, 0),
-      Array(0, 0, 1, 3))) */ /*
-      Array(0, 2, 0, 0),
-      Array(0, 0, 0, 0),
-      Array(0, 3, 4, 0),
-      Array(0, 0, 1, 0)))
-      */
-    assertEquals("Unexpected generated board", expBoard, board)
+      Array(4, 0, 0, 1),
+      Array(3, 0,  0, 0),
+      Array(0, 0, 0, 2),
+      Array(0, 0, 0, 0)))
+
+    assertEquals("Unexpected generated board", expBoard.toString, board.toString)
   }
 
   private def generateInitialSolution(baseSize: Int, rand: Random): Option[Board] = {
     generator = new SudokuGenerator(baseSize, rand = rand)
-    val start = System.currentTimeMillis
     val b = new Board(baseSize)
     val solved = generator.generateSolution(b)
-    //System.out.println("SOLVED = " + solved + "  Time to generate solution for size=" + baseSize + " was " + (System.currentTimeMillis - start))
     //assertTrue("The board was not solved!", solved);
     if (!solved) None else Some(b)
   }
 
-  private def generatePuzzle(baseSize: Int, rand: Random) = {
+  private def generatePuzzle(baseSize: Int, rand: Random): Board = {
     generator = new SudokuGenerator(baseSize, null, rand)
-    val start = System.currentTimeMillis
-    val b = generator.generatePuzzleBoard
-    //System.out.println(" Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
-    b
+    generator.generatePuzzleBoard
   }
 }
 

@@ -14,6 +14,7 @@ object ValueConverter {
     * @return symbol corresponding to the specified value.
     */
   def getSymbol(value: Int): String = value match {
+    case 0 => "."
     case 10 => "X"
     case 11 => "A"
     case 12 => "B"

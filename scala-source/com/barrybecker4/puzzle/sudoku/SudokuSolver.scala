@@ -24,8 +24,14 @@ class SudokuSolver() {
     * @return true if solved.
     */
   def solvePuzzle(board: Board, puzzlePanel: Container = null): Boolean = {
-    board.solve(puzzlePanel)
+    if (board.solve(puzzlePanel)) {
+      // set the values that are found.
+      board.setSolvedValues()
+      true
+    }
+    false
   }
+
 
   /*
   private def refreshWithDelay(puzzlePanel: Container, relativeDelay: Int) {

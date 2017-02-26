@@ -38,12 +38,24 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
   }
 
 
-  test("NotSolved") {
+  test("Easy to Solve") {
     board = new Board(TestData.SIMPLE_4)
+    assertTrue("Unexpectedly not solved", board.isSolved)
+  }
+
+  test("Difficult to Solve") {
+    board = new Board(TestData.DIFFICULT_9)
     assertFalse("Unexpectedly solved", board.isSolved)
   }
 
-  test("Solved") {
+  // We expect an exception if the board is inconsistent
+  test("Impossible to Solve") {
+    intercept[IllegalStateException] {
+      new Board(TestData.INCONSISTENT_9)
+    }
+  }
+
+  test("Completely Solved") {
     board = new Board(TestData.SIMPLE_4_SOLVED)
     assertTrue("Unexpectedly not solved", board.isSolved)
   }

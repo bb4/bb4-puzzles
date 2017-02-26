@@ -35,8 +35,10 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
   /** negative test case */
   test("ImpossiblePuzzle") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(INCONSISTENT_9))
-    assertFalse("Solved impossible SIMPLE_9 puzzle. Should not have.", solved)
+    intercept[IllegalStateException] {
+      solver.solvePuzzle(new Board(INCONSISTENT_9))
+    }
+    //assertFalse("Solved impossible SIMPLE_9 puzzle. Should not have.", solved)
   }
 
   /** negative test case */

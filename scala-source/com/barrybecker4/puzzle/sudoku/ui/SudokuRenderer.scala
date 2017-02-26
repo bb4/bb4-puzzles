@@ -5,7 +5,7 @@ import java.awt._
 
 import com.barrybecker4.common.geometry.{ByteLocation, IntLocation, Location}
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.board.{Board, Cell}
 import com.barrybecker4.ui.util.GUIUtil
 
 
@@ -18,7 +18,7 @@ object SudokuRenderer {
   private val MARGIN = 50
   private val CELL_ORIG_TEXT_COLOR = Color.BLACK
   private val CELL_TEXT_COLOR = Color.BLUE
-  private val CELL_ORIG_BACKGROUND_COLOR = new Color(225, 225, 238, 200)
+  private val CELL_ORIG_BACKGROUND_COLOR = new Color(255, 225, 238, 200)
   private val CELL_BACKGROUND_COLOR = new Color(245, 245, 255, 100)
   private val CELL_FOCUS_COLOR = new Color(255, 250, 200)
   private val USER_VALUE_COLOR = new Color(155, 5, 40)
@@ -38,14 +38,14 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   private var showCandidates: Boolean = false
   private var pieceSize: Int = 0
 
-  case class Cell(isOriginal: Boolean, value: Int, cands: Seq[Int])
 
   def setShowCandidates (show: Boolean) {
     showCandidates = show
   }
 
   /** This renders the current state of the Slider to the screen. */
-  def render(g: Graphics, userEnteredValues: Map[Location, UserValue], currentFocusLocation: Location, width: Int, height: Int) {
+  def render(g: Graphics, userEnteredValues: Map[Location, UserValue],
+             currentFocusLocation: Location, width: Int, height: Int) {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
     val minEdge: Int = Math.min (width, height) - 20 - SudokuRenderer.MARGIN
     pieceSize = minEdge / board.edgeLength
@@ -63,15 +63,16 @@ class SudokuRenderer(var board: Board) extends CellLocator {
 
     for (i <- 0 until len; j <- 0 until len) {
       val loc = new IntLocation(i, j)
-        val c: Cell = Cell(board.isOriginal(loc), board.getValue(loc), board.getValues(loc))
-        xpos = SudokuRenderer.MARGIN + j * pieceSize
-        ypos = SudokuRenderer.MARGIN + i * pieceSize
-        drawCell(g2, c, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
+      val c: Cell = board.getCell(loc)
+      val cands = board.getValues(loc)
+      xpos = SudokuRenderer.MARGIN + j * pieceSize
+      ypos = SudokuRenderer.MARGIN + i * pieceSize
+      drawCell(g2, c, cands, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
     }
     drawCellBoundaryGrid (g, len)
   }
 
-  def getCellCoordinates (point: Point): Location = {
+  def getCellCoordinates(point: Point): Location = {
     val row: Int = ((point.getY - SudokuRenderer.MARGIN) / pieceSize).toInt
     val col: Int = ((point.getX - SudokuRenderer.MARGIN) / pieceSize).toInt
     new ByteLocation (row, col)
@@ -80,26 +81,27 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   /**
     * Draw a cell at the specified location.
     */
-  private def drawCell (g2: Graphics2D, cell: Cell, xpos: Int, ypos: Int, userValue: Option[UserValue]) {
+  private def drawCell(g2: Graphics2D, cell: Cell, cands: Seq[Int], xpos: Int, ypos: Int, userValue: Option[UserValue]) {
     val s: Int = getScale (pieceSize)
     val jitteredXpos: Int = xpos + (Math.random * 3 - 1).toInt
     val jitteredYpos: Int = ypos + (Math.random * 3 - 1).toInt
     val font: Font = new Font (GUIUtil.DEFAULT_FONT_FAMILY, Font.PLAIN, pieceSize >> 1)
     g2.setFont (font)
-    g2.setColor (if (cell.isOriginal) SudokuRenderer.CELL_ORIG_BACKGROUND_COLOR
-    else SudokuRenderer.CELL_BACKGROUND_COLOR)
+    val bg = if (cell.originalValue > 0) SudokuRenderer.CELL_ORIG_BACKGROUND_COLOR else SudokuRenderer.CELL_BACKGROUND_COLOR
+    g2.setColor(bg)
     g2.fillRect (xpos + 1, ypos + 1, pieceSize - 3, pieceSize - 2)
     if (userValue.isDefined) {
       drawUserValue (g2, userValue.get, s, xpos, ypos)
     }
-    else if (cell.value > 0) {
-      g2.setColor (if (cell.isOriginal) SudokuRenderer.CELL_ORIG_TEXT_COLOR
+    else if (cell.proposedValue > 0) {
+      g2.setColor (if (cell.originalValue > 0) SudokuRenderer.CELL_ORIG_TEXT_COLOR
       else SudokuRenderer.CELL_TEXT_COLOR)
-      g2.drawString (ValueConverter.getSymbol (cell.value), jitteredXpos + (0.8 * s).toInt, (jitteredYpos + s * 1.7).toInt)
+      g2.drawString (ValueConverter.getSymbol (cell.proposedValue),
+        jitteredXpos + (0.8 * s).toInt, (jitteredYpos + s * 1.7).toInt)
     }
     // draw the first 9 numbers in the candidate list, if there are any.
     if (showCandidates) {
-      drawCandidates(g2, cell.cands, xpos, ypos)
+      drawCandidates(g2, cands, xpos, ypos)
     }
   }
 
