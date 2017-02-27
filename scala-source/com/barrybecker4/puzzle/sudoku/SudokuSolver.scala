@@ -27,7 +27,7 @@ class SudokuSolver() {
     if (board.solve(puzzlePanel)) {
       // set the values that are found.
       board.setSolvedValues()
-      true
+      return true
     }
     false
   }

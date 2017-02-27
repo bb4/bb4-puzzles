@@ -13,11 +13,11 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
-  def setShowCandidates (show: Boolean) {
+  def setShowCandidates(show: Boolean) {
     puzzlePanel.setShowCandidates (show)
   }
 
-  def generatePuzzle (delay: Int, size: Int) {
+  def generatePuzzle(delay: Int, size: Int) {
 
     val worker: Worker = new Worker() {
 
@@ -29,15 +29,15 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
         None
       }
 
-      override def finished () {
-        puzzlePanel.repaint ()
-        puzzlePanel.setCursor (Cursor.getDefaultCursor)
+      override def finished() {
+        puzzlePanel.repaint()
+        puzzlePanel.setCursor(Cursor.getDefaultCursor)
       }
     }
     worker.start ()
   }
 
-  def solvePuzzle (delay: Int) {
+  def solvePuzzle(delay: Int) {
     val worker: Worker = new Worker() {
       def construct: AnyRef = {
         val solver: SudokuSolver = new SudokuSolver
@@ -46,14 +46,14 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
         None
       }
 
-      override def finished () {
-        puzzlePanel.repaint ()
+      override def finished() {
+        puzzlePanel.repaint()
       }
     }
-    worker.start ()
+    worker.start()
   }
 
-  def validatePuzzle () {
-    puzzlePanel.validatePuzzle ()
+  def validatePuzzle() {
+    puzzlePanel.validatePuzzle()
   }
 }

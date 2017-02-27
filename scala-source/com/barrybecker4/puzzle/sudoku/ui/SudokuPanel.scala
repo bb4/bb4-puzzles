@@ -45,7 +45,7 @@ final class SudokuPanel private(val b: Board) extends JPanel with RepaintListene
 
   private def getSolvedPuzzle = {
     val solver = new SudokuSolver
-    val boardCopy = getBoard //new Board(getBoard)
+    val boardCopy = new Board(getBoard)
     solver.solvePuzzle(boardCopy)
     boardCopy
   }

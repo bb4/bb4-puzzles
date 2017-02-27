@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.sudoku.model.board
 
 import java.awt.Container
 
-import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents.COMPONENTS
 
@@ -17,7 +16,7 @@ class Cell(val originalValue: Int, var proposedValue: Int)
   * @param initialData array giving initially set values
   * @author Barry Becker
   */
-class Board(initialData: Array[Array[Cell]]) {
+class Board(val initialData: Array[Array[Cell]]) {
 
   type ValueMap = Map[(Int, Int), Set[Int]]
   val edgeLength: Int = initialData.length
@@ -32,29 +31,29 @@ class Board(initialData: Array[Array[Cell]]) {
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
+  def this(b: Board) = this(b.initialData.map(_.clone))
 
-  def isOriginal(location: Location): Boolean = initialData(location.getRow)(location.getCol).originalValue > 0
-  def getCell(location: Location): Cell = initialData(location.getRow)(location.getCol)
+  def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
 
   /** @return true if the board has been successfully solved. Solved if all candidates are a single value. */
   def isSolved: Boolean = {
     valuesMap.values.forall(_.size == 1)
   }
 
-  def getValue(location: Location): Int = {
-    valuesMap((location.getRow + 1, location.getCol + 1)) match {
+  def getValue(location: (Int, Int)): Int = {
+    valuesMap(location) match {
       case singleValue if singleValue.size == 1 => singleValue.head
       case notSingle => 0
     }
   }
 
-  def getValues(location: Location): Seq[Int] =
-    valuesMap((location.getRow + 1, location.getCol + 1)).toList
+  def getValues(location: (Int, Int)): Seq[Int] =
+    valuesMap(location).toList
 
   /** Sets the original value, and update valuesMap accordingly */
-  def setOriginalValue(location: Location, v: Int) {
-    initialData(location.getRow)(location.getCol) = new Cell(v, v)
-    assign(valuesMap, (location.getRow + 1, location.getCol + 1), v) match {
+  def setOriginalValue(location: (Int, Int), v: Int) {
+    initialData(location._1)(location._2) = new Cell(v, v)
+    assign(valuesMap, location, v) match {
       case Some(vals) => valuesMap = vals
       case None => throw new IllegalStateException("Cannot set a value there because it would be inconsistent!")
     }

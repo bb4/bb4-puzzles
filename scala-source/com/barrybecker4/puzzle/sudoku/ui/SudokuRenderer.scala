@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.sudoku.ui
 
 import java.awt._
 
-import com.barrybecker4.common.geometry.{ByteLocation, IntLocation, Location}
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 import com.barrybecker4.puzzle.sudoku.model.board.{Board, Cell}
 import com.barrybecker4.ui.util.GUIUtil
@@ -62,7 +62,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     }
 
     for (i <- 0 until len; j <- 0 until len) {
-      val loc = new IntLocation(i, j)
+      val loc = (i + 1, j + 1)
       val c: Cell = board.getCell(loc)
       val cands = board.getValues(loc)
       xpos = SudokuRenderer.MARGIN + j * pieceSize

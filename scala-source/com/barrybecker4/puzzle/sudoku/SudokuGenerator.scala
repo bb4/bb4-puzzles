@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
 import com.barrybecker4.puzzle.sudoku.model.board.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
@@ -66,7 +65,7 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     if (position == board.numCells) {
       return true // board completely solved now
     }
-    val loc = new IntLocation(position / board.edgeLength, position % board.edgeLength)
+    val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
     val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
     refresh()
 
@@ -77,7 +76,7 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
         return generateSolution(board, position + 1)
       } catch {
         case e: IllegalStateException =>
-          board.removeValueIfPossible((loc.getRow + 1, loc.getCol + 1))
+          board.removeValueIfPossible(loc)
           return false
       }
     }

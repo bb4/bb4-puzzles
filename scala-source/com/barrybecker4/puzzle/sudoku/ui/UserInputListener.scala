@@ -36,10 +36,13 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     setCurrentLocation(location)
   }
 
+  private def toTuple(loc: Location) = (loc.getRow + 1, loc.getCol + 1)
+
   private[ui] def useCorrectEntriesAsOriginal(board: Board) {
     for (location <- userEnteredValues.keySet) {
       val value = userEnteredValues.get(location)
-      if (value.get.isValid) board.setOriginalValue(location, value.get.getValue)
+      if (value.get.isValid)
+        board.setOriginalValue(toTuple(location), value.get.getValue)
     }
   }
 
@@ -59,7 +62,8 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     }
   }
 
-  private def isOriginalCell(location: Location) = locator.board.isOriginal(location)
+  private def isOriginalCell(location: Location) =
+    locator.board.getCell(toTuple(location)).originalValue > 0
 
   private def isArrowKey(keyCode: Int) =
     keyCode >= KeyEvent.VK_LEFT && keyCode <= KeyEvent.VK_DOWN ||
@@ -107,7 +111,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
-      val valid = userValue.get.getValue == solvedPuzzle.getValue(location)
+      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.getRow +1, location.getCol + 1))
       userValue.get.setValid(valid)
     }
   }
