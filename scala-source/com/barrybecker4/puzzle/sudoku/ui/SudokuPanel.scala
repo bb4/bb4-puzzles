@@ -72,9 +72,9 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
     else System.out.println("This puzzle is not solvable!")
   }
 
-  def generateNewPuzzle(generator: SudokuGenerator) {
+  def generateNewPuzzle(generator: SudokuGenerator, size: Int) {
     inputListener.clear()
-    renderer.board = generator.generatePuzzleBoard(new Board(b.baseSize))
+    renderer.board = generator.generatePuzzleBoard(new Board(size))
     repaint()
   }
 

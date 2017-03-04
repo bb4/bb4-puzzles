@@ -60,9 +60,9 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     */
   private def generateSolution(board: Board, position: Int): Boolean = {
 
-    if (position == board.numCells) {  // base case of recursion
+    if (position == board.numCells)   // base case of recursion
       return true // board completely solved now
-    }
+
     val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
     val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
     refresh()
@@ -100,9 +100,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
     */
   private def generateByRemoving(board: Board): Board = {
-    if (ppanel != null) {
-      ppanel.setBoard(board)
-    }
+
     val positionList: Seq[(Int, Int)] = getRandomPositions(board.baseSize, rand)
     // we need a solver to verify that we can still deduce the original
     val solver: SudokuSolver = new SudokuSolver()
@@ -110,11 +108,11 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     val len: Int = board.edgeLength
     val last: Int = len * len
 
-    var newBoard = board
-    for (i <- 0 until last)
-      newBoard = newBoard.removeValueIfPossible(positionList(i))
-
-    newBoard
+    for (i <- 0 until last) {
+      board.removeValueIfPossible(positionList(i))
+      refresh()
+    }
+    board
   }
 
   /**

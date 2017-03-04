@@ -57,24 +57,22 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** Sets the original value, and update valuesMap accordingly */
   def setOriginalValue(location: (Int, Int), v: Int) {
-    val c = initialData(location._1 - 1)(location._2 - 1)  //= new Cell(v, v)
-    c.originalValue = v
-    c.proposedValue = v
+    val c = initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
   }
 
   /**
     * Remove the specified value if it does not prevent the puzzle from being solved using just the
     * basic consistency chack.
-    * @return board with specified value removed
     */
-  def removeValueIfPossible(location: (Int, Int)): Board = {
+  def removeValueIfPossible(location: (Int, Int)) {
     val initial = initialDataCopy
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
-    var testBoard: Board = this
     val b = new Board(initial)
     b.updateFromInitialData()
-    if (b.isSolved) b else this
+    if (b.isSolved)
+      initialData(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
+      this.valuesMap = b.valuesMap
   }
 
   /** @return true if the board is solvable */

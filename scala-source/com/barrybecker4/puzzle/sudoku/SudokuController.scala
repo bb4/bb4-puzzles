@@ -14,7 +14,7 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
   def setShowCandidates(show: Boolean) {
-    puzzlePanel.setShowCandidates (show)
+    puzzlePanel.setShowCandidates(show)
   }
 
   def generatePuzzle(delay: Int, size: Int) {
@@ -22,10 +22,10 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
     val worker: Worker = new Worker() {
 
       def construct: AnyRef = {
-        puzzlePanel.setCursor (Cursor.getPredefinedCursor (Cursor.WAIT_CURSOR) )
+        puzzlePanel.setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) )
         val generator: SudokuGenerator = new SudokuGenerator(puzzlePanel)
         generator.delay = delay
-        puzzlePanel.generateNewPuzzle(generator)
+        puzzlePanel.generateNewPuzzle(generator, size)
         None
       }
 
@@ -34,7 +34,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
         puzzlePanel.setCursor(Cursor.getDefaultCursor)
       }
     }
-    worker.start ()
+    worker.start()
   }
 
   def solvePuzzle(delay: Int) {
