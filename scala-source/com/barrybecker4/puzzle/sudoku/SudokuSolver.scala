@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.sudoku
 
 import java.awt.Container
 
+import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.sudoku.model.board.Board
 
 /**
@@ -24,12 +25,11 @@ class SudokuSolver() {
     * @return true if solved.
     */
   def solvePuzzle(board: Board, puzzlePanel: Container = null): Boolean = {
-    if (board.solve(puzzlePanel)) {
+    if (board.solve(refresh(puzzlePanel))) {
       board.setSolvedValues()
       true
     } else false
   }
-
 
   /*
   private def refreshWithDelay(puzzlePanel: Container, relativeDelay: Int) {
@@ -40,11 +40,12 @@ class SudokuSolver() {
       refresh(puzzlePanel)
       ThreadUtil.sleep(relativeDelay * delay)
     }
-  }
-
-  private def refresh(puzzlePanel: Container) {
-    if (puzzlePanel == null || delay < 0) return
-    puzzlePanel.repaint()
-    ThreadUtil.sleep(10 + delay) // give it a chance to repaint.
   }*/
+
+  private def refresh(puzzlePanel: Container) = () => {
+    if (puzzlePanel != null && delay >= 0) {
+      puzzlePanel.repaint()
+      ThreadUtil.sleep(10 + delay) // give it a chance to repaint.
+    }
+  }
 }

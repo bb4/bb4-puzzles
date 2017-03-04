@@ -83,8 +83,8 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   private def refresh() {
     if (ppanel == null) return
-    if (delay <= 0) {
-      if (Math.random() < 0.2) ppanel.repaint()
+    if (delay < 0) {
+      if (Math.random() < 0.05) ppanel.repaint()
     }
     else {
       ppanel.repaint()

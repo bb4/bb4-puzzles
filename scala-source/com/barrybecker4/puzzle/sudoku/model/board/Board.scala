@@ -1,8 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model.board
 
-import java.awt.Container
-
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents.COMPONENTS
 
@@ -79,9 +77,9 @@ class Board(val initialData: Array[Array[Cell]]) {
   //def isSolvable: Boolean = copy().solve()
 
   /** return true if solved, else false */
-  def solve(panel: Container = null): Boolean = {
-    if (updateFromInitialData()) {
-      searchForSolution(Some(valuesMap), panel) match {
+  def solve(callback: () => Unit = null): Boolean = {
+    if (updateFromInitialData(callback)) {
+      searchForSolution(Some(valuesMap), callback) match {
         case Some(vals) =>
           valuesMap = vals
           return true
@@ -97,7 +95,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  private def searchForSolution(values: Option[ValueMap], panel: Container = null): Option[ValueMap] = {
+  private def searchForSolution(values: Option[ValueMap], callback: () => Unit): Option[ValueMap] = {
     values match {
       case None => None
       case Some(vals) =>
@@ -107,7 +105,11 @@ class Board(val initialData: Array[Array[Cell]]) {
           yield (vals(s).size, s)).min._2
         for (d <- vals(minSq)) {
           numIterations += 1
-          val result = searchForSolution(assign(vals, minSq, d))
+          if (callback != null) {
+            setSolvedValues()
+            callback()
+          }
+          val result = searchForSolution(assign(vals, minSq, d), callback)
           if (result.nonEmpty) return result
         }
         None
@@ -115,11 +117,16 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** @return true if updated successfully. False if there was an inconsistency. */
-  def updateFromInitialData(): Boolean = {
+  def updateFromInitialData(callback: () => Unit = null): Boolean = {
     for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue) {
       if (v > 0) {
         assign(valuesMap, (r, c), v) match {
-          case Some(values) => valuesMap = values
+          case Some(values) =>
+            if (callback != null) {
+              setSolvedValues()
+              callback()
+            }
+            valuesMap = values
           case None => return false
         }
       }
