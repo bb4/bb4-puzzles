@@ -14,7 +14,7 @@ import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
   *
   * @author Barry Becker
   */
-final class SudokuPanel private(val b: Board) extends JPanel with RepaintListener {
+final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   private var renderer: SudokuRenderer = new SudokuRenderer(b)
   private var inputListener = new UserInputListener(renderer)
@@ -45,7 +45,7 @@ final class SudokuPanel private(val b: Board) extends JPanel with RepaintListene
 
   private def getSolvedPuzzle = {
     val solver = new SudokuSolver
-    val boardCopy = new Board(getBoard)
+    val boardCopy = getBoard.copy()
     solver.solvePuzzle(boardCopy)
     boardCopy
   }

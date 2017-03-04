@@ -111,7 +111,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
-      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.getRow +1, location.getCol + 1))
+      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.getRow + 1, location.getCol + 1))
       userValue.get.setValid(valid)
     }
   }

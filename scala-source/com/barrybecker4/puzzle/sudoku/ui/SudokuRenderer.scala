@@ -108,17 +108,17 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   private def drawUserValue (g2: Graphics2D, userValue: UserValue, s: Int, xpos: Int, ypos: Int) {
     if (userValue.isValidated) {
       if (userValue.isValid) {
-        g2.setColor (SudokuRenderer.USER_VALUE_CORRECT_COLOR)
+        g2.setColor(SudokuRenderer.USER_VALUE_CORRECT_COLOR)
       }
       else {
         drawBigX (g2, s, xpos, ypos)
-        g2.setColor (SudokuRenderer.USER_VALUE_WRONG_COLOR)
+        g2.setColor(SudokuRenderer.USER_VALUE_WRONG_COLOR)
       }
     }
     else {
-      g2.setColor (SudokuRenderer.USER_VALUE_COLOR)
+      g2.setColor(SudokuRenderer.USER_VALUE_COLOR)
     }
-    g2.drawString (ValueConverter.getSymbol (userValue.getValue), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
+    g2.drawString(ValueConverter.getSymbol (userValue.getValue), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
   }
 
   private def drawBigX(g2: Graphics2D, s: Int, xpos: Int, ypos: Int) {

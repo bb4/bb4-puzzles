@@ -15,6 +15,13 @@ object SudokuGenerator {
 /**
   * Generate a Sudoku puzzle.
   * Initially created with grandma Becker July 8, 2006
+  * In 2017, I revised the solver algorithm based on ...
+  * Though that change made the solver better, it actually made the generator worse.
+  * Now the generator can only generate very simple to solve problems.
+  * To really understand why, see
+  * https://www.quora.com/Are-all-sudoku-puzzles-solvable-by-logical-deductions-or-some-do-require-a-guess-at-some-stage
+  * The Norvig solution will find a solution to any initial configuration - even one that is under specified.
+  * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
   * @param size 4, 9, or 16
   * @param ppanel   renders the puzzle. May be null if you do not want to see animation.
@@ -41,7 +48,7 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
   def generatePuzzleBoard: Board = {
     val board: Board = new Board(size)
     if (ppanel != null) ppanel.setBoard(board)
-    val success: Boolean = generateSolution(board)
+    val success: Boolean = generateSolution(board)  // sometimes fails to generate solution...
     if (ppanel != null) ppanel.repaint()
     assert(success, "We were not able to generate a consistent board " + board +
       ". numCombinations examined: " + totalCt)
@@ -61,8 +68,8 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     * @return whether or not the current board is consistent.
     */
   private def generateSolution(board: Board, position: Int): Boolean = {
-    // base case of the recursion
-    if (position == board.numCells) {
+
+    if (position == board.numCells) {  // base case of recursion
       return true // board completely solved now
     }
     val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
@@ -73,11 +80,11 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
       totalCt += 1
       try {
         board.setOriginalValue(loc, value)
+        val newBoard = board.copy()
+        newBoard.updateFromInitialData()
         return generateSolution(board, position + 1)
       } catch {
-        case e: IllegalStateException =>
-          board.removeValueIfPossible(loc)
-          return false
+        case e: IllegalStateException => board.setOriginalValue(loc, 0)
       }
     }
     false // backtrack
@@ -126,7 +133,7 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
   private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[(Int, Int)] = {
     val edgeLen = size * size
     val numPositions: Int = edgeLen * edgeLen
-    val positionList: Seq[(Int, Int)] = (0 until numPositions).map(x => (x / edgeLen, x % edgeLen))
+    val positionList: Seq[(Int, Int)] = (0 until numPositions).map(x => (x / edgeLen + 1, x % edgeLen + 1))
     rand.shuffle(positionList)
   }
 }

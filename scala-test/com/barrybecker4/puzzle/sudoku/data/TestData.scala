@@ -38,7 +38,7 @@ object TestData {
     Array(1, 0, 0, 0, 0, 0, 6, 0, 0)
   )
 
-  /** simple test of a 9*9 puzzle */
+  /** Difficult to solve 9*9 puzzle */
   val DIFFICULT_9 = Array(
     Array(0, 0, 5, 3, 0, 0, 0, 0, 0),
     Array(8, 0, 0, 0, 0, 0, 0, 2, 0),

@@ -20,18 +20,17 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   type ValueMap = Map[(Int, Int), Set[Int]]
   val edgeLength: Int = initialData.length
-  val baseSize: Int = Math.sqrt(edgeLength).toInt
+  private val baseSize: Int = Math.sqrt(edgeLength).toInt
+  private val comps = COMPONENTS(baseSize)
+  private var valuesMap: ValueMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
   val numCells: Int = edgeLength * edgeLength
   var numIterations = 0
 
-  private val comps = COMPONENTS(baseSize)
-
-  private var valuesMap: ValueMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
-  updateFromInitialData()
-
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
-  def this(b: Board) = this(b.initialData.map(_.clone))
+  def copy() = new Board(initialDataCopy)
+
+  private def initialDataCopy = initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
 
   def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
 
@@ -52,25 +51,22 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** Sets the original value, and update valuesMap accordingly */
   def setOriginalValue(location: (Int, Int), v: Int) {
-    initialData(location._1)(location._2) = new Cell(v, v)
-    assign(valuesMap, location, v) match {
-      case Some(vals) => valuesMap = vals
-      case None => throw new IllegalStateException("Cannot set a value there because it would be inconsistent!")
-    }
+    initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
   }
 
   /**
-    * Remove the specified value if it does not prevent the puzzle from being solved.
+    * Remove the specified value if it does not prevent the puzzle from being solved using just the
+    * basic consistency chack.
     * @return board with specified value removed
     */
   def removeValueIfPossible(location: (Int, Int)): Board = {
-    val initial = initialData.map(_.clone)
-    initial(location._1)(location._2) = new Cell(0, 0)
+    val initial = initialDataCopy
+    initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
     var testBoard: Board = this
     try {
       val b = new Board(initial)
-      //testBoard = if (b.solve()) b else this
+      b.updateFromInitialData()
       testBoard = if (b.isSolved) b else this
     } catch {
       case e: IllegalStateException => testBoard = this
@@ -78,8 +74,12 @@ class Board(val initialData: Array[Array[Cell]]) {
     testBoard
   }
 
+  /** @return true if the board is solvable */
+  //def isSolvable: Boolean = copy().solve()
+
   /** return true if solved, else false */
   def solve(panel: Container = null): Boolean = {
+    updateFromInitialData()
     searchForSolution(Some(valuesMap), panel) match {
       case Some(vals) =>
         valuesMap = vals
@@ -100,19 +100,18 @@ class Board(val initialData: Array[Array[Cell]]) {
       case Some(vals) =>
         if (vals.values.forall(_.size == 1)) return Some(vals)
         // Chose the unfilled square s with the fewest possibilities
-        val minSq: (Int, Int) = (for (s <- comps.squares; if vals(s).size > 1) yield (vals(s).size, s)).min._2
+        val minSq: (Int, Int) = (for (s <- comps.squares; if vals(s).size > 1)
+          yield (vals(s).size, s)).min._2
         for (d <- vals(minSq)) {
           numIterations += 1
           val result = searchForSolution(assign(vals, minSq, d))
-          if (result.nonEmpty) {
-            return result
-          }
+          if (result.nonEmpty) return result
         }
         None
     }
   }
 
-  private def updateFromInitialData() = {
+  def updateFromInitialData() {
     for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue) {
       if (v > 0) {
         assign(valuesMap, (r, c), v) match {
@@ -124,7 +123,8 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /**
-    * Assign a value to a square if possible. Eliminate all the other values (except d) from values[s] and propagate.
+    * Assign a value to a square if possible.
+    * Eliminate all the other values (except d) from values[s] and propagate.
     * @return Some(values), except return None if a contradiction is detected.
     */
   private def assign(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
