@@ -65,6 +65,19 @@ object TestData {
     Array(9, 0, 7, 0, 0, 3, 0, 5, 0),
     Array(4, 0, 0, 7, 0, 5, 1, 0, 0)
   )
+
+  val INVALID_9 = Array(
+    Array(0, 0, 3, 7, 3, 3, 0, 2, 0),
+    Array(0, 8, 0, 9, 3, 3, 4, 0, 1),
+    Array(0, 9, 0, 0, 2, 1, 0, 6, 3),
+    Array(0, 5, 2, 0, 7, 0, 0, 0, 9),
+    Array(0, 0, 6, 1, 0, 9, 7, 0, 0),
+    Array(8, 0, 0, 0, 6, 0, 3, 1, 0),
+    Array(5, 3, 0, 0, 4, 0, 0, 8, 2),
+    Array(9, 0, 7, 0, 0, 3, 0, 5, 0),
+    Array(4, 0, 0, 7, 0, 5, 1, 0, 0)
+  )
+
   /** From http://norvig.com/sudoku.html
     */
   val NORVIG_IMPOSSIBLE_9 = Array(

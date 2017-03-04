@@ -35,13 +35,19 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
   /** negative test case */
   test("ImpossiblePuzzle") {
     solver = new SudokuSolver()
-    intercept[IllegalStateException] {
-      solver.solvePuzzle(new Board(INCONSISTENT_9))
-    }
-    //assertFalse("Solved impossible SIMPLE_9 puzzle. Should not have.", solved)
+    val solved = solver.solvePuzzle(new Board(INCONSISTENT_9))
+    assertFalse("Solved impossible INCONSISTENT_9 puzzle. Should not have.", solved)
   }
 
   /** negative test case */
+  test("InvalidPuzzle") {
+    solver = new SudokuSolver()
+    val solved = solver.solvePuzzle(new Board(INVALID_9))
+    assertFalse("Solved impossible INVALID_9 puzzle. Should not have.", solved)
+  }
+
+
+  /** negative test case. Takes a very long time to determine that it is impossible */
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
     val solved = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
@@ -54,15 +60,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     assertTrue("Unexpectedly could not solve 16x16 puzzle.", solved)
   }
 
-  test("GenerateAndSolve2") {
-    generateAndSolve(2, rand)
-  }
-
-  test("GenerateAndSolve3") {
-    generateAndSolve(3, rand)
-  }
-
-  test("GenerateLotsAndSolveMany") {
+  test("GenerateAndSolveMany 9x9 puzzles") {
     for (r <- 0 until 40)  {
       rand = new Random()
       rand.setSeed(r)
@@ -70,11 +68,16 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     }
   }
 
-  /** The large tests takes a long time because of the exponential growth with the size of the puzzle. */
-  test("GenerateAndSolve") {
-    // super exponential run time
-    generateAndSolve(2, rand) // 16  cells       32 ms
-    generateAndSolve(3, rand) // 81  cells      265 ms
+  /** The large tests takes a long time because of the exponential growth with the size of the puzzle.
+    * They super exponential run time as N increases */
+
+  test("GenerateAndSolve2") {
+    generateAndSolve(2, rand)
+  }
+  test("GenerateAndSolve3") {
+    generateAndSolve(3, rand)
+  }
+  test("GenerateAndSolve4") {
     generateAndSolve(4, rand);  // 256 cells    2,077 ms
     // generateAndSolve(5);  // 625 cells  687,600 ms    too slow
   }
@@ -85,9 +88,9 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
   }
 
   private def generatePuzzle(baseSize: Int, rand: Random) = {
-    generator = new SudokuGenerator(baseSize, null, rand)
+    generator = new SudokuGenerator(null, rand)
     val start = System.currentTimeMillis
-    val b = generator.generatePuzzleBoard
+    val b = generator.generatePuzzleBoard(new Board(baseSize))
     System.out.println("Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
     b
   }

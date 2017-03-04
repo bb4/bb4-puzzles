@@ -6,7 +6,7 @@ import java.awt.Container
 import com.barrybecker4.puzzle.sudoku.model.ValueConverter
 import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents.COMPONENTS
 
-class Cell(val originalValue: Int, var proposedValue: Int)
+class Cell(var originalValue: Int, var proposedValue: Int)
 
 /**
   * The Board describes the physical layout of the puzzle.
@@ -20,11 +20,12 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   type ValueMap = Map[(Int, Int), Set[Int]]
   val edgeLength: Int = initialData.length
-  private val baseSize: Int = Math.sqrt(edgeLength).toInt
+  val baseSize: Int = Math.sqrt(edgeLength).toInt
   private val comps = COMPONENTS(baseSize)
-  private var valuesMap: ValueMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
+  private var valuesMap: ValueMap = _
   val numCells: Int = edgeLength * edgeLength
   var numIterations = 0
+  reset()
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
@@ -33,6 +34,11 @@ class Board(val initialData: Array[Array[Cell]]) {
   private def initialDataCopy = initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
 
   def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
+
+  def reset() {
+    valuesMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
+    numIterations = 0
+  }
 
   /** @return true if the board has been successfully solved. Solved if all candidates are a single value. */
   def isSolved: Boolean = {
@@ -51,7 +57,9 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** Sets the original value, and update valuesMap accordingly */
   def setOriginalValue(location: (Int, Int), v: Int) {
-    initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
+    val c = initialData(location._1 - 1)(location._2 - 1)  //= new Cell(v, v)
+    c.originalValue = v
+    c.proposedValue = v
   }
 
   /**
@@ -64,14 +72,9 @@ class Board(val initialData: Array[Array[Cell]]) {
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
     var testBoard: Board = this
-    try {
-      val b = new Board(initial)
-      b.updateFromInitialData()
-      testBoard = if (b.isSolved) b else this
-    } catch {
-      case e: IllegalStateException => testBoard = this
-    }
-    testBoard
+    val b = new Board(initial)
+    b.updateFromInitialData()
+    if (b.isSolved) b else this
   }
 
   /** @return true if the board is solvable */
@@ -79,18 +82,20 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** return true if solved, else false */
   def solve(panel: Container = null): Boolean = {
-    updateFromInitialData()
-    searchForSolution(Some(valuesMap), panel) match {
-      case Some(vals) =>
-        valuesMap = vals
-        true
-      case None => false
+    if (updateFromInitialData()) {
+      searchForSolution(Some(valuesMap), panel) match {
+        case Some(vals) =>
+          valuesMap = vals
+          return true
+        case None => return false
+      }
     }
+    false
   }
 
   def setSolvedValues(): Unit = {
     for ((s, values) <- valuesMap) {
-      if (values.size == 1) initialData(s._1 -1)(s._2 -1).proposedValue = values.head
+      if (values.size == 1) initialData(s._1 - 1)(s._2 - 1).proposedValue = values.head
     }
   }
 
@@ -111,15 +116,17 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  def updateFromInitialData() {
+  /** @return true if updated successfully. False if there was an inconsistency. */
+  def updateFromInitialData(): Boolean = {
     for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue) {
       if (v > 0) {
         assign(valuesMap, (r, c), v) match {
           case Some(values) => valuesMap = values
-          case None => throw new IllegalStateException("Not a valid initial board state")
+          case None => return false
         }
       }
     }
+    true
   }
 
   /**

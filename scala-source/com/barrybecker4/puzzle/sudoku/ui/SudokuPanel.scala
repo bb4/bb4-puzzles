@@ -74,7 +74,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   def generateNewPuzzle(generator: SudokuGenerator) {
     inputListener.clear()
-    renderer.board = generator.generatePuzzleBoard
+    renderer.board = generator.generatePuzzleBoard(new Board(b.baseSize))
     repaint()
   }
 

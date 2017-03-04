@@ -23,7 +23,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
 
       def construct: AnyRef = {
         puzzlePanel.setCursor (Cursor.getPredefinedCursor (Cursor.WAIT_CURSOR) )
-        val generator: SudokuGenerator = new SudokuGenerator(size, puzzlePanel)
+        val generator: SudokuGenerator = new SudokuGenerator(puzzlePanel)
         generator.delay = delay
         puzzlePanel.generateNewPuzzle(generator)
         None

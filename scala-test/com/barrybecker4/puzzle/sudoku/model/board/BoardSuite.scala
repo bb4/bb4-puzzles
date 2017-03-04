@@ -5,7 +5,7 @@ package com.barrybecker4.puzzle.sudoku.model.board
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
-import org.junit.Assert.{assertEquals, assertTrue}
+import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 
@@ -52,9 +52,10 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
 
   // We expect an exception if the board is inconsistent
   test("Impossible to Solve") {
-    intercept[IllegalStateException] {
-      new Board(TestData.INCONSISTENT_9).solve()
-    }
+
+    board = new Board(TestData.INCONSISTENT_9)
+    board.solve()
+    assertFalse("Unexpectedly soved impossible puzzle", board.isSolved)
   }
 
   test("Completely Solved") {

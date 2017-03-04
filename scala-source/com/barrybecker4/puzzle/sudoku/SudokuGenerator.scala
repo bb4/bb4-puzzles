@@ -23,30 +23,21 @@ object SudokuGenerator {
   * The Norvig solution will find a solution to any initial configuration - even one that is under specified.
   * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
-  * @param size 4, 9, or 16
   * @param ppanel   renders the puzzle. May be null if you do not want to see animation.
   *
   * @author Barry Becker
   */
-class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
+class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   var delay: Int = 0
   private var totalCt: Long = 0L
-
-  /**
-    * Use this Constructor if you do not need to show the board in a UI.
-    *
-    * @param baseSize 4, 9, or 16
-    */
-  def this(baseSize: Int) { this(baseSize, null) }
 
   /**
     * Find a complete, consistent solution.
     *
     * @return generated random board
     */
-  def generatePuzzleBoard: Board = {
-    val board: Board = new Board(size)
+  def generatePuzzleBoard(board: Board): Board = {
     if (ppanel != null) ppanel.setBoard(board)
     val success: Boolean = generateSolution(board)  // sometimes fails to generate solution...
     if (ppanel != null) ppanel.repaint()
@@ -78,22 +69,22 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
 
     for (value <- shuffledValues) {
       totalCt += 1
-      try {
-        board.setOriginalValue(loc, value)
-        val newBoard = board.copy()
-        newBoard.updateFromInitialData()
-        return generateSolution(board, position + 1)
-      } catch {
-        case e: IllegalStateException => board.setOriginalValue(loc, 0)
+      board.setOriginalValue(loc, value)
+      if (board.updateFromInitialData()) {
+        if (generateSolution(board, position + 1)) return true
+        else {
+          board.reset()
+        }
       }
     }
-    false // backtrack
+    board.setOriginalValue(loc, 0) // undo
+    false
   }
 
   private def refresh() {
     if (ppanel == null) return
     if (delay <= 0) {
-      if (Math.random() < 0.1) ppanel.repaint()
+      if (Math.random() < 0.2) ppanel.repaint()
     }
     else {
       ppanel.repaint()
@@ -112,11 +103,11 @@ class SudokuGenerator (size: Int, var ppanel: SudokuPanel = null, rand: Random =
     if (ppanel != null) {
       ppanel.setBoard(board)
     }
-    val positionList: Seq[(Int, Int)] = getRandomPositions(size, rand)
+    val positionList: Seq[(Int, Int)] = getRandomPositions(board.baseSize, rand)
     // we need a solver to verify that we can still deduce the original
     val solver: SudokuSolver = new SudokuSolver()
     solver.delay = delay
-    val len: Int = size * size
+    val len: Int = board.edgeLength
     val last: Int = len * len
 
     var newBoard = board

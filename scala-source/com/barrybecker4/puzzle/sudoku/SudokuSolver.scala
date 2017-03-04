@@ -25,11 +25,9 @@ class SudokuSolver() {
     */
   def solvePuzzle(board: Board, puzzlePanel: Container = null): Boolean = {
     if (board.solve(puzzlePanel)) {
-      // set the values that are found.
       board.setSolvedValues()
-      return true
-    }
-    false
+      true
+    } else false
   }
 
 
