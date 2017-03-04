@@ -47,12 +47,12 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
   }
 
 
-  /** negative test case. Takes a very long time to determine that it is impossible */
+  /** negative test case. Takes a very long time to determine that it is impossible *
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
     val solved = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
     assertFalse("Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.", solved)
-  }
+  }*/
 
   test("Solving16x16Puzzle") {
     solver = new SudokuSolver
