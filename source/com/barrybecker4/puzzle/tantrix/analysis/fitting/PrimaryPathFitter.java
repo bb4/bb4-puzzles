@@ -67,7 +67,7 @@ public class PrimaryPathFitter extends AbstractFitter {
      * @param placement the tile to check for a valid fit.
      * @return the number of primary path matches to neighboring tiles.
      */
-    public int numPrimaryFits(TilePlacement placement) {
+    private int numPrimaryFits(TilePlacement placement) {
 
         int numFits = 0;
         for (byte i = 0; i < NUM_SIDES; i++) {

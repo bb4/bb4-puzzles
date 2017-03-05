@@ -2,11 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix.model.HexUtil;
-import com.barrybecker4.puzzle.tantrix.model.PathColor;
-import com.barrybecker4.puzzle.tantrix.model.Rotation;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
+import com.barrybecker4.puzzle.tantrix.model.*;
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath;
 
 import java.util.Map;
@@ -19,7 +15,7 @@ import java.util.Set;
  */
 public class SubPathSwapper extends SubPathMutator {
 
-    public SubPathSwapper(PathColor primaryColor) {
+    SubPathSwapper(PathColor primaryColor) {
         super(primaryColor);
     }
 

@@ -5,13 +5,7 @@ import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.parameter.PermutedParameterArray;
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator;
-import com.barrybecker4.puzzle.tantrix.model.HexTileList;
-import com.barrybecker4.puzzle.tantrix.model.HexUtil;
-import com.barrybecker4.puzzle.tantrix.model.PathColor;
-import com.barrybecker4.puzzle.tantrix.model.Tantrix;
-import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
+import com.barrybecker4.puzzle.tantrix.model.*;
 
 import java.util.Map;
 
@@ -223,10 +217,8 @@ public class TantrixPath extends PermutedParameterArray {
 
         TantrixPath that = (TantrixPath) o;
 
-        if (primaryPathColor_ != that.primaryPathColor_) return false;
-        if (tiles_ != null ? !tiles_.equals(that.tiles_) : that.tiles_ != null) return false;
-
-        return true;
+        boolean isEqual = tiles_ != null ? tiles_.equals(that.tiles_) : that.tiles_ == null;
+        return primaryPathColor_ == that.primaryPathColor_ && isEqual;
     }
 
     @Override

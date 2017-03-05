@@ -4,12 +4,7 @@ package com.barrybecker4.puzzle.tantrix.generation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.tantrix.analysis.fitting.PrimaryPathFitter;
-import com.barrybecker4.puzzle.tantrix.model.HexTile;
-import com.barrybecker4.puzzle.tantrix.model.HexTileList;
-import com.barrybecker4.puzzle.tantrix.model.PathColor;
-import com.barrybecker4.puzzle.tantrix.model.TantrixBoard;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
+import com.barrybecker4.puzzle.tantrix.model.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -26,7 +21,7 @@ public class RandomTilePlacer {
     /**
      * Constructor
      */
-    public RandomTilePlacer(PathColor primaryColor) {
+    RandomTilePlacer(PathColor primaryColor) {
         this.primaryColor = primaryColor;
     }
 
@@ -37,7 +32,7 @@ public class RandomTilePlacer {
      *  returns null if no placement is possible - such as when we have a loop, the end is blocked,
      *  or there are no more unplaced tiles.
      */
-    public TilePlacement generateRandomPlacement(TantrixBoard board) {
+    TilePlacement generateRandomPlacement(TantrixBoard board) {
 
         HexTileList unplacedTiles = (HexTileList) board.getUnplacedTiles().clone();
         Collections.shuffle(unplacedTiles, MathUtil.RANDOM);

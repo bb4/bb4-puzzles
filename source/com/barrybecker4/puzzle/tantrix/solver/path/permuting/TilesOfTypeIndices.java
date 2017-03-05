@@ -15,16 +15,16 @@ import java.util.List;
  *
  * @author Barry Becker
  */
-public class TilesOfTypeIndices extends ArrayList<Integer> {
+class TilesOfTypeIndices extends ArrayList<Integer> {
 
-    PathColor primColor;
+    private PathColor primColor;
 
     /**
      * Constructor
      * @param type type of the arc on a tile.
      * @param path tantrix primary path of a single color.
      */
-    public TilesOfTypeIndices(PathType type, TantrixPath path) {
+    TilesOfTypeIndices(PathType type, TantrixPath path) {
         initialize(type, path);
     }
 

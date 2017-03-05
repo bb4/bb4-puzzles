@@ -92,7 +92,7 @@ public class HexTiles extends HexTileList {
      * @param numTiles  the number of tiles to draw from the master list starting with 1.
      * @return a random collection of tantrix tiles.
      */
-    public HexTileList createRandomList(int numTiles, Random rnd) {
+    private HexTileList createRandomList(int numTiles, Random rnd) {
         HexTileList tiles = createOrderedList(numTiles);
         Collections.shuffle(tiles, rnd);
         return tiles;

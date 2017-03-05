@@ -25,7 +25,7 @@ public abstract class TantrixSolver
      * Constructor
      * @param board board with the unplaced pieces.
      */
-    public TantrixSolver(TantrixBoard board) {
+    TantrixSolver(TantrixBoard board) {
         this.board = board;
     }
 

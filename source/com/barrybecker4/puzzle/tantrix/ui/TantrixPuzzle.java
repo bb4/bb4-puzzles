@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui;
 
+import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.tantrix.TantrixController;
@@ -12,11 +12,7 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm;
 import com.barrybecker4.ui.util.GUIUtil;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -27,7 +23,7 @@ import javax.swing.event.ChangeListener;
  */
 public final class TantrixPuzzle extends PuzzleApplet<TantrixBoard, TilePlacement>
                                  implements ChangeListener {
-    JSpinner spinner;
+    private JSpinner spinner;
     private static final int DEFAULT_NUM_TILES = 7;
 
     /**

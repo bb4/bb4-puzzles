@@ -3,18 +3,9 @@ package com.barrybecker4.puzzle.tantrix.generation;
 
 import com.barrybecker4.common.geometry.Box;
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix.model.HexUtil;
-import com.barrybecker4.puzzle.tantrix.model.PathColor;
-import com.barrybecker4.puzzle.tantrix.model.Tantrix;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix.model.TilePlacementList;
+import com.barrybecker4.puzzle.tantrix.model.*;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 import static com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES;
 
@@ -37,7 +28,7 @@ public class BorderFinder {
     /**
      * Constructor
      */
-    public BorderFinder(Tantrix tantrix, int numTiles, PathColor primaryColor) {
+    BorderFinder(Tantrix tantrix, int numTiles, PathColor primaryColor) {
         this.tantrix = tantrix;
         this.primaryColor = primaryColor;
         this.maxHalfPathLength = (numTiles + 1)/2;
@@ -49,7 +40,7 @@ public class BorderFinder {
      * as long as they do not push either boundingBox dimension beyond maxHalfPathLength.
      * @return list of legal next placements
      */
-    public Set<Location> findBorderPositions() {
+    Set<Location> findBorderPositions() {
         Set<Location> positions = new LinkedHashSet<>();
         visited = new HashSet<>();
 

@@ -22,7 +22,7 @@ public abstract class SubPathMutator {
     /**
      * Constructor
      */
-    public SubPathMutator(PathColor primaryColor) {
+    SubPathMutator(PathColor primaryColor) {
         this.primaryColor = primaryColor;
     }
 

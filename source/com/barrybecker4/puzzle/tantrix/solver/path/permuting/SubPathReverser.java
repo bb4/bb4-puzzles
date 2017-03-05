@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class SubPathReverser extends SubPathMutator {
 
-    public SubPathReverser(PathColor primaryColor) {
+    SubPathReverser(PathColor primaryColor) {
         super(primaryColor);
     }
 
