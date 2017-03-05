@@ -18,7 +18,7 @@ object SudokuRenderer {
   private val MARGIN = 50
   private val CELL_ORIG_TEXT_COLOR = Color.BLACK
   private val CELL_TEXT_COLOR = Color.BLUE
-  private val CELL_ORIG_BACKGROUND_COLOR = new Color(215, 225, 238, 200)
+  private val CELL_ORIG_BACKGROUND_COLOR = new Color(215, 215, 238, 200)
   private val CELL_BACKGROUND_COLOR = new Color(245, 245, 255, 100)
   private val CELL_FOCUS_COLOR = new Color(255, 250, 200)
   private val USER_VALUE_COLOR = new Color(155, 5, 40)

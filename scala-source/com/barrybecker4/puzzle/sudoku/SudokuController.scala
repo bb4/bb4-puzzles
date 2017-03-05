@@ -40,7 +40,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   def solvePuzzle(delay: Int) {
     val worker: Worker = new Worker() {
       def construct: AnyRef = {
-        val solver: SudokuSolver = new SudokuSolver
+        val solver: SudokuSolver = new SudokuSolver(puzzlePanel)
         solver.delay = delay
         puzzlePanel.startSolving(solver)
         None

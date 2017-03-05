@@ -61,7 +61,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   }
 
   def startSolving(solver: SudokuSolver) {
-    val solved = solver.solvePuzzle(getBoard, this)
+    val solved = solver.solvePuzzle(getBoard)
     showMessage(solved)
     inputListener.clear()
   }

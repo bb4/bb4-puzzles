@@ -9,7 +9,7 @@ class Cell(var originalValue: Int, var proposedValue: Int)
 /**
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
-  * This implementation is based on Peter Norvig's algorithm described at http://norvig.com/sudoku.html
+  * This implementation is based on Peter Norvig's algorithm - http://norvig.com/sudoku.html
   *
   * @param initialData array giving initially set values
   * @author Barry Becker
@@ -38,7 +38,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     numIterations = 0
   }
 
-  /** @return true if the board has been successfully solved. Solved if all candidates are a single value. */
+  /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
   def isSolved: Boolean = {
     valuesMap.values.forall(_.size == 1)
   }
@@ -60,26 +60,25 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /**
     * Remove the specified value if it does not prevent the puzzle from being solved using just the
-    * basic consistency chack.
+    * basic consistency check.
     */
-  def removeValueIfPossible(location: (Int, Int)) {
+  def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None) {
     val initial = initialDataCopy
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
     val b = new Board(initial)
     b.updateFromInitialData()
-    if (b.isSolved)
+    if (b.isSolved) {
       initialData(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
       this.valuesMap = b.valuesMap
+      if (refresh.isDefined) refresh.get()
+    }
   }
 
-  /** @return true if the board is solvable */
-  //def isSolvable: Boolean = copy().solve()
-
   /** return true if solved, else false */
-  def solve(callback: () => Unit = null): Boolean = {
-    if (updateFromInitialData(callback)) {
-      searchForSolution(Some(valuesMap), callback) match {
+  def solve(refresh: Option[() => Unit] = None): Boolean = {
+    if (updateFromInitialData()) {
+      searchForSolution(Some(valuesMap), refresh) match {
         case Some(vals) =>
           valuesMap = vals
           return true
@@ -95,7 +94,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  private def searchForSolution(values: Option[ValueMap], callback: () => Unit): Option[ValueMap] = {
+  private def searchForSolution(values: Option[ValueMap], refresh: Option[() => Unit]): Option[ValueMap] = {
     values match {
       case None => None
       case Some(vals) =>
@@ -105,11 +104,8 @@ class Board(val initialData: Array[Array[Cell]]) {
           yield (vals(s).size, s)).min._2
         for (d <- vals(minSq)) {
           numIterations += 1
-          if (callback != null) {
-            setSolvedValues()
-            callback()
-          }
-          val result = searchForSolution(assign(vals, minSq, d), callback)
+          doRefresh(refresh)
+          val result = searchForSolution(assign(vals, minSq, d), refresh)
           if (result.nonEmpty) return result
         }
         None
@@ -117,21 +113,20 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** @return true if updated successfully. False if there was an inconsistency. */
-  def updateFromInitialData(callback: () => Unit = null): Boolean = {
-    for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue) {
-      if (v > 0) {
-        assign(valuesMap, (r, c), v) match {
-          case Some(values) =>
-            if (callback != null) {
-              setSolvedValues()
-              callback()
-            }
-            valuesMap = values
-          case None => return false
-        }
+  def updateFromInitialData(): Boolean = {
+    for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue; if v > 0)
+      assign(valuesMap, (r, c), v) match {
+        case Some(values) => valuesMap = values
+        case None => return false
       }
-    }
     true
+  }
+
+  private def doRefresh(refresh: Option[() => Unit]) {
+    if (refresh.isDefined) {
+      setSolvedValues()
+      refresh.get()
+    }
   }
 
   /**
@@ -144,8 +139,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     var newValues: Option[ValueMap] = Some(values)
     for (d2 <- otherValues) {
       newValues = eliminate(newValues.get, s, d2)
-      if (newValues.isEmpty)
-        return None
+      if (newValues.isEmpty) return None
     }
     newValues
   }

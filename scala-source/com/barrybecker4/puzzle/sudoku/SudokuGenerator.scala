@@ -70,6 +70,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     for (value <- shuffledValues) {
       totalCt += 1
       board.setOriginalValue(loc, value)
+      refresh()
       if (board.updateFromInitialData()) {
         if (generateSolution(board, position + 1)) return true
         else {
@@ -103,14 +104,11 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
     val positionList: Seq[(Int, Int)] = getRandomPositions(board.baseSize, rand)
     // we need a solver to verify that we can still deduce the original
-    val solver: SudokuSolver = new SudokuSolver()
-    solver.delay = delay
     val len: Int = board.edgeLength
     val last: Int = len * len
 
     for (i <- 0 until last) {
-      board.removeValueIfPossible(positionList(i))
-      refresh()
+      board.removeValueIfPossible(positionList(i), Some(refresh _))
     }
     board
   }
