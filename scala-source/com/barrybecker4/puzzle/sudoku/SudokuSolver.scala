@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.sudoku
 import java.awt.Container
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.Board
 
 /**
   * This does the hard work of actually solving the puzzle.

@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 import scala.util.Random

@@ -4,8 +4,7 @@ package com.barrybecker4.puzzle.sudoku.ui
 import java.awt._
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
-import com.barrybecker4.puzzle.sudoku.model.ValueConverter
-import com.barrybecker4.puzzle.sudoku.model.board.{Board, Cell}
+import com.barrybecker4.puzzle.sudoku.model.{Board, Cell, ValueConverter}
 import com.barrybecker4.ui.util.GUIUtil
 
 

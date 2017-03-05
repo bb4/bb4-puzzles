@@ -5,8 +5,7 @@ import java.awt.event.{KeyEvent, KeyListener, MouseEvent, MouseListener}
 import javax.swing.JOptionPane
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.sudoku.model.ValueConverter
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.{Board, ValueConverter}
 
 import scala.collection.immutable.HashMap
 

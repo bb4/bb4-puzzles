@@ -1,8 +1,9 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.sudoku.model.board
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.sudoku.model
 
-import com.barrybecker4.puzzle.sudoku.model.ValueConverter
-import com.barrybecker4.puzzle.sudoku.model.board.BoardComponents.COMPONENTS
+import com.barrybecker4.puzzle.sudoku.model.BoardComponents.COMPONENTS
 
 class Cell(var originalValue: Int, var proposedValue: Int)
 

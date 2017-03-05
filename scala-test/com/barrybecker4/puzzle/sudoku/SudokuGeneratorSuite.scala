@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.Board
 import org.junit.Assert.{assertEquals, assertNotNull, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 

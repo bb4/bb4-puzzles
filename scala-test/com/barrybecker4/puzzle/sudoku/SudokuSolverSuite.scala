@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.puzzle.sudoku.data.TestData._
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.Board
 import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 

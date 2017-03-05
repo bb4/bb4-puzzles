@@ -5,7 +5,7 @@ import java.awt.Graphics
 import javax.swing.JPanel
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.sudoku.model.board.Board
+import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
 
 /**
