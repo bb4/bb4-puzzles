@@ -85,7 +85,14 @@ task runTantrixPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle'
     classpath = sourceSets.main.runtimeClasspath
-    //args = ['-name', 'galactic',  '-locale', 'ENGLISH']
+    jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
+}
+
+task runTantrixPuzzle1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.tantrix1.ui.TantrixPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    //args = ['-name', 'tantrix',  '-locale', 'ENGLISH']
     jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
 }
 
