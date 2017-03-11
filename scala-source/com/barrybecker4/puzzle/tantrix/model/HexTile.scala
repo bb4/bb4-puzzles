@@ -1,15 +1,15 @@
 /*
  * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
  */
-
 package com.barrybecker4.puzzle.tantrix.model
 
+import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 
 object HexTile {
   /** number of sides on a hex tile. */
   val NUM_SIDES = 6
 }
-/*
+
 object PathColor extends Enumeration {
   type PathColor = Value
   val RED, GREEN, BLUE, YELLOW, WHITE = Value
@@ -35,4 +35,3 @@ case class HexTile(tantrixNumber: Byte, primaryColor: PathColor, edgeColors: Arr
 
   override def toString: String = "tileNum=" + tantrixNumber + " colors: " + edgeColors
 }
-*/
