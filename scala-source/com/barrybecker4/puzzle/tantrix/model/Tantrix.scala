@@ -38,9 +38,12 @@ class Tantrix(map: immutable.Map[Location, TilePlacement], lastPlacement: TilePl
   /** @param tiles tiles in the tantrix */
   def this(tiles: Seq[TilePlacement]) { this(createTileMap(tiles), tiles.last) }
 
+  def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
 
   /** @return the placement at the specified location.*/
   def getTilePlacement(row: Int, col: Int): TilePlacement = tileMap(new ByteLocation(row, col))
+
+  def apply(loc: Location): TilePlacement = tileMap(loc)
 
   private def setTilePlacement(placement: TilePlacement): Tantrix =
     new Tantrix(tileMap + (placement.location -> placement), placement)
@@ -59,6 +62,8 @@ class Tantrix(map: immutable.Map[Location, TilePlacement], lastPlacement: TilePl
   def getLastTile: TilePlacement = lastTile
 
   def getEdgeLength: Int = getBoundingBox.getMaxDimension + 1
+
+  def getTiles: Seq[HexTile] = tileMap.values.map(_.tile).toSeq
 
   /** @return the bounds of the current tantrix tiles. */
   def getBoundingBox: Box = {

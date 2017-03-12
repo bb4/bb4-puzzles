@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.Tantrix.model
+package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.puzzle.tantrix1.model.Rotation
 import org.scalatest.FunSuite

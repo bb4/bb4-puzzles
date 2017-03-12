@@ -1,0 +1,100 @@
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.puzzle.tantrix.model
+
+import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
+import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+
+
+object TantrixBoard {
+  /** starting position. Must be odd I believe. */
+  val INITIAL_LOCATION = new ByteLocation(21, 21)
+}
+
+/**
+  * Immutable representation of the current state of the tantrix puzzle.
+  * @param tantrix The 'tantrix'. Map of locations to currently placed tiles.
+  * @param primaryColor color of the loop path
+  * @param unplacedTiles tiles that have not yet been placed on the tantrix
+  * @param numTiles number of tiles in the puzzle
+  * @author Barry Becker
+  */
+class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
+                   val unplacedTiles: Seq[HexTile], val numTiles: Int) {
+
+  /**
+    * Constructor that creates a new tantrix instance when placing a move.
+    * If the new tile to be placed is in the edge row of the grid, then we need to increase the size of the grid
+    * by one in that direction and also only render the inside cells.
+    *
+    * @param board current tantrix state.
+    * @param placement new piece to add to the tantrix and its positioning.
+    */
+  def this(board: TantrixBoard, placement: TilePlacement) {
+    this(new Tantrix(board.tantrix, placement),
+      board.primaryColor, board.unplacedTiles.filter(_ != placement.tile), board.numTiles)
+  }
+
+  def this(initialTiles: Seq[HexTile]) {
+    this(new Tantrix(Seq()), initialTiles.last.primaryColor, initialTiles, initialTiles.size)
+  }
+
+  /**
+    * Create a board with the specified tile placements (nothing unplaced).
+    *
+    * @param tiles specific placements to initialize the board with.
+    */
+  def this(tiles: Seq[TilePlacement], primaryColor: PathColor) {
+    this(new Tantrix(tiles), primaryColor, Seq(), tiles.size)
+  }
+
+  /**
+    * Take the specified tile and place it where indicated.
+    * @param placement the placement containing the new tile to place.
+    * @return the new immutable tantrix instance.
+    */
+  def placeTile(placement: TilePlacement) = new TantrixBoard(this, placement)
+
+  /** @return true if the puzzle is solved. */
+  //def isSolved: Boolean = new SolutionVerifier(this).isSolved
+
+  /**
+    * @param currentPlacement where we are now
+    * @param direction   side to navigate to to find the neighbor. 0 is to the right.
+    * @return the indicated neighbor of the specified tile.
+    */
+  def getNeighbor(currentPlacement: TilePlacement, direction: Byte): TilePlacement =
+    tantrix.getNeighbor(currentPlacement, direction)
+
+  /**
+    * The tile fits if the primary path and all the other paths match for edges that have neighbors.
+    * @param placement the tile to check for a valid fit.
+    * @return true of the tile fits
+    */
+  def fits(placement: TilePlacement): Boolean = {
+    //val fitter = new TantrixTileFitter(tantrix, getPrimaryColor)   FIX
+    //fitter.isFit(placement)
+    false
+  }
+
+  def getLastTile: TilePlacement = tantrix.getLastTile
+
+  /**
+    * @return a list of all the tiles in the puzzle (both placed and unplaced)
+    */
+  def getAllTiles: Seq[HexTile] = tantrix.getTiles ++ unplacedTiles
+
+  def getEdgeLength: Int = tantrix.getEdgeLength
+
+  /** @return the position of the top left bbox corner */
+  def getBoundingBox: Box = tantrix.getBoundingBox
+
+  /**
+    * @param location get the tile placement for this location.
+    * @return null of there is no placement at that location.
+    */
+  def getTilePlacement(location: Location): TilePlacement = tantrix(location)
+
+  def isEmpty(loc: Location): Boolean = getTilePlacement(loc) == null   // null or None?
+
+  override def toString: String = { "primaryColor = " + primaryColor + "\ntantrix = " + tantrix.toString }
+}

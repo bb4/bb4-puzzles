@@ -81,5 +81,6 @@ class HexTiles()  {
     */
   def getTile(tantrixNumber: Int): HexTile = tiles(tantrixNumber - 1)
 
+  def createOrderedList(numTiles: Int): Seq[HexTile] = tiles.slice(0, numTiles)
   def createRandomList(numTiles: Int): Seq[HexTile] = RAND.shuffle(tiles.slice(0, numTiles))
 }

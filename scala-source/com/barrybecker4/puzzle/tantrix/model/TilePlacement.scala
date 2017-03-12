@@ -27,8 +27,7 @@ case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) 
   }
 
   /** Turn the new tile based on the old tile, but rotated counter-clockwise once. */
-  def rotate: TilePlacement = TilePlacement(tile, location, rotation.rotateBy(1))
-
+  def rotate(): TilePlacement = TilePlacement(tile, location, rotation.rotateBy(1))
 
   def getOutgoingPathLocations(primaryColor: PathColor): Map[Int, Location] = {
     var outgoingPathLocations = new HashMap[Int, Location]
