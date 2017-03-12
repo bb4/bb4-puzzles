@@ -9,7 +9,7 @@ object PathColor extends Enumeration {
   val RED, GREEN, BLUE, YELLOW, WHITE = Value
 }
 
-/*
+/* This should have worked, but didn't
 object PathColors {
   def PathColors(c1: PathColor, c2: PathColor, c3: PathColor, c4: PathColor, c5: PathColor, c6: PathColor) =
     new PathColors(Array(c1, c2, c3, c4, c5, c6))
