@@ -31,10 +31,11 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     var fits = true
     for (i <- 0 until NUM_SIDES) {
       val nbr = tantrix.getNeighbor(placement, i)
-      if (nbr != null) {
+      if (nbr.isDefined) {
         val pathColor = placement.getPathColor(i)
-        val nbrColor = nbr.getPathColor(i + 3)
-        if (((pathColor eq primaryColor) || (nbrColor eq primaryColor)) && (pathColor ne nbrColor)) fits = false
+        val nbrColor = nbr.get.getPathColor(i + 3)
+        if (((pathColor == primaryColor) || (nbrColor == primaryColor)) && (pathColor == nbrColor))
+          fits = false
       }
     }
     fits
@@ -49,9 +50,10 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     var i = 0
     for (i <- 0 until NUM_SIDES) {
         val nbr = tantrix.getNeighbor(placement, i)
-        if (nbr != null) {
+        if (nbr.isDefined) {
           val pathColor = placement.getPathColor(i)
-          if ((pathColor eq primaryColor) && (pathColor eq nbr.getPathColor(i + 3))) numFits += 1
+          if ((pathColor == primaryColor) && (pathColor == nbr.get.getPathColor(i + 3)))
+            numFits += 1
         }
     }
     assert(numFits <= 2, "There cannot be more than 2 primary path fits.")

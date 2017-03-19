@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.analysis.TantrixTileFitter
 
 
 object TantrixBoard {
@@ -60,9 +61,9 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
   /**
     * @param currentPlacement where we are now
     * @param direction   side to navigate to to find the neighbor. 0 is to the right.
-    * @return the indicated neighbor of the specified tile.
+    * @return the indicated neighbor of the specified tile, if any.
     */
-  def getNeighbor(currentPlacement: TilePlacement, direction: Byte): TilePlacement =
+  def getNeighbor(currentPlacement: TilePlacement, direction: Byte): Option[TilePlacement] =
     tantrix.getNeighbor(currentPlacement, direction)
 
   /**
@@ -71,7 +72,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @return true of the tile fits
     */
   def fits(placement: TilePlacement): Boolean = {
-    val fitter = new TantrixTileFitter(tantrix, getPrimaryColor)   FIX
+    val fitter = new TantrixTileFitter(tantrix, primaryColor)
     fitter.isFit(placement)
   }
 

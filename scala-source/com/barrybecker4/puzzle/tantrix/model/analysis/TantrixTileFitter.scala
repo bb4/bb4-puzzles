@@ -17,6 +17,6 @@ class TantrixTileFitter(var tantrix: Tantrix, primaryColor: PathColor) extends T
     * @param direction        side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile.
     */
-  override protected def getNeighbor(currentPlacement: TilePlacement, direction: Int): TilePlacement =
+  override protected def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] =
     tantrix.getNeighbor(currentPlacement, direction)
 }

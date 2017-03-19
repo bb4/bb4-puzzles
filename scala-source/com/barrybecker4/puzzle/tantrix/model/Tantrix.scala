@@ -53,10 +53,10 @@ class Tantrix(map: immutable.Map[Location, TilePlacement], lastPlacement: TilePl
     * @param direction        side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile.
     */
-  def getNeighbor(currentPlacement: TilePlacement, direction: Int): TilePlacement = {
+  def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] = {
     if (currentPlacement == null) return null
     val loc = HexUtil.getNeighborLocation(currentPlacement.location, direction)
-    tileMap(loc)
+    Some(tileMap(loc))
   }
 
   def getLastTile: TilePlacement = lastTile
