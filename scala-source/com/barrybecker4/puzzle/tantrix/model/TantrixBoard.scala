@@ -71,9 +71,8 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @return true of the tile fits
     */
   def fits(placement: TilePlacement): Boolean = {
-    //val fitter = new TantrixTileFitter(tantrix, getPrimaryColor)   FIX
-    //fitter.isFit(placement)
-    false
+    val fitter = new TantrixTileFitter(tantrix, getPrimaryColor)   FIX
+    fitter.isFit(placement)
   }
 
   def getLastTile: TilePlacement = tantrix.getLastTile

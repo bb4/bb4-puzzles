@@ -12,7 +12,7 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TilePlacement}
   * @param primaryColor color of the loop path
   * @author Barry Becker
   */
-abstract class AbstractFitter(var primaryColor: PathColor) {
+abstract class AbstractFitter(val primaryColor: PathColor) {
 
   /**
     * The number of placements can be 0, 1, 2, or 3 (rare).
