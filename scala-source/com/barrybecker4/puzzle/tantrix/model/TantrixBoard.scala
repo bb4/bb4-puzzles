@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.analysis.TantrixTileFitter
 
 
@@ -36,7 +37,8 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
   }
 
   def this(initialTiles: Seq[HexTile]) {
-    this(new Tantrix(Seq()), initialTiles.last.primaryColor, initialTiles, initialTiles.size)
+    this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, RotationEnum.ANGLE_0))),
+      initialTiles.last.primaryColor, initialTiles.drop(1), initialTiles.size)
   }
 
   /**

@@ -110,7 +110,7 @@ public class Tantrix extends HashMap<Location, TilePlacement>{
     /**
      * @return the placement at the specified location.
      */
-    public TilePlacement getTilePlacement(int row, int col) {
+    TilePlacement getTilePlacement(int row, int col) {
         return get(new ByteLocation(row, col));
     }
 
