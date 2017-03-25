@@ -26,9 +26,12 @@ case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) 
     tile.edgeColors(index)
   }
 
-  /** Turn the new tile based on the old tile, but rotated counter-clockwise once. */
+  /** @return new tile placement that is the old tile placement rotated counter-clockwise once. */
   def rotate(): TilePlacement = TilePlacement(tile, location, rotation.rotateBy(1))
 
+  /** @param primaryColor color of the path to get locations for
+    * @return map from outgoing path index to corresponding location for paths of the specified color
+    */
   def getOutgoingPathLocations(primaryColor: PathColor): Map[Int, Location] = {
     var outgoingPathLocations = new HashMap[Int, Location]
     for (i <- 0 until NUM_SIDES) {
