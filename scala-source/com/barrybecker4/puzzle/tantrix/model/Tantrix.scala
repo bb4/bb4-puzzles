@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
+import java.util.NoSuchElementException
+
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.Tantrix.createTileMap
 
@@ -19,7 +21,7 @@ object Tantrix {
   * @param lastTile the last tile placed.
   * @author Barry Becker
   */
-class Tantrix(val tileMap: Map[Location, TilePlacement], val lastTile: TilePlacement) {
+case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacement) {
 
   /**
     * Take the specified tile and place it where indicated.
@@ -35,8 +37,20 @@ class Tantrix(val tileMap: Map[Location, TilePlacement], val lastTile: TilePlace
   def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
 
   /** @return the placement at the specified location.*/
-  def apply(row: Int, col: Int): TilePlacement = tileMap(new ByteLocation(row, col))
-  def apply(loc: Location): TilePlacement = tileMap(loc)
+  def apply(row: Int, col: Int): TilePlacement = {
+    try{tileMap(new ByteLocation(row, col))}
+    catch {
+      case e: NoSuchElementException =>
+        throw new IllegalStateException("could not find " + row +"," + col + " among " + tileMap.keys.mkString(", "), e)
+    }
+  }
+  def apply(loc: Location): TilePlacement = {
+    try{tileMap(loc)}
+    catch {
+      case e: NoSuchElementException =>
+        throw new IllegalStateException("could not find " + loc + " among " + tileMap.keys.mkString(", "), e)
+    }
+  }
 
   /**
     * @param currentPlacement where we are now  (Option?)

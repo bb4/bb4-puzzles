@@ -69,7 +69,7 @@ public class Tantrix extends HashMap<Location, TilePlacement>{
      * @param placement the placement containing the new tile to place.
      * @return the new immutable tantrix instance.
      */
-    public Tantrix placeTile(TilePlacement placement) {
+    Tantrix placeTile(TilePlacement placement) {
         return new Tantrix(this, placement);
     }
 

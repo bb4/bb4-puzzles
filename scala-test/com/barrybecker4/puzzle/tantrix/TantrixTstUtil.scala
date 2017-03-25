@@ -110,7 +110,7 @@ object TantrixTstUtil {
     val tile3 = TilePlacement(TILES.getTile(3), loc(2, 0), ANGLE_120)
     board = new TantrixBoard(board, tile2)
     board = new TantrixBoard(board, tile3)
-    System.out.println(board)
+    println(board)
     board
   }
 
@@ -195,7 +195,8 @@ object TantrixTstUtil {
     board
   }
 
-  def loc(row: Int, col: Int): Location = new ByteLocation(row, col).incrementOnCopy(INITIAL_LOCATION).incrementOnCopy(-1, -1)
+  def loc(row: Int, col: Int): Location =
+    new ByteLocation(row, col).incrementOnCopy(INITIAL_LOCATION).incrementOnCopy(-1, -1)
 }
 
 class TantrixTstUtil private() {

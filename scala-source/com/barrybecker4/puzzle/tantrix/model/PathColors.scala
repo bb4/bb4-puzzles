@@ -19,4 +19,6 @@ object PathColors {
 case class PathColors(colors: Array[PathColor]) {
 
   def apply(i: Int): PathColor = colors(i)
+
+  override def toString: String = colors.mkString(",")
 }

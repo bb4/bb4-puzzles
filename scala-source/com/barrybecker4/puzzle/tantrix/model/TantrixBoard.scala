@@ -32,7 +32,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @param placement new piece to add to the tantrix and its positioning.
     */
   def this(board: TantrixBoard, placement: TilePlacement) {
-    this(new Tantrix(board.tantrix, placement),
+    this(board.tantrix.placeTile(placement),
       board.primaryColor, board.unplacedTiles.filter(_ != placement.tile), board.numTiles)
   }
 
