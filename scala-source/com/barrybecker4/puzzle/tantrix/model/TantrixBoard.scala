@@ -78,7 +78,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     fitter.isFit(placement)
   }
 
-  def getLastTile: TilePlacement = tantrix.getLastTile
+  def getLastTile: TilePlacement = tantrix.lastTile
 
   /**
     * @return a list of all the tiles in the puzzle (both placed and unplaced)
