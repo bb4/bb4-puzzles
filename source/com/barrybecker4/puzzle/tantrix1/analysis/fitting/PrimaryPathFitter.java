@@ -88,7 +88,7 @@ public class PrimaryPathFitter extends AbstractFitter {
     /**
      * @return total number of primary path fits for the whole tantrix.
      */
-    public int numPrimaryFits() {
+    int numPrimaryFits() {
         if (tantrix.size() < 2) return 0;
 
         int numFits = 0;

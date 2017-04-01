@@ -20,9 +20,9 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
   /**
     * The tile fits if the primary path fits against all neighbors.
     * All adjacent primary paths must match an edge on the tile being fit.
-    * Check all the neighbors (that exist) and verify that if that direction is a primary path output, then it matches.
-    * If none of the neighbor edges has a primary path, then rotations where non-primary path edges touch those neighbors
-    * are allowed as fits.
+    * Check all the neighbors (that exist) and verify that, if that direction is a primary path output, then it matches.
+    * If none of the neighbor edges has a primary path, then rotations where non-primary path edges touch those
+    * neighbors are allowed as fits.
     *
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
@@ -34,7 +34,7 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
       if (nbr.isDefined) {
         val pathColor = placement.getPathColor(i)
         val nbrColor = nbr.get.getPathColor(i + 3)
-        if (((pathColor == primaryColor) || (nbrColor == primaryColor)) && (pathColor == nbrColor))
+        if ((pathColor == primaryColor || nbrColor == primaryColor) && (pathColor != nbrColor))
           fits = false
       }
     }
@@ -61,10 +61,7 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
   }
 
   /** @return total number of primary path fits for the whole tantrix. */
-  def numPrimaryFits: Int = {
-    if (tantrix.size < 2) 0
-    else tantrix.tiles.map(numPrimaryFits).sum
-  }
+  def numPrimaryFits: Int = if (tantrix.size < 2) 0 else tantrix.tiles.map(numPrimaryFits).sum
 
   /** used only for debugging */
   def getTantrix: Tantrix = tantrix

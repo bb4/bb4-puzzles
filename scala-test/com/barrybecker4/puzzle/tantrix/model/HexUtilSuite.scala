@@ -51,6 +51,6 @@ class HexUtilSuite extends FunSuite {
   }
 
   test("GetDistanceBetweenSameSpace") {
-    assert(0.0 ===HexUtil.distanceBetween(new IntLocation(20, 21), new IntLocation(20, 21)), "for distance")
+    assert(0.0 === HexUtil.distanceBetween(new IntLocation(20, 21), new IntLocation(20, 21)), "for distance")
   }
 }

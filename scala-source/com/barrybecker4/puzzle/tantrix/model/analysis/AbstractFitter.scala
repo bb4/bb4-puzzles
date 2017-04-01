@@ -24,7 +24,12 @@ abstract class AbstractFitter(val primaryColor: PathColor) {
     */
   def getFittingPlacements(tile: HexTile, loc: Location): Seq[TilePlacement] = {
     var placement = TilePlacement(tile, loc, ANGLE_300)
-    for (i <- 0 until NUM_SIDES; if isFit(placement.rotate())) yield placement
+    val a = (for (i <- 0 until NUM_SIDES) yield {
+      placement = placement.rotate()
+      if (isFit(placement)) Some(placement) else None
+    }).flatten
+    println("fitting placements = " + a.mkString(", "))
+    a
   }
 
   /**

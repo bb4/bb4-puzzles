@@ -23,6 +23,10 @@ object Tantrix {
   */
 case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacement) {
 
+  /** @param tiles tiles in the tantrix */
+  def this(tiles: Seq[TilePlacement]) { this(createTileMap(tiles), tiles.last) }
+  def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
+
   /**
     * Take the specified tile and place it where indicated.
     * @param placement the placement containing the new tile to place.
@@ -31,21 +35,17 @@ case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacemen
   def placeTile(placement: TilePlacement): Tantrix =
     new Tantrix(tileMap + (placement.location -> placement), placement)
 
-  /** @param tiles tiles in the tantrix */
-  def this(tiles: Seq[TilePlacement]) { this(createTileMap(tiles), tiles.last) }
-
-  def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
-
-  /** @return the placement at the specified location.*/
+  /** @return the placement at the specified location. */
   def apply(row: Int, col: Int): TilePlacement = {
-    try{tileMap(new ByteLocation(row, col))}
+    try{ tileMap(new ByteLocation(row, col)) }
     catch {
       case e: NoSuchElementException =>
         throw new IllegalStateException("could not find " + row +"," + col + " among " + tileMap.keys.mkString(", "), e)
     }
   }
+
   def apply(loc: Location): TilePlacement = {
-    try{tileMap(loc)}
+    try{ tileMap(loc) }
     catch {
       case e: NoSuchElementException =>
         throw new IllegalStateException("could not find " + loc + " among " + tileMap.keys.mkString(", "), e)

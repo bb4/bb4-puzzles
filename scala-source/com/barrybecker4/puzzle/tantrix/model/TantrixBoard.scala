@@ -13,9 +13,9 @@ object TantrixBoard {
 }
 
 /**
-  * Immutable representation of the current state of the tantrix puzzle.
+  * Immutable representation of the current state of the tantrix puzzle on a hexagonal grid.
   * @param tantrix The 'tantrix'. Map of locations to currently placed tiles.
-  * @param primaryColor color of the loop path
+  * @param primaryColor color of the loop path that we are searching for
   * @param unplacedTiles tiles that have not yet been placed on the tantrix
   * @param numTiles number of tiles in the puzzle
   * @author Barry Becker
@@ -36,6 +36,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
       board.primaryColor, board.unplacedTiles.filter(_ != placement.tile), board.numTiles)
   }
 
+  /** Create a board with the first tile in the given list placed at the initial location */
   def this(initialTiles: Seq[HexTile]) {
     this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, RotationEnum.ANGLE_0))),
       initialTiles.last.primaryColor, initialTiles.drop(1), initialTiles.size)
@@ -43,7 +44,6 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
 
   /**
     * Create a board with the specified tile placements (nothing unplaced).
-    *
     * @param tiles specific placements to initialize the board with.
     */
   def this(tiles: Seq[TilePlacement], primaryColor: PathColor) {

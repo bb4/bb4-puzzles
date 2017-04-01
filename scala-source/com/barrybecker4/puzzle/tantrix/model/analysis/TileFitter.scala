@@ -8,17 +8,15 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 
 /**
   * Used to check the consistency of all the paths.
-  * If you have the tantrix use TantrixTileFitter instead of this class.
+  * If you have the tantrix, use TantrixTileFitter instead of this class.
   *
   * @param tiles Current set of placed tiles
   * @author Barry Becker
   */
 class TileFitter(var tiles: Iterable[TilePlacement], primaryColor: PathColor) extends AbstractFitter(primaryColor) {
 
-
   /**
     * The tile fits if the primary path and all the other paths match for edges that have neighbors.
-    *
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
@@ -26,12 +24,13 @@ class TileFitter(var tiles: Iterable[TilePlacement], primaryColor: PathColor) ex
     var primaryPathMatched = false
 
     for (i <- 0 until NUM_SIDES) {
-        val nbr = getNeighbor(placement, i)
-        if (nbr.isDefined) {
-          val pathColor = placement.getPathColor(i)
-          if (pathColor == nbr.get.getPathColor(i + 3)) if (pathColor eq primaryColor) primaryPathMatched = true
-          else return false
-        }
+      val nbr = getNeighbor(placement, i)
+      if (nbr.isDefined) {
+        val pathColor = placement.getPathColor(i)
+        if (pathColor == nbr.get.getPathColor(i + 3) && pathColor == primaryColor)
+          primaryPathMatched = true
+        else return false
+      }
     }
     primaryPathMatched
   }
