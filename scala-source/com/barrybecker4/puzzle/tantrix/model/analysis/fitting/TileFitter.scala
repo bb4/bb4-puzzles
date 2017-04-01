@@ -1,5 +1,7 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model.analysis
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.HexUtil._

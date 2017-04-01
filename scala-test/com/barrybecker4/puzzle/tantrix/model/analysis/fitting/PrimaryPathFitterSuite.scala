@@ -2,7 +2,7 @@
  * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
  */
 
-package com.barrybecker4.puzzle.tantrix.model.analysis
+package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._

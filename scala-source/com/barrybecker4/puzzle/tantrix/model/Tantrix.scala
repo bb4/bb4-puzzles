@@ -1,8 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
-import java.util.NoSuchElementException
-
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.Tantrix.createTileMap
 
@@ -35,22 +33,9 @@ case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacemen
   def placeTile(placement: TilePlacement): Tantrix =
     new Tantrix(tileMap + (placement.location -> placement), placement)
 
-  /** @return the placement at the specified location. */
-  def apply(row: Int, col: Int): TilePlacement = {
-    try{ tileMap(new ByteLocation(row, col)) }
-    catch {
-      case e: NoSuchElementException =>
-        throw new IllegalStateException("could not find " + row +"," + col + " among " + tileMap.keys.mkString(", "), e)
-    }
-  }
-
-  def apply(loc: Location): TilePlacement = {
-    try{ tileMap(loc) }
-    catch {
-      case e: NoSuchElementException =>
-        throw new IllegalStateException("could not find " + loc + " among " + tileMap.keys.mkString(", "), e)
-    }
-  }
+  /** @return the placement at the specified location, if there is one, else None. */
+  def apply(row: Int, col: Int): Option[TilePlacement] = tileMap.get(new ByteLocation(row, col))
+  def apply(loc: Location): Option[TilePlacement] = tileMap.get(loc)
 
   /**
     * @param currentPlacement where we are now

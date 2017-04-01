@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.model
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
-import com.barrybecker4.puzzle.tantrix.model.analysis.TantrixTileFitter
+import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
 
 
 object TantrixBoard {
@@ -65,7 +65,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @param direction   side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile, if any.
     */
-  def getNeighbor(currentPlacement: TilePlacement, direction: Byte): Option[TilePlacement] =
+  def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] =
     tantrix.getNeighbor(currentPlacement, direction)
 
   /**
@@ -94,7 +94,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @param location get the tile placement for this location.
     * @return null of there is no placement at that location.
     */
-  def getTilePlacement(location: Location): TilePlacement = tantrix(location)
+  def getTilePlacement(location: Location): Option[TilePlacement] = tantrix(location)
 
   def isEmpty(loc: Location): Boolean = getTilePlacement(loc) == null   // null or None?
 
