@@ -53,14 +53,14 @@ case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacemen
   }
 
   /**
-    * @param currentPlacement where we are now  (Option?)
+    * @param currentPlacement where we are now
     * @param direction        side to navigate to to find the neighbor. 0 is to the right.
-    * @return the indicated neighbor of the specified tile.
+    * @return the indicated neighbor of the specified tile (if it exists), else none.
     */
   def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] = {
     if (currentPlacement == null) return None
     val loc = HexUtil.getNeighborLocation(currentPlacement.location, direction)
-    Some(tileMap(loc))
+    tileMap.get(loc)
   }
 
   def getEdgeLength: Int = getBoundingBox.getMaxDimension + 1
