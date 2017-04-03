@@ -2,15 +2,15 @@
 package com.barrybecker4.puzzle.tantrix
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
 
 /**
   * @author Barry Becker
   */
 object TantrixTstUtil {
-  val TILES = new HexTiles()
   
   val THREE_TILES = TILES.createOrderedList(3)
   val FOUR_TILES = TILES.createOrderedList(4)

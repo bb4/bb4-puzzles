@@ -13,20 +13,20 @@ import java.util.List;
  */
 class PathSelector {
 
-    private PathEvaluator evaluator_;
+    private PathEvaluator evaluator;
 
     /**
      * Constructor
      */
     PathSelector() {
-        evaluator_ = new PathEvaluator();
+        evaluator = new PathEvaluator();
     }
 
     /**
      * Constructor to use when testing to pass in mock evaluator.
      */
     PathSelector(PathEvaluator evaluator) {
-        evaluator_ = evaluator;
+        this.evaluator = evaluator;
     }
 
 
@@ -42,7 +42,7 @@ class PathSelector {
         List<Double> scores = new ArrayList<>(paths.size() + 1);
 
         for (TantrixPath path : paths) {
-            double score = evaluator_.evaluateFitness(path);
+            double score = evaluator.evaluateFitness(path);
             if (score >= PathEvaluator.SOLVED_THRESH)  {
                return path;
             }

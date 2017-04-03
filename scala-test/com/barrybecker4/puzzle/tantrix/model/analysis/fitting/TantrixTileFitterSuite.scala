@@ -4,7 +4,6 @@
 
 package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
-import com.barrybecker4.puzzle.tantrix.TantrixTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model._
 import org.scalatest.FunSuite
@@ -77,28 +76,28 @@ class TantrixTileFitterSuite extends FunSuite  {
   test("PlacementDoesNotFit0") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
     System.out.println("tantrix=" + tantrix)
-    val tile2 = TilePlacement(TantrixTstUtil.TILES.getTile(2), loc(2, 1), RotationEnum.ANGLE_0)
+    val tile2 = TilePlacement(TILES.getTile(2), loc(2, 1), RotationEnum.ANGLE_0)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     assert(fitter.isFit(tile2))
   }
 
   test("PlacementDoesNotFit60") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
-    val tile2 = TilePlacement(TantrixTstUtil.TILES.getTile(2), loc(2, 0), RotationEnum.ANGLE_60)
+    val tile2 = TilePlacement(TILES.getTile(2), loc(2, 0), RotationEnum.ANGLE_60)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     assert(!fitter.isFit(tile2))
   }
 
   test("PlacementFits") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
-    val tile2 = TilePlacement(TantrixTstUtil.TILES.getTile(2), loc(2, 0), RotationEnum.ANGLE_300)
+    val tile2 = TilePlacement(TILES.getTile(2), loc(2, 0), RotationEnum.ANGLE_300)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     assert(fitter.isFit(tile2))
   }
 
   test("Tile2PlacementFits") {
     tantrix = place1of3Tiles_startingWithTile2.tantrix
-    val tile2 = TilePlacement(TantrixTstUtil.TILES.getTile(3), loc(0, 0), RotationEnum.ANGLE_60)
+    val tile2 = TilePlacement(TILES.getTile(3), loc(0, 0), RotationEnum.ANGLE_60)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     System.out.println(tantrix)
     assert(fitter.isFit(tile2))

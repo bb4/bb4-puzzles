@@ -50,7 +50,7 @@ public abstract class SubPathMutator {
      * @param excludeLocation we want to chose the other location that is not this when leaving the source.
      * @return the other outgoing location for the sourcePlacement.
      */
-    protected Location findOtherOutgoingLocation(TilePlacement sourcePlacement, Location excludeLocation) {
+    Location findOtherOutgoingLocation(TilePlacement sourcePlacement, Location excludeLocation) {
 
        Map<Integer, Location> outgoingPathLocations = sourcePlacement.getOutgoingPathLocations(primaryColor);
        Location loc = null;

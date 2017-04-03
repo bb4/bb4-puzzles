@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil.*;
+import static com.barrybecker4.puzzle.tantrix1.PathTstUtil.*;
 import static org.junit.Assert.assertEquals;
 
 /**

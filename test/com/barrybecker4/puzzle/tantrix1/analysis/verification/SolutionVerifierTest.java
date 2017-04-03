@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix1.analysis.verification;
 
-import com.barrybecker4.puzzle.tantrix1.analysis.verfication.SolutionVerifier;
+import com.barrybecker4.puzzle.tantrix1.solver.verfication.SolutionVerifier;
 import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix1.TantrixTstUtil.*;

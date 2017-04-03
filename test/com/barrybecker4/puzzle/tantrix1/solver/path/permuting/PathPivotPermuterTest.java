@@ -11,8 +11,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.barrybecker4.puzzle.tantrix1.PathTstUtil.createPath;
 import static com.barrybecker4.puzzle.tantrix1.TantrixTstUtil.TILES;
-import static com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil.createPath;
 import static org.junit.Assert.assertEquals;
 
 /**

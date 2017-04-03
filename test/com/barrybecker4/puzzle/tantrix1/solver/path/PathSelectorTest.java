@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix1.solver.path;
 
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil;
+import com.barrybecker4.puzzle.tantrix1.PathTstUtil;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -7,7 +7,8 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor._
 import scala.util.Random
 
 object HexTiles {
-  val RAND = new Random()
+  val TILES = new HexTiles()
+  private val RAND = new Random()
 }
 
 /**

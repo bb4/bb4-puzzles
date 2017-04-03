@@ -1,5 +1,7 @@
-// Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix1.solver.path.permuting;
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.tantrix1;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
@@ -82,7 +84,7 @@ public class PathTstUtil {
         );
     }
 
-    static TantrixPath createPath(TilePlacement... placements) {
+    public static TantrixPath createPath(TilePlacement... placements) {
         return  new TantrixPath(new TilePlacementList(placements), PathColor.YELLOW);
     }
 

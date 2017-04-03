@@ -18,7 +18,7 @@ import java.util.LinkedList;
  *
  * @author Barry Becker
  */
-public class Pathifier {
+class Pathifier {
 
     private final PathColor primaryPathColor_;
 
@@ -27,7 +27,7 @@ public class Pathifier {
      * but it is not required that it be a loop, or that any of the secondary colors match.
      * @param primaryColor primary path color
      */
-    public Pathifier(PathColor primaryColor) {
+    Pathifier(PathColor primaryColor) {
 
         if (primaryColor == null) {
             throw new IllegalArgumentException("primaryColor cannot be null");
@@ -41,7 +41,7 @@ public class Pathifier {
      * @param tantrix the tantrix containing the tiles to reorder.
      * @return the tiles in path order. Error if no path.
      */
-    public TilePlacementList reorder(Tantrix tantrix) {
+    TilePlacementList reorder(Tantrix tantrix) {
         TilePlacementList tiles = new TilePlacementList(tantrix);
         if (tantrix.size() <= 1) {
             return tiles;

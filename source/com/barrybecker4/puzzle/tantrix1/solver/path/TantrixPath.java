@@ -69,7 +69,7 @@ public class TantrixPath extends PermutedParameterArray {
     }
 
     public TilePlacement getLast() {
-        return tiles_.get(tiles_.size()-1);
+        return tiles_.get(tiles_.size() - 1);
     }
 
     @Override

@@ -1,14 +1,13 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix1.solver.path;
 
-
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix1.analysis.verfication.ConsistencyChecker;
-import com.barrybecker4.puzzle.tantrix1.analysis.verfication.InnerSpaceDetector;
 import com.barrybecker4.puzzle.tantrix1.model.HexTile;
 import com.barrybecker4.puzzle.tantrix1.model.HexUtil;
 import com.barrybecker4.puzzle.tantrix1.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;
+import com.barrybecker4.puzzle.tantrix1.solver.verfication.ConsistencyChecker;
+import com.barrybecker4.puzzle.tantrix1.solver.verfication.InnerSpaceDetector;
 
 import java.util.HashSet;
 import java.util.Set;

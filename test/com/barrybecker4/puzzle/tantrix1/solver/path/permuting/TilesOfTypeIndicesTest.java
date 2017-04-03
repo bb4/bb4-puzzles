@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil.LOOP_PATH3;
-import static com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil.NON_LOOP_PATH4;
+import static com.barrybecker4.puzzle.tantrix1.PathTstUtil.LOOP_PATH3;
+import static com.barrybecker4.puzzle.tantrix1.PathTstUtil.NON_LOOP_PATH4;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

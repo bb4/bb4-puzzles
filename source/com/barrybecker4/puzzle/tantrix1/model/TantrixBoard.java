@@ -5,7 +5,7 @@ import com.barrybecker4.common.geometry.Box;
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.puzzle.tantrix1.analysis.fitting.TantrixTileFitter;
-import com.barrybecker4.puzzle.tantrix1.analysis.verfication.SolutionVerifier;
+import com.barrybecker4.puzzle.tantrix1.solver.verfication.SolutionVerifier;
 
 import java.util.Set;
 

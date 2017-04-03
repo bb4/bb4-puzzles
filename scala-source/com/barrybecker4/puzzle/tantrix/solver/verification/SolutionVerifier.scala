@@ -1,5 +1,7 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model.analysis.verfication
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
 
@@ -10,6 +12,7 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
   * @author Barry Becker
   */
 class SolutionVerifier(var board: TantrixBoard) {
+
   /**
     * The puzzle is solved if there is a loop of the primary color
     * and all secondary colors match. Since a tile can only be placed in

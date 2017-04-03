@@ -1,5 +1,7 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model.analysis.verfication
+/*
+ * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}

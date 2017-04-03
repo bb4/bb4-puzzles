@@ -6,8 +6,8 @@ import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.puzzle.tantrix1.model.*;
 import org.junit.Test;
 
+import static com.barrybecker4.puzzle.tantrix1.PathTstUtil.*;
 import static com.barrybecker4.puzzle.tantrix1.TantrixTstUtil.*;
-import static com.barrybecker4.puzzle.tantrix1.solver.path.permuting.PathTstUtil.*;
 import static org.junit.Assert.*;
 
 

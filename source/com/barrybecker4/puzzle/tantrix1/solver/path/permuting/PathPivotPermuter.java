@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class PathPivotPermuter extends PermutedParameterArray {
 
-    private TantrixPath path_;
+    private TantrixPath myPath;
 
     /** The pivot path remains unchanged while the ends change. */
     private TantrixPath pivotPath;
@@ -34,7 +34,7 @@ public class PathPivotPermuter extends PermutedParameterArray {
      * @param path ordered path tiles.
      */
     public PathPivotPermuter(TantrixPath path) {
-        path_ = path;
+        myPath = path;
     }
 
     /**
@@ -46,13 +46,13 @@ public class PathPivotPermuter extends PermutedParameterArray {
         List<TantrixPath> pathPermutations = new ArrayList<>();
 
         int lowerIndexStart = 1;
-        int upperIndexStop = path_.size() - 2;
+        int upperIndexStop = myPath.size() - 2;
 
         for (int i=lowerIndexStart; i<upperIndexStop; i++) {
             for (int j=upperIndexStop; j>=i; j--) {
-                TantrixPath subPath1 = path_.subPath(i - 1, 0);
-                pivotPath = path_.subPath(i, j);
-                TantrixPath subPath2 =  path_.subPath(j + 1, path_.size() - 1);
+                TantrixPath subPath1 = myPath.subPath(i - 1, 0);
+                pivotPath = myPath.subPath(i, j);
+                TantrixPath subPath2 =  myPath.subPath(j + 1, myPath.size() - 1);
                 pathPermutations.addAll( createPermutedPathList(subPath1, subPath2));
             }
         }
@@ -66,10 +66,10 @@ public class PathPivotPermuter extends PermutedParameterArray {
         TilePlacementList tilePlacements = new TilePlacementList();
 
         for (int i : indices) {
-            tilePlacements.add(path_.getTilePlacements().get(i));
+            tilePlacements.add(myPath.getTilePlacements().get(i));
         }
 
-        path_ = new TantrixPath(tilePlacements, path_.getPrimaryPathColor());
+        myPath = new TantrixPath(tilePlacements, myPath.getPrimaryPathColor());
     }
 
     /**
@@ -81,9 +81,9 @@ public class PathPivotPermuter extends PermutedParameterArray {
         int lowerIndex = Math.min(pivotIndex1, pivotIndex2);
         int upperIndex = Math.max(pivotIndex1, pivotIndex2);
 
-        TantrixPath subPath1 = path_.subPath(lowerIndex - 1, 0);
-        pivotPath = path_.subPath(lowerIndex, upperIndex);
-        TantrixPath subPath2 =  path_.subPath(upperIndex + 1, path_.size() - 1);
+        TantrixPath subPath1 = myPath.subPath(lowerIndex - 1, 0);
+        pivotPath = myPath.subPath(lowerIndex, upperIndex);
+        TantrixPath subPath2 =  myPath.subPath(upperIndex + 1, myPath.size() - 1);
 
         return createPermutedPathList(subPath1, subPath2);
     }
@@ -94,7 +94,7 @@ public class PathPivotPermuter extends PermutedParameterArray {
      * @return list of permuted paths.
      */
     private List<TantrixPath> createPermutedPathList(TantrixPath subPath1, TantrixPath subPath2) {
-        PathColor primaryColor = path_.getPrimaryPathColor();
+        PathColor primaryColor = myPath.getPrimaryPathColor();
         SubPathMutator swapper = new SubPathSwapper(primaryColor);
         SubPathMutator reverser = new SubPathReverser(primaryColor);
         TilePlacement firstPivot = pivotPath.getFirst();
@@ -144,11 +144,11 @@ public class PathPivotPermuter extends PermutedParameterArray {
         tiles.addAll(subPath2.getTilePlacements());
         TantrixPath path = null;
         if (isValid(tiles)) {
-            assert (TantrixPath.hasOrderedPrimaryPath(tiles, path_.getPrimaryPathColor())) :
+            assert (TantrixPath.hasOrderedPrimaryPath(tiles, myPath.getPrimaryPathColor())) :
                     "out of order path tiles \nsubpath1" + subPath1 + "\npivot="+ pivotPath
-                            + "\nsubpath2=" + subPath2 + "\norigPath="+ path_;
+                            + "\nsubpath2=" + subPath2 + "\norigPath="+ myPath;
 
-            path = new TantrixPath(tiles, path_.getPrimaryPathColor());
+            path = new TantrixPath(tiles, myPath.getPrimaryPathColor());
         }
         return path;
     }

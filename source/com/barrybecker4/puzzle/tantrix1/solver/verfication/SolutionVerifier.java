@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix1.analysis.verfication;
+package com.barrybecker4.puzzle.tantrix1.solver.verfication;
 
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 
