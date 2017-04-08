@@ -5,6 +5,7 @@ import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
+import com.barrybecker4.puzzle.tantrix.solver.verification.SolutionVerifier
 
 
 object TantrixBoard {
@@ -57,8 +58,8 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     */
   def placeTile(placement: TilePlacement) = new TantrixBoard(this, placement)
 
-  /** @return true if the puzzle is solved. */
-  //def isSolved: Boolean = new SolutionVerifier(this).isSolved
+  /** @return true if the puzzle is solved. TODO: Maybe move this out because it adds dependency*/
+  def isSolved: Boolean = new SolutionVerifier(this).isSolved
 
   /**
     * @param currentPlacement where we are now

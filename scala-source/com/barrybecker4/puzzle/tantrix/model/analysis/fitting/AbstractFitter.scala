@@ -1,6 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
 import com.barrybecker4.common.geometry.Location
@@ -26,12 +24,10 @@ abstract class AbstractFitter(val primaryColor: PathColor) {
     */
   def getFittingPlacements(tile: HexTile, loc: Location): Seq[TilePlacement] = {
     var placement = TilePlacement(tile, loc, ANGLE_300)
-    val a = (for (i <- 0 until NUM_SIDES) yield {
+    (for (i <- 0 until NUM_SIDES) yield {
       placement = placement.rotate()
       if (isFit(placement)) Some(placement) else None
     }).flatten
-    println("fitting placements = " + a.mkString(", "))
-    a
   }
 
   /**
