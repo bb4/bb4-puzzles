@@ -1,7 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
-import com.barrybecker4.optimization.parameter.PermutedParameterArray
+import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
+import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath.hasOrderedPrimaryPath
@@ -108,7 +109,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     *               primary path have the same shape. If the radius is large, we could perhaps do random permutation from
     *               more than one spot.
     * @return the random nbr (potential solution).
-    *
+    */
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
     val generator = new PathPermutationGenerator(this)
     generator.getRandomNeighbor(radius)
@@ -121,7 +122,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     val board: TantrixBoard = new TantrixBoard(tiles, primaryPathColor)
     val gen = new RandomPathGenerator(board)
     gen.generateRandomPath
-  }*/
+  }
 
   /**
     * It's a loop if the beginning of the path connects with the end.

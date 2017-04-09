@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Barry Becker
  */
-public class RandomTilePlacer {
+class RandomTilePlacer {
 
     private PathColor primaryColor;
 

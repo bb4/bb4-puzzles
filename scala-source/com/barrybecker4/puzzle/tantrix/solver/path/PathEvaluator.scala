@@ -67,7 +67,7 @@ class PathEvaluator {
       (if (consistentLoop) PathEvaluator.CONSISTENT_LOOP_BONUS else 0) -
       (if (perfectLoop) PathEvaluator.PERFECT_LOOP_BONUS else 0)
 
-    assert(fitness.isNaN, "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop +
+    assert(!fitness.isNaN, "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop +
       " numTiles=" + numTiles + " distance=" + distance)
     Math.max(0, fitness)
   }
