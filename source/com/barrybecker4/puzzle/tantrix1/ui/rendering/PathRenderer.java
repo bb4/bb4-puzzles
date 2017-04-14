@@ -41,10 +41,10 @@ class PathRenderer {
 
         PathColor pathColor = tile.getEdgeColor(pathStartIndex);
         while (pathColor != tile.getEdgeColor(i++)) {
-            assert(i<6): "Should never exceed 6";
+            assert(i < 6): "Should never exceed 6";
         }
 
-        int pathEndIndex = i-1;
+        int pathEndIndex = i - 1;
         int diff = pathEndIndex - pathStartIndex;
         Color color = PathColorInterpreter.getColorForPathColor(pathColor);
 

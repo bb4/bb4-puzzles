@@ -29,7 +29,8 @@ class PathRenderer private[rendering]() {
   /**
     * Draw one of the tile paths which takes one of three forms: corner, curved, or straight
     */
-  private[rendering] def drawPath(g2: Graphics2D, pathNumber: Int, tilePlacement: TilePlacement, position: Point, size: Double) {
+  private[rendering] def drawPath(g2: Graphics2D, pathNumber: Int,
+                                  tilePlacement: TilePlacement, position: Point, size: Double) {
     val tile: HexTile = tilePlacement.tile
     var pathStartIndex = getPathStartIndex(tile, pathNumber)
     var i = pathStartIndex + 1
@@ -46,6 +47,8 @@ class PathRenderer private[rendering]() {
     pathStartIndex += tilePlacement.rotation.ordinal
     pathEndIndex += tilePlacement.rotation.ordinal
     diff match {
+      case 0 => println("Diff unexpectedly 0. PathStartIdx = " + pathStartIndex +
+        " pathEndIdx = " + pathEndIndex + " Position = " + position + " pathColor = " + pathColor)
       case 1 => drawCornerPath(g2, position, pathStartIndex, color, size)
       case 5 => drawCornerPath(g2, position, pathEndIndex, color, size)
       case 2 => drawCurvedPath(g2, position, pathStartIndex, color, size)

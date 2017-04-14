@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.common.solver._
+import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
 case object SIMPLE_SEQUENTIAL extends Algorithm
@@ -47,7 +47,7 @@ sealed trait Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[TantrixBoard, TilePlacement]] = Array(
-    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL,  A_STAR_CONCURRENT,
+    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_CONCURRENT,
     CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
   )
 }
