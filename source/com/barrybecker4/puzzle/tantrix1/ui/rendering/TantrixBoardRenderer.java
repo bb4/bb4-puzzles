@@ -16,7 +16,7 @@ import static com.barrybecker4.puzzle.tantrix1.ui.rendering.HexUtil.ROOT3;
  */
 public class TantrixBoardRenderer implements PuzzleRenderer<TantrixBoard> {
 
-    static final double MARGIN_FRAC = 0.2;
+    private static final double MARGIN_FRAC = 0.2;
     static final int TOP_MARGIN = 15;
 
     private static final Color GRID_COLOR = new Color(130, 140, 170);

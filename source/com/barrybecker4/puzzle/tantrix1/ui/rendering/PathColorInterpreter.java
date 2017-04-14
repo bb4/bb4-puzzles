@@ -10,7 +10,7 @@ import java.awt.*;
  *
  * @author Barry Becker
  */
-public class PathColorInterpreter {
+class PathColorInterpreter {
 
     private static final Color BLUE_COLOR = new Color(60, 90, 250);
     private static final Color RED_COLOR = new Color(210, 75, 70);
@@ -18,7 +18,7 @@ public class PathColorInterpreter {
     private static final Color YELLOW_COLOR = new Color(230, 230, 40);
     private static final Color WHITE_COLOR = new Color(251, 250, 254);
 
-    public static Color getColorForPathColor(PathColor pathColor) {
+    static Color getColorForPathColor(PathColor pathColor) {
 
         Color color = Color.GRAY;
         switch (pathColor) {

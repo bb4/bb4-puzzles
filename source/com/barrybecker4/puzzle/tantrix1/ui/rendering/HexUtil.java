@@ -9,8 +9,8 @@ package com.barrybecker4.puzzle.tantrix1.ui.rendering;
 public class HexUtil {
 
     private static final double DEG_TO_RAD =  Math.PI / 180.0;
-    public static final double ROOT3 = Math.sqrt(3.0);
-    public static final double ROOT3D2 = ROOT3/2.0;
+    static final double ROOT3 = Math.sqrt(3.0);
+    static final double ROOT3D2 = ROOT3/2.0;
 
     /**
      * Create an instance
@@ -18,7 +18,7 @@ public class HexUtil {
     private HexUtil() {}
 
 
-    public static double rad(double angleInDegrees) {
+    static double rad(double angleInDegrees) {
         return angleInDegrees * DEG_TO_RAD;
     }
 }

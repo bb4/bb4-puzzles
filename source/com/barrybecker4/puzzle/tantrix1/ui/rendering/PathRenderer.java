@@ -17,7 +17,7 @@ import static com.barrybecker4.puzzle.tantrix1.ui.rendering.HexUtil.*;
  *
  * @author Barry Becker
  */
-public class PathRenderer {
+class PathRenderer {
 
     private static final Color PATH_BORDER_COLOR = new Color(10, 10, 10);
 
@@ -26,12 +26,12 @@ public class PathRenderer {
     /**
      * Create an instance
      */
-    public PathRenderer() {}
+    PathRenderer() {}
 
     /**
      * Draw one of the tile paths which takes one of three forms: corner, curved, or straight
      */
-    public void drawPath(Graphics2D g2, int pathNumber, TilePlacement tilePlacement,
+    void drawPath(Graphics2D g2, int pathNumber, TilePlacement tilePlacement,
                          Point position, double size) {
 
         HexTile tile = tilePlacement.getTile();
