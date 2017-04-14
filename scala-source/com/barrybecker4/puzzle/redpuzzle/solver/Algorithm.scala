@@ -3,14 +3,9 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.puzzle.common.AlgorithmEnum
-import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
-import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
+import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
+import com.barrybecker4.puzzle.common.solver._
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 
 
 case object BRUTE_FORCE_ORIGINAL extends Algorithm
@@ -31,9 +26,7 @@ case object CONCURRENT_GENETIC_SEARCH extends Algorithm
 sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 
   private val label = AppContext.getLabel(this.toString)
-
   def getLabel: String = label
-
 
   /**
     * Create an instance of the algorithm given the controller and a refreshable.

@@ -19,7 +19,7 @@ public abstract class TantrixSolver
                 implements PuzzleSolver<TilePlacement> {
 
     protected TantrixBoard board;
-    protected TantrixBoard solution_;
+    TantrixBoard solution_;
 
     /**
      * Constructor
