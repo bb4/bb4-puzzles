@@ -17,7 +17,7 @@ import static com.barrybecker4.puzzle.tantrix1.model.HexTile.NUM_SIDES;
  *
  * @author Barry Becker
  */
-public class BorderFinder {
+class BorderFinder {
 
     private Tantrix tantrix;
     private PathColor primaryColor;
@@ -25,9 +25,7 @@ public class BorderFinder {
     private int maxHalfPathLength;
     private Box boundingBox;
 
-    /**
-     * Constructor
-     */
+
     BorderFinder(Tantrix tantrix, int numTiles, PathColor primaryColor) {
         this.tantrix = tantrix;
         this.primaryColor = primaryColor;
@@ -55,7 +53,8 @@ public class BorderFinder {
         while (!searchQueue.isEmpty()) {
             TilePlacement placement = searchQueue.remove();
             positions.addAll(findEmptyNeighborLocations(placement));
-            searchQueue.addAll(findPrimaryPathNeighbors(placement));
+            TilePlacementList nbrs = findPrimaryPathNeighbors(placement);
+            searchQueue.addAll(nbrs);
         }
 
         return positions;

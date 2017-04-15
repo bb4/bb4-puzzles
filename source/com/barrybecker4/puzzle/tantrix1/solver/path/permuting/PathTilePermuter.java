@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.tantrix1.solver.path.permuting;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix1.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix1.model.*;
+import com.barrybecker4.puzzle.tantrix1.model.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix1.solver.path.TantrixPath;
 
 import java.util.HashSet;

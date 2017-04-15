@@ -33,12 +33,14 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
     val lastPlaced = tantrix.lastTile
     val searchQueue: mutable.Queue[TilePlacement] = mutable.Queue()
     searchQueue.enqueue(lastPlaced)
+    // Don't consider tiles that are already in the tantrix
     tantrix.tiles.foreach(visited += _.location)
 
     while (searchQueue.nonEmpty) {
       val placement = searchQueue.dequeue()
       findEmptyNeighborLocations(placement).foreach(positions.add)
-      searchQueue.enqueue(findPrimaryPathNeighbors(placement):_*)
+      val pathNbrs = findPrimaryPathNeighbors(placement)
+      searchQueue.enqueue(pathNbrs:_*)
     }
     positions
   }
@@ -47,12 +49,12 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
     * @return all the empty neighbor positions next to the specified placement with primary path match.
     */
   private def findEmptyNeighborLocations(placement: TilePlacement): List[Location] = {
-    var emptyNbrLocations = List[Location]()
+    var emptyNbrLocations: List[Location] = List()
 
     for (i <- 0 until NUM_SIDES) {
       val nbrLoc = HexUtil.getNeighborLocation(placement.location, i)
       val nbr = tantrix(nbrLoc)
-      if (nbr == null && (placement.getPathColor(i) == primaryColor)) {
+      if (nbr.isEmpty && (placement.getPathColor(i) == primaryColor)) {
         val newBox = new Box(boundingBox, nbrLoc)
         if (newBox.getMaxDimension <= maxHalfPathLength) {
           emptyNbrLocations +:= nbrLoc

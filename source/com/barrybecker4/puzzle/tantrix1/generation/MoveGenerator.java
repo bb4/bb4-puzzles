@@ -2,11 +2,11 @@
 package com.barrybecker4.puzzle.tantrix1.generation;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.tantrix1.analysis.fitting.TantrixTileFitter;
 import com.barrybecker4.puzzle.tantrix1.model.HexTile;
 import com.barrybecker4.puzzle.tantrix1.model.HexTileList;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacementList;
+import com.barrybecker4.puzzle.tantrix1.model.analysis.fitting.TantrixTileFitter;
 
 import java.util.Set;
 

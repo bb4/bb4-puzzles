@@ -3,8 +3,8 @@ package com.barrybecker4.puzzle.tantrix1.generation;
 
 import com.barrybecker4.common.geometry.Location;
 import com.barrybecker4.common.math.MathUtil;
-import com.barrybecker4.puzzle.tantrix1.analysis.fitting.PrimaryPathFitter;
 import com.barrybecker4.puzzle.tantrix1.model.*;
+import com.barrybecker4.puzzle.tantrix1.model.analysis.fitting.PrimaryPathFitter;
 
 import java.util.Collections;
 import java.util.Map;
