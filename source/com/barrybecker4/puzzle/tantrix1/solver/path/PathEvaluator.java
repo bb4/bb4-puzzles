@@ -6,8 +6,8 @@ import com.barrybecker4.puzzle.tantrix1.model.HexTile;
 import com.barrybecker4.puzzle.tantrix1.model.HexUtil;
 import com.barrybecker4.puzzle.tantrix1.model.Tantrix;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;
-import com.barrybecker4.puzzle.tantrix1.solver.verfication.ConsistencyChecker;
-import com.barrybecker4.puzzle.tantrix1.solver.verfication.InnerSpaceDetector;
+import com.barrybecker4.puzzle.tantrix1.solver.verification.ConsistencyChecker;
+import com.barrybecker4.puzzle.tantrix1.solver.verification.InnerSpaceDetector;
 
 import java.util.HashSet;
 import java.util.Set;

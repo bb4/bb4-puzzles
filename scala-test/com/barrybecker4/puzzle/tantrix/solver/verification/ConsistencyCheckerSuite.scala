@@ -1,11 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix.model.analysis.verification
+package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.puzzle.tantrix.PathTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.PathColor._
 import com.barrybecker4.puzzle.tantrix.model.Tantrix
-import com.barrybecker4.puzzle.tantrix.solver.verification.ConsistencyChecker
 import org.scalatest.FunSuite
 
 

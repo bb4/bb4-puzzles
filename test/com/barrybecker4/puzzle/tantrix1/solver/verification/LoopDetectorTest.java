@@ -1,11 +1,10 @@
 // Copyright by Barry G. Becker, 2012. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.tantrix1.analysis.verification;
+package com.barrybecker4.puzzle.tantrix1.solver.verification;
 
 import com.barrybecker4.puzzle.tantrix1.PathTstUtil;
 import com.barrybecker4.puzzle.tantrix1.model.PathColor;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.solver.path.TantrixPath;
-import com.barrybecker4.puzzle.tantrix1.solver.verfication.LoopDetector;
 import org.junit.Test;
 
 import static com.barrybecker4.puzzle.tantrix1.TantrixTstUtil.*;
