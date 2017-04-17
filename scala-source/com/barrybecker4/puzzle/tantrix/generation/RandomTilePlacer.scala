@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model._
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.PrimaryPathFitter
@@ -14,7 +13,7 @@ import scala.util.Random
   *
   * @author Barry Becker
   */
-class RandomTilePlacer private[generation](var primaryColor: PathColor) {
+class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) {
 
   /**
     * Considering each unplaced tile, find a single random placement given current configuration.
@@ -24,8 +23,7 @@ class RandomTilePlacer private[generation](var primaryColor: PathColor) {
     *         returns null if no placement is possible - such as when we have a loop, the end is blocked,
     *         or there are no more unplaced tiles.
     */
-  private[generation] def generateRandomPlacement(board: TantrixBoard,
-                                                  rnd: Random = new Random()): Option[TilePlacement] = {
+  private[generation] def generateRandomPlacement(board: TantrixBoard): Option[TilePlacement] = {
     val unplacedTiles = rnd.shuffle(board.unplacedTiles)
     var nextMove: Option[TilePlacement] = None
     var i = 0
@@ -34,7 +32,7 @@ class RandomTilePlacer private[generation](var primaryColor: PathColor) {
       i += 1
       nextMove = findPrimaryPathPlacementForTile(board, tile)
     }
-    if (nextMove.isEmpty) System.out.println("no valid placements found among " +
+    if (nextMove.isEmpty) println("no valid placements found among " +
       unplacedTiles + " to match existing tantrix of " + board.tantrix)
     nextMove
   }
@@ -71,6 +69,6 @@ class RandomTilePlacer private[generation](var primaryColor: PathColor) {
     if (nextLocation == null) return None
     val validFits = fitter.getFittingPlacements(tile, nextLocation)
     if (validFits.isEmpty) return None
-    Some(validFits(MathUtil.RANDOM.nextInt(validFits.size)))
+    Some(validFits(rnd.nextInt(validFits.size)))
   }
 }

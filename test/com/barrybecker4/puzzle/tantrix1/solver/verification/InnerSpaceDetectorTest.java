@@ -59,7 +59,7 @@ public class InnerSpaceDetectorTest {
         verifyHasInnerSpaces(true);
     }
 
-    /** This is a loop, but it has inner space. */
+    /** This is almost a loop, but missing one tile. */
     @Test
     public void testJumbled9() {
         tantrix = TantrixTstUtil.placeJumbled9().getTantrix();

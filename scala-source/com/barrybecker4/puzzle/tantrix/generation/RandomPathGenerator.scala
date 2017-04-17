@@ -1,16 +1,19 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
-import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
+
+import scala.util.Random
 
 /**
   * Generates random continuous primary color paths that do not necessarily match on secondary colors.
   *
   * @author Barry Becker
   */
-class RandomPathGenerator(var initialBoard: TantrixBoard) {
-  private var tilePlacer = new RandomTilePlacer(initialBoard.primaryColor)
+class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Random()) {
+
+  private var tilePlacer = new RandomTilePlacer(initialBoard.primaryColor, rnd)
 
   /**
     * @return a random path.
@@ -22,7 +25,7 @@ class RandomPathGenerator(var initialBoard: TantrixBoard) {
       currentBoard = initialBoard
       var hasPlacement = true
       while (currentBoard.unplacedTiles.nonEmpty && hasPlacement) {
-        val placement: Option[TilePlacement] = tilePlacer.generateRandomPlacement(currentBoard)
+        val placement = tilePlacer.generateRandomPlacement(currentBoard)
         if (placement.isEmpty)
           hasPlacement = false
         else

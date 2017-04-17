@@ -99,7 +99,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     */
   def getTilePlacement(location: Location): Option[TilePlacement] = tantrix(location)
 
-  def isEmpty(loc: Location): Boolean = getTilePlacement(loc) == null   // null or None?
+  def isEmpty(loc: Location): Boolean = getTilePlacement(loc).isEmpty
 
   override def toString: String = { "primaryColor = " + primaryColor + "\ntantrix = " + tantrix.toString }
 }

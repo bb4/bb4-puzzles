@@ -24,6 +24,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     */
   def hasInnerSpaces: Boolean = {
     val seedEmpties = findEmptyBorderPositions
+    println("seedEmpties = " + seedEmpties.mkString(", "))
     val visited = findConnectedEmpties(seedEmpties)
     !allEmptiesVisited(visited)
   }
@@ -34,7 +35,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
   private def findEmptyBorderPositions = {
     val bbox = tantrix.getBoundingBox
     var empties: Set[Location] = Set()
-    for (i <- bbox.getMinCol until bbox.getMaxCol) {
+    for (i <- bbox.getMinCol to bbox.getMaxCol) {
       var loc = new ByteLocation(bbox.getMinRow, i)
       if (tantrix(loc).isEmpty) empties += loc
       loc = new ByteLocation(bbox.getMaxRow, i)

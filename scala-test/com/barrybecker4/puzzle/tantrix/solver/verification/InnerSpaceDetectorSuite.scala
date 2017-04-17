@@ -45,7 +45,7 @@ class InnerSpaceDetectorSuite extends FunSuite {
     verifyHasInnerSpaces(true)
   }
 
-  /** This is a loop, but it has inner space. */
+  /** This is almost a loop, but missing the tile that would complete it. */
   test("Jumbled9") {
     tantrix = TantrixTstUtil.placeJumbled9.tantrix
     verifyHasInnerSpaces(false)
