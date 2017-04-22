@@ -24,22 +24,25 @@ object HexTileRenderer {
 class HexTileRenderer() {
   private val pathRenderer = new PathRenderer
 
-  /**
-    * Draw the poker hand (the cards are all face up or all face down)
-    */
+  /** Draw the tile */
   def render(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double) {
     if (tilePlacement == null) return
     val isOddRow = tilePlacement.location.getRow % 2 == 1
     val location = tilePlacement.location.decrementOnCopy(topLeftCorner)
-    val x = radius / 2 + ((location.getCol - (if (isOddRow) -0.25
-    else -0.75)) * 2 * radius * HexUtil.ROOT3D2)
-    val y = radius / 2 + TOP_MARGIN + ((location.getRow + 0.6) * 3.0 * radius / 2.0)
+    val radD2 = radius / 2
+    val xShift = location.getCol - (if (isOddRow) -0.25 else -0.75)
+    val x = radD2 + xShift * 2 * radius * HexUtil.ROOT3D2
+    val y = radD2 + TOP_MARGIN + ((location.getRow + 0.6) * 3.0 * radD2)
     val point = new Point(x.toInt, y.toInt)
     drawHexagon(g2, point, radius)
+    drawPaths(g2, tilePlacement, point, radius)
+    drawTileNumber(g2, tilePlacement, radius, x, y)
+  }
+
+  private def drawPaths(g2: Graphics2D, tilePlacement: TilePlacement, point: Point, radius: Double): Unit = {
     pathRenderer.drawPath(g2, 0, tilePlacement, point, radius)
     pathRenderer.drawPath(g2, 1, tilePlacement, point, radius)
     pathRenderer.drawPath(g2, 2, tilePlacement, point, radius)
-    drawTileNumber(g2, tilePlacement, radius, x, y)
   }
 
   private def drawTileNumber(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double, x: Double, y: Double) {

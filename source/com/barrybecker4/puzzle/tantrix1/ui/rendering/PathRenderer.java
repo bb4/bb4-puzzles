@@ -65,7 +65,7 @@ class PathRenderer {
      * @return index corresponding to the side that the path starts on.
      */
     private int getPathStartIndex(HexTile tile, int pathNumber) {
-        Set<PathColor> set = new HashSet<PathColor>();
+        Set<PathColor> set = new HashSet<>();
         int i = 0;
         do {
             PathColor c = tile.getEdgeColor(i++);
