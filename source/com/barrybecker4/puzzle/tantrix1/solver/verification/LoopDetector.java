@@ -12,7 +12,7 @@ import static com.barrybecker4.puzzle.tantrix1.model.HexTile.NUM_SIDES;
  *
  *  @author Barry Becker
  */
-public class LoopDetector {
+class LoopDetector {
 
     private TantrixBoard board;
 
@@ -20,7 +20,7 @@ public class LoopDetector {
      * Constructor.
      * @param board the tantrix state to test for solution.
      */
-    public LoopDetector(TantrixBoard board) {
+    LoopDetector(TantrixBoard board) {
         this.board = board;
     }
 
@@ -29,7 +29,7 @@ public class LoopDetector {
      * Does not check the consistency of secondary paths.
      * @return true if solved.
      */
-    public boolean hasLoop() {
+    boolean hasLoop() {
         if (!board.getUnplacedTiles().isEmpty()) {
             return false;
         }

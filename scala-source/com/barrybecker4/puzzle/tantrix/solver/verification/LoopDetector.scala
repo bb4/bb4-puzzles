@@ -49,7 +49,7 @@ class LoopDetector(var board: TantrixBoard) {
         val color = currentPlacement.getPathColor(i)
         if (color == board.primaryColor) {
           val nbr = board.getNeighbor(currentPlacement, i)
-          if (nbr.isDefined && nbr.get != previousTile.get && (nbr.get.getPathColor(i + 3) == color)) return nbr
+          if (nbr.isDefined && nbr != previousTile && (nbr.get.getPathColor(i + 3) == color)) return nbr
         }
     }
     None
