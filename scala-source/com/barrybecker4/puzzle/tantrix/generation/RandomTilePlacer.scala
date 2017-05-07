@@ -32,8 +32,8 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
       i += 1
       nextMove = findPrimaryPathPlacementForTile(board, tile)
     }
-    if (nextMove.isEmpty) println("no valid placements found among " +
-      unplacedTiles + " to match existing tantrix of " + board.tantrix)
+    if (nextMove.isEmpty)
+      println("no valid placements found among " + unplacedTiles + " to match existing tantrix of " + board.tantrix)
     nextMove
   }
 
@@ -61,13 +61,13 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
     val lastPlaced = board.getLastTile
     val fitter = new PrimaryPathFitter(board.tantrix, board.primaryColor)
     val outgoing: Map[Int, Location] = lastPlaced.getOutgoingPathLocations(primaryColor)
-    var nextLocation: Location = null
+    var nextLocation: Option[Location] = None
     for (i <- outgoing.keySet) {
-      if (board.getTilePlacement(outgoing(i)).isEmpty) nextLocation = outgoing(i)
+      if (board.getTilePlacement(outgoing(i)).isEmpty) nextLocation = outgoing.get(i)
     }
     // this could happen if there is a loop, or the openQueue end of the primary path is blocked.
-    if (nextLocation == null) return None
-    val validFits = fitter.getFittingPlacements(tile, nextLocation)
+    if (nextLocation.isEmpty) return None
+    val validFits = fitter.getFittingPlacements(tile, nextLocation.get)
     if (validFits.isEmpty) return None
     Some(validFits(rnd.nextInt(validFits.size)))
   }
