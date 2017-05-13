@@ -18,7 +18,9 @@ class ConsistencyChecker(var tiles: Iterable[TilePlacement], val primaryColor: P
   val fitter: TileFitter = new TileFitter(tiles, primaryColor)
 
   /** @return the number of tiles that fit perfectly.  */
-  def numFittingTiles: Int = tiles.foldLeft(0) { (z, i) => z + (if (fitter.isFit(i)) 1 else 0) }
+  def numFittingTiles: Int = tiles.foldLeft(0) {
+    (z, placement) => { z + (if (fitter.isFit(placement)) 1 else 0) }
+  }
   //  tiles.map(fitter.isFit).map(if (_) 1 else 0).sum
 
 }

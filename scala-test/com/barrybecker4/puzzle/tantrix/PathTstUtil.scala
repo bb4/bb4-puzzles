@@ -20,11 +20,31 @@ object PathTstUtil {
   val TILE3: HexTile = TILES.getTile(3)
   val TILE4: HexTile = TILES.getTile(4)
   
-  val LOOP_PATH3: TantrixPath = createPath(TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60), TilePlacement(TILE1, UPPER, ANGLE_0), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+  val LOOP_PATH3: TantrixPath = createPath(
+    TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
+    TilePlacement(TILE1, UPPER, ANGLE_0),
+    TilePlacement(TILE3, LOWER_LEFT, ANGLE_120)
+  )
   /** left end of the yellow path is blocked by tile 2 */
-  val NON_LOOP_PATH3: TantrixPath = createPath(TilePlacement(TILE2, LOWER_RIGHT, ANGLE_0), TilePlacement(TILE1, UPPER, ANGLE_0), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
-  val LOOP_PATH4 = new TantrixPath(Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0), TilePlacement(TILE4, UPPER, ANGLE_60), TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)), PathColor.RED)
-  val NON_LOOP_PATH4 = new TantrixPath(Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_120), TilePlacement(TILE2, UPPER_LEFT, ANGLE_60), TilePlacement(TILE4, UPPER, ANGLE_60), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)), PathColor.RED)
+  val NON_LOOP_PATH3: TantrixPath = createPath(
+    TilePlacement(TILE2, LOWER_RIGHT, ANGLE_0),
+    TilePlacement(TILE1, UPPER, ANGLE_0),
+    TilePlacement(TILE3, LOWER_LEFT, ANGLE_120)
+  )
+
+  val LOOP_PATH4 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED)
+
+  val NON_LOOP_PATH4 = new TantrixPath(Seq(
+    TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
+    TilePlacement(TILE2, UPPER_LEFT, ANGLE_60),
+    TilePlacement(TILE4, UPPER, ANGLE_60),
+    TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
+  ), PathColor.RED)
 
   def createPathList: List[TantrixPath] = {
     // for each of the 7 permuted paths, we expect that tile 2 will be the middle/pivot tile.

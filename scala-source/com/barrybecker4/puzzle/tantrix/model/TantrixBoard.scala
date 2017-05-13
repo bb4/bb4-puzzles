@@ -101,5 +101,6 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
 
   def isEmpty(loc: Location): Boolean = getTilePlacement(loc).isEmpty
 
-  override def toString: String = { "primaryColor = " + primaryColor + "\ntantrix = " + tantrix.toString }
+  override def toString: String = { "primaryColor = " + primaryColor + "\ntantrix = " + tantrix.toString +
+    "\nunplaced tiles = " + unplacedTiles.mkString(", ") }
 }

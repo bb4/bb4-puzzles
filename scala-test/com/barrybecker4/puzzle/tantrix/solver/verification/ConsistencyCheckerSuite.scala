@@ -68,11 +68,13 @@ class ConsistencyCheckerSuite extends FunSuite {
     assertResult(0) { checker.numFittingTiles }
   }
 
-  /** Three loop has 3 fitting tiles. */
+  /** Four loop should have 4 fitting tiles. */
   test("LoopPath4Consistency") {
     val path = PathTstUtil.LOOP_PATH4
     checker = new ConsistencyChecker(path.getTilePlacements, RED)
     assertResult(4) { checker.numFittingTiles }
+    checker = new ConsistencyChecker(path.getTilePlacements, BLUE)
+    assertResult(2) { checker.numFittingTiles }
     checker = new ConsistencyChecker(path.getTilePlacements, YELLOW)
     assertResult(0) { checker.numFittingTiles }
   }

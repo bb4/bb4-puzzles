@@ -27,13 +27,13 @@ class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
   test("FindRandomPlacementForFirstTileOfThreeYellowPath") {
     placer = new RandomTilePlacer(PathColor.YELLOW, RND)
     tantrix = new TantrixBoard(THREE_TILES)
-    verifyPlacement(Some(TilePlacement(THREE_TILES(1), new IntLocation(22, 21), ANGLE_60)))
+    verifyPlacement(Some(TilePlacement(THREE_TILES(1), new IntLocation(22, 20), ANGLE_300)))
   }
 
   test("FindRandomPlacementForFirstTileOfThreeRedPath") {
     placer = new RandomTilePlacer(PathColor.RED, RND)
     tantrix = new TantrixBoard(THREE_TILES)
-    verifyPlacement(Some(TilePlacement(THREE_TILES(1), new IntLocation(20, 20), ANGLE_300)))
+    verifyPlacement(Some(TilePlacement(THREE_TILES(2), new IntLocation(20, 20), ANGLE_240)))
   }
 
   test("FindRandomPlacementForTwoOfThree") {
@@ -46,7 +46,7 @@ class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
   test("FindRandomPlacement3of6Unsolved") {
     placer = new RandomTilePlacer(PathColor.BLUE, RND)
     tantrix = place3of6UnsolvedTiles
-    verifyPlacement(Some(TilePlacement(SIX_TILES(5), new IntLocation(19, 21), ANGLE_120)))
+    verifyPlacement(Some(TilePlacement(SIX_TILES(3), new IntLocation(19, 21), ANGLE_0)))
   }
 
   /** no tile to place if already a loop */
@@ -84,7 +84,7 @@ class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
   test("FindRandomPlacementFor9AlmostLoopRed") {
     placer = new RandomTilePlacer(PathColor.RED, RND)
     tantrix = place9AlmostLoop
-    verifyPlacement(Some(TilePlacement(FOURTEEN_TILES(13), new IntLocation(21, 22), ANGLE_300)))
+    verifyPlacement(Some(TilePlacement(FOURTEEN_TILES(11), new IntLocation(21, 22), ANGLE_300)))
   }
 
   private def verifyPlacement(expPlacement: Option[TilePlacement]) {

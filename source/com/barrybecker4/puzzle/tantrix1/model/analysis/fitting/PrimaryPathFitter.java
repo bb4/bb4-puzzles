@@ -45,8 +45,6 @@ public class PrimaryPathFitter extends AbstractFitter {
      */
     @Override
     public boolean isFit(TilePlacement placement) {
-
-        boolean fits = true;
         for (byte i = 0; i < NUM_SIDES; i++) {
             TilePlacement nbr = tantrix.getNeighbor(placement, i);
 
@@ -55,12 +53,12 @@ public class PrimaryPathFitter extends AbstractFitter {
                 PathColor nbrColor = nbr.getPathColor(i+3);
 
                 if ((pathColor == primaryColor || nbrColor == primaryColor) && pathColor != nbrColor) {
-                    fits = false;
+                    return false;
                 }
             }
         }
 
-        return fits;
+        return true;
     }
 
     /**
