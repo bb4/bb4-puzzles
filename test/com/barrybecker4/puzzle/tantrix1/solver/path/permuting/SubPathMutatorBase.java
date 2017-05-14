@@ -16,7 +16,7 @@ import static com.barrybecker4.puzzle.tantrix1.TantrixTstUtil.loc;
 public abstract class SubPathMutatorBase {
 
     /** instance under test */
-    protected SubPathMutator mutator;
+    SubPathMutator mutator;
 
     /** creates the mutator to test */
     protected abstract SubPathMutator createMutator(PathColor primaryColor);
