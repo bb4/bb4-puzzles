@@ -27,10 +27,11 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     */
   private[permuting] def permute(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]) = {
     val permutedPath = originalPath.copy
-    val auxList: ListBuffer[TilePlacement] = new ListBuffer[TilePlacement]
+    val auxList: Array[TilePlacement] = Array.ofDim[TilePlacement](oldIndices.size)
     assert(consistent(oldIndices, newIndices))
+    println("oldIncs=" + oldIndices + " newIndc="+ newIndices)
     for (i <- oldIndices.indices)
-        auxList(i) = permutedPath.getTilePlacements(newIndices(i))
+      auxList(i) = permutedPath.getTilePlacements(newIndices(i))
     val fitter = new PrimaryPathFitter(permutedPath.getTilePlacements, color)
     val origPlacements: ListBuffer[TilePlacement] = permutedPath.getTilePlacements.to[ListBuffer]
     for (i <- newIndices.indices) {

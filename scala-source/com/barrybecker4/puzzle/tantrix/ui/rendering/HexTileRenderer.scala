@@ -48,7 +48,12 @@ class HexTileRenderer() {
   private def drawTileNumber(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double, x: Double, y: Double) {
     g2.setColor(Color.BLACK)
     g2.setFont(HexTileRenderer.TILE_FONT)
-    g2.drawString(FormatUtil.formatNumber(tilePlacement.tile.tantrixNumber), x.toInt, (y + radius / 2).toInt)
+    val xpos = x.toInt - 2
+    val ypos = (y +  0.95 * radius).toInt
+    g2.drawString(FormatUtil.formatNumber(tilePlacement.tile.tantrixNumber), xpos, ypos)
+    // also draw coordinate location
+    val loc = tilePlacement.location
+    g2.drawString(s"(${loc.getRow}, ${loc.getCol})", xpos - 15, ypos - 12)
   }
 
   private def drawHexagon(g2: Graphics2D, point: Point, radius: Double) {

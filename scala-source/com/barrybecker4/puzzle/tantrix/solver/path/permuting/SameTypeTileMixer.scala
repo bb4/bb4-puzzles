@@ -14,7 +14,6 @@ object SameTypeTileMixer {
 
 /**
   * Mix tiles of the same type without changing the primary originalPath.
-
   * @param pathType one of the 3 path types
   * @param originalPath the path to create permutations of.
   * @author Barry Becker
