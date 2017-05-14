@@ -33,7 +33,6 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
       if (nbr.isDefined) {
         val pathColor = placement.getPathColor(i)
         val nbrColor = nbr.get.getPathColor(i + 3)
-        val foo = (pathColor == primaryColor || nbrColor == primaryColor) && (pathColor != nbrColor)
         if ((pathColor == primaryColor || nbrColor == primaryColor) && (pathColor != nbrColor))
           return false
       }

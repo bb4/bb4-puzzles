@@ -29,7 +29,6 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     val permutedPath = originalPath.copy
     val auxList: Array[TilePlacement] = Array.ofDim[TilePlacement](oldIndices.size)
     assert(consistent(oldIndices, newIndices))
-    println("oldIncs=" + oldIndices + " newIndc="+ newIndices)
     for (i <- oldIndices.indices)
       auxList(i) = permutedPath.getTilePlacements(newIndices(i))
     val fitter = new PrimaryPathFitter(permutedPath.getTilePlacements, color)
