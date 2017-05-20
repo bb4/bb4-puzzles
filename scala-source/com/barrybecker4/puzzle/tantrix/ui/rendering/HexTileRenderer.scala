@@ -25,7 +25,7 @@ class HexTileRenderer() {
   private val pathRenderer = new PathRenderer
 
   /** Draw the tile */
-  def render(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double) {
+  def renderBorder(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double) {
     if (tilePlacement == null) return
     val isOddRow = tilePlacement.location.getRow % 2 == 1
     val location = tilePlacement.location.decrementOnCopy(topLeftCorner)
@@ -37,6 +37,19 @@ class HexTileRenderer() {
     drawHexagon(g2, point, radius)
     drawPaths(g2, tilePlacement, point, radius)
     drawTileNumber(g2, tilePlacement, radius, x, y)
+  }
+
+  /** draw the outline for a tile */
+  def renderBorder(g2: Graphics2D, loc: Location, topLeftCorner: Location, radius: Double) {
+
+    val location = loc.decrementOnCopy(topLeftCorner)
+    val isOddRow = loc.getRow % 2 == 1
+    val radD2 = radius / 2
+    val xShift = location.getCol - (if (isOddRow) -0.25 else -0.75)
+    val x = radD2 + xShift * 2 * radius * HexUtil.ROOT3D2
+    val y = radD2 + TOP_MARGIN + ((location.getRow + 0.6) * 3.0 * radD2)
+    val point = new Point(x.toInt, y.toInt)
+    drawHexagon(g2, point, 0.95 * radius, filled = false)
   }
 
   private def drawPaths(g2: Graphics2D, tilePlacement: TilePlacement, point: Point, radius: Double): Unit = {
@@ -56,18 +69,20 @@ class HexTileRenderer() {
     g2.drawString(s"(${loc.getRow}, ${loc.getCol})", xpos - 15, ypos - 12)
   }
 
-  private def drawHexagon(g2: Graphics2D, point: Point, radius: Double) {
+  private def drawHexagon(g2: Graphics2D, point: Point, radius: Double, filled: Boolean = true) {
     val numPoints = 7
     val xpoints = new Array[Int](numPoints)
     val ypoints = new Array[Int](numPoints)
     for (i <- 0 to 6) {
-        val angStart = HexUtil.rad(30 + 60 * i)
+        val angStart = HexUtil.rad(30 + 60 * i) // was 30 +
         xpoints(i) = (point.getX + radius * Math.cos(angStart)).toInt
         ypoints(i) = (point.getY + radius * Math.sin(angStart)).toInt
     }
     val poly = new Polygon(xpoints, ypoints, numPoints)
-    g2.setColor(HexTileRenderer.TILE_BG_COLOR)
-    g2.fillPolygon(poly)
+    if (filled) {
+      g2.setColor(HexTileRenderer.TILE_BG_COLOR)
+      g2.fillPolygon(poly)
+    }
     g2.setColor(HexTileRenderer.TILE_BORDER_COLOR)
     g2.setStroke(HexTileRenderer.TILE_STROKE)
     g2.drawPolygon(poly)

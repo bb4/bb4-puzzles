@@ -16,7 +16,7 @@ class TilesOfTypeIndicesSuite extends FunSuite {
 
   test("TIGHTIndicesIn3TileLoop") {
     indices = new TilesOfTypeIndices(TIGHT_CURVE, LOOP_PATH3)
-    assertResult(Seq(0, 1, 2)) { indices }
+    assertResult(Seq(0, 1, 2)) { indices.list }
   }
 
   test("WIDEIndicesIn3TileLoop") {
@@ -26,12 +26,12 @@ class TilesOfTypeIndicesSuite extends FunSuite {
 
   test("TIGHTIndicesIn4TileNonLoopPath") {
     indices = new TilesOfTypeIndices(TIGHT_CURVE, NON_LOOP_PATH4)
-    assertResult(Seq(1, 3)) {indices}
+    assertResult(Seq(1, 3)) {indices.list }
   }
 
   test("WIDEIndicesIn4TileNonLoopPath") {
     indices = new TilesOfTypeIndices(WIDE_CURVE, NON_LOOP_PATH4)
-    assertResult(Seq(0, 2)) { indices }
+    assertResult(Seq(0, 2)) { indices.list }
   }
 
   //private static TantrixPath createPath(TilePlacement placement1, TilePlacement placement2, TilePlacement placement3) {

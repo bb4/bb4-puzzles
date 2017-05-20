@@ -14,6 +14,7 @@ import scala.collection.mutable
   * @author Barry Becker
   */
 class InnerSpaceDetector(var tantrix: Tantrix) {
+
   /**
     * Start with an empty position on the border of the bbox.
     * Do a seed fill to visit all the spaces connected to that.
@@ -24,7 +25,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     */
   def hasInnerSpaces: Boolean = {
     val seedEmpties = findEmptyBorderPositions
-    println("seedEmpties = " + seedEmpties.mkString(", "))
+    //println("seedEmpties = " + seedEmpties.mkString(", "))
     val visited = findConnectedEmpties(seedEmpties)
     !allEmptiesVisited(visited)
   }

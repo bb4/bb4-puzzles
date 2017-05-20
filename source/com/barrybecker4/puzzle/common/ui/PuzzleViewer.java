@@ -7,9 +7,8 @@ import com.barrybecker4.common.math.MathUtil;
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.sound.MusicMaker;
 
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -23,10 +22,10 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
 
     protected P board_;
     protected String status_ = "";
-    protected long numTries_;
+    private long numTries;
 
-    long totalMem_ = Runtime.getRuntime().totalMemory();
-    long freeMem_ = Runtime.getRuntime().freeMemory();
+    private long totalMem = Runtime.getRuntime().totalMemory();
+    private long freeMem = Runtime.getRuntime().freeMemory();
 
     /** play a sound effect when a piece goes into place. */
     protected MusicMaker musicMaker_ = new MusicMaker();
@@ -61,7 +60,7 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
 
     protected void simpleRefresh(P board, long numTries) {
         board_ = board;
-        numTries_ = numTries;
+        this.numTries = numTries;
         repaint();
     }
 
@@ -78,10 +77,10 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
         String msg = "\nNumber of tries :" + FormatUtil.formatNumber(numTries);
         // I think this might be an expensive operation so don't do it every time
         if (MathUtil.RANDOM.nextDouble() <.05) {
-            totalMem_ = Runtime.getRuntime().totalMemory()/1000;
-            freeMem_ = Runtime.getRuntime().freeMemory()/1000;
+            totalMem = Runtime.getRuntime().totalMemory()/1000;
+            freeMem = Runtime.getRuntime().freeMemory()/1000;
         }
-        msg += "    Memory used = "+ FormatUtil.formatNumber(totalMem_ - freeMem_) +"k";
+        msg += "    Memory used = "+ FormatUtil.formatNumber(totalMem - freeMem) +"k";
         return msg;
     }
 
@@ -115,7 +114,7 @@ public abstract class PuzzleViewer<P, M> extends JPanel implements Refreshable<P
         g.fillRect( 0, 0, width, height );
     }
 
-    protected void drawStatus(Graphics g, String status, int x, int y) {
+    private void drawStatus(Graphics g, String status, int x, int y) {
         String[] lines = status.split("\n");
         int offset = 0;
         g.setColor( Color.black );

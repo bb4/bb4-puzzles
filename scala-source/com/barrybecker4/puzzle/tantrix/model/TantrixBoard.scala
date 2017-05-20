@@ -86,6 +86,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     */
   def getAllTiles: Seq[HexTile] = tantrix.getTiles ++ unplacedTiles
 
+  /** @return the edge of the smallest square that will hold the tantrix */
   def getEdgeLength: Int = tantrix.getEdgeLength
 
   /** @return the position of the top left bbox corner */

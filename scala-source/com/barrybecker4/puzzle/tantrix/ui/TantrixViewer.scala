@@ -16,6 +16,7 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer
   * @author Barry Becker
   */
 final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
+
   private var renderer: TantrixBoardRenderer = new TantrixBoardRenderer
 
   def getBoard: TantrixBoard = board_
@@ -30,13 +31,8 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
   }
 
   override def refresh(board: TantrixBoard, numTries: Long) {
-    //int rate = board_ == null ? 1 : board_.getNumTiles()-2;
-    //System.out.println("rate=" + rate + " numTries="+ numTries+" numTries % rate=" + numTries % rate);
-    //if (numTries % rate == 0) {
     status_ = createStatusMessage(numTries)
     simpleRefresh(board, numTries)
-    //ThreadUtil.sleep(100);
-    //}
   }
 
   override def makeSound() {
