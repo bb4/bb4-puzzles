@@ -49,7 +49,7 @@ public class SameTypeTileMixer {
             permutedPaths.add(permutedPath);
         }
         else if (indices.size() > 2) {
-            // add the original originalPath for now, to be sure we do not duplicated it, but return at end.
+            // add the original originalPath for now, to be sure we do not duplicate it, but return at end.
             permutedPaths.add(originalPath);
 
             int numIter = Math.min(originalPath.size() + 1, MAX_ITER);

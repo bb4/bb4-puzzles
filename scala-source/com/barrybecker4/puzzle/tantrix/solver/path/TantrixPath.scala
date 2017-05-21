@@ -159,9 +159,10 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     HexUtil.distanceBetween(end1, end2)
   }
 
-  /*
+
+
   override def equals(o: Any): Boolean = {
-    if (this == o) return true
+    //if (this == o) return true
     if (o == null || (getClass ne o.getClass)) return false
     val that = o.asInstanceOf[TantrixPath]
     val isEqual = if (tiles != null) tiles == that.tiles
@@ -174,7 +175,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     result = 31 * result + (if (tiles != null) tiles.hashCode else 0)
     result = 31 * result + (if (primaryPathColor != null) primaryPathColor.hashCode else 0)
     result
-  }*/
+  }
 
   /**
     * @return the number of parameters in the array.

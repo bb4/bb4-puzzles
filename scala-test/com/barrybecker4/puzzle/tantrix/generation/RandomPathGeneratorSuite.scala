@@ -43,7 +43,7 @@ class RandomPathGeneratorSuite extends FunSuite with BeforeAndAfter {
     pathGenerator = new RandomPathGenerator(place3of6UnsolvedTiles, RND)
     val rPath = pathGenerator.generateRandomPath
     assertEquals("Unexpected length for randomly generated path.", 6, rPath.size)
-
+    /*
     val tiles = Seq[TilePlacement](
       TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), ANGLE_300),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
@@ -51,7 +51,17 @@ class RandomPathGeneratorSuite extends FunSuite with BeforeAndAfter {
       TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), ANGLE_180),
       TilePlacement(TILES.getTile(6), new ByteLocation(19, 21), ANGLE_120),
       TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), ANGLE_240)
+    )*/
+
+    val tiles = Seq[TilePlacement](
+      TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), ANGLE_240),
+      TilePlacement(TILES.getTile(6), new ByteLocation(19, 21), ANGLE_120),
+      TilePlacement(TILES.getTile(3), new ByteLocation(19, 22), ANGLE_180),
+      TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), ANGLE_60),
+      TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
+      TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), ANGLE_300)
     )
+
     val expectedPath = new TantrixPath(tiles, PathColor.BLUE)
     assertResult(expectedPath) { rPath }
     // make sure we get a different random path on the second call.

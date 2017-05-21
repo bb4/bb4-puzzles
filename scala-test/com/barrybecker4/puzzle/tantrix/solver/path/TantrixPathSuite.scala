@@ -87,9 +87,24 @@ class TantrixPathSuite extends FunSuite {
     val board = place3UnsolvedTiles
     val path = new TantrixPath(board.tantrix, board.primaryColor)
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
+
+    val tiles = List(
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+      TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
+      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_0))
+    /*
+
+    ListBuffer(
+    [tileNum=3 colors: BLUE,BLUE,RED,RED,YELLOW,YELLOW at (row=22, column=20) ANGLE_180],
+    [tileNum=1 colors: RED,BLUE,RED,BLUE,YELLOW,YELLOW at (row=21, column=21) ANGLE_0],
+    [tileNum=2 colors: BLUE,YELLOW,YELLOW,BLUE,RED,RED at (row=22, column=21) ANGLE_0])
+
+
     val tiles = List(TilePlacement(TILES.getTile(2), new ByteLocation(22, 20), ANGLE_300),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0), TilePlacement(TILES.getTile(3),
         new ByteLocation(22, 21), ANGLE_240))
+        */
+
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW)
     assertResult(expectedPath) { nbr }
   }

@@ -34,12 +34,12 @@ class SameTypeTileMixer(var pathType: PathType, var originalPath: TantrixPath, r
       permutedPaths.append(permutedPath)
     }
     else if (indices.size > 2) {
-      // add the original originalPath for now, to be sure we do not duplicated it, but return at end.
+      // add the original originalPath for now, to be sure we do not duplicate it, but remove it before returning.
       permutedPaths.append(originalPath)
       val numIter = Math.min(originalPath.size + 1, SameTypeTileMixer.MAX_ITER)
       for (i <- 0 until numIter) {
-          val newOrder = rnd.shuffle(indices.list)
-          val permutedPath = permuter.permute(newOrder, indices.list)
+          val newOrder = rnd.shuffle(indices.list)  // instead of simply shuffling, we could use acutal permutations
+          val permutedPath = permuter.permute(indices.list, newOrder)
           if (!permutedPaths.contains(permutedPath))
             permutedPaths.append(permutedPath)
       }

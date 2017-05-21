@@ -9,6 +9,7 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 
 import scala.collection.mutable.ListBuffer
 
+
 /**
   * Swap tiles in place in a specified originalPath.
   *
@@ -26,20 +27,20 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     * @return the new rearranged path.
     */
   private[permuting] def permute(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]) = {
-    val permutedPath = originalPath.copy
+    //val permutedPath = originalPath.copy
     val auxList: Array[TilePlacement] = Array.ofDim[TilePlacement](oldIndices.size)
     assert(consistent(oldIndices, newIndices))
     for (i <- oldIndices.indices)
-      auxList(i) = permutedPath.getTilePlacements(newIndices(i))
-    val fitter = new PrimaryPathFitter(permutedPath.getTilePlacements, color)
-    val origPlacements: ListBuffer[TilePlacement] = permutedPath.getTilePlacements.to[ListBuffer]
+      auxList(i) = originalPath.getTilePlacements(newIndices(i))
+    val fitter = new PrimaryPathFitter(originalPath.getTilePlacements, color)
+    val origPlacements: ListBuffer[TilePlacement] = originalPath.getTilePlacements.to[ListBuffer]
     for (i <- newIndices.indices) {
       val oldIndex = oldIndices(i)
       val oldPlacement = auxList(i)
       val newPlacement = findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter)
       origPlacements(oldIndex) = newPlacement
     }
-    permutedPath
+    TantrixPath(origPlacements, originalPath.primaryPathColor) //permutedPath
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {

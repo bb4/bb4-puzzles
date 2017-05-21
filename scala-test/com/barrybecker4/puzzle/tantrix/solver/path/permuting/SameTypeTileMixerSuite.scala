@@ -7,12 +7,12 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model._
-import com.barrybecker4.puzzle.tantrix.solver.path.{PathType, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.permuting.SameTypeTileMixerSuite.RND
+import com.barrybecker4.puzzle.tantrix.solver.path.{PathType, TantrixPath}
 import org.junit.Assert.assertEquals
-import org.junit.Test
 import org.scalatest.FunSuite
 
+import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 object SameTypeTileMixerSuite {
@@ -31,7 +31,7 @@ class SameTypeTileMixerSuite extends FunSuite {
     val board = place3SolvedTiles
     mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 3, permutedPathList.size)
+    assertResult(3) { permutedPathList.size }
     /* This is how it used to be. I think it is also correct,
                but then something changed - perhaps when upgrading to java 8.
             List<TantrixPath> expPathList = Arrays.asList(
@@ -45,11 +45,17 @@ class SameTypeTileMixerSuite extends FunSuite {
                            new TilePlacement(TILE2, UPPER, Rotation.ANGLE_180),
                            new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120))
             );*/
-    val expPathList = Seq(
+    val expPathList = ListBuffer(
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, LOWER_LEFT, ANGLE_120)),
+      createPath(TilePlacement(TILE3, UPPER, ANGLE_0), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)),
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+    )
+    /*
+    val expPathList = ListBuffer(
       createPath(TilePlacement(TILE1, LOWER_LEFT, ANGLE_120), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, UPPER, ANGLE_180)),
       createPath(TilePlacement(TILE2, LOWER_LEFT, ANGLE_300), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE3, UPPER, ANGLE_0)),
-      createPath(TilePlacement(TILE2, LOWER_LEFT, ANGLE_300), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, UPPER, ANGLE_0)))
-    assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
+      createPath(TilePlacement(TILE2, LOWER_LEFT, ANGLE_300), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, UPPER, ANGLE_0)))*/
+    assertResult( expPathList) { permutedPathList }
   }
 
   test("Mix3TilesWIDE") {
@@ -94,7 +100,7 @@ class SameTypeTileMixerSuite extends FunSuite {
     assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
   }
 
-  @Test def testMix5TilesSTRAIGHT() {
+  test("Mix5TilesSTRAIGHT") {
     val origPath = createPathOf5Tiles
     mixer = new SameTypeTileMixer(PathType.STRAIGHT, origPath, RND)
     val permutedPathList = mixer.findPermutedPaths
@@ -112,5 +118,5 @@ class SameTypeTileMixerSuite extends FunSuite {
   }
 
   private def createPath(placement1: TilePlacement, placement2: TilePlacement, placement3: TilePlacement) =
-    new TantrixPath(Seq(placement1, placement2, placement3), PathColor.YELLOW)
+    new TantrixPath(ListBuffer(placement1, placement2, placement3), PathColor.YELLOW)
 }
