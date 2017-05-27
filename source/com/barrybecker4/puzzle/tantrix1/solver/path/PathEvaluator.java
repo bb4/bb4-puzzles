@@ -105,6 +105,6 @@ public class PathEvaluator {
                 }
             }
         }
-        return (ct - 2.0 * (numTiles-1))/numTiles * 0.5;
+        return (ct - 2.0 * (numTiles-1)) / numTiles * 0.5;
     }
 }

@@ -5,7 +5,7 @@ import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParamete
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
-import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath.hasOrderedPrimaryPath
+import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 
 import scala.util.Random
 
@@ -27,6 +27,12 @@ object TantrixPath {
     }
     true
   }
+
+  private def getPathTilesFromBoard(board: TantrixBoard) = {
+    val gen = new RandomPathGenerator(board)
+    val path = gen.generateRandomPath
+    path.tiles
+  }
 }
 
 /**
@@ -43,6 +49,7 @@ object TantrixPath {
   */
 case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
   extends PermutedParameterArray {
+
   var rnd = new Random(0)
 
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
@@ -63,7 +70,9 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     * Creates a random path given a board state.
     * @param board placed tiles
     */
-  def this(board: TantrixBoard) = this(board.tantrix.tiles.toSeq, board.primaryColor)
+  def this(board: TantrixBoard) = {
+    this(getPathTilesFromBoard(board), board.primaryColor)
+  }
 
 
   def getFirst: TilePlacement = tiles.head
@@ -162,8 +171,6 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
       return 0
     HexUtil.distanceBetween(end1, end2)
   }
-
-
 
   override def equals(o: Any): Boolean = {
     //if (this == o) return true

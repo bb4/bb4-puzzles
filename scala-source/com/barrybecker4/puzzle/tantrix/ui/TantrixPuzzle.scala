@@ -5,10 +5,10 @@ import javax.swing._
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
 import com.barrybecker4.common.search.Refreshable
-import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.common.ui.{PuzzleApplet, PuzzleViewer}
+import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.tantrix.TantrixController
-import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm
 import com.barrybecker4.ui.util.GUIUtil
 
@@ -33,6 +33,7 @@ object TantrixPuzzle {
 final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard, TilePlacement] with ChangeListener {
 
   private var spinner: JSpinner = _
+  private var primaryColorLabel: JLabel = _
 
   def this() { this(Array[String]())}
 
@@ -55,13 +56,23 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     spinner = new JSpinner(model)
     spinner.addChangeListener(this)
     val numTilesSelector = new JPanel
+    val primaryColorPrefix = new JLabel("Primary color: ")
+    primaryColorLabel = new JLabel("")
+    setPrimaryColor(TantrixPuzzle.DEFAULT_NUM_TILES)
     numTilesSelector.add(label)
     numTilesSelector.add(spinner)
+    numTilesSelector.add(primaryColorLabel)
     numTilesSelector
   }
 
   def stateChanged(e: ChangeEvent) {
-    getController.setNumTiles(spinner.getValue.asInstanceOf[Integer])
+    val tileNum = spinner.getValue.asInstanceOf[Integer]
+    getController.setNumTiles(tileNum)
+    setPrimaryColor(tileNum)
+  }
+
+  private def setPrimaryColor(tileNum: Int): Unit = {
+    primaryColorLabel.setText(HexTiles.TILES.getTile(tileNum).primaryColor.toString)
   }
 
   private def getController = controller_.asInstanceOf[TantrixController]

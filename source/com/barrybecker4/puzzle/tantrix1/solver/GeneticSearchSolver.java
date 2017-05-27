@@ -88,7 +88,6 @@ public class GeneticSearchSolver extends TantrixSolver
     public boolean evaluateByComparison() {
         return false;
     }
-
     /**
      * Return 0 or less if a perfect solution has been found.
      *
