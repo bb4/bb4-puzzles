@@ -1,10 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
-import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.ParameterArray
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType
+import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
@@ -37,7 +37,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
     val foundSolution = optimizer.doOptimization(strategy, initialGuess, SOLVED_THRESH)
-    solution = new TantrixBoard(solution.asInstanceOf[TantrixPath].getTilePlacements, board.primaryColor)
+    solution = new TantrixBoard(foundSolution.asInstanceOf[TantrixPath].getTilePlacements, board.primaryColor)
     val tilePlacements =
       if (evaluateFitness(foundSolution) <= 0) Option.apply(foundSolution.asInstanceOf[TantrixPath].tiles)
       else Option.empty

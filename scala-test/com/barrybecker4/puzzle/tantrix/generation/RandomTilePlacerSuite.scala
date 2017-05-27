@@ -78,7 +78,7 @@ class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
   test("FindRandomPlacementFor9AlmostLoopBlue") {
     placer = new RandomTilePlacer(PathColor.BLUE, RND)
     tantrix = place9AlmostLoop
-    verifyPlacement(Some(TilePlacement(FOURTEEN_TILES(13), new IntLocation(21, 23), ANGLE_180)))
+    verifyPlacement(None) //Some(TilePlacement(FOURTEEN_TILES(13), new IntLocation(21, 23), ANGLE_180)))
   }
 
   test("FindRandomPlacementFor9AlmostLoopRed") {
