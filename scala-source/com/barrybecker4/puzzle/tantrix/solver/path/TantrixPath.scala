@@ -6,7 +6,8 @@ import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath.hasOrderedPrimaryPath
-//import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
+
+import scala.util.Random
 
 object TantrixPath {
 
@@ -35,12 +36,15 @@ object TantrixPath {
   * 7 other permutations of attaching the current path segments on either side. If any of those give a path
   * with a higher score, then that is what we use for the permuted path.
   *
-  * @param tiles  ordered path tiles.  The list of tiles that are passed in must be a continuous primary path,
+  * @param tiles ordered path tiles.  The list of tiles that are passed in must be a continuous primary path,
   * but it is not required that it be a loop, or that any of the secondary colors match.
   * @param primaryPathColor primary path color
   * @throws IllegalStateException if tiles do not form a primary path.
   */
-case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) extends PermutedParameterArray {
+case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
+  extends PermutedParameterArray {
+  var rnd = new Random(0)
+
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
     throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
 
@@ -48,7 +52,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     * The list of tiles that are passed in must be a continuous primary path,
     * but it is not required that it be a loop, or that any of the secondary colors match.
     *
-    * @param tantrix      ordered path tiles.
+    * @param tantrix ordered path tiles.
     * @param primaryColor primary color
     */
   def this(tantrix: Tantrix, primaryColor: PathColor) {
@@ -111,7 +115,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor) e
     * @return the random nbr (potential solution).
     */
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
-    val generator = new PathPermutationGenerator(this)
+    val generator = new PathPermutationGenerator(this, rnd)
     generator.getRandomNeighbor(radius)
   }
 

@@ -41,7 +41,7 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
   private[path] def getRandomNeighbor(radius: Double) = {
     val pathPermutations = findPermutedPaths(radius)
     assert(pathPermutations.nonEmpty, "Could not find any permutations of " + this)
-    new PathSelector().selectPath(pathPermutations)
+    new PathSelector(rnd).selectPath(pathPermutations)
   }
 
   /**
@@ -78,7 +78,7 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
       val types = rnd.shuffle(PathType.values.toList)
       val typeIter = types.iterator
       do {
-        val mixer = new SameTypeTileMixer(typeIter.next, path)
+        val mixer = new SameTypeTileMixer(typeIter.next, path, rnd)
         addAllPermutedPaths(mixer.findPermutedPaths, permutedPaths)
       } while (typeIter.hasNext)
     }

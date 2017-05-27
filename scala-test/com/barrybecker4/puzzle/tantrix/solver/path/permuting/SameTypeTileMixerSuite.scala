@@ -58,6 +58,21 @@ class SameTypeTileMixerSuite extends FunSuite {
     assertResult( expPathList) { permutedPathList }
   }
 
+  test("Mix11TilesWIDE_CURVE") {
+    val board = place10LoopWithInnerSpace
+    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)
+    val permutedPathList = mixer.findPermutedPaths
+    assertResult(11) { permutedPathList.size }
+    /* this is large
+    val expPathList = ListBuffer(
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, LOWER_LEFT, ANGLE_120)),
+      createPath(TilePlacement(TILE3, UPPER, ANGLE_0), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)),
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+    )
+    assertResult( expPathList) { permutedPathList }
+    */
+  }
+
   test("Mix3TilesWIDE") {
     val board = place3SolvedTiles
     mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)

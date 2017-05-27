@@ -16,6 +16,7 @@ object TantrixTstUtil {
   val FOUR_TILES = TILES.createOrderedList(4)
   val FIVE_TILES = TILES.createOrderedList(5)
   val SIX_TILES = TILES.createOrderedList(6)
+  val SEVEN_TILES = TILES.createOrderedList(7)
   val TEN_TILES = TILES.createOrderedList(10)
   val FOURTEEN_TILES = TILES.createOrderedList(14)
 
@@ -40,6 +41,17 @@ object TantrixTstUtil {
 
   /** Places first tile in the middle */
   def place6UnsolvedTiles: TantrixBoard = place6Unsolved(SIX_TILES)
+
+  def sevenTilesInAPath = Seq(
+    TilePlacement(TILES.getTile(3), loc(3, 1), ANGLE_300),
+    TilePlacement(TILES.getTile(5), loc(2, 0), ANGLE_120),
+    TilePlacement(TILES.getTile(6), loc(1, 0), ANGLE_0),
+    TilePlacement(TILES.getTile(4), loc(0, 0), ANGLE_120),
+    TilePlacement(TILES.getTile(2), loc(0, 1), ANGLE_300),
+    TilePlacement(TILES.getTile(1), loc(1, 1), ANGLE_300),
+    TilePlacement(TILES.getTile(7), loc(2, 1), ANGLE_120))
+
+  def place7SolvedTiles: TantrixBoard = place7Solved(SEVEN_TILES)
 
   /** Places first tile in the middle. Three unplaced tiles remain. */
   def place3of6UnsolvedTiles: TantrixBoard = {
@@ -75,6 +87,12 @@ object TantrixTstUtil {
       TilePlacement(TILES.getTile(6), loc(0, 0), ANGLE_240))
 
     tileList.foreach(p => board = new TantrixBoard(board, p))
+    board
+  }
+
+  private def place7Solved(tiles: Seq[HexTile]) = {
+    var board = new TantrixBoard(tiles)
+    sevenTilesInAPath.foreach(p => board = new TantrixBoard(board, p))
     board
   }
 

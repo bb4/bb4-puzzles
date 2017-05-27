@@ -10,6 +10,8 @@ import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import org.scalatest.FunSuite
 
+import scala.util.Random
+
 /**
   * @author Barry Becker
   */
@@ -70,28 +72,40 @@ class TantrixPathSuite extends FunSuite {
     assert(!path.isLoop)
   }
 
-  test("HasOrderedPrimaryPathYellow") {
-    val tiles = List(TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),TilePlacement(TILE1, UPPER, ANGLE_0), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+  test("HasOrderedPrimaryPathYellowOfLength3") {
+    val tiles = List(
+      TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
+      TilePlacement(TILE1, UPPER, ANGLE_0),
+      TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
     assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.YELLOW))
   }
 
-  test("HasOrderedPrimaryPathRed") {
-    val tiles = List(TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60), TilePlacement(TILE1, UPPER, ANGLE_0), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+  test("HasOrderedPrimaryPathRedOfLength7") {
+    val tiles = sevenTilesInAPath
+    println("tiles = " + tiles.mkString("\n"))
+    assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED))
+  }
+
+  test("HasOrderedPrimaryPathRedOfLength3") {
+    val tiles = List(
+      TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
+      TilePlacement(TILE1, UPPER, ANGLE_0),
+      TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
     assert(!TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED))
   }
 
   test("FindRandomNeighbor") {
-    //val rnd = new Random()
-    //rnd.setSeed(0)
     MathUtil.RANDOM.setSeed(0)
     val board = place3UnsolvedTiles
     val path = new TantrixPath(board.tantrix, board.primaryColor)
+    path.rnd = new Random(0)
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
+    println("nbr = " + nbr.toString)
 
     val tiles = List(
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
-      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_0))
+      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
     /*
 
     ListBuffer(

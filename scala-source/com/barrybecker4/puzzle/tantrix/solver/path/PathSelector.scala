@@ -18,7 +18,7 @@ object PathSelector {
   */
 class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
 
-  def this() { this(new PathEvaluator) }
+  def this(rnd: Random) { this(new PathEvaluator, rnd) }
 
   /**
     * Skew toward selecting the best, but don't always select the best because then we
