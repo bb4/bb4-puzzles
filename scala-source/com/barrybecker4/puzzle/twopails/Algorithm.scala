@@ -1,0 +1,58 @@
+// Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.puzzle.twopails
+
+import com.barrybecker4.common.app.AppContext
+import com.barrybecker4.puzzle.common.AlgorithmEnum
+import com.barrybecker4.puzzle.common.PuzzleController
+import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver
+import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver
+import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver
+import com.barrybecker4.puzzle.common.solver.PuzzleSolver
+import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
+import com.barrybecker4.puzzle.twopails1.model.Pails
+import com.barrybecker4.puzzle.twopails1.model.PourOperation
+
+case object SIMPLE_SEQUENTIAL extends Algorithm
+case object A_STAR_SEQUENTIAL extends Algorithm
+case object A_STAR_CONCURRENT extends Algorithm
+case object CONCURRENT_BREADTH extends Algorithm
+case object CONCURRENT_DEPTH extends Algorithm
+case object CONCURRENT_OPTIMUM extends Algorithm
+case object GENETIC_SEARCH extends Algorithm
+case object CONCURRENT_GENETIC_SEARCH extends Algorithm
+
+/**
+  * Type of solver to use.
+  *
+  * @author Barry Becker
+  */
+sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
+
+  private val label = AppContext.getLabel(this.toString)
+  def getLabel: String = label
+
+
+  /**
+    * Create an instance of the algorithm given the controller and a refreshable.
+    */
+  def createSolver(controller: PuzzleController[Pails, PourOperation]): PuzzleSolver[PourOperation] = {
+    this match {
+      case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Pails, PourOperation](controller)
+      case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Pails, PourOperation](controller)
+      case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Pails, PourOperation](controller)
+      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
+      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
+      case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
+    }
+  }
+
+  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+}
+
+object Algorithm {
+  val VALUES: Array[AlgorithmEnum[Pails, PourOperation]] = Array(
+    SIMPLE_SEQUENTIAL, A_STAR_CONCURRENT,
+    CONCURRENT_BREADTH, CONCURRENT_DEPTH,
+    CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
+  )
+}

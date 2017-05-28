@@ -33,9 +33,7 @@ object PourOperation {
 
 case class PourOperation(var action: Action, var container: Container) extends Move {
 
-  /**
-    * @return the reverse of this operation
-    */
+  /** @return the reverse of this operation*/
   private[model] def reverse = {
     var newAction = action
     var newContainer = container
@@ -56,19 +54,5 @@ case class PourOperation(var action: Action, var container: Container) extends M
     s.append(action).append(" ").append(container)
     s.toString
   }
-
-  /*
-  override def equals(o: Any): Boolean = {
-    //if (this eq o) return true
-    if (o == null || (getClass ne o.getClass)) return false
-    val that = o.asInstanceOf[PourOperation]
-    (action eq that.action) && (container eq that.container)
-  }
-
-  override def hashCode: Int = {
-    var result = action.hashCode
-    result = 31 * result + container.hashCode
-    result
-  }*/
 }
 
