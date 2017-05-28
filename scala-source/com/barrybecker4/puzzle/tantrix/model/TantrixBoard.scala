@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
+import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
@@ -40,7 +41,7 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
   /** Create a board with the first tile in the given list placed at the initial location */
   def this(initialTiles: Seq[HexTile]) {
     this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, RotationEnum.ANGLE_0))),
-      initialTiles.last.primaryColor, initialTiles.drop(1), initialTiles.size)
+         TILES.getTile(initialTiles.size).primaryColor, initialTiles.drop(1), initialTiles.size)
   }
 
   /**
