@@ -1,12 +1,11 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui
 
-import com.barrybecker4.puzzle.bridge.model.Bridge
+import java.awt.{Color, Font, Graphics}
+
+import com.barrybecker4.puzzle.bridge.model.{Bridge, BridgeMove}
+import com.barrybecker4.puzzle.bridge.ui.BridgeRenderer._
 import com.barrybecker4.puzzle.common.PuzzleRenderer
-import java.awt.Color
-import java.awt.Font
-import java.awt.Graphics
-import BridgeRenderer._
 
 /**
   * Singleton class that renders the current state of the Bridge1 puzzle.
@@ -17,9 +16,9 @@ import BridgeRenderer._
   */
 object BridgeRenderer {
   val INC = 60
-  val BRIDGE_WIDTH = 260
+  val BRIDGE_WIDTH = 300
   private val MARGIN = 50
-  private val TEXT_WIDTH = 230
+  private val TEXT_WIDTH = 250
   private val TEXT_Y = 190
   private val FONT = new Font("Sans Serif", Font.PLAIN, INC / 2)
   private val LIGHT_RADIUS = 30
@@ -36,10 +35,21 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     * Show the people that have not yet crossed on the left; those that have on the right.
     */
   def render(g: Graphics, board: Bridge, width: Int, height: Int) {
+    render(g, board, None, width, height)
+  }
+
+  /**
+    * This renders the current state of the Bridge1 to the screen.
+    * Show the people that have not yet crossed on the left; those that have on the right.
+    */
+  def render(g: Graphics, board: Bridge, lastMove: Option[BridgeMove], width: Int, height: Int) {
     drawBridge(g)
     drawPeople(g, board.uncrossed, MARGIN)
     drawPeople(g, board.crossed, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH)
     drawLight(g, board.lightCrossed)
+    if (lastMove.isDefined) {
+      drawPeopleMove(g, lastMove.get, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH / 2)
+    }
   }
 
   /**
@@ -78,6 +88,16 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     g.fillOval(xpos, TEXT_Y - 80, LIGHT_RADIUS, LIGHT_RADIUS)
     g.setColor(Color.BLACK)
     g.drawOval(xpos, TEXT_Y - 80, LIGHT_RADIUS, BridgeRenderer.LIGHT_RADIUS)
+  }
+
+  private def drawPeopleMove(g: Graphics, lastMove: BridgeMove, xpos: Int): Unit = {
+    g.setColor(Color.BLACK)
+    g.setFont(FONT)
+    val prefix = if (lastMove.direction) "" else " <= "
+    val suffix = if (lastMove.direction) " => " else ""
+    val peopleListString = lastMove.people.mkString(prefix, ", ", suffix)
+
+    g.drawString(peopleListString, xpos, TEXT_Y - 15)
   }
 }
 
