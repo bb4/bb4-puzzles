@@ -1,12 +1,12 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails;
+package com.barrybecker4.puzzle.twopails1;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
-import com.barrybecker4.puzzle.twopails.model.MoveGenerator;
-import com.barrybecker4.puzzle.twopails.model.PailParams;
-import com.barrybecker4.puzzle.twopails.model.Pails;
-import com.barrybecker4.puzzle.twopails.model.PourOperation;
+import com.barrybecker4.puzzle.twopails1.model.MoveGenerator;
+import com.barrybecker4.puzzle.twopails1.model.PailParams;
+import com.barrybecker4.puzzle.twopails1.model.Pails;
+import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 import scala.collection.JavaConversions;
 import scala.collection.Seq;
 

@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails.model;
+package com.barrybecker4.puzzle.twopails1.model;
 
 /**
  * Defines the two parameters for the two pail problem.

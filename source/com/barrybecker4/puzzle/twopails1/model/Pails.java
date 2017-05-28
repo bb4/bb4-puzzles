@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails.model;
+package com.barrybecker4.puzzle.twopails1.model;
 
-import static com.barrybecker4.puzzle.twopails.model.PourOperation.Container.*;
+import static com.barrybecker4.puzzle.twopails1.model.PourOperation.Container.*;
 
 /**
  * Immutable representation of the two Pails and the amount of liquid they each contain at the moment.

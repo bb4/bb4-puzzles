@@ -1,10 +1,10 @@
-package com.barrybecker4.puzzle.twopails;
+package com.barrybecker4.puzzle.twopails1;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.i18n.StubMessageContext;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
-import com.barrybecker4.puzzle.twopails.model.PailParams;
-import com.barrybecker4.puzzle.twopails.model.PourOperation;
+import com.barrybecker4.puzzle.twopails1.model.PailParams;
+import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

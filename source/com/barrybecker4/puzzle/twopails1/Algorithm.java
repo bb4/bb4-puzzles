@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails;
+package com.barrybecker4.puzzle.twopails1;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
@@ -9,8 +9,8 @@ import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
-import com.barrybecker4.puzzle.twopails.model.Pails;
-import com.barrybecker4.puzzle.twopails.model.PourOperation;
+import com.barrybecker4.puzzle.twopails1.model.Pails;
+import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 
 /**
  * Type of solver to use.

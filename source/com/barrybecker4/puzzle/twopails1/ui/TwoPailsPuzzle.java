@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails.ui;
+package com.barrybecker4.puzzle.twopails1.ui;
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum;
 import com.barrybecker4.puzzle.common.PuzzleController;
@@ -9,10 +9,10 @@ import com.barrybecker4.puzzle.common.ui.NavigationPanel;
 import com.barrybecker4.puzzle.common.ui.PathNavigator;
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
-import com.barrybecker4.puzzle.twopails.Algorithm;
-import com.barrybecker4.puzzle.twopails.TwoPailsPuzzleController;
-import com.barrybecker4.puzzle.twopails.model.Pails;
-import com.barrybecker4.puzzle.twopails.model.PourOperation;
+import com.barrybecker4.puzzle.twopails1.Algorithm;
+import com.barrybecker4.puzzle.twopails1.TwoPailsPuzzleController;
+import com.barrybecker4.puzzle.twopails1.model.Pails;
+import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import javax.swing.JPanel;

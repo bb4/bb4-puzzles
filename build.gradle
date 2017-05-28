@@ -145,6 +145,12 @@ task runTwoPailsPuzzle(type: JavaExec) {
     jvmArgs = ["-Xss64m"]
 }
 
+task runTwoPailsPuzzle1(type: JavaExec) {
+    group = 'application'
+    main = 'com.barrybecker4.puzzle.twopails1.ui.TwoPailsPuzzle'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ["-Xss64m"]
+}
 
 task runBridgePuzzle1(type: JavaExec) {  // This java version should be removed
     group = 'application'

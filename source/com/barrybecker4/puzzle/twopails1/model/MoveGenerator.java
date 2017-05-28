@@ -1,12 +1,12 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.twopails.model;
+package com.barrybecker4.puzzle.twopails1.model;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.barrybecker4.puzzle.twopails.model.PourOperation.Action;
-import static com.barrybecker4.puzzle.twopails.model.PourOperation.Action.*;
-import static com.barrybecker4.puzzle.twopails.model.PourOperation.Container.*;
+import static com.barrybecker4.puzzle.twopails1.model.PourOperation.Action;
+import static com.barrybecker4.puzzle.twopails1.model.PourOperation.Action.*;
+import static com.barrybecker4.puzzle.twopails1.model.PourOperation.Container.*;
 
 /**
  * Two pails puzzle move generator. Generates valid next moves.
