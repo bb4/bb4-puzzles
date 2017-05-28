@@ -42,6 +42,16 @@ class SolutionVerifierSuite extends FunSuite {
     assertTrue("Unexpectedly not solved", verifier.isSolved)
   }
 
+  test("7TilesIsSolved") {
+    verifier = new SolutionVerifier(place7SolvedTiles)
+    assertTrue("Unexpectedly not solved", verifier.isSolved)
+  }
+
+  test("7TilesWongColorIsNotSolved") {
+    verifier = new SolutionVerifier(place7LoopWrongColorTiles)
+    assertFalse("Unexpectedly solved", verifier.isSolved)
+  }
+
   test("10TilesWithSpacesIsNotSolved") {
     verifier = new SolutionVerifier(place10LoopWithInnerSpace)
     assertFalse("Unexpectedly solved", verifier.isSolved)

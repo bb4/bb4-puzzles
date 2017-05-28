@@ -16,7 +16,7 @@ import scala.collection.Seq
   * The generic solvers (sequential and concurrent) expect the first class param
   * to represent the state of a board, and the TilePlacement (second param)
   * to represent a move. The way a move is applied is simply to add the piece to the
-  * end of the current list.
+  * end of the tantrix on the board.
   *
   * @author Barry Becker
   */
@@ -26,6 +26,7 @@ object TantrixController {
 
 class TantrixController(val ui: Refreshable[TantrixBoard, TilePlacement])
   extends AbstractPuzzleController[TantrixBoard, TilePlacement](ui) {
+
   algorithm_ = SIMPLE_SEQUENTIAL
   private var numTiles = TantrixController.MIN_NUM_TILES
   private val evaluator = new PathEvaluator
@@ -35,7 +36,6 @@ class TantrixController(val ui: Refreshable[TantrixBoard, TilePlacement])
   }
 
   def initialState: TantrixBoard = {
-    //MathUtil.RANDOM.setSeed(1);
     val tiles: Seq[HexTile] = new HexTiles().createRandomList(numTiles)
     new TantrixBoard(tiles)
   }
@@ -46,7 +46,11 @@ class TantrixController(val ui: Refreshable[TantrixBoard, TilePlacement])
     */
   def isGoal(position: TantrixBoard): Boolean = position.isSolved
 
-  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] = new MoveGenerator(position).generateMoves
+  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] = {
+    val trans = new MoveGenerator(position).generateMoves
+    //println("num trans = " + trans.length)
+    trans
+  }
 
   def transition(position: TantrixBoard, move: TilePlacement): TantrixBoard = position.placeTile(move)
 

@@ -12,9 +12,9 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
 class SolutionVerifier(var board: TantrixBoard) {
 
   /**
-    * The puzzle is solved if there is a loop of the primary color
-    * and all secondary colors match. Since a tile can only be placed in
-    * a valid position, we only need to check if there is a complete loop.
+    * The puzzle is solved if there is a loop of the primary color,
+    * all secondary colors match, and there are no inner spaces.
+    * Since a tile can only be placed in a valid position, we only need to check if there is a complete loop.
     *
     * @return true if solved.
     */

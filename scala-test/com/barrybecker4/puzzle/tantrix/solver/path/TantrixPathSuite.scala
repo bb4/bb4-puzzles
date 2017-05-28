@@ -81,7 +81,7 @@ class TantrixPathSuite extends FunSuite {
   }
 
   test("HasOrderedPrimaryPathRedOfLength7") {
-    val tiles = sevenTilesInAPath
+    val tiles = sevenTilesInAWrongRedLoop
     println("tiles = " + tiles.mkString("\n"))
     assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED))
   }

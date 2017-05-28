@@ -21,8 +21,8 @@ object TantrixBoard {
   * @param numTiles number of tiles in the puzzle
   * @author Barry Becker
   */
-class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
-                   val unplacedTiles: Seq[HexTile], val numTiles: Int) {
+case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
+                   unplacedTiles: Seq[HexTile], numTiles: Int) {
 
   /**
     * Constructor that creates a new tantrix instance when placing a move.
@@ -66,7 +66,7 @@ class TantrixBoard(val tantrix: Tantrix, val primaryColor: PathColor,
     * @param direction   side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile, if any.
     */
-  def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] =
+  def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] =
     tantrix.getNeighbor(currentPlacement, direction)
 
   /**

@@ -39,20 +39,20 @@ class TantrixSuite extends FunSuite {
 
   test("GetNeighborFromUnrotatedTile") {
     tantrix = place3SolvedTiles.tantrix
-    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor(tantrix(21, 21).get, 0))
+    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor( tantrix(21, 21), 0))
     val bottomLeft = tantrix(22, 20)
-    assertEquals("Unexpected bottom left neighbor", bottomLeft, tantrix.getNeighbor(tantrix(21, 21).get, 4))
+    assertEquals("Unexpected bottom left neighbor", bottomLeft, tantrix.getNeighbor(tantrix(21, 21), 4))
     val bottomRight = tantrix(22, 21)
-    assertEquals("Unexpected bottom right neighbor", bottomRight, tantrix.getNeighbor(tantrix(21, 21).get, 5))
+    assertEquals("Unexpected bottom right neighbor", bottomRight, tantrix.getNeighbor(tantrix(21, 21), 5))
   }
 
   test("GetNeighborFromRotatedTile") {
     tantrix = place3SolvedTiles.tantrix
-    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor(tantrix(22, 21).get, 0))
+    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor(tantrix(22, 21), 0))
     val topLeft = tantrix(21, 21)
-    assertEquals("Unexpected top left neighbor", topLeft, tantrix.getNeighbor(tantrix(22, 21).get, 2))
+    assertEquals("Unexpected top left neighbor", topLeft, tantrix.getNeighbor(tantrix(22, 21), 2))
     val left = tantrix(22, 20)
-    assertEquals("Unexpected left neighbor", left, tantrix.getNeighbor(tantrix(22, 21).get, 3))
+    assertEquals("Unexpected left neighbor", left, tantrix.getNeighbor(tantrix(22, 21), 3))
   }
 
   test("Bounding box for 3 solved tiles") {

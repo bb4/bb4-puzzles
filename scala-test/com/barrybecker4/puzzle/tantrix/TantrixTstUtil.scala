@@ -42,7 +42,7 @@ object TantrixTstUtil {
   /** Places first tile in the middle */
   def place6UnsolvedTiles: TantrixBoard = place6Unsolved(SIX_TILES)
 
-  def sevenTilesInAPath = Seq(
+  def sevenTilesInAWrongRedLoop = Seq(
     TilePlacement(TILES.getTile(3), loc(3, 1), ANGLE_300),
     TilePlacement(TILES.getTile(5), loc(2, 0), ANGLE_120),
     TilePlacement(TILES.getTile(6), loc(1, 0), ANGLE_0),
@@ -51,6 +51,16 @@ object TantrixTstUtil {
     TilePlacement(TILES.getTile(1), loc(1, 1), ANGLE_300),
     TilePlacement(TILES.getTile(7), loc(2, 1), ANGLE_120))
 
+  def sevenTilesInABlueLoop = Seq(
+    TilePlacement(TILES.getTile(7), loc(3, 1), ANGLE_180),
+    TilePlacement(TILES.getTile(2), loc(2, 0), ANGLE_120),
+    TilePlacement(TILES.getTile(5), loc(1, 0), ANGLE_240),
+    TilePlacement(TILES.getTile(4), loc(1, 1), ANGLE_0),
+    TilePlacement(TILES.getTile(6), loc(1, 2), ANGLE_60),
+    TilePlacement(TILES.getTile(3), loc(2, 2), ANGLE_120),
+    TilePlacement(TILES.getTile(1), loc(2, 1), ANGLE_180))
+
+  def place7LoopWrongColorTiles: TantrixBoard = place7LoopWrongColor(SEVEN_TILES)
   def place7SolvedTiles: TantrixBoard = place7Solved(SEVEN_TILES)
 
   /** Places first tile in the middle. Three unplaced tiles remain. */
@@ -80,19 +90,25 @@ object TantrixTstUtil {
   private def place6Unsolved(tiles: Seq[HexTile]) = {
     var board = new TantrixBoard(tiles)
     val tileList = Seq(
-      TilePlacement(TILES.getTile(2), loc(0, 1), ANGLE_60), 
-      TilePlacement(TILES.getTile(3), loc(-1, 2), ANGLE_180), 
-      TilePlacement(TILES.getTile(4), loc(-1, 1), ANGLE_0), 
-      TilePlacement(TILES.getTile(5), loc(-1, 0), ANGLE_240), 
+      TilePlacement(TILES.getTile(2), loc(0, 1), ANGLE_60),
+      TilePlacement(TILES.getTile(3), loc(-1, 2), ANGLE_180),
+      TilePlacement(TILES.getTile(4), loc(-1, 1), ANGLE_0),
+      TilePlacement(TILES.getTile(5), loc(-1, 0), ANGLE_240),
       TilePlacement(TILES.getTile(6), loc(0, 0), ANGLE_240))
 
     tileList.foreach(p => board = new TantrixBoard(board, p))
     board
   }
 
+  private def place7LoopWrongColor(tiles: Seq[HexTile]) = {
+    var board = new TantrixBoard(tiles)
+    sevenTilesInAWrongRedLoop.foreach(p => board = new TantrixBoard(board, p))
+    board
+  }
+
   private def place7Solved(tiles: Seq[HexTile]) = {
     var board = new TantrixBoard(tiles)
-    sevenTilesInAPath.foreach(p => board = new TantrixBoard(board, p))
+    sevenTilesInABlueLoop.foreach(p => board = new TantrixBoard(board, p))
     board
   }
 

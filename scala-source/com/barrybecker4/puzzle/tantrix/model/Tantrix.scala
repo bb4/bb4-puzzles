@@ -19,7 +19,7 @@ object Tantrix {
   * @param lastTile the last tile placed.
   * @author Barry Becker
   */
-case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacement) {
+case class Tantrix(tileMap: immutable.Map[Location, TilePlacement], lastTile: TilePlacement) {
 
   /** @param tiles tiles in the tantrix */
   def this(tiles: Seq[TilePlacement]) { this(createTileMap(tiles), tiles.last) }
@@ -39,12 +39,12 @@ case class Tantrix(tileMap: Map[Location, TilePlacement], lastTile: TilePlacemen
 
   /**
     * @param currentPlacement where we are now
-    * @param direction        side to navigate to to find the neighbor. 0 is to the right.
+    * @param direction  side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile (if it exists), else none.
     */
-  def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] = {
-    if (currentPlacement == null) return None
-    val loc = HexUtil.getNeighborLocation(currentPlacement.location, direction)
+  def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] = {
+    if (currentPlacement.isEmpty) return None
+    val loc = HexUtil.getNeighborLocation(currentPlacement.get.location, direction)
     tileMap.get(loc)
   }
 

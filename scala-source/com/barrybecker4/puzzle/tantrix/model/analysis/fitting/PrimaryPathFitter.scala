@@ -29,7 +29,7 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     */
   def isFit(placement: TilePlacement): Boolean = {
     for (i <- 0 until NUM_SIDES) {
-      val nbr = tantrix.getNeighbor(placement, i)
+      val nbr = tantrix.getNeighbor(Some(placement), i)
       if (nbr.isDefined) {
         val pathColor = placement.getPathColor(i)
         val nbrColor = nbr.get.getPathColor(i + 3)
@@ -48,7 +48,7 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     var numFits = 0
     var i = 0
     for (i <- 0 until NUM_SIDES) {
-        val nbr = tantrix.getNeighbor(placement, i)
+        val nbr = tantrix.getNeighbor(Some(placement), i)
         if (nbr.isDefined) {
           val pathColor = placement.getPathColor(i)
           if ((pathColor == primaryColor) && (pathColor == nbr.get.getPathColor(i + 3)))

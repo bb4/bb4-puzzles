@@ -24,7 +24,7 @@ class TileFitter(var tiles: Iterable[TilePlacement], primaryColor: PathColor) ex
     var primaryPathMatched = false
 
     for (i <- 0 until NUM_SIDES) {
-      val nbr = getNeighbor(placement, i)
+      val nbr = getNeighbor(Some(placement), i)
       if (nbr.isDefined) {
         val pathColor = placement.getPathColor(i)
         if (pathColor == nbr.get.getPathColor(i + 3)) {
@@ -39,11 +39,11 @@ class TileFitter(var tiles: Iterable[TilePlacement], primaryColor: PathColor) ex
 
   /**
     * @param currentPlacement where we are now
-    * @param direction        side to navigate in order to find the neighbor. 0 is to the right.
+    * @param direction    side to navigate in order to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile if it exists, else None.
     */
-  protected def getNeighbor(currentPlacement: TilePlacement, direction: Int): Option[TilePlacement] = {
-    val loc = getNeighborLocation(currentPlacement.location, direction)
+  protected def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] = {
+    val loc = getNeighborLocation(currentPlacement.get.location, direction)
     tiles.find(_.location == loc)
   }
 }

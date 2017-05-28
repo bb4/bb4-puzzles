@@ -27,7 +27,7 @@ class LoopDetector(var board: TantrixBoard) {
     var previousTile: Option[TilePlacement] = None
     var nextTile: Option[TilePlacement] = None
     do {
-      nextTile = findNeighborTile(currentTile.get, previousTile)
+      nextTile = findNeighborTile(currentTile, previousTile)
       previousTile = currentTile
       currentTile = nextTile
       numVisited += 1
@@ -39,14 +39,14 @@ class LoopDetector(var board: TantrixBoard) {
     * Loop through the edges until we find the primary color.
     * If it does not direct us back to where we came from then go that way.
     *
-    * @param currentPlacement where we are now
-    * @param previousTile     where we were
+    * @param currentPlacement where we are now, if any
+    * @param previousTile     where we were, if any
     * @return the next tile in the path if there is one. Otherwise null.
     */
-  private def findNeighborTile(currentPlacement: TilePlacement,
+  private def findNeighborTile(currentPlacement: Option[TilePlacement],
                                previousTile: Option[TilePlacement]): Option[TilePlacement] = {
     for (i <- 0 until HexTile.NUM_SIDES) {
-        val color = currentPlacement.getPathColor(i)
+        val color = currentPlacement.get.getPathColor(i)
         if (color == board.primaryColor) {
           val nbr = board.getNeighbor(currentPlacement, i)
           if (nbr.isDefined && nbr != previousTile && (nbr.get.getPathColor(i + 3) == color)) return nbr

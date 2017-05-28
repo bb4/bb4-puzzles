@@ -73,7 +73,7 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
     for (i <- 0 until NUM_SIDES) {
       val color = previous.getPathColor(i)
       if (color == primaryColor) {
-        val nbr = tantrix.getNeighbor(previous, i)
+        val nbr = tantrix.getNeighbor(Some(previous), i)
         if (nbr.isDefined && !visited.contains(nbr.get.location)) {
           val newBox = new Box(boundingBox, nbr.get.location)
           if (newBox.getMaxDimension < maxHalfPathLength) {

@@ -19,7 +19,7 @@ class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Rand
     * @return a random path.
     */
   def generateRandomPath: TantrixPath = {
-    var currentBoard: TantrixBoard = null
+    var currentBoard: TantrixBoard = initialBoard
     var foundPath = false
     do {
       currentBoard = initialBoard

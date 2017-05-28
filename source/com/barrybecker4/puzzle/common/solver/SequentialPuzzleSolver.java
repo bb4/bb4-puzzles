@@ -11,7 +11,7 @@ import scala.collection.mutable.Set;
 /**
  * Naive Sequential puzzle solver.
  * Performs a depth first search on the state space.
- * If will find a solution if there is one, but it may not be the best solution or the shortest path to it.
+ * It will find a solution if there is one, but it may not be the best solution or the shortest path to it.
  * See A* for a better way to search that involves priority sorting of current paths.
  *
  * @author Brian Goetz
@@ -37,7 +37,7 @@ public class SequentialPuzzleSolver<P, M> implements PuzzleSolver<M> {
     public Option<Seq<M>> solve() {
         P pos = puzzle.initialState();
         long startTime = System.currentTimeMillis();
-        PuzzleNode<P, M> solutionState = search(new PuzzleNode<P, M>(pos));
+        PuzzleNode<P, M> solutionState = search(new PuzzleNode<>(pos));
 
         Option<Seq<M>> pathToSolution = Option.empty();
         Option<P> solution = Option.empty();
