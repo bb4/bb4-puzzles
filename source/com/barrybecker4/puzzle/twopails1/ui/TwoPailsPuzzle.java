@@ -33,10 +33,9 @@ public final class TwoPailsPuzzle extends PuzzleApplet<Pails, PourOperation>
     public TwoPailsPuzzle() {}
 
     /** Construct the application */
-    public TwoPailsPuzzle(String[] args) {
+    private TwoPailsPuzzle(String[] args) {
         super(args);
     }
-
 
     @Override
     protected PuzzleViewer<Pails, PourOperation> createViewer() {

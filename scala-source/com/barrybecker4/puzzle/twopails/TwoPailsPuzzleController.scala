@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails
 
 import com.barrybecker4.common.search.Refreshable
@@ -7,9 +7,6 @@ import com.barrybecker4.puzzle.twopails.model.MoveGenerator
 import com.barrybecker4.puzzle.twopails.model.PailParams
 import com.barrybecker4.puzzle.twopails.model.Pails
 import com.barrybecker4.puzzle.twopails.model.PourOperation
-import com.barrybecker4.puzzle.twopails.TwoPailsPuzzleController._
-import com.barrybecker4.puzzle.twopails.Algorithm._
-import scala.collection.JavaConversions
 import scala.collection.Seq
 
 

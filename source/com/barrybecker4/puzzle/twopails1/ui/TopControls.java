@@ -24,15 +24,15 @@ import static com.barrybecker4.puzzle.twopails1.model.PailParams.MAX_CAPACITY;
 public final class TopControls extends TopControlPanel<Pails, PourOperation> implements KeyListener {
 
     // ui for entering the direction probabilities.
-    protected NumberInput firstPailSize;
-    protected NumberInput secondPailSize;
-    protected NumberInput targetMeasure;
+    private NumberInput firstPailSize;
+    private NumberInput secondPailSize;
+    private NumberInput targetMeasure;
 
 
     /**
      * The solve and generate button at the top.
      */
-    public TopControls(
+    TopControls(
             PuzzleController<Pails, PourOperation> controller,
             AlgorithmEnum<Pails, PourOperation>[] algorithmValues) {
 

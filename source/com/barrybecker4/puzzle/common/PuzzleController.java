@@ -13,9 +13,7 @@ import com.barrybecker4.search.SearchSpace;
  */
 public interface PuzzleController<P, M> extends SearchSpace<P, M> {
 
-    /**
-     *specify the algorithm to use.
-     */
+    /** Specify the algorithm to use. */
     void setAlgorithm(AlgorithmEnum<P, M> algorithm);
 
     /**
@@ -24,8 +22,6 @@ public interface PuzzleController<P, M> extends SearchSpace<P, M> {
      */
     AlgorithmEnum getAlgorithm();
 
-    /**
-     * Begin the search to find a solution to the puzzle.
-     */
+    /** Begin the search to find a solution to the puzzle. */
     void startSolving();
 }

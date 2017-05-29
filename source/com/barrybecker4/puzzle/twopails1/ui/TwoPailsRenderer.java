@@ -18,10 +18,10 @@ import java.awt.Graphics;
  */
 public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
 
-    public static final float CONTAINER_WIDTH = 0.2f;
-    public static final float SEPARATION = 0.11f;
-    public static final int TEXT_WIDTH = 70;
-    public static final int TEXT_OFFSET = 10;
+    private static final float CONTAINER_WIDTH = 0.2f;
+    private static final float SEPARATION = 0.11f;
+    private static final int TEXT_WIDTH = 70;
+    private static final int TEXT_OFFSET = 10;
 
     private static final int TOP_MARGIN = 160;
     private static final int MARGIN = 60;
@@ -33,10 +33,9 @@ public class TwoPailsRenderer implements PuzzleRenderer<Pails> {
 
 
     /**
-     * private constructor because this class is a singleton.
-     * Use getPieceRenderer instead.
+     * private constructor because this class is a singleton. Use getPieceRenderer instead.
      */
-    public TwoPailsRenderer() {}
+    TwoPailsRenderer() {}
 
     /**
      * This renders the current state of the Pails to the screen.

@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails
 
 import com.barrybecker4.common.app.AppContext
@@ -18,8 +18,6 @@ case object A_STAR_CONCURRENT extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
 case object CONCURRENT_OPTIMUM extends Algorithm
-case object GENETIC_SEARCH extends Algorithm
-case object CONCURRENT_GENETIC_SEARCH extends Algorithm
 
 /**
   * Type of search solver to use.
@@ -42,6 +40,7 @@ sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
+      case _ => throw new IllegalStateException("unknow solver type: " + this)
     }
   }
 
@@ -51,7 +50,6 @@ sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[Pails, PourOperation]] = Array(
     SIMPLE_SEQUENTIAL, A_STAR_CONCURRENT,
-    CONCURRENT_BREADTH, CONCURRENT_DEPTH,
-    CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
+    CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
   )
 }
