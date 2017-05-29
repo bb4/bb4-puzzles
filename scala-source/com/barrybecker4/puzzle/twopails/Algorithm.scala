@@ -9,8 +9,8 @@ import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver
 import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
-import com.barrybecker4.puzzle.twopails1.model.Pails
-import com.barrybecker4.puzzle.twopails1.model.PourOperation
+import com.barrybecker4.puzzle.twopails.model.Pails
+import com.barrybecker4.puzzle.twopails.model.PourOperation
 
 case object SIMPLE_SEQUENTIAL extends Algorithm
 case object A_STAR_SEQUENTIAL extends Algorithm
@@ -22,7 +22,7 @@ case object GENETIC_SEARCH extends Algorithm
 case object CONCURRENT_GENETIC_SEARCH extends Algorithm
 
 /**
-  * Type of solver to use.
+  * Type of search solver to use.
   *
   * @author Barry Becker
   */
@@ -30,7 +30,6 @@ sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
 
   private val label = AppContext.getLabel(this.toString)
   def getLabel: String = label
-
 
   /**
     * Create an instance of the algorithm given the controller and a refreshable.
