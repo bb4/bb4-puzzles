@@ -2,7 +2,7 @@ package com.barrybecker4.puzzle.twopails1;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.i18n.StubMessageContext;
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.PuzzleSolver;
 import com.barrybecker4.puzzle.twopails1.model.PailParams;
 import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 import org.junit.AfterClass;

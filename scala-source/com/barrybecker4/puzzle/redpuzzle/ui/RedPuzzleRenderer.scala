@@ -3,7 +3,7 @@
 package com.barrybecker4.puzzle.redpuzzle.ui
 
 import com.barrybecker4.common.format.FormatUtil
-import com.barrybecker4.puzzle.common.PuzzleRenderer
+import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.redpuzzle.model._
 import com.barrybecker4.ui.util.GUIUtil
 import java.awt.Color

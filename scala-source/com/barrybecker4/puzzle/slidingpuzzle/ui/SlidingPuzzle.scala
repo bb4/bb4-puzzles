@@ -43,7 +43,7 @@ case class SlidingPuzzle(args: Array[String]) extends PuzzleApplet[SliderBoard, 
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]] = Algorithm.VALUES
 
-  override protected def createTopControls = SliderTopControls(controller_, getAlgorithmValues)
+  override protected def createTopControls = SliderTopControls(controller, getAlgorithmValues)
 
   override protected def createBottomControls: JPanel = {
     navPanel = new NavigationPanel()
@@ -51,7 +51,7 @@ case class SlidingPuzzle(args: Array[String]) extends PuzzleApplet[SliderBoard, 
   }
 
   def done() {
-    navPanel.setPathNavigator(viewer_.asInstanceOf[PathNavigator])
+    navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
 }
 

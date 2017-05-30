@@ -58,8 +58,8 @@ class StoryMenu extends JMenu implements ActionListener  {
      * @param e action event
      */
     public void actionPerformed( ActionEvent e ) {
-         JMenuItem item = (JMenuItem) e.getSource();
-         if (item == openItem_)  {
+        JMenuItem item = (JMenuItem) e.getSource();
+        if (item == openItem_)  {
             openStory();
         }
         else if (item == saveItem_) {
@@ -130,7 +130,7 @@ class StoryMenu extends JMenu implements ActionListener  {
      * @param name name of the menu item. The label.
      * @return the menu item to add.
      */
-    JMenuItem createMenuItem(String name) {
+    private JMenuItem createMenuItem(String name) {
         JMenuItem item = new JMenuItem(name);
         item.addActionListener(this);
         return item;

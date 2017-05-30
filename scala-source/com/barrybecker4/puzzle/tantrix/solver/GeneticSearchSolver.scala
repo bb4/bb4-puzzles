@@ -8,7 +8,7 @@ import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
-import com.barrybecker4.puzzle.tantrix1.solver.path.PathEvaluator.SOLVED_THRESH
+import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
 
 import scala.collection.Seq
 

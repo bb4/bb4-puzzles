@@ -15,17 +15,18 @@ import collection.JavaConverters._
   *
   * @author Barry Becker
   */
-final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
+final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListener)
   extends PuzzleViewer[PegBoard, PegMove] with PathNavigator {
 
+  board = theBoard
   private val renderer: PegBoardRenderer = new PegBoardRenderer()
   private var path: List[PegMove] = _
 
-  def getPath: util.List[PegMove] = path.asJava
+  def getPath: List[PegMove] = path
 
   override def refresh(board: PegBoard, numTries: Long) {
     if (numTries % 4000 == 0) {
-      status_ = createStatusMessage(numTries)
+      status = createStatusMessage(numTries)
       simpleRefresh(board, numTries)
     }
   }
@@ -39,7 +40,7 @@ final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
   }
 
   def makeMove(currentStep: Int, undo: Boolean) {
-    board = board.doMove(getPath.get(currentStep), undo)
+    board = board.doMove(getPath(currentStep), undo)
     repaint()
   }
 
@@ -48,12 +49,12 @@ final class PegBoardViewer (var board: PegBoard, var doneListener: DoneListener)
     */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
-    renderer.render(g, board_, getWidth, getHeight)
+    renderer.render(g, board, getWidth, getHeight)
   }
 
-  def showPath(thePath: List[PegMove], board: PegBoard) {
+  def showPath(thePath: List[PegMove], theBoard: PegBoard) {
     path = thePath
-    board_ = board
+    board = theBoard
     if (doneListener != null) doneListener.done()
   }
 }

@@ -39,7 +39,7 @@ final class RedPuzzleViewer private[ui]()
   }
 
   override def refresh(pieces: PieceList, numTries: Long) {
-    status_ = createStatusMessage(numTries)
+    status = createStatusMessage(numTries)
     simpleRefresh(pieces, numTries)
     if (animationSpeed < RedPuzzleViewer.MAX_ANIM_SPEED) {
       if (numTries % 5 == 0) makeSound()
@@ -58,7 +58,7 @@ final class RedPuzzleViewer private[ui]()
     * make a little click noise when the piece fits into place.
     */
   override def makeSound() {
-    musicMaker_.playNote(60, 20, 940)
+    musicMaker.playNote(60, 20, 940)
   }
 
   /**
@@ -67,6 +67,6 @@ final class RedPuzzleViewer private[ui]()
     */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
-    renderer.render(g, board_, this.getWidth, this.getHeight)
+    renderer.render(g, board, this.getWidth, this.getHeight)
   }
 }

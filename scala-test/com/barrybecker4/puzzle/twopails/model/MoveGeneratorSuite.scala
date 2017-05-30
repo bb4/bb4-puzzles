@@ -1,12 +1,9 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.model
 
-import org.junit.Test
-import java.util
 
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Action._
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Container._
-import org.junit.Assert.assertEquals
 import org.scalatest.FunSuite
 
 /**

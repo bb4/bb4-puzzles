@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum
@@ -20,8 +20,8 @@ import com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY
   *
   * @author Barry Becker
   */
-final class TopControls (val controller: PuzzleController[Pails, PourOperation],
-                         val algorithmValues: Array[AlgorithmEnum[Pails, PourOperation]])
+final class TopControls (controller: PuzzleController[Pails, PourOperation],
+                         algorithmValues: Array[AlgorithmEnum[Pails, PourOperation]])
 
 /**
   * The solve and generate button at the top.
@@ -53,6 +53,6 @@ final class TopControls (val controller: PuzzleController[Pails, PourOperation],
   override def keyPressed(e: KeyEvent): Unit = {}
   override def keyReleased(e: KeyEvent): Unit = {
     val params = new PailParams(firstPailSize.getIntValue, secondPailSize.getIntValue, targetMeasure.getIntValue)
-    controller_.asInstanceOf[TwoPailsPuzzleController].setParams(params)
+    controller.asInstanceOf[TwoPailsPuzzleController].setParams(params)
   }
 }

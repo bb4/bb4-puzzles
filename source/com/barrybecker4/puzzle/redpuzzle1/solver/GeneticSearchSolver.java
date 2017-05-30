@@ -6,7 +6,7 @@ import com.barrybecker4.optimization.Optimizer;
 import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
-import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common1.PuzzleController;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceParameterArray;

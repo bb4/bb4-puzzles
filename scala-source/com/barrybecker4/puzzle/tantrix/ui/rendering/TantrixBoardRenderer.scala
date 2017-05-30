@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.ui.rendering
 import java.awt._
 
 import com.barrybecker4.common.geometry.{IntLocation, Location}
-import com.barrybecker4.puzzle.common.PuzzleRenderer
+import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.ui.rendering.HexUtil.ROOT3
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer._

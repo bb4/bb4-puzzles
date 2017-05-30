@@ -2,13 +2,13 @@
 package com.barrybecker4.puzzle.hiq;
 
 import com.barrybecker4.common.app.AppContext;
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver;
-import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver;
-import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver;
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
-import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
+import com.barrybecker4.puzzle.common1.solver.AStarConcurrentPuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.AStarPuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.ConcurrentPuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.PuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.SequentialPuzzleSolver;
 import com.barrybecker4.puzzle.hiq.model.PegBoard1;
 import com.barrybecker4.puzzle.hiq.model.PegMove1;
 

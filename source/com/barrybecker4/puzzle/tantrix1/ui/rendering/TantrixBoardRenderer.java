@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix1.ui.rendering;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.common.PuzzleRenderer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleRenderer;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;
 

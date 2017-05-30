@@ -20,16 +20,16 @@ object SlidingPuzzleController {
   private val generator = new MoveGenerator
 }
 
-class SlidingPuzzleController(val ui: Refreshable[SliderBoard, SlideMove])
+class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
   extends AbstractPuzzleController[SliderBoard, SlideMove](ui) {
 
   private var initialPosition = new SliderBoard(SlidingPuzzleController.DEFAULT_SIZE, true)
-  algorithm_ = A_STAR_SEQUENTIAL
+  algorithm = A_STAR_SEQUENTIAL
 
   /** @param size the edge length of the puzzle to be solved */
   def setSize(size: Int) {
     initialPosition = new SliderBoard(size.toByte, true)
-    if (ui_ != null) ui_.refresh(initialPosition, 0)
+    if (ui != null) ui.refresh(initialPosition, 0)
   }
 
   def initialState: SliderBoard = initialPosition

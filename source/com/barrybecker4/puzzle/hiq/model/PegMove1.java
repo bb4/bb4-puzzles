@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.hiq.model;
 
 import com.barrybecker4.common.geometry.ByteLocation;
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.common.model.Move;
+import com.barrybecker4.puzzle.common1.model.Move;
 
 /**
  * Definition for a peg jumping another peg.

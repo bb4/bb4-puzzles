@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle1.solver;
 
-import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common1.PuzzleController;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 import scala.Option;

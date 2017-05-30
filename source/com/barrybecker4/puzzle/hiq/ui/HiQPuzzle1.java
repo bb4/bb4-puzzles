@@ -1,14 +1,14 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.ui;
 
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.DoneListener;
-import com.barrybecker4.puzzle.common.ui.NavigationPanel;
-import com.barrybecker4.puzzle.common.ui.PathNavigator;
-import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.ui.DoneListener;
+import com.barrybecker4.puzzle.common1.ui.NavigationPanel;
+import com.barrybecker4.puzzle.common1.ui.PathNavigator;
+import com.barrybecker4.puzzle.common1.ui.PuzzleApplet;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.hiq.Algorithm1;
 import com.barrybecker4.puzzle.hiq.HiQController1;
 import com.barrybecker4.puzzle.hiq.model.PegBoard1;

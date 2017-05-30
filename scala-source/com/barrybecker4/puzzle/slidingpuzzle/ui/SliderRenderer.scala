@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.ui
 
 import java.awt.{Color, Font, Graphics}
 
-import com.barrybecker4.puzzle.common.PuzzleRenderer
+import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
 
 /**

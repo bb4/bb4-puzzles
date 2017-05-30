@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails1.ui;
 
-import com.barrybecker4.puzzle.common.PuzzleRenderer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleRenderer;
 import com.barrybecker4.puzzle.twopails1.model.PailParams;
 import com.barrybecker4.puzzle.twopails1.model.Pails;
 

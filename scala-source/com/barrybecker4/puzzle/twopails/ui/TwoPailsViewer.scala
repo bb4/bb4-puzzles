@@ -9,7 +9,8 @@ import com.barrybecker4.puzzle.twopails.model.Pails
 import com.barrybecker4.puzzle.twopails.model.PourOperation
 import javax.swing.JOptionPane
 import java.awt.Graphics
-import java.util
+//import java.util.List
+import collection.JavaConverters._
 
 
 /**
@@ -21,27 +22,27 @@ final class TwoPailsViewer(var doneListener: DoneListener)
   extends PuzzleViewer[Pails, PourOperation] with PathNavigator {
 
   private val renderer: TwoPailsRenderer = new TwoPailsRenderer
-  private var path: util.List[PourOperation] = _
+  private var path: List[PourOperation] = _
 
-  override def getPath: util.List[PourOperation] = path
+  override def getPath: List[PourOperation] = path
 
   override def refresh(pails: Pails, numTries: Long): Unit = {
-    board_ = pails
+    board = pails
     makeSound()
-    status_ = createStatusMessage(numTries)
+    status = createStatusMessage(numTries)
     simpleRefresh(pails, numTries)
   }
 
-  override def finalRefresh(path: util.List[PourOperation], pails: Pails, numTries: Long, millis: Long): Unit = {
+  override def finalRefresh(path: java.util.List[PourOperation], pails: Pails, numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, pails, numTries, millis)
     if (path == null)
       JOptionPane.showMessageDialog(this,
         AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"), JOptionPane.WARNING_MESSAGE)
-    else showPath(path, pails)
+    else showPath(path.asScala.toList, pails)
   }
 
   override def makeMove(currentStep: Int, undo: Boolean): Unit = {
-    board_ = board_.doMove(getPath.get(currentStep), undo)
+    board = board.doMove(getPath(currentStep), undo)
     repaint()
   }
 
@@ -50,12 +51,12 @@ final class TwoPailsViewer(var doneListener: DoneListener)
     */
   override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
-    if (board_ != null) renderer.render(g, board_, getWidth, getHeight)
+    if (board != null) renderer.render(g, board, getWidth, getHeight)
   }
 
-  def showPath(thePath: util.List[PourOperation], pails: Pails): Unit = {
+  def showPath(thePath: List[PourOperation], pails: Pails): Unit = {
     path = thePath
-    board_ = pails
+    board = pails
     if (doneListener != null) doneListener.done()
   }
 }

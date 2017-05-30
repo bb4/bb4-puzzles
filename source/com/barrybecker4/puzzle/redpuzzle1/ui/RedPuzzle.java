@@ -1,11 +1,11 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle1.ui;
 
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleApplet;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.redpuzzle1.RedPuzzleController;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;

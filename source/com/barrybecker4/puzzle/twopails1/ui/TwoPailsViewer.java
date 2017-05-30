@@ -2,9 +2,9 @@
 package com.barrybecker4.puzzle.twopails1.ui;
 
 import com.barrybecker4.common.app.AppContext;
-import com.barrybecker4.puzzle.common.ui.DoneListener;
-import com.barrybecker4.puzzle.common.ui.PathNavigator;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.ui.DoneListener;
+import com.barrybecker4.puzzle.common1.ui.PathNavigator;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.twopails1.model.Pails;
 import com.barrybecker4.puzzle.twopails1.model.PourOperation;
 

@@ -5,7 +5,7 @@ import java.awt.{Color, Font, Graphics}
 
 import com.barrybecker4.puzzle.bridge.model.{Bridge, BridgeMove}
 import com.barrybecker4.puzzle.bridge.ui.BridgeRenderer._
-import com.barrybecker4.puzzle.common.PuzzleRenderer
+import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 
 /**
   * Singleton class that renders the current state of the Bridge1 puzzle.

@@ -22,12 +22,12 @@ object TwoPailsPuzzleController {
   private val DEFAULT_PARAMS = new PailParams(9, 4, 6)
 }
 
-class TwoPailsPuzzleController(val ui: Refreshable[Pails, PourOperation])
+class TwoPailsPuzzleController(ui: Refreshable[Pails, PourOperation])
   extends AbstractPuzzleController[Pails, PourOperation](ui) {
 
   private var initialPosition = new Pails(TwoPailsPuzzleController.DEFAULT_PARAMS)
   // set default
-  algorithm_ = A_STAR_SEQUENTIAL
+  algorithm = A_STAR_SEQUENTIAL
 
 
   /**
@@ -37,7 +37,7 @@ class TwoPailsPuzzleController(val ui: Refreshable[Pails, PourOperation])
     */
   def setParams(params: PailParams): Unit = {
     initialPosition = new Pails(params)
-    if (ui_ != null) ui_.refresh(initialPosition, 0)
+    if (ui != null) ui.refresh(initialPosition, 0)
   }
 
   override def initialState: Pails = initialPosition

@@ -4,9 +4,9 @@ package com.barrybecker4.puzzle.bridge.ui;
 import com.barrybecker4.puzzle.bridge.BridgePuzzleController1;
 import com.barrybecker4.puzzle.bridge.model.Bridge1;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.ui.TopControlPanel;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
+import com.barrybecker4.puzzle.common1.ui.TopControlPanel;
 
 import javax.swing.Box;
 import javax.swing.JPanel;

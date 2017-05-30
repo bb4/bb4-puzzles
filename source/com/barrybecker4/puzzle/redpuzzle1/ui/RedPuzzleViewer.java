@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle1.ui;
 
 import com.barrybecker4.common.concurrency.ThreadUtil;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 

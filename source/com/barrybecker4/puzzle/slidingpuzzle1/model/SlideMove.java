@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle1.model;
 
 import com.barrybecker4.common.geometry.Location;
-import com.barrybecker4.puzzle.common.model.Move;
+import com.barrybecker4.puzzle.common1.model.Move;
 
 /**
  * Definition for tile that slides around on the Slider board.

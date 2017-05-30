@@ -4,6 +4,7 @@
 package com.barrybecker4.puzzle.redpuzzle
 
 import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}
 import com.barrybecker4.puzzle.redpuzzle.solver.BRUTE_FORCE_ORIGINAL
@@ -22,10 +23,10 @@ import scala.collection.Seq
   *
   * @author Barry Becker
   */
-class RedPuzzleController(val ui: Refreshable[PieceList, OrientedPiece])
+class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {
 
-  algorithm_ = BRUTE_FORCE_ORIGINAL
+  algorithm = BRUTE_FORCE_ORIGINAL
   final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces
 
   def initialState: PieceList = new PieceList  // empty piece list

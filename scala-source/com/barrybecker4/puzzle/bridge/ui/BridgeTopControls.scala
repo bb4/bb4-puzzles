@@ -21,8 +21,8 @@ import com.barrybecker4.puzzle.common.ui.TopControlPanel
   * The solve and generate button at the top.
   * @author Barry Becker
   */
-final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMove],
-                              val algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])
+final class BridgeTopControls(controller: PuzzleController[Bridge, BridgeMove],
+                              algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])
   extends TopControlPanel[Bridge, BridgeMove](controller, algorithmValues) with ItemListener {
   private var configurationSelector: Choice = _
 
@@ -44,7 +44,7 @@ final class BridgeTopControls(val controller: PuzzleController[Bridge, BridgeMov
     super.itemStateChanged(e)
     if (e.getSource eq configurationSelector) {
       val people = CONFIGURATIONS(configurationSelector.getSelectedIndex).peopleSpeeds
-      controller_.asInstanceOf[BridgePuzzleController].setConfiguration(people)
+      controller.asInstanceOf[BridgePuzzleController].setConfiguration(people)
     }
   }
 }

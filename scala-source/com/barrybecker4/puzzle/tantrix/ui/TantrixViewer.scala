@@ -19,7 +19,7 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
 
   private var renderer: TantrixBoardRenderer = new TantrixBoardRenderer
 
-  def getBoard: TantrixBoard = board_
+  def getBoard: TantrixBoard = board
 
   /**
     * This renders the current state of the PuzzlePanel to the screen.
@@ -27,17 +27,17 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
     */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
-    renderer.render(g, board_, getWidth, getHeight)
+    renderer.render(g, board, getWidth, getHeight)
   }
 
   override def refresh(board: TantrixBoard, numTries: Long) {
-    status_ = createStatusMessage(numTries)
+    status = createStatusMessage(numTries)
     simpleRefresh(board, numTries)
   }
 
   override def makeSound() {
     val note = Math.min(127, 20 + getBoard.unplacedTiles.size * 12)
-    musicMaker_.playNote(note * 20, 20, 640)
+    musicMaker.playNote(note * 20, 20, 640)
   }
 }
 

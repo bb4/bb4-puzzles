@@ -6,7 +6,7 @@ import com.barrybecker4.optimization.Optimizer;
 import com.barrybecker4.optimization.optimizee.Optimizee;
 import com.barrybecker4.optimization.parameter.ParameterArray;
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType;
-import com.barrybecker4.puzzle.common.PuzzleController;
+import com.barrybecker4.puzzle.common1.PuzzleController;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;
 import com.barrybecker4.puzzle.tantrix1.solver.path.PathEvaluator;

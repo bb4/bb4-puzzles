@@ -21,7 +21,7 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   private var thePath = List[BridgeMove]()
   private var lastMove: Option[BridgeMove] = None
 
-  def getPath: java.util.List[BridgeMove] = thePath.asJava
+  def getPath: List[BridgeMove] = thePath
 
   override def finalRefresh(path: java.util.List[BridgeMove], board: Bridge, numTries: Long, millis: Long) {
     super.finalRefresh(path, board, numTries, millis)
@@ -30,8 +30,8 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
 
   def makeMove(currentStep: Int, undo: Boolean) {
 
-    val m = getPath.get(currentStep)
-    board_ = board_.applyMove(m, undo)
+    val m = getPath(currentStep)
+    board = board.applyMove(m, undo)
     lastMove = Some(BridgeMove(m.people, if (undo) !m.direction else m.direction))
     repaint()
   }
@@ -50,12 +50,12 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
-    if (board_ != null) renderer.render(g, board_, lastMove, getWidth, getHeight)
+    if (board != null) renderer.render(g, board, lastMove, getWidth, getHeight)
   }
 
-  def showPath(path: java.util.List[BridgeMove], board: Bridge) {
+  def showPath(path: java.util.List[BridgeMove], theBoard: Bridge) {
     thePath = path.asScala.toList
-    board_ = board
+    board = theBoard
     if (doneListener != null) doneListener.done()
   }
 }

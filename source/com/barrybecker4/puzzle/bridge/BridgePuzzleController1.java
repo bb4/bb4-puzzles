@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.bridge;
 
 import com.barrybecker4.common.search.Refreshable;
 import com.barrybecker4.puzzle.bridge.model.*;
-import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
+import com.barrybecker4.puzzle.common1.ui.AbstractPuzzleController;
 import scala.collection.Seq;
 
 /**

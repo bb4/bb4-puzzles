@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.twopails1;
 
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
+import com.barrybecker4.puzzle.common1.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.twopails1.model.MoveGenerator;
 import com.barrybecker4.puzzle.twopails1.model.PailParams;
 import com.barrybecker4.puzzle.twopails1.model.Pails;

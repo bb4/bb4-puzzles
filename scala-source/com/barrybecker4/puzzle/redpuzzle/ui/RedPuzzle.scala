@@ -46,7 +46,7 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
 
   protected def createController(
            viewer: Refreshable[PieceList, OrientedPiece] ): PuzzleController[PieceList, OrientedPiece] = {
-    new RedPuzzleController(viewer_)
+    new RedPuzzleController(viewer)
   }
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, OrientedPiece]] = Algorithm.VALUES
@@ -60,6 +60,6 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
   }
 
   def sliderChanged(slider: LabeledSlider) {
-    viewer_.asInstanceOf[RedPuzzleViewer].setAnimationSpeed(animSpeedSlider.getValue.toInt)
+    viewer.asInstanceOf[RedPuzzleViewer].setAnimationSpeed(animSpeedSlider.getValue.toInt)
   }
 }

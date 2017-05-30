@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.bridge.ui;
 
 import com.barrybecker4.puzzle.bridge.model.Bridge1;
-import com.barrybecker4.puzzle.common.PuzzleRenderer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleRenderer;
 
 import java.awt.Color;
 import java.awt.Font;

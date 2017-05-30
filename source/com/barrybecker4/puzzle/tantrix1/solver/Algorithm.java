@@ -2,9 +2,9 @@
 package com.barrybecker4.puzzle.tantrix1.solver;
 
 import com.barrybecker4.common.app.AppContext;
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.solver.*;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
+import com.barrybecker4.puzzle.common1.solver.*;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;
 

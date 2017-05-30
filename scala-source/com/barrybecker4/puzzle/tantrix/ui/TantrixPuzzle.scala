@@ -75,5 +75,5 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     primaryColorLabel.setText(HexTiles.TILES.getTile(tileNum).primaryColor.toString)
   }
 
-  private def getController = controller_.asInstanceOf[TantrixController]
+  private def getController = controller.asInstanceOf[TantrixController]
 }

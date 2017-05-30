@@ -4,9 +4,9 @@ package com.barrybecker4.puzzle.bridge.ui;
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.puzzle.bridge.model.Bridge1;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
-import com.barrybecker4.puzzle.common.ui.DoneListener;
-import com.barrybecker4.puzzle.common.ui.PathNavigator;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.ui.DoneListener;
+import com.barrybecker4.puzzle.common1.ui.PathNavigator;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 
 import java.awt.Graphics;
 import java.util.List;

@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle1.ui;
 
 import com.barrybecker4.common.format.FormatUtil;
-import com.barrybecker4.puzzle.common.PuzzleRenderer;
+import com.barrybecker4.puzzle.common1.ui.PuzzleRenderer;
 import com.barrybecker4.puzzle.redpuzzle1.model.Nub;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;

@@ -44,12 +44,12 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
   override protected def createViewer = new TwoPailsViewer(this)
 
   protected def createController(viewer: Refreshable[Pails, PourOperation] ): PuzzleController[Pails, PourOperation] = {
-    new TwoPailsPuzzleController(viewer_)
+    new TwoPailsPuzzleController(viewer)
   }
 
   override protected def getAlgorithmValues: Array[AlgorithmEnum[Pails, PourOperation]] = Algorithm.VALUES
 
-  override protected def createTopControls = new TopControls(controller_, getAlgorithmValues)
+  override protected def createTopControls = new TopControls(controller, getAlgorithmValues)
 
   override protected def createBottomControls: JPanel = {
     navPanel = new NavigationPanel()
@@ -57,7 +57,7 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
   }
 
   override def done(): Unit = {
-    navPanel.setPathNavigator(viewer_.asInstanceOf[PathNavigator])
+    navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
 }
 

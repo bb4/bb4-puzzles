@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.hiq;
 
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
+import com.barrybecker4.puzzle.common1.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.hiq.model.MoveGenerator1;
 import com.barrybecker4.puzzle.hiq.model.PegBoard1;
 import com.barrybecker4.puzzle.hiq.model.PegMove1;

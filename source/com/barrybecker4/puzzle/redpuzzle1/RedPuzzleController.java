@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle1;
 
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController;
+import com.barrybecker4.puzzle.common1.ui.AbstractPuzzleController;
 import com.barrybecker4.puzzle.redpuzzle1.model.Piece;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceList;
 import com.barrybecker4.puzzle.redpuzzle1.model.PieceLists;

@@ -66,7 +66,7 @@ public class ChoiceList implements List<Choice> {
      * @param sceneName  sceneName to look for as a destination.
      * @return true if sceneName is one of our choices.
      */
-    public boolean isDestination(String sceneName) {
+    boolean isDestination(String sceneName) {
         for (Choice c : choices_) {
             if (c.getDestination().equals(sceneName)) {
                 return true;
@@ -75,7 +75,7 @@ public class ChoiceList implements List<Choice> {
         return false;
     }
 
-    public void sceneNameChanged(String oldSceneName, String newSceneName) {
+    void sceneNameChanged(String oldSceneName, String newSceneName) {
         for (Choice c : choices_) {
             if (c.getDestination().equals(oldSceneName)) {
                 c.setDestination(newSceneName);

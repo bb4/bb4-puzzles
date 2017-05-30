@@ -22,13 +22,13 @@ final class SliderViewer(var doneListener: DoneListener)
   private val renderer: SliderRenderer = new SliderRenderer
   private var path: List[SlideMove] = _
 
-  def getPath: util.List[SlideMove] = path.asJava
+  def getPath: List[SlideMove] = path
 
-  override def refresh(board: SliderBoard, numTries: Long) {
-    board_ = board
+  override def refresh(theBoard: SliderBoard, numTries: Long) {
+    board = theBoard
     if (numTries % 500 == 0) {
       makeSound()
-      status_ = createStatusMessage(numTries)
+      status = createStatusMessage(numTries)
       simpleRefresh(board, numTries)
     }
   }
@@ -39,7 +39,7 @@ final class SliderViewer(var doneListener: DoneListener)
   }
 
   def makeMove(currentStep: Int, undo: Boolean) {
-    board_ = board_.doMove(getPath.get(currentStep))
+    board = board.doMove(getPath(currentStep))
     repaint()
   }
 
@@ -48,12 +48,12 @@ final class SliderViewer(var doneListener: DoneListener)
     */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
-    if (board_ != null) renderer.render(g, board_, getWidth, getHeight)
+    if (board != null) renderer.render(g, board, getWidth, getHeight)
   }
 
-  private def showPath(thePath: List[SlideMove], board: SliderBoard) {
+  private def showPath(thePath: List[SlideMove], theBoard: SliderBoard) {
     path = thePath
-    board_ = board
+    board = theBoard
     if (doneListener != null) doneListener.done()
   }
 }

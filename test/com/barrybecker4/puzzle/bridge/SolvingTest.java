@@ -4,7 +4,7 @@ import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.i18n.StubMessageContext;
 import com.barrybecker4.puzzle.bridge.model.BridgeMove1;
 import com.barrybecker4.puzzle.bridge.model.InitialConfiguration1;
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver;
+import com.barrybecker4.puzzle.common1.solver.PuzzleSolver;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.bridge.model;
 
 
-import com.barrybecker4.puzzle.common.model.Move;
+import com.barrybecker4.puzzle.common1.model.Move;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import org.junit.Assert.{assertEquals,assertTrue}
 import org.scalatest.{BeforeAndAfter,  FunSuite}
 
 
-
 class SolvingSuite extends FunSuite with BeforeAndAfter {
 
   before { AppContext.injectMessageContext(new StubMessageContext) }
@@ -34,7 +33,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfter {
     val controller = new HiQController(null)
 
     val start = System.currentTimeMillis()
-    controller.setAlgorithm(algorithm)
+    controller.algorithm = algorithm
     val solver = algorithm.createSolver(controller)
 
     System.out.println("initial pos = " + controller.initialState)

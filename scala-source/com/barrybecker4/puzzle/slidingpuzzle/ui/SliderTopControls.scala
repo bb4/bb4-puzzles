@@ -19,8 +19,8 @@ import java.awt.event.ItemListener
   * @author Barry Becker
   */
 case class SliderTopControls private[ui](
-        controller: PuzzleController[SliderBoard, SlideMove],
-        algorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]])
+        override val controller: PuzzleController[SliderBoard, SlideMove],
+        override val algorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]])
      extends TopControlPanel[SliderBoard, SlideMove](controller, algorithmValues) with ItemListener {
 
   private var sizeSelector: SizeSelector = _
@@ -41,6 +41,6 @@ case class SliderTopControls private[ui](
   override def itemStateChanged(e: ItemEvent) {
     super.itemStateChanged(e)
     if (e.getSource eq sizeSelector)
-      controller_.asInstanceOf[SlidingPuzzleController].setSize(sizeSelector.getSelectedSize)
+      controller.asInstanceOf[SlidingPuzzleController].setSize(sizeSelector.getSelectedSize)
   }
 }

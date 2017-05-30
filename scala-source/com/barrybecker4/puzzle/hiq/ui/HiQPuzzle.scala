@@ -73,7 +73,7 @@ case class HiQPuzzle(args: Array[String]) extends PuzzleApplet[PegBoard, PegMove
   }
 
   def done() {
-    navPanel.setPathNavigator(viewer_.asInstanceOf[PathNavigator])
+    navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
 }
 

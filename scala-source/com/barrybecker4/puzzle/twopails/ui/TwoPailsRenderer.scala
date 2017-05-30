@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
-import com.barrybecker4.puzzle.common.PuzzleRenderer
+import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.twopails.model.Pails
 import java.awt.Color
 import java.awt.Font

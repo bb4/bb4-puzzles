@@ -15,9 +15,9 @@ import scala.collection.Seq
   * @param ui shows the current state on the screen.
   * @author Barry Becker
   */
-class HiQController(val ui: Refreshable[PegBoard, PegMove])
+class HiQController(ui: Refreshable[PegBoard, PegMove])
   extends AbstractPuzzleController[PegBoard, PegMove](ui) {
-  algorithm_ = CONCURRENT_OPTIMUM
+  algorithm = CONCURRENT_OPTIMUM
 
   def initialState = PegBoard.INITIAL_BOARD_POSITION
 

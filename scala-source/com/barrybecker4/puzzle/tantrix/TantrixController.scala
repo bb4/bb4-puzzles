@@ -24,10 +24,10 @@ object TantrixController {
   private val MIN_NUM_TILES = 3
 }
 
-class TantrixController(val ui: Refreshable[TantrixBoard, TilePlacement])
+class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
   extends AbstractPuzzleController[TantrixBoard, TilePlacement](ui) {
 
-  algorithm_ = SIMPLE_SEQUENTIAL
+  algorithm = SIMPLE_SEQUENTIAL
   private var numTiles = TantrixController.MIN_NUM_TILES
   private val evaluator = new PathEvaluator
 

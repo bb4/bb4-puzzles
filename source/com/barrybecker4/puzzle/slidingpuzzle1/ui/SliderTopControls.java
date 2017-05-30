@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle1.ui;
 
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.ui.TopControlPanel;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
+import com.barrybecker4.puzzle.common1.ui.TopControlPanel;
 import com.barrybecker4.puzzle.slidingpuzzle1.SlidingPuzzleController;
 import com.barrybecker4.puzzle.slidingpuzzle1.model.SlideMove;
 import com.barrybecker4.puzzle.slidingpuzzle1.model.SliderBoard;

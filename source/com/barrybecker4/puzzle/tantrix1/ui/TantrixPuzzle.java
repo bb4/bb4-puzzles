@@ -2,10 +2,10 @@
 package com.barrybecker4.puzzle.tantrix1.ui;
 
 import com.barrybecker4.common.search.Refreshable;
-import com.barrybecker4.puzzle.common.AlgorithmEnum;
-import com.barrybecker4.puzzle.common.PuzzleController;
-import com.barrybecker4.puzzle.common.ui.PuzzleApplet;
-import com.barrybecker4.puzzle.common.ui.PuzzleViewer;
+import com.barrybecker4.puzzle.common1.AlgorithmEnum;
+import com.barrybecker4.puzzle.common1.PuzzleController;
+import com.barrybecker4.puzzle.common1.ui.PuzzleApplet;
+import com.barrybecker4.puzzle.common1.ui.PuzzleViewer;
 import com.barrybecker4.puzzle.tantrix1.TantrixController;
 import com.barrybecker4.puzzle.tantrix1.model.TantrixBoard;
 import com.barrybecker4.puzzle.tantrix1.model.TilePlacement;

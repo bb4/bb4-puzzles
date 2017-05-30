@@ -41,7 +41,7 @@ public class Choice {
         return destinationScene_;
     }
 
-    public void setDestination(String destName) {
+    void setDestination(String destName) {
         destinationScene_ = destName;
     }
 
@@ -49,7 +49,7 @@ public class Choice {
      * Factory method to create a choice.
      * @return the choice instance.
      */
-    public Element createElement(Document document) {
+    Element createElement(Document document) {
         Element choiceElem = document.createElement("choice");
         choiceElem.setAttribute("description", getDescription());
         choiceElem.setAttribute("resultScene", getDestination());

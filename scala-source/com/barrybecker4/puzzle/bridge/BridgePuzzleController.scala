@@ -16,18 +16,18 @@ import scala.collection.{Seq, mutable}
   * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
   * @param ui shows the current state on the screen.
   */
-class BridgePuzzleController(val ui: Refreshable[Bridge, BridgeMove])
+class BridgePuzzleController(ui: Refreshable[Bridge, BridgeMove])
   extends AbstractPuzzleController[Bridge, BridgeMove](ui) {
 
   private var initialPosition: Bridge = new Bridge(CONFIGURATIONS.head.peopleSpeeds)
-  algorithm_ = A_STAR_SEQUENTIAL
+  algorithm = A_STAR_SEQUENTIAL
 
-  if (ui_ != null) ui_.refresh(initialPosition, 0)
+  if (ui != null) ui.refresh(initialPosition, 0)
 
 
   def setConfiguration(config: Array[Int]) {
     initialPosition = new Bridge(config)
-    if (ui_ != null) ui_.refresh(initialPosition, 0)
+    if (ui != null) ui.refresh(initialPosition, 0)
   }
 
   def initialState: Bridge = initialPosition
