@@ -34,7 +34,12 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
 
   /** Set of positions that have been visited */
   final private var seen = new mutable.HashSet[P]
-  numTries = 0
+
+  /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
+  private var numTries = 0
+  /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
+  private var depthBreadthFactor = 0.4f
+
   exec match {
     case tpe: ThreadPoolExecutor =>
       tpe.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy)
@@ -43,10 +48,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
 
   /** Prevents a value from being recieved until it is set. */
   final protected val solution = new ValueLatch[PuzzleNode[P, M]]
-  /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
-  private var numTries = 0
-  /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
-  private var depthBreadthFactor = 0.4f
+
 
   /**
     * The amount that you want the search to use depth first or breadth first search.
@@ -111,7 +113,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     extends PuzzleNode[P, M](pos, move, prev) with Runnable {
     override def run(): Unit = {
       numTries += 1
-      if (solution.isSet || puzzle.alreadySeen(getPosition, seen)) return // already solved or seen this position, so skip
+      if (solution.isSet || puzzle.alreadySeen(getPosition, seen))
+        return // already solved or seen this position, so skip
       puzzle.refresh(getPosition, numTries)
       if (puzzle.isGoal(getPosition)) solution.setValue(this)
       else {

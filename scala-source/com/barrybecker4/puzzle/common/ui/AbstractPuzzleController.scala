@@ -91,13 +91,13 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     val solver: PuzzleSolver[M] = algorithm.createSolver(this)
 
     val worker: Worker = new Worker() {
-      override def construct: Object = {
+      override def construct: AnyRef = {
         try {
           // this does all the heavy work of solving it.
           solver.solve
         } catch {
           case e: InterruptedException =>
-          assert(assertion = false, "Thread interrupted. " + e.getMessage)
+            assert(assertion = false, "Thread interrupted. " + e.getMessage)
         }
         "true"
       }

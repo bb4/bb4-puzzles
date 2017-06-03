@@ -16,9 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger
   */
 class ConcurrentPuzzleSolver[P, M](puzzle: PuzzleController[P, M], val depthBreadthFactor: Float)
   extends BaseConcurrentPuzzleSolver[P, M](puzzle) {
+
   setDepthBreadthFactor(depthBreadthFactor)
-  taskCount.set(0)
   final private val taskCount = new AtomicInteger(0)
+  taskCount.set(0)
 
   override protected def newTask(p: P, m: Option[M], n: Option[PuzzleNode[P, M]]) =
     new CountingSolverTask(p, m, n)

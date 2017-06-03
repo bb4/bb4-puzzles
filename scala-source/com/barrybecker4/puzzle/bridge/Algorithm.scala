@@ -48,7 +48,7 @@ sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 
