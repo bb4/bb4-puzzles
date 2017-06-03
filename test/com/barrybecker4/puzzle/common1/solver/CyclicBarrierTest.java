@@ -142,7 +142,7 @@ public class CyclicBarrierTest {
         /** called once all rows have been summed */
         private void mergeRows() {
             for (int i=0; i<N; i++) {
-                grandTotal += totals[i]++;
+                grandTotal += totals[i];
             }
             System.out.println("grandTotal found = "+ grandTotal);
             done = true;
