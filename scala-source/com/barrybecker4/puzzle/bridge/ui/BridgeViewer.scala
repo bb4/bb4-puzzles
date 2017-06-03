@@ -28,8 +28,13 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (board != null) showPath(path, board)
   }
 
-  def makeMove(currentStep: Int, undo: Boolean) {
+  override
+  def refresh(board: Bridge, numTries: Long): Unit = {
+    super.refresh(board, numTries)
+    if (numTries == 0) lastMove = None
+  }
 
+  def makeMove(currentStep: Int, undo: Boolean) {
     val m = getPath(currentStep)
     board = board.applyMove(m, undo)
     lastMove = Some(BridgeMove(m.people, if (undo) !m.direction else m.direction))

@@ -47,9 +47,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     drawPeople(g, board.uncrossed, MARGIN)
     drawPeople(g, board.crossed, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH)
     drawLight(g, board.lightCrossed)
-    if (lastMove.isDefined) {
-      drawPeopleMove(g, lastMove.get, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH / 2)
-    }
+    drawPeopleMove(g, lastMove, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH / 2)
   }
 
   /**
@@ -90,14 +88,17 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     g.drawOval(xpos, TEXT_Y - 80, LIGHT_RADIUS, BridgeRenderer.LIGHT_RADIUS)
   }
 
-  private def drawPeopleMove(g: Graphics, lastMove: BridgeMove, xpos: Int): Unit = {
+  private def drawPeopleMove(g: Graphics, lastMove: Option[BridgeMove], xpos: Int): Unit = {
     g.setColor(Color.BLACK)
     g.setFont(FONT)
-    val prefix = if (lastMove.direction) "" else " <= "
-    val suffix = if (lastMove.direction) " => " else ""
-    val peopleListString = lastMove.people.mkString(prefix, ", ", suffix)
+    if (lastMove.isDefined) {
+      val move = lastMove.get
+      val prefix = if (move.direction) "" else " <= "
+      val suffix = if (move.direction) " => " else ""
+      val peopleListString = move.people.mkString(prefix, ", ", suffix)
 
-    g.drawString(peopleListString, xpos, TEXT_Y - 15)
+      g.drawString(peopleListString, xpos - 50, TEXT_Y - 15)
+    }
   }
 }
 
