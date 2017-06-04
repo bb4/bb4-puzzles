@@ -42,20 +42,6 @@ dependencies {
     testRuntime 'org.pegdown:pegdown:1.6.0'
 }
 
-task runAdventure(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.adventure.ui.GraphicalAdventure'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task runTextAdventure(type: JavaExec) {
-    standardInput = System.in
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.adventure.TextAdventure'
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['ludlow/ludlowScript.xml']
-}
-
 task runMaze(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.maze.ui.MazeSimulator'
@@ -113,9 +99,6 @@ task runBridgePuzzle(type: JavaExec) {
 
 ext.appMap = new LinkedHashMap()
 appMap.put('puzzle', [include:['com/barrybecker4/puzzle/common/**']])
-appMap.put('adventure',
-    [include:['com/barrybecker4/puzzle/adventure/**'],
-     exclude:['com/barrybecker4/puzzle/adventure/**/*.pdf']])
 appMap.put('hiq', [include:['com/barrybecker4/puzzle/hiq/**']])
 appMap.put('slidingpuzzle', [include:['com/barrybecker4/puzzle/slidingpuzzle/**']])
 appMap.put('maze', [include:['com/barrybecker4/puzzle/maze/**']])
