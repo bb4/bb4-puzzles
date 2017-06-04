@@ -42,8 +42,6 @@ dependencies {
     testRuntime 'org.pegdown:pegdown:1.6.0'
 }
 
-
-
 task runAdventure(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.adventure.ui.GraphicalAdventure'
@@ -51,6 +49,7 @@ task runAdventure(type: JavaExec) {
 }
 
 task runTextAdventure(type: JavaExec) {
+    standardInput = System.in
     group = 'application'
     main = 'com.barrybecker4.puzzle.adventure.TextAdventure'
     classpath = sourceSets.main.runtimeClasspath
