@@ -55,7 +55,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     */
   private def drawBridge(g: Graphics) {
     val leftX = MARGIN + TEXT_WIDTH
-    val rightX = leftX + BridgeRenderer1.BRIDGE_WIDTH
+    val rightX = leftX + BridgeRenderer.BRIDGE_WIDTH
     g.setColor(Color.darkGray)
     for (i <- 0 to 10) {
       val ypos = TEXT_Y + i

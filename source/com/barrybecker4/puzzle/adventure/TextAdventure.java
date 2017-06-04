@@ -30,8 +30,8 @@ public final class TextAdventure {
         Story story = new Story(document);
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-        do {
 
+        do {
             Scene currentScene = story.getCurrentScene();
             System.out.println(currentScene.print());
 
@@ -58,7 +58,6 @@ public final class TextAdventure {
             boolean valid = true;
             while (nextInt < 1) {
                 try {
-                    //do {} while (!scanner.hasNext());
                     nextInt = scanner.nextInt();
                 } catch (InputMismatchException e) {
                     valid = false;

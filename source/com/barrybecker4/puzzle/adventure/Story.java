@@ -28,7 +28,7 @@ import java.util.List;
  *   items as their adventure progresses.
  * 2) Automatic fighting with monsters. We know the hit points and armor class of the player and monster.
  *  It should be a simple matter to have the compat automatically carried out in order to determine the winner and
- *  supbract hit point losses as appropriate. We can also take into other effects like disease or healing effects.
+ *  subtract hit point losses as appropriate. We can also take into other effects like disease or healing effects.
  *  The player should also be given the option to flee, or instigate other action during the melee.
  * 3) Add a graphical User Interface. We could have windows that pop up to show the players stats or item inventory.
  * 4) Make multi-player (hard)
@@ -38,7 +38,7 @@ import java.util.List;
  * where you can navigate to from this scene. Save and load the xml that defines the game.
  * 8) This type of application could be used for more than just games. Tutorials or an expert system would
  * be other nice applications.
- * 9) Have probabalistic choices. For example, if you encounter a monster and choose to fight it, then
+ * 9) Have probabilistic choices. For example, if you encounter a monster and choose to fight it, then
  * the outcome may be one of several different things. We can also influence the outcome by what sort of
  * items the player has.
  * 10) fix sound deploy in ant
@@ -223,7 +223,7 @@ public class Story {
         }
     }
 
-    void initFromScenes(Scene[] scenes)  {
+    private void initFromScenes(Scene[] scenes)  {
         sceneMap_ = createSceneMap(scenes.length);
 
         for (final Scene scene : scenes) {
@@ -240,7 +240,7 @@ public class Story {
         return currentScene_;
     }
 
-    public boolean isOver() {
+    boolean isOver() {
        return getCurrentScene() == null;
     }
 
