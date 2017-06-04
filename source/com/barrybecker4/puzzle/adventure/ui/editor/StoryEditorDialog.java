@@ -155,7 +155,7 @@ public class StoryEditorDialog extends AbstractDialog
         return childContainer;
     }
 
-    JPanel createChildRowEditButtons() {
+    private JPanel createChildRowEditButtons() {
         JPanel leftButtonsPanel = new JPanel( new FlowLayout() );
 
         initBottomButton( addButton_, "Add",
@@ -187,7 +187,7 @@ public class StoryEditorDialog extends AbstractDialog
      * Create the buttons that go at the botton ( eg row editing buttons and OK, Cancel, ...)
      * @return ok cancel panel.
      */
-    JPanel createButtonsPanel() {
+    private JPanel createButtonsPanel() {
         JPanel outerPanel = new JPanel( new BorderLayout() );
 
         outerPanel.add(createJumpToPanel(), BorderLayout.WEST);
@@ -195,7 +195,7 @@ public class StoryEditorDialog extends AbstractDialog
         return outerPanel;
     }
 
-    JPanel createJumpToPanel() {
+    private JPanel createJumpToPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Jump to Scene");
         sceneSelector_ = new JComboBox(story_.getAllSceneNames().toArray());
@@ -207,7 +207,7 @@ public class StoryEditorDialog extends AbstractDialog
     }
 
 
-    JPanel createRightButtons() {
+    private JPanel createRightButtons() {
         JPanel rightButtonsPanel = new JPanel( new FlowLayout() );
 
         initBottomButton( okButton_, "OK",
@@ -331,7 +331,7 @@ public class StoryEditorDialog extends AbstractDialog
         return story_;
     }
 
-    void commitSceneChanges() {
+    private void commitSceneChanges() {
         sceneEditor.doSave();
         if (sceneEditor.isSceneNameChanged()) {
              story_.sceneNameChanged(sceneEditor.getOldSceneName(), sceneEditor.getEditedScene().getName());
@@ -340,7 +340,7 @@ public class StoryEditorDialog extends AbstractDialog
         childTable_.getChildTableModel().updateSceneChoices(story_.getCurrentScene());
     }
 
-    void ok()  {
+    private void ok()  {
         commitSceneChanges();
         this.setVisible( false );
     }

@@ -8,6 +8,7 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
 case object SIMPLE_SEQUENTIAL extends Algorithm
 case object BRUTE_FORCE_SEQUENTIAL extends Algorithm
+case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
@@ -33,6 +34,7 @@ sealed trait Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
     this match {
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case BRUTE_FORCE_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
+      case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.4f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.12f)
@@ -42,12 +44,12 @@ sealed trait Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[TantrixBoard, TilePlacement]] = Array(
-    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_CONCURRENT,
+    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT,
     CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
   )
 }
