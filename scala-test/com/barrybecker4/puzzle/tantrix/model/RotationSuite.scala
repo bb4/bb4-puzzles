@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
-import com.barrybecker4.puzzle.tantrix1.model.Rotation
+import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import org.scalatest.FunSuite
 
 /**
@@ -10,14 +10,14 @@ import org.scalatest.FunSuite
 class RotationSuite extends FunSuite {
 
   test("RotateBy2") {
-    assertResult(Rotation.ANGLE_120) { Rotation.ANGLE_0.rotateBy(2) }
+    assertResult(ANGLE_120) { ANGLE_0.rotateBy(2) }
   }
 
   test("RotateByNegative2") {
-    assertResult(Rotation.ANGLE_240) { Rotation.ANGLE_0.rotateBy(-2) }
+    assertResult(ANGLE_240) { ANGLE_0.rotateBy(-2) }
   }
 
   test("RotateByNothing") {
-    assertResult(Rotation.ANGLE_0) { Rotation.ANGLE_0.rotateBy(0) }
+    assertResult(ANGLE_0) { ANGLE_0.rotateBy(0) }
   }
 }

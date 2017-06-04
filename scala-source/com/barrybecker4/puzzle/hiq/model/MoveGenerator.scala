@@ -45,7 +45,7 @@ class MoveGenerator(var board: PegBoard) {
     val fromRow = (r + rowOffset).toByte
     val fromCol = (c + colOffset).toByte
 
-    if (PegBoard1.isValidPosition(fromRow, fromCol) && board.getPosition(fromRow, fromCol) != undo &&
+    if (PegBoard.isValidPosition(fromRow, fromCol) && board.getPosition(fromRow, fromCol) != undo &&
       board.getPosition((r + rowOffset / 2).toByte, (c + colOffset / 2).toByte) != undo)
       new PegMove(fromRow, fromCol, r, c) +: moves
     else moves

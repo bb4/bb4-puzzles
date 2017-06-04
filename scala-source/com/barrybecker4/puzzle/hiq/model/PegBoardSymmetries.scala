@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.hiq.model
 
 /**
-  * Static PegBoard1 symmetries.
+  * Static PegBoard symmetries.
   *
   * @author Barry Becker
   */

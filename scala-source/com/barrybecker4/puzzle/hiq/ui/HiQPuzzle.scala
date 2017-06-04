@@ -46,7 +46,7 @@ object HiQPuzzle {
     * Use this to run as an application instead of an applet.
     */
   def main(args: Array[String]) {
-    val applet = new HiQPuzzle1(args)
+    val applet = new HiQPuzzle(args)
     // this will call applet.init() and start() methods instead of the browser
     GUIUtil.showApplet(applet)
   }
