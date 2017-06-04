@@ -62,21 +62,9 @@ task runMaze(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task runMaze1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.maze1.ui.MazeSimulator'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
 task runRedPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.redpuzzle.ui.RedPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task runRedPuzzle1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.redpuzzle1.ui.RedPuzzle'
     classpath = sourceSets.main.runtimeClasspath
 }
 
@@ -87,33 +75,11 @@ task runTantrixPuzzle(type: JavaExec) {
     jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
 }
 
-task runTantrixPuzzle1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.tantrix1.ui.TantrixPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    //args = ['-name', 'tantrix',  '-locale', 'ENGLISH']
-    jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
-}
-
 task runSudoku(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-ea"]
-}
-
-task runSudoku1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.sudoku1.ui.SudokuPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-ea"]
-}
-
-task runHiQ1(type: JavaExec) {   // remove this old java version
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle1'
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['-locale', 'ENGLISH']
 }
 
 task runHiQ(type: JavaExec) {
@@ -130,30 +96,9 @@ task runSlidingPuzzle(type: JavaExec) {
     jvmArgs = ["-Xss64m"]
 }
 
-task runSlidingPuzzle1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.slidingpuzzle1.ui.SlidingPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]
-}
-
 task runTwoPailsPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]
-}
-
-task runTwoPailsPuzzle1(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.twopails1.ui.TwoPailsPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]
-}
-
-task runBridgePuzzle1(type: JavaExec) {  // This java version should be removed
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle1'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = ["-Xss64m"]
 }
