@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.common.ui
 
 import com.barrybecker4.common.concurrency.Worker
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
@@ -76,8 +76,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     else {
       System.out.println ("The number of steps in path to solution = " + path.get.size)
       if (ui != null) {
-        val pathList: Seq[M] = path.get
-        ui.finalRefresh(pathList.asJava, position.get, numTries, elapsedMillis)
+        ui.finalRefresh(path, position, numTries, elapsedMillis)
       }
     }
   }

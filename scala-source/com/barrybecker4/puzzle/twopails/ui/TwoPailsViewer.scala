@@ -33,12 +33,12 @@ final class TwoPailsViewer(var doneListener: DoneListener)
     simpleRefresh(pails, numTries)
   }
 
-  override def finalRefresh(path: java.util.List[PourOperation], pails: Pails, numTries: Long, millis: Long): Unit = {
+  override def finalRefresh(path: Option[Seq[PourOperation]], pails: Option[Pails], numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, pails, numTries, millis)
     if (path == null)
       JOptionPane.showMessageDialog(this,
         AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"), JOptionPane.WARNING_MESSAGE)
-    else showPath(path.asScala.toList, pails)
+    else showPath(path.get.toList, pails.get)
   }
 
   override def makeMove(currentStep: Int, undo: Boolean): Unit = {

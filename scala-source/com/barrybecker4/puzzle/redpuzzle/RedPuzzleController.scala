@@ -3,7 +3,7 @@
  */
 package com.barrybecker4.puzzle.redpuzzle
 
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}

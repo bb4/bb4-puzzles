@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.ui
 import javax.swing._
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.{PuzzleApplet, PuzzleViewer}
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.tantrix.TantrixController

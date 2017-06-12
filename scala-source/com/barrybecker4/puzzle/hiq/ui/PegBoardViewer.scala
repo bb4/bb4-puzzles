@@ -31,11 +31,11 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     }
   }
 
-  override def finalRefresh(path: util.List[PegMove], board: PegBoard, numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[PegMove]], board: Option[PegBoard], numTries: Long, millis: Long) {
     super.finalRefresh(path, board, numTries, millis)
-    if (board != null) {
+    if (board.isDefined) {
       makeSound()
-      showPath(path.asScala.toList, board)
+      showPath(path.get.toList, board.get)
     }
   }
 

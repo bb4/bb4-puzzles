@@ -33,9 +33,9 @@ final class SliderViewer(var doneListener: DoneListener)
     }
   }
 
-  override def finalRefresh(path: util.List[SlideMove], board: SliderBoard, numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[SlideMove]], board: Option[SliderBoard], numTries: Long, millis: Long) {
     super.finalRefresh(path, board, numTries, millis)
-    if (board != null) showPath(path.asScala.toList, board)
+    if (board.isDefined) showPath(path.get.toList, board.get)
   }
 
   def makeMove(currentStep: Int, undo: Boolean) {

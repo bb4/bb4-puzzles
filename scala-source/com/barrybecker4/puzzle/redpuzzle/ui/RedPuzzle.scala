@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.redpuzzle.ui
 
 import javax.swing.JPanel
 
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.redpuzzle.RedPuzzleController

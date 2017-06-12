@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle
 
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove

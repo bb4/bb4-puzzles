@@ -48,7 +48,7 @@ final class RedPuzzleViewer private[ui]()
     }
   }
 
-  override def finalRefresh(path: util.List[OrientedPiece], pieces: PieceList, numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[OrientedPiece]], pieces: Option[PieceList], numTries: Long, millis: Long) {
     super.finalRefresh(path, pieces, numTries, millis)
     if (animationSpeed < RedPuzzleViewer.MAX_ANIM_SPEED - 1) ThreadUtil.sleep(10 * RedPuzzleViewer.MAX_ANIM_SPEED / animationSpeed)
     else ThreadUtil.sleep(20)

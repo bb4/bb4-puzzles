@@ -4,11 +4,10 @@ package com.barrybecker4.puzzle.common.ui
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.format.FormatUtil
 import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.sound.MusicMaker
 import javax.swing._
 import java.awt._
-import java.util
 
 
 /**
@@ -36,15 +35,15 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     makeSound()
   }
 
-  override def finalRefresh(path: util.List[M], position: P, numTries: Long, millis: Long): Unit = {
+  override def finalRefresh(path: Option[Seq[M]], position: Option[P], numTries: Long, millis: Long): Unit = {
     System.gc()
     status = createFinalStatusMessage(numTries, millis, path)
     System.out.println(status)
-    if (position != null) {
-      simpleRefresh(position, numTries)
+    if (position.isDefined) {
+      simpleRefresh(position.get, numTries)
       // give other repaints a chance to process. hack :(
       ThreadUtil.sleep(100)
-      simpleRefresh(position, numTries)
+      simpleRefresh(position.get, numTries)
     }
   }
 
@@ -73,10 +72,10 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     msg
   }
 
-  protected def createFinalStatusMessage(numTries: Long, millis: Long, path: util.List[M]): String = {
+  protected def createFinalStatusMessage(numTries: Long, millis: Long, path: Option[Seq[M]]): String = {
     val time = millis.toFloat / 1000.0f
     var msg = "Did not find solution."
-    if (path != null) {
+    if (path.isDefined) {
       msg = "Found solution with " + path.size + " steps in " +
         FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
     }

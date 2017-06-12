@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.hiq.ui
 
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.common.search.Refreshable
+import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.NavigationPanel
 import com.barrybecker4.puzzle.common.ui.PathNavigator
