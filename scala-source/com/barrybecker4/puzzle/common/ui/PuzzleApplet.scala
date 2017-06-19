@@ -15,10 +15,6 @@ import java.util
   *
   * @author Barry Becker
   */
-object PuzzleApplet {
-  private val DEFAULT_PUZZLE = "com.barrybecker4.puzzle.maze.FractalExplorer"
-}
-
 abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApplet() {
   protected var controller:
   PuzzleController[P, M] = _
