@@ -13,23 +13,6 @@ apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4.gradle'
 project.archivesBaseName = 'bb4-puzzle'
 mainClassName = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
 
-/** added scala directory layout. This can be moved to bb4.gradle. Consider changing to conventional src/main/...
-sourceSets {
-    main {
-        scala {
-            srcDir 'scala-source'
-        }
-        resources {
-            srcDir 'scala-source'
-        }
-    }
-    test {
-        scala {
-            srcDir 'scala-test'
-        }
-    }
-}*/
-
 dependencies {
     compile 'com.barrybecker4:bb4-A-star:1.0' // scala lib
     compile 'com.barrybecker4:bb4-sound:1.4-SNAPSHOT'
