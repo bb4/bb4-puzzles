@@ -6,40 +6,15 @@ description = 'A scala puzzle framework with generator and solver implementation
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
 version = '1.4-SNAPSHOT'
-apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4.gradle'
-//apply plugin: 'scala'  // This can be moved into bb4.gradle
-
-
 project.archivesBaseName = 'bb4-puzzle'
+apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4.gradle'
 mainClassName = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
-
-/** added scala directory layout. This can be moved to bb4.gradle. Consider changing to conventional src/main/...
-sourceSets {
-    main {
-        scala {
-            srcDir 'scala-source'
-        }
-        resources {
-            srcDir 'scala-source'
-        }
-    }
-    test {
-        scala {
-            srcDir 'scala-test'
-        }
-    }
-}*/
 
 dependencies {
     compile 'com.barrybecker4:bb4-A-star:1.4-SNAPSHOT' // scala lib
     compile 'com.barrybecker4:bb4-sound:1.4-SNAPSHOT'
     compile 'com.barrybecker4:bb4-optimization:1.4-SNAPSHOT'
-
-    // scala dependencies
-    //compile('org.scala-lang:scala-library:2.12.1') { force = true }
-    //testCompile 'org.scalatest:scalatest_2.12:3.0.1'
-    // Used to generate html unit test report
-    //testRuntime 'org.pegdown:pegdown:1.6.0'
+    // scala dependencies in bb4-gradle
 }
 
 task runMaze(type: JavaExec) {

@@ -51,11 +51,11 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     var ypos = 0
     var xpos = 0
     g.setColor(Color.darkGray)
-    for (i <- 0 until size) { //   -----
+    for (i <- 0 to size) { //   -----
         ypos = PegBoardRenderer.TOP_MARGIN + i * 3 * PegBoardRenderer.INC
         g.drawLine(PegBoardRenderer.LEFT_MARGIN, ypos, rightEdgePos, ypos)
     }
-    for (i <- 0 until size) { //   ||||
+    for (i <- 0 to size) { //   ||||
         xpos = PegBoardRenderer.LEFT_MARGIN + i * 3 * PegBoardRenderer.INC
         g.drawLine(xpos, PegBoardRenderer.TOP_MARGIN, xpos, bottomEdgePos)
     }
