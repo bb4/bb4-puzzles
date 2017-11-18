@@ -52,8 +52,8 @@ object HiQPuzzle {
   }
 }
 
-case class HiQPuzzle(override val args: Array[String])
-  extends PuzzleApplet[PegBoard, PegMove](args) with DoneListener {
+case class HiQPuzzle(myargs: Array[String])
+  extends PuzzleApplet[PegBoard, PegMove](myargs) with DoneListener {
 
   private var navPanel: NavigationPanel = _
 

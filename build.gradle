@@ -55,7 +55,8 @@ task runSlidingPuzzle(type: JavaExec) {
     group = 'application'
     main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
     classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]  // this give bigger stack size
+    // this give bigger stack size to avoid stack overflow in brute force case
+    jvmArgs = ["-Xss128m"]
 }
 
 task runTwoPailsPuzzle(type: JavaExec) {

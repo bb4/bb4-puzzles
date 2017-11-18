@@ -27,8 +27,8 @@ object SlidingPuzzle {
   }
 }
 
-case class SlidingPuzzle(override val args: Array[String])
-  extends PuzzleApplet[SliderBoard, SlideMove](args) with DoneListener {
+case class SlidingPuzzle(myargs: Array[String])
+  extends PuzzleApplet[SliderBoard, SlideMove](myargs) with DoneListener {
 
   private var navPanel: NavigationPanel = _
 
