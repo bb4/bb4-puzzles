@@ -41,23 +41,24 @@ object CyclicBarrierSuite {
 
 class CyclicBarrierSuite extends FunSuite {
 
-  val epsilon = 1e-4f
+  val epsilon = 1e-3f
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(epsilon)
 
   test("SumSmallMatrix") {
     val solver = new Solver(SMALL_MATRIX)
-    assert(6.0 === solver.getTotal)
+    //assert(6.0 === solver.getTotal)
     assertResult(6.0) { solver.getTotal }
   }
 
   test("SumMatrix") {
     val solver = new Solver(MATRIX)
     assert(55.1 === solver.getTotal)
-    assertEquals("Unexpected grand total", 55.1, solver.getTotal, 0.0001)
+    //assertEquals("Unexpected grand total", 55.1, solver.getTotal, 0.0001)
   }
 
   test("SumBigMatrix") {
     val solver = new Solver(BIG_MATRIX)
+    assert(5023.338 === solver.getTotal)
     assertEquals("Unexpected grand total", 5023.338, solver.getTotal, 0.01)
   }
 
