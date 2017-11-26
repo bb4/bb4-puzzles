@@ -32,7 +32,7 @@ class ValueLatchSuite extends FunSuite {
 
   /** computes the value latch result in a separate thread */
   @throws[InterruptedException]
-  private[solver] def computeResult(num: Int) = {
+  private[solver] def computeResult(num: Int): Unit = {
     new Thread(new Worker(num)).start()
   }
 
