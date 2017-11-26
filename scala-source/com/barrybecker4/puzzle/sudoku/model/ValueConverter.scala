@@ -36,11 +36,10 @@ object ValueConverter {
 
   /**
     * Get the integer value for the specified symbol.
-    *
+    * throws IllegalArgumentException if not a valid symbol for the puzzle.
     * @param symbol symbol
     * @param maxValue maximum allowed value
     * @return integer value
-    * @throws IllegalArgumentException if not a valid symbol for the puzzle.
     */
   def getValue(symbol: Char, maxValue: Int): Int = {
     val upperSymb = Character.toString(symbol).toUpperCase.charAt(0)

@@ -53,8 +53,8 @@ class PrimaryPathFitterSuite extends FunSuite  {
     tantrix = place2of3Tiles_OneThenTwo.tantrix
     fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW)
     val placements = fitter.getFittingPlacements(TILES.getTile(3), loc(1, 2))
-    println("tantrix=" + tantrix.tiles)
-    println(" placements=" + placements)
+    //println("tantrix=" + tantrix.tiles)
+    //println(" placements=" + placements)
     assertResult(3) { placements.size }
   }
 
@@ -79,7 +79,7 @@ class PrimaryPathFitterSuite extends FunSuite  {
     */
   test("PlacementDoesNotFit0") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
-    println("tantrix=" + tantrix)
+    //println("tantrix=" + tantrix)
     val tile2 = TilePlacement(TILES.getTile(2), loc(2, 1), RotationEnum.ANGLE_0)
     fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW)
     assert(fitter.isFit(tile2))
@@ -103,7 +103,7 @@ class PrimaryPathFitterSuite extends FunSuite  {
     tantrix = place1of3Tiles_startingWithTile2.tantrix
     val tile2 = TilePlacement(TILES.getTile(3), loc(0, 0), RotationEnum.ANGLE_60)
     fitter = new PrimaryPathFitter(tantrix, PathColor.YELLOW)
-    println(tantrix)
+    //println(tantrix)
     assert(fitter.isFit(tile2))
   }
 

@@ -82,7 +82,7 @@ class TantrixPathSuite extends FunSuite {
 
   test("HasOrderedPrimaryPathRedOfLength7") {
     val tiles = sevenTilesInAWrongRedLoop
-    println("tiles = " + tiles.mkString("\n"))
+    //println("tiles = " + tiles.mkString("\n"))
     assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED))
   }
 
@@ -100,7 +100,7 @@ class TantrixPathSuite extends FunSuite {
     val path = new TantrixPath(board.tantrix, board.primaryColor)
     path.rnd = new Random(0)
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
-    println("nbr = " + nbr.toString)
+    //println("nbr = " + nbr.toString)
 
     val tiles = List(
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),

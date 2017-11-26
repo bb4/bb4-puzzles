@@ -98,13 +98,13 @@ class CyclicBarrierSuite extends FunSuite {
         }
       }
 
-      private def processRow(myRow: Int) = {
+      private def processRow(myRow: Int): Unit = {
         var total: Double = 0
         for (i <- data(myRow).indices) {
           total += data(myRow)(i)      // simlify to total = data(myRow).sum
         }
         totals(myRow) = total
-        System.out.println("done summing row " + myRow)
+        //System.out.println("done summing row " + myRow)
       }
     }
 
@@ -113,18 +113,18 @@ class CyclicBarrierSuite extends FunSuite {
       grandTotal
     }
 
-    private def waitUntilDone() = {
+    private def waitUntilDone(): Unit = {
       while (!done) {
-        System.out.println("not done yet...")
+        //System.out.println("not done yet...")
         ThreadUtil.sleep(5)
       }
     }
 
     /** called once all rows have been summed */
-    private def mergeRows() = {
+    private def mergeRows(): Unit = {
       for (i <- 0 until N)
         grandTotal += totals(i) // grandTotal = totals.sum
-      System.out.println("grandTotal found = " + grandTotal)
+      //System.out.println("grandTotal found = " + grandTotal)
       done = true
     }
   }

@@ -16,7 +16,7 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
   * describe each part with a Runnable that executes that portion and
   * counts down on the latch, and queue all the Runnables to an Executor.
   * When all sub-parts are complete, the coordinating thread will be able to pass through await.
-  * (When threads must repeatedly count down in this way, instead use a {@link CyclicBarrier}.)
+  * (When threads must repeatedly count down in this way, instead use a CyclicBarrier)
   */
 class CountDownLatch2Suite extends FunSuite with BeforeAndAfter {
   private var counter: AtomicInteger = _
@@ -72,7 +72,7 @@ class CountDownLatch2Suite extends FunSuite with BeforeAndAfter {
     }
     // wait for all workers to finish
     doneSignal.await()
-    System.out.println("Finished everything.")
+    //System.out.println("Finished everything.")
   }
 
   private[solver] class WorkerRunnable(val doneSignal: CountDownLatch, val i: Int) extends Runnable {
@@ -82,9 +82,9 @@ class CountDownLatch2Suite extends FunSuite with BeforeAndAfter {
     }
 
     private[solver] def doWork(i: Int) = {
-      System.out.print("Before working on task " + i + ". counter=" + counter)
+      //System.out.print("Before working on task " + i + ". counter=" + counter)
       counter.addAndGet(10)
-      System.out.println("...  After working. counter=" + counter)
+      //System.out.println("...  After working. counter=" + counter)
     }
   }
 

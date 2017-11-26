@@ -41,11 +41,11 @@ object TantrixPath {
   * For example, when finding a random neighbor, we select a tile at random and then consider all the
   * 7 other permutations of attaching the current path segments on either side. If any of those give a path
   * with a higher score, then that is what we use for the permuted path.
+  * throws IllegalStateException if tiles do not form a primary path.
   *
   * @param tiles ordered path tiles.  The list of tiles that are passed in must be a continuous primary path,
   * but it is not required that it be a loop, or that any of the secondary colors match.
   * @param primaryPathColor primary path color
-  * @throws IllegalStateException if tiles do not form a primary path.
   */
 case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
   extends PermutedParameterArray {
