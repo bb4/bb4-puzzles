@@ -36,7 +36,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     optimizer.setListener(this)
     val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
     solution = theSolution.asInstanceOf[PieceParameterArray].getPieceList
-    println("Solution = " + solution)
+    //println("Solution = " + solution)
     val moves = if (evaluateFitness(theSolution) == 0) Some(solution.pieces) else Option.empty
     val elapsedTime = System.currentTimeMillis - startTime
     puzzle.finalRefresh(moves, Option.apply(solution), numTries, elapsedTime)
@@ -59,7 +59,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   def evaluateFitness(params: ParameterArray): Double = {
     val pieces = params.asInstanceOf[PieceParameterArray].getPieceList
     val fitness = fitnessFinder.calculateFitness(pieces)
-    println("fitness = " + fitness)
+    //println("fitness = " + fitness)
     if (fitness < currentBestFitness) currentBestFitness = fitness
     params.setFitness(fitness)
     fitness
@@ -80,6 +80,6 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     solution = params.asInstanceOf[PieceParameterArray].getPieceList
     numTries += 1
     puzzle.refresh(solution, numTries)
-    System.out.println("current best = " + currentBestFitness)
+    //System.out.println("current best = " + currentBestFitness)
   }
 }

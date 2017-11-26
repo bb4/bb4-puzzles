@@ -61,7 +61,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     */
   def evaluateFitness(params: ParameterArray): Double = {
     val fitness = evaluator.evaluateFitness(params.asInstanceOf[TantrixPath])
-    println("fit = " + fitness + " currentBest = " + currentBestFitness)
+    //println("fit = " + fitness + " currentBest = " + currentBestFitness)
     params.setFitness(fitness)
     if (fitness < currentBestFitness) currentBestFitness = fitness
     fitness
