@@ -27,7 +27,7 @@ object Nub {
     * Determines the shape of the nub.
     * @param symbol the character symbol associated with this Suit
     */
-  case class Suit private(symbol: Char)
+  case class Suit(symbol: Char)
 }
 
 
