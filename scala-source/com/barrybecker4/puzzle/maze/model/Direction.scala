@@ -15,7 +15,7 @@ object Direction {
   val VALUES = Seq(FORWARD, LEFT, RIGHT)
 }
 
-abstract class Direction {
+sealed trait Direction {
 
   def apply(dir: Location): Location
 
