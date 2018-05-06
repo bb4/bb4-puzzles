@@ -46,11 +46,7 @@ final class SudokuPuzzle() extends JApplet {
     * Called by the browser after init(), if running as an applet.
     */
   override def start() {
-    SwingUtilities.invokeLater(new Runnable() {
-      def run() {
-        getContentPane.repaint()
-      }
-    })
+    SwingUtilities.invokeLater(() => getContentPane.repaint())
   }
 
   override def getName = "Sudoku Puzzle Solver"

@@ -26,7 +26,7 @@ abstract class AbstractFitter(val primaryColor: PathColor) {
     var placement = TilePlacement(tile, loc, ANGLE_300)
     (for (i <- 0 until NUM_SIDES) yield {
       placement = placement.rotate()
-      if (isFit(placement)) Some(placement) else None
+      Some(placement).filter(isFit)
     }).flatten
   }
 
