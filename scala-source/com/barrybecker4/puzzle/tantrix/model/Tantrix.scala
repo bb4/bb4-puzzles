@@ -49,14 +49,16 @@ case class Tantrix(tileMap: immutable.Map[Location, TilePlacement], lastTile: Ti
   }
 
   def getEdgeLength: Int = getBoundingBox.getMaxDimension + 1
-  def size = tileMap.size
+  def size: Int = tileMap.size
   def tiles: Iterable[TilePlacement] = tileMap.values
   def getTiles: Seq[HexTile] = tileMap.values.map(_.tile).toSeq
 
   /** @return the bounds of the current tantrix tiles. */
   def getBoundingBox: Box = {
-    val bbox = new Box(lastTile.location)
-    tileMap.keySet.foreach(bbox.expandBy)
+    var bbox = new Box(lastTile.location)
+    tileMap.keySet.foreach(pt => {
+      bbox = bbox.expandBy(pt)
+    })
     bbox
   }
 

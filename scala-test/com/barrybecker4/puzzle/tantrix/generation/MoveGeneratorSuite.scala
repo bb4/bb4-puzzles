@@ -22,7 +22,8 @@ class MoveGeneratorSuite extends FunSuite {
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
     assertEquals("Unexpected number of next moves.", 1, moves.size)
-    assertEquals("Unexpected first next move.", TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head)
+    assertEquals("Unexpected first next move.",
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head)
     //assertEquals("Unexpected second next move.",
     //    new TilePlacement(TILES.getTile(3), new ByteLocation(1, 0), Rotation.ANGLE_0), moves.get(1));
   }

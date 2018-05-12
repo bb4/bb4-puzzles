@@ -73,7 +73,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
       i <- topLeftCorner.getY to bottomRightCorner.getY
       j <- topLeftCorner.getX to bottomRightCorner.getX
     } {
-      tileRenderer.renderBorder(g2, new IntLocation(i, j), topLeftCorner, hexRadius)
+      tileRenderer.renderBorder(g2, IntLocation(i, j), topLeftCorner, hexRadius)
     }
   }
 }

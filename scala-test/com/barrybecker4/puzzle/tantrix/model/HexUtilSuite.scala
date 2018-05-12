@@ -22,12 +22,12 @@ class HexUtilSuite extends FunSuite {
 
   test("GetValidNeighborLocation") {
     tantrix = new TantrixBoard(THREE_TILES).tantrix
-    assertResult(new IntLocation(21, 22)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 0) }
-    assertResult(new IntLocation(20, 21)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 1) }
-    assertResult(new IntLocation(20, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 2) }
-    assertResult(new IntLocation(21, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 3) }
-    assertResult(new IntLocation(22, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 4) }
-    assertResult(new IntLocation(22, 21)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 5) }
+    assertResult(IntLocation(21, 22)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 0) }
+    assertResult(IntLocation(20, 21)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 1) }
+    assertResult(IntLocation(20, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 2) }
+    assertResult(IntLocation(21, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 3) }
+    assertResult(IntLocation(22, 20)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 4) }
+    assertResult(IntLocation(22, 21)) { HexUtil.getNeighborLocation(TantrixBoard.INITIAL_LOCATION, 5) }
   }
 
   test("Invalid neighbor location") {
@@ -39,18 +39,18 @@ class HexUtilSuite extends FunSuite {
   }
 
   test("GetDistanceBetweenDiag") {
-    assert(1.8027 === HexUtil.distanceBetween(new IntLocation(19, 21), new IntLocation(20, 22)), "for distance")
+    assert(1.8027 === HexUtil.distanceBetween(IntLocation(19, 21), IntLocation(20, 22)), "for distance")
   }
 
   test("GetDistanceBetweenSameRow") {
-    assert(1.0 === HexUtil.distanceBetween(new IntLocation(19, 21), new IntLocation(19, 22)), "for distance")
+    assert(1.0 === HexUtil.distanceBetween(IntLocation(19, 21), IntLocation(19, 22)), "for distance")
   }
 
   test("GetDistanceBetweenSameCol") {
-    assert(2.0 === HexUtil.distanceBetween(new IntLocation(19, 20), new IntLocation(19, 22)), "for distance")
+    assert(2.0 === HexUtil.distanceBetween(IntLocation(19, 20), IntLocation(19, 22)), "for distance")
   }
 
   test("GetDistanceBetweenSameSpace") {
-    assert(0.0 === HexUtil.distanceBetween(new IntLocation(20, 21), new IntLocation(20, 21)), "for distance")
+    assert(0.0 === HexUtil.distanceBetween(IntLocation(20, 21), IntLocation(20, 21)), "for distance")
   }
 }

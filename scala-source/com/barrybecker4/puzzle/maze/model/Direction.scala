@@ -21,14 +21,14 @@ sealed trait Direction {
 
   /** Find the direction which is counterclockwise 90 (to the left) of the specified dir. */
   protected def leftOf(dir: Location): Location = {
-    if (dir.getX == 0) new IntLocation(0, if (dir.getY > 0) -1 else 1)
-    else new IntLocation(if (dir.getX > 0) 1 else -1, 0)
+    if (dir.getX == 0) IntLocation(0, if (dir.getY > 0) -1 else 1)
+    else IntLocation(if (dir.getX > 0) 1 else -1, 0)
   }
 
   /** Find the direction which is clockwise 90 (to the right) of the specified dir. */
   protected def rightOf(dir: Location): Location = {
-    if (dir.getX == 0)  new IntLocation(0, if (dir.getY > 0) 1 else -1)
-    else new IntLocation(if (dir.getX > 0) -1 else 1, 0)
+    if (dir.getX == 0)  IntLocation(0, if (dir.getY > 0) 1 else -1)
+    else IntLocation(if (dir.getX > 0) -1 else 1, 0)
   }
 }
 
