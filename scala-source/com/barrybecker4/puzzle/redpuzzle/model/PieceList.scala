@@ -4,11 +4,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 import scala.util.Random
 
 
-/**
-  * The pieces that are in the red puzzle. Immutable.
-  *
-  * @author Barry Becker
-  */
 object PieceList {
 
   /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
@@ -23,6 +18,7 @@ object PieceList {
   *
   * @param pieces the currently fit pieces. Maybe be less than numTotal of them, but not more,
   * @param numTotal the total number of pieces in the puzzle.
+  * @author Barry Becker
   */
 case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
 
@@ -42,8 +38,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** Copy constructor */
   def this(pieces: PieceList) { this(pieces.pieces, pieces.numTotal) }
 
-  /**
-    * @param i the index of the piece to get.
+  /** @param i the index of the piece to get.
     * @return the i'th piece.
     */
   def get(i: Int): OrientedPiece = {
@@ -67,8 +62,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @param p piece to add to the end of the list. */
   def add(p: OrientedPiece): PieceList = add(pieces.size, p)
 
-  /**
-    * @param i the position to add the piece.
+  /** @param i the position to add the piece.
     * @param p piece to add to at the specified position in the list.
     */
   def add(i: Int, p: OrientedPiece): PieceList = {

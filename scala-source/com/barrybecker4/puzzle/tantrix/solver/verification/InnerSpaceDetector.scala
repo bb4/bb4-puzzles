@@ -52,7 +52,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
 
     val totalLocs = (bbox.getHeight + 1) * (bbox.getWidth + 1)
     assert(totalLocs == tantrix.size || empties.nonEmpty,
-      "We should have found at least one empty position on the border. Num Tiles =" + tantrix.size +
+      "We should have found at least one empty position on the border. Num Tiles = " + tantrix.size +
         " bbox area = " + bbox.getArea)
     empties
   }

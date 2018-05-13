@@ -9,14 +9,12 @@ import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParamete
   * It has some unique properties.
   * For example, when finding a random neighbor, we consider rotations of
   * non-fitting pieces rather than just offsetting the number by some random amount.
-  *
   * @author Barry Becker
   */
 object PieceParameterArray {
   private val SAMPLE_POPULATION_SIZE = 400
 
-  /**
-    * @param pieces piece list to find probabilities for.
+  /** @param pieces piece list to find probabilities for.
     * @return probability used to determine if we do a piece swap.
     *         Pieces that already fit have a low probability of being swapped.
     */
@@ -34,10 +32,8 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
   override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
 
-  /**
-    * We want to find a potential solution close to the one that we have,
+  /** We want to find a potential solution close to the one that we have,
     * with minimal disturbance of the pieces that are already fit.
-    *
     * @param radius proportional to the number of pieces that you want to vary.
     * @return the random nbr (potential solution).
     */

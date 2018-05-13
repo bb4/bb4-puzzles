@@ -1,5 +1,4 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.optimization.OptimizationListener
@@ -16,7 +15,6 @@ import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
 /**
   * Solve the red puzzle using a genetic search algorithm.
   * Solves the puzzle in 3.5 seconds on Core2 duo system (6 generations).
-  *
   * @author Barry Becker
   */
 class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece], val useConcurrency: Boolean)
@@ -50,9 +48,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
 
   def evaluateByComparison = false
 
-  /**
-    * Return a low score if there are a lot of fits among the pieces.
-    *
+  /** Return a low score if there are a lot of fits among the pieces.
     * @param params parameters
     * @return fitness value. Low is good.
     */
@@ -70,10 +66,8 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     0
   }
 
-  /**
-    * Called when the optimizer has made some progress optimizing.
+  /** Called when the optimizer has made some progress optimizing.
     * Shows the current status. Update our current best guess at the solution.
-    *
     * @param params optimization parameters
     */
   def optimizerChanged(params: ParameterArray) {

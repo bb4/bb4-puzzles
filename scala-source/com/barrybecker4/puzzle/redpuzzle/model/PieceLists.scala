@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 /**
   * Some standard puzzle configurations to try.
-  *
   * @author Barry Becker
   */
 object PieceLists {
@@ -43,9 +42,7 @@ object PieceLists {
 
   def getInitialPuzzlePieces: PieceList = getInitialPuzzlePieces(PieceList.DEFAULT_NUM_PIECES)
 
-  /**
-    * Factory method for creating the initial puzzle pieces.
-    *
+  /** Factory method for creating the initial puzzle pieces.
     * @return the initial 9 pieces (in random order) to use when solving.
     */
   def getInitialPuzzlePieces(numPieces: Int): PieceList = {

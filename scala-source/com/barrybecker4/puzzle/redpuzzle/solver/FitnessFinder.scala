@@ -5,7 +5,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList
 
 /**
   * Calculates the number of matching nubs and uses MAX_FITS minus that as a fitness value.
-  *
   * @author Barry Becker
   */
 object FitnessFinder {
@@ -16,8 +15,7 @@ object FitnessFinder {
   /** bonuses given to the scoring algorithm if 4 nubs on the center piece fit. */
   private val FOUR_FIT_BOOST = 0.6
 
-  /**
-    * The puzzle is solved if we reach this score.
+  /** The puzzle is solved if we reach this score.
     * There are 24 nubs that need to fit for all the pieces.
     * There are 4 edge pieces that get THREE_FIT_BOOST if all 3 nubs fit.
     */
@@ -26,10 +24,8 @@ object FitnessFinder {
 
 class FitnessFinder {
 
-  /**
-    * Return a high score if there are a lot of fits among the pieces.
+  /** Return a high score if there are a lot of fits among the pieces.
     * For every nub that fits we count 1
-    *
     * @param pieces the current state of the pieces
     * @return fitness value. High is good.
     */
