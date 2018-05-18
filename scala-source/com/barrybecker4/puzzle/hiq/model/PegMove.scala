@@ -16,7 +16,7 @@ import com.barrybecker4.puzzle.common.model.Move
 final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) extends Move {
 
   def this(fromRow: Byte, fromCol: Byte, destinationRow: Byte, destinationCol: Byte) {
-    this(new ByteLocation(fromRow, fromCol), new ByteLocation(destinationRow, destinationCol))
+    this(ByteLocation(fromRow, fromCol), ByteLocation(destinationRow, destinationCol))
   }
 
   /** @return a deep copy. */
@@ -34,4 +34,3 @@ final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) e
     s.toString
   }
 }
-

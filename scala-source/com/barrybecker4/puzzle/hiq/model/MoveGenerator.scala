@@ -6,7 +6,6 @@ import com.barrybecker4.common.geometry.Location
 
 /**
   * HiQ Puzzle move generator. Generates valid next moves.
-  *
   * @author Barry Becker
   */
 class MoveGenerator(var board: PegBoard) {
@@ -17,16 +16,16 @@ class MoveGenerator(var board: PegBoard) {
     val emptyLocations = board.getLocations(false)
     if (emptyLocations.isEmpty)
       moves +:= board.getFirstMove
-    else {
+    else
       for (pos <- emptyLocations) moves ++= findMovesForLocation(pos, undo = false)
-    }
+
     moves
   }
 
   /**
     * @param location Location empty or peg location based on undo
     * @param undo     boolean find undo (peg) or redo (empty location) moves.
-    * @return List
+    * @return List of possible peg moves
     */
   private def findMovesForLocation(location: Location, undo: Boolean) = {
     var moves = List[PegMove]()

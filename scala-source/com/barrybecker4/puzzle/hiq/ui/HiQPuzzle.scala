@@ -42,9 +42,8 @@ import javax.swing.JPanel
   * Using A* search, concurrency, and further optimization and running on a Skylake 4 core - it takes about 10 seconds.
   */
 object HiQPuzzle {
-  /**
-    * Use this to run as an application instead of an applet.
-    */
+
+  /** Use this to run as an application instead of an applet. */
   def main(args: Array[String]) {
     val applet = new HiQPuzzle(args)
     // this will call applet.init() and start() methods instead of the browser
@@ -62,9 +61,8 @@ case class HiQPuzzle(myargs: Array[String])
 
   protected def createViewer = new PegBoardViewer(PegBoard.INITIAL_BOARD_POSITION, this)
 
-  protected def createController(viewer: Refreshable[PegBoard, PegMove] ): PuzzleController[PegBoard, PegMove] = {
+  protected def createController(viewer: Refreshable[PegBoard, PegMove] ): PuzzleController[PegBoard, PegMove] =
     new HiQController(viewer)
-  }
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[PegBoard, PegMove]] = Algorithm.VALUES
 
@@ -73,8 +71,7 @@ case class HiQPuzzle(myargs: Array[String])
     navPanel
   }
 
-  def done() {
-    navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
-  }
+  def done(): Unit = navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
+
 }
 

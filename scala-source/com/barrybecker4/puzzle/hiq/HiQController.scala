@@ -19,24 +19,21 @@ class HiQController(ui: Refreshable[PegBoard, PegMove])
   extends AbstractPuzzleController[PegBoard, PegMove](ui) {
   algorithm = CONCURRENT_OPTIMUM
 
-  def initialState = PegBoard.INITIAL_BOARD_POSITION
+  def initialState: PegBoard = PegBoard.INITIAL_BOARD_POSITION
 
   def isGoal(position: PegBoard): Boolean = position.isSolved
 
   def legalTransitions(position: PegBoard): Seq[PegMove] = new MoveGenerator(position).generateMoves
 
-  def transition(position: PegBoard, move: PegMove): PegBoard = position.doMove(move, undo = false)
+  def transition(position: PegBoard, move: PegMove): PegBoard = position.doMove(move)
 
-  /**
-    * A simple estimate of the future cost to the goal is the number of pegs remaining.
+  /** A simple estimate of the future cost to the goal is the number of pegs remaining.
     * Other secondary factors like how spread out the remaining pegs are may be used to improve this estimate.
-    *
     * @return estimate of the cost to reach the a single bag remaining
     */
   override def distanceFromGoal(position: PegBoard): Int = position.getNumPegsLeft
 
-  /**
-    * Check all board symmetries to be sure it has or has not been seen. If it was never seen before add it.
+  /** Check all board symmetries to be sure it has or has not been seen. If it was never seen before add it.
     * Must be synchronized because some solvers use concurrency.
     */
   override def alreadySeen(position: PegBoard, seen: mutable.Set[PegBoard]): Boolean = {
