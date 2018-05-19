@@ -27,11 +27,7 @@ object PegBoard {
   /** @return true if the coordinates refer to one of the 33 board positions that can hold a peg. */
   def isValidPosition(row: Int, col: Int): Boolean = {
     if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false
-    if ((row >= CORNER_SIZE && (row < SIZE - CORNER_SIZE)) || (col >= CORNER_SIZE && (col < SIZE - CORNER_SIZE))) {
-      println("invalid position = " + row + " " + col + " CORNER_SIZE=" + CORNER_SIZE )
-      return false
-    }
-    return true
+    (row >= CORNER_SIZE && row < SIZE - CORNER_SIZE) || (col >= CORNER_SIZE && col < SIZE - CORNER_SIZE)
   }
 
   private def createNewBoardState(pos: PegBoard, move: PegMove, undo: Boolean): PegBoard = {

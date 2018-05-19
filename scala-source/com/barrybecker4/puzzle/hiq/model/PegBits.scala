@@ -51,7 +51,7 @@ case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boo
       newBits -= (if (get(i)) place else 0)
       newBits += (if (value) place else 0)
     }
-    PegBits(newBits)
+    PegBits(newBits, newFinalBit, newNextToFinalBit)
   }
 
   /** @return extract the value of the ith bit. */
