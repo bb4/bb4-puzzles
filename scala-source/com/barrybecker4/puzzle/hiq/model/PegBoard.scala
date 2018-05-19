@@ -15,12 +15,14 @@ object PegBoard {
   private val CORNER_SIZE: Int = 2
 
   /** The initial board position constant */
-  val INITIAL_BOARD_POSITION = new PegBoard()
+  val INITIAL_BOARD_POSITION: PegBoard = createInitialBoard()
 
-  for (i <- 0 until SIZE; j <- 0 until SIZE if isValidPosition(i, j))
-    INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
-
-  INITIAL_BOARD_POSITION.setPosition(CENTER, CENTER, value = false)
+  private def createInitialBoard(): PegBoard ={
+    var b = new PegBoard()
+    for (i <- 0 until SIZE; j <- 0 until SIZE if isValidPosition(i, j))
+      b = b.setPosition(i.toByte, j.toByte, value = true)
+    b.setPosition(CENTER, CENTER, value = false)
+  }
 
   /** @return true if the coordinates refer to one of the 33 board positions that can hold a peg. */
   def isValidPosition(row: Int, col: Int): Boolean = {
