@@ -5,7 +5,6 @@ import PegBoard.NUM_PEG_HOLES
 
 /**
   * Compressed immutable internal bit representation of the pegs on the board
-  * TODO: eliminate index and return
   * @param bits bit representation
   * @param finalBit the last bit not in the integer
   * @param nextToFinalBit bit before the last bit
@@ -15,28 +14,23 @@ case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boo
 
   /** @return Map the coordinate location into our memory conserving hash.*/
   def getIndexForPosition(row: Int, col: Int): Int = {
-    val p = row * 10 + col
-    var index = -1
-    if (p > 19 && p < 47) {
-      // this crazy formula gives the index for the middle 3 rows in the board.
-      return p % 10 + (p / 10 - 1) * 7 - 1
-    }
-    p match {
-      case 2 => index = 0
-      case 3 => index = 1
-      case 4 => index = 2
-      case 12 => index = 3
-      case 13 => index = 4
-      case 14 => index = 5
-      case 52 => index = 27
-      case 53 => index = 28
-      case 54 => index = 29
-      case 62 => index = 30
-      case 63 => index = 31
-      case 64 => index = 32
+    val pos = row * 10 + col
+    pos match {
+      case p if p > 19 && p < 47 => p % 10 + (p / 10 - 1) * 7 - 1
+      case 2 => 0
+      case 3 => 1
+      case 4 => 2
+      case 12 => 3
+      case 13 => 4
+      case 14 => 5
+      case 52 => 27
+      case 53 => 28
+      case 54 => 29
+      case 62 => 30
+      case 63 => 31
+      case 64 => 32
       case _ => throw new IllegalArgumentException("invalid position: row=" + row + " col=" + col)
     }
-    index
   }
 
   /** @return new pegBits with new value of position in internal compressed data structure. */
@@ -71,9 +65,9 @@ case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boo
   }
 
   override def toString: String = {
-    val buf = new StringBuilder(if (finalBit) "1" else "0")
+    val buf = new StringBuilder(Integer.toBinaryString(bits))
     buf.append(if (nextToFinalBit) "1" else "0")
-    buf.append(Integer.toBinaryString(bits))
+    buf.append(if (finalBit) "1" else "0")
     buf.toString
   }
 }
