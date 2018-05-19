@@ -31,7 +31,7 @@ class TwoPailsRenderer extends PuzzleRenderer[Pails] {
 
   /** This renders the current state of the Pails to the screen. */
   override def render(g: Graphics, pails: Pails, width: Int, height: Int): Unit = {
-    val params = pails.getParams
+    val params = pails.params
     val biggest = params.getBiggest
     val size1 = params.pail1Size.toFloat / biggest
     val size2 = params.pail2Size.toFloat / biggest

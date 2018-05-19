@@ -91,7 +91,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     generator = new SudokuGenerator(null, rand)
     val start = System.currentTimeMillis
     val b = generator.generatePuzzleBoard(new Board(baseSize))
-    System.out.println("Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
+    //System.out.println("Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
     b
   }
 
@@ -99,7 +99,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     val solver = new SudokuSolver()
     val start = System.currentTimeMillis
     val solved = solver.solvePuzzle(board)
-    System.out.println("Time to solve was " + (System.currentTimeMillis - start))
+    //System.out.println("Time to solve was " + (System.currentTimeMillis - start))
     assertTrue("Unexpectedly not solved.", solved)
   }
 }

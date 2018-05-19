@@ -41,23 +41,24 @@ object CyclicBarrierSuite {
 
 class CyclicBarrierSuite extends FunSuite {
 
-  val epsilon = 1e-4f
+  val epsilon = 1e-3f
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(epsilon)
 
   test("SumSmallMatrix") {
     val solver = new Solver(SMALL_MATRIX)
-    assert(6.0 === solver.getTotal)
+    //assert(6.0 === solver.getTotal)
     assertResult(6.0) { solver.getTotal }
   }
 
   test("SumMatrix") {
     val solver = new Solver(MATRIX)
     assert(55.1 === solver.getTotal)
-    assertEquals("Unexpected grand total", 55.1, solver.getTotal, 0.0001)
+    //assertEquals("Unexpected grand total", 55.1, solver.getTotal, 0.0001)
   }
 
   test("SumBigMatrix") {
     val solver = new Solver(BIG_MATRIX)
+    assert(5023.338 === solver.getTotal)
     assertEquals("Unexpected grand total", 5023.338, solver.getTotal, 0.01)
   }
 
@@ -97,13 +98,13 @@ class CyclicBarrierSuite extends FunSuite {
         }
       }
 
-      private def processRow(myRow: Int) = {
+      private def processRow(myRow: Int): Unit = {
         var total: Double = 0
         for (i <- data(myRow).indices) {
           total += data(myRow)(i)      // simlify to total = data(myRow).sum
         }
         totals(myRow) = total
-        System.out.println("done summing row " + myRow)
+        //System.out.println("done summing row " + myRow)
       }
     }
 
@@ -112,18 +113,18 @@ class CyclicBarrierSuite extends FunSuite {
       grandTotal
     }
 
-    private def waitUntilDone() = {
+    private def waitUntilDone(): Unit = {
       while (!done) {
-        System.out.println("not done yet...")
+        //System.out.println("not done yet...")
         ThreadUtil.sleep(5)
       }
     }
 
     /** called once all rows have been summed */
-    private def mergeRows() = {
+    private def mergeRows(): Unit = {
       for (i <- 0 until N)
         grandTotal += totals(i) // grandTotal = totals.sum
-      System.out.println("grandTotal found = " + grandTotal)
+      //System.out.println("grandTotal found = " + grandTotal)
       done = true
     }
   }

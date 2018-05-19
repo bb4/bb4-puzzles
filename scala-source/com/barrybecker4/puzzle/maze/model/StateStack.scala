@@ -3,8 +3,6 @@ package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.common.geometry.Location
 
-import scala.collection.mutable
-
 
 /**
   * Stack of GenStates to try during the search.

@@ -21,7 +21,6 @@ case object CONCURRENT_OPTIMUM extends Algorithm
 
 /**
   * Type of HiQ solver to use.
-  *
   * @author Barry Becker
   */
 sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
@@ -36,14 +35,14 @@ sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[PegBoard, PegMove](controller)
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[PegBoard, PegMove](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[PegBoard, PegMove](controller)
-      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.6f)
-      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.11f)
-      case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.2f)
+      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.4f)
+      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.05f)
+      case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.15f)
       case _ => throw new IllegalArgumentException("Unexpected enum value: " + this)
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 object Algorithm {

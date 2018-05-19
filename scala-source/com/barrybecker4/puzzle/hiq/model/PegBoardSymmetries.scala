@@ -3,19 +3,16 @@ package com.barrybecker4.puzzle.hiq.model
 
 /**
   * Static PegBoard symmetries.
-  *
   * @author Barry Becker
   */
 object PegBoardSymmetries {
-  /**
-    * The number of symmetries the board has.
+
+  /** The number of symmetries the board has.
     * Each odd and even pair are mirror images of a 90 degree rotation.
     */
   private[model] val SYMMETRIES = 8
 
-  /**
-    * The 8 fold symmetry of the board.
-    */
+  /** The 8 fold symmetry of the board. */
   private val BOARD_SYMMETRY = Array(
     Array[Byte]() /* placeholder for 0 index. i.e. 0-31 */,
     Array[Byte](2, 1, 0, 5, 4, 3, 12, 11, 10, 9, 8, 7, 6, 19, 18, 17, 16, 15, 14, 13, 26, 25, 24, 23, 22, 21, 20, 29, 28, 27, 32, 31, 30),

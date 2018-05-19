@@ -55,7 +55,7 @@ class MazeGenerator(val panel: MazePanel) {
     var currentCell = maze.getCell(currentPosition)
     currentCell.visited = true
     // push the initial moves
-    stack.pushMoves(currentPosition, new IntLocation(0, 1), 0)
+    stack.pushMoves(currentPosition, IntLocation(0, 1), 0)
     while (!stack.isEmpty && !interrupted)
       currentCell = findNextCell(currentCell)
   }

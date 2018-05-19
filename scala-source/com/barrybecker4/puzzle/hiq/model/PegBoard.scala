@@ -1,15 +1,11 @@
-// Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2000-2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.model
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
 
 import scala.collection.mutable
 
-/**
-  * Immutable representation of a PegBoard.
-  *
-  * @author Barry Becker
-  */
+
 object PegBoard {
 
   /** this must be odd */
@@ -21,36 +17,31 @@ object PegBoard {
   /** The initial board position constant */
   val INITIAL_BOARD_POSITION = new PegBoard()
 
-  /**
-    * @return true if the coordinates refer to one of the 33 board positions that can hold a peg.
-    */
-  def isValidPosition(row: Int, col: Int): Boolean = {
-    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false
-    row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
-  }
-
   for (i <- 0 until SIZE; j <- 0 until SIZE if PegBoard.isValidPosition(i, j))
     INITIAL_BOARD_POSITION.setPosition(i.toByte, j.toByte, value = true)
 
   INITIAL_BOARD_POSITION.setPosition(PegBoard.CENTER, PegBoard.CENTER, value = false)
+
+  /** @return true if the coordinates refer to one of the 33 board positions that can hold a peg. */
+  def isValidPosition(row: Int, col: Int): Boolean = {
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false
+    row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
+  }
 }
 
 /**
-  * maintains the compressed peg position information for the board.
+  * Representation of a PegBoard. Make immutable.
+  * Maintains the compressed peg position information for the board.
+  * @author Barry Becker
   */
 class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean) {
 
-  /**
-    * Copy constructor.
-    */
+  /** Copy constructor. */
   def this(board: PegBoard) {this(board.bits, board.finalBit, board.nextToFinalBit) }
 
   def this() { this(0, false, false) }
 
-  /**
-    * Constructor
-    * create a new BoardPosition by applying a move to another BoardPosition.
-    */
+  /** Create a new BoardPosition by applying a move to another BoardPosition. */
   def this(pos: PegBoard, move: PegMove, undo: Boolean) {
     this(pos)
     val fromRow = move.getFromRow
@@ -65,32 +56,22 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
 
   def getPosition(row: Byte, col: Byte): Boolean = get(getIndexForPosition(row, col))
 
-  /**
-    * Private so others can not modify our immutable state after construction.
-    */
-  private def setPosition(row: Byte, col: Byte, value: Boolean) {
-    set(getIndexForPosition(row, col), value)
-  }
+  /** Private so others can not modify our immutable state after construction. */
+  private def setPosition(row: Byte, col: Byte, value: Boolean): Unit = set(getIndexForPosition(row, col), value)
 
   def isEmpty(row: Byte, col: Byte): Boolean = !getPosition(row, col)
 
-  /**
-    * Because of symmetry, there is really only one first move not 4.
-    *
+  /** Because of symmetry, there is really only one first move not 4.
     * @return Move the first move.
     */
   def getFirstMove = new PegMove(PegBoard.CENTER, (PegBoard.CENTER - 2).toByte, PegBoard.CENTER, PegBoard.CENTER)
 
   def isSolved: Boolean = getNumPegsLeft == 1 && getPosition(PegBoard.CENTER, PegBoard.CENTER)
 
-  /**
-    * Creates a new board with the move applied.
-    * Does not violate immutability.
-    */
-  def doMove(move: PegMove, undo: Boolean) = new PegBoard(this, move, undo)
+  /** Creates a new board with the move applied. Does not violate immutability. */
+  def doMove(move: PegMove, undo: Boolean = false) = new PegBoard(this, move, undo)
 
-  /**
-    * @param pegged boolean if true get pegged locations, else empty locations
+  /** @param pegged boolean if true, get pegged locations, else empty locations
     * @return List of pegged or empty locations
     */
   def getLocations(pegged: Boolean): List[Location] = {
@@ -103,9 +84,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     list
   }
 
-  /**
-    * @return Map the coordinate location into our memory conserving hash.
-    */
+  /** @return Map the coordinate location into our memory conserving hash.*/
   private def getIndexForPosition(row: Int, col: Int): Int = {
     val p = row * 10 + col
     var index = -1
@@ -131,9 +110,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     index
   }
 
-  /**
-    * Set value of position in internal compress data structure.
-    */
+  /** Set value of position in internal compressed data structure. */
   private def set(i: Int, value: Boolean) {
     if (i == PegBoard.NUM_PEG_HOLES - 1) finalBit = value
     else if (i == PegBoard.NUM_PEG_HOLES - 2) nextToFinalBit = value
@@ -144,9 +121,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     }
   }
 
-  /**
-    * @return extract the value of the ith bit.
-    */
+  /** @return extract the value of the ith bit. */
   private def get(i: Int): Boolean = {
     if (i == PegBoard.NUM_PEG_HOLES - 1) return finalBit
     if (i == PegBoard.NUM_PEG_HOLES - 2) return nextToFinalBit
@@ -154,9 +129,7 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     (bits & place) != 0
   }
 
-  /**
-    * @return number of pegs left on the board.
-    */
+  /** @return number of pegs left on the board. */
   def getNumPegsLeft: Int = {
     var nPegsLeft = 0
     for (i <- 0 until PegBoard.NUM_PEG_HOLES)
@@ -174,13 +147,11 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     visited
   }
 
-  /**
-    * Check all 8 symmetries
+  /** Check all 8 symmetries
     * if rotateIndex = 0 then no rotation
     * if rotateIndex = 1 mirror image of this,
     * if rotateIndex = 2 then 90 degree rotation of this,
     * if rotateIndex = 3 then mirror image of 2, etc
-    *
     * @return specified rotation of the board.
     */
   private def symmetry(symmIndex: Int) =
@@ -191,15 +162,11 @@ class PegBoard(var bits: Int, var finalBit: Boolean, var nextToFinalBit: Boolean
     bits == board.bits && finalBit == board.finalBit && nextToFinalBit == board.nextToFinalBit
   }
 
-  /**
-    * All but one bit accounted for in the hash.
-    */
+  /** All but one bit accounted for in the hash. */
   override def hashCode: Int = if (nextToFinalBit) -bits else bits
 
-  /**
-    * Rotate the board according to symmetry.
+  /** Rotate the board according to symmetry.
     * Not all are rotational symmetries, but you get the idea....
-    *
     * @return new board with specified rotation applied.
     */
   private def rotate(rotateIndices: Array[Byte]): PegBoard = {

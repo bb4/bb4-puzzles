@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.hiq.model.PegBoard
   * Singleton class that takes a PieceList and renders it for the PegBoardViewer1.
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the PegBoardViewer1.
-  *
   * @author Barry Becker
   */
 object PegBoardRenderer {
@@ -30,9 +29,7 @@ object PegBoardRenderer {
   */
 class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
 
-  /**
-    * This renders the current state of the Slider to the screen.
-    */
+  /** This renders the current state of the Slider to the screen. */
   def render(g: Graphics, board: PegBoard, width: Int, height: Int) {
     val size = PegBoard.SIZE
     val rightEdgePos = PegBoardRenderer.LEFT_MARGIN + 3 * PegBoardRenderer.INC * size
@@ -43,9 +40,7 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
       drawPegLocation(g, board, row.toByte, col.toByte)
   }
 
-  /**
-    * draw the hatches which delineate the cells
-    */
+  /** draw the hatches which delineate the cells */
   private def drawGrid(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int) {
     var i = 0
     var ypos = 0
@@ -76,5 +71,3 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     g.fillOval(xpos + PegBoardRenderer.INC - rr, ypos + PegBoardRenderer.INC - rr, r, r)
   }
 }
-
-

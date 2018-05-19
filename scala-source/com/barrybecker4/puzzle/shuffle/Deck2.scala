@@ -29,7 +29,8 @@ object Deck2 {
     val deck = new Deck2(cards)
     val result = deck.shuffleUntilSorted(cut)
     val time = System.currentTimeMillis - start
-    System.out.println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut + " deep, takes " + result + " iterations to restore" + " the deck.")
+    System.out.println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
+      + " deep, takes " + result + " iterations to restore" + " the deck.")
     System.out.println("Calculation performed in " + time + "ms.")
   }
 }

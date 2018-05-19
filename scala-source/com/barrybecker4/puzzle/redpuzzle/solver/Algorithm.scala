@@ -1,5 +1,4 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.common.app.AppContext
@@ -20,7 +19,6 @@ case object CONCURRENT_GENETIC_SEARCH extends Algorithm
 
 /**
   * Enum for type of solver to employ when solving the puzzle.
-  *
   * @author Barry Becker
   */
 sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
@@ -28,9 +26,7 @@ sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
   private val label = AppContext.getLabel(this.toString)
   def getLabel: String = label
 
-  /**
-    * Create an instance of the algorithm given the controller and a refreshable.
-    */
+  /** Create an instance of the algorithm given the controller and a refreshable. */
   def createSolver(controller: PuzzleController[PieceList, OrientedPiece]): PuzzleSolver[OrientedPiece] = {
     this match {
       case BRUTE_FORCE_ORIGINAL => new BruteForceSolver(controller)

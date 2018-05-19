@@ -13,7 +13,7 @@ class MazeModel(var width: Int, var height: Int) {
 
   /** The grid of cells that make up the maze paths in x,y (col, row) order. */
   private var grid: Array[Array[MazeCell]] = _
-  val startPosition: Location = new IntLocation(2, 2)
+  val startPosition: Location = IntLocation(2, 2)
   var stopPosition: Location = _
 
   def setDimensions(width: Int, height: Int) {

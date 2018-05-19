@@ -36,7 +36,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfter {
     controller.algorithm = algorithm
     val solver = algorithm.createSolver(controller)
 
-    System.out.println("initial pos = " + controller.initialState)
+    //System.out.println("initial pos = " + controller.initialState)
     val path = solver.solve
     assertTrue("No solution found for case: " + path, path.isDefined)
 

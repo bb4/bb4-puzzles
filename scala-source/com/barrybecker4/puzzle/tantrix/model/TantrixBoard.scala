@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.tantrix.solver.verification.SolutionVerifier
 
 object TantrixBoard {
   /** starting position. Must be odd I believe. */
-  val INITIAL_LOCATION = new ByteLocation(21, 21)
+  val INITIAL_LOCATION = ByteLocation(21, 21)
 }
 
 /**

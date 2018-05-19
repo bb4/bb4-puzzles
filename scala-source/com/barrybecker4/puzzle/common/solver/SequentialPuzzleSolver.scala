@@ -11,6 +11,8 @@ import scala.collection.mutable
   * Performs a depth first search on the state space.
   * It will find a solution if there is one, but it may not be the best solution or the shortest path to it.
   * See A* for a better way to search that involves priority sorting of current paths.
+  * P represents a puzzle state
+  * M represents a move transition
   *
   * @param puzzle the puzzle to solve
   * @author Brian Goetz

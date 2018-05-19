@@ -52,7 +52,7 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
     * [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_0],
     * [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_60],
     * [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_240],
-    * [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_300]]
+    * [tileNum=4 colors: [B, Y, R, B, R, Y] at (row=21, column=22) ANGLE_300]
     * but all of them cause retouching to the main path.
     *
     * @return a valid primary path placement.

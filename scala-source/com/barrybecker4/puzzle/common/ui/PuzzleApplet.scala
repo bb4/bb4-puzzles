@@ -42,7 +42,8 @@ abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApple
   }
 
   override protected def getResourceList: util.List[String] = {
-    val resources = new util.ArrayList[String](super.getResourceList)
+    val resources = new util.ArrayList[String]()
+    resources.addAll(super.getResourceList)
     resources.add("com.barrybecker4.puzzle.common.ui.message")
     resources
   }

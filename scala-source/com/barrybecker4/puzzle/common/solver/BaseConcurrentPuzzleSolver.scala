@@ -59,7 +59,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     *
     * @param factor a number between 0 and 1. One being all breadth first search and not sequential.
     */
-  private[solver] def setDepthBreadthFactor(factor: Float) = {
+  private[solver] def setDepthBreadthFactor(factor: Float): Unit = {
     depthBreadthFactor = factor
   }
 

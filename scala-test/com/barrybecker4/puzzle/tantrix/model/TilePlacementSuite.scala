@@ -11,22 +11,22 @@ import org.scalatest.FunSuite
 class TilePlacementSuite extends FunSuite {
 
   private val tiles = new HexTiles()
-  private val placement = TilePlacement(tiles.getTile(1), new IntLocation(2, 2), RotationEnum.ANGLE_0)
+  private val placement = TilePlacement(tiles.getTile(1), IntLocation(2, 2), RotationEnum.ANGLE_0)
 
   test("TilePlacement construction") {
-    assertResult(new IntLocation(2, 2)) { placement.location }
+    assertResult(IntLocation(2, 2)) { placement.location }
     assertResult(PathColor.RED) { placement.getPathColor(0) }
     assertResult(PathColor.BLUE) { placement.getPathColor(1) }
   }
 
   test("Existant outgoing path locations") {
-    assertResult(Map(0 -> new IntLocation(2, 3), 2 -> new IntLocation(1, 2))) {
+    assertResult(Map(0 -> IntLocation(2, 3), 2 -> IntLocation(1, 2))) {
       placement.getOutgoingPathLocations(PathColor.RED)
     }
-    assertResult(Map(1 -> new IntLocation(1, 3), 3 -> new IntLocation(2, 1))) {
+    assertResult(Map(1 -> IntLocation(1, 3), 3 -> IntLocation(2, 1))) {
       placement.getOutgoingPathLocations(PathColor.BLUE)
     }
-    assertResult(Map(5 -> new IntLocation(3, 3), 4 -> new IntLocation(3, 2))) {
+    assertResult(Map(5 -> IntLocation(3, 3), 4 -> IntLocation(3, 2))) {
       placement.getOutgoingPathLocations(PathColor.YELLOW)
     }
   }
@@ -46,7 +46,7 @@ class TilePlacementSuite extends FunSuite {
     assertResult(PathColor.YELLOW) { rotatedPlacement.getPathColor(0) }
     assertResult(PathColor.RED) { rotatedPlacement.getPathColor(1) }
 
-    assertResult(Map(1 -> new IntLocation(1, 3), 3 -> new IntLocation(2, 1))) {
+    assertResult(Map(1 -> IntLocation(1, 3), 3 -> IntLocation(2, 1))) {
       rotatedPlacement.getOutgoingPathLocations(PathColor.RED)
     }
   }

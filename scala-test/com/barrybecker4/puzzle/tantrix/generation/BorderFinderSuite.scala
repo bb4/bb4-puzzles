@@ -19,19 +19,19 @@ class BorderFinderSuite extends FunSuite {
   test("FindBorderForFirstTileOfThree") {
     tantrix = new TantrixBoard(THREE_TILES).tantrix
     borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW)
-    verifyBorderLocations(new IntLocation(22, 20), new IntLocation(22, 21))
+    verifyBorderLocations(IntLocation(22, 20), IntLocation(22, 21))
   }
 
   test("FindBorderForTwoOfThreeTilesA") {
     tantrix = place2of3Tiles_OneThenTwo.tantrix
     borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderForTwoOfThreeTilesB") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
     borderFinder = new BorderFinder(tantrix, 10, PathColor.YELLOW)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderForThreeSolvedTiles") {
@@ -43,31 +43,31 @@ class BorderFinderSuite extends FunSuite {
   test("FindBorderForTwoOfThreeTilesA_ConstrainedByBorder") {
     tantrix = place2of3Tiles_OneThenTwo.tantrix
     borderFinder = new BorderFinder(tantrix, 1, PathColor.YELLOW)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderForTwoOfThreeTilesB_ConstrainedByBorder") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
     borderFinder = new BorderFinder(tantrix, 1, PathColor.YELLOW)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderFor4TilesNonLoop4Pieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 4, PathColor.RED)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderFor4TilesNonLoopFewPieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 6, PathColor.RED)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderFor4TilesNonLoopManyPieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 20, PathColor.RED)
-    verifyBorderLocations(new IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20))
   }
 
   test("FindBorderFor4TileLoop") {
@@ -85,7 +85,7 @@ class BorderFinderSuite extends FunSuite {
   test("FindBorderFor9TilesAlmostLoop") {
     tantrix = place9AlmostLoop.tantrix
     borderFinder = new BorderFinder(tantrix, 16, PathColor.RED)
-    verifyBorderLocations(new IntLocation(21, 22))
+    verifyBorderLocations(IntLocation(21, 22))
   }
 
   private def verifyBorderLocations(locations: IntLocation*) {

@@ -22,7 +22,8 @@ class MoveGeneratorSuite extends FunSuite {
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
     assertEquals("Unexpected number of next moves.", 1, moves.size)
-    assertEquals("Unexpected first next move.", TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head)
+    assertEquals("Unexpected first next move.",
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head)
     //assertEquals("Unexpected second next move.",
     //    new TilePlacement(TILES.getTile(3), new ByteLocation(1, 0), Rotation.ANGLE_0), moves.get(1));
   }
@@ -31,7 +32,7 @@ class MoveGeneratorSuite extends FunSuite {
     board = place2of3Tiles_OneThenThree
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    System.out.println("moves = " + moves)
+    //System.out.println("moves = " + moves)
     assertEquals("Unexpected number of next moves.", 1, moves.size)
   }
 
@@ -39,7 +40,7 @@ class MoveGeneratorSuite extends FunSuite {
     board = new TantrixBoard(THREE_TILES)
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    System.out.println("moves = " + moves)
+    //System.out.println("moves = " + moves)
     assertEquals("Unexpected number of next moves.", 8, moves.size)
   }
 }

@@ -48,7 +48,7 @@ class MazeSolver(var panel: MazePanel) {
     var currentPosition: Location = maze.startPosition
     var currentCell: MazeCell = maze.getCell(currentPosition)
     // push the initial moves
-    stack.pushMoves(currentPosition, new IntLocation (0, 1), 0)
+    stack.pushMoves(currentPosition, IntLocation (0, 1), 0)
     panel.paintAll()
     var dir: Location = null
     var depth: Int = 0

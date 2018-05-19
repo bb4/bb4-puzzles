@@ -12,7 +12,6 @@ import collection.JavaConverters._
 
 /**
   * UI for drawing the current best solution to the puzzle.
-  *
   * @author Barry Becker
   */
 final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListener)
@@ -44,9 +43,7 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     repaint()
   }
 
-  /**
-    * This renders the current state of the puzzle to the screen.
-    */
+  /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics) {
     super.paintComponent(g)
     renderer.render(g, board, getWidth, getHeight)
@@ -58,4 +55,3 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     if (doneListener != null) doneListener.done()
   }
 }
-

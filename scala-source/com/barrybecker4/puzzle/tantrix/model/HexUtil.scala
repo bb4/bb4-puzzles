@@ -11,14 +11,11 @@ import com.barrybecker4.common.geometry.{IntLocation, Location}
   * 0,0   0,1   0,2
   * 1,0   1,1   1,2   1,3
   * 2,0   2,1   2,2
-  *
   * @author Barry Becker
   */
 object HexUtil {
 
-  /**
-    * Odd rows are shifted back one.
-    *
+  /** Odd rows are shifted back one.
     * @param loc       source location
     * @param direction side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile.
@@ -30,19 +27,17 @@ object HexUtil {
     else 0
 
     direction match {
-      case 0 => new IntLocation(row, col + 1)
-      case 1 => new IntLocation(row - 1, col + colOffset + 1)
-      case 2 => new IntLocation(row - 1, col + colOffset)
-      case 3 => new IntLocation(row, col - 1)
-      case 4 => new IntLocation(row + 1, col + colOffset)
-      case 5 => new IntLocation(row + 1, col + colOffset + 1)
+      case 0 => IntLocation(row, col + 1)
+      case 1 => IntLocation(row - 1, col + colOffset + 1)
+      case 2 => IntLocation(row - 1, col + colOffset)
+      case 3 => IntLocation(row, col - 1)
+      case 4 => IntLocation(row + 1, col + colOffset)
+      case 5 => IntLocation(row + 1, col + colOffset + 1)
       case _ => throw new IllegalArgumentException("Unexpected direction: " + direction)
     }
   }
 
-  /**
-    * Convert to cartesian space, then computer the distance.
-    *
+  /** Convert to cartesian space, then computer the distance.
     * @param loc1 first location
     * @param loc2 second location
     * @return distance between two hex locations.

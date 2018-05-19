@@ -60,7 +60,7 @@ class TopControlPanel[P, M](
     * The dropdown menu at the top for selecting an algorithm for solving the puzzle.
     * @return a dropdown/down component.
     */
-  private def createAlgorithmDropdown: JComboBox[_] = {
+  private def createAlgorithmDropdown: JComboBox[String] = {
     algorithmChoice = new JComboBox[String]
     algorithmChoice.addItemListener (this)
     for (a <- algorithmValues) {

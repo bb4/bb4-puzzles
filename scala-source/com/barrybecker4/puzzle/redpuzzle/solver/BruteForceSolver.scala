@@ -9,7 +9,6 @@ import scala.collection.Seq
 /**
   * Works really well in spite of being brute force.
   * Solves the puzzle in 10 seconds on Core2Duo sequentially.
-  *
   * @author Barry Becker
   */
 class BruteForceSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece]) extends RedPuzzleSolver(puzzle) {
@@ -27,9 +26,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Oriented
     moves
   }
 
-  /**
-    * Solves the puzzle. This implements the main recursive algorithm for solving the red puzzle.
-    *
+  /** Solves the puzzle. This implements the main recursive algorithm for solving the red puzzle.
     * @param thePieces the pieces that have yet to be fitted.
     * @param i      index of last placed piece. If we have to backtrack, we put it back where we got it.
     * @return true if successfully solved, false if no solution.

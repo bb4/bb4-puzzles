@@ -31,9 +31,8 @@ class ValueLatch[T] {
 
   /**
     * This blocks until the final value is available.
-    *
+    * throws InterruptedException if interrupted
     * @return the final computed value
-    * @throws InterruptedException if interrupted
     */
   @throws[InterruptedException]
   def getValue: T = {

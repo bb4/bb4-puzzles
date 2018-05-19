@@ -16,25 +16,25 @@ class TantrixSuite extends FunSuite {
   test("test3TilePlacement") {
     tantrix = place3SolvedTiles.tantrix
     //System.out.println(tantrix)
-    verifyPlacement(new ByteLocation(22, 21))
-    verifyPlacement(new ByteLocation(22, 20))
-    verifyPlacement(new ByteLocation(21, 21))
+    verifyPlacement(ByteLocation(22, 21))
+    verifyPlacement(ByteLocation(22, 20))
+    verifyPlacement(ByteLocation(21, 21))
   }
 
   test("GetNeighborLocationOnOddRow") {
     tantrix = place3UnsolvedTiles.tantrix
-    val loc = new ByteLocation(1, 1)
-    assertEquals("Unexpected right neighbor", new ByteLocation(1, 2), HexUtil.getNeighborLocation(loc, 0))
-    assertEquals("Unexpected bottom left neighbor", new ByteLocation(2, 0), HexUtil.getNeighborLocation(loc, 4))
-    assertEquals("Unexpected bottom right neighbor", new ByteLocation(2, 1), HexUtil.getNeighborLocation(loc, 5))
+    val loc = ByteLocation(1, 1)
+    assertEquals("Unexpected right neighbor", ByteLocation(1, 2), HexUtil.getNeighborLocation(loc, 0))
+    assertEquals("Unexpected bottom left neighbor", ByteLocation(2, 0), HexUtil.getNeighborLocation(loc, 4))
+    assertEquals("Unexpected bottom right neighbor", ByteLocation(2, 1), HexUtil.getNeighborLocation(loc, 5))
   }
 
   test("GetNeighborLocationOnEvenRow") {
     tantrix = place3UnsolvedTiles.tantrix
-    val loc = new ByteLocation(2, 2)
-    assertEquals("Unexpected right neighbor", new ByteLocation(2, 3), HexUtil.getNeighborLocation(loc, 0))
-    assertEquals("Unexpected bottom left neighbor", new ByteLocation(3, 2), HexUtil.getNeighborLocation(loc, 4))
-    assertEquals("Unexpected bottom right neighbor", new ByteLocation(3, 3), HexUtil.getNeighborLocation(loc, 5))
+    val loc = ByteLocation(2, 2)
+    assertEquals("Unexpected right neighbor", ByteLocation(2, 3), HexUtil.getNeighborLocation(loc, 0))
+    assertEquals("Unexpected bottom left neighbor", ByteLocation(3, 2), HexUtil.getNeighborLocation(loc, 4))
+    assertEquals("Unexpected bottom right neighbor", ByteLocation(3, 3), HexUtil.getNeighborLocation(loc, 5))
   }
 
   test("GetNeighborFromUnrotatedTile") {
@@ -57,12 +57,12 @@ class TantrixSuite extends FunSuite {
 
   test("Bounding box for 3 solved tiles") {
     tantrix = place3SolvedTiles.tantrix
-    assertResult(new Box(new ByteLocation(21, 20), new ByteLocation(22, 21))) { tantrix.getBoundingBox }
+    assertResult(new Box(ByteLocation(21, 20), ByteLocation(22, 21))) { tantrix.getBoundingBox }
   }
 
   test("Bounding box for 6 unsolved tiles") {
     tantrix = place6UnsolvedTiles.tantrix
-    assertResult(new Box(new ByteLocation(19, 20), new ByteLocation(21, 22))) { tantrix.getBoundingBox }
+    assertResult(new Box(ByteLocation(19, 20), ByteLocation(21, 22))) { tantrix.getBoundingBox }
   }
 
 

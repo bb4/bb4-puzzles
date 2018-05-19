@@ -11,7 +11,8 @@ object Direction extends Enumeration {
 }
 
 /**
-  * Created by barry on 1/21/2017.
+  * A puzzle piece and its orientation.
+  * @author Barry Becker
   */
 case class OrientedPiece(piece: Piece, orientation: Direction) {
 
@@ -34,8 +35,7 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
   def getBottomNub: Nub = getNub(Direction.BOTTOM)
   def getLeftNub: Nub = getNub(Direction.LEFT)
 
-  /**
-    * @param dir nub orientation direction.
+  /** @param dir nub orientation direction.
     * @return the suit of the nub fot the specified direction.
     */
   private def getNub(dir: Direction): Nub = piece.nubs(getDirectionIndex(dir) )

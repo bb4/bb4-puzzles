@@ -48,6 +48,6 @@ class TwoPailsPuzzleController(ui: Refreshable[Pails, PourOperation])
     new MoveGenerator(position).generateMoves
 
   override def transition(position: Pails, move: PourOperation): Pails =
-    position.doMove(move, undo = false)
+    position.applyMove(move, undo = false)
 }
 

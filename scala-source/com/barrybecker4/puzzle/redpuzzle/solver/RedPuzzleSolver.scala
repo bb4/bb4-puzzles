@@ -10,7 +10,6 @@ import scala.collection.Seq
 /**
   * Abstract base class for puzzle solver strategies (see strategy pattern).
   * Subclasses do the hard work of actually solving the puzzle.
-  *
   * @param puzzle the puzzle to solve.
   * @author Barry Becker
   */
@@ -25,8 +24,7 @@ abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, OrientedP
   /** some measure of the number of iterations the solver needs to solve the puzzle. */
   var numTries: Int = 0
 
-  /**
-    * Solve the puzzle
+  /** Solve the puzzle
     * @return true if a solution is found.
     */
   def solve: Option[Seq[OrientedPiece]]

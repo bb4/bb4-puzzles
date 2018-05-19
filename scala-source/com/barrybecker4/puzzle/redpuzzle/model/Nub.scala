@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 /**
   * That little thing on the edge of a piece that allows it to connect to another.
   * It can either be an inny or an outty, like your belly button.
-  *
   * @author Barry Becker
   */
 object Nub {
@@ -23,11 +22,10 @@ object Nub {
   val INNY_DIAMOND = new Nub(DIAMOND, false)
   val OUTY_DIAMOND = new Nub(DIAMOND, true)
 
-  /**
-    * Determines the shape of the nub.
+  /** Determines the shape of the nub.
     * @param symbol the character symbol associated with this Suit
     */
-  case class Suit private(symbol: Char)
+  case class Suit(symbol: Char)
 }
 
 
@@ -36,9 +34,7 @@ case class Nub(suit: Nub.Suit, isOuty: Boolean) {
   /** @return the char symbol used to represent this nub's suit. */
   def getSuitSymbol: Char = suit.symbol
 
-  /**
-    * Check to see if this nub fits with another one.
-    *
+  /** Check to see if this nub fits with another one.
     * @param nub other nub to try and fit with.
     * @return true if the nubs fit together.
     */
