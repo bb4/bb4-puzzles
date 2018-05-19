@@ -12,7 +12,7 @@ object PegBoard {
   val SIZE = 7
   private[model] val NUM_PEG_HOLES = 33
   private val CENTER: Byte = 3
-  private val CORNER_SIZE = 2
+  private val CORNER_SIZE: Int = 2
 
   /** The initial board position constant */
   val INITIAL_BOARD_POSITION = new PegBoard()
@@ -25,39 +25,37 @@ object PegBoard {
   /** @return true if the coordinates refer to one of the 33 board positions that can hold a peg. */
   def isValidPosition(row: Int, col: Int): Boolean = {
     if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false
-    row >= CORNER_SIZE && row < SIZE - CORNER_SIZE || col >= CORNER_SIZE && col < SIZE - CORNER_SIZE
+    if ((row >= CORNER_SIZE && (row < SIZE - CORNER_SIZE)) || (col >= CORNER_SIZE && (col < SIZE - CORNER_SIZE))) {
+      println("invalid position = " + row + " " + col + " CORNER_SIZE=" + CORNER_SIZE )
+      return false
+    }
+    return true
   }
-}
 
-/**
-  * Representation of a PegBoard. Make immutable.
-  * Maintains the compressed peg position information for the board.
-  * @author Barry Becker
-  */
-class PegBoard(val bits: PegBits) {
-
-  /** Copy constructor. */
-  def this(board: PegBoard) {this(board.bits) }
-
-  def this() { this(new PegBits(0, false, false)) }
-
-  /** Create a new BoardPosition by applying a move to another BoardPosition. */
-  def this(pos: PegBoard, move: PegMove, undo: Boolean) {
-    this(pos)
+  private def createNewBoardState(pos: PegBoard, move: PegMove, undo: Boolean): PegBoard = {
     val fromRow = move.getFromRow
     val fromCol = move.getFromCol
     val toRow = move.getToRow
     val toCol = move.getToCol
-    setPosition(fromRow, fromCol, undo)
+    var board = pos.setPosition(fromRow, fromCol, undo)
     // Remove or replace the piece that was jumped as appropriate
-    setPosition(((fromRow + toRow) >> 1).toByte, ((fromCol + toCol) >> 1).toByte, undo)
-    setPosition(toRow, toCol, !undo)
+    board = board.setPosition(((fromRow + toRow) >> 1).toByte, ((fromCol + toCol) >> 1).toByte, undo)
+    board.setPosition(toRow, toCol, !undo)
   }
+}
 
+/**
+  * Immutable representation of a PegBoard.
+  * Maintains the compressed peg position information for the board.
+  * @author Barry Becker
+  */
+case class PegBoard(bits: PegBits) {
+  def this() { this(PegBits()) }
   def getPosition(row: Byte, col: Byte): Boolean = get(bits.getIndexForPosition(row, col))
 
   /** Private so others can not modify our immutable state after construction. */
-  private def setPosition(row: Byte, col: Byte, value: Boolean): Unit = set(bits.getIndexForPosition(row, col), value)
+  private def setPosition(row: Byte, col: Byte, value: Boolean): PegBoard =
+    PegBoard(set(bits.getIndexForPosition(row, col), value))
 
   def isEmpty(row: Byte, col: Byte): Boolean = !getPosition(row, col)
 
@@ -68,8 +66,8 @@ class PegBoard(val bits: PegBits) {
 
   def isSolved: Boolean = getNumPegsLeft == 1 && getPosition(CENTER, CENTER)
 
-  /** Creates a new board with the move applied. Does not violate immutability. */
-  def doMove(move: PegMove, undo: Boolean = false) = new PegBoard(this, move, undo)
+  /** Creates a new board with the move applied */
+  def doMove(move: PegMove, undo: Boolean = false): PegBoard = createNewBoardState(this, move, undo)
 
   /** @param pegged boolean if true, get pegged locations, else empty locations
     * @return List of pegged or empty locations
@@ -117,14 +115,14 @@ class PegBoard(val bits: PegBits) {
     * @return new board with specified rotation applied.
     */
   private def rotate(rotateIndices: Array[Byte]): PegBoard = {
-    val rotatedBoard = new PegBoard()
+    var rotatedBoard = new PegBoard()
     for (i <- 0 until NUM_PEG_HOLES)
-        rotatedBoard.set(i, get(rotateIndices(i)))
+        rotatedBoard = PegBoard(rotatedBoard.set(i, get(rotateIndices(i))))
     rotatedBoard
   }
 
-  def set(i: Int, value: Boolean): Unit = bits.set(i, value)
-  def get(i: Int): Boolean = bits.get(i)
+  private def set(i: Int, value: Boolean): PegBits = bits.set(i, value)
+  private def get(i: Int): Boolean = bits.get(i)
 
   override def toString: String = bits.toString
 }

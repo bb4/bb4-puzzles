@@ -11,7 +11,6 @@ import scala.collection.Seq
   */
 class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
 
-
   test("GenerateMovesForStandardProblemInitialState") {
     val initialState = PegBoard.INITIAL_BOARD_POSITION
 

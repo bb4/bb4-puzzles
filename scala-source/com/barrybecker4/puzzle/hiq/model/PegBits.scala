@@ -4,13 +4,14 @@ package com.barrybecker4.puzzle.hiq.model
 import PegBoard.NUM_PEG_HOLES
 
 /**
-  * Compressed internal bit representation of the pegs on the board
+  * Compressed immutable internal bit representation of the pegs on the board
+  * TODO: eliminate index and return
   * @param bits bit representation
   * @param finalBit the last bit not in the integer
   * @param nextToFinalBit bit before the last bit
   * @author Barry Becker
   */
-class PegBits(var bits: Int = 0, var finalBit: Boolean = false, var nextToFinalBit: Boolean = false) {
+case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boolean = false) {
 
   /** @return Map the coordinate location into our memory conserving hash.*/
   def getIndexForPosition(row: Int, col: Int): Int = {
@@ -33,20 +34,24 @@ class PegBits(var bits: Int = 0, var finalBit: Boolean = false, var nextToFinalB
       case 62 => index = 30
       case 63 => index = 31
       case 64 => index = 32
-      case _ => assert(assertion = false, "invalid position row=" + row + " col=" + col)
+      case _ => throw new IllegalArgumentException("invalid position: row=" + row + " col=" + col)
     }
     index
   }
 
-  /** Set value of position in internal compressed data structure. */
-  def set(i: Int, value: Boolean): Unit = {
-    if (i == NUM_PEG_HOLES - 1) finalBit = value
-    else if (i == NUM_PEG_HOLES - 2) nextToFinalBit = value
+  /** @return new pegBits with new value of position in internal compressed data structure. */
+  def set(i: Int, value: Boolean): PegBits = {
+    var newFinalBit = finalBit
+    var newNextToFinalBit = nextToFinalBit
+    var newBits = bits
+    if (i == NUM_PEG_HOLES - 1) newFinalBit = value
+    else if (i == NUM_PEG_HOLES - 2) newNextToFinalBit = value
     else {
       val place = 1 << i
-      bits -= (if (get(i)) place else 0)
-      bits += (if (value) place else 0)
+      newBits -= (if (get(i)) place else 0)
+      newBits += (if (value) place else 0)
     }
+    PegBits(newBits)
   }
 
   /** @return extract the value of the ith bit. */
@@ -64,14 +69,6 @@ class PegBits(var bits: Int = 0, var finalBit: Boolean = false, var nextToFinalB
       if (get(i)) nPegsLeft += 1
     nPegsLeft
   }
-
-  override def equals(b: Any): Boolean = {
-    val pegBits = b.asInstanceOf[PegBits]
-    bits == pegBits.bits && finalBit == pegBits.finalBit && nextToFinalBit == pegBits.nextToFinalBit
-  }
-
-  /** All but one bit accounted for in the hash. */
-  override def hashCode: Int = if (nextToFinalBit) -bits else bits
 
   override def toString: String = {
     val buf = new StringBuilder(if (finalBit) "1" else "0")
