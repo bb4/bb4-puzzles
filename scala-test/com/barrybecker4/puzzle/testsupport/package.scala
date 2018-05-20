@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle
 package object testsupport {
 
   /**
+    * Remove this. Its in common now.
     * This is useful to get unit tests running on windows or linux. Windows uses \r\n line endings.
     * @param s string to process
     * @param endOfLineChar (optional) what to put at the end of each line

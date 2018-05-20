@@ -5,6 +5,8 @@ import com.barrybecker4.puzzle.testsupport.strip
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import PieceListSuite.SOME_PIECE
 
+import scala.util.Random
+
 
 object PieceListSuite {
   val SOME_PIECE = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
@@ -79,5 +81,16 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
        |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
        |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
        |""")) {newPl.toString}
+  }
+
+  test("shuffle") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+
+    assertResult(strip("""PieceList: (4 pieces)
+       |Piece 3 (orientation=RIGHT): TOP:outy Suit(S);RIGHT:inny Suit(S);BOTTOM:inny Suit(C);LEFT:outy Suit(H);
+       |Piece 4 (orientation=RIGHT): TOP:outy Suit(H);RIGHT:inny Suit(S);BOTTOM:inny Suit(H);LEFT:outy Suit(C);
+       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+       |Piece 1 (orientation=BOTTOM): TOP:inny Suit(H);RIGHT:inny Suit(D);BOTTOM:outy Suit(S);LEFT:outy Suit(D);
+       |""")) {pieceList.shuffle(new Random(1)).toString}
   }
 }

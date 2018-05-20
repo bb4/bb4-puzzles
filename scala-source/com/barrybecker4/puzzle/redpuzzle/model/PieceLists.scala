@@ -53,6 +53,6 @@ object PieceLists {
     }
     val pieces = new PieceList(initialPieces)
     // shuffle the pieces so we get difference solutions - or at least different approaches.
-    pieces.shuffle
+    pieces.shuffle()
   }
 }

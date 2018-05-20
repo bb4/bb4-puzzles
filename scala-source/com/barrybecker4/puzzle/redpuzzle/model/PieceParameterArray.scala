@@ -103,7 +103,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: ParameterArray = {
     val pl: PieceList = new PieceList(pieces)
-    val shuffledPieces: PieceList = pl.shuffle
+    val shuffledPieces: PieceList = pl.shuffle()
     new PieceParameterArray (shuffledPieces)
   }
 
