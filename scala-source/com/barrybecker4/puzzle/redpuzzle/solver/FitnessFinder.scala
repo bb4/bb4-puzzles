@@ -24,10 +24,10 @@ object FitnessFinder {
 
 class FitnessFinder {
 
-  /** Return a high score if there are a lot of fits among the pieces.
-    * For every nub that fits we count 1
+  /** Return a low score if there are a lot of fits among the pieces.
+    * For every nub that fits we subtract 1 from the max
     * @param pieces the current state of the pieces
-    * @return fitness value. High is good.
+    * @return fitness value. Low is good.
     */
   def calculateFitness(pieces: PieceList): Double = FitnessFinder.MAX_FITS - getNumFits(pieces)
 

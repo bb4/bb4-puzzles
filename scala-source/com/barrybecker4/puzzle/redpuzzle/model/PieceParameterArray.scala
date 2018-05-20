@@ -39,7 +39,8 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     */
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
     val pieceList: PieceList = new PieceList(pieces)
-    val numSwaps: Int = 1 //Math.max(1, (int) (rad * 2.0));
+    val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
+    println(s"numSwaps = $numSwaps rad= $radius")
 
     for (i <- 0 until numSwaps) doPieceSwap(pieceList)
 
@@ -64,9 +65,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     new PieceParameterArray(pieceList)
   }
 
-  /**
-    * Exchange 2 pieces, even if it means the fitness gets worse.
-    *
+  /** Exchange 2 pieces, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
     * The probability of selecting pieces that already have fits is sharply reduced.
     * The denominator is 1 + the number of fits that the piece has.
@@ -88,8 +87,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     pieces
   }
 
-  /**
-    * @param p some value between 0 and the totalProbability (i.e. 100%).
+  /** @param p some value between 0 and the totalProbability (i.e. 100%).
     * @return the index of the piece that was selected given the probability.
     */
   def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
@@ -102,9 +100,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     i - 1
   }
 
-  /**
-    * @return get a completely random solution in the parameter space.
-    */
+  /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: ParameterArray = {
     val pl: PieceList = new PieceList(pieces)
     val shuffledPieces: PieceList = pl.shuffle

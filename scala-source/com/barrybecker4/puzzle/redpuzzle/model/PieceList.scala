@@ -87,8 +87,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
     PieceList(PieceList.RANDOM.shuffle(pieceList), numTotal)
   }
 
-  /**
-    * @param piece the piece to try to fit into our current solution.
+  /** @param piece the piece to try to fit into our current solution.
     * @return true if the piece fits.
     */
   def fits(piece: OrientedPiece): Boolean = {
