@@ -51,7 +51,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @return the number of pieces in the list.*/
   def size: Int = pieces.size
 
-  /** @return new piecelist with 2 indicated pieces swapped. */
+  /** @return new piecel ist with 2 indicated pieces swapped. */
   def doSwap(p1Pos: Int, p2Pos: Int): PieceList = {
     assert(p1Pos <= numTotal && p2Pos < numTotal,
       "The position indices must be less than " + numTotal + ".  You had " + p1Pos + ",  " + p2Pos)

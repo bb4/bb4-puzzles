@@ -112,7 +112,7 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
     val it: java.util.Iterator[Integer] = indices.iterator()
     while (it.hasNext) {
-      newParams.add(pieces.get(it.next()))
+      newParams = newParams.add(pieces.get(it.next()))
     }
     pieces = newParams
   }

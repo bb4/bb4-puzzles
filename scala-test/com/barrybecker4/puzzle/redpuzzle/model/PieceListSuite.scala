@@ -3,7 +3,12 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.puzzle.testsupport.strip
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import PieceListSuite.SOME_PIECE
 
+
+object PieceListSuite {
+  val SOME_PIECE = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
+}
 
 /**
   * @author Barry Becker
@@ -61,5 +66,18 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
       |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
       |""")) {newpl.toString}
+  }
+
+  test("add") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.add(1, OrientedPiece(SOME_PIECE, Direction.LEFT))
+
+    assertResult(strip("""PieceList: (5 pieces)
+       |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
+       |Piece 5 (orientation=LEFT): TOP:outy Suit(C);RIGHT:outy Suit(C);BOTTOM:outy Suit(C);LEFT:outy Suit(C);
+       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+       |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
+       |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+       |""")) {newPl.toString}
   }
 }
