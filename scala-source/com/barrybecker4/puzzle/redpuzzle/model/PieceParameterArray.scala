@@ -38,11 +38,12 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     * @return the random nbr (potential solution).
     */
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
-    val pieceList: PieceList = new PieceList(pieces)
+    var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
     println(s"numSwaps = $numSwaps rad= $radius")
 
-    for (i <- 0 until numSwaps) doPieceSwap(pieceList)
+    for (i <- 0 until numSwaps)
+      pieceList = doPieceSwap(pieceList)
 
     assert (pieceList.size == pieceList.numTotal)
 
@@ -51,16 +52,16 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
       var numFits: Int = pieceList.getNumFits(k)
       var bestNumFits: Int = numFits
       var bestRot: Int = 1
-      for (i <- 0 until 3) {
-        pieceList.rotate (k, 1) // fix
-        numFits = pieceList.getNumFits(k)
+      for (i <- 1 to 3) {
+        val plist = pieceList.rotate (k, i)
+        numFits = plist.getNumFits(k)
         if (numFits > bestNumFits) {
           bestNumFits = numFits
           bestRot = 2 + i
         }
       }
       // rotate the piece to position of best fit.
-      pieceList.rotate(k, bestRot)
+      pieceList = pieceList.rotate(k, bestRot)
     }
     new PieceParameterArray(pieceList)
   }
@@ -84,7 +85,6 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     } while (p2 == p1)
 
     pieces.doSwap(p1, p2)
-    pieces
   }
 
   /** @param p some value between 0 and the totalProbability (i.e. 100%).

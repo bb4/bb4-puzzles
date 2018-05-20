@@ -43,7 +43,7 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
   /** @return a nice readable string representation for debugging. */
   override def toString: String = {
     val buf: StringBuilder = new StringBuilder ("Piece " + piece.pieceNumber + " (orientation=" + orientation + "): ")
-    for (d <- Direction.values) buf.append(d).append (':').append(getNub(d)).append (";  ")
+    for (d <- Direction.values) buf.append(d).append (':').append(getNub(d)).append (";")
     buf.toString
   }
 }
