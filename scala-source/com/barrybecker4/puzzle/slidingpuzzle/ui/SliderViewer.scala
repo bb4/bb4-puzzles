@@ -12,7 +12,6 @@ import collection.JavaConverters._
 
 /**
   * UI for drawing the current best solution to the puzzle.
-  *
   * @param doneListener called when the puzzle has been solved.
   * @author Barry Becker
   */

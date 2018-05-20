@@ -8,7 +8,6 @@ import com.barrybecker4.common.geometry.Location
   * Possible directions that we can go.
   * Vary the probability that each direction occurs for interesting effects.
   * The sum of these probabilities must sum to 1.
-  *
   * @author Barry Becker
   */
 object Direction {
@@ -19,15 +18,15 @@ sealed trait Direction {
 
   def apply(dir: Location): Location
 
-  /** Find the direction which is counterclockwise 90 (to the left) of the specified dir. */
+  /** @return the direction which is counterclockwise 90 (to the left) of the specified dir. */
   protected def leftOf(dir: Location): Location = {
     if (dir.getX == 0) IntLocation(0, if (dir.getY > 0) -1 else 1)
     else IntLocation(if (dir.getX > 0) 1 else -1, 0)
   }
 
-  /** Find the direction which is clockwise 90 (to the right) of the specified dir. */
+  /** @return the direction which is clockwise 90 (to the right) of the specified dir. */
   protected def rightOf(dir: Location): Location = {
-    if (dir.getX == 0)  IntLocation(0, if (dir.getY > 0) 1 else -1)
+    if (dir.getX == 0) IntLocation(0, if (dir.getY > 0) 1 else -1)
     else IntLocation(if (dir.getX > 0) -1 else 1, 0)
   }
 }

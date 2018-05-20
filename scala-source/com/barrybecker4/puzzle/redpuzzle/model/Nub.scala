@@ -7,7 +7,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
   * @author Barry Becker
   */
 object Nub {
-
   val SPADE = Suit('S')
   val CLUB = Suit('C')
   val HEART = Suit('H')
@@ -44,8 +43,6 @@ case class Nub(suit: Nub.Suit, isOuty: Boolean) {
     suitMatch && nubMatch
   }
 
-  /**
-    * @return nice readable string representation of a nub
-    */
+  /** @return nice readable string representation of a nub */
   override def toString: String = (if (isOuty) "outy" else "inny") + ' ' + suit
 }

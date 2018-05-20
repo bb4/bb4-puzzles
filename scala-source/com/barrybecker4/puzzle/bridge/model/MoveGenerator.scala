@@ -6,7 +6,6 @@ import scala.collection.Seq
 
 /**
   * Bridge Puzzle move generator. Generates valid next moves.
-  *
   * @author Barry Becker
   */
 class MoveGenerator(var board: Bridge) {

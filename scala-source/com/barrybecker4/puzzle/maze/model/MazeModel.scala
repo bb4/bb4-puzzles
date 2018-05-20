@@ -5,7 +5,6 @@ import com.barrybecker4.common.geometry.{IntLocation, Location}
 
 /**
   * The model part of the model view controller pattern for the maze.
-  *
   * @author Barry Becker
   */
 class MazeModel(var width: Int, var height: Int) {

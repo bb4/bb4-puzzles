@@ -55,4 +55,3 @@ case class PourOperation(var action: Action, var container: Container) extends M
     s.toString
   }
 }
-

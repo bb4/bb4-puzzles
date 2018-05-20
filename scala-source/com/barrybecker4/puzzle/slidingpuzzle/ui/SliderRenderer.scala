@@ -6,11 +6,11 @@ import java.awt.{Color, Font, Graphics}
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
 
+
 /**
   * Singleton class that takes a PieceList and renders it for the SliderViewer.
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the SliderViewer.
-  *
   * @author Barry Becker
   */
 object SliderRenderer {
@@ -24,9 +24,8 @@ object SliderRenderer {
 }
 
 class SliderRenderer extends PuzzleRenderer[SliderBoard] {
-  /**
-    * This renders the current state of the Slider to the screen.
-    */
+
+  /** This renders the current state of the Slider to the screen. */
   def render(g: Graphics, board: SliderBoard, width: Int, height: Int) {
     val size = board.size
     val rightEdgePos = SliderRenderer.LEFT_MARGIN + SliderRenderer.INC * size

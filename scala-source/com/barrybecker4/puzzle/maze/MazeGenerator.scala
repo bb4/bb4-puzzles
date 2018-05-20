@@ -34,9 +34,7 @@ class MazeGenerator(val panel: MazePanel) {
   /** set this to true to get the generator to stop generating */
   private var interrupted = false
 
-  /**
-    * generate the maze.
-    */
+  /** generate the maze. */
   def generate(forwardProb: Double, leftProb: Double, rightProb: Double) {
     maxDepth = 0
     val probs = Probabilities(forwardProb, leftProb, rightProb)
@@ -45,8 +43,7 @@ class MazeGenerator(val panel: MazePanel) {
     panel.repaint()
   }
 
-  /**
-    * Do a depth first search (without recursion) of the grid space to determine the graph.
+  /** Do a depth first search (without recursion) of the grid space to determine the graph.
     * Used to use a recursive algorithm but it was slower and would give stack overflow exceptions.
     */
   def search() {

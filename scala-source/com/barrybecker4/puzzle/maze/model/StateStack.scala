@@ -27,8 +27,7 @@ class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)
   def isEmpty: Boolean = stack.isEmpty
   def clear(): Unit = { stack = List() }
 
-  /**
-    * From currentPosition, try moving in each direction in a random order.
+  /** From currentPosition, try moving in each direction in a random order.
     * Assigning different probabilities to the order in which we check these directions
     * can give interesting effects.
     */

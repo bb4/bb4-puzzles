@@ -46,7 +46,7 @@ sealed trait Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 object Algorithm {

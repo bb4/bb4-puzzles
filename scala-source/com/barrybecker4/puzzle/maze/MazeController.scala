@@ -24,7 +24,6 @@ final class MazeController(var mazePanel: MazePanel) extends SliderChangeListene
   /**
     * This panel will be repainted when the regeneration is complete.
     * Without this, the top controls do not refresh properly when shown in an applet (and only the applet).
-    *
     * @param panel the repaint listener
     */
   def setRepaintListener(panel: JPanel) {

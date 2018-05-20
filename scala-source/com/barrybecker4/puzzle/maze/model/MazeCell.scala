@@ -5,7 +5,6 @@ import com.barrybecker4.common.geometry.Location
 
 /**
   * A region of space bounded by walls in the maze.
-  *
   * @author Barry Becker
   */
 class MazeCell() {

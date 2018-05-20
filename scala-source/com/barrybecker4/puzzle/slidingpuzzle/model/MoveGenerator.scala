@@ -17,7 +17,6 @@ object MoveGenerator {
 
 /**
   * Sliding Puzzle move generator. Generates valid next moves.
-  *
   * @author Barry Becker
   */
 class MoveGenerator {

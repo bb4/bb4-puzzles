@@ -15,7 +15,6 @@ import java.awt.event.ItemListener
 /**
   * Buttons at the top for generating and solving the puzzle using different strategies.
   * Contains the solve and generate button at the top.
-  *
   * @author Barry Becker
   */
 case class SliderTopControls private[ui](
@@ -33,9 +32,7 @@ case class SliderTopControls private[ui](
     panel.add(Box.createHorizontalGlue)
   }
 
-  /**
-    * size choice selected.
-    *
+  /** size choice selected.
     * @param e item event.
     */
   override def itemStateChanged(e: ItemEvent) {

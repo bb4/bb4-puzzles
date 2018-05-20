@@ -6,7 +6,6 @@ import com.barrybecker4.puzzle.common.model.Move
 
 /**
   * Definition for tile that slides around on the Slider board. Immutable.
-  *
   * @author Barry Becker
   */
 case class SlideMove(fromPosition: Location, toPosition: Location) extends Move {

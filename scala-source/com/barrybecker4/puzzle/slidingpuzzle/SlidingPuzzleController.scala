@@ -36,7 +36,8 @@ class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
 
   def isGoal(position: SliderBoard): Boolean = position.isSolved
 
-  def legalTransitions(position: SliderBoard): Seq[SlideMove] = SlidingPuzzleController.generator.generateMoves(position)
+  def legalTransitions(position: SliderBoard): Seq[SlideMove] =
+    SlidingPuzzleController.generator.generateMoves(position)
 
   def transition(position: SliderBoard, move: SlideMove): SliderBoard = position.doMove(move)
 
@@ -47,7 +48,6 @@ class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
     * 2) Manhattan distance: for each piece, sum the manhattan distance to its goal position. Easy, but not the best
     * 3) Walking distance (http://www.ic-net.or.jp/home/takaken/e/15pz/wd.gif). Hard, but better.
     * 4) disjoint pattern databases. See http://heuristicswiki.wikispaces.com/pattern+database
-    *
     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
     */
   override def distanceFromGoal(position: SliderBoard): Int = position.distanceToGoal

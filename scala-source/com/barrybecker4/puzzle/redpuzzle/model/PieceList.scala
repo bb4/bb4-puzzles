@@ -15,7 +15,6 @@ object PieceList {
 
 /**
   * A list of fit puzzle pieces (initially empty) for a numPieces sized puzzle.
-  *
   * @param pieces the currently fit pieces. Maybe be less than numTotal of them, but not more,
   * @param numTotal the total number of pieces in the puzzle.
   * @author Barry Becker

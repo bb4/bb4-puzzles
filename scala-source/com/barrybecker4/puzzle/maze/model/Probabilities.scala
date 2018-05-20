@@ -5,7 +5,6 @@ import com.barrybecker4.common.math.MathUtil
 
 /**
   * The three normalized directional probabilities.
-  *
   * @author Barry Becker
   */
 case class Probabilities(fwdProbability: Double, leftProbability: Double, rightProbability: Double) {
@@ -14,8 +13,7 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
   private val leftProb = leftProbability / total
   private val rightProb = rightProbability / total
 
-  /**
-    * @return a shuffled list of directions
+  /** @return a shuffled list of directions
     * they are ordered given the potentially skewed probabilities at the top.
     */
   def getShuffledDirections: List[Direction] = {
@@ -35,8 +33,7 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     directions
   }
 
-  /**
-    * Determine the second direction in the list given a probability
+  /** Determine the second direction in the list given a probability
     * @param prob probability of taking the first of the two directions as the next element
     * @return the second direction.
     */
