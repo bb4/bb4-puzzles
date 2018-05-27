@@ -14,7 +14,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
 
   test("Fits") {
     val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces)
-    assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(23.0) {fitnessFinder.calculateFitness(pieceList)}
   }
 
   test("4PieceSomeFits") {
@@ -24,7 +24,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
       Piece(Nub.OUTY_HEART, Nub.OUTY_SPADE, Nub.INNY_SPADE, Nub.INNY_CLUB, 3),
       Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_SPADE, Nub.INNY_HEART, 4))
     )
-    assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(23.0) {fitnessFinder.calculateFitness(pieceList)}
   }
 
   test("4PieceAllFits") {
@@ -34,12 +34,12 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
       Piece(Nub.OUTY_HEART, Nub.OUTY_SPADE, Nub.INNY_SPADE, Nub.INNY_CLUB, 3),
       Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_DIAMOND, Nub.INNY_SPADE, 4))
     )
-    assertEquals("Unexpected number of fits.", 17.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(17.0) {fitnessFinder.calculateFitness(pieceList)}
   }
 
   test("9PieceSomeFits") {
     val pieceList = PieceLists.getInitialPuzzlePieces
-    assertEquals("Unexpected number of fits.", 23.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(23.0) {fitnessFinder.calculateFitness(pieceList)}
   }
 
   /** should get exactly 1 3 fit bonus */
@@ -55,7 +55,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
       Piece(Nub.OUTY_DIAMOND, Nub.OUTY_CLUB, Nub.INNY_CLUB, Nub.INNY_DIAMOND, 8),
       Piece(Nub.OUTY_SPADE, Nub.OUTY_SPADE, Nub.INNY_HEART, Nub.INNY_CLUB, 9))
     )
-    assertEquals("Unexpected number of fits.", 14.9, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(14.9) {fitnessFinder.calculateFitness(pieceList)}
   }
 
   test("9PieceAllFit") {
@@ -70,6 +70,6 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
       Piece(Nub.INNY_HEART, Nub.OUTY_HEART, Nub.OUTY_DIAMOND, Nub.INNY_DIAMOND, 8),
       Piece(Nub.INNY_CLUB, Nub.OUTY_SPADE, Nub.OUTY_SPADE, Nub.INNY_HEART, 9))
     )
-    assertEquals("Unexpected number of fits.", 0.0, fitnessFinder.calculateFitness(pieceList), 0.0001)
+    assertResult(0.0) {fitnessFinder.calculateFitness(pieceList)}
   }
 }

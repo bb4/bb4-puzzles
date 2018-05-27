@@ -1,8 +1,60 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017-2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
+import com.barrybecker4.optimization.parameter.{AbstractParameterArray, ParameterArray, PermutedParameterArray}
+import PieceParameterArray._
+
+import scala.util.Random
+
+
+object PieceParameterArray {
+
+  /** Number of random puzzles in a generation population */
+  private val SAMPLE_POPULATION_SIZE = 500
+
+  /** Exchange 2 pieces, even if it means the fitness gets worse.
+    * Skew away from selecting pieces that have fits.
+    * The probability of selecting pieces that already have fits is sharply reduced.
+    * The denominator is 1 + the number of fits that the piece has.
+    */
+  private def doPieceSwap(pieces: PieceList, rnd: Random): PieceList = {
+    val swapProbabilities: IndexedSeq[Double] = findSwapProbabilities(pieces)
+    var totalProb: Double = 0
+
+    for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
+
+    val tot = pieces.numTotal
+    val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble, swapProbabilities, tot)
+    var p2: Int = 0
+
+    do {
+      p2 = getPieceFromProb(totalProb * rnd.nextDouble, swapProbabilities, tot)
+    } while (p2 == p1)
+
+    pieces.doSwap(p1, p2)
+  }
+
+  /** @param p some value between 0 and the totalProbability (i.e. 100%).
+    * @return the index of the piece that was selected given the probability.
+    */
+  private def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double], numTotal: Int): Int = {
+    var total: Double = 0
+    var i: Int = 0
+    while (total < p && i < numTotal) {
+      total += probabilities(i)
+      i += 1
+    }
+    i - 1
+  }
+
+  /** @param pieces piece list to find probabilities for.
+    * @return probability used to determine if we do a piece swap.
+    *         Pieces that already fit have a lower probability of being swapped.
+    */
+  private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
+    for (i <- 0 until pieces.numTotal) yield 2.0 / (2.0 + pieces.getNumFits(i))
+}
 
 /**
   * The parameter array to use when searching (using optimization) to find a red puzzle solution.
@@ -11,23 +63,12 @@ import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParamete
   * non-fitting pieces rather than just offsetting the number by some random amount.
   * @author Barry Becker
   */
-object PieceParameterArray {
-  private val SAMPLE_POPULATION_SIZE = 400
-
-  /** @param pieces piece list to find probabilities for.
-    * @return probability used to determine if we do a piece swap.
-    *         Pieces that already fit have a low probability of being swapped.
-    */
-  private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
-    for (i <- 0 until pieces.numTotal) yield 1.0 / (1.0 + pieces.getNumFits(i))
-}
-
-class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray {
+class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray {
 
   override def copy: PieceParameterArray = {
-    val copy: PieceParameterArray = new PieceParameterArray(pieces)
-    copy.setFitness(this.getFitness)
-    copy
+    val cp: PieceParameterArray = new PieceParameterArray(pieces)
+    cp.setFitness(this.getFitness)
+    cp
   }
 
   override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
@@ -40,10 +81,11 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
     var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
-    println(s"numSwaps = $numSwaps rad= $radius")
+    println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
+    //println(pieceList.toString)
 
     for (i <- 0 until numSwaps)
-      pieceList = doPieceSwap(pieceList)
+      pieceList = doPieceSwap(pieceList, rnd)
 
     assert (pieceList.size == pieceList.numTotal)
 
@@ -51,64 +93,31 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
     for (k <- 0 until pieceList.size) {
       var numFits: Int = pieceList.getNumFits(k)
       var bestNumFits: Int = numFits
-      var bestRot: Int = 1
+      var bestRot: Int = 0
       for (i <- 1 to 3) {
         val plist = pieceList.rotate (k, i)
         numFits = plist.getNumFits(k)
         if (numFits > bestNumFits) {
           bestNumFits = numFits
-          bestRot = 2 + i
+          bestRot = i
         }
       }
       // rotate the piece to position of best fit.
       pieceList = pieceList.rotate(k, bestRot)
     }
+    //println("nbr: " +  pieceList.toString)
     new PieceParameterArray(pieceList)
-  }
-
-  /** Exchange 2 pieces, even if it means the fitness gets worse.
-    * Skew away from selecting pieces that have fits.
-    * The probability of selecting pieces that already have fits is sharply reduced.
-    * The denominator is 1 + the number of fits that the piece has.
-    */
-  def doPieceSwap(pieces: PieceList): PieceList = {
-    val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
-    var totalProb: Double = 0
-
-    for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
-
-    val p1: Int = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
-    var p2: Int = 0
-
-    do {
-      p2 = getPieceFromProb(totalProb * MathUtil.RANDOM.nextDouble, swapProbabilities)
-    } while (p2 == p1)
-
-    pieces.doSwap(p1, p2)
-  }
-
-  /** @param p some value between 0 and the totalProbability (i.e. 100%).
-    * @return the index of the piece that was selected given the probability.
-    */
-  def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
-    var total: Double = 0
-    var i: Int = 0
-    while (total < p && i < pieces.numTotal) {
-      total += probabilities(i)
-      i += 1
-    }
-    i - 1
   }
 
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: ParameterArray = {
     val pl: PieceList = new PieceList(pieces)
     val shuffledPieces: PieceList = pl.shuffle()
-    new PieceParameterArray (shuffledPieces)
+    new PieceParameterArray(shuffledPieces)
   }
 
   override def setPermutation(indices: java.util.List[Integer]): Unit = {
-    var newParams: PieceList = pieces
+    var newParams: PieceList = PieceList(List[OrientedPiece](), pieces.numTotal) //pieces
 
     val it: java.util.Iterator[Integer] = indices.iterator()
     while (it.hasNext) {
@@ -127,4 +136,16 @@ class PieceParameterArray(var pieces: PieceList) extends PermutedParameterArray 
 
   /** @return the parameters in a string of Comma Separated Values. */
   override def toCSVString: String = toString
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[PieceParameterArray]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: PieceParameterArray =>
+      super.equals(that) &&
+        (that canEqual this) &&
+        pieces == that.pieces
+    case _ => false
+  }
+
+  override def hashCode: Int = if (pieces != null) pieces.hashCode else 0
 }
