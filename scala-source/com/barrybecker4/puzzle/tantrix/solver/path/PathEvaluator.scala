@@ -34,13 +34,12 @@ object PathEvaluator {
 }
 
 class PathEvaluator {
-  /**
-    * The main criteria for quality of the path is
+
+  /** The main criteria for quality of the path is
     * 1) How close the ends of the path are to each other. Perfection achieved when we have a closed loop.
     * 2) Better if more matching secondary path colors
     * 3) Fewer inner spaces and a bbox with less area.
-    *
-    * @return a measure of how good the path is.
+    * @return a measure of how good the path is. Smaller number indicates better fitness.
     */
   def evaluateFitness(path: TantrixPath): Double = {
     val numTiles = path.size
@@ -67,9 +66,11 @@ class PathEvaluator {
       (if (consistentLoop) PathEvaluator.CONSISTENT_LOOP_BONUS else 0) -
       (if (perfectLoop) PathEvaluator.PERFECT_LOOP_BONUS else 0)
 
+    println("fitness = " + fitness)
     assert(!fitness.isNaN, "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop +
       " numTiles=" + numTiles + " distance=" + distance)
-    Math.max(0, fitness)
+    //Math.max(0, fitness)
+    fitness
   }
 
   /**

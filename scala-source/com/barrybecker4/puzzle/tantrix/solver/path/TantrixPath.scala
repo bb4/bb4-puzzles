@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
@@ -47,10 +48,8 @@ object TantrixPath {
   * but it is not required that it be a loop, or that any of the secondary colors match.
   * @param primaryPathColor primary path color
   */
-case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
-  extends PermutedParameterArray {
-
-  var rnd = new Random(0)
+case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor, rnd: Random = MathUtil.RANDOM)
+  extends PermutedParameterArray(rnd) {
 
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
     throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
@@ -62,18 +61,17 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     * @param tantrix ordered path tiles.
     * @param primaryColor primary color
     */
-  def this(tantrix: Tantrix, primaryColor: PathColor) {
-    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor)
+  def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) {
+    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor, rnd)
   }
 
   /**
     * Creates a random path given a board state.
     * @param board placed tiles
     */
-  def this(board: TantrixBoard) = {
-    this(getPathTilesFromBoard(board), board.primaryColor)
+  def this(board: TantrixBoard, rnd: Random) = {
+    this(getPathTilesFromBoard(board), board.primaryColor, rnd)
   }
-
 
   def getFirst: TilePlacement = tiles.head
   def getLast: TilePlacement = tiles.last
@@ -81,7 +79,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
   override def getSamplePopulationSize: Int = size * size
 
   override def copy: TantrixPath = {
-    val copy = new TantrixPath(tiles, primaryPathColor)
+    val copy = new TantrixPath(tiles, primaryPathColor, rnd)
     copy.setFitness(this.getFitness)
     copy
   }
@@ -106,7 +104,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
       for (i <- startIndex to endIndex by -1)
         pathTiles :+= this.tiles(i)
     }
-    new TantrixPath(pathTiles, primaryPathColor)
+    new TantrixPath(pathTiles, primaryPathColor, rnd)
   }
 
   /**
@@ -125,6 +123,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     */
   override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
     val generator = new PathPermutationGenerator(this, rnd)
+    println("r = " + radius)
     generator.getRandomNeighbor(radius)
   }
 

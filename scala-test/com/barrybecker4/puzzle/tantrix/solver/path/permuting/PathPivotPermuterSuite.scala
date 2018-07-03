@@ -10,19 +10,26 @@ import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.scalatest.FunSuite
+import org.scalatest.{BeforeAndAfter, FunSuite}
+
+import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class PathPivotPermuterSuite extends FunSuite {
+class PathPivotPermuterSuite extends FunSuite with BeforeAndAfter {
 
   /** instance under test */
   private var permuter: PathPivotPermuter = _
+  private var rnd: Random = _
+
+  before {
+    rnd = new Random(0)
+  }
 
   test("Permute3TilePath") {
     val board = place3UnsolvedTiles
-    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, board.primaryColor))
+    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, board.primaryColor, rnd))
     val permutedPathList = permuter.findPermutedPaths(1, 1)
     assertResult(7) { permutedPathList.size }
 
@@ -45,7 +52,7 @@ class PathPivotPermuterSuite extends FunSuite {
 
   test("Permute9AlmostLoop") {
     val board = place9AlmostLoop
-    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, PathColor.RED))
+    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, PathColor.RED, rnd))
     val permutedPathList = permuter.findPermutedPaths(1, 1)
     assertResult(7) { permutedPathList.size }
   }

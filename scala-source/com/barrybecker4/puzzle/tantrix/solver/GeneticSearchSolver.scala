@@ -11,6 +11,7 @@ import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
 
 import scala.collection.Seq
+import scala.util.Random
 
 /**
   * Solve the Tantrix puzzle using a genetic search algorithm.
@@ -21,17 +22,16 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
   extends TantrixSolver(controller.initialState) with Optimizee with OptimizationListener {
 
   /** either genetic or concurrent genetic strategy. */
-  private val strategy = if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH
-                         else OptimizationStrategyType.GENETIC_SEARCH
+  private val strategy =
+    if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
+    else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
   private var evaluator = new PathEvaluator
   private var numTries: Int = 0
   private var currentBestFitness = SOLVED_THRESH
 
-  /**
-    * @return list of moves to a solution.
-    */
+  /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
-    val initialGuess = new TantrixPath(board)
+    val initialGuess = new TantrixPath(board, new Random(1))
     assert(initialGuess.size > 0, "The random path should have some tiles!")
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
@@ -53,9 +53,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
 
   def evaluateByComparison = false
 
-  /**
-    * Return 0 or less if a perfect solution has been found.
-    *
+  /** Return 0 or less if a perfect solution has been found.
     * @param params parameters
     * @return fitness value. High is good.
     */
@@ -72,10 +70,8 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     0
   }
 
-  /**
-    * Called when the optimizer has made some progress optimizing.
+  /** Called when the optimizer has made some progress optimizing.
     * Shows the current status.
-    *
     * @param params optimized array of parameters representing tiles
     */
   def optimizerChanged(params: ParameterArray) {

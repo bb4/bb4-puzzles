@@ -2,22 +2,26 @@
 package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.common.geometry.ByteLocation
-import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles._
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
-import org.scalatest.FunSuite
+import org.scalatest.{BeforeAndAfter, FunSuite}
 
+import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class TantrixPathSuite extends FunSuite {
+class TantrixPathSuite extends FunSuite with BeforeAndAfter {
   /** instance under test */
   private var path: TantrixPath = _
+  private var rnd: Random = _
+  before {
+    rnd = new Random(1)
+  }
 
   test("2TilePathConstruction") {
     val pivotTile = TILES.getTile(1)
@@ -48,7 +52,7 @@ class TantrixPathSuite extends FunSuite {
   /** we expect an exception because the tiles passed to the constructor do not form a primary path */
   test("NonLoopPathConstruction") {
     val board = place3UnsolvedTiles
-    path = new TantrixPath(board.tantrix, board.primaryColor)
+    path = new TantrixPath(board.tantrix, board.primaryColor, rnd)
     assertResult(3) { path.size }
   }
 
@@ -56,19 +60,19 @@ class TantrixPathSuite extends FunSuite {
   test("InvalidPathConstruction") {
     val board = place3NonPathTiles
     val caught = intercept[IllegalStateException] {
-      new TantrixPath(board.tantrix, board.primaryColor)
+      new TantrixPath(board.tantrix, board.primaryColor, rnd)
     }
   }
 
   test("IsLoop") {
     val board = place3SolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, rnd)
     assert(path.isLoop)
   }
 
   test("IsNotLoop") {
     val board = place3UnsolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, rnd)
     assert(!path.isLoop)
   }
 
@@ -94,33 +98,33 @@ class TantrixPathSuite extends FunSuite {
     assert(!TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.RED))
   }
 
-  test("FindRandomNeighbor") {
-    MathUtil.RANDOM.setSeed(0)
+  test("FindRandomNeighbor rad = 0.5") {
     val board = place3UnsolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
-    path.rnd = new Random(0)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, rnd)
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
     //println("nbr = " + nbr.toString)
 
-    val tiles = List(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+    val tiles = ListBuffer(
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
-    /*
-
-    ListBuffer(
-    [tileNum=3 colors: BLUE,BLUE,RED,RED,YELLOW,YELLOW at (row=22, column=20) ANGLE_180],
-    [tileNum=1 colors: RED,BLUE,RED,BLUE,YELLOW,YELLOW at (row=21, column=21) ANGLE_0],
-    [tileNum=2 colors: BLUE,YELLOW,YELLOW,BLUE,RED,RED at (row=22, column=21) ANGLE_0])
-
-
-    val tiles = List(TilePlacement(TILES.getTile(2), new ByteLocation(22, 20), ANGLE_300),
-      TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0), TilePlacement(TILES.getTile(3),
-        new ByteLocation(22, 21), ANGLE_240))
-        */
 
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW)
     assertResult(expectedPath) { nbr }
   }
 
+  test("FindRandomNeighbor rad = 1.0") {
+    val board = place3UnsolvedTiles
+    val path = new TantrixPath(board.tantrix, board.primaryColor, rnd)
+    val nbr = path.getRandomNeighbor(1.0).asInstanceOf[TantrixPath]
+    //println("nbr = " + nbr.toString)
+
+    val tiles = ListBuffer(
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
+      TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
+      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
+
+    val expectedPath = new TantrixPath(tiles, PathColor.YELLOW)
+    assertResult(expectedPath) { nbr }
+  }
 }
