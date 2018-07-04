@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
+import com.barrybecker4.common.math.MathUtil
+
 import scala.util.Random
 
 
@@ -8,9 +10,6 @@ object PieceList {
 
   /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
   val DEFAULT_NUM_PIECES = 9
-
-  /** use the same seed for repeatable results. */
-  private val RANDOM = new Random(5)
 }
 
 /**
@@ -82,9 +81,9 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   }
 
   /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
-  def shuffle: PieceList = {
-    val pieceList = for (p <- pieces) yield p.rotate(PieceList.RANDOM.nextInt(4))
-    PieceList(PieceList.RANDOM.shuffle(pieceList), numTotal)
+  def shuffle(rnd: Random = MathUtil.RANDOM): PieceList = {
+    val pieceList = for (p <- pieces) yield p.rotate(rnd.nextInt(4))
+    PieceList(rnd.shuffle(pieceList), numTotal)
   }
 
   /** @param piece the piece to try to fit into our current solution.

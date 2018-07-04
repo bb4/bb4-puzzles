@@ -6,6 +6,7 @@ package com.barrybecker4.puzzle.redpuzzle.model
   * @author Barry Becker
   */
 object PieceLists {
+
   /** this defines the puzzle pieces for the standard 9x9 puzzle (not sorted). */
   val RED_INITIAL_PIECES_9 = Array(
     Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1), // 0
@@ -18,9 +19,7 @@ object PieceLists {
     Piece(Nub.OUTY_DIAMOND, Nub.OUTY_CLUB, Nub.INNY_CLUB, Nub.INNY_DIAMOND, 8),
     Piece(Nub.OUTY_SPADE, Nub.OUTY_SPADE, Nub.INNY_HEART, Nub.INNY_CLUB, 9))
 
-  /**
-    * Mapping from Lynette's puzzle
-    */
+  /** Mapping from Lynette's puzzle */
   val LYNETTE_INITIAL_PIECES_9 = Array(
     Piece(Nub.INNY_HEART, Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.OUTY_CLUB, 1), // 0
     Piece(Nub.OUTY_SPADE, Nub.INNY_CLUB, Nub.INNY_HEART, Nub.INNY_DIAMOND, 2),  // 1
@@ -53,6 +52,6 @@ object PieceLists {
     }
     val pieces = new PieceList(initialPieces)
     // shuffle the pieces so we get difference solutions - or at least different approaches.
-    pieces.shuffle
+    pieces.shuffle()
   }
 }

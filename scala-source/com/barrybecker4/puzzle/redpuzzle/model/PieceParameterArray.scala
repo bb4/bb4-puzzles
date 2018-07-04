@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
-
 import scala.util.Random
 
 /**
@@ -16,19 +15,21 @@ import scala.util.Random
 object PieceParameterArray {
   private val SAMPLE_POPULATION_SIZE = 400
 
-  /** The larger this number, the less we care about how many fits there are when finding the swap probability */
-  private val PROB_SOFTENER = 0.8
+  /** The larger this number, the less we care about how many fits there are when finding the swap probability.
+    * Should be in the range 0.1 to 10.
+    */
+  private val PROB_SOFTENER = 1.1
 
   /** @param pieces piece list to find probabilities for.
     * @return probability used to determine if we do a piece swap.
     *         Pieces that already fit have a low probability of being swapped.
     */
   private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
-    for (i <- 0 until pieces.numTotal) yield 1.0 / (PROB_SOFTENER + pieces.getNumFits(i))
+    for (i <- 0 until pieces.numTotal) yield PROB_SOFTENER / (PROB_SOFTENER + pieces.getNumFits(i))
 }
 
 class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RANDOM)
-  extends PermutedParameterArray {
+  extends PermutedParameterArray(rnd) {
 
   override def copy: PieceParameterArray = {
     val copy: PieceParameterArray = new PieceParameterArray(pieces, rnd)
@@ -47,7 +48,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
 
     var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
-    //println(s"numSwaps = $numSwaps rad= $radius")
+    println(s"numSwaps = $numSwaps rad= $radius")
 
     for (i <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList)
@@ -74,9 +75,8 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   }
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
-    * Skew away from selecting pieces that have fits.
+    * Skew away from selecting pieces for swapping that have fits.
     * The probability of selecting pieces that already have fits is sharply reduced.
-    * The denominator is 1 + the number of fits that the piece has.
     */
   def doPieceSwap(pieces: PieceList): PieceList = {
     val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
@@ -97,7 +97,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   /** @param p some value between 0 and the totalProbability (i.e. 100%).
     * @return the index of the piece that was selected given the probability.
     */
-  def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
+  private def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
     var total: Double = 0
     var i: Int = 0
     while (total < p && i < pieces.numTotal) {
@@ -110,8 +110,8 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: ParameterArray = {
     val pl: PieceList = new PieceList(pieces)
-    val shuffledPieces: PieceList = pl.shuffle
-    new PieceParameterArray (shuffledPieces)
+    val shuffledPieces: PieceList = pl.shuffle(rnd)
+    new PieceParameterArray(shuffledPieces)
   }
 
   override def setPermutation(indices: List[Integer]): Unit = {

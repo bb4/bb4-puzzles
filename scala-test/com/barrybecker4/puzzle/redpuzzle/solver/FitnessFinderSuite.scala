@@ -14,7 +14,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
 
   test("Fits") {
     val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces)
-    assertResult(23.0) { fitnessFinder.calculateFitness(pieceList) }
+    assertResult(25.0) { fitnessFinder.calculateFitness(pieceList) }
   }
 
   test("4PieceSomeFits") {
@@ -39,7 +39,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
 
   test("9PieceSomeFits") {
     val pieceList = PieceLists.getInitialPuzzlePieces
-    assertResult(23.0) { fitnessFinder.calculateFitness(pieceList) }
+    assertResult(21.0) { fitnessFinder.calculateFitness(pieceList) }
   }
 
   /** should get exactly 1 3 fit bonus */
