@@ -5,13 +5,7 @@ import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import scala.util.Random
 
-/**
-  * The parameter array to use when searching (using optimization) to find a red puzzle solution.
-  * It has some unique properties.
-  * For example, when finding a random neighbor, we consider rotations of
-  * non-fitting pieces rather than just offsetting the number by some random amount.
-  * @author Barry Becker
-  */
+
 object PieceParameterArray {
   private val SAMPLE_POPULATION_SIZE = 400
 
@@ -28,6 +22,13 @@ object PieceParameterArray {
     for (i <- 0 until pieces.numTotal) yield PROB_SOFTENER / (PROB_SOFTENER + pieces.getNumFits(i))
 }
 
+/**
+  * The parameter array to use when searching (using optimization) to find a red puzzle solution.
+  * It has some unique properties.
+  * For example, when finding a random neighbor, we consider rotations of
+  * non-fitting pieces rather than just offsetting the number by some random amount.
+  * @author Barry Becker
+  */
 class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RANDOM)
   extends PermutedParameterArray(rnd) {
 
@@ -78,7 +79,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
     * Skew away from selecting pieces for swapping that have fits.
     * The probability of selecting pieces that already have fits is sharply reduced.
     */
-  def doPieceSwap(pieces: PieceList): PieceList = {
+  private def doPieceSwap(pieces: PieceList): PieceList = {
     val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
     var totalProb: Double = 0
 
@@ -115,15 +116,15 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   }
 
   override def setPermutation(indices: List[Integer]): Unit = {
-    var newParams: PieceList = pieces
-    indices.foreach(p => {
-      newParams = newParams.add(pieces.get(p))
-    })
-    pieces = newParams
+    throw new UnsupportedOperationException("not used by PieceParameterArray")
   }
 
   /** @return the piece list corresponding to the encoded parameter array */
   def getPieceList: PieceList = pieces
+
+  override def distance(pa: ParameterArray): Double = {
+    throw new UnsupportedOperationException("distance calc not needed for PieceParameterArray")
+  }
 
   override def canEqual(other: Any): Boolean = other.isInstanceOf[PieceParameterArray]
 
