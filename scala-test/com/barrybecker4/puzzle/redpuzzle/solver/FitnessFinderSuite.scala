@@ -4,6 +4,8 @@ package com.barrybecker4.puzzle.redpuzzle.solver
 import com.barrybecker4.puzzle.redpuzzle.model.{Nub, Piece, PieceList, PieceLists}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
+import scala.util.Random
+
 
 /**
   * @author Barry Becker
@@ -11,9 +13,14 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
   /** instance under test */
   private val fitnessFinder = new FitnessFinder
+  private var rnd: Random = _
+
+  before {
+    rnd = new Random(1)
+  }
 
   test("Fits") {
-    val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces)
+    val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces(rnd))
     assertResult(25.0) { fitnessFinder.calculateFitness(pieceList) }
   }
 
@@ -38,8 +45,8 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("9PieceSomeFits") {
-    val pieceList = PieceLists.getInitialPuzzlePieces
-    assertResult(21.0) { fitnessFinder.calculateFitness(pieceList) }
+    val pieceList = PieceLists.getInitialPuzzlePieces(rnd)
+    assertResult(25.0) { fitnessFinder.calculateFitness(pieceList) }
   }
 
   /** should get exactly 1 3 fit bonus */

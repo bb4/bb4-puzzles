@@ -45,7 +45,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
     * @param radius proportional to the number of pieces that you want to vary.
     * @return the random nbr (potential solution).
     */
-  override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
+  override def getRandomNeighbor(radius: Double): PieceParameterArray = {
 
     var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
@@ -54,25 +54,25 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
     for (i <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList)
 
-    assert (pieceList.size == pieceList.numTotal)
+    assert(pieceList.size == pieceList.numTotal)
 
     // Make a pass over all the pieces. If rotating a piece leads to more fits, then do it.
     for (k <- 0 until pieceList.size) {
       var numFits: Int = pieceList.getNumFits(k)
       var bestNumFits: Int = numFits
-      var bestRot: Int = 1
+      var bestRot: Int = 0
       for (i <- 1 to 3) {
         val plist = pieceList.rotate(k, i)
         numFits = plist.getNumFits(k)
         if (numFits > bestNumFits) {
           bestNumFits = numFits
-          bestRot = 2 + i
+          bestRot = i
         }
       }
       // rotate the piece to position of best fit.
       pieceList = pieceList.rotate(k, bestRot)
     }
-    new PieceParameterArray(pieceList)
+    new PieceParameterArray(pieceList, rnd)
   }
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
@@ -112,7 +112,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   override def getRandomSample: ParameterArray = {
     val pl: PieceList = new PieceList(pieces)
     val shuffledPieces: PieceList = pl.shuffle(rnd)
-    new PieceParameterArray(shuffledPieces)
+    new PieceParameterArray(shuffledPieces, rnd)
   }
 
   override def setPermutation(indices: List[Integer]): Unit = {

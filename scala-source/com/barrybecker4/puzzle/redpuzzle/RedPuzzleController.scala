@@ -3,6 +3,7 @@
  */
 package com.barrybecker4.puzzle.redpuzzle
 
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
@@ -27,7 +28,7 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {
 
   algorithm = BRUTE_FORCE_ORIGINAL
-  final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces
+  final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
 
   def initialState: PieceList = new PieceList  // empty piece list
 
