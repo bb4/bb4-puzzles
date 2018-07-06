@@ -22,7 +22,7 @@ import scala.util.Random
 class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece], val useConcurrency: Boolean)
                    extends RedPuzzleSolver(puzzle) with Optimizee with OptimizationListener {
 
-  private var strategy =
+  private val strategy =
     if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
     else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
   private val fitnessFinder = new FitnessFinder
@@ -31,13 +31,11 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   /** @return list of moves to a solution. */
   def solve: Option[Seq[OrientedPiece]] = {
     val initialGuess = new PieceParameterArray(pieces, new Random(1))
-    solution = pieces
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
     val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
     solution = theSolution.asInstanceOf[PieceParameterArray].getPieceList
-    //println("Solution = " + solution)
     val moves = if (evaluateFitness(theSolution) == 0) Some(solution.pieces) else Option.empty
     val elapsedTime = System.currentTimeMillis - startTime
     puzzle.finalRefresh(moves, Option.apply(solution), numTries, elapsedTime)
@@ -58,9 +56,10 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   def evaluateFitness(params: ParameterArray): Double = {
     val pieces = params.asInstanceOf[PieceParameterArray].getPieceList
     val fitness = fitnessFinder.calculateFitness(pieces)
-    println("fitness = " + fitness)
-    if (fitness < currentBestFitness) currentBestFitness = fitness
     params.setFitness(fitness)
+    println("fitness = " + fitness)
+    if (fitness < currentBestFitness)
+      currentBestFitness = fitness
     fitness
   }
 

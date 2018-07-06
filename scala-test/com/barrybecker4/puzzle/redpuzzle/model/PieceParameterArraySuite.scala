@@ -104,6 +104,23 @@ class PieceParameterArraySuite extends FunSuite with BeforeAndAfter {
     assertResult(19) {fitnessFinder.calculateFitness(nbr.pieces)}
   }
 
+  test("find random neighbor when rad = 0.2 for 9 piece puzzle") {
+    params = ninePieces
+    val nbr = params.getRandomNeighbor(0.2)
+    assertResult(strip("""PieceList: (9 pieces)
+                         |Piece 9 (orientation=RIGHT): TOP:outy Suit(S);RIGHT:inny Suit(H);BOTTOM:inny Suit(C);LEFT:outy Suit(S);
+                         |Piece 7 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(D);BOTTOM:inny Suit(C);LEFT:inny Suit(C);
+                         |Piece 2 (orientation=LEFT): TOP:inny Suit(C);RIGHT:outy Suit(C);BOTTOM:outy Suit(H);LEFT:inny Suit(D);
+                         |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+                         |Piece 5 (orientation=BOTTOM): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+                         |Piece 6 (orientation=LEFT): TOP:inny Suit(H);RIGHT:outy Suit(H);BOTTOM:outy Suit(D);LEFT:inny Suit(D);
+                         |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
+                         |Piece 8 (orientation=TOP): TOP:outy Suit(D);RIGHT:outy Suit(C);BOTTOM:inny Suit(C);LEFT:inny Suit(D);
+                         |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
+                         |""")) { nbr.toString }
+    assertResult(8.899999999999999) {fitnessFinder.calculateFitness(nbr.pieces)}
+  }
+
   test("Find1GlobalSamples") {
     params = ninePieces
     assertResult(strip("""PieceList: (9 pieces)

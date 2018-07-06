@@ -7,19 +7,20 @@ import scala.util.Random
 
 
 object PieceParameterArray {
-  private val SAMPLE_POPULATION_SIZE = 400
+  private val SAMPLE_POPULATION_SIZE = 200
 
   /** The larger this number, the less we care about how many fits there are when finding the swap probability.
     * Should be in the range 0.1 to 10.
     */
-  private val PROB_SOFTENER = 1.1
+  private val PROB_SOFTENER = 1.0
 
   /** @param pieces piece list to find probabilities for.
     * @return probability used to determine if we do a piece swap.
     *         Pieces that already fit have a low probability of being swapped.
     */
   private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
-    for (i <- 0 until pieces.numTotal) yield PROB_SOFTENER / (PROB_SOFTENER + pieces.getNumFits(i))
+    for (i <- 0 until pieces.numTotal)
+      yield 1.0 / (PROB_SOFTENER + pieces.getNumFits(i))
 }
 
 /**
@@ -48,7 +49,7 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   override def getRandomNeighbor(radius: Double): PieceParameterArray = {
 
     var pieceList: PieceList = new PieceList(pieces)
-    val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
+    val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
     println(s"numSwaps = $numSwaps rad= $radius")
 
     for (i <- 0 until numSwaps)
@@ -80,10 +81,12 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
     * The probability of selecting pieces that already have fits is sharply reduced.
     */
   private def doPieceSwap(pieces: PieceList): PieceList = {
-    val swapProbabilities: IndexedSeq[Double] = PieceParameterArray.findSwapProbabilities(pieces)
+    val swapProbabilities: IndexedSeq[Double] =
+      PieceParameterArray.findSwapProbabilities(pieces)
     var totalProb: Double = 0
 
-    for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
+    for (i <- 0 until pieces.numTotal)
+      totalProb += swapProbabilities(i)
 
     val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble, swapProbabilities)
     var p2: Int = 0
@@ -96,11 +99,11 @@ class PieceParameterArray(var pieces: PieceList, val rnd: Random = MathUtil.RAND
   }
 
   /** @param p some value between 0 and the totalProbability (i.e. 100%).
-    * @return the index of the piece that was selected given the probability.
+    * @return the index of the piece that was selected given p.
     */
   private def getPieceFromProb(p: Double, probabilities: IndexedSeq[Double]): Int = {
-    var total: Double = 0
-    var i: Int = 0
+    var total: Double = probabilities(0)
+    var i: Int = 1
     while (total < p && i < pieces.numTotal) {
       total += probabilities(i)
       i += 1

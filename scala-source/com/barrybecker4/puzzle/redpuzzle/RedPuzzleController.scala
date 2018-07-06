@@ -35,17 +35,13 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   /** @return true if we have 9 pieces that fit */
   def isGoal(position: PieceList): Boolean = position.size == DEFAULT_NUM_PIECES
 
-  /**
-    * The simplest estimate of the cost to reach the goal is 9 - number of pieces placed so far.
-    *
+  /** The simplest estimate of the cost to reach the goal is 9 - number of pieces placed so far.
     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
     */
   override def distanceFromGoal(position: PieceList): Int = DEFAULT_NUM_PIECES - position.size
 
-  /**
-    * For each piece that we have not tried yet, see if it fits.
+  /** For each piece that we have not tried yet, see if it fits.
     * If it does, add that to the set of legal next moves.
-    *
     * @param position position to look from.
     * @return list of legal moves that can be made from current position.
     */
