@@ -2,15 +2,11 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
-
-import com.barrybecker4.common.math.MathUtil
 import scala.util.Random
 
 
 /**
   * Some standard puzzle configurations to try.
- *
-  *
   * @author Barry Becker
   */
 object PieceLists {

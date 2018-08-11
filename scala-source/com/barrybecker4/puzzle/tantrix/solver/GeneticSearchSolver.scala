@@ -38,7 +38,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     val foundSolution = optimizer.doOptimization(strategy, initialGuess, SOLVED_THRESH)
     solution = new TantrixBoard(foundSolution.pa.asInstanceOf[TantrixPath].tiles, board.primaryColor)
     val tilePlacements =
-      if (evaluateFitness(foundSolution.pa) <= 0) Option.apply(foundSolution.asInstanceOf[TantrixPath].tiles)
+      if (evaluateFitness(foundSolution.pa) <= 0) Option.apply(foundSolution.pa.asInstanceOf[TantrixPath].tiles)
       else Option.empty
     val elapsedTime = System.currentTimeMillis - startTime
     controller.finalRefresh(tilePlacements, Option.apply(solution), numTries, elapsedTime)

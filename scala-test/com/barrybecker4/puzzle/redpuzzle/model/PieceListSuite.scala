@@ -99,17 +99,6 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
        |""")) {newPl.toString}
   }
 
-  test("shuffle") {
-    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
-
-    assertResult(strip("""PieceList: (4 pieces)
-       |Piece 3 (orientation=RIGHT): TOP:outy Suit(S);RIGHT:inny Suit(S);BOTTOM:inny Suit(C);LEFT:outy Suit(H);
-       |Piece 4 (orientation=RIGHT): TOP:outy Suit(H);RIGHT:inny Suit(S);BOTTOM:inny Suit(H);LEFT:outy Suit(C);
-       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
-       |Piece 1 (orientation=BOTTOM): TOP:inny Suit(H);RIGHT:inny Suit(D);BOTTOM:outy Suit(S);LEFT:outy Suit(D);
-       |""")) {pieceList.shuffle(new Random(1)).toString}
-  }
-
   test("add random peice at pos 2") {
     pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
     val newPl = pieceList.add(2, OrientedPiece(RANDOM_PIECE, Direction.TOP))

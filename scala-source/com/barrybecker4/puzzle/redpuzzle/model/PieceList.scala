@@ -81,7 +81,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   }
 
   /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
-  def shuffle(rnd: Random = PieceList.RANDOM): PieceList = {
+  def shuffle(rnd: Random = MathUtil.RANDOM): PieceList = {
     val pieceList = for (p <- pieces) yield p.rotate(rnd.nextInt(4))
     PieceList(rnd.shuffle(pieceList), numTotal)
   }

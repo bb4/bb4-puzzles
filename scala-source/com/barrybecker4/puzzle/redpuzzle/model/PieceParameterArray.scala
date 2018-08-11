@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
-
+import PieceParameterArray._
 import scala.util.Random
 
 
@@ -11,7 +11,6 @@ object PieceParameterArray {
 
   /** Number of random puzzles in a generation population */
   private val SAMPLE_POPULATION_SIZE = 500
-
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
@@ -65,7 +64,6 @@ object PieceParameterArray {
   */
 class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
-
   override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
 
   /** We want to find a potential solution close to the one that we have,
@@ -77,8 +75,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
 
     var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
-    println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
-    //println(pieceList.toString)
+    //println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
 
     for (i <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList, rnd)
