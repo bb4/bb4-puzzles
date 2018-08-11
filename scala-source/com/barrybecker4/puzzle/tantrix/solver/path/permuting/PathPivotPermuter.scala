@@ -5,8 +5,6 @@ import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.optimization.parameter.PermutedParameterArray
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-
-import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -25,8 +23,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
   /** The pivot path remains unchanged while the ends change. */
   private var pivotPath: TantrixPath = _
 
-  /**
-    * Try the seven cases and take any that are valid for the n squared positions of the pivot path.
+  /** Try the seven cases and take any that are valid for the n squared positions of the pivot path.
     * @return no more than 7 permuted path cases.
     */
   def findAllPermutedPaths: ListBuffer[TantrixPath] = {
@@ -49,8 +46,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     new PathPivotPermuter(new TantrixPath(tilePlacements, myPath.primaryPathColor))
   }
 
-  /**
- Try the seven cases and take any that are valid.
+  /** Try the seven cases and take any that are valid.
     * @return no more than 7 permuted path cases.
     */
   def findPermutedPaths(pivotIndex1: Int, pivotIndex2: Int): ListBuffer[TantrixPath] = {
@@ -80,17 +76,17 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     val subPath1RevSwapped = swapper.mutate(firstPivot, subPath1Reversed)
     val subPath2RevSwapped = swapper.mutate(lastPivot, subPath2Reversed)
     val pathPermutations = new ListBuffer[TantrixPath]()
-    addIfDefineed(createPermutedPath(subPath1, subPath2Reversed), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath1Reversed, subPath2), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath1Reversed, subPath2Reversed), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath2Swapped, subPath1Swapped), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath2Swapped, subPath1RevSwapped), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath2RevSwapped, subPath1Swapped), pathPermutations)
-    addIfDefineed(createPermutedPath(subPath2RevSwapped, subPath1RevSwapped), pathPermutations)
+    addIfDefined(createPermutedPath(subPath1, subPath2Reversed), pathPermutations)
+    addIfDefined(createPermutedPath(subPath1Reversed, subPath2), pathPermutations)
+    addIfDefined(createPermutedPath(subPath1Reversed, subPath2Reversed), pathPermutations)
+    addIfDefined(createPermutedPath(subPath2Swapped, subPath1Swapped), pathPermutations)
+    addIfDefined(createPermutedPath(subPath2Swapped, subPath1RevSwapped), pathPermutations)
+    addIfDefined(createPermutedPath(subPath2RevSwapped, subPath1Swapped), pathPermutations)
+    addIfDefined(createPermutedPath(subPath2RevSwapped, subPath1RevSwapped), pathPermutations)
     pathPermutations
   }
 
-  private def addIfDefineed(path: Option[TantrixPath], pathPermutations: ListBuffer[TantrixPath]) {
+  private def addIfDefined(path: Option[TantrixPath], pathPermutations: ListBuffer[TantrixPath]) {
     if (path.isDefined) pathPermutations.append(path.get)
   }
 

@@ -3,13 +3,16 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.puzzle.testsupport.strip
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import PieceListSuite.SOME_PIECE
+import PieceListSuite.{ALL_OUTTY_CLUB_PIECE, RANDOM_PIECE}
+
+import scala.util.Random
 
 import scala.util.Random
 
 
 object PieceListSuite {
-  val SOME_PIECE = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
+  val ALL_OUTTY_CLUB_PIECE = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
+  val RANDOM_PIECE = Piece(Nub.INNY_CLUB, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 5)
 }
 
 /**
@@ -70,9 +73,22 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
       |""")) {newpl.toString}
   }
 
-  test("add") {
+  test("shuffle") {
     pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
-    val newPl = pieceList.add(1, OrientedPiece(SOME_PIECE, Direction.LEFT))
+
+    val newpl = pieceList.shuffle(new Random(5))
+
+    assertResult(strip("""PieceList: (4 pieces)
+       |Piece 4 (orientation=BOTTOM): TOP:inny Suit(S);RIGHT:inny Suit(H);BOTTOM:outy Suit(C);LEFT:outy Suit(H);
+       |Piece 1 (orientation=BOTTOM): TOP:inny Suit(H);RIGHT:inny Suit(D);BOTTOM:outy Suit(S);LEFT:outy Suit(D);
+       |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
+       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+       |""")) {newpl.toString}
+  }
+
+  test("add all outty at pos 1") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.add(1, OrientedPiece(ALL_OUTTY_CLUB_PIECE, Direction.LEFT))
 
     assertResult(strip("""PieceList: (5 pieces)
        |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
@@ -92,5 +108,54 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
        |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
        |Piece 1 (orientation=BOTTOM): TOP:inny Suit(H);RIGHT:inny Suit(D);BOTTOM:outy Suit(S);LEFT:outy Suit(D);
        |""")) {pieceList.shuffle(new Random(1)).toString}
+  }
+
+  test("add random peice at pos 2") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.add(2, OrientedPiece(RANDOM_PIECE, Direction.TOP))
+
+    assertResult(strip("""PieceList: (5 pieces)
+       |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
+       |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+       |Piece 5 (orientation=TOP): TOP:inny Suit(C);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:outy Suit(C);
+       |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
+       |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+       |""")) {newPl.toString}
+  }
+
+  test("remove piece after add") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.add(1, OrientedPiece(ALL_OUTTY_CLUB_PIECE, Direction.LEFT))
+    assertResult(pieceList) {
+      newPl.remove(ALL_OUTTY_CLUB_PIECE)
+    }
+  }
+
+  test("remove piece by index after add") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.add(1, OrientedPiece(ALL_OUTTY_CLUB_PIECE, Direction.LEFT))
+    assertResult(pieceList) {newPl.remove(1)}
+  }
+
+  test("remove last") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    val newPl = pieceList.removeLast()
+
+    assertResult(strip("""PieceList: (3 pieces)
+                         |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
+                         |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+                         |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
+                         |""")) {newPl.toString}
+  }
+
+  test("remove last twice") {
+    pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    var newPl = pieceList.removeLast()
+    newPl = newPl.removeLast()
+
+    assertResult(strip("""PieceList: (2 pieces)
+                         |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
+                         |Piece 2 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(D);LEFT:inny Suit(C);
+                         |""")) {newPl.toString}
   }
 }

@@ -10,6 +10,7 @@ import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
 
 import scala.collection.Seq
+import scala.util.Random
 
 /**
   * Solve the Tantrix puzzle using a genetic search algorithm.
@@ -27,11 +28,9 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
   private var numTries: Int = 0
   private var currentBestFitness = SOLVED_THRESH
 
-  /**
-    * @return list of moves to a solution.
-    */
+  /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
-    val initialGuess = new TantrixPath(board)
+    val initialGuess = new TantrixPath(board, new Random(1))
     assert(initialGuess.size > 0, "The random path should have some tiles!")
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
@@ -53,9 +52,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
 
   def evaluateByComparison = false
 
-  /**
-    * Return 0 or less if a perfect solution has been found.
-    *
+  /** Return 0 or less if a perfect solution has been found.
     * @param params parameters
     * @return fitness value. High is good.
     */

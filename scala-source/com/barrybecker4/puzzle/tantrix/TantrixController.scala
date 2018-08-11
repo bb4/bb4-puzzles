@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.SIMPLE_SEQUENTIAL
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
-
 import scala.collection.Seq
 
 /**
@@ -55,12 +54,10 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
 
   def transition(position: TantrixBoard, move: TilePlacement): TantrixBoard = position.placeTile(move)
 
-  /**
-    * @return estimate of the cost to reach the goal from the specified position
-    */
+  /** @return estimate of the cost to reach the goal from the specified position */
   override def distanceFromGoal(position: TantrixBoard): Int = {
     val path = new TantrixPath(position.tantrix, position.primaryColor, MathUtil.RANDOM)
     val fitness = evaluator.evaluateFitness(path)
-    (10.0 * Math.max(0, PathEvaluator.SOLVED_THRESH - fitness)).toInt
+    (10.0 * Math.max(0, fitness)).toInt
   }
 }

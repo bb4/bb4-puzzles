@@ -59,14 +59,14 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * @param primaryColor primary color
     */
   def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) {
-    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor)
+    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor, rnd)
   }
 
   /** Creates a random path given a board state.
     * @param board placed tiles
     */
-  def this(board: TantrixBoard) = {
-    this(getPathTilesFromBoard(board), board.primaryColor)
+  def this(board: TantrixBoard, rnd: Random) = {
+    this(getPathTilesFromBoard(board), board.primaryColor, rnd)
   }
 
   def getFirst: TilePlacement = tiles.head
@@ -89,7 +89,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
       for (i <- startIndex to endIndex by -1)
         pathTiles :+= this.tiles(i)
     }
-    new TantrixPath(pathTiles, primaryPathColor)
+    new TantrixPath(pathTiles, primaryPathColor, rnd)
   }
 
   /** We want to find a potential solution close to the one that we have,

@@ -11,6 +11,8 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceP
 import scala.collection.Seq
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
 
+import scala.util.Random
+
 /**
   * Solve the red puzzle using a genetic search algorithm.
   * Solves the puzzle in 3.5 seconds on Core2 duo system (6 generations).
@@ -19,23 +21,20 @@ import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
 class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece], val useConcurrency: Boolean)
                    extends RedPuzzleSolver(puzzle) with Optimizee with OptimizationListener {
 
-  private var strategy =
+  private val strategy =
     if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
     else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
-
   private val fitnessFinder = new FitnessFinder
   private var currentBestFitness = 10 + MAX_FITS
 
   /** @return list of moves to a solution. */
   def solve: Option[Seq[OrientedPiece]] = {
-    val initialGuess = new PieceParameterArray(pieces)
-    solution = pieces
+    val initialGuess = new PieceParameterArray(pieces, new Random(1))
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
     val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
     solution = theSolution.asInstanceOf[PieceParameterArray].getPieceList
-    //println("Solution = " + solution)
     val moves = if (evaluateFitness(theSolution.pa) == 0) Some(solution.pieces) else Option.empty
     val elapsedTime = System.currentTimeMillis - startTime
     puzzle.finalRefresh(moves, Option.apply(solution), numTries, elapsedTime)

@@ -2,8 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.optimization.parameter.{AbstractParameterArray, ParameterArray, PermutedParameterArray}
-import PieceParameterArray._
+import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 
 import scala.util.Random
 
@@ -12,6 +11,7 @@ object PieceParameterArray {
 
   /** Number of random puzzles in a generation population */
   private val SAMPLE_POPULATION_SIZE = 500
+
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
@@ -65,6 +65,7 @@ object PieceParameterArray {
   */
 class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
+
   override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
 
   /** We want to find a potential solution close to the one that we have,
@@ -73,15 +74,16 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
     * @return the random nbr (potential solution).
     */
   override def getRandomNeighbor(radius: Double): PieceParameterArray = {
+
     var pieceList: PieceList = new PieceList(pieces)
-    val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
+    val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
     println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
     //println(pieceList.toString)
 
     for (i <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList, rnd)
 
-    assert (pieceList.size == pieceList.numTotal)
+    assert(pieceList.size == pieceList.numTotal)
 
     // Make a pass over all the pieces. If rotating a piece leads to more fits, then do it.
     for (k <- 0 until pieceList.size) {
@@ -89,7 +91,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
       var bestNumFits: Int = numFits
       var bestRot: Int = 0
       for (i <- 1 to 3) {
-        val plist = pieceList.rotate (k, i)
+        val plist = pieceList.rotate(k, i)
         numFits = plist.getNumFits(k)
         if (numFits > bestNumFits) {
           bestNumFits = numFits
@@ -99,15 +101,14 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
       // rotate the piece to position of best fit.
       pieceList = pieceList.rotate(k, bestRot)
     }
-    //println("nbr: " +  pieceList.toString)
-    new PieceParameterArray(pieceList)
+    new PieceParameterArray(pieceList, rnd)
   }
 
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: PieceParameterArray = {
     val pl: PieceList = new PieceList(pieces)
-    val shuffledPieces: PieceList = pl.shuffle()
-    new PieceParameterArray(shuffledPieces)
+    val shuffledPieces: PieceList = pl.shuffle(rnd)
+    new PieceParameterArray(shuffledPieces, rnd)
   }
 
   override def setPermutation(indices: List[Int]): PieceParameterArray = {

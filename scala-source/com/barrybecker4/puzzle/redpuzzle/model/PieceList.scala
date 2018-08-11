@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
+import com.barrybecker4.common.math.MathUtil
+
 import scala.util.Random
 
 
@@ -8,14 +10,11 @@ object PieceList {
 
   /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
   val DEFAULT_NUM_PIECES = 9
-
-  /** use the same seed for repeatable results. */
-  private val RANDOM = new Random(5)
 }
 
 /**
   * A list of fit puzzle pieces (initially empty) for a numPieces sized puzzle.
-  * @param pieces the currently fit pieces. Maybe be less than numTotal of them, but not more,
+  * @param pieces the currently fit pieces. May be be less than numTotal of them, but not more,
   * @param numTotal the total number of pieces in the puzzle.
   * @author Barry Becker
   */
@@ -51,7 +50,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @return the number of pieces in the list.*/
   def size: Int = pieces.size
 
-  /** @return new piecel ist with 2 indicated pieces swapped. */
+  /** @return new piece list ist with 2 indicated pieces swapped. */
   def doSwap(p1Pos: Int, p2Pos: Int): PieceList = {
     assert(p1Pos <= numTotal && p2Pos < numTotal,
       "The position indices must be less than " + numTotal + ".  You had " + p1Pos + ",  " + p2Pos)
@@ -61,11 +60,11 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @param p piece to add to the end of the list. */
   def add(p: OrientedPiece): PieceList = add(pieces.size, p)
 
-  /** @param i the position to add the piece.
-    * @param p piece to add to at the specified position in the list.
+  /** @param position the (1 based) position to add the piece.
+    * @param p piece to add at the specified position in the list.
     */
-  def add(i: Int, p: OrientedPiece): PieceList = {
-    val (front, back) = pieces.splitAt(i)
+  def add(position: Int, p: OrientedPiece): PieceList = {
+    val (front, back) = pieces.splitAt(position)
     PieceList(front ++ List(p) ++ back, numTotal)
   }
 
@@ -108,32 +107,32 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   }
 
   /** @return the number of matches for the nubs on this piece  */
-  def getNumFits(i: Int): Int = {
-    assert(i < numTotal)
+  def getNumFits(pos: Int): Int = {
+    assert(pos < numTotal)
     // it needs to match the piece to the left and above (if present)
     var numFits = 0
     val dim = edgeLen
-    val row = i / dim
-    val col = i % dim
-    val piece = get(i)
+    val row = pos / dim
+    val col = pos % dim
+    val piece = get(pos)
     if (col > 0) {
       // if other than a left edge piece, then we need to match to the left side nub.
-      val leftPiece = get(i - 1)
+      val leftPiece = get(pos - 1)
       if (leftPiece.getRightNub.fitsWith(piece.getLeftNub)) numFits += 1
     }
     if (row > 0) {
       // then we need to match with the top one
-      val topPiece = get(i - dim)
+      val topPiece = get(pos - dim)
       if (topPiece.getBottomNub.fitsWith(piece.getTopNub)) numFits += 1
     }
     if (col < (dim - 1)) {
       // if other than a right edge piece, then we need to match to the right side nub.
-      val rightPiece = get(i + 1)
+      val rightPiece = get(pos + 1)
       if (rightPiece.getLeftNub.fitsWith(piece.getRightNub)) numFits += 1
     }
     if (row < (dim - 1)) {
       // then we need to match with the bottom one
-      val bottomPiece = get(i + dim)
+      val bottomPiece = get(pos + dim)
       if (bottomPiece.getTopNub.fitsWith(piece.getBottomNub)) numFits += 1
     }
     numFits

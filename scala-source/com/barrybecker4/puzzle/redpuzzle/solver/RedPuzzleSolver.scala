@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.solver
 
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}
@@ -16,7 +17,7 @@ import scala.collection.Seq
 abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, OrientedPiece]) extends PuzzleSolver[OrientedPiece] {
 
   /** the unsorted pieces that we draw from and place in the solvedPieces list. */
-  var pieces: PieceList = PieceLists.getInitialPuzzlePieces
+  var pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
 
   /** the pieces we have correctly fitted so far. */
   var solution: PieceList = new PieceList
