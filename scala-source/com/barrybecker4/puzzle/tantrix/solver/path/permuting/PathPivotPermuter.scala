@@ -11,7 +11,7 @@ import scala.collection.mutable.ListBuffer
 
 /**
   * Given a TantrixPath and a pivot tile index, find the permuted paths.
-  * Since there are 8 total ways to permute and the path already represents one of them,
+  * Since there are 8 total ways to permute, and the path already represents one of them,
   * the permuter will never return more than 7 valid permuted paths.
   *
   * The list of tiles that are passed in must be a continuous primary path,
@@ -20,7 +20,7 @@ import scala.collection.mutable.ListBuffer
   * @param myPath ordered path tiles.
   * @author Barry Becker
   */
-class PathPivotPermuter(var myPath: TantrixPath) extends PermutedParameterArray {
+class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray {
 
   /** The pivot path remains unchanged while the ends change. */
   private var pivotPath: TantrixPath = _
@@ -44,14 +44,13 @@ class PathPivotPermuter(var myPath: TantrixPath) extends PermutedParameterArray 
     pathPermutations
   }
 
-  override def setPermutation(indices: java.util.List[Integer]) {
-    val tilePlacements: Seq[TilePlacement] = indices.asScala.map(myPath.getTilePlacements(_))
-    myPath = new TantrixPath(tilePlacements, myPath.primaryPathColor)
+  override def setPermutation(indices: List[Int]): PathPivotPermuter = {
+    val tilePlacements: Seq[TilePlacement] = indices.map(myPath.tiles(_))
+    new PathPivotPermuter(new TantrixPath(tilePlacements, myPath.primaryPathColor))
   }
 
   /**
-    * Try the seven cases and take any that are valid.
-    *
+ Try the seven cases and take any that are valid.
     * @return no more than 7 permuted path cases.
     */
   def findPermutedPaths(pivotIndex1: Int, pivotIndex2: Int): ListBuffer[TantrixPath] = {
@@ -95,9 +94,7 @@ class PathPivotPermuter(var myPath: TantrixPath) extends PermutedParameterArray 
     if (path.isDefined) pathPermutations.append(path.get)
   }
 
-  /**
-    * Combine supPath1 and subPath2 to make a new path. SubPath1 needs to be reversed when adding.
-    *
+  /** Combine supPath1 and subPath2 to make a new path. SubPath1 needs to be reversed when adding.
     * @param subPath1 first path
     * @param subPath2 second path
     * @return null if the resulting permuted path is not valid (i.e. has overlaps)
@@ -105,11 +102,11 @@ class PathPivotPermuter(var myPath: TantrixPath) extends PermutedParameterArray 
   private def createPermutedPath(subPath1: TantrixPath, subPath2: TantrixPath) = {
     // add tiles from the first path in reverse order
     val tiles: ListBuffer[TilePlacement] = new ListBuffer[TilePlacement]()
-    for (p <- subPath1.getTilePlacements) {
+    for (p <- subPath1.tiles) {
       tiles.prepend(p)
     }
-    tiles.append(pivotPath.getTilePlacements:_*)
-    tiles.append(subPath2.getTilePlacements:_*)
+    tiles.append(pivotPath.tiles:_*)
+    tiles.append(subPath2.tiles:_*)
     val path: Option[TantrixPath] = if (isValid(tiles)) {
       assert(TantrixPath.hasOrderedPrimaryPath(tiles, myPath.primaryPathColor),
         "out of order path tiles \nsubpath1" + subPath1 + "\npivot=" + pivotPath + "\nsubpath2=" + subPath2 + "\norigPath=" + myPath)

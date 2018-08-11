@@ -46,14 +46,14 @@ class PathEvaluator {
     val numTiles = path.size
     val distance = path.getEndPointDistance
     val isLoop = distance == 0 && path.isLoop
-    val checker = new ConsistencyChecker(path.getTilePlacements, path.primaryPathColor)
+    val checker = new ConsistencyChecker(path.tiles, path.primaryPathColor)
     val numFits = checker.numFittingTiles
     val allFit = numFits == numTiles
     val consistentLoop = isLoop && allFit
     var perfectLoop = false
     val compactness = determineCompactness(path)
     if (consistentLoop) {
-      val tantrix = new Tantrix(path.getTilePlacements)
+      val tantrix = new Tantrix(path.tiles)
       val innerDetector = new InnerSpaceDetector(tantrix)
       perfectLoop = !innerDetector.hasInnerSpaces
     }
@@ -81,11 +81,11 @@ class PathEvaluator {
     * @return measure of path compactness between 0 and ~1
     */
   private def determineCompactness(path: TantrixPath) = {
-    val locationHash = path.getTilePlacements.map(_.location).toSet
+    val locationHash = path.tiles.map(_.location).toSet
     val numTiles = path.size
 
     var ct = 0
-    for (p <- path.getTilePlacements) {
+    for (p <- path.tiles) {
       for (i <- 0 until HexTile.NUM_SIDES) {
           if (locationHash.contains(HexUtil.getNeighborLocation(p.location, i)))
             ct += 1

@@ -55,36 +55,36 @@ class ConsistencyCheckerSuite extends FunSuite {
   /** Three loop has 3 fitting tiles. */
   test("LoopPath3Consistency") {
     val path = PathTstUtil.LOOP_PATH3
-    checker = new ConsistencyChecker(path.getTilePlacements, YELLOW)
+    checker = new ConsistencyChecker(path.tiles, YELLOW)
     assertResult(3) { checker.numFittingTiles }
   }
 
   /** Three tiles that are not in a loop. */
   test("Path3Consistency") {
     val path = PathTstUtil.NON_LOOP_PATH3
-    checker = new ConsistencyChecker(path.getTilePlacements, YELLOW)
+    checker = new ConsistencyChecker(path.tiles, YELLOW)
     assertResult(1) { checker.numFittingTiles }
-    checker = new ConsistencyChecker(path.getTilePlacements, BLUE)
+    checker = new ConsistencyChecker(path.tiles, BLUE)
     assertResult(0) { checker.numFittingTiles }
   }
 
   /** Four loop should have 4 fitting tiles. */
   test("LoopPath4Consistency") {
     val path = PathTstUtil.LOOP_PATH4
-    checker = new ConsistencyChecker(path.getTilePlacements, RED)
+    checker = new ConsistencyChecker(path.tiles, RED)
     assertResult(4) { checker.numFittingTiles }
-    checker = new ConsistencyChecker(path.getTilePlacements, BLUE)
+    checker = new ConsistencyChecker(path.tiles, BLUE)
     assertResult(2) { checker.numFittingTiles }
-    checker = new ConsistencyChecker(path.getTilePlacements, YELLOW)
+    checker = new ConsistencyChecker(path.tiles, YELLOW)
     assertResult(0) { checker.numFittingTiles }
   }
 
   /** Three tiles that are not in a loop. */
   test("Path4Consistency") {
     val path = PathTstUtil.NON_LOOP_PATH4
-    checker = new ConsistencyChecker(path.getTilePlacements, RED)
+    checker = new ConsistencyChecker(path.tiles, RED)
     assertResult(2) { checker.numFittingTiles }
-    checker = new ConsistencyChecker(path.getTilePlacements, YELLOW)
+    checker = new ConsistencyChecker(path.tiles, YELLOW)
     assertResult(1) { checker.numFittingTiles }
   }
 }

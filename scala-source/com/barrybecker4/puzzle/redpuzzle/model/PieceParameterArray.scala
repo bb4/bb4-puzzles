@@ -63,13 +63,7 @@ object PieceParameterArray {
   * non-fitting pieces rather than just offsetting the number by some random amount.
   * @author Barry Becker
   */
-class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray {
-
-  override def copy: PieceParameterArray = {
-    val cp: PieceParameterArray = new PieceParameterArray(pieces)
-    cp.setFitness(this.getFitness)
-    cp
-  }
+class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
   override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
 
@@ -78,7 +72,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
     * @param radius proportional to the number of pieces that you want to vary.
     * @return the random nbr (potential solution).
     */
-  override def getRandomNeighbor(radius: Double): PermutedParameterArray = {
+  override def getRandomNeighbor(radius: Double): PieceParameterArray = {
     var pieceList: PieceList = new PieceList(pieces)
     val numSwaps: Int = Math.max(1.0,  radius * 2.0).toInt
     println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
@@ -110,20 +104,16 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
   }
 
   /** @return get a completely random solution in the parameter space.*/
-  override def getRandomSample: ParameterArray = {
+  override def getRandomSample: PieceParameterArray = {
     val pl: PieceList = new PieceList(pieces)
     val shuffledPieces: PieceList = pl.shuffle()
     new PieceParameterArray(shuffledPieces)
   }
 
-  override def setPermutation(indices: java.util.List[Integer]): Unit = {
+  override def setPermutation(indices: List[Int]): PieceParameterArray = {
     var newParams: PieceList = PieceList(List[OrientedPiece](), pieces.numTotal) //pieces
-
-    val it: java.util.Iterator[Integer] = indices.iterator()
-    while (it.hasNext) {
-      newParams = newParams.add(pieces.get(it.next()))
-    }
-    pieces = newParams
+    indices.foreach(p => newParams = newParams.add(pieces.get(p)))
+    new PieceParameterArray(newParams, rnd)
   }
 
   /** @return the piece list corresponding to the encoded parameter array */
@@ -137,7 +127,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
   /** @return the parameters in a string of Comma Separated Values. */
   override def toCSVString: String = toString
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[PieceParameterArray]
+  override def canEqual(other: Any): Boolean = other.isInstanceOf[PieceParameterArray]
 
   override def equals(other: Any): Boolean = other match {
     case that: PieceParameterArray =>

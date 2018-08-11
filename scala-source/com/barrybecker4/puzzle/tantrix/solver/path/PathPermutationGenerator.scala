@@ -53,7 +53,7 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
   private def findPermutedPaths(radius: Double): ListBuffer[TantrixPath] = {
     val permutedPaths: ListBuffer[TantrixPath] = new ListBuffer[TantrixPath]
     val permuter = new PathPivotPermuter(path)
-    val tiles = path.getTilePlacements
+    val tiles = path.tiles
     val numTiles = path.size
     if (radius >= 0.4) {
       for (i <- 1 until numTiles - 1) {

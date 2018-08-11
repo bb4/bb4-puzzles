@@ -21,7 +21,7 @@ class SubPathReverserSuite extends FunSuite with SubPathMutatorBase {
     assertResult(1) { resultPath.size }
     val first = TilePlacement(TILES.getTile(2), loc(2, 1), ANGLE_60)
     val expList = Seq(first)
-    assertResult(expList) { resultPath.getTilePlacements }
+    assertResult(expList) { resultPath.tiles }
   }
 
   protected def verifyMutated2TilePath(resultPath: TantrixPath) {
@@ -29,7 +29,7 @@ class SubPathReverserSuite extends FunSuite with SubPathMutatorBase {
     val first = TilePlacement(TILES.getTile(3), loc(2, 1), ANGLE_180)
     val second = TilePlacement(TILES.getTile(2), loc(1, 2), ANGLE_180)
     val expList = Seq(first, second)
-    assertResult(expList) { resultPath.getTilePlacements }
+    assertResult(expList) { resultPath.tiles }
   }
 
   protected def verifyMutated3TilePath(resultPath: TantrixPath) {
@@ -38,7 +38,7 @@ class SubPathReverserSuite extends FunSuite with SubPathMutatorBase {
     val second = TilePlacement(TILES.getTile(5), new ByteLocation(19, 20), ANGLE_180)
     val third = TilePlacement(TILES.getTile(1), new ByteLocation(19, 21), ANGLE_60)
     val expList = Seq(first, second, third)
-    assertResult(expList) { resultPath.getTilePlacements }
+    assertResult(expList) { resultPath.tiles }
   }
 
   protected def verifyMutated3aTilePath(resultPath: TantrixPath) {
@@ -47,6 +47,6 @@ class SubPathReverserSuite extends FunSuite with SubPathMutatorBase {
     val second = TilePlacement(TILES.getTile(1), new ByteLocation(23, 20), ANGLE_240)
     val third = TilePlacement(TILES.getTile(2), new ByteLocation(24, 19), ANGLE_120)
     val expList = Seq(first, second, third)
-    assertResult(expList) { resultPath.getTilePlacements }
+    assertResult(expList) { resultPath.tiles }
   }
 }

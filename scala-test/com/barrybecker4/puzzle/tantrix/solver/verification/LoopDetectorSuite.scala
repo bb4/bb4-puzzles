@@ -53,31 +53,31 @@ class LoopDetectorSuite extends FunSuite {
   /** Three loop has 3 fitting tiles. */
   test("LoopPath3HasLoop") {
     val path = LOOP_PATH3
-    board = new TantrixBoard(path.getTilePlacements, YELLOW)
+    board = new TantrixBoard(path.tiles, YELLOW)
     verifyHasLoop(true)
     // though there is a yellow loop, there should not be a blue loop
-    board = new TantrixBoard(path.getTilePlacements, BLUE)
+    board = new TantrixBoard(path.tiles, BLUE)
     verifyHasLoop(false)
   }
 
   /** Three tiles that are not in a loop. */
   test("Path3WithNoLoop") {
     val path = NON_LOOP_PATH3
-    board = new TantrixBoard(path.getTilePlacements, YELLOW)
+    board = new TantrixBoard(path.tiles, YELLOW)
     verifyHasLoop(false)
   }
 
   /** Three loop has 3 fitting tiles. */
   test("LoopPath4HasLoop") {
     val path = LOOP_PATH4
-    board = new TantrixBoard(path.getTilePlacements, RED)
+    board = new TantrixBoard(path.tiles, RED)
     verifyHasLoop(true)
   }
 
   /** Three tiles that are not in a loop. */
   test("LoopPath4NoLoop(") {
     val path = NON_LOOP_PATH4
-    board = new TantrixBoard(path.getTilePlacements, RED)
+    board = new TantrixBoard(path.tiles, RED)
     verifyHasLoop(false)
   }
 

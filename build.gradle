@@ -2,7 +2,7 @@
 plugins {
     id "com.github.maiflai.scalatest" version "0.19" // needed to run scala tests
 }
-description = 'A scala puzzle framework with generator and solver implementations ' +
+description = 'A Scala puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
 version = '1.5-SNAPSHOT'

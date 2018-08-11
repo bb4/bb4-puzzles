@@ -48,7 +48,7 @@ class TantrixPathSuite extends FunSuite {
   /** we expect an exception because the tiles passed to the constructor do not form a primary path */
   test("NonLoopPathConstruction") {
     val board = place3UnsolvedTiles
-    path = new TantrixPath(board.tantrix, board.primaryColor)
+    path = new TantrixPath(board.tantrix, board.primaryColor, new Random(0))
     assertResult(3) { path.size }
   }
 
@@ -56,19 +56,19 @@ class TantrixPathSuite extends FunSuite {
   test("InvalidPathConstruction") {
     val board = place3NonPathTiles
     val caught = intercept[IllegalStateException] {
-      new TantrixPath(board.tantrix, board.primaryColor)
+      new TantrixPath(board.tantrix, board.primaryColor, new Random(0))
     }
   }
 
   test("IsLoop") {
     val board = place3SolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, new Random(0))
     assert(path.isLoop)
   }
 
   test("IsNotLoop") {
     val board = place3UnsolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, new Random(0))
     assert(!path.isLoop)
   }
 
@@ -97,8 +97,7 @@ class TantrixPathSuite extends FunSuite {
   test("FindRandomNeighbor") {
     MathUtil.RANDOM.setSeed(0)
     val board = place3UnsolvedTiles
-    val path = new TantrixPath(board.tantrix, board.primaryColor)
-    path.rnd = new Random(0)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, new Random(0))
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
     //println("nbr = " + nbr.toString)
 

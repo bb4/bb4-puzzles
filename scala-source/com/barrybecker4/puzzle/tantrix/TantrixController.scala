@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix
 
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
@@ -58,7 +59,7 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
     * @return estimate of the cost to reach the goal from the specified position
     */
   override def distanceFromGoal(position: TantrixBoard): Int = {
-    val path = new TantrixPath(position.tantrix, position.primaryColor)
+    val path = new TantrixPath(position.tantrix, position.primaryColor, MathUtil.RANDOM)
     val fitness = evaluator.evaluateFitness(path)
     (10.0 * Math.max(0, PathEvaluator.SOLVED_THRESH - fitness)).toInt
   }

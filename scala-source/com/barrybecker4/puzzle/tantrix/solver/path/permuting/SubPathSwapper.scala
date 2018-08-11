@@ -28,7 +28,7 @@ class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPath
     */
   def mutate(pivotTile: TilePlacement, subPath: TantrixPath): TantrixPath = {
     val tiles: ListBuffer[TilePlacement]  = new ListBuffer[TilePlacement]
-    val subPathTiles = subPath.getTilePlacements
+    val subPathTiles = subPath.tiles
     val firstTile: TilePlacement = subPathTiles.head
     val firstTileLocation = firstTile.location
     var numRotations = findRotationsToSwapLocation(firstTileLocation, pivotTile)

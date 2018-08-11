@@ -1,19 +1,18 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
-
 import scala.util.Random
+
 
 object TantrixPath {
 
-  /**
-    * There is an ordered primary path if all the successive tiles are connected by the primary path.
-    *
+  /** There is an ordered primary path if all the successive tiles are connected by the primary path.
     * @return true if there exists a primary path or loop.
     */
   def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = {
@@ -46,51 +45,35 @@ object TantrixPath {
   * @param tiles ordered path tiles.  The list of tiles that are passed in must be a continuous primary path,
   * but it is not required that it be a loop, or that any of the secondary colors match.
   * @param primaryPathColor primary path color
+  * @author Barry Becker
   */
-case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
-  extends PermutedParameterArray {
-
-  var rnd = new Random(0)
+class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, rnd: Random = MathUtil.RANDOM)
+  extends PermutedParameterArray(rnd) {
 
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
     throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
 
-  /**
-    * The list of tiles that are passed in must be a continuous primary path,
+  /** The list of tiles that are passed in must be a continuous primary path,
     * but it is not required that it be a loop, or that any of the secondary colors match.
-    *
     * @param tantrix ordered path tiles.
     * @param primaryColor primary color
     */
-  def this(tantrix: Tantrix, primaryColor: PathColor) {
+  def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) {
     this(new Pathifier(primaryColor).reorder(tantrix), primaryColor)
   }
 
-  /**
-    * Creates a random path given a board state.
+  /** Creates a random path given a board state.
     * @param board placed tiles
     */
   def this(board: TantrixBoard) = {
     this(getPathTilesFromBoard(board), board.primaryColor)
   }
 
-
   def getFirst: TilePlacement = tiles.head
   def getLast: TilePlacement = tiles.last
-
   override def getSamplePopulationSize: Int = size * size
 
-  override def copy: TantrixPath = {
-    val copy = new TantrixPath(tiles, primaryPathColor)
-    copy.setFitness(this.getFitness)
-    copy
-  }
-
-  def getTilePlacements: Seq[TilePlacement] = tiles
-
-  /**
-    * The start index is not necessarily smaller than the end index.
-    *
+  /** The start index is not necessarily smaller than the end index.
     * @param startIndex tile to add first
     * @param endIndex   tile to add last
     * @return sub path
@@ -109,8 +92,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     new TantrixPath(pathTiles, primaryPathColor)
   }
 
-  /**
-    * We want to find a potential solution close to the one that we have,
+  /** We want to find a potential solution close to the one that we have,
     * with minimal disturbance of the pieces that are already fit, but yet improved from what we had.
     * The main criteria for quality of the path is
     * 1) How close the ends of the path are to each other. Perfection achieved when we have a closed loop.
@@ -128,19 +110,15 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     generator.getRandomNeighbor(radius)
   }
 
-  /**
-    * @return get a completely random solution in the parameter space.
-    */
+  /** @return get a completely random solution in the parameter space */
   override def getRandomSample: ParameterArray = {
     val board: TantrixBoard = new TantrixBoard(tiles, primaryPathColor)
     val gen = new RandomPathGenerator(board)
     gen.generateRandomPath
   }
 
-  /**
-    * It's a loop if the beginning of the path connects with the end.
+  /** It's a loop if the beginning of the path connects with the end.
     * Having the distance between beginning and end be 0 is a prerequisite and quicker to compute.
-    *
     * @return true if the path is a complete loop (ignoring secondary paths)
     */
   def isLoop: Boolean = {
@@ -153,9 +131,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     false
   }
 
-  /**
-    * Two adjacent tiles have a distance of 1. If the path length is one, then distance of 1 is returned.
-    *
+  /** Two adjacent tiles have a distance of 1. If the path length is one, then distance of 1 is returned.
     * @return the distance between the path end points. A distance of 1 does not automatically mean there is a loop.
     */
   def getEndPointDistance: Double = {
@@ -188,9 +164,7 @@ case class TantrixPath(tiles: Seq[TilePlacement], primaryPathColor: PathColor)
     result
   }
 
-  /**
-    * @return the number of parameters in the array.
-    */
+  /** @return the number of parameters in the array. */
   override def size: Int = tiles.size
   override def toString: String = tiles.toString
 

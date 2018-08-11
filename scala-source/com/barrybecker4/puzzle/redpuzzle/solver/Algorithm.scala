@@ -42,7 +42,7 @@ sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 object Algorithm {

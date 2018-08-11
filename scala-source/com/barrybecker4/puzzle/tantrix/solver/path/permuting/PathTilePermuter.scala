@@ -31,16 +31,16 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     val auxList: Array[TilePlacement] = Array.ofDim[TilePlacement](oldIndices.size)
     assert(consistent(oldIndices, newIndices))
     for (i <- oldIndices.indices)
-      auxList(i) = originalPath.getTilePlacements(newIndices(i))
-    val fitter = new PrimaryPathFitter(originalPath.getTilePlacements, color)
-    val origPlacements: ListBuffer[TilePlacement] = originalPath.getTilePlacements.to[ListBuffer]
+      auxList(i) = originalPath.tiles(newIndices(i))
+    val fitter = new PrimaryPathFitter(originalPath.tiles, color)
+    val origPlacements: ListBuffer[TilePlacement] = originalPath.tiles.to[ListBuffer]
     for (i <- newIndices.indices) {
       val oldIndex = oldIndices(i)
       val oldPlacement = auxList(i)
       val newPlacement = findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter)
       origPlacements(oldIndex) = newPlacement
     }
-    TantrixPath(origPlacements, originalPath.primaryPathColor) //permutedPath
+    new TantrixPath(origPlacements, originalPath.primaryPathColor) //permutedPath
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {
@@ -58,8 +58,8 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
       newPlacement = newPlacement.rotate()
       ct += 1
     }
-    if (ct >= HexTile.NUM_SIDES) throw new IllegalStateException("could not fit " + tile + " at " +
-      location + " in " + fitter.getTantrix)
+    if (ct >= HexTile.NUM_SIDES)
+      throw new IllegalStateException("could not fit " + tile + " at " + location + " in " + fitter.getTantrix)
     newPlacement
   }
 }

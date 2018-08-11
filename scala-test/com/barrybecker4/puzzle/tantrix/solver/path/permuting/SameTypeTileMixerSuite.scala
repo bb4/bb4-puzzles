@@ -29,7 +29,7 @@ class SameTypeTileMixerSuite extends FunSuite {
 
   test("Mix3TilesTIGHT") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)
+    mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertResult(3) { permutedPathList.size }
     /* This is how it used to be. I think it is also correct,
@@ -60,7 +60,7 @@ class SameTypeTileMixerSuite extends FunSuite {
 
   test("Mix11TilesWIDE_CURVE") {
     val board = place10LoopWithInnerSpace
-    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)
+    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertResult(11) { permutedPathList.size }
     /* this is large
@@ -75,14 +75,14 @@ class SameTypeTileMixerSuite extends FunSuite {
 
   test("Mix3TilesWIDE") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor), RND)
+    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
   }
 
   test("Mix3TilesSTRAIGHT") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.STRAIGHT, new TantrixPath(board.tantrix, board.primaryColor), RND)
+    mixer = new SameTypeTileMixer(PathType.STRAIGHT, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
   }
