@@ -60,6 +60,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
     * @param p piece to add at the specified position in the list.
     */
   def add(position: Int, p: OrientedPiece): PieceList = {
+    require(size < numTotal, "Cannot add another piece when already at max of " + numTotal)
     val (front, back) = pieces.splitAt(position)
     PieceList(front ++ List(p) ++ back, numTotal)
   }
@@ -82,7 +83,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
     PieceList(rnd.shuffle(pieceList), numTotal)
   }
 
-  /** @param piece the piece to try to fit into our current solution.
+  /** @param piece the piece to try to fit into our current solution (by checking the next available position).
     * @return true if the piece fits.
     */
   def fits(piece: OrientedPiece): Boolean = {
