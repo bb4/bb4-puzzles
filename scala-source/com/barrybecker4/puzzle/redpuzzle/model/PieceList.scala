@@ -20,8 +20,7 @@ object PieceList {
   */
 case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
 
-  require(numTotal != 0, "Total num pieces should not be 0")
-  require(numTotal == 4 || numTotal == 9 || numTotal == 16)
+  require(numTotal == 4 || numTotal == 9 || numTotal == 16, numTotal + " is not a valid number of pieces")
   private val edgeLen = Math.sqrt(numTotal).toInt
 
 
@@ -32,9 +31,6 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   def this(numTotal: Int = PieceList.DEFAULT_NUM_PIECES) {
     this(List[OrientedPiece](), numTotal)
   }
-
-  /** Copy constructor */
-  def this(pieces: PieceList) { this(pieces.pieces, pieces.numTotal) }
 
   /** @param i the index of the piece to get.
     * @return the i'th piece.
@@ -50,7 +46,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @return the number of pieces in the list.*/
   def size: Int = pieces.size
 
-  /** @return new piece list ist with 2 indicated pieces swapped. */
+  /** @return new piece list with 2 indicated pieces swapped. */
   def doSwap(p1Pos: Int, p2Pos: Int): PieceList = {
     assert(p1Pos <= numTotal && p2Pos < numTotal,
       "The position indices must be less than " + numTotal + ".  You had " + p1Pos + ",  " + p2Pos)
@@ -106,7 +102,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
     fits
   }
 
-  /** @return the number of matches for the nubs on this piece  */
+  /** @return the number of matches for the nubs on this piece (at most 4) */
   def getNumFits(pos: Int): Int = {
     assert(pos < numTotal)
     // it needs to match the piece to the left and above (if present)

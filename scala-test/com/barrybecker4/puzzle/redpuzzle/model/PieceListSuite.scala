@@ -25,6 +25,7 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
   test("ConstructionOfEmptyList") {
     pieceList = new PieceList
     assertResult(0) {pieceList.size}
+    assertResult("PieceList: (0 pieces)\n") {pieceList.toString}
   }
 
   test("Construction") {

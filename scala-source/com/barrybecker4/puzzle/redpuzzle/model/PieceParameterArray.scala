@@ -73,7 +73,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
     */
   override def getRandomNeighbor(radius: Double): PieceParameterArray = {
 
-    var pieceList: PieceList = new PieceList(pieces)
+    var pieceList: PieceList = pieces
     val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
     //println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
 
@@ -103,8 +103,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
 
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: PieceParameterArray = {
-    val pl: PieceList = new PieceList(pieces)
-    val shuffledPieces: PieceList = pl.shuffle(rnd)
+    val shuffledPieces: PieceList = pieces.shuffle(rnd)
     new PieceParameterArray(shuffledPieces, rnd)
   }
 

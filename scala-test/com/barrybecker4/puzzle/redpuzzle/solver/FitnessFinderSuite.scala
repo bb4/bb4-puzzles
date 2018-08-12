@@ -20,7 +20,7 @@ class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("Fits") {
-    val pieceList = new PieceList(PieceLists.getInitialPuzzlePieces(rnd))
+    val pieceList = PieceLists.getInitialPuzzlePieces(rnd)
     assertResult(25.0) { fitnessFinder.calculateFitness(pieceList) }
   }
 
