@@ -9,7 +9,16 @@ package com.barrybecker4.puzzle.redpuzzle.model
 case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub, pieceNumber: Int) {
 
   require(pieceNumber >= 1 && pieceNumber <= 9, "The piece number is not valid : " + pieceNumber)
-  val nubs: Array[Nub] = Array(topNub, rightNub, bottomNub, leftNub)
 
-  override def toString: String = "Piece " + pieceNumber + ":" + nubs.mkString(" ")
+  def nub(i: Int): Nub = {
+    i match {
+      case 0 => topNub
+      case 1 => rightNub
+      case 2 => bottomNub
+      case 3 => leftNub
+      case _ => throw new IllegalArgumentException("Invalid nub index of " + i)
+    }
+  }
+
+  override def toString: String = s"Piece $pieceNumber: $topNub,  $rightNub $bottomNub, $leftNub"
 }

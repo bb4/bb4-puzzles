@@ -11,24 +11,18 @@ object Direction extends Enumeration {
 }
 
 /**
-  * A puzzle piece and its orientation.
+  * A puzzle piece and its orientation. Immutable
   * @author Barry Becker
   */
 case class OrientedPiece(piece: Piece, orientation: Direction) {
 
   def this(piece: Piece) { this(piece, Direction.TOP) }
 
-  /** This rotates the piece 90 degrees clockwise. */
-  def rotate: OrientedPiece = rotate(1)
-
-  /** This rotates the piece the specified number of 90 degree increments. */
-  def rotate(num: Int): OrientedPiece = {
-    val newOrientation: Direction = Direction.DIRECTIONS((orientation.id + num) % Direction.DIRECTIONS.size)
+  /** This rotates the piece the specified number of 90 degree increments. By default roatates 90 degrees clockwise. */
+  def rotate(num: Int = 1): OrientedPiece = {
+    val newOrientation: Direction = Direction.DIRECTIONS((orientation.id + num) % Direction.maxId /*DIRECTIONS.size*/)
     OrientedPiece(piece, newOrientation)
   }
-
-  /** @return Sum of (orientation index + requested direction ) modulo the number of Directions (4). */
-  private def getDirectionIndex (dir: Direction): Int = (orientation.id + dir.id) % Direction.values.size
 
   def getTopNub: Nub = getNub(Direction.TOP)
   def getRightNub: Nub = getNub(Direction.RIGHT)
@@ -38,7 +32,10 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
   /** @param dir nub orientation direction.
     * @return the suit of the nub fot the specified direction.
     */
-  private def getNub(dir: Direction): Nub = piece.nubs(getDirectionIndex(dir) )
+  private def getNub(dir: Direction): Nub = piece.nub(getDirectionIndex(dir))
+
+  /** @return sum of (orientation index + requested direction ) modulo the number of Directions (4). */
+  private def getDirectionIndex(dir: Direction): Int = (orientation.id + dir.id) % Direction.maxId
 
   /** @return a nice readable string representation for debugging. */
   override def toString: String = {

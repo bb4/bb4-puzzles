@@ -54,7 +54,7 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
         var r = 0
         // see if any of the rotations fit.
         while (!position.fits(p) && r < 4) {
-          p = p.rotate
+          p = p.rotate()
           r += 1
         }
         if (r < 4) moves +:= p

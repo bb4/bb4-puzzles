@@ -54,7 +54,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Oriented
           pieces = solvePuzzle(pieces, k)
           solved = pieces.size == 0
         }
-        if (!solved) p = p.rotate
+        if (!solved) p = p.rotate()
         r += 1
       }
       k += 1

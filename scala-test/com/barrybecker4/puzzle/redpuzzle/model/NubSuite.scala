@@ -13,22 +13,26 @@ class NubSuite extends FunSuite with BeforeAndAfter {
   private val nub = null
 
   test("Construction") {
-    assertEquals("Unexpected num suit.", Nub.CLUB, Nub.INNY_CLUB.suit)
-    assertTrue("Unexpected nub state.", Nub.OUTY_DIAMOND.isOuty)
-    assertFalse("Unexpected nub state.", Nub.INNY_DIAMOND.isOuty)
+    assertResult(Nub.INNY_CLUB.suit) { Nub.CLUB }
+    assert(Nub.OUTY_DIAMOND.isOuty)
+    assert(!Nub.INNY_DIAMOND.isOuty)
   }
 
   test("Fits") {
-    assertTrue(Nub.INNY_CLUB.fitsWith(Nub.OUTY_CLUB))
-    assertTrue(Nub.INNY_HEART.fitsWith(Nub.OUTY_HEART))
-    assertTrue(Nub.INNY_SPADE.fitsWith(Nub.OUTY_SPADE))
-    assertTrue(Nub.OUTY_DIAMOND.fitsWith(Nub.INNY_DIAMOND))
+    assert(Nub.INNY_CLUB.fitsWith(Nub.OUTY_CLUB))
+    assert(Nub.INNY_HEART.fitsWith(Nub.OUTY_HEART))
+    assert(Nub.INNY_SPADE.fitsWith(Nub.OUTY_SPADE))
+    assert(Nub.OUTY_DIAMOND.fitsWith(Nub.INNY_DIAMOND))
   }
 
   test("DoesNotFit") {
-    assertFalse(Nub.INNY_CLUB.fitsWith(Nub.INNY_CLUB))
-    assertFalse(Nub.INNY_HEART.fitsWith(Nub.OUTY_CLUB))
-    assertFalse(Nub.OUTY_CLUB.fitsWith(Nub.INNY_DIAMOND))
-    assertFalse(Nub.OUTY_HEART.fitsWith(Nub.OUTY_CLUB))
+    assert(!Nub.INNY_CLUB.fitsWith(Nub.INNY_CLUB))
+    assert(!Nub.INNY_HEART.fitsWith(Nub.OUTY_CLUB))
+    assert(!Nub.OUTY_CLUB.fitsWith(Nub.INNY_DIAMOND))
+    assert(!Nub.OUTY_HEART.fitsWith(Nub.OUTY_CLUB))
+  }
+
+  test("nub serialization") {
+    assertResult("outy Suit(S)") {Nub.OUTY_SPADE.toString}
   }
 }

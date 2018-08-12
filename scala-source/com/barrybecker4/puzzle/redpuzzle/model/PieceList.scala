@@ -8,12 +8,12 @@ import scala.util.Random
 
 object PieceList {
 
-  /** the real game has 9 pieces, but I might experiment with 4 or 16 for testing. */
+  /** the real game has 9 pieces, but 4 or 16 could be used for testing. */
   val DEFAULT_NUM_PIECES = 9
 }
 
 /**
-  * A list of fit puzzle pieces (initially empty) for a numPieces sized puzzle.
+  * A list of fit puzzle pieces (initially empty) for a numTotal sized puzzle.
   * @param pieces the currently fit pieces. May be be less than numTotal of them, but not more,
   * @param numTotal the total number of pieces in the puzzle.
   * @author Barry Becker
