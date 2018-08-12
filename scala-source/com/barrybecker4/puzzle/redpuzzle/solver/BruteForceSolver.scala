@@ -47,7 +47,6 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Oriented
         numTries += 1
         if (solution.fits(p)) {
           solution = solution.add(p)
-          val before = pieces.size
           pieces = pieces.remove(p.piece)
           puzzle.refresh(solution, numTries)
           // call solvePuzzle with a simpler case (one less piece to solve)

@@ -17,7 +17,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.Direction.Direction
   * Singleton class that takes a PieceList and renders it for the RedPuzzleViewer.
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the RedPuzzleViewer.
-  *
   * @author Barry Becker
   */
 object RedPuzzleRenderer {
@@ -38,9 +37,7 @@ object RedPuzzleRenderer {
   // num pieces on edge
   private val DIM = Math.sqrt(PieceList.DEFAULT_NUM_PIECES).toInt
 
-  /**
-    * draw the borders around each piece.
-    */
+  /** draw the borders around each piece. */
   private def drawPieceBoundaryGrid(g: Graphics2D, dim: Int) {
     var xpos = 0
     var ypos = 0
@@ -79,7 +76,8 @@ object RedPuzzleRenderer {
     g.drawString(FormatUtil.formatNumber(num), xpos + THIRD_SIZE, ypos + THIRD_SIZE)
   }
 
-  private def drawNub(g: Graphics, nub: Nub, xpos: Int, ypos: Int, dir: Direction, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
+  private def drawNub(g: Graphics, nub: Nub,
+                      xpos: Int, ypos: Int, dir: Direction, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
     var x = 0
     var y = 0
     val outy = nub.isOuty
@@ -132,9 +130,7 @@ object RedPuzzleRenderer {
     }
   }
 
-  /**
-    * draw a marker line to indicate the orientation.
-    */
+  /** draw a marker line to indicate the orientation. */
   private def drawOrientationMarker(g: Graphics, p: OrientedPiece, xpos: Int, ypos: Int) {
     val len2 = ORIENT_ARROW_LEN >> 1
     var x1 = 0
@@ -180,16 +176,13 @@ object RedPuzzleRenderer {
   }
 }
 
-class RedPuzzleRenderer private[ui]()
-
 /**
   * private constructor because this class is a singleton.
   * Use getPieceRenderer instead.
   */
-  extends PuzzleRenderer[PieceList] {
-  /**
-    * This renders the current state of the Slider to the screen.
-    */
+class RedPuzzleRenderer private[ui]() extends PuzzleRenderer[PieceList] {
+
+  /** Renders the current state of the Slider to the screen. */
   def render(g: Graphics, board: PieceList, width: Int, height: Int) {
     RedPuzzleRenderer.drawPieceBoundaryGrid(g.asInstanceOf[Graphics2D], RedPuzzleRenderer.DIM)
     var i = 0

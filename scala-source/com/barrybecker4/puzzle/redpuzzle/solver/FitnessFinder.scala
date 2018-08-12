@@ -43,7 +43,8 @@ class FitnessFinder {
         totalFits += FitnessFinder.FOUR_FIT_BOOST
       }
     }
-    assert(totalFits <= FitnessFinder.MAX_FITS, "fits exceeded " + FitnessFinder.MAX_FITS + ". Fits=" + totalFits + " pieces=" + pieces)
+    assert(totalFits <= FitnessFinder.MAX_FITS,
+      "fits exceeded " + FitnessFinder.MAX_FITS + ". Fits=" + totalFits + " pieces=" + pieces)
     totalFits
   }
 }

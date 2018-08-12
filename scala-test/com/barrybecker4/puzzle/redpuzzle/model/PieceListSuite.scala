@@ -30,6 +30,7 @@ class PieceListSuite extends FunSuite with BeforeAndAfter {
   test("Construction") {
     val pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
     assertResult(4) { pieceList.size }
+    assertResult(4) { pieceList.size }
     assert(pieceList.contains(PieceLists.INITIAL_PIECES_4(1)))
     assertResult(1) {pieceList.getNumFits(0)}
     assertResult(0) { pieceList.getNumFits(1) }

@@ -60,10 +60,9 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     fitness
   }
 
-  def compareFitness(params1: ParameterArray, params2: ParameterArray): Double = {
-    assert(false, "compareFitness not used since we evaluate in an absolute way.")
-    0
-  }
+  def compareFitness(params1: ParameterArray, params2: ParameterArray): Double =
+    throw new UnsupportedOperationException("compareFitness not used since we evaluate in an absolute way.")
+
 
   /** Called when the optimizer has made some progress optimizing.
     * Shows the current status. Update our current best guess at the solution.

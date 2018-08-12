@@ -10,7 +10,7 @@ import scala.util.Random
 object PieceParameterArray {
 
   /** Number of random puzzles in a generation population */
-  private val SAMPLE_POPULATION_SIZE = 500
+  private val SAMPLE_POPULATION_SIZE = 400
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
@@ -52,7 +52,7 @@ object PieceParameterArray {
     *         Pieces that already fit have a lower probability of being swapped.
     */
   private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
-    for (i <- 0 until pieces.numTotal) yield 2.0 / (2.0 + pieces.getNumFits(i))
+    for (i <- 0 until pieces.numTotal) yield 1.0 / (1.0 + pieces.getNumFits(i))
 }
 
 /**

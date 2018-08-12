@@ -11,7 +11,6 @@ import java.util
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  *
   * @author Barry Becker
   */
 object RedPuzzleViewer {
@@ -20,18 +19,14 @@ object RedPuzzleViewer {
 }
 
 final class RedPuzzleViewer private[ui]()
-
-/**
-  * Constructor.
-  */
   extends PuzzleViewer[PieceList, OrientedPiece] {
+
   val baseDim: Int = 5 * RedPuzzleRenderer.PIECE_SIZE
   setPreferredSize(new Dimension(baseDim + 200, baseDim + 100))
   private var animationSpeed: Int = RedPuzzleViewer.INITIAL_ANIM_SPEED
   private var renderer: RedPuzzleRenderer = new RedPuzzleRenderer
 
-  /**
-    * @param speed higher the faster up to MAX_ANIM_SPEED.
+  /*** @param speed higher the faster up to MAX_ANIM_SPEED.
     */
   private[ui] def setAnimationSpeed(speed: Int) {
     assert(speed > 0 && speed <= RedPuzzleViewer.MAX_ANIM_SPEED)
@@ -54,15 +49,12 @@ final class RedPuzzleViewer private[ui]()
     else ThreadUtil.sleep(20)
   }
 
-  /**
-    * make a little click noise when the piece fits into place.
-    */
+  /** make a little click noise when the piece fits into place. */
   override def makeSound() {
     musicMaker.playNote(60, 20, 940)
   }
 
-  /**
-    * This renders the current state of the PuzzlePanel to the screen.
+  /** This renders the current state of the PuzzlePanel to the screen.
     * This method is part of the component interface.
     */
   override protected def paintComponent(g: Graphics) {

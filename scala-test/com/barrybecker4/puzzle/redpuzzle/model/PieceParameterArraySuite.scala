@@ -50,10 +50,10 @@ class PieceParameterArraySuite extends FunSuite with BeforeAndAfter {
     val params2 = params.getRandomNeighbor(1.0)
 
     assertResult(strip("""PieceList: (4 pieces)
-       |Piece 3 (orientation=TOP): TOP:outy Suit(H);RIGHT:outy Suit(S);BOTTOM:inny Suit(S);LEFT:inny Suit(C);
-       |Piece 2 (orientation=RIGHT): TOP:outy Suit(H);RIGHT:inny Suit(D);BOTTOM:inny Suit(C);LEFT:outy Suit(C);
        |Piece 1 (orientation=TOP): TOP:outy Suit(S);RIGHT:outy Suit(D);BOTTOM:inny Suit(H);LEFT:inny Suit(D);
-       |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+       |Piece 2 (orientation=LEFT): TOP:inny Suit(C);RIGHT:outy Suit(C);BOTTOM:outy Suit(H);LEFT:inny Suit(D);
+       |Piece 4 (orientation=RIGHT): TOP:outy Suit(H);RIGHT:inny Suit(S);BOTTOM:inny Suit(H);LEFT:outy Suit(C);
+       |Piece 3 (orientation=BOTTOM): TOP:inny Suit(S);RIGHT:inny Suit(C);BOTTOM:outy Suit(H);LEFT:outy Suit(S);
        |""")) {params2.pieces.toString}
   }
 
