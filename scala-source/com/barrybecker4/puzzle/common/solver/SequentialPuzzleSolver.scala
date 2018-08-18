@@ -27,12 +27,12 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
   override def solve: Option[Seq[M]] = {
     val pos = puzzle.initialState
     val startTime = System.currentTimeMillis
-    val solutionState: PuzzleNode[P, M] = search(new PuzzleNode[P, M](pos))
+    val solutionState: Option[PuzzleNode[P, M]] = search(new PuzzleNode[P, M](pos))
     var pathToSolution: Option[Seq[M]] = Option.empty
     var solution: Option[P] = Option.empty
-    if (solutionState != null) {
-      pathToSolution = Option.apply(solutionState.asMoveList)
-      solution = Option.apply(solutionState.getPosition)
+    if (solutionState.isDefined) {
+      pathToSolution = Option.apply(solutionState.get.asMoveList)
+      solution = Option.apply(solutionState.get.getPosition)
     }
     val elapsedTime = System.currentTimeMillis - startTime
     puzzle.finalRefresh(pathToSolution, solution, numTries, elapsedTime)
@@ -45,11 +45,11 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
     * @param node the current state of the puzzle.
     * @return list of moves leading to a solution. Null if no solution.
     */
-  private def search(node: PuzzleNode[P, M]): PuzzleNode[P, M] = {
+  private def search(node: PuzzleNode[P, M]): Option[PuzzleNode[P, M]] = {
     val currentState = node.getPosition
-    if (!puzzle.alreadySeen(currentState, seen)) { //System.out.println("num seen = " + seen.size());
+    if (!puzzle.alreadySeen(currentState, seen)) {
       if (puzzle.isGoal(currentState))
-        return node
+        return Some(node)
       val moves = puzzle.legalTransitions(currentState)
 
       for (move <- moves) {
@@ -58,10 +58,10 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
         val child = new PuzzleNode[P, M](position, Some(move), Some(node))
         numTries += 1
         val result = search(child) // recursive call
-        if (result != null)
+        if (result.isDefined)
           return result
       }
     }
-    null
+    None
   }
 }

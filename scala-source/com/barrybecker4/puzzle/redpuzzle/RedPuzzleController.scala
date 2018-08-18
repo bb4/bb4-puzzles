@@ -52,12 +52,11 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
       var p = SHUFFLED_PIECES.get(i)
       if (!position.contains(p.piece)) {
         var r = 0
-        // see if any of the rotations fit.
-        while (!position.fits(p) && r < 4) {
+        // add all the rotations that fit.
+        for (r <- 0 to 3) {
+          if (position.fits(p)) moves +:= p
           p = p.rotate()
-          r += 1
         }
-        if (r < 4) moves +:= p
       }
     }
     moves
