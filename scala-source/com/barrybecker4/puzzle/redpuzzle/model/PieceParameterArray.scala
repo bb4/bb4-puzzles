@@ -64,7 +64,7 @@ object PieceParameterArray {
   */
 class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
-  override def getSamplePopulationSize: Int = PieceParameterArray.SAMPLE_POPULATION_SIZE
+  override def getSamplePopulationSize: Int = SAMPLE_POPULATION_SIZE
 
   /** We want to find a potential solution close to the one that we have,
     * with minimal disturbance of the pieces that are already fit.

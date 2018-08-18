@@ -11,6 +11,7 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm
 import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener}
 import com.barrybecker4.ui.util.GUIUtil
+import RedPuzzleViewer._
 
 /**
   * Red Puzzle Application to show the solving of the puzzle.
@@ -51,8 +52,8 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
   protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, OrientedPiece]] = Algorithm.VALUES
 
   override protected def createBottomControls: JPanel = {
-    animSpeedSlider = new LabeledSlider("Speed ", RedPuzzleViewer.INITIAL_ANIM_SPEED, 1, RedPuzzleViewer.MAX_ANIM_SPEED)
-    animSpeedSlider.setResolution(RedPuzzleViewer.MAX_ANIM_SPEED - 1)
+    animSpeedSlider = new LabeledSlider("Speed ", INITIAL_ANIM_SPEED, 1, MAX_ANIM_SPEED)
+    animSpeedSlider.setResolution(MAX_ANIM_SPEED - 1)
     animSpeedSlider.setShowAsInteger(true)
     animSpeedSlider.addChangeListener(this)
     animSpeedSlider

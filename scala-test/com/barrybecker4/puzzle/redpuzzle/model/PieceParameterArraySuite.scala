@@ -4,7 +4,7 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 import PieceParameterArraySuite._
 import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder
-
+import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray
 import scala.util.Random
 
 
@@ -199,4 +199,30 @@ class PieceParameterArraySuite extends FunSuite with BeforeAndAfter {
                          |Piece 7 (orientation=RIGHT): TOP:outy Suit(D);RIGHT:inny Suit(C);BOTTOM:inny Suit(C);LEFT:outy Suit(H);
                          |""")) { params.findGlobalSamples(3).mkString("\n") }
   }
+
+  test("set permutation (0 of 9)") {
+    params = ninePieces
+
+    assertResult(strip("""PieceList: (0 pieces)
+                         |""")) { params.setPermutation(List()).toCSVString }
+  }
+
+  test("set permutation (1 of 9)") {
+    params = ninePieces
+
+    assertResult(strip("""PieceList: (1 pieces)
+     |Piece 5 (orientation=TOP): TOP:inny Suit(S);RIGHT:inny Suit(H);BOTTOM:outy Suit(S);LEFT:outy Suit(D);
+     |""")) { params.setPermutation(List(2)).toCSVString }
+  }
+
+  test("set permutation (3 of 9)") {
+    params = ninePieces
+
+    assertResult(strip("""PieceList: (3 pieces)
+       |Piece 4 (orientation=TOP): TOP:outy Suit(C);RIGHT:outy Suit(H);BOTTOM:inny Suit(S);LEFT:inny Suit(H);
+       |Piece 6 (orientation=LEFT): TOP:inny Suit(H);RIGHT:outy Suit(H);BOTTOM:outy Suit(D);LEFT:inny Suit(D);
+       |Piece 8 (orientation=LEFT): TOP:inny Suit(D);RIGHT:outy Suit(D);BOTTOM:outy Suit(C);LEFT:inny Suit(C);
+       |""")) { params.setPermutation(List(3, 5, 7)).toCSVString }
+  }
+
 }

@@ -26,7 +26,7 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Oriented
     moves
   }
 
-  /** Solves the puzzle. This implements the main recursive algorithm for solving the red puzzle.
+  /** Implements the main recursive algorithm for solving the red puzzle.
     * @param thePieces the pieces that have yet to be fitted.
     * @param i      index of last placed piece. If we have to backtrack, we put it back where we got it.
     * @return true if successfully solved, false if no solution.
@@ -58,12 +58,13 @@ class BruteForceSolver(override val puzzle: PuzzleController[PieceList, Oriented
       }
       k += 1
     }
+
     if (!solved && solution.size > 0) {
       // backtrack.
-      val p = solution.getLast
+      val piece = solution.getLast
       solution = solution.removeLast()
       // put it back where we took it from, so the list of unplaced pieces is still in order.
-      pieces = pieces.add(i, p)
+      pieces = pieces.add(i, piece)
     }
     // if we get here and pieces is empty, we did not find a solution.
     pieces

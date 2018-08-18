@@ -14,7 +14,7 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES
 import scala.collection.Seq
 
 /**
-  * The controller allows the solver to do its thing by providing the PuzzleController api.
+  * The controller allows the solver to do its thing by providing the PuzzleController API.
   * Originally I had implemented solvers without trying to do concurrency, and those less generic
   * forms still exist, but do not require the PuzzleController api.
   *
@@ -33,12 +33,12 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   def initialState: PieceList = new PieceList  // empty piece list
 
   /** @return true if we have 9 pieces that fit */
-  def isGoal(position: PieceList): Boolean = position.size == DEFAULT_NUM_PIECES
+  def isGoal(position: PieceList): Boolean = position.size == position.numTotal
 
   /** The simplest estimate of the cost to reach the goal is 9 - number of pieces placed so far.
     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
     */
-  override def distanceFromGoal(position: PieceList): Int = DEFAULT_NUM_PIECES - position.size
+  override def distanceFromGoal(position: PieceList): Int = position.numTotal - position.size
 
   /** For each piece that we have not tried yet, see if it fits.
     * If it does, add that to the set of legal next moves.
@@ -48,7 +48,7 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   def legalTransitions(position: PieceList): Seq[OrientedPiece] = {
     var moves = List[OrientedPiece]()
 
-    for (i <- 0 until DEFAULT_NUM_PIECES) {
+    for (i <- 0 until position.numTotal) {
       var p = SHUFFLED_PIECES.get(i)
       if (!position.contains(p.piece)) {
         var r = 0
