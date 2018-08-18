@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.math.MathUtil
-import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
+import com.barrybecker4.optimization.parameter.PermutedParameterArray
 import PieceParameterArray._
 import scala.util.Random
 
@@ -108,9 +108,8 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
   }
 
   override def setPermutation(indices: List[Int]): PieceParameterArray = {
-    var newParams: PieceList = PieceList(List[OrientedPiece](), pieces.numTotal) //pieces
-    indices.foreach(p => newParams = newParams.add(pieces.get(p)))
-    new PieceParameterArray(newParams, rnd)
+    val newPieces = indices.map(i => pieces.get(i))
+    new PieceParameterArray(PieceList(newPieces, pieces.numTotal), rnd)
   }
 
   /** @return the piece list corresponding to the encoded parameter array */
