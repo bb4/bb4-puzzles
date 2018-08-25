@@ -195,6 +195,8 @@ object TantrixTstUtil {
     board
   }
 
+  // create a loop around border with inner space  |__|
+
   /** There are 9 tiles that almost form a red loop. One more will complete it. */
   def place9AlmostLoop: TantrixBoard = {
     var board = new TantrixBoard(FOURTEEN_TILES)

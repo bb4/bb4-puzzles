@@ -4,7 +4,6 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 import PieceParameterArraySuite._
 import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder
-import com.barrybecker4.puzzle.redpuzzle.model.PieceParameterArray
 import scala.util.Random
 
 

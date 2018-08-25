@@ -24,6 +24,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   private val strategy =
     if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
     else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
+
   private val fitnessFinder = new FitnessFinder
   private var currentBestFitness = 10 + MAX_FITS
 
@@ -55,8 +56,10 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   def evaluateFitness(params: ParameterArray): Double = {
     val pieces = params.asInstanceOf[PieceParameterArray].getPieceList
     val fitness = fitnessFinder.calculateFitness(pieces)
-    println("fitness = " + fitness)
-    if (fitness < currentBestFitness) currentBestFitness = fitness
+    if (fitness < currentBestFitness) {
+      println("better fitness = " + fitness)
+      currentBestFitness = fitness
+    }
     fitness
   }
 
@@ -71,6 +74,5 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     solution = params.pa.asInstanceOf[PieceParameterArray].getPieceList
     numTries += 1
     puzzle.refresh(solution, numTries)
-    //System.out.println("current best = " + currentBestFitness)
   }
 }

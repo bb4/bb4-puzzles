@@ -51,6 +51,26 @@ class InnerSpaceDetectorSuite extends FunSuite {
     verifyHasInnerSpaces(false)
   }
 
+  test("place7LoopWrongColorTiles") {
+    tantrix = TantrixTstUtil.place7LoopWrongColorTiles.tantrix
+    verifyHasInnerSpaces(false)
+  }
+
+  test("place7SolvedTiles") {
+    tantrix = TantrixTstUtil.place7SolvedTiles.tantrix
+    verifyHasInnerSpaces(false)
+  }
+
+  test("place3of6UnsolvedTiles") {
+    tantrix = TantrixTstUtil.place3of6UnsolvedTiles.tantrix
+    verifyHasInnerSpaces(false)
+  }
+
+  test("place9AlmostLoop") {
+    tantrix = TantrixTstUtil.place9AlmostLoop.tantrix
+    verifyHasInnerSpaces(false)
+  }
+
   /**
     * @param expHasInnerSpace true if we expect one or more inner spaces.
     */

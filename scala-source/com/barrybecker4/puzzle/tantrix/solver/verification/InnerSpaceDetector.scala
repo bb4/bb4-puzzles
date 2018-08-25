@@ -15,12 +15,10 @@ import scala.collection.mutable
   */
 class InnerSpaceDetector(var tantrix: Tantrix) {
 
-  /**
-    * Start with an empty position on the border of the bbox.
+  /** Start with an empty position on the border of the bbox.
     * Do a seed fill to visit all the spaces connected to that.
     * Finally, if there are any empty spaces inside the bbox that are not visited,
     * then there are inner spaces and it is not a valid solution.
-    *
     * @return true if there are no inner empty spaces.
     */
   def hasInnerSpaces: Boolean = {
@@ -30,33 +28,32 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     !allEmptiesVisited(visited)
   }
 
-  /**
-    * @return all the empty positions on the border
-    */
+  /** @return all the empty positions on the border  */
   private def findEmptyBorderPositions = {
     val bbox = tantrix.getBoundingBox
     var empties: Set[Location] = Set()
     for (i <- bbox.getMinCol to bbox.getMaxCol) {
-      var loc = new ByteLocation(bbox.getMinRow, i)
+      var loc = new ByteLocation(bbox.getMinRow, i) // top border
       if (tantrix(loc).isEmpty) empties += loc
-      loc = new ByteLocation(bbox.getMaxRow, i)
+      loc = new ByteLocation(bbox.getMaxRow, i)  // bottom border
       if (tantrix(loc).isEmpty) empties += loc
     }
 
-    for (i <- bbox.getMinRow + 1 until bbox.getMaxRow) {
-      var loc = new ByteLocation(i, bbox.getMinCol)
+    for (i <- bbox.getMinRow until bbox.getMaxRow) {
+      var loc = new ByteLocation(i, bbox.getMinCol)  // left border
       if (tantrix(loc).isEmpty) empties += loc
-      loc = new ByteLocation(i, bbox.getMaxCol)
+      loc = new ByteLocation(i, bbox.getMaxCol)   // right border
       if (tantrix(loc).isEmpty) empties += loc
     }
 
     val totalLocs = (bbox.getHeight + 1) * (bbox.getWidth + 1)
     assert(totalLocs == tantrix.size || empties.nonEmpty,
       "We should have found at least one empty position on the border. Num Tiles = " + tantrix.size +
-        " bbox area = " + bbox.getArea)
+        " bbox area = " + bbox.getArea + " totalLocs = " + totalLocs + " numEmpties = " + empties.size)
     empties
   }
 
+  /** @return all empty region connected to a set of seed positions */
   private def findConnectedEmpties(seedEmpties: Set[Location]) = {
     var visited: Set[Location] = Set()
     var searchQueue: mutable.Queue[Location] = mutable.Queue()
@@ -87,8 +84,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     emptyNbrLocations
   }
 
-  /**
-    * @param visited set of visited empties.
+  /** @param visited set of visited empties.
     * @return true if any empties in the tantrix bbox are not visited
     */
   private def allEmptiesVisited(visited: Set[Location]): Boolean = {
