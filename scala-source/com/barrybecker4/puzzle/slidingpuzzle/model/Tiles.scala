@@ -25,10 +25,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
 
   def get(loc:Location): Byte = get(loc.getRow, loc.getCol)
   def get(i: Int, j: Int): Byte = tiles(i * size + j)
-
-  def applyMove(move: SlideMove): Tiles = {
-    swap(move.fromPosition, move.toPosition)
-  }
+  def applyMove(move: SlideMove): Tiles = swap(move.fromPosition, move.toPosition)
 
   def calculateHamming: Byte = {
     var expected = 0
@@ -64,9 +61,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
     var visited = HashSet[Location]()
     var blankLocation = emptyLocation
     visited += blankLocation
-
-    val newTiles: Array[Byte] = tiles.toArray //Array.ofDim[Byte](tiles.length)
-    //System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
+    val newTiles: Array[Byte] = tiles.toArray
 
     while (visited.size < tiles.length) {
       val indices: List[Int] = rand.shuffle(INDICES)
@@ -106,9 +101,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
   }
 
   private def swap(fromPosition: Location, toPosition: Location): Tiles = {
-    val newTiles: Array[Byte] = tiles.toArray //Array.ofDim[Byte](tiles.length)
-    //System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
-
+    val newTiles: Array[Byte] = tiles.toArray
     internalSwap(newTiles, fromPosition, toPosition)
     Tiles(newTiles.toIndexedSeq)
   }
