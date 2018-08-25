@@ -46,7 +46,6 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     */
   private def numPrimaryFits(placement: TilePlacement) = {
     var numFits = 0
-    var i = 0
     for (i <- 0 until NUM_SIDES) {
         val nbr = tantrix.getNeighbor(Some(placement), i)
         if (nbr.isDefined) {

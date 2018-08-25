@@ -17,7 +17,7 @@ import scala.collection.mutable.ListBuffer
   */
 class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
 
-  private var color: PathColor = originalPath.primaryPathColor
+  private val color: PathColor = originalPath.primaryPathColor
 
   /**
     * Permutes the tiles at oldIndices to new positions at new Indices

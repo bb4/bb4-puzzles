@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlaceme
   */
 class MoveGenerator(var board: TantrixBoard) {
   /** a set of all the places that a tile might be placed next. */
-  private var borderSpaces = new BorderFinder(board.tantrix, board.numTiles, board.primaryColor).findBorderPositions
+  private val borderSpaces = new BorderFinder(board.tantrix, board.numTiles, board.primaryColor).findBorderPositions
 
   /**
     * For each unplaced tile, find all valid placements given current configuration.

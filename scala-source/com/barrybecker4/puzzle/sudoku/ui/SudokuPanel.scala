@@ -16,8 +16,8 @@ import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
   */
 final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
-  private var renderer: SudokuRenderer = new SudokuRenderer(b)
-  private var inputListener = new UserInputListener(renderer)
+  private val renderer: SudokuRenderer = new SudokuRenderer(b)
+  private val inputListener = new UserInputListener(renderer)
   inputListener.addRepaintListener(this)
   addMouseListener(inputListener)
   addKeyListener(inputListener)

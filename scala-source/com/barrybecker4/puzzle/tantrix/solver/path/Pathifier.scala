@@ -35,9 +35,9 @@ class Pathifier private[path](val primaryPathColor: PathColor)  {
 
   /** make an ordered path list from the tiles in tileList */
   private def reorderTiles(tileList: List[TilePlacement], tantrix: Tantrix): Seq[TilePlacement] = {
-    var newList: ListBuffer[TilePlacement] = ListBuffer()
+    val newList: ListBuffer[TilePlacement] = ListBuffer()
     val lastAdded: TilePlacement = tileList.head
-    var remainder: ListBuffer[TilePlacement] = tileList.tail.to[ListBuffer]
+    val remainder: ListBuffer[TilePlacement] = tileList.tail.to[ListBuffer]
 
     newList.append(lastAdded)
     var outgoing: List[Location] = lastAdded.getOutgoingPathLocations(primaryPathColor).values.toList

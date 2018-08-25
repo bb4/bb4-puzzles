@@ -176,8 +176,7 @@ object RedPuzzleRenderer {
   }
 }
 
-/**
-  * private constructor because this class is a singleton.
+/** private constructor because this class is a singleton.
   * Use getPieceRenderer instead.
   */
 class RedPuzzleRenderer private[ui]() extends PuzzleRenderer[PieceList] {
@@ -185,7 +184,6 @@ class RedPuzzleRenderer private[ui]() extends PuzzleRenderer[PieceList] {
   /** Renders the current state of the Slider to the screen. */
   def render(g: Graphics, board: PieceList, width: Int, height: Int) {
     RedPuzzleRenderer.drawPieceBoundaryGrid(g.asInstanceOf[Graphics2D], RedPuzzleRenderer.DIM)
-    var i = 0
     // use this to determine of there is a nub mismatch a a given location
     // allocates a little more space tha we actually use, but simpler this way.
     val nubChecks = Array.ofDim[Char](7, 7)

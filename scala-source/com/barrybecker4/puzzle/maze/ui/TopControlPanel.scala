@@ -27,28 +27,28 @@ class TopControlPanel(var controller: MazeController) extends JPanel with Action
   val c = new GridBagConstraints
   c.fill = GridBagConstraints.HORIZONTAL
   this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2))
-  private var thicknessField =
+  private val thicknessField =
     new NumberInput("Thickness", TopControlPanel.PASSAGE_THICKNESS, "The passage thickness", 2, 200, true)
-  private var animSpeedSlider = new LabeledSlider("Speed ", TopControlPanel.INITIAL_ANIMATION_SPEED, 1, 100)
+  private val animSpeedSlider = new LabeledSlider("Speed ", TopControlPanel.INITIAL_ANIMATION_SPEED, 1, 100)
   animSpeedSlider.setResolution(99)
   animSpeedSlider.setShowAsInteger(true)
   animSpeedSlider.addChangeListener(controller)
 
-  private var forwardProbField =
+  private val forwardProbField =
     new NumberInput("Forward", 0.34, "The probability of moving straight forward", 0, 1.0, false)
-  private var leftProbField = new NumberInput("Left", 0.33, "The probability of moving left", 0, 1.0, false)
-  private var rightProbField = new NumberInput("Right", 0.33, "The probability of moving right", 0, 1.0, false)
+  private val leftProbField = new NumberInput("Left", 0.33, "The probability of moving left", 0, 1.0, false)
+  private val rightProbField = new NumberInput("Right", 0.33, "The probability of moving right", 0, 1.0, false)
   add(thicknessField)
   add(forwardProbField)
   add(leftProbField)
   add(rightProbField)
   add(animSpeedSlider)
 
-  private var regenerateButton = new GradientButton("Generate")
+  private val regenerateButton = new GradientButton("Generate")
   regenerateButton.addActionListener(this)
   add(regenerateButton)
 
-  private var solveButton = new GradientButton("Solve")
+  private val solveButton = new GradientButton("Solve")
   solveButton.addActionListener(this)
   add(solveButton)
 

@@ -13,7 +13,7 @@ import scala.util.Random
   */
 class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Random()) {
 
-  private var tilePlacer = new RandomTilePlacer(initialBoard.primaryColor, rnd)
+  private val tilePlacer = new RandomTilePlacer(initialBoard.primaryColor, rnd)
 
   /** @return a random path.*/
   def generateRandomPath: TantrixPath = {

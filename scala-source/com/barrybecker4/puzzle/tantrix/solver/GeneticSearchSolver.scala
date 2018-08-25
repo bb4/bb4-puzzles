@@ -24,7 +24,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
   private val strategy =
     if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
     else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
-  private var evaluator = new PathEvaluator
+  private val evaluator = new PathEvaluator
   private var numTries: Int = 0
   private var currentBestFitness = SOLVED_THRESH
 

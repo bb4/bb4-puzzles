@@ -17,7 +17,7 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer
   */
 final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
 
-  private var renderer: TantrixBoardRenderer = new TantrixBoardRenderer
+  private val renderer: TantrixBoardRenderer = new TantrixBoardRenderer
 
   def getBoard: TantrixBoard = board
 

@@ -38,10 +38,6 @@ class SameTypeTileMixer(var pathType: PathType, var originalPath: TantrixPath, r
       permutedPaths.append(originalPath)
       val numIter = Math.min(originalPath.size + 1, SameTypeTileMixer.MAX_ITER)
 
-      //val permutations = indices.list.permutations
-      //var i = 0
-
-      //while(permutations.hasNext && i <= numIter) {
       for (i <- 0 until numIter) {
         val newOrder = rnd.shuffle(indices.list)  // permutations.next()
 

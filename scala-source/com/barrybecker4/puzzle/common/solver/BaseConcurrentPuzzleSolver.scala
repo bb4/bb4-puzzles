@@ -30,10 +30,10 @@ object BaseConcurrentPuzzleSolver {
 class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   extends PuzzleSolver[M] {
 
-  final private var exec = initThreadPool
+  final private val exec = initThreadPool
 
   /** Set of positions that have been visited */
-  final private var seen = new mutable.HashSet[P]
+  final private val seen = new mutable.HashSet[P]
 
   /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
   private var numTries = 0

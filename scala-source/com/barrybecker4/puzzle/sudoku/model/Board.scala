@@ -56,7 +56,7 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** Sets the original value, and update valuesMap accordingly */
   def setOriginalValue(location: (Int, Int), v: Int) {
-    val c = initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
+    initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
   }
 
   /**

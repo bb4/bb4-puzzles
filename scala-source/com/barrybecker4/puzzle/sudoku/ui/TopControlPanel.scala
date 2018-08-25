@@ -25,18 +25,18 @@ final class TopControlPanel(var controller: SudokuController)
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
   /** click this button to generate a new puzzle */
-  private var generateButton: JButton = new GradientButton("Generate")
+  private val generateButton: JButton = new GradientButton("Generate")
   generateButton.addActionListener(this)
 
   /** click this button to validate user entries. */
-  private var validateButton: JButton = new GradientButton("Validate")
+  private val validateButton: JButton = new GradientButton("Validate")
   validateButton.addActionListener(this)
 
   /** click this button to solve the current puzzle. */
-  private var solveButton: JButton = new GradientButton("Solve")
+  private val solveButton: JButton = new GradientButton("Solve")
   solveButton.addActionListener(this)
 
-  private var sizeSelector: SizeSelector = new SizeSelector
+  private val sizeSelector: SizeSelector = new SizeSelector
   sizeSelector.addItemListener(this)
 
   private var speedSelector: SpeedSelector = _

@@ -27,7 +27,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   private var totalMem = Runtime.getRuntime.totalMemory
   private var freeMem = Runtime.getRuntime.freeMemory
   /** play a sound effect when a piece goes into place. */
-  protected var musicMaker: MusicMaker = new MusicMaker
+  protected val musicMaker: MusicMaker = new MusicMaker
 
   override def refresh(board: P, numTries: Long): Unit = {
     status = createStatusMessage(numTries)
@@ -91,7 +91,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     drawStatus(g, status, PuzzleViewer.MARGIN, PuzzleViewer.MARGIN)
   }
 
-  private def clearBackground(g: Graphics) = {
+  private def clearBackground(g: Graphics): Unit = {
     val width = this.getWidth
     val height = this.getHeight
     // erase what's there and redraw.
@@ -100,7 +100,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     g.fillRect(0, 0, width, height)
   }
 
-  private def drawStatus(g: Graphics, status: String, x: Int, y: Int) = {
+  private def drawStatus(g: Graphics, status: String, x: Int, y: Int): Unit = {
     val lines = status.split("\n")
     var offset = 0
     g.setColor(Color.black)

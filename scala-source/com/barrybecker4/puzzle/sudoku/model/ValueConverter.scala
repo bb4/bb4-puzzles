@@ -63,7 +63,7 @@ object ValueConverter {
       case _ =>
         try Character.toString(symbol).toInt
         catch {
-          case nfe: NumberFormatException => throw new IllegalArgumentException("Invalid: " + symbol)
+          case nfe: NumberFormatException => throw new IllegalArgumentException("Invalid: " + symbol, nfe)
         }
     }
     if (value == 0 || value > maxValue) throw new IllegalArgumentException("Invalid: " + symbol)

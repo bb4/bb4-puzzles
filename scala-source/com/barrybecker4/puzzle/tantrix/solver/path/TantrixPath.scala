@@ -85,7 +85,6 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
         pathTiles :+= this.tiles(i)
     }
     else {
-      var i = startIndex
       for (i <- startIndex to endIndex by -1)
         pathTiles :+= this.tiles(i)
     }

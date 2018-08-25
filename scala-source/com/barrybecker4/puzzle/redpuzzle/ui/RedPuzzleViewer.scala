@@ -24,7 +24,7 @@ final class RedPuzzleViewer private[ui]()
   val baseDim: Int = 5 * RedPuzzleRenderer.PIECE_SIZE
   setPreferredSize(new Dimension(baseDim + 200, baseDim + 100))
   private var animationSpeed: Int = RedPuzzleViewer.INITIAL_ANIM_SPEED
-  private var renderer: RedPuzzleRenderer = new RedPuzzleRenderer
+  private val renderer: RedPuzzleRenderer = new RedPuzzleRenderer
 
   /*** @param speed higher the faster up to MAX_ANIM_SPEED.
     */

@@ -16,7 +16,7 @@ import scala.collection.mutable.ListBuffer
   * @author Barry Becker
   */
 class TilesOfTypeIndices private[permuting](val pathType: PathType, val originalPath: TantrixPath) {
-  var list: ListBuffer[Int] = ListBuffer()
+  val list: ListBuffer[Int] = ListBuffer()
   initialize(pathType, originalPath)
   private var primColor: PathColor = _
   def size: Int = list.size

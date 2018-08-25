@@ -17,7 +17,7 @@ import scala.collection.Seq
 abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, OrientedPiece]) extends PuzzleSolver[OrientedPiece] {
 
   /** the unsorted pieces that we draw from and place in the solvedPieces list. */
-  var pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
+  val pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
 
   /** the pieces we have correctly fitted so far. */
   var solution: PieceList = new PieceList

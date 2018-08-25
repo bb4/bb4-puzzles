@@ -57,14 +57,10 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     * Draw the gridlines over the background.
     */
   protected def drawGrid(g2: Graphics2D, topLeftCorner: Location) {
-    var xpos = 0
-    var ypos = 0
-    var i = 0
-    val start = 0
     val margin = (hexRadius / 2.0).toInt
     val hexWidth = ROOT3 * hexRadius
-    val rightEdgePos = (margin + hexWidth * edgeLen).toInt
-    val bottomEdgePos = (TOP_MARGIN + margin + hexWidth * edgeLen).toInt
+    //val rightEdgePos = (margin + hexWidth * edgeLen).toInt
+    //val bottomEdgePos = (TOP_MARGIN + margin + hexWidth * edgeLen).toInt
 
     g2.setColor(GRID_COLOR)
 

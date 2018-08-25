@@ -17,8 +17,8 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel
   */
 class MazeSolver(var panel: MazePanel) {
 
-  private var maze: MazeModel = panel.maze
-  private var stack: StateStack = new StateStack
+  private val maze: MazeModel = panel.maze
+  private val stack: StateStack = new StateStack
   var isWorking: Boolean = false
   private var interrupted: Boolean = false
 

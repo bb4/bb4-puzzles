@@ -50,7 +50,7 @@ object PieceLists {
     * @return the initial 9 pieces (in random order) to use when solving.
     */
   def getInitialPuzzlePieces(numPieces: Int, rnd: Random = MathUtil.RANDOM): PieceList = {
-    var initialPieces = numPieces match {
+    val initialPieces = numPieces match {
       case 4 => PieceLists.INITIAL_PIECES_4
       case 9 => PieceLists.RED_INITIAL_PIECES_9
       case _ => throw new IllegalArgumentException("We only support 4 or 9 piece red puzzles at this time.")

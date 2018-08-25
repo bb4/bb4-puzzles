@@ -56,7 +56,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     spinner = new JSpinner(model)
     spinner.addChangeListener(this)
     val numTilesSelector = new JPanel
-    val primaryColorPrefix = new JLabel("Primary color: ")
+    //val primaryColorPrefix = new JLabel("Primary color: ")
     primaryColorLabel = new JLabel("")
     setPrimaryColor(TantrixPuzzle.DEFAULT_NUM_TILES)
     numTilesSelector.add(label)
