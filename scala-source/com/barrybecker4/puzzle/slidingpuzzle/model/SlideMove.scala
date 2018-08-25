@@ -10,10 +10,10 @@ import com.barrybecker4.puzzle.common.model.Move
   */
 case class SlideMove(fromPosition: Location, toPosition: Location) extends Move {
 
-  def getFromRow: Byte = fromPosition.getRow.toByte
-  def getFromCol: Byte = fromPosition.getCol.toByte
-  def getToRow: Byte = toPosition.getRow.toByte
-  def getToCol: Byte = toPosition.getCol.toByte
+//  def getFromRow: Byte = fromPosition.getRow.toByte
+//  def getFromCol: Byte = fromPosition.getCol.toByte
+//  def getToRow: Byte = toPosition.getRow.toByte
+//  def getToCol: Byte = toPosition.getCol.toByte
 
   override def toString: String = "from " + fromPosition + " to " + toPosition
 }

@@ -25,28 +25,28 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("BoardConstruction") {
-    val board = new SliderBoard(3, false)
+    val board = new SliderBoard(3)
     assertResult(3) { board.size }
     assertResult(new ByteLocation(2, 2)) { board.getEmptyLocation }
     assertResult(0) { board.getHamming }
   }
 
   test("MediumBoardConstruction") {
-    val board = new SliderBoard(4, false)
+    val board = new SliderBoard(4)
     assertResult(4) { board.size }
     assertResult(new ByteLocation(3, 3)) { board.getEmptyLocation }
   }
 
   test("LargeBoardConstruction") {
-    val board = new SliderBoard(5, false)
+    val board = new SliderBoard(5)
     assertResult( 5) { board.size }
     assertResult(new ByteLocation(4, 4)) { board.getEmptyLocation }
   }
 
   test("BoardEquals") {
-    val board1 = new SliderBoard(4, false)
-    val board2 = new SliderBoard(board1)
-    val board3 = new SliderBoard(4, true, new Random(1))
+    val board1 = new SliderBoard(4)
+    val board2 = SliderBoard(board1.tiles)
+    val board3 = new SliderBoard(4).shuffle(new Random(1))
     assert(board1 == board2)
     assert(board2 == board1)
     assert(board1.hashCode == board2.hashCode)
@@ -56,10 +56,10 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
 
   test("BoardHash") {
     var boards = HashSet[SliderBoard]()
-    val board1 = new SliderBoard(4, false)
-    val board2 = new SliderBoard(board1)
-    val board3 = new SliderBoard(4, true)
-    val board4 = new SliderBoard(4, true)
+    val board1 = new SliderBoard(4)
+    val board2 = SliderBoard(board1.tiles)
+    val board3 = new SliderBoard(4).shuffle()
+    val board4 = new SliderBoard(4).shuffle()
     boards += board1
     boards += board2
     boards += board3
@@ -72,7 +72,7 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("hamming") {
-    val board = new SliderBoard(4, true)
-    assertResult(14) { board.getHamming }
+    val board = new SliderBoard(4).shuffle(new Random(1))
+    assertResult(16) { board.getHamming }
   }
 }

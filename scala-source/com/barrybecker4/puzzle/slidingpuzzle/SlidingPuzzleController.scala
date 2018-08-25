@@ -16,19 +16,19 @@ import scala.collection.Seq
   * @author Barry Becker
   */
 object SlidingPuzzleController {
-  private val DEFAULT_SIZE = 3
+  private val DEFAULT_SIZE = 3.toByte
   private val generator = new MoveGenerator
 }
 
 class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
   extends AbstractPuzzleController[SliderBoard, SlideMove](ui) {
 
-  private var initialPosition = new SliderBoard(SlidingPuzzleController.DEFAULT_SIZE, true)
+  private var initialPosition = new SliderBoard(SlidingPuzzleController.DEFAULT_SIZE).shuffle()
   algorithm = A_STAR_SEQUENTIAL
 
   /** @param size the edge length of the puzzle to be solved */
   def setSize(size: Int) {
-    initialPosition = new SliderBoard(size.toByte, true)
+    initialPosition = new SliderBoard(size.toByte).shuffle()
     if (ui != null) ui.refresh(initialPosition, 0)
   }
 
