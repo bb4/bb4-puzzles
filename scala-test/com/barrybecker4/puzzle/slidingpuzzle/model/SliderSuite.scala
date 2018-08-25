@@ -73,6 +73,6 @@ class SliderSuite extends FunSuite with BeforeAndAfter {
 
   test("hamming") {
     val board = new SliderBoard(4).shuffle(new Random(1))
-    assertResult(16) { board.getHamming }
+    assertResult(14) { board.getHamming }
   }
 }

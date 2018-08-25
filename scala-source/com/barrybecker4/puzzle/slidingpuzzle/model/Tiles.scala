@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
-import scala.collection.immutable.HashSet
+import scala.collection.immutable.{IndexedSeq, HashSet}
 import scala.util.Random
 import Tiles._
 
@@ -11,13 +11,13 @@ object Tiles {
   /** Represents the four different directions that a tile can move */
   val INDICES: List[Int] = List(0, 1, 2, 3)
 
-  def createGoalTiles(edgeLen: Byte): Array[Byte] = {
+  def createGoalTiles(edgeLen: Byte): IndexedSeq[Byte] = {
     val numTiles = edgeLen * edgeLen
-    (1 to numTiles).map(_ % numTiles).map(_.toByte).toArray
+    (1 to numTiles).map(_ % numTiles).map(_.toByte)
   }
 }
 
-case class Tiles(tiles: Array[Byte]) {
+case class Tiles(tiles: IndexedSeq[Byte]) {
 
   val size: Int = Math.sqrt(tiles.length).toInt
 
@@ -65,8 +65,8 @@ case class Tiles(tiles: Array[Byte]) {
     var blankLocation = emptyLocation
     visited += blankLocation
 
-    val newTiles: Array[Byte] = Array.ofDim[Byte](tiles.length)
-    System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
+    val newTiles: Array[Byte] = tiles.toArray //Array.ofDim[Byte](tiles.length)
+    //System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
 
     while (visited.size < tiles.length) {
       val indices: List[Int] = rand.shuffle(INDICES)
@@ -82,7 +82,7 @@ case class Tiles(tiles: Array[Byte]) {
       blankLocation = loc
       visited += blankLocation
     }
-    Tiles(newTiles)
+    Tiles(newTiles.toIndexedSeq)
   }
 
   def isValidPosition(loc: Location): Boolean =
@@ -106,11 +106,11 @@ case class Tiles(tiles: Array[Byte]) {
   }
 
   private def swap(fromPosition: Location, toPosition: Location): Tiles = {
-    val newTiles: Array[Byte] = Array.ofDim[Byte](tiles.length)
-    System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
+    val newTiles: Array[Byte] = tiles.toArray //Array.ofDim[Byte](tiles.length)
+    //System.arraycopy(tiles, 0, newTiles, 0, tiles.length)
 
     internalSwap(newTiles, fromPosition, toPosition)
-    Tiles(newTiles)
+    Tiles(newTiles.toIndexedSeq)
   }
 
   private def internalSwap(someTiles: Array[Byte], fromPosition: Location, toPosition: Location): Unit = {
