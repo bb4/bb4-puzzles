@@ -44,8 +44,8 @@ class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
   /**
     * There are several commonly used "admissible" heuristics for determining this distance.
     * Here they are in order of easy/low quality to hard/high quality. Option 2 (manhattan) is implemented here.
-    * 1) Number of tiles not in final position. Easies, but not that great.
-    * 2) Manhattan distance: for each piece, sum the manhattan distance to its goal position. Easy, but not the best
+    * 1) Number of tiles not in final position. Easiest, but not that great.
+    * 2) Manhattan distance: for each piece, sum the manhattan distance to its goal position. Easy, but not the best.
     * 3) Walking distance (http://www.ic-net.or.jp/home/takaken/e/15pz/wd.gif). Hard, but better.
     * 4) disjoint pattern databases. See http://heuristicswiki.wikispaces.com/pattern+database
     * @return estimate of the cost to reach the goal of all 9 pieces successfully placed

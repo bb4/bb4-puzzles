@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
 import java.util
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard.createTiles
 
 import scala.collection.immutable.HashSet
@@ -33,34 +34,31 @@ object SliderBoard {
   *                else they will be in the goal state.
   * @author Barry Becker
   */
-case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
+case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean, rand: Random) {
 
   val size: Int = tiles.length
-  if (shuffle) shuffleTiles()
+  if (shuffle) shuffleTiles(rand)
   private var hamming: Byte = -1
   private var manhattan = calculateManhattan
 
-  def this(tiles: Array[Array[Int]]) { this(tiles.map(_.map(_.toByte)), false)}
+  def this(tiles: Array[Array[Int]], rand: Random) { this(tiles.map(_.map(_.toByte)), false, rand)}
 
-  /**
-    * Constructor.
-    * @param size esge length of square board
+  /** @param size edge length of square board
     * @param shuffle if true then the created slider will have the tiles shuffled,
     *                else they will be in the goal state.
     */
-  def this(size: Int, shuffle: Boolean) {
-    this(createTiles(size), shuffle)
+  def this(size: Int, shuffle: Boolean, rand: Random = MathUtil.RANDOM) {
+    this(createTiles(size), shuffle, rand)
   }
 
   def this(board: SliderBoard) {
-    this(Array.ofDim[Byte](board.size, board.size), false)
+    this(Array.ofDim[Byte](board.size, board.size), false, board.rand)
     for (i <- 0 until size) System.arraycopy(board.tiles(i), 0, tiles(i), 0, size)
     this.hamming = board.hamming
     this.manhattan = board.manhattan
   }
 
-  /**
-    * Constructor. Create a new Slider by applying a move to another Slider.
+  /** Create a new Slider by applying a move to another Slider.
     * Applying the same move a second time will undo it because it just swaps tiles.
     */
   def this(pos: SliderBoard, move: SlideMove) {
@@ -70,6 +68,7 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
     this.manhattan = calculateManhattan
   }
 
+  /** @return number of tiles not in the goal state (i.e. sequential order) */
   def getHamming: Byte = {
     if (hamming == -1) hamming = calculateHamming
     hamming
@@ -106,17 +105,15 @@ case class SliderBoard(tiles:Array[Array[Byte]], shuffle: Boolean) {
 
   def getPosition(row: Byte, col: Byte): Byte = tiles(row)(col)
 
-  /**
-    * If the tiles are randomly placed, it is not guaranteed that there will be a solution.
+  /** If the tiles are randomly placed, it is not guaranteed that there will be a solution.
     * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
     * To shuffleUntilSorted, move tiles around until the blank position has been everywhere.
     */
-  private def shuffleTiles() {
+  private def shuffleTiles(rand: Random) {
     var visited = HashSet[Location]()
     var blankLocation = getEmptyLocation
     visited += blankLocation
     val numTiles = size * size
-    val rand = new Random()
     while (visited.size < numTiles) {
       val indices: List[Int] = rand.shuffle(SliderBoard.INDICES)
       var loc: Location = null

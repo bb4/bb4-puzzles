@@ -40,7 +40,7 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
   }
 
   /**
-    * Depth first search for a solution to the puzzle.
+    * Recursive Depth first search for a solution to the puzzle.
     *
     * @param node the current state of the puzzle.
     * @return list of moves leading to a solution. Null if no solution.
