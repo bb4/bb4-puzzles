@@ -22,10 +22,10 @@ final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) e
   /** @return a deep copy. */
   def copy = PegMove(fromPosition, toPosition)
 
-  def getFromRow: Byte = fromPosition.getRow.toByte
-  def getFromCol: Byte = fromPosition.getCol.toByte
-  def getToRow: Byte = toPosition.getRow.toByte
-  def getToCol: Byte = toPosition.getCol.toByte
+  def getFromRow: Byte = fromPosition.row.toByte
+  def getFromCol: Byte = fromPosition.col.toByte
+  def getToRow: Byte = toPosition.row.toByte
+  def getToCol: Byte = toPosition.col.toByte
 
   override def toString: String = {
     val s = new StringBuilder

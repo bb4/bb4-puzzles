@@ -25,7 +25,7 @@ class MoveGenerator {
   def generateMoves(board: SliderBoard): Seq[SlideMove] = {
     val blankLocation = board.getEmptyLocation
     OFFSETS.map(loc => {
-      new ByteLocation(blankLocation.getRow + loc.getRow, blankLocation.getCol + loc.getCol)
+      new ByteLocation(blankLocation.row + loc.row, blankLocation.col + loc.col)
     }).filter(board.isValidPosition).map(SlideMove(_, blankLocation))
   }
 }

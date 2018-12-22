@@ -35,7 +35,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     setCurrentLocation(location)
   }
 
-  private def toTuple(loc: Location) = (loc.getRow + 1, loc.getCol + 1)
+  private def toTuple(loc: Location) = (loc.row + 1, loc.col + 1)
 
   private[ui] def useCorrectEntriesAsOriginal(board: Board) {
     for (location <- userEnteredValues.keySet) {
@@ -92,7 +92,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
 
   private def isValid(location: Location) = {
     val n = locator.board.edgeLength
-    location != null && location.getRow >= 0 && location.getRow < n && location.getCol >= 0 && location.getCol < n
+    location != null && location.row >= 0 && location.row < n && location.col >= 0 && location.col < n
   }
 
   private def handleValueEntry(key: Char) {
@@ -110,7 +110,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
-      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.getRow + 1, location.getCol + 1))
+      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.row + 1, location.col + 1))
       userValue.get.setValid(valid)
     }
   }
@@ -123,11 +123,11 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     listeners = listeners.filter(_ != listener)
   }
 
-  private def notifyValueEntered() = listeners.foreach(x => x.valueEntered())
+  private def notifyValueEntered(): Unit = listeners.foreach(x => x.valueEntered())
 
-  private def notifyCellSelected(location: Location) = listeners.foreach(x => x.cellSelected(location))
+  private def notifyCellSelected(location: Location): Unit = listeners.foreach(x => x.cellSelected(location))
 
-  private def requestValidation() = listeners.foreach(x => x.requestValidation())
+  private def requestValidation(): Unit = listeners.foreach(x => x.requestValidation())
 
   def keyTyped(event: KeyEvent) {}
   def keyReleased(e: KeyEvent) {}

@@ -27,12 +27,12 @@ class HexTileRenderer() {
   /** Draw the tile */
   def renderBorder(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double) {
     if (tilePlacement == null) return
-    val isOddRow = tilePlacement.location.getRow % 2 == 1
+    val isOddRow = tilePlacement.location.row % 2 == 1
     val location = tilePlacement.location.decrementOnCopy(topLeftCorner)
     val radD2 = radius / 2
-    val xShift = location.getCol - (if (isOddRow) -0.25 else -0.75)
+    val xShift = location.col - (if (isOddRow) -0.25 else -0.75)
     val x = radD2 + xShift * 2 * radius * HexUtil.ROOT3D2
-    val y = radD2 + TOP_MARGIN + ((location.getRow + 0.6) * 3.0 * radD2)
+    val y = radD2 + TOP_MARGIN + ((location.row + 0.6) * 3.0 * radD2)
     val point = new Point(x.toInt, y.toInt)
     drawHexagon(g2, point, radius)
     drawPaths(g2, tilePlacement, point, radius)
@@ -43,11 +43,11 @@ class HexTileRenderer() {
   def renderBorder(g2: Graphics2D, loc: Location, topLeftCorner: Location, radius: Double) {
 
     val location = loc.decrementOnCopy(topLeftCorner)
-    val isOddRow = loc.getRow % 2 == 1
+    val isOddRow = loc.row % 2 == 1
     val radD2 = radius / 2
-    val xShift = location.getCol - (if (isOddRow) -0.25 else -0.75)
+    val xShift = location.col - (if (isOddRow) -0.25 else -0.75)
     val x = radD2 + xShift * 2 * radius * HexUtil.ROOT3D2
-    val y = radD2 + TOP_MARGIN + ((location.getRow + 0.6) * 3.0 * radD2)
+    val y = radD2 + TOP_MARGIN + ((location.row + 0.6) * 3.0 * radD2)
     val point = new Point(x.toInt, y.toInt)
     drawHexagon(g2, point, 0.95 * radius, filled = false)
   }
@@ -66,7 +66,7 @@ class HexTileRenderer() {
     g2.drawString(FormatUtil.formatNumber(tilePlacement.tile.tantrixNumber), xpos, ypos)
     // also draw coordinate location
     val loc = tilePlacement.location
-    g2.drawString(s"(${loc.getRow}, ${loc.getCol})", xpos - 15, ypos - 12)
+    g2.drawString(s"(${loc.row}, ${loc.col})", xpos - 15, ypos - 12)
   }
 
   private def drawHexagon(g2: Graphics2D, point: Point, radius: Double, filled: Boolean = true) {

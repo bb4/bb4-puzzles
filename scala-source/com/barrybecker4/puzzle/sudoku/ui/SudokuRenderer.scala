@@ -141,8 +141,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   }
 
   private def drawCurrentFocus(g: Graphics, focusLocation: Location) {
-    val xpos: Int = SudokuRenderer.MARGIN + focusLocation.getCol * pieceSize
-    val ypos: Int = SudokuRenderer.MARGIN + focusLocation.getRow * pieceSize
+    val xpos: Int = SudokuRenderer.MARGIN + focusLocation.col * pieceSize
+    val ypos: Int = SudokuRenderer.MARGIN + focusLocation.row * pieceSize
     g.setColor (SudokuRenderer.CELL_FOCUS_COLOR)
     g.fillRect (xpos, ypos, pieceSize, pieceSize)
   }

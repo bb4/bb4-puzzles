@@ -23,7 +23,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
 
   def this(edgeLen: Byte) {this(createGoalTiles(edgeLen))}
 
-  def get(loc:Location): Byte = get(loc.getRow, loc.getCol)
+  def get(loc:Location): Byte = get(loc.row, loc.col)
   def get(i: Int, j: Int): Byte = tiles(i * size + j)
   def applyMove(move: SlideMove): Tiles = swap(move.fromPosition, move.toPosition)
 
@@ -81,7 +81,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
   }
 
   def isValidPosition(loc: Location): Boolean =
-    loc.getRow >= 0 && loc.getRow < size && loc.getCol >= 0 && loc.getCol < size
+    loc.row >= 0 && loc.row < size && loc.col >= 0 && loc.col < size
 
   /** @return the position of the empty space (there is only one). */
   def getEmptyLocation: Location = {
@@ -107,8 +107,8 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
   }
 
   private def internalSwap(someTiles: Array[Byte], fromPosition: Location, toPosition: Location): Unit = {
-    val fromIdx = fromPosition.getRow * size + fromPosition.getCol
-    val toIdx = toPosition.getRow * size + toPosition.getCol
+    val fromIdx = fromPosition.row * size + fromPosition.col
+    val toIdx = toPosition.row * size + toPosition.col
     val value = someTiles(fromIdx)
     someTiles(fromIdx) = someTiles(toIdx)
     someTiles(toIdx) = value

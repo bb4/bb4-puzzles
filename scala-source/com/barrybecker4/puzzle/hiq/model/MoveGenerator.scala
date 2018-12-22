@@ -29,8 +29,8 @@ class MoveGenerator(var board: PegBoard) {
     */
   private def findMovesForLocation(location: Location, undo: Boolean) = {
     var moves = List[PegMove]()
-    val r = location.getRow.toByte
-    val c = location.getCol.toByte
+    val r = location.row.toByte
+    val c = location.col.toByte
     // 4 cases to consider: NEWS
     moves = checkMoveForDirection(r, c, 0, -2, undo, moves)
     moves = checkMoveForDirection(r, c, 0, 2, undo, moves)

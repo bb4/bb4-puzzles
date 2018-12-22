@@ -21,8 +21,8 @@ object HexUtil {
     * @return the indicated neighbor of the specified tile.
     */
   def getNeighborLocation(loc: Location, direction: Int): Location = {
-    val row = loc.getRow
-    val col = loc.getCol
+    val row = loc.row
+    val col = loc.col
     val colOffset = if (Math.abs(row) % 2 == 1) -1
     else 0
 
@@ -43,11 +43,11 @@ object HexUtil {
     * @return distance between two hex locations.
     */
   def distanceBetween(loc1: Location, loc2: Location): Double = {
-    val row1 = loc1.getRow
-    val row2 = loc2.getRow
-    val point1 = new Point2D.Double(loc1.getCol + (if (row1 % 2 == 1) -0.5
+    val row1 = loc1.row
+    val row2 = loc2.row
+    val point1 = new Point2D.Double(loc1.col + (if (row1 % 2 == 1) -0.5
     else 0), row1)
-    val point2 = new Point2D.Double(loc2.getCol + (if (row2 % 2 == 1) -0.5
+    val point2 = new Point2D.Double(loc2.col + (if (row2 % 2 == 1) -0.5
     else 0), row2)
     point1.distance(point2)
   }
