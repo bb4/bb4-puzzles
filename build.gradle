@@ -74,15 +74,16 @@ task runBridgePuzzle(type: JavaExec) {
 }
 
 
-ext.appMap = new LinkedHashMap()
-appMap.put('puzzle', [include:['com/barrybecker4/puzzle/common/**']])
-appMap.put('hiq', [include:['com/barrybecker4/puzzle/hiq/**']])
-appMap.put('slidingpuzzle', [include:['com/barrybecker4/puzzle/slidingpuzzle/**']])
-appMap.put('maze', [include:['com/barrybecker4/puzzle/maze/**']])
-appMap.put('redpuzzle', [include:['com/barrybecker4/puzzle/redpuzzle/**']])
-appMap.put('sudoku', [include:['com/barrybecker4/puzzle/sudoku/**']])
-appMap.put('tantrix', [include:['com/barrybecker4/puzzle/tantrix/**']])
-appMap.put('bridge', [include:['com/barrybecker4/puzzle/bridge/**']])
-appMap.put('twopails', [include:['com/barrybecker4/puzzle/twopails/**']])
+ext.jarMap = new LinkedHashMap()
+jarMap['puzzle'] = [include:['com/barrybecker4/puzzle/common/**']]
+jarMap['hiq'] = [include:['com/barrybecker4/puzzle/hiq/**']]
+jarMap['slidingpuzzle'] = [include:['com/barrybecker4/puzzle/slidingpuzzle/**']]
+jarMap['maze'] = [include:['com/barrybecker4/puzzle/maze/**']]
+jarMap['redpuzzle'] = [include:['com/barrybecker4/puzzle/redpuzzle/**']]
+jarMap['sudoku'] = [include:['com/barrybecker4/puzzle/sudoku/**']]
+jarMap['tantrix'] = [include:['com/barrybecker4/puzzle/tantrix/**']]
+jarMap['bridge'] = [include:['com/barrybecker4/puzzle/bridge/**']]
+jarMap['twopails'] = [include:['com/barrybecker4/puzzle/twopails/**']]
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
+apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4-deploy.gradle'
