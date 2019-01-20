@@ -30,9 +30,7 @@ case class PuzzleNode[P, M](position: P, move: Option[M] = None,
   /** @return An estimate of how much it will cost to go from this position to the goal state */
   private def getEstimatedFutureCost = estimatedFutureCost
 
-  /**
-    * @return a list of nodes from the start state to this state.
-    */
+  /** @return a list of nodes from the start state to this state. */
   def asMoveList: Seq[M] = {
     var solution = List[M]()
     var n: PuzzleNode[P, M] = this

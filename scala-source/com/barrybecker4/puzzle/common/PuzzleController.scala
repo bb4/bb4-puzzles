@@ -13,12 +13,8 @@ import com.barrybecker4.search.SearchSpace
   * @author Brian Goetz, and Tim Peierls
   */
 trait PuzzleController[P, M] extends SearchSpace[P, M] {
-  /** Specify the algorithm to use. */
-  // def setAlgorithm(algorithm: AlgorithmEnum[P, M]): Unit
 
-  /**
-    * Get the algorithm to use.
-    *
+  /** Get the algorithm to use.
     * @return algorithm to use when solving.
     */
   var algorithm: AlgorithmEnum[P, M]
