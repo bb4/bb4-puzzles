@@ -14,65 +14,139 @@ dependencies {
     compile 'com.barrybecker4:bb4-A-star:1.5-SNAPSHOT'
     compile 'com.barrybecker4:bb4-sound:1.5-SNAPSHOT'
     compile 'com.barrybecker4:bb4-optimization:1.5-SNAPSHOT'
-    // scala dependencies in bb4-gradle
 }
 
-task runMaze(type: JavaExec, description: "A maze simulator") {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.maze.ui.MazeSimulator'
-    classpath = sourceSets.main.runtimeClasspath
-}
 
-task runRedPuzzle(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.redpuzzle.ui.RedPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-}
+// The appMap is used to create the list of available application in the html index page and to generate the app tasks.
+ext.appMap = new LinkedHashMap()
+appMap['hiq'] = [
+        title: 'Hi-Q',
+        mainClass: 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle',
+        command: 'bb4-hiq',
+        description: 'The Hi-Q puzzle is supposed to test your intelligence. ' +
+                'If you can jump all the pieces and end up with just ' +
+                'one in the middle, then you must be a genius. I couldn\'t do it, so I cheated and wrote this program ' +
+                'to find the puzzlePanel.',
+        longDescription: '<a href="https://en.wikipedia.org/wiki/Peg_solitaire">Hi-Q</a> ' +
+                'is another one of those games that can be very frustrating without the aid of a computer. ' +
+                'The object is to have only 1 peg in the center position when you are done. ' +
+                'This simulation takes into account board symmetry, and while searching it ' +
+                'keeps track of the paths that it has tried. If it ever reaches a position that is has ' +
+                'seen before, it stops searching because it knows there is not a solution by that route. ' +
+                'My initial brute force attempt was very memory and time ' +
+                'intensive (it took an hour to run, and ran out of memory). ' +
+                'Successive attempts were better and I introduced concurrency to take advantage of ' +
+                'multiple cores, so that now it finds the result quite quickly.'
+]
+appMap['slidingpuzzle'] = [
+        title: 'Sliding Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle',
+        command: 'bb4-slidingpuzzle',
+        description: 'Slide the tiles around until they are in order.',
+        longDescription: 'In the <a href="http://en.wikipedia.org/wiki/Sliding_puzzle">sliding puzzle</a> ' +
+                'you slide tiles around until the numbers are in order, ' +
+                'or some picture is completed. There is one tile missing, ' +
+                'which allows the rest to move around. Typical sizes are n^2-1, or 8, 16, and 25.'
+]
+appMap['sudoku'] = [
+        title: 'Sudoku Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle',
+        command: 'bb4-sudoku',
+        description: 'SA Sudoku puzzle generator and solver.',
+        longDescription: '<a href="http://en.wikipedia.org/wiki/Sudoku">Sudoku</a> ' +
+                'is the a populat puzzle based on latin squares. I\'m not all that good at solving them by hand, ' +
+                'so I wrote a program to do it. Generation takes longer, because we ' +
+                'start with a solved board and randomly remove all the numbers we can and still infer a solution. ' +
+                'That means we have to solve the whole board each time we remove a number. ' +
+                'I originally collaborated with my mother, an avid soduko player and retired programmer, ' +
+                'when developing the code. More recntly a changed the solver to take an approach similar to what ' +
+                'Pete Norvig suggests <a href="http://norvig.com/sudoku.html">here</a>.'
+]
+appMap['tantrix'] = [
+        title: 'Tantrix Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle',
+        command: 'bb4-tantrix',
+        description: '<a href="http://www.tantrix.com/">Tantrix</a> is both ' +
+                'a puzzle and a game. Here I use my puzzle framework to solve ' +
+                'tantrix puzzles of 3 to 30 pieces in size.',
+        longDescription: '<a href="http://www.tantrix.com/">Tantrix</a> ' +
+                'is another one of those games that can be very frustrating without the aid of a computer. ' +
+                'There are a variety of different strategies that you can use for solving. ' +
+                'Some work better than others.',
+        mx: '4G'
 
-task runTantrixPuzzle(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.tantrix.ui.TantrixPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['-locale', 'ENGLISH']
-    jvmArgs = ["-ea", "-Xms512M", "-Xmx4G"]
-}
+]
+appMap['maze'] = [
+        title: 'Amazing Maze Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.maze.ui.MazeSimulator',
+        command: 'bb4-maze',
+        description: 'Specify parameters and generate lots of complex mazes for your enjoyment.',
+        longDescription: 'You can get different types of mazes by varying the parameters. ' +
+                'I originally made this program to help my 3 year old son, Brian, control a pencil better. ' +
+                'He really enjoys doing the mazes. I hope you will too! '
+]
+appMap['redpuzzle'] = [
+        title: 'One Tough Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.redpuzzle.ui.RedPuzzle',
+        command: 'bb4-redpuzzle',
+        description: 'A 9 piece jigsaw puzzle that is nearly impossible to do without the aid of a computer.',
+        longDescription: 'The Red Puzzle (Also Called ' +
+                '<a href="http://www.google.com/search?q=one+tough+puzzle&hl=en&rls=com.microsoft:en-us:IE-SearchBox&prmd=ivns&source=univ&tbs=shop:1&tbo=u&sa=X&ei=jhSFTeeyNYq4sQORpOzvAQ&sqi=2&ved=0CEwQrQQ">"One Tough Puzzle"</a> from Great American Puzzle ' +
+                'Factory, Inc) is a 9 piece jigsaw puzzle. It is very hard because every ' +
+                'piece has four nubs. There are no edge pieces. There are over 300,000 incorrect configurations. ' +
+                'The brute force solver will solve it in about 5,000 - 60,000 iterations. ' +
+                'It shuffles the pieces so there is a different result each time. The search ' +
+                'algorithm tries pieces until it finds one that doesn\'t fit. If none of ' +
+                'the remaining pieces fit after all rotations have been tried, it backtracks ' +
+                'one position and tries again. Its guaranteed to find a solution if there is one. ' +
+                'Brute force was too slow, so I created other solvers that use concurrency and ' +
+                'genetic algorthm search to make finding the solution much faster. ' +
+                '<p>The letters indicate the shape of the nub: Heart, Diamond, Club ' +
+                'or Spade. Maybe someday I will draw the pieces as they really look.</p>'
+]
+appMap['bridge'] = [
+        title: 'Bridge Crossing with Flashlight',
+        mainClass: 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle',
+        command: 'bb4-bridge',
+        description: 'The bridge crossing puzzle is a common brain teaser. ' +
+                'Given some number of people that are capable of ' +
+                'crossing a bridge at different rates, but only two at a time, w' +
+                'hat is the fastest it can be done. They must cross ' +
+                'at night and only have one flashlight.',
+        longDescription: 'The <a href="http://en.wikipedia.org/wiki/Bridge_and_torch_problem">' +
+                'Bridge crossing puzzle</a> is a common brain teaser. Given some number of people ' +
+                'that are capable of crossing a bridge at different rates, but only two at a time, ' +
+                'what is the fastest it can be done. They must cross at night and only have one flashlight. ' +
+                'The problem is analogous to scheduling tasks to maximize throughput.'
+]
+appMap['twopails'] = [
+        title: 'Two Pails Puzzle',
+        mainClass: 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle',
+        command: 'bb4-twopails',
+        description: 'Pour water from one container to the other until ' +
+                'you have precisely measured the specified amount.',
+        longDescription: 'This version of the ' +
+                '<a href="http://demonstrations.wolfram.com/WaterPouringProblem/">water pouring problem</a> ' +
+                'was inspired by Peter Norvig&quot;s ' +
+                '<a href="http://www.coursetalk.com/udacity/design-of-computer-programs">' +
+                'Design of Computer Programs</a> class on Udacity. ' +
+                'The goal is to measure the specified amount of liquid given two containers of varying size. ' +
+                'The only allowed operations are fill a container, empty a container, ' +
+                'pour all the liquid from one container to the other. Sometimes the problem cannot be solved.'
+]
 
-task runSudoku(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-ea"]
-}
+appMap.each { appId, propMap ->
 
-task runHiQ(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['-locale', 'ENGLISH']
-}
+    def argsList = []
 
-task runSlidingPuzzle(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    // this give bigger stack size to avoid stack overflow in brute force case
-    jvmArgs = ["-Xss128m"]
+    tasks.create(name: "run${appId.capitalize()}", type: JavaExec, description: "${propMap.description}") {
+        group = 'application'
+        main = "${propMap['mainClass']}"
+        args = argsList
+        classpath = sourceSets.main.runtimeClasspath
+        jvmArgs = ["-ea", "-Xss128m", "-Xmx${appMap.mx ?: '256m'}"]
+    }
 }
-
-task runTwoPailsPuzzle(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.twopails.ui.TwoPailsPuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]
-}
-
-task runBridgePuzzle(type: JavaExec) {
-    group = 'application'
-    main = 'com.barrybecker4.puzzle.bridge.ui.BridgePuzzle'
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xss64m"]
-}
-
 
 ext.jarMap = new LinkedHashMap()
 jarMap['puzzle'] = [include:['com/barrybecker4/puzzle/common/**']]
@@ -84,6 +158,26 @@ jarMap['sudoku'] = [include:['com/barrybecker4/puzzle/sudoku/**']]
 jarMap['tantrix'] = [include:['com/barrybecker4/puzzle/tantrix/**']]
 jarMap['bridge'] = [include:['com/barrybecker4/puzzle/bridge/**']]
 jarMap['twopails'] = [include:['com/barrybecker4/puzzle/twopails/**']]
+
+// add extra execution scripts
+// The application is deployed to /build/distributions. Run scripts are in the bin directory.
+appMap.each { appId, propMap ->
+    def t = tasks.create(name: "create${appId.capitalize()}App",
+            type: CreateStartScripts, description: "${propMap.description}") {
+        mainClassName = "${propMap['mainClass']}"
+        classpath = startScripts.classpath
+        outputDir = startScripts.outputDir
+        applicationName = "bb4-${appId}"
+        defaultJvmOpts = ["-ea", "-Xss128m", "-Xmx${appMap.mx ?: '256m'}"]
+    }
+
+    applicationDistribution.into("bin") {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from(t)
+        fileMode = 0755
+    }
+}
+
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
 apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4-deploy.gradle'

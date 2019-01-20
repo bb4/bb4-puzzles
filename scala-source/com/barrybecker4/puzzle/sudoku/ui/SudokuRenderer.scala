@@ -9,8 +9,7 @@ import com.barrybecker4.ui.util.GUIUtil
 
 
 /**
-  * Renders the the sudoku puzzle onscreen.
-  *
+  * Renders the the Sudoku puzzle onscreen.
   * @author Barry Becker
   */
 object SudokuRenderer {
@@ -36,7 +35,6 @@ object SudokuRenderer {
 class SudokuRenderer(var board: Board) extends CellLocator {
   private var showCandidates: Boolean = false
   private var pieceSize: Int = 0
-
 
   def setShowCandidates (show: Boolean) {
     showCandidates = show

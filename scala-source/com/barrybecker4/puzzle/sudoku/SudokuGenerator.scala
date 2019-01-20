@@ -24,7 +24,6 @@ object SudokuGenerator {
   * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
   * @param ppanel   renders the puzzle. May be null if you do not want to see animation.
-  *
   * @author Barry Becker
   */
 class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {

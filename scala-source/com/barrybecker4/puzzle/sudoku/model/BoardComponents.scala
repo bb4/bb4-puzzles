@@ -1,6 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
 import com.barrybecker4.puzzle.sudoku.model.BoardComponents._
@@ -23,7 +21,6 @@ object BoardComponents {
 
 /**
   * The internal structures for a board of a specified size.
-  *
   * @author Barry Becker
   */
 class BoardComponents(val baseSize: Int = 3) {

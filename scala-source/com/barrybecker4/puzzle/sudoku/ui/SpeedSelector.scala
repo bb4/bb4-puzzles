@@ -5,7 +5,6 @@ import java.awt.Choice
 
 /**
   * A combo box that allows the user to select the speed at which the puzzle is generated or solved.
-  *
   * @author Barry Becker
   */
 object SpeedSelector {

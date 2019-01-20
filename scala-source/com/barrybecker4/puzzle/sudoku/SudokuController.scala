@@ -8,14 +8,12 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 /**
   * Controller part of the MVC pattern.
-  *
   * @author Barry Becker
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
-  def setShowCandidates(show: Boolean) {
-    puzzlePanel.setShowCandidates(show)
-  }
+  def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
+  def validatePuzzle(): Unit = puzzlePanel.validatePuzzle()
 
   def generatePuzzle(delay: Int, size: Int) {
 
@@ -51,9 +49,5 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
       }
     }
     worker.start()
-  }
-
-  def validatePuzzle() {
-    puzzlePanel.validatePuzzle()
   }
 }

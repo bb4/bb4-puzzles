@@ -1,6 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
 import com.barrybecker4.puzzle.sudoku.model.BoardComponents.COMPONENTS
@@ -11,7 +9,6 @@ class Cell(var originalValue: Int, var proposedValue: Int)
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
   * This implementation is based on Peter Norvig's algorithm - http://norvig.com/sudoku.html
-  *
   * @param initialData array giving initially set values
   * @author Barry Becker
   */
@@ -40,9 +37,8 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
-  def isSolved: Boolean = {
-    valuesMap.values.forall(_.size == 1)
-  }
+  def isSolved: Boolean = valuesMap.values.forall(_.size == 1)
+  def getValues(location: (Int, Int)): Seq[Int] = valuesMap(location).toList
 
   def getValue(location: (Int, Int)): Int = {
     valuesMap(location) match {
@@ -51,16 +47,11 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  def getValues(location: (Int, Int)): Seq[Int] =
-    valuesMap(location).toList
-
   /** Sets the original value, and update valuesMap accordingly */
-  def setOriginalValue(location: (Int, Int), v: Int) {
+  def setOriginalValue(location: (Int, Int), v: Int): Unit =
     initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
-  }
 
-  /**
-    * Remove the specified value if it does not prevent the puzzle from being solved using just the
+  /** Remove the specified value if it does not prevent the puzzle from being solved using just the
     * basic consistency check.
     */
   def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None) {
@@ -178,7 +169,6 @@ class Board(val initialData: Array[Array[Cell]]) {
         }
       }
     }
-
     Some(newValues)
   }
 

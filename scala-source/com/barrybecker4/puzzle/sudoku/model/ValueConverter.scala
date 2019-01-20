@@ -3,13 +3,11 @@ package com.barrybecker4.puzzle.sudoku.model
 
 /**
   * Helps with showing large numbers on the board. Two digit numbers are converted to letters.
-  *
   * @author Barry Becker
   */
 object ValueConverter {
-  /**
-    * Get a one character symbol for the value.
-    *
+
+  /** Get a one character symbol for the value.
     * @param value value to get symbol for.
     * @return symbol corresponding to the specified value.
     */
@@ -34,8 +32,7 @@ object ValueConverter {
     case _ => Integer.toString(value)
   }
 
-  /**
-    * Get the integer value for the specified symbol.
+  /** Get the integer value for the specified symbol.
     * throws IllegalArgumentException if not a valid symbol for the puzzle.
     * @param symbol symbol
     * @param maxValue maximum allowed value
@@ -70,4 +67,3 @@ object ValueConverter {
     value
   }
 }
-

@@ -10,7 +10,6 @@ import com.barrybecker4.ui.util.GUIUtil
 /**
   * Sudoku Puzzle UI.
   * This program can generate and solve Sudoku puzzles.
-  *
   * @author Barry Becker
   */
 object SudokuPuzzle {
@@ -42,9 +41,7 @@ final class SudokuPuzzle() extends JApplet {
     getContentPane.add(panel)
   }
 
-  /**
-    * Called by the browser after init(), if running as an applet.
-    */
+  /** Called by the browser after init(), if running as an applet. */
   override def start() {
     SwingUtilities.invokeLater(() => getContentPane.repaint())
   }

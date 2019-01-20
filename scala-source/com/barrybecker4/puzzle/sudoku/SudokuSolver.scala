@@ -9,7 +9,6 @@ import com.barrybecker4.puzzle.sudoku.model.Board
 /**
   * This does the hard work of actually solving the puzzle.
   * Controller in the model-view-controller pattern.
-  *
   * @param puzzlePanel the viewer (may be null)
   * @author Barry Becker
   */
@@ -17,10 +16,8 @@ class SudokuSolver(puzzlePanel: Container = null) {
 
   var delay: Int = 0
 
-  /**
-    * Solves the puzzle.
+  /** Solves the puzzle.
     * This implements the main algorithm for solving the Sudoku puzzle.
-    *
     * @param board       puzzle to solve
     * @return true if solved.
     */

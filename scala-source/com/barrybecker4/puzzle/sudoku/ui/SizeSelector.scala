@@ -5,7 +5,6 @@ import java.awt.Choice
 
 /**
   * A combo box that allows the user to select the size of the puzzle
-  *
   * @author Barry Becker
   */
 object SizeSelector {

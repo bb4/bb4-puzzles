@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.sudoku.ui
 
 /**
   * A user entered value and it cell location.
-  *
   * @author Barry Becker
   */
 class UserValue(var value: Int) {

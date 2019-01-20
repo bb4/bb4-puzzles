@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  *
   * @author Barry Becker
   */
 final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
@@ -50,9 +49,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
     boardCopy
   }
 
-  /**
-    * reset to new puzzle with specified initial data.
-    *
+  /** Reset to new puzzle with specified initial data.
     * @param initialData starting values.
     */
   def reset(initialData: Array[Array[Int]]) {
@@ -79,7 +76,6 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   }
 
   def getBoard: Board = renderer.board
-
   def valueEntered() { repaint() }
   def cellSelected(location: Location) { repaint() }
   def requestValidation() { validatePuzzle() }

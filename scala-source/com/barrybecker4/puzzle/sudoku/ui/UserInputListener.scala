@@ -12,7 +12,6 @@ import scala.collection.immutable.HashMap
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  *
   * @author Barry Becker
   */
 final class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
