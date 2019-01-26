@@ -59,8 +59,8 @@ appMap['sudoku'] = [
                 'start with a solved board and randomly remove all the numbers we can and still infer a solution. ' +
                 'That means we have to solve the whole board each time we remove a number. ' +
                 'I originally collaborated with my mother, an avid soduko player and retired programmer, ' +
-                'when developing the code. More recntly a changed the solver to take an approach similar to what ' +
-                'Pete Norvig suggests <a href="http://norvig.com/sudoku.html">here</a>.'
+                'when developing the code. More recently I changed the solver to take ' +
+                '<a href="http://norvig.com/sudoku.html">an approach suggested by Peter Norvig</a>.'
 ]
 appMap['tantrix'] = [
         title: 'Tantrix Puzzle',
