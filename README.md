@@ -1,7 +1,7 @@
 # bb4-puzzles
 
 A java puzzle framework with generator and solver implementations for puzzles like
-[Sudoku](http://barrybecker4.com/applets/sudoku_en.html), [Hi-Q](http://barrybecker4.com/applets/hiq_en.html), [One Tough Puzzle](http://barrybecker4.com/applets/redpuzzle_en.html), [Tantrix](http://barrybecker4.com/applets/tantrix_en.html), and others.
+[Sudoku, Hi-Q, Sliding Puzzle, One Tough Puzzle, Tantrix, Bridge crossing, and others](http://barrybecker4.com/bb4-projects/bb4-puzzles/puzzles_index.html).
 
 
 ### [How to Build](https://github.com/barrybecker4/bb4-common/wiki/Building-bb4-Projects)
