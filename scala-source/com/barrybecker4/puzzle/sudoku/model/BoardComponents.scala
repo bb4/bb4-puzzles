@@ -5,9 +5,6 @@ import com.barrybecker4.puzzle.sudoku.model.BoardComponents._
 
 object BoardComponents {
 
-  /** static because they are the same for every board. */
-  val COMPONENTS: Array[BoardComponents] = (0 to 5).map(i => new BoardComponents(i)).toArray
-
   /** @return the cross product of two sequences */
   private def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[(Int, Int)] =
     for (x <- seq1; y <- seq2) yield (x, y)
@@ -23,7 +20,7 @@ object BoardComponents {
   * The internal structures for a board of a specified size.
   * @author Barry Becker
   */
-class BoardComponents(val baseSize: Int = 3) {
+case class BoardComponents(baseSize: Int = 3) {
 
   assert (baseSize <= 5, "baseSize = " + baseSize)
   val unitSize: Int = baseSize * baseSize
@@ -45,4 +42,6 @@ class BoardComponents(val baseSize: Int = 3) {
 
   val peers: Map[(Int, Int), Set[(Int, Int)]] =
     (for (s <- squares) yield s -> (units(s).reduceLeft(_ ++ _).toSet - s)).toMap
+
+  val initialValueMap: ValueMap = (for (s <- squares) yield s -> digits.toSet).toMap
 }

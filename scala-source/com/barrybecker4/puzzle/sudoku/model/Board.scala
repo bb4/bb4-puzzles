@@ -1,15 +1,6 @@
 // Copyright by Barry G. Becker, 2017 - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
-import com.barrybecker4.puzzle.sudoku.model.BoardComponents.COMPONENTS
-import Board.ValueMap
-
-class Cell(var originalValue: Int, var proposedValue: Int)
-
-object Board {
-  type ValueMap = Map[(Int, Int), Set[Int]]
-}
-
 /**
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
@@ -27,17 +18,16 @@ class Board(val initialData: Array[Array[Cell]]) {
   reset()
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
-
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
-
   def copy() = new Board(initialDataCopy)
 
-  private def initialDataCopy = initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
+  private def initialDataCopy =
+    initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
 
   def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
 
   def reset() {
-    valuesMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
+    valuesMap = comps.initialValueMap
   }
 
   /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
@@ -55,9 +45,7 @@ class Board(val initialData: Array[Array[Cell]]) {
   def setOriginalValue(location: (Int, Int), v: Int): Unit =
     initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
 
-  /** Remove the specified value if it does not prevent the puzzle from being solved using just the
-    * basic consistency check.
-    */
+  /** Remove specified value if it does not prevent the puzzle from being solved using just base consistency check. */
   def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None) {
     val initial = initialDataCopy
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
@@ -73,7 +61,7 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** return number of iterations it took to solve, or None if not solved */
-  def solve(refresh: Option[() => Unit] = None): Option[Int] = new Solver(this, refresh).solve()
+  def solve(refresh: Option[() => Unit] = None): Option[Int] = Solver(this, refresh).solve()
 
   def setSolvedValues(): Unit = {
     for ((s, values) <- valuesMap) {
@@ -147,15 +135,6 @@ class Board(val initialData: Array[Array[Cell]]) {
     Some(newValues)
   }
 
-  override def toString: String = {
-    val b = for (r <- comps.digits) yield
-      for (c <- comps.digits; v = initialData(r-1)(c-1)) yield v.proposedValue
-    "\n" + b.map(_.map(ValueConverter.getSymbol).mkString("Array(", ", ", "),")).mkString("\n")
-  }
-
-  def toDebugString: String = {
-    val b = for (r <- comps.digits) yield
-      for (c <- comps.digits; v = valuesMap((r, c))) yield v
-    b.map(_.map(_.map(ValueConverter.getSymbol)).mkString("[", ",", "]")).mkString("\n")
-  }
+  override def toString: String = BoardSerializer(this).serialize
+  def toDebugString: String = BoardSerializer(this).debugSerialize
 }

@@ -7,8 +7,8 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 class BoardComponentsSuite extends FunSuite with BeforeAndAfter {
 
   // For sudoku, the most commong baseSize is 3 (for 9x9 board).
-  private val bc3 = BoardComponents.COMPONENTS(3)
-  private val bc4 = BoardComponents.COMPONENTS(4)
+  private val bc3 = COMPONENTS(3)
+  private val bc4 = COMPONENTS(4)
 
   test("Check squares for bc3") {
     assertResult(81) { bc3.squares.length }

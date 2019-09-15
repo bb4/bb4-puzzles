@@ -1,10 +1,8 @@
 // Copyright by Barry G. Becker, 2017 - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
-import Board.ValueMap
-
 /** Solves a Sudoku Board configuration */
-class Solver(board: Board, refresh: Option[() => Unit] = None) {
+private case class Solver(board: Board, refresh: Option[() => Unit] = None) {
 
   private var numIterations = 0
 
