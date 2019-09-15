@@ -24,7 +24,9 @@ class Board(val initialData: Array[Array[Cell]]) {
   reset()
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
+
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
+
   def copy() = new Board(initialDataCopy)
 
   private def initialDataCopy = initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))

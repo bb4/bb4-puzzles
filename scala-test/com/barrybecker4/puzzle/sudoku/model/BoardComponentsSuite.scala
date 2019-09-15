@@ -6,54 +6,57 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 
 class BoardComponentsSuite extends FunSuite with BeforeAndAfter {
 
+  // For sudoku, the most commong baseSize is 3 (for 9x9 board).
+  private val bc3 = BoardComponents.COMPONENTS(3)
+  private val bc4 = BoardComponents.COMPONENTS(4)
 
-  private val bc = new BoardComponents(3)
-
-  test("Check squares") {
-    assertResult(81) { bc.squares.length }
+  test("Check squares for bc3") {
+    assertResult(81) { bc3.squares.length }
   }
 
-  test("Check unitList") {
-    assertResult(27) { bc.unitList.length }
+  test("Check unitList for bc3") {
+    assertResult(27) { bc3.unitList.length }
   }
 
-  test("Check units") {
-    for (s <- bc.squares)
-      assert(bc.units(s).length == 3)
+  test("Check units for bc3") {
+    for (s <- bc3.squares)
+      assert(bc3.units(s).length == 3)
   }
 
-  test("Check peers") {
-    for (s <- bc.squares)
-      assert(bc.peers(s).size == 20)
+  test("Check peers for bc3") {
+    for (s <- bc3.squares)
+      assert(bc3.peers(s).size == 20)
   }
 
-  test("Check specific set of units") {
+  test("Check specific set of units for cell(3, 2) for bc3") {
     assertResult(Seq(
-      Seq((1,2), (2,2), (3,2), (4,2), (5,2), (6,2), (7,2), (8,2), (9,2)),
-      Seq((3,1), (3,2), (3,3), (3,4), (3,5), (3,6), (3,7), (3,8), (3,9)),
-      Seq((1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3)))
+      Seq((1,2), (2,2), (3,2), (4,2), (5,2), (6,2), (7,2), (8,2), (9,2)), // row
+      Seq((3,1), (3,2), (3,3), (3,4), (3,5), (3,6), (3,7), (3,8), (3,9)), // col
+      Seq((1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3))) // square
     ) {
-      bc.units((3, 2))
+      bc3.units((3, 2))
     }
   }
 
-  test("Check specific set of peers") {
+  // Should have all the peers for unit, row, and column.
+  test("Check specific set of peers for cell(3, 2) for bc3") {
     assertResult(Set((3,9), (5,2), (3,4), (3,1), (6,2), (3,6), (1,1), (3,5), (8,2), (1,3), (2,2), (4,2),
       (3,7), (3,3), (2,3), (1,2), (2,1), (7,2), (3,8), (9,2))) {
-      bc.peers((3, 2))
+      bc3.peers((3, 2))
     }
   }
 
-  /*
-  //assert len(squares) == 81
-  //assert len(unitlist) == 27
-  //assert all(len(units[s]) == 3 for s in squares)
-  //assert all(len(peers[s]) == 20 for s in squares)
-  assert units['C2'] == [['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2'],
-  ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9'],
-  ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']]
-  assert peers['C2'] == set(['A2', 'B2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2',
-  'C1', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9',
-  'A1', 'A3', 'B1', 'B3'])
-  print 'All tests pass.'*/
+  test("Check squares for bc4") {
+    assertResult(256) { bc4.squares.length }
+  }
+
+  test("Check specific set of units for cell('C2') for bc4") {
+    assertResult(Seq(
+      Seq((1,2), (2,2), (3,2), (4,2), (5,2), (6,2), (7,2), (8,2), (9,2), (10,2), (11,2), (12,2), (13,2), (14,2), (15,2), (16,2)),
+      Seq((3,1), (3,2), (3,3), (3,4), (3,5), (3,6), (3,7), (3,8), (3,9), (3,10), (3,11), (3,12), (3,13), (3,14), (3,15), (3,16)),
+      Seq((1,1), (1,2), (1,3), (1,4), (2,1), (2,2), (2,3), (2,4), (3,1), (3,2), (3,3), (3,4), (4,1), (4,2), (4,3), (4,4)))
+    ) {
+      bc4.units((3, 2))
+    }
+  }
 }
