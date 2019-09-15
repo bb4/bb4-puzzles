@@ -14,10 +14,11 @@ class ValueConverterSuite extends FunSuite {
   }
 
   test("Convert from character to number") {
-    assert(ValueConverter.getValue('X'.asInstanceOf[Char], 20) == 10)
-    assert(ValueConverter.getValue('5'.asInstanceOf[Char], 20) == 5)
-    assert(ValueConverter.getValue('A'.asInstanceOf[Char], 25) == 11)
-    assert(ValueConverter.getValue('O'.asInstanceOf[Char], 25) == 25)
+    assert(ValueConverter.getValue('X', 20) == 10)
+    assert(ValueConverter.getValue('5', 20) == 5)
+    assert(ValueConverter.getValue('J', 30) == 20)
+    assert(ValueConverter.getValue('A', 25) == 11)
+    assert(ValueConverter.getValue('O', 25) == 25)
   }
 
   test("Convert from character to number when too big") {
