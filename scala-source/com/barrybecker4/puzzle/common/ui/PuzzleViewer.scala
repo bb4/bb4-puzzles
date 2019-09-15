@@ -38,7 +38,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   override def finalRefresh(path: Option[Seq[M]], position: Option[P], numTries: Long, millis: Long): Unit = {
     System.gc()
     status = createFinalStatusMessage(numTries, millis, path)
-    System.out.println(status)
+    println(status)
     if (position.isDefined) {
       simpleRefresh(position.get, numTries)
       // give other repaints a chance to process. hack :(

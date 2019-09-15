@@ -19,7 +19,7 @@ class Deck1 (val nCards: Int) extends Deck {
     while (!isSorted && ct < Integer.MAX_VALUE) {
       doPerfectShuffle(iCut)
       ct += 1
-      if (ct % 100000 == 0) System.out.println(ct + "  " + this)
+      if (ct % 100000 == 0) println(ct + "  " + this)
     }
     assert(ct < Integer.MAX_VALUE, "No amount of shuffling will restore the order")
     ct

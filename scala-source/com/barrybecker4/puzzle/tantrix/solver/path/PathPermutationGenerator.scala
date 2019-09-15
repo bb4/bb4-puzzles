@@ -89,7 +89,7 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
         val pivotIndex1 = 1 + rnd.nextInt(tiles.size - 2)
         val pivotIndex2 = 1 + rnd.nextInt(tiles.size - 2)
         paths = Some(permuter.findPermutedPaths(pivotIndex1, pivotIndex2))
-        System.out.println("paths unexpectedly empty! when p1=" + pivotIndex1 + " p2=" + pivotIndex2)
+        println("paths unexpectedly empty! when p1=" + pivotIndex1 + " p2=" + pivotIndex2)
       } while (paths.isEmpty)
       return paths.get
     }

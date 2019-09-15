@@ -22,16 +22,16 @@ object Deck2 {
       cut = args(1).toInt
     } catch {
       case nfe: NumberFormatException =>
-        System.out.println("Arguments must be numeric.")
+        println("Arguments must be numeric.")
         System.exit(2)
     }
     val start = System.currentTimeMillis
     val deck = new Deck2(cards)
     val result = deck.shuffleUntilSorted(cut)
     val time = System.currentTimeMillis - start
-    System.out.println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
+    println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
       + " deep, takes " + result + " iterations to restore" + " the deck.")
-    System.out.println("Calculation performed in " + time + "ms.")
+    println("Calculation performed in " + time + "ms.")
   }
 }
 

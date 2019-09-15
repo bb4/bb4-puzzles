@@ -101,7 +101,7 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
       toStep += 1
     }
     do {
-      System.out.println("makeMove " + currentStep + "+ fwd=" + moveForward)
+      println("makeMove " + currentStep + "+ fwd=" + moveForward)
       navigator.makeMove(currentStep, !moveForward)
       currentStep += inc
     } while (currentStep != toStep)

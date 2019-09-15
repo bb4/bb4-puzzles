@@ -73,7 +73,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     exec.shutdown()
   catch {
     case e: AccessControlException =>
-      System.out.println("AccessControlException shutting down exec thread. " + "Probably because running in a secure sandbox.")
+      println("AccessControlException shutting down exec thread. " + "Probably because running in a secure sandbox.")
   }
 
   /**

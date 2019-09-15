@@ -79,6 +79,6 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     controller.refresh(solution, {
       numTries += 1; numTries - 1
     })
-    System.out.println("current best fitness = " + currentBestFitness)
+    println("current best fitness = " + currentBestFitness)
   }
 }

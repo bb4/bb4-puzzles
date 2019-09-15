@@ -28,41 +28,41 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
 
   test("CaseSimpleSample") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(SIMPLE_9))
-    assertTrue("Did not solve SIMPLE_9 successfully", solved)
+    val iterations = solver.solvePuzzle(new Board(SIMPLE_9))
+    assertTrue("Did not solve SIMPLE_9 successfully", iterations.isDefined)
   }
 
   /** negative test case */
   test("ImpossiblePuzzle") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(INCONSISTENT_9))
-    assertFalse("Solved impossible INCONSISTENT_9 puzzle. Should not have.", solved)
+    val iterations = solver.solvePuzzle(new Board(INCONSISTENT_9))
+    assertFalse("Solved impossible INCONSISTENT_9 puzzle. Should not have.", iterations.isDefined)
   }
 
   /** negative test case */
   test("InvalidPuzzle") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(INVALID_9))
-    assertFalse("Solved impossible INVALID_9 puzzle. Should not have.", solved)
+    val iterations = solver.solvePuzzle(new Board(INVALID_9))
+    assertResult(None) { iterations }
   }
 
   test("HardNorvigPuzzle") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(NORVIG_HARD_9))
-    assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", solved)
+    val iterations = solver.solvePuzzle(new Board(NORVIG_HARD_9))
+    assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", iterations.isDefined)
   }
 
   /** negative test case. Takes a very long time to determine that it is impossible *
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
-    val solved = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
-    assertFalse("Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.", solved)
+    val iterations = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
+    assertFalse("Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.", iterations.isEmpty)
   }*/
 
   test("Solving16x16Puzzle") {
     solver = new SudokuSolver
-    val solved = solver.solvePuzzle(new Board(COMPLEX_16))
-    assertTrue("Unexpectedly could not solve 16x16 puzzle.", solved)
+    val iterations = solver.solvePuzzle(new Board(COMPLEX_16))
+    assertTrue("Unexpectedly could not solve 16x16 puzzle.", iterations.isDefined)
   }
 
   test("GenerateAndSolveMany 9x9 puzzles") {
@@ -102,10 +102,8 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
 
   private def solve(board: Board, rand: Random) {
     val solver = new SudokuSolver()
-    val start = System.currentTimeMillis
-    val solved = solver.solvePuzzle(board)
-    //System.out.println("Time to solve was " + (System.currentTimeMillis - start))
-    assertTrue("Unexpectedly not solved.", solved)
+    val iterations = solver.solvePuzzle(board)
+    assertTrue("Unexpectedly not solved.", iterations.isDefined)
   }
 }
 

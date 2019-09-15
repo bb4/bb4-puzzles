@@ -1,9 +1,14 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
 import com.barrybecker4.puzzle.sudoku.model.BoardComponents.COMPONENTS
+import Board.ValueMap
 
 class Cell(var originalValue: Int, var proposedValue: Int)
+
+object Board {
+  type ValueMap = Map[(Int, Int), Set[Int]]
+}
 
 /**
   * The Board describes the physical layout of the puzzle.
@@ -14,13 +19,11 @@ class Cell(var originalValue: Int, var proposedValue: Int)
   */
 class Board(val initialData: Array[Array[Cell]]) {
 
-  type ValueMap = Map[(Int, Int), Set[Int]]
   val edgeLength: Int = initialData.length
   val baseSize: Int = Math.sqrt(edgeLength).toInt
-  private val comps = COMPONENTS(baseSize)
-  private var valuesMap: ValueMap = _
+  private[model] val comps = COMPONENTS(baseSize)
+  private[model] var valuesMap: ValueMap = _
   val numCells: Int = edgeLength * edgeLength
-  var numIterations = 0
   reset()
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
@@ -35,7 +38,6 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   def reset() {
     valuesMap = (for (s <- comps.squares) yield s -> comps.digits.toSet).toMap
-    numIterations = 0
   }
 
   /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
@@ -70,40 +72,12 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  /** return true if solved, else false */
-  def solve(refresh: Option[() => Unit] = None): Boolean = {
-    if (updateFromInitialData()) {
-      searchForSolution(Some(valuesMap), refresh) match {
-        case Some(vals) =>
-          valuesMap = vals
-          return true
-        case None => return false
-      }
-    }
-    false
-  }
+  /** return number of iterations it took to solve, or None if not solved */
+  def solve(refresh: Option[() => Unit] = None): Option[Int] = new Solver(this, refresh).solve()
 
   def setSolvedValues(): Unit = {
     for ((s, values) <- valuesMap) {
       if (values.size == 1) initialData(s._1 - 1)(s._2 - 1).proposedValue = values.head
-    }
-  }
-
-  private def searchForSolution(values: Option[ValueMap], refresh: Option[() => Unit]): Option[ValueMap] = {
-    values match {
-      case None => None
-      case Some(vals) =>
-        if (vals.values.forall(_.size == 1)) return Some(vals)
-        // Chose the unfilled square s with the fewest possibilities
-        val minSq: (Int, Int) = (for (s <- comps.squares; if vals(s).size > 1)
-          yield (vals(s).size, s)).min._2
-        for (d <- vals(minSq)) {
-          numIterations += 1
-          doRefresh(refresh)
-          val result = searchForSolution(assign(vals, minSq, d), refresh)
-          if (result.nonEmpty) return result
-        }
-        None
     }
   }
 
@@ -117,19 +91,18 @@ class Board(val initialData: Array[Array[Cell]]) {
     true
   }
 
-  private def doRefresh(refresh: Option[() => Unit]) {
+  def doRefresh(refresh: Option[() => Unit]) {
     if (refresh.isDefined) {
       setSolvedValues()
       refresh.get()
     }
   }
 
-  /**
-    * Assign a value to a square if possible.
+  /** Assign a value to a square if possible.
     * Eliminate all the other values (except d) from values[s] and propagate.
     * @return Some(values), except return None if a contradiction is detected.
     */
-  private def assign(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
+  def assign(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
     val otherValues: Set[Int] = values(s) - d
     var newValues: Option[ValueMap] = Some(values)
     for (d2 <- otherValues) {
@@ -139,8 +112,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     newValues
   }
 
-  /**
-    * Eliminate d from values[s]; propagate when values or places <= 2.
+  /** Eliminate d from values[s]; propagate when values or places <= 2.
     * @return Some(values), except return None if a contradiction is detected.
     */
   private def eliminate(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {

@@ -18,11 +18,11 @@ class SudokuSolver(puzzlePanel: Container = null) {
   /** Solves the puzzle.
     * This implements the main algorithm for solving the Sudoku puzzle.
     * @param board       puzzle to solve
-    * @return true if solved.
+    * @return number of iteraction or None if not solved.
     */
-  def solvePuzzle(board: Board): Boolean = {
+  def solvePuzzle(board: Board): Option[Int] = {
     val solved = board.solve(Some(refresh _))
-    if (solved) board.setSolvedValues()
+    if (solved.isDefined) board.setSolvedValues()
     solved
   }
 

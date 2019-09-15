@@ -58,15 +58,15 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   }
 
   def startSolving(solver: SudokuSolver) {
-    val solved = solver.solvePuzzle(getBoard)
-    showMessage(solved)
+    val iterations = solver.solvePuzzle(getBoard)
+    showMessage(iterations)
     inputListener.clear()
   }
 
-  private def showMessage(solved: Boolean) {
-    if (solved)
-      println("The final solution is shown. the number of iterations was:" + getBoard.numIterations)
-    else System.out.println("This puzzle is not solvable!")
+  private def showMessage(iterations: Option[Int]) {
+    if (iterations.isDefined)
+      println("The final solution is shown. the number of iterations was:" + iterations.get)
+    else println("This puzzle is not solvable!")
   }
 
   def generateNewPuzzle(generator: SudokuGenerator, size: Int) {

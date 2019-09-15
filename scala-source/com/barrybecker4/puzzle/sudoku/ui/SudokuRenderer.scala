@@ -40,7 +40,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     showCandidates = show
   }
 
-  /** This renders the current state of the Slider to the screen. */
+  /** This renders the current state of the Sudoku puzzle to the screen. */
   def render(g: Graphics, userEnteredValues: Map[Location, UserValue],
              currentFocusLocation: Location, width: Int, height: Int) {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
@@ -50,7 +50,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g.setColor (SudokuRenderer.BACKGROUND_COLOR)
     g.fillRect (0, 0, width, height)
     g.setColor (SudokuRenderer.TEXT_COLOR)
-    g.drawString ("Number of tries: " + board.numIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
+    // g.drawString ("Number of tries: " + board.numIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
     val len: Int = board.edgeLength
     var xpos: Int = 0
     var ypos: Int = 0

@@ -71,7 +71,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
   /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
   override def finalRefresh (path: Option[Seq[M]], position: Option[P], numTries: Long, elapsedMillis: Long): Unit = {
     if (path.isEmpty) {
-      System.out.println ("No Solution found!")
+      println ("No Solution found!")
     }
     else {
       System.out.println ("The number of steps in path to solution = " + path.get.size)

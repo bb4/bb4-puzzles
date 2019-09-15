@@ -39,27 +39,29 @@ class BoardSuite extends FunSuite with BeforeAndAfter {
 
   test("Easy to Solve") {
     board = new Board(TestData.SIMPLE_4)
-    board.solve()
+    val iterations = board.solve()
     assertTrue("Unexpectedly not solved", board.isSolved)
+    assertResult(Some(0)) { iterations }
   }
 
   test("Difficult to Solve") {
     board = new Board(TestData.DIFFICULT_9)
-    board.solve()
+    val iterations = board.solve()
     assertTrue("Unexpectedly not solved", board.isSolved)
+    assertResult(Some(33)) { iterations }
   }
 
   // We expect an exception if the board is inconsistent
   test("Impossible to Solve") {
 
     board = new Board(TestData.INCONSISTENT_9)
-    board.solve()
+    val iterations = board.solve()
     assertFalse("Unexpectedly soved impossible puzzle", board.isSolved)
   }
 
   test("Completely Solved") {
     board = new Board(TestData.SIMPLE_4_SOLVED)
-    board.solve()
+    val iterations = board.solve()
     assertTrue("Unexpectedly not solved", board.isSolved)
   }
 

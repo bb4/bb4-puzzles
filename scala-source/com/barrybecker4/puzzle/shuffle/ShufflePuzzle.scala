@@ -32,8 +32,8 @@ class ShufflePuzzle private() {
   private def shuffleUntilSorted(deck: Deck, iCut: Int) {
     val time = System.currentTimeMillis
     val numShuffles = deck.shuffleUntilSorted(iCut)
-    System.out.println("A sorted deck of " + deck.size + " cards, cut at " + iCut + " deep takes " + numShuffles + " perfect shuffles to restore the deck.")
-    System.out.println("time elapsed = " + (System.currentTimeMillis - time) + " milliseconds")
+    println("A sorted deck of " + deck.size + " cards, cut at " + iCut + " deep takes " + numShuffles + " perfect shuffles to restore the deck.")
+    println("time elapsed = " + (System.currentTimeMillis - time) + " milliseconds")
   }
 }
 
