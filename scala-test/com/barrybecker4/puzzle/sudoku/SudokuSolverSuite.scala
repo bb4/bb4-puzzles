@@ -46,6 +46,11 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     assertFalse("Solved impossible INVALID_9 puzzle. Should not have.", solved)
   }
 
+  test("HardNorvigPuzzle") {
+    solver = new SudokuSolver()
+    val solved = solver.solvePuzzle(new Board(NORVIG_HARD_9))
+    assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", solved)
+  }
 
   /** negative test case. Takes a very long time to determine that it is impossible *
   test("ImpossibleNorvigPuzzle") {

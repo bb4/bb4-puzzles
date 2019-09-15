@@ -33,7 +33,6 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   /**
     * Find a complete, consistent solution.
-    *
     * @return generated random board
     */
   def generatePuzzleBoard(board: Board): Board = {
@@ -53,7 +52,6 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   /**
     * Recursive method to generate a completely solved, consistent sudoku board.
     * If at any point we find that we have an inconsistent/unsolvable board, then backtrack.
-    *
     * @param board the currently generated board (may be partial)
     * @return whether or not the current board is consistent.
     */
@@ -95,7 +93,6 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   /**
     * Generate a sudoku puzzle that someone can solve. Do it by removing all the values you can and still
     * have a consistent board.
-    *
     * @param board the initially solved puzzle
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
     */

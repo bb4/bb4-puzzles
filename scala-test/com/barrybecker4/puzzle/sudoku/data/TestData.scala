@@ -91,6 +91,18 @@ object TestData {
     Array(0, 0, 0, 0, 0, 0, 0, 0, 4),
     Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
 
+  val NORVIG_HARD_9 = Array(
+    Array(0, 0, 0, 0, 0, 6, 0, 0, 0),
+    Array(0, 5, 9, 0, 0, 0, 0, 0, 8),
+    Array(2, 0, 0, 0, 0, 8, 0, 0, 0),
+    Array(0, 4, 5, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 3, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 6, 0, 0, 3, 0, 5, 4),
+    Array(0, 0, 0, 3, 2, 5, 0, 0, 6),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+  )
+
   /** Complex 16x16 puzzle from grandma */
   val COMPLEX_16 = Data.SAMPLE_16
 }

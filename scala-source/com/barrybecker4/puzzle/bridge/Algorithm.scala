@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
 
-
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
 case object SIMPLE_SEQUENTIAL extends Algorithm
@@ -23,7 +22,6 @@ case object CONCURRENT_OPTIMUM extends Algorithm
 
 /**
   * Type of solver to use.
-  *
   * @author Barry Becker
   */
 sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {

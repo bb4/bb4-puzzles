@@ -60,6 +60,7 @@ class Board(val initialData: Array[Array[Cell]]) {
 
     val b = new Board(initial)
     b.updateFromInitialData()
+
     if (b.isSolved) {
       initialData(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
       this.valuesMap = b.valuesMap
