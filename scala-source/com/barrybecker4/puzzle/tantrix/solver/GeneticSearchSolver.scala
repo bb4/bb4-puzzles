@@ -8,13 +8,10 @@ import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
-
-import scala.collection.Seq
 import scala.util.Random
 
 /**
   * Solve the Tantrix puzzle using a genetic search algorithm.
-  *
   * @author Barry Becker
   */
 class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePlacement], val useConcurrency: Boolean)
@@ -72,7 +69,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     * Shows the current status.
     * @param params optimized array of parameters representing tiles
     */
-  def optimizerChanged(params: ParameterArrayWithFitness) {
+  def optimizerChanged(params: ParameterArrayWithFitness): Unit = {
     // update our current best guess at the solution.
     val path = params.pa.asInstanceOf[TantrixPath]
     solution = new TantrixBoard(path.tiles, path.primaryPathColor)

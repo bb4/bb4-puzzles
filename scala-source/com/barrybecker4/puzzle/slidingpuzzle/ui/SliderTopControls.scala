@@ -24,7 +24,7 @@ case class SliderTopControls private[ui](
 
   private var sizeSelector: SizeSelector = _
 
-  override protected def addFirstRowControls(panel: JPanel) {
+  override protected def addFirstRowControls(panel: JPanel): Unit = {
     super.addFirstRowControls(panel)
     sizeSelector = new SizeSelector
     sizeSelector.addItemListener(this)
@@ -35,7 +35,7 @@ case class SliderTopControls private[ui](
   /** size choice selected.
     * @param e item event.
     */
-  override def itemStateChanged(e: ItemEvent) {
+  override def itemStateChanged(e: ItemEvent): Unit = {
     super.itemStateChanged(e)
     if (e.getSource eq sizeSelector)
       controller.asInstanceOf[SlidingPuzzleController].setSize(sizeSelector.getSelectedSize)

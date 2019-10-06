@@ -20,7 +20,7 @@ object PieceList {
   */
 case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
 
-  require(numTotal == 4 || numTotal == 9 || numTotal == 16, numTotal + " is not a valid number of pieces")
+  require(numTotal == 4 || numTotal == 9 || numTotal == 16, s"$numTotal is not a valid number of pieces")
   private val edgeLen = Math.sqrt(numTotal).toInt
 
 

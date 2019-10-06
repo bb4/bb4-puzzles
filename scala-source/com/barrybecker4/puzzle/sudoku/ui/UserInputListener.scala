@@ -21,7 +21,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
   private var listeners = List[RepaintListener]()
   clear()
 
-  def clear() {
+  def clear(): Unit = {
     userEnteredValues = HashMap[Location, UserValue]()
   }
 
@@ -29,14 +29,14 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
 
   private[ui] def getUserEnteredValues = userEnteredValues
 
-  def mouseClicked(e: MouseEvent) {
+  def mouseClicked(e: MouseEvent): Unit = {
     val location = locator.getCellCoordinates(e.getPoint)
     setCurrentLocation(location)
   }
 
   private def toTuple(loc: Location) = (loc.row + 1, loc.col + 1)
 
-  private[ui] def useCorrectEntriesAsOriginal(board: Board) {
+  private[ui] def useCorrectEntriesAsOriginal(board: Board): Unit = {
     for (location <- userEnteredValues.keySet) {
       val value = userEnteredValues.get(location)
       if (value.get.isValid)
@@ -49,7 +49,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     *
     * @param event the key event corresponding to key pressed.
     */
-  def keyPressed(event: KeyEvent) {
+  def keyPressed(event: KeyEvent): Unit = {
     val key = event.getKeyChar
     val keyCode = event.getKeyCode
     if (keyCode == KeyEvent.VK_ENTER) requestValidation()
@@ -67,7 +67,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     keyCode >= KeyEvent.VK_LEFT && keyCode <= KeyEvent.VK_DOWN ||
       keyCode >= KeyEvent.VK_KP_UP && keyCode <= KeyEvent.VK_KP_DOWN
 
-  private def handleArrowKey(keyCode: Int) {
+  private def handleArrowKey(keyCode: Int): Unit = {
     val location = keyCode match {
       case KeyEvent.VK_LEFT | KeyEvent.VK_KP_LEFT => currentCellLocation.incrementOnCopy(0, -1)
       case KeyEvent.VK_RIGHT | KeyEvent.VK_KP_RIGHT => currentCellLocation.incrementOnCopy(0, 1)
@@ -82,7 +82,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     *
     * @param location location
     */
-  private def setCurrentLocation(location: Location) {
+  private def setCurrentLocation(location: Location): Unit = {
     if (isValid(location)) {
       currentCellLocation = location
       notifyCellSelected(currentCellLocation)
@@ -94,7 +94,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     location != null && location.row >= 0 && location.row < n && location.col >= 0 && location.col < n
   }
 
-  private def handleValueEntry(key: Char) {
+  private def handleValueEntry(key: Char): Unit = {
     try {
       val value = ValueConverter.getValue(key, locator.board.edgeLength)
       val userValue = new UserValue(value)
@@ -105,7 +105,7 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     }
   }
 
-  private[ui] def validateValues(solvedPuzzle: Board) {
+  private[ui] def validateValues(solvedPuzzle: Board): Unit = {
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
@@ -114,11 +114,11 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
     }
   }
 
-  private[ui] def addRepaintListener(listener: RepaintListener) {
+  private[ui] def addRepaintListener(listener: RepaintListener): Unit = {
     listeners +:= listener
   }
 
-  def removeRepaintListener(listener: RepaintListener) {
+  def removeRepaintListener(listener: RepaintListener): Unit = {
     listeners = listeners.filter(_ != listener)
   }
 
@@ -128,10 +128,10 @@ final class UserInputListener private[ui](var locator: CellLocator) extends Mous
 
   private def requestValidation(): Unit = listeners.foreach(x => x.requestValidation())
 
-  def keyTyped(event: KeyEvent) {}
-  def keyReleased(e: KeyEvent) {}
-  def mousePressed(e: MouseEvent) {}
-  def mouseReleased(e: MouseEvent) {}
-  def mouseEntered(e: MouseEvent) {}
-  def mouseExited(e: MouseEvent) {}
+  def keyTyped(event: KeyEvent): Unit = {}
+  def keyReleased(e: KeyEvent): Unit = {}
+  def mousePressed(e: MouseEvent): Unit = {}
+  def mouseReleased(e: MouseEvent): Unit = {}
+  def mouseEntered(e: MouseEvent): Unit = {}
+  def mouseExited(e: MouseEvent): Unit = {}
 }

@@ -9,7 +9,6 @@ import scala.collection.mutable
 /**
   * Used to determine if a candidate solution has empty spaces within the tantrix.
   * A valid solution cannot have such spaces.
-  *
   * @param tantrix the tantrix state to test for solution.
   * @author Barry Becker
   */

@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.{Tantrix, TilePlacement}
 /**
   * Determines valid primary path fits for a specified tile relative to an existing set at a specific location.
   * This is less strict than tile fitter - which checks all paths.
-  *
   * @author Barry Becker
   */
 class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends AbstractFitter(primaryColor) {
@@ -17,13 +16,11 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     this(new Tantrix(tiles), primaryColor)
   }
 
-  /**
-    * The tile fits if the primary path fits against all neighbors.
+  /** The tile fits if the primary path fits against all neighbors.
     * All adjacent primary paths must match an edge on the tile being fit.
     * Check all the neighbors (that exist) and verify that, if that direction is a primary path output, then it matches.
     * If none of the neighbor edges has a primary path, then rotations where non-primary path edges touch those
     * neighbors are allowed as fits.
-    *
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
@@ -40,8 +37,7 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     true
   }
 
-  /**
-    * @param placement the tile to check for a valid fit.
+  /** @param placement the tile to check for a valid fit.
     * @return the number of primary path matches to neighboring tiles.
     */
   private def numPrimaryFits(placement: TilePlacement) = {

@@ -17,17 +17,11 @@ import com.barrybecker4.ui.util.GUIUtil
   *
   * @author Barry Becker
   */
-object TantrixPuzzle {
+object TantrixPuzzle extends App{
   private val DEFAULT_NUM_TILES = 7
-
-  /**
-    * use this to run as an application instead of an applet.
-    */
-  def main(args: Array[String]) {
-    val applet = new TantrixPuzzle(args)
-    // this will call applet.init() and start() methods instead of the browser
-    GUIUtil.showApplet(applet)
-  }
+  val applet = new TantrixPuzzle(args)
+  // this will call applet.init() and start() methods instead of the browser
+  GUIUtil.showApplet(applet)
 }
 
 final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard, TilePlacement] with ChangeListener {
@@ -65,7 +59,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     numTilesSelector
   }
 
-  def stateChanged(e: ChangeEvent) {
+  def stateChanged(e: ChangeEvent): Unit = {
     val tileNum = spinner.getValue.asInstanceOf[Integer]
     getController.setNumTiles(tileNum)
     setPrimaryColor(tileNum)

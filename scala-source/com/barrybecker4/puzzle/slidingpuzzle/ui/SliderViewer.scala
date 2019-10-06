@@ -23,7 +23,7 @@ final class SliderViewer(var doneListener: DoneListener)
 
   def getPath: List[SlideMove] = path
 
-  override def refresh(theBoard: SliderBoard, numTries: Long) {
+  override def refresh(theBoard: SliderBoard, numTries: Long): Unit = {
     board = theBoard
     if (numTries % 500 == 0) {
       makeSound()
@@ -32,25 +32,24 @@ final class SliderViewer(var doneListener: DoneListener)
     }
   }
 
-  override def finalRefresh(path: Option[Seq[SlideMove]], board: Option[SliderBoard], numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[SlideMove]], board: Option[SliderBoard],
+                            numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, board, numTries, millis)
     if (board.isDefined) showPath(path.get.toList, board.get)
   }
 
-  def makeMove(currentStep: Int, undo: Boolean) {
+  def makeMove(currentStep: Int, undo: Boolean): Unit = {
     board = board.doMove(getPath(currentStep))
     repaint()
   }
 
-  /**
-    * This renders the current state of the puzzle to the screen.
-    */
-  override protected def paintComponent(g: Graphics) {
+  /** This renders the current state of the puzzle to the screen. */
+  override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     if (board != null) renderer.render(g, board, getWidth, getHeight)
   }
 
-  private def showPath(thePath: List[SlideMove], theBoard: SliderBoard) {
+  private def showPath(thePath: List[SlideMove], theBoard: SliderBoard): Unit = {
     path = thePath
     board = theBoard
     if (doneListener != null) doneListener.done()

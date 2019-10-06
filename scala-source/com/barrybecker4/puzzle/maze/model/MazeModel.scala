@@ -15,7 +15,7 @@ class MazeModel(var width: Int, var height: Int) {
   val startPosition: Location = IntLocation(2, 2)
   var stopPosition: Location = _
 
-  def setDimensions(width: Int, height: Int) {
+  def setDimensions(width: Int, height: Int): Unit = {
     this.width = width
     this.height = height
     this.grid = createGrid(width, height)
@@ -39,7 +39,7 @@ class MazeModel(var width: Int, var height: Int) {
   }
 
   /** mark all the cells unvisited. */
-  def unvisitAll() {
+  def unvisitAll(): Unit = {
     for (j <- 0 until height; i <- 0 until width) {
       val c = grid(i)(j)
       c.clear()
@@ -47,12 +47,12 @@ class MazeModel(var width: Int, var height: Int) {
   }
 
   /** Set walls. Mark all the cells around the periphery as visited so there will be walls generated there */
-  private def setConstraints() {
+  private def setConstraints(): Unit = {
     setRightLeftConstraints()
     setTopAndBottomConstraints()
   }
 
-  private def setRightLeftConstraints() {
+  private def setRightLeftConstraints(): Unit = {
     for (j <- 0 until height) {
       // left
       var cell = grid(0)(j)
@@ -63,7 +63,7 @@ class MazeModel(var width: Int, var height: Int) {
     }
   }
 
-  private def setTopAndBottomConstraints() {
+  private def setTopAndBottomConstraints(): Unit = {
     for (i <- 0 until width) {
         // bottom
         var cell = grid(i)(0)

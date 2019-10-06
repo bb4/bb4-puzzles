@@ -9,30 +9,27 @@ import com.barrybecker4.common.math.MathUtil
   * http://www.oreillynet.com/pub/wlg/5094 (Scott's original link, now broken)
   * https://www.math.hmc.edu/funfacts/ffiles/20001.1-6.shtml
   * https://coderanch.com/t/35113/Card-Shuffle
-  *
   * @author Scott Sauyet
   */
-object Deck2 {
-  def main(args: Array[String]) {
-    assert(args.length == 2, "Usage: java Deck nCards iCut")
-    var cards = 1002
-    var cut = 101
-    try {
-      cards = args(0).toInt
-      cut = args(1).toInt
-    } catch {
-      case nfe: NumberFormatException =>
-        println("Arguments must be numeric.")
-        System.exit(2)
-    }
-    val start = System.currentTimeMillis
-    val deck = new Deck2(cards)
-    val result = deck.shuffleUntilSorted(cut)
-    val time = System.currentTimeMillis - start
-    println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
-      + " deep, takes " + result + " iterations to restore" + " the deck.")
-    println("Calculation performed in " + time + "ms.")
+object Deck2 extends App {
+  assert(args.length == 2, "Usage: java Deck nCards iCut")
+  var cards = 1002
+  var cut = 101
+  try {
+    cards = args(0).toInt
+    cut = args(1).toInt
+  } catch {
+    case nfe: NumberFormatException =>
+      println("Arguments must be numeric.")
+      System.exit(2)
   }
+  val start = System.currentTimeMillis
+  val deck = new Deck2(cards)
+  val result = deck.shuffleUntilSorted(cut)
+  val time = System.currentTimeMillis - start
+  println("A perfect shuffleUntilSorted on " + cards + " cards, cut " + cut
+    + " deep, takes " + result + " iterations to restore" + " the deck.")
+  println("Calculation performed in " + time + "ms.")
 }
 
 class Deck2(var count: Int) extends Deck {
@@ -49,7 +46,7 @@ class Deck2(var count: Int) extends Deck {
 
   def get(i: Int): Int = cards(i)
 
-  def doPerfectShuffle(theCut: Int) {
+  def doPerfectShuffle(theCut: Int): Unit = {
     val cut = theCut % count
     val top = new Array[Int](cut)
     System.arraycopy(cards, 0, top, 0, cut)

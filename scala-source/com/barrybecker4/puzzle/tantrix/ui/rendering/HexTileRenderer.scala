@@ -25,7 +25,7 @@ class HexTileRenderer() {
   private val pathRenderer = new PathRenderer
 
   /** Draw the tile */
-  def renderBorder(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double) {
+  def renderBorder(g2: Graphics2D, tilePlacement: TilePlacement, topLeftCorner: Location, radius: Double): Unit = {
     if (tilePlacement == null) return
     val isOddRow = tilePlacement.location.row % 2 == 1
     val location = tilePlacement.location.decrementOnCopy(topLeftCorner)
@@ -40,7 +40,7 @@ class HexTileRenderer() {
   }
 
   /** draw the outline for a tile */
-  def renderBorder(g2: Graphics2D, loc: Location, topLeftCorner: Location, radius: Double) {
+  def renderBorder(g2: Graphics2D, loc: Location, topLeftCorner: Location, radius: Double): Unit = {
 
     val location = loc.decrementOnCopy(topLeftCorner)
     val isOddRow = loc.row % 2 == 1
@@ -58,7 +58,8 @@ class HexTileRenderer() {
     pathRenderer.drawPath(g2, 2, tilePlacement, point, radius)
   }
 
-  private def drawTileNumber(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double, x: Double, y: Double) {
+  private def drawTileNumber(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double,
+                             x: Double, y: Double): Unit = {
     g2.setColor(Color.BLACK)
     g2.setFont(HexTileRenderer.TILE_FONT)
     val xpos = x.toInt - 2
@@ -69,7 +70,7 @@ class HexTileRenderer() {
     g2.drawString(s"(${loc.row}, ${loc.col})", xpos - 15, ypos - 12)
   }
 
-  private def drawHexagon(g2: Graphics2D, point: Point, radius: Double, filled: Boolean = true) {
+  private def drawHexagon(g2: Graphics2D, point: Point, radius: Double, filled: Boolean = true): Unit = {
     val numPoints = 7
     val xpoints = new Array[Int](numPoints)
     val ypoints = new Array[Int](numPoints)

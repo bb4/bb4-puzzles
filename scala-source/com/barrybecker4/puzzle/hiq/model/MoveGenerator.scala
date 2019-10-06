@@ -11,7 +11,7 @@ import com.barrybecker4.common.geometry.Location
 class MoveGenerator(var board: PegBoard) {
 
   /** @return List of all valid jumps for the current board state */
-  def generateMoves: List[PegMove] = {
+  def generateMoves: Seq[PegMove] = {
     var moves = List[PegMove]()
     val emptyLocations = board.getLocations(false)
     if (emptyLocations.isEmpty)

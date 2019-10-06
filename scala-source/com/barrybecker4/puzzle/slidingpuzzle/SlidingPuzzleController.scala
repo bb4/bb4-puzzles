@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
-import scala.collection.Seq
+
 
 /**
   * Sliding Puzzle Controller. See puzzle.common for puzzle framework classes.
@@ -27,7 +27,7 @@ class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
   algorithm = A_STAR_SEQUENTIAL
 
   /** @param size the edge length of the puzzle to be solved */
-  def setSize(size: Int) {
+  def setSize(size: Int): Unit = {
     initialPosition = new SliderBoard(size.toByte).shuffle()
     if (ui != null) ui.refresh(initialPosition, 0)
   }

@@ -38,7 +38,7 @@ object RedPuzzleRenderer {
   private val DIM = Math.sqrt(PieceList.DEFAULT_NUM_PIECES).toInt
 
   /** draw the borders around each piece. */
-  private def drawPieceBoundaryGrid(g: Graphics2D, dim: Int) {
+  private def drawPieceBoundaryGrid(g: Graphics2D, dim: Int): Unit = {
     var xpos = 0
     var ypos = 0
     val rightEdgePos = MARGIN + PIECE_SIZE * dim
@@ -56,7 +56,7 @@ object RedPuzzleRenderer {
   }
 
   /** Draw a puzzle piece at the specified location. */
-  private def drawPiece(g: Graphics, p: OrientedPiece, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
+  private def drawPiece(g: Graphics, p: OrientedPiece, col: Int, row: Int, nubChecks: Array[Array[Char]]): Unit = {
     val xpos = MARGIN + col * PIECE_SIZE + PIECE_SIZE / 9
     val ypos = MARGIN + row * PIECE_SIZE + 2 * PIECE_SIZE / 9
     g.setColor(PIECE_BACKGROUND_COLOR)
@@ -77,7 +77,7 @@ object RedPuzzleRenderer {
   }
 
   private def drawNub(g: Graphics, nub: Nub,
-                      xpos: Int, ypos: Int, dir: Direction, col: Int, row: Int, nubChecks: Array[Array[Char]]) {
+                      xpos: Int, ypos: Int, dir: Direction, col: Int, row: Int, nubChecks: Array[Array[Char]]): Unit = {
     var x = 0
     var y = 0
     val outy = nub.isOuty
@@ -131,7 +131,7 @@ object RedPuzzleRenderer {
   }
 
   /** draw a marker line to indicate the orientation. */
-  private def drawOrientationMarker(g: Graphics, p: OrientedPiece, xpos: Int, ypos: Int) {
+  private def drawOrientationMarker(g: Graphics, p: OrientedPiece, xpos: Int, ypos: Int): Unit = {
     val len2 = ORIENT_ARROW_LEN >> 1
     var x1 = 0
     var y1 = 0
@@ -182,7 +182,7 @@ object RedPuzzleRenderer {
 class RedPuzzleRenderer private[ui]() extends PuzzleRenderer[PieceList] {
 
   /** Renders the current state of the Slider to the screen. */
-  def render(g: Graphics, board: PieceList, width: Int, height: Int) {
+  def render(g: Graphics, board: PieceList, width: Int, height: Int): Unit = {
     RedPuzzleRenderer.drawPieceBoundaryGrid(g.asInstanceOf[Graphics2D], RedPuzzleRenderer.DIM)
     // use this to determine of there is a nub mismatch a a given location
     // allocates a little more space tha we actually use, but simpler this way.

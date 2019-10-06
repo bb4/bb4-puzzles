@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.tantrix.ui.rendering
 
 /**
   * Constants and static methods for working with hexagons
-  *
   * @author Barry Becker
   */
 object HexUtil {

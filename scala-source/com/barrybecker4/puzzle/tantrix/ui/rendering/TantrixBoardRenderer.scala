@@ -31,7 +31,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
   /**
     * This renders the current state of the TantrixBoard to the screen.
     */
-  def render(g: Graphics, board: TantrixBoard, width: Int, height: Int) {
+  def render(g: Graphics, board: TantrixBoard, width: Int, height: Int): Unit = {
     if (board == null) return
     val g2 = g.asInstanceOf[Graphics2D]
     val minEdge = Math.min(width, height)
@@ -49,14 +49,14 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     }
   }
 
-  private def setHints(g2: Graphics2D) {
+  private def setHints(g2: Graphics2D): Unit = {
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
   }
 
   /**
     * Draw the gridlines over the background.
     */
-  protected def drawGrid(g2: Graphics2D, topLeftCorner: Location) {
+  protected def drawGrid(g2: Graphics2D, topLeftCorner: Location): Unit = {
     val margin = (hexRadius / 2.0).toInt
     val hexWidth = ROOT3 * hexRadius
     //val rightEdgePos = (margin + hexWidth * edgeLen).toInt

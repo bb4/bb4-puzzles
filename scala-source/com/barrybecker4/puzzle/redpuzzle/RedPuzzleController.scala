@@ -1,17 +1,12 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle
 
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.search.Refreshable
-import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList, PieceLists}
 import com.barrybecker4.puzzle.redpuzzle.solver.BRUTE_FORCE_ORIGINAL
-import com.barrybecker4.puzzle.redpuzzle.model.PieceList.DEFAULT_NUM_PIECES
 
-import scala.collection.Seq
 
 /**
   * The controller allows the solver to do its thing by providing the PuzzleController API.
@@ -63,7 +58,7 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
 
   def transition(position: PieceList, move: OrientedPiece): PieceList = {
     // To make a move, simple add the piece to the end of our list
-    assert(position.fits(move), move + " does not fit in  " + position)
+    assert(position.fits(move), s"$move does not fit in  $position")
     position.add(move)
   }
 }

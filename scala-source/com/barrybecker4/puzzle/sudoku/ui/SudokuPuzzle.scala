@@ -12,14 +12,10 @@ import com.barrybecker4.ui.util.GUIUtil
   * This program can generate and solve Sudoku puzzles.
   * @author Barry Becker
   */
-object SudokuPuzzle {
-
-  /** use this to run as an application instead of an applet. */
-  def main(args: Array[String]) {
-    val applet = new SudokuPuzzle
-    // this will call applet.init() and start() methods instead of the browser
-    GUIUtil.showApplet(applet)
-  }
+object SudokuPuzzle extends App {
+  val applet = new SudokuPuzzle
+  // this will call applet.init() and start() methods instead of the browser
+  GUIUtil.showApplet(applet)
 }
 
 /** Construct the application and set the look and feel. */
@@ -31,7 +27,7 @@ final class SudokuPuzzle() extends JApplet {
     * Create and initialize the puzzle.
     * (init required for applet)
     */
-  override def init() {
+  override def init(): Unit = {
     val puzzlePanel = new SudokuPanel(Data.SIMPLE_9)
     val controller = new SudokuController(puzzlePanel)
     val topControls = new TopControlPanel(controller)
@@ -42,7 +38,7 @@ final class SudokuPuzzle() extends JApplet {
   }
 
   /** Called by the browser after init(), if running as an applet. */
-  override def start() {
+  override def start(): Unit = {
     SwingUtilities.invokeLater(() => getContentPane.repaint())
   }
 

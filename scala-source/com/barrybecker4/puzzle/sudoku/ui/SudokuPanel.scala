@@ -26,17 +26,17 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
     this(new Board(initialData))
   }
 
-  def setBoard(b: Board) {
+  def setBoard(b: Board): Unit = {
     renderer.board = b
   }
 
-  def setShowCandidates(show: Boolean) {
+  def setShowCandidates(show: Boolean): Unit = {
     renderer.setShowCandidates(show)
     repaint()
   }
 
   /** Mark the users values as correct or not. */
-  def validatePuzzle() {
+  def validatePuzzle(): Unit = {
     inputListener.validateValues(getSolvedPuzzle)
     inputListener.useCorrectEntriesAsOriginal(getBoard)
     repaint()
@@ -52,36 +52,36 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   /** Reset to new puzzle with specified initial data.
     * @param initialData starting values.
     */
-  def reset(initialData: Array[Array[Int]]) {
+  def reset(initialData: Array[Array[Int]]): Unit = {
     renderer.board = new Board(initialData)
     repaint()
   }
 
-  def startSolving(solver: SudokuSolver) {
+  def startSolving(solver: SudokuSolver): Unit = {
     val iterations = solver.solvePuzzle(getBoard)
     showMessage(iterations)
     inputListener.clear()
   }
 
-  private def showMessage(iterations: Option[Int]) {
+  private def showMessage(iterations: Option[Int]): Unit = {
     if (iterations.isDefined)
       println("The final solution is shown. the number of iterations was:" + iterations.get)
     else println("This puzzle is not solvable!")
   }
 
-  def generateNewPuzzle(generator: SudokuGenerator, size: Int) {
+  def generateNewPuzzle(generator: SudokuGenerator, size: Int): Unit = {
     inputListener.clear()
     renderer.board = generator.generatePuzzleBoard(new Board(size))
     repaint()
   }
 
   def getBoard: Board = renderer.board
-  def valueEntered() { repaint() }
-  def cellSelected(location: Location) { repaint() }
-  def requestValidation() { validatePuzzle() }
+  def valueEntered(): Unit = { repaint() }
+  def cellSelected(location: Location): Unit = { repaint() }
+  def requestValidation(): Unit = { validatePuzzle() }
 
   /** This renders the current state of the PuzzlePanel to the screen. */
-  override protected def paintComponent(g: Graphics) {
+  override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponents(g)
     renderer.render(g, inputListener.getUserEnteredValues, inputListener.getCurrentCellLocation, getWidth, getHeight)
     // without this we do not get key events.

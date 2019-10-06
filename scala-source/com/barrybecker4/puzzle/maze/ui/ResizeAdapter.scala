@@ -7,13 +7,12 @@ import java.awt.event.ComponentEvent
 
 /**
   * Called whenever the maze window resizes. Avoids redrawing if the size did not change.
-  *
   * @author Barry Becker
   */
 class ResizeAdapter private[ui](var mazePanel: MazePanel, var topControls: TopControlPanel) extends ComponentAdapter {
   private var oldSize: Dimension = _
 
-  override def componentResized(ce: ComponentEvent) {
+  override def componentResized(ce: ComponentEvent): Unit = {
     // only resize if the dimensions have changed
     val newSize: Dimension = mazePanel.getSize
     val changedSize = oldSize == null || oldSize.getWidth != newSize.getWidth || oldSize.getHeight != newSize.getHeight

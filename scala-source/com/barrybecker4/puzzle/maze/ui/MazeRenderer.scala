@@ -25,7 +25,7 @@ object MazeRenderer {
   private val PATH_LINE_WIDTH = 14
   private val DEFAULT_CELL_SIZE = 40
 
-  private def drawChar(c: String, pos: Location, cellSize: Int, g2: Graphics2D) {
+  private def drawChar(c: String, pos: Location, cellSize: Int, g2: Graphics2D): Unit = {
     if (pos != null) g2.drawString(c, ((pos.getX + 0.32) * cellSize).toInt, ((pos.getY + 0.76) * cellSize).toInt)
   }
 }
@@ -38,7 +38,7 @@ class MazeRenderer() {
   private var pathStroke: BasicStroke = _
   private var textFont: Font = _
 
-  def setCellSize(size: Int) {
+  def setCellSize(size: Int): Unit = {
     cellSize = size
     halfCellSize = (cellSize / 2.0).toInt
     val lineWidth = (MazeRenderer.WALL_LINE_WIDTH * cellSize / 30.0).toInt
@@ -50,7 +50,7 @@ class MazeRenderer() {
   }
 
   /** Render the Environment on the screen. */
-  def render(g2: Graphics2D, maze: MazeModel) {
+  def render(g2: Graphics2D, maze: MazeModel): Unit = {
     if (maze == null) return
     drawBackground(g2, maze)
     drawVisitedCells(g2, maze)
@@ -59,14 +59,14 @@ class MazeRenderer() {
     drawStartFinish(g2, maze)
   }
 
-  private def drawBackground(g2: Graphics2D, maze: MazeModel) {
+  private def drawBackground(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setColor(MazeRenderer.BG_COLOR)
     val width = maze.width
     val height = maze.height
     g2.fillRect(0, 0, cellSize * width, cellSize * height)
   }
 
-  private def drawVisitedCells(g2: Graphics2D, maze: MazeModel) {
+  private def drawVisitedCells(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setColor(MazeRenderer.VISITED_COLOR)
     for (j <- 0 until maze.height) {
       for (i <- 0 until maze.width) {
@@ -82,7 +82,7 @@ class MazeRenderer() {
     }
   }
 
-  private def drawWalls(g2: Graphics2D, maze: MazeModel) {
+  private def drawWalls(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setStroke(wallStroke)
     g2.setColor(MazeRenderer.WALL_COLOR)
     for (j <- 0 until maze.height) {
@@ -97,7 +97,7 @@ class MazeRenderer() {
     }
   }
 
-  private def drawPath(g2: Graphics2D, maze: MazeModel) {
+  private def drawPath(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setStroke(pathStroke)
     g2.setColor(MazeRenderer.PATH_COLOR)
     for (j <- 0 until maze.height) {
@@ -114,7 +114,7 @@ class MazeRenderer() {
     }
   }
 
-  private def drawStartFinish(g2: Graphics2D, maze: MazeModel) {
+  private def drawStartFinish(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setFont(textFont)
     g2.setColor(MazeRenderer.TEXT_COLOR)
     MazeRenderer.drawChar("S", maze.startPosition, cellSize, g2)

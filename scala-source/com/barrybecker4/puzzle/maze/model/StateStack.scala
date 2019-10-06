@@ -31,7 +31,7 @@ class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)
     * Assigning different probabilities to the order in which we check these directions
     * can give interesting effects.
     */
-  def pushMoves(currentPosition: Location, currentDir: Location, depth: Int) {
+  def pushMoves(currentPosition: Location, currentDir: Location, depth: Int): Unit = {
     val directions = probabilities.getShuffledDirections
     // check all the directions except the one we came from
     for (direction <- directions.reverse) {

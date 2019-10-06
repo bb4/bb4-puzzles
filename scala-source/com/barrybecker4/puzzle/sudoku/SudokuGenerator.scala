@@ -79,7 +79,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     false
   }
 
-  private def refresh() {
+  private def refresh(): Unit = {
     if (ppanel == null) return
     if (delay < 0) {
       if (Math.random() < 0.05) ppanel.repaint()
@@ -90,8 +90,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     }
   }
 
-  /**
-    * Generate a sudoku puzzle that someone can solve. Do it by removing all the values you can and still
+  /** Generate a sudoku puzzle that someone can solve. Do it by removing all the values you can and still
     * have a consistent board.
     * @param board the initially solved puzzle
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
@@ -109,8 +108,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     board
   }
 
-  /**
-    * @param size the base size (fourth root of the number of cells).
+  /** @param size the base size (fourth root of the number of cells).
     * @return the positions on the board in a random order in a list .
     */
   private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[(Int, Int)] = {

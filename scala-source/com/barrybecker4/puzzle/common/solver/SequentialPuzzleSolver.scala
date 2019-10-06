@@ -2,7 +2,6 @@ package com.barrybecker4.puzzle.common.solver
 
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.model.PuzzleNode
-import scala.collection.Seq
 import scala.collection.mutable
 
 

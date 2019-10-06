@@ -13,7 +13,6 @@ object HexTiles {
 
 /**
   * The complete set of hexagonal tantrix tiles. There are 56 of them.
-  *
   * @author Barry Becker
   */
 class HexTiles()  {

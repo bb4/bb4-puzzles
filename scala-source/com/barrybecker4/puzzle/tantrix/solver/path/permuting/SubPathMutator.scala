@@ -61,7 +61,7 @@ abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
     for (rot <- outgoingPathLocations.keySet) {
       if (outgoingPathLocations(rot) == location) return rot
     }
-    assert(false, location + " was not on an outgoing path from " + sourcePlacement)
+    assert(assertion = false, s"$location was not on an outgoing path from $sourcePlacement")
     -1
   }
 }

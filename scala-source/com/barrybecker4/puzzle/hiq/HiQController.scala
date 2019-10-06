@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.hiq.model.MoveGenerator
 import com.barrybecker4.puzzle.hiq.model.PegBoard
 import com.barrybecker4.puzzle.hiq.model.PegMove
 import collection.mutable
-import scala.collection.Seq
 
 /**
   * HiQ Puzzle Controller.

@@ -102,7 +102,8 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
   /**
     * Check first that it is not in our global cache of paths already considered.
     */
-  private def addAllPermutedPaths(pathsToAdd: ListBuffer[TantrixPath], permutedPaths: ListBuffer[TantrixPath]) {
+  private def addAllPermutedPaths(pathsToAdd: ListBuffer[TantrixPath],
+                                  permutedPaths: ListBuffer[TantrixPath]): Unit = {
     for (p <- pathsToAdd) {
       addPermutedPath(p, permutedPaths)
     }
@@ -111,7 +112,7 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
   /**
     * Check first that it is not in our global cache of paths already considered.
     */
-  private def addPermutedPath(pathToAdd: TantrixPath, permutedPaths: ListBuffer[TantrixPath]) {
+  private def addPermutedPath(pathToAdd: TantrixPath, permutedPaths: ListBuffer[TantrixPath]): Unit = {
     if (!CACHE.contains(pathToAdd)) {
       permutedPaths.append(pathToAdd)
       CACHE(pathToAdd)

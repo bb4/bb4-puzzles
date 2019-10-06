@@ -29,13 +29,13 @@ class MazeCell() {
   }
 
   /** return to initial state. */
-  def clear() {
+  def clear(): Unit = {
     clearPath()
     visited = false
     depth = 0
   }
 
-  def clearPath() {
+  def clearPath(): Unit = {
     eastPath = false
     westPath = false
     northPath = false

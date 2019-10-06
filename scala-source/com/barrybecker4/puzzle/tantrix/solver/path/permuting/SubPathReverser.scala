@@ -23,7 +23,7 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
     */
   def mutate(pivotTile: TilePlacement, subPath: TantrixPath): TantrixPath = {
     val tiles: ListBuffer[TilePlacement] = new ListBuffer[TilePlacement]()
-    val subPathTiles = subPath.tiles.to[ListBuffer]
+    val subPathTiles = subPath.tiles //.to[ListBuffer]
     val lastTile = subPathTiles.last
     val outgoingDirection = findDirectionAwayFromLast(subPathTiles, lastTile, pivotTile)
     var newLocation = subPathTiles.head.location
@@ -48,7 +48,7 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
         origLocation = previousTilePlacement.location
         previousTilePlacement = currentTilePlacement
     }
-    new TantrixPath(tiles, primaryColor)
+    new TantrixPath(tiles.toSeq, primaryColor)
   }
 
   /**
@@ -56,7 +56,7 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
     * @param lastTile     the last tile in the path
     * @return the direction leading away from the tile right before it in the path.
     */
-  private def findDirectionAwayFromLast(subPathTiles: ListBuffer[TilePlacement], lastTile: TilePlacement,
+  private def findDirectionAwayFromLast(subPathTiles: Seq[TilePlacement], lastTile: TilePlacement,
                                         pivotTile: TilePlacement): Int = {
     var outgoing = lastTile.getOutgoingPathLocations(primaryColor)
     val directionToPrev = if (subPathTiles.size > 1)

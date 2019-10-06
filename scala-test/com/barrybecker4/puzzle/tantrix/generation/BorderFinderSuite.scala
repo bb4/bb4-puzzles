@@ -88,7 +88,7 @@ class BorderFinderSuite extends FunSuite {
     verifyBorderLocations(IntLocation(21, 22))
   }
 
-  private def verifyBorderLocations(locations: IntLocation*) {
+  private def verifyBorderLocations(locations: IntLocation*): Unit = {
     val positions = borderFinder.findBorderPositions
     assertEquals("Unexpected number of border locations.", locations.toSet, positions)
   }

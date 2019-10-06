@@ -7,9 +7,7 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles._
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
-import org.scalatest.{BeforeAndAfter, FunSuite}
-
-import scala.collection.mutable.ListBuffer
+import org.scalatest.FunSuite
 import scala.util.Random
 
 /**
@@ -100,7 +98,7 @@ class TantrixPathSuite extends FunSuite {
     val nbr = path.getRandomNeighbor(0.5).asInstanceOf[TantrixPath]
     //println("nbr = " + nbr.toString)
 
-    val tiles = ListBuffer(
+    val tiles = Seq(
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
@@ -115,7 +113,7 @@ class TantrixPathSuite extends FunSuite {
     val nbr = path.getRandomNeighbor(1.0).asInstanceOf[TantrixPath]
     //println("nbr = " + nbr.toString)
 
-    val tiles = ListBuffer(
+    val tiles = Seq(
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))

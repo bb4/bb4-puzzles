@@ -23,7 +23,7 @@ class MazeSolver(var panel: MazePanel) {
   private var interrupted: Boolean = false
 
   /** Stop current work and clear the search stack of states. */
-  def interrupt () {
+  def interrupt(): Unit = {
     interrupted = true
     stack.clear ()
   }
@@ -32,7 +32,7 @@ class MazeSolver(var panel: MazePanel) {
     * Do a depth first search (without recursion) of the grid space to determine the solution to the maze.
     * Very similar to search (see MazeGenerator), but now we are solving it.
     */
-  def solve () {
+  def solve(): Unit = {
     isWorking = true
     interrupted = false
     maze.unvisitAll()
@@ -43,7 +43,7 @@ class MazeSolver(var panel: MazePanel) {
   }
 
   /** Keep track of the current path, since backtracking along it may be necessary if we encounter a dead end. */
-  private def findSolution() {
+  private def findSolution(): Unit = {
     var solutionPath: List[Location] = List()
     var currentPosition: Location = maze.startPosition
     var currentCell: MazeCell = maze.getCell(currentPosition)
@@ -93,7 +93,7 @@ class MazeSolver(var panel: MazePanel) {
   }
 
   private def advanceToNextCell(currentCell: MazeCell, dir: Location, depth: Int,
-                                 nextPosition: Location, nextCell: MazeCell) {
+                                 nextPosition: Location, nextCell: MazeCell): Unit = {
     var currentPosition: Location = null
     if (dir.getX == 1) {   // east
       currentCell.eastPath = true

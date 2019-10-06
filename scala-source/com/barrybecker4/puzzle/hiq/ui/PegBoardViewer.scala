@@ -23,14 +23,15 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
 
   def getPath: List[PegMove] = path
 
-  override def refresh(board: PegBoard, numTries: Long) {
+  override def refresh(board: PegBoard, numTries: Long): Unit = {
     if (numTries % 4000 == 0) {
       status = createStatusMessage(numTries)
       simpleRefresh(board, numTries)
     }
   }
 
-  override def finalRefresh(path: Option[Seq[PegMove]], board: Option[PegBoard], numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[PegMove]], board: Option[PegBoard],
+                            numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, board, numTries, millis)
     if (board.isDefined) {
       makeSound()
@@ -38,18 +39,18 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     }
   }
 
-  def makeMove(currentStep: Int, undo: Boolean) {
+  def makeMove(currentStep: Int, undo: Boolean): Unit = {
     board = board.doMove(getPath(currentStep), undo)
     repaint()
   }
 
   /** This renders the current state of the puzzle to the screen. */
-  override protected def paintComponent(g: Graphics) {
+  override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     renderer.render(g, board, getWidth, getHeight)
   }
 
-  def showPath(thePath: List[PegMove], theBoard: PegBoard) {
+  def showPath(thePath: List[PegMove], theBoard: PegBoard): Unit = {
     path = thePath
     board = theBoard
     if (doneListener != null) doneListener.done()

@@ -5,7 +5,7 @@ import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.bridge.model._
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import InitialConfiguration.CONFIGURATIONS
-import scala.collection.{Seq, mutable}
+import scala.collection.mutable
 
 /**
   * Bridge crossing Puzzle Controller.
@@ -25,7 +25,7 @@ class BridgePuzzleController(ui: Refreshable[Bridge, BridgeMove])
   if (ui != null) ui.refresh(initialPosition, 0)
 
 
-  def setConfiguration(config: Array[Int]) {
+  def setConfiguration(config: Array[Int]): Unit = {
     initialPosition = new Bridge(config)
     if (ui != null) ui.refresh(initialPosition, 0)
   }

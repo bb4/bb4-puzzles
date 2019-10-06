@@ -4,12 +4,8 @@ package com.barrybecker4.puzzle.bridge
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.model._
-
-import scala.collection.Seq
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
 
@@ -20,11 +16,11 @@ import org.scalatest.{BeforeAndAfterAll, FunSuite}
   */
 class SolvingSuite extends FunSuite with BeforeAndAfterAll {
 
-  override def beforeAll() {
+  override def beforeAll(): Unit = {
     AppContext.injectMessageContext(new StubMessageContext)
   }
 
-  override def afterAll() {
+  override def afterAll(): Unit = {
     AppContext.injectMessageContext(null)
   }
 
@@ -53,7 +49,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfterAll {
   }*/
 
   @throws[Exception]
-  private def runSolvingTests(algorithm: Algorithm) {
+  private def runSolvingTests(algorithm: Algorithm): Unit =  {
     val controller = new BridgePuzzleController(null)
     for (testCase <- InitialConfiguration.CONFIGURATIONS) {
       controller.setConfiguration(testCase.peopleSpeeds)

@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.SIMPLE_SEQUENTIAL
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
-import scala.collection.Seq
+
 
 /**
   * The controller allows the solver to do its thing by providing the PuzzleController api.
@@ -31,7 +31,7 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
   private var numTiles = TantrixController.MIN_NUM_TILES
   private val evaluator = new PathEvaluator
 
-  def setNumTiles(numTiles: Int) {
+  def setNumTiles(numTiles: Int): Unit = {
     this.numTiles = numTiles
   }
 

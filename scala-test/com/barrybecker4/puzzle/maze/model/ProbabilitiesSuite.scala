@@ -20,7 +20,7 @@ class ProbabilitiesSuite extends FunSuite with BeforeAndAfter  {
 
   @Test
   @throws[Exception]
-  def testEqualProbabilities() {
+  def testEqualProbabilities(): Unit = {
     probs = Probabilities(1.0, 1.0, 1.0)
     val expDist = new DistributionMap(List(43, 28, 29), List(57, 22, 21), List(0, 50, 50))
     assertEquals("Unexpected distribution", expDist, getDistribution(100))
@@ -28,7 +28,7 @@ class ProbabilitiesSuite extends FunSuite with BeforeAndAfter  {
 
   @Test
   @throws[Exception]
-  def testSkewForwardProbabilities() {
+  def testSkewForwardProbabilities(): Unit = {
     probs = Probabilities(3.0, 1.0, 1.0)
     val expDist = new DistributionMap(List(115, 25, 60), List(85, 60, 55), List(0, 115, 85))
     assertEquals("Unexpected distribution", expDist, getDistribution(200))
@@ -36,7 +36,7 @@ class ProbabilitiesSuite extends FunSuite with BeforeAndAfter  {
 
   @Test
   @throws[Exception]
-  def testSkewLeftProbabilities() {
+  def testSkewLeftProbabilities(): Unit = {
     probs = Probabilities(0.9, 1.9, 0.1)
     val expDist = new DistributionMap(List(61, 17, 122), List(139, 2, 59), List(0, 181, 19))
     assertEquals("Unexpected distribution", expDist, getDistribution(200))
@@ -44,7 +44,7 @@ class ProbabilitiesSuite extends FunSuite with BeforeAndAfter  {
 
   @Test
   @throws[Exception]
-  def testSkewRightProbabilities() {
+  def testSkewRightProbabilities(): Unit = {
     probs = Probabilities(0.1, 0.5, 8.0)
     val expDist = new DistributionMap(List(3, 172, 25), List(101, 25, 74), List(96, 3, 101))
     assertEquals("Unexpected distribution", expDist, getDistribution(200))

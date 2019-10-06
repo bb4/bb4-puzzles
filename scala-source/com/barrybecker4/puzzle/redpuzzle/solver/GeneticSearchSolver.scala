@@ -7,10 +7,7 @@ import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceParameterArray}
-
-import scala.collection.Seq
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
-
 import scala.util.Random
 
 /**
@@ -70,7 +67,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     * Shows the current status. Update our current best guess at the solution.
     * @param params optimization parameters
     */
-  def optimizerChanged(params: ParameterArrayWithFitness) {
+  def optimizerChanged(params: ParameterArrayWithFitness): Unit = {
     solution = params.pa.asInstanceOf[PieceParameterArray].getPieceList
     numTries += 1
     puzzle.refresh(solution, numTries)

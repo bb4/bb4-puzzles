@@ -15,7 +15,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
   def validatePuzzle(): Unit = puzzlePanel.validatePuzzle()
 
-  def generatePuzzle(delay: Int, size: Int) {
+  def generatePuzzle(delay: Int, size: Int): Unit = {
 
     val worker: Worker = new Worker() {
 
@@ -27,7 +27,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
         None
       }
 
-      override def finished() {
+      override def finished(): Unit = {
         puzzlePanel.repaint()
         puzzlePanel.setCursor(Cursor.getDefaultCursor)
       }
@@ -35,7 +35,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
     worker.start()
   }
 
-  def solvePuzzle(delay: Int) {
+  def solvePuzzle(delay: Int): Unit = {
     val worker: Worker = new Worker() {
       def construct: AnyRef = {
         val solver: SudokuSolver = new SudokuSolver(puzzlePanel)
@@ -44,7 +44,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
         None
       }
 
-      override def finished() {
+      override def finished(): Unit = {
         puzzlePanel.repaint()
       }
     }

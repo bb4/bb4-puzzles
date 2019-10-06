@@ -1,11 +1,9 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-
 import com.barrybecker4.common.geometry.ByteLocation
-import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
+import org.junit.Assert.assertEquals
 import org.scalatest.{BeforeAndAfter, FunSuite}
-
 import scala.collection.immutable.HashSet
 import scala.util.Random
 

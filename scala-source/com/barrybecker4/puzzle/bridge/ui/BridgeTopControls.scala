@@ -26,7 +26,7 @@ final class BridgeTopControls(controller: PuzzleController[Bridge, BridgeMove],
   extends TopControlPanel[Bridge, BridgeMove](controller, algorithmValues) with ItemListener {
   private var configurationSelector: Choice = _
 
-  override protected def addFirstRowControls(panel: JPanel) {
+  override protected def addFirstRowControls(panel: JPanel): Unit = {
     super.addFirstRowControls(panel)
     configurationSelector = new Choice()
     CONFIGURATIONS.map(_.label).foreach(configurationSelector.add)
@@ -40,7 +40,7 @@ final class BridgeTopControls(controller: PuzzleController[Bridge, BridgeMove],
     *
     * @param e item event.
     */
-  override def itemStateChanged(e: ItemEvent) {
+  override def itemStateChanged(e: ItemEvent): Unit = {
     super.itemStateChanged(e)
     if (e.getSource eq configurationSelector) {
       val people = CONFIGURATIONS(configurationSelector.getSelectedIndex).peopleSpeeds

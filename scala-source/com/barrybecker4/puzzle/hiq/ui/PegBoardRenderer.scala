@@ -30,7 +30,7 @@ object PegBoardRenderer {
 class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
 
   /** This renders the current state of the Slider to the screen. */
-  def render(g: Graphics, board: PegBoard, width: Int, height: Int) {
+  def render(g: Graphics, board: PegBoard, width: Int, height: Int): Unit = {
     val size = PegBoard.SIZE
     val rightEdgePos = PegBoardRenderer.LEFT_MARGIN + 3 * PegBoardRenderer.INC * size
     val bottomEdgePos = PegBoardRenderer.TOP_MARGIN + 3 * PegBoardRenderer.INC * size
@@ -41,7 +41,7 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
   }
 
   /** draw the hatches which delineate the cells */
-  private def drawGrid(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int) {
+  private def drawGrid(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int): Unit = {
     var ypos = 0
     var xpos = 0
     g.setColor(Color.darkGray)
@@ -55,7 +55,7 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
     }
   }
 
-  private def drawPegLocation(g: Graphics, board: PegBoard, row: Byte, col: Byte) {
+  private def drawPegLocation(g: Graphics, board: PegBoard, row: Byte, col: Byte): Unit = {
     var xpos = 0
     var ypos = 0
     xpos = PegBoardRenderer.LEFT_MARGIN + col * 3 * PegBoardRenderer.INC + PegBoardRenderer.INC / 3

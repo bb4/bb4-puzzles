@@ -34,7 +34,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     * This renders the current state of the Bridge1 to the screen.
     * Show the people that have not yet crossed on the left; those that have on the right.
     */
-  def render(g: Graphics, board: Bridge, width: Int, height: Int) {
+  def render(g: Graphics, board: Bridge, width: Int, height: Int): Unit = {
     render(g, board, None, width, height)
   }
 
@@ -42,7 +42,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     * This renders the current state of the Bridge1 to the screen.
     * Show the people that have not yet crossed on the left; those that have on the right.
     */
-  def render(g: Graphics, board: Bridge, lastMove: Option[BridgeMove], width: Int, height: Int) {
+  def render(g: Graphics, board: Bridge, lastMove: Option[BridgeMove], width: Int, height: Int): Unit = {
     drawBridge(g)
     drawPeople(g, board.uncrossed, MARGIN)
     drawPeople(g, board.crossed, MARGIN + TEXT_WIDTH + BRIDGE_WIDTH)
@@ -53,7 +53,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
   /**
     * Draw the bridge that the people will cross with the light
     */
-  private def drawBridge(g: Graphics) {
+  private def drawBridge(g: Graphics): Unit = {
     val leftX = MARGIN + TEXT_WIDTH
     val rightX = leftX + BridgeRenderer.BRIDGE_WIDTH
     g.setColor(Color.darkGray)
@@ -63,7 +63,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     }
   }
 
-  private def drawPeople(g: Graphics, people: List[Int], xpos: Int) {
+  private def drawPeople(g: Graphics, people: List[Int], xpos: Int): Unit = {
     g.setColor(Color.BLACK)
     g.setFont(FONT)
     val peopleListString = people.toString
@@ -78,7 +78,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
     }
   }
 
-  private def drawLight(g: Graphics, isLightCrossed: Boolean) {
+  private def drawLight(g: Graphics, isLightCrossed: Boolean): Unit = {
     val leftPos = MARGIN + 20
     val rightPos = MARGIN + TEXT_WIDTH + BRIDGE_WIDTH + 20
     val xpos = if (isLightCrossed) rightPos else leftPos

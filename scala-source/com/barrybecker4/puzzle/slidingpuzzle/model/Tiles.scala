@@ -93,7 +93,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
     var str = ""
     for (i <- 0 until size) {
       for (j <- 0 until size) {
-        str += get(i, j) + " "
+        str += s"${get(i, j)} "
       }
       str += "\n"
     }

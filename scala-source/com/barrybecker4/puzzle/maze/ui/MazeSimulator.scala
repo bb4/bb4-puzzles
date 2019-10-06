@@ -9,14 +9,11 @@ import java.awt._
 
 /**
   * A maze generator and solver application.
-  *
   * @author Barry Becker
   */
-object MazeSimulator {
-  def main(args: Array[String]) {
-    val simulator = new MazeSimulator
-    GUIUtil.showApplet(simulator)
-  }
+object MazeSimulator extends App {
+  val simulator = new MazeSimulator
+  GUIUtil.showApplet(simulator)
 }
 
 class MazeSimulator() extends ApplicationApplet {

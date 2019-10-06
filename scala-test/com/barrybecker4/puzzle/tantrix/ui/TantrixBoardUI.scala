@@ -1,7 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
-
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui
 
 import java.awt._
@@ -13,16 +10,11 @@ import com.barrybecker4.ui.util.GUIUtil
 
 /**
   * An app that tries to demonstrate the use of most of the UI components in this package.
-  *
   * @author Barry Becker
   */
-object TantrixBoardUI {
-
-  @throws[Exception]
-  def main(args: Array[String]) {
+object TantrixBoardUI extends App {
     val applet = new TantrixBoardUI
     GUIUtil.showApplet(applet)
-  }
 }
 
 class TantrixBoardUI() extends ApplicationApplet {
@@ -34,9 +26,7 @@ class TantrixBoardUI() extends ApplicationApplet {
 
     mainPanel.setLayout(new BorderLayout)
     mainPanel.add(gridPanel, BorderLayout.CENTER)
-
     gridPanel.refresh(board, 0)
-
     mainPanel
   }
 
@@ -46,6 +36,6 @@ class TantrixBoardUI() extends ApplicationApplet {
     resources
   }
 
-  protected def createUI() {
+  protected def createUI(): Unit = {
   }
 }

@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.PathRenderer._
 
 /**
   * Renders a single tantrix tilePlacement. The placement has position and orientation.
-  *
   * @author Barry Becker
   */
 object PathRenderer {
@@ -36,7 +35,7 @@ class PathRenderer private[rendering]() {
     * @param pathNumber there are 3 paths on a tile (0, 1, 2)
     */
   def drawPath(g2: Graphics2D, pathNumber: Int,
-               tilePlacement: TilePlacement, position: Point, size: Double) {
+               tilePlacement: TilePlacement, position: Point, size: Double): Unit = {
 
     val tile: HexTile = tilePlacement.tile
     var pathStartIndex = getPathStartIndex(tile, pathNumber)
@@ -76,7 +75,8 @@ class PathRenderer private[rendering]() {
     i - 1
   }
 
-  private def drawCornerPath(g2: Graphics2D, position: Point, firstIndex: Int, color: Color, radius: Double) {
+  private def drawCornerPath(g2: Graphics2D, position: Point, firstIndex: Int,
+                             color: Color, radius: Double): Unit = {
     val startAngle = firstIndex * HEX_TURN_DEGREES + HEX_TURN_DEGREES
     val angle = 2 * HEX_TURN_DEGREES
     val rstartAng = rad(startAngle - 30)
@@ -86,16 +86,19 @@ class PathRenderer private[rendering]() {
     drawPathArc(g2, center, color, radius, radius / 3.0, startAngle + 90, angle)
   }
 
-  private def drawCurvedPath(g2: Graphics2D, position: Point, firstIndex: Int, color: Color, radius: Double) {
+  private def drawCurvedPath(g2: Graphics2D, position: Point, firstIndex: Int,
+                             color: Color, radius: Double): Unit = {
     val startAngle = firstIndex * HEX_TURN_DEGREES + HEX_TURN_DEGREES
     val angle = HEX_TURN_DEGREES
     val rstartAng = HexUtil.rad(startAngle)
     val rad = 2 * radius * ROOT3D2
-    val center = new Point((position.getX + rad * Math.cos(rstartAng)).toInt, (position.getY - rad * Math.sin(rstartAng)).toInt)
+    val center =
+      new Point((position.getX + rad * Math.cos(rstartAng)).toInt, (position.getY - rad * Math.sin(rstartAng)).toInt)
     drawPathArc(g2, center, color, ROOT3 * rad, radius / 3.0, startAngle + 150, angle)
   }
 
-  private def drawPathArc(g2: Graphics2D, center: Point, color: Color, radius: Double, thickness: Double, startAngle: Int, angle: Int) {
+  private def drawPathArc(g2: Graphics2D, center: Point, color: Color, radius: Double, thickness: Double,
+                          startAngle: Int, angle: Int): Unit = {
     // the black border for the path
     g2.setColor(PathRenderer.PATH_BORDER_COLOR)
     g2.setStroke(PathRenderer.getPathBGStroke(thickness))
@@ -109,7 +112,8 @@ class PathRenderer private[rendering]() {
     g2.drawArc(c.getX.toInt, c.getY.toInt, s, s, startAngle, angle)
   }
 
-  private def drawStraightPath(g2: Graphics2D, position: Point2D, firstIndex: Int, color: Color, radius: Double) {
+  private def drawStraightPath(g2: Graphics2D, position: Point2D, firstIndex: Int,
+                               color: Color, radius: Double): Unit = {
     val theta1 = rad(-firstIndex * HEX_TURN_DEGREES)
     val theta2 = rad(-firstIndex * HEX_TURN_DEGREES + 3 * HEX_TURN_DEGREES)
     val halfWidth = radius * ROOT3D2

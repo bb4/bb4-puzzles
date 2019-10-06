@@ -87,7 +87,7 @@ class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
     verifyPlacement(Some(TilePlacement(FOURTEEN_TILES(11), IntLocation(21, 22), ANGLE_300)))
   }
 
-  private def verifyPlacement(expPlacement: Option[TilePlacement]) {
+  private def verifyPlacement(expPlacement: Option[TilePlacement]): Unit = {
     val placement = placer.generateRandomPlacement(tantrix)
     assertEquals("Unexpected placement.", expPlacement, placement)
   }

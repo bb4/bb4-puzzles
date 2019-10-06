@@ -5,7 +5,6 @@ import com.barrybecker4.common.geometry.{Box, Location}
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model._
-
 import scala.collection.mutable
 
 /**
@@ -21,10 +20,8 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
   private var boundingBox = tantrix.getBoundingBox
   private var visited: Set[Location] = _
 
-  /**
-    * Travel the primary path in both directions, adding all adjacent empty placements
+  /** Travel the primary path in both directions, adding all adjacent empty placements
     * as long as they do not push either boundingBox dimension beyond maxHalfPathLength.
-    *
     * @return list of legal next placements
     */
   private[generation] def findBorderPositions = {
@@ -40,14 +37,12 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
       val placement = searchQueue.dequeue()
       findEmptyNeighborLocations(placement).foreach(positions.add)
       val pathNbrs = findPrimaryPathNeighbors(placement)
-      searchQueue.enqueue(pathNbrs:_*)
+      searchQueue.enqueueAll(pathNbrs)
     }
     positions
   }
 
-  /**
-    * @return all the empty neighbor positions next to the specified placement with primary path match.
-    */
+  /** @return all the empty neighbor positions next to the specified placement with primary path match. */
   private def findEmptyNeighborLocations(placement: TilePlacement): List[Location] = {
     var emptyNbrLocations: List[Location] = List()
 
@@ -65,10 +60,8 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
     emptyNbrLocations
   }
 
-  /**
-    * @return the one or two neighbors that can be found by following the primary path.
-    */
-  private def findPrimaryPathNeighbors(previous: TilePlacement) = {
+  /** @return the one or two neighbors that can be found by following the primary path.  */
+  private def findPrimaryPathNeighbors(previous: TilePlacement): Seq[TilePlacement] = {
     var pathNbrs: List[TilePlacement] = List()
     for (i <- 0 until NUM_SIDES) {
       val color = previous.getPathColor(i)

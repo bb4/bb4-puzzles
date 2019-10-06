@@ -56,7 +56,7 @@ class CountDownLatch2Suite extends FunSuite with BeforeAndAfter {
     assertResult(1000) { counter.get }
   }
 
-  private def runDriver(numThreads: Int) = {
+  private def runDriver(numThreads: Int): Unit = {
     val doneSignal = new CountDownLatch(numThreads)
     val e = Executors.newFixedThreadPool(numThreads)
     // create and start threads

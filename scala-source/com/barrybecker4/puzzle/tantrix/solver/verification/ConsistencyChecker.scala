@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TileFitter
 
 /**
   * Checks the consistency of paths between tiles given a collection of tiles.
-  *
   * @param tiles tiles that have not yet been placed on the tantrix
   * @author Barry Becker
   */

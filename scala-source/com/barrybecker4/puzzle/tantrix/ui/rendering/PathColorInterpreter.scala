@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor._
 
 /**
   * Converts from path color to rendering color
-  *
   * @author Barry Becker
   */
 object PathColorInterpreter {

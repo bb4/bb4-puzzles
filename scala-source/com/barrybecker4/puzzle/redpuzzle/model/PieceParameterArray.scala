@@ -77,7 +77,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
     val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
     //println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
 
-    for (i <- 0 until numSwaps)
+    for (_ <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList, rnd)
 
     assert(pieceList.size == pieceList.numTotal)

@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.common.solver
 import com.barrybecker4.common.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.model.PuzzleNode
-import scala.collection.Seq
 import scala.collection.mutable
 import java.security.AccessControlException
 import java.util.concurrent.Executors
@@ -91,8 +90,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     // block until solution found
     val solutionPuzzleNode = solution.getValue
     // there has to be a better way to do this
-    val path = if (solutionPuzzleNode == null) Option.apply(null)
-    else Option.apply(solutionPuzzleNode.asMoveList)
+    val path = if (solutionPuzzleNode == null) None //Option.apply(null)
+    else Some(solutionPuzzleNode.asMoveList)
     val elapsedTime = System.currentTimeMillis - startTime
     val position: Option[P] = if (solutionPuzzleNode == null) None
                    else Some(solutionPuzzleNode.getPosition)

@@ -23,7 +23,8 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
 
   def getPath: List[BridgeMove] = thePath
 
-  override def finalRefresh(path: Option[Seq[BridgeMove]], board: Option[Bridge], numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[BridgeMove]], board: Option[Bridge],
+                            numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, board, numTries, millis)
     if (board.isDefined) showPath(path.get, board.get)
   }
@@ -34,7 +35,7 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (numTries == 0) lastMove = None
   }
 
-  def makeMove(currentStep: Int, undo: Boolean) {
+  def makeMove(currentStep: Int, undo: Boolean): Unit = {
     val m = getPath(currentStep)
     board = board.applyMove(m, undo)
     lastMove = Some(BridgeMove(m.people, if (undo) !m.direction else m.direction))
@@ -53,12 +54,12 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   private def findCost(path: List[BridgeMove]) = path.map(_.cost).sum
 
   /** This renders the current state of the puzzle to the screen. */
-  override protected def paintComponent(g: Graphics) {
+  override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     if (board != null) renderer.render(g, board, lastMove, getWidth, getHeight)
   }
 
-  def showPath(path: Seq[BridgeMove], theBoard: Bridge) {
+  def showPath(path: Seq[BridgeMove], theBoard: Bridge): Unit = {
     thePath = path.toList
     board = theBoard
     if (doneListener != null) doneListener.done()

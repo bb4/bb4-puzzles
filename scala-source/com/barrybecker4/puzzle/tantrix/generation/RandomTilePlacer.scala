@@ -10,13 +10,11 @@ import scala.util.Random
 
 /**
   * Generates random continuous primary color paths that do not necessarily match on secondary colors.
-  *
   * @author Barry Becker
   */
 class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) {
 
-  /**
-    * Considering each unplaced tile, find a single random placement given current configuration.
+  /** Considering each unplaced tile, find a single random placement given current configuration.
     * Valid placements must extend the primary path but not necessarily match secondary paths.
     *
     * @return a random tile placement for the current tantrix state and set of unplaced tiles.
@@ -37,8 +35,7 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
     nextMove
   }
 
-  /**
-    * A random placement for the specified tile which matches the primary path,
+  /** A random placement for the specified tile which matches the primary path,
     * but not necessarily the secondary paths. The opposite end of the primary path can only
     * retouch the tantrix if it is the last tile to be placed in the random path.
     *

@@ -45,7 +45,6 @@ class SameTypeTileMixer(var pathType: PathType, var originalPath: TantrixPath, r
         val permutedPath = permuter.permute(indices.list, newOrder)
         if (!permutedPaths.contains(permutedPath))
           permutedPaths.append(permutedPath)
-        //i = i + 1
       }
       permutedPaths.remove(0)
     }

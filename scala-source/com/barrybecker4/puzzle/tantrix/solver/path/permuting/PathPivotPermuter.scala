@@ -35,7 +35,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
         val subPath1 = myPath.subPath(i - 1, 0)
         pivotPath = myPath.subPath(i, j)
         val subPath2 = myPath.subPath(j + 1, myPath.size - 1)
-        pathPermutations.append(createPermutedPathList(subPath1, subPath2):_*)
+        pathPermutations.appendAll(createPermutedPathList(subPath1, subPath2))
       }
     }
     pathPermutations
@@ -86,7 +86,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     pathPermutations
   }
 
-  private def addIfDefined(path: Option[TantrixPath], pathPermutations: ListBuffer[TantrixPath]) {
+  private def addIfDefined(path: Option[TantrixPath], pathPermutations: ListBuffer[TantrixPath]): Unit = {
     if (path.isDefined) pathPermutations.append(path.get)
   }
 
@@ -101,12 +101,13 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     for (p <- subPath1.tiles) {
       tiles.prepend(p)
     }
-    tiles.append(pivotPath.tiles:_*)
-    tiles.append(subPath2.tiles:_*)
-    val path: Option[TantrixPath] = if (isValid(tiles)) {
-      assert(TantrixPath.hasOrderedPrimaryPath(tiles, myPath.primaryPathColor),
-        "out of order path tiles \nsubpath1" + subPath1 + "\npivot=" + pivotPath + "\nsubpath2=" + subPath2 + "\norigPath=" + myPath)
-      Some(new TantrixPath(tiles, myPath.primaryPathColor))
+    tiles.appendAll(pivotPath.tiles)
+    tiles.appendAll(subPath2.tiles)
+    val tileSeq = tiles.toSeq
+    val path: Option[TantrixPath] = if (isValid(tileSeq)) {
+      assert(TantrixPath.hasOrderedPrimaryPath(tileSeq, myPath.primaryPathColor),
+        s"out of order path tiles \nsubpath1$subPath1\npivot=$pivotPath\nsubpath2=$subPath2\norigPath=$myPath")
+      Some(new TantrixPath(tileSeq, myPath.primaryPathColor))
     } else None
     path
   }

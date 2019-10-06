@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.common.math.MathUtil
 import scala.util.Random
 
@@ -13,7 +13,7 @@ import scala.util.Random
 case class SliderBoard(tiles:Tiles) {
 
   private var hamming: Byte = -1
-  private var manhattan = tiles.calculateManhattan
+  private val manhattan = tiles.calculateManhattan
 
   /** @param size edge length of square board */
   def this(size: Int) {

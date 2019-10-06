@@ -19,7 +19,7 @@ class Deck1 (val nCards: Int) extends Deck {
     while (!isSorted && ct < Integer.MAX_VALUE) {
       doPerfectShuffle(iCut)
       ct += 1
-      if (ct % 100000 == 0) println(ct + "  " + this)
+      if (ct % 100000 == 0) println(s"$ct  $this")
     }
     assert(ct < Integer.MAX_VALUE, "No amount of shuffling will restore the order")
     ct
@@ -35,7 +35,7 @@ class Deck1 (val nCards: Int) extends Deck {
     }
   }
 
-  def doPerfectShuffle(iCut: Int) {
+  def doPerfectShuffle(iCut: Int): Unit = {
     val size = data.length
     val temp = new Array[Int](size)
     val loop = Math.min(iCut, size - iCut)

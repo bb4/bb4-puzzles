@@ -2,9 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
-
-import scala.collection.Seq
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 
 /**
   * Works really well in spite of being brute force.

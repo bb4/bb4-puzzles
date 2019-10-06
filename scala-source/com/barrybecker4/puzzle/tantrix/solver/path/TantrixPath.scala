@@ -79,7 +79,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * @return sub path
     */
   def subPath(startIndex: Int, endIndex: Int): TantrixPath = {
-    var pathTiles: Array[TilePlacement] = Array()
+    var pathTiles: Seq[TilePlacement] = Seq()
     if (startIndex <= endIndex) {
       for (i <- startIndex to endIndex)
         pathTiles :+= this.tiles(i)

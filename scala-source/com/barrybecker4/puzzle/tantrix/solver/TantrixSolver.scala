@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.tantrix.solver
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
-import scala.collection.Seq
 
 /**
   * Abstract base class for tantrix puzzle solving strategies (see strategy pattern).

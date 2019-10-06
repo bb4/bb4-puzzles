@@ -6,17 +6,14 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlaceme
 
 /**
   * Tantrix puzzle move generator. Generates valid next moves given the current state.
-  *
   * @author Barry Becker
   */
 class MoveGenerator(var board: TantrixBoard) {
   /** a set of all the places that a tile might be placed next. */
   private val borderSpaces = new BorderFinder(board.tantrix, board.numTiles, board.primaryColor).findBorderPositions
 
-  /**
-    * For each unplaced tile, find all valid placements given current configuration.
+  /** For each unplaced tile, find all valid placements given current configuration.
     * Valid placements must extend the primary path.
-    *
     * @return List of all valid tile placements for the current tantrix state.
     */
   def generateMoves: List[TilePlacement] = {
@@ -28,9 +25,7 @@ class MoveGenerator(var board: TantrixBoard) {
     moves
   }
 
-  /**
-    * @return list of all the legal placements for the specified tile.
-    */
+  /** @return list of all the legal placements for the specified tile.*/
   private def findPlacementsForTile(tile: HexTile) = {
     var placements: List[TilePlacement] = List()
     val fitter = new TantrixTileFitter(board.tantrix, board.primaryColor)

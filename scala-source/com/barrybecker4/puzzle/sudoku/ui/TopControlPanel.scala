@@ -76,7 +76,7 @@ final class TopControlPanel(var controller: SudokuController)
   }
 
   /** Must execute long tasks in a separate thread, otherwise you don't see the steps of the animation. */
-  def actionPerformed(e: ActionEvent) {
+  def actionPerformed(e: ActionEvent): Unit = {
     val src: Any = e.getSource
     if (src == generateButton) {
       generatePuzzle(speedSelector.getSelectedDelay)
@@ -93,14 +93,14 @@ final class TopControlPanel(var controller: SudokuController)
     }
   }
 
-  private def generatePuzzle(delay: Int) {
+  private def generatePuzzle(delay: Int): Unit = {
     controller.generatePuzzle(delay, sizeSelector.getSelectedSize)
     solveButton.setEnabled(true)
     validateButton.setEnabled(true)
   }
 
   /** */
-  private def solvePuzzle() {
+  private def solvePuzzle(): Unit = {
     controller.solvePuzzle(speedSelector.getSelectedDelay)
     solveButton.setEnabled(false)
     validateButton.setEnabled(false)
@@ -111,7 +111,7 @@ final class TopControlPanel(var controller: SudokuController)
     *
     * @param e item event.
     */
-  def itemStateChanged(e: ItemEvent) {
+  def itemStateChanged(e: ItemEvent): Unit = {
     if (e.getSource == sizeSelector) {
       generatePuzzle(speedSelector.getSelectedDelay)
     }

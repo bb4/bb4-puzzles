@@ -12,7 +12,7 @@ class UserValue(var value: Int) {
 
   def getValue: Int = value
 
-  def setValid(valid: Boolean) {
+  def setValid(valid: Boolean): Unit = {
     isValid = valid
     isValidated = true
   }

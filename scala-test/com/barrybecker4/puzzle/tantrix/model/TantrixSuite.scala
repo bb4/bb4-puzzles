@@ -66,7 +66,7 @@ class TantrixSuite extends FunSuite {
   }
 
 
-  private def verifyPlacement(loc: Location) {
+  private def verifyPlacement(loc: Location): Unit = {
     val placement = tantrix(loc)
     assertNotNull("Placement at " + loc + " was unexpectedly null", placement)
     assertEquals("Unexpected tiles at " + loc, loc, placement.get.location)

@@ -9,7 +9,7 @@ import com.barrybecker4.common.geometry.Location
   */
 trait RepaintListener {
 
-  def valueEntered()
-  def cellSelected(location: Location)
-  def requestValidation()
+  def valueEntered(): Unit
+  def cellSelected(location: Location): Unit
+  def requestValidation(): Unit
 }

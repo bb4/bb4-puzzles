@@ -35,7 +35,7 @@ class MazeGenerator(val panel: MazePanel) {
   private var interrupted = false
 
   /** generate the maze. */
-  def generate(forwardProb: Double, leftProb: Double, rightProb: Double) {
+  def generate(forwardProb: Double, leftProb: Double, rightProb: Double): Unit = {
     maxDepth = 0
     val probs = Probabilities(forwardProb, leftProb, rightProb)
     stack = new StateStack(probs)
@@ -46,7 +46,7 @@ class MazeGenerator(val panel: MazePanel) {
   /** Do a depth first search (without recursion) of the grid space to determine the graph.
     * Used to use a recursive algorithm but it was slower and would give stack overflow exceptions.
     */
-  def search() {
+  def search(): Unit = {
     stack.clear()
     val currentPosition = maze.startPosition
     var currentCell = maze.getCell(currentPosition)
@@ -58,7 +58,7 @@ class MazeGenerator(val panel: MazePanel) {
   }
 
   /** Stop current work and clear the search stack of states. */
-  def interrupt() {
+  def interrupt(): Unit = {
     interrupted = true
     if (stack != null) stack.clear()
   }
@@ -102,7 +102,7 @@ class MazeGenerator(val panel: MazePanel) {
   }
 
   /** Place a wall when the path is blocked */
-  private def addWall(currentCell: MazeCell, dir: Location, nextCell: MazeCell) {
+  private def addWall(currentCell: MazeCell, dir: Location, nextCell: MazeCell): Unit = {
     if (dir.getX == 1)          // east
       currentCell.eastWall = true
     else if (dir.getY == 1)     // south
@@ -114,7 +114,7 @@ class MazeGenerator(val panel: MazePanel) {
   }
 
   /** This can be really slow if you do a refresh every time */
-  private def refresh() {
+  private def refresh(): Unit = {
     val speed = panel.animationSpeed
     if (MathUtil.RANDOM.nextDouble < (2.0 / speed)) {
       panel.paintAll()

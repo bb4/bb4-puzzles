@@ -26,17 +26,17 @@ final class MazeController(var mazePanel: MazePanel) extends SliderChangeListene
     * Without this, the top controls do not refresh properly when shown in an applet (and only the applet).
     * @param panel the repaint listener
     */
-  def setRepaintListener(panel: JPanel) {
+  def setRepaintListener(panel: JPanel): Unit = {
     repaintListener = panel
   }
 
   /** called when the animation speed changes */
-  def sliderChanged(slider: LabeledSlider) {
+  def sliderChanged(slider: LabeledSlider): Unit = {
     mazePanel.animationSpeed = slider.getValue.toInt
   }
 
   /** Regenerate the maze based on the current UI parameter settingsand current size of the panel. */
-  def regenerate(thickness: Int, animationSpeed: Int, forwardP: Double, leftP: Double, rightP: Double) {
+  def regenerate(thickness: Int, animationSpeed: Int, forwardP: Double, leftP: Double, rightP: Double): Unit = {
     if (solver.isWorking) solver.interrupt()
     if (generator != null) {
       generator.interrupt()
@@ -56,7 +56,7 @@ final class MazeController(var mazePanel: MazePanel) extends SliderChangeListene
         None
       }
 
-      override def finished() {
+      override def finished(): Unit = {
         mazePanel.setCursor(Cursor.getDefaultCursor)
         if (repaintListener != null) repaintListener.repaint()
       }
@@ -71,10 +71,10 @@ final class MazeController(var mazePanel: MazePanel) extends SliderChangeListene
     * Don't solve if already generating or solving.
     * @param animationSpeed the speed at which to show the solution.
     */
-  def solve(animationSpeed: Int) {
+  def solve(animationSpeed: Int): Unit = {
     if (generateWorker.isWorking) return
     if (solver.isWorking) solver.interrupt()
-    val worker = new Worker() {
+    val worker: Worker = new Worker() {
       def construct: AnyRef = {
         mazePanel.animationSpeed = animationSpeed
         solver = new MazeSolver(mazePanel)
@@ -82,7 +82,7 @@ final class MazeController(var mazePanel: MazePanel) extends SliderChangeListene
         None
       }
 
-      override def finished() {
+      override def finished(): Unit = {
         mazePanel.repaint()
       }
     }

@@ -6,9 +6,7 @@ import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import scala.collection.Seq
 import scala.collection.mutable
-import collection.JavaConverters._
 
 
 /**

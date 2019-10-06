@@ -28,12 +28,12 @@ final class RedPuzzleViewer private[ui]()
 
   /*** @param speed higher the faster up to MAX_ANIM_SPEED.
     */
-  private[ui] def setAnimationSpeed(speed: Int) {
+  private[ui] def setAnimationSpeed(speed: Int): Unit = {
     assert(speed > 0 && speed <= RedPuzzleViewer.MAX_ANIM_SPEED)
     animationSpeed = speed
   }
 
-  override def refresh(pieces: PieceList, numTries: Long) {
+  override def refresh(pieces: PieceList, numTries: Long): Unit = {
     status = createStatusMessage(numTries)
     simpleRefresh(pieces, numTries)
     if (animationSpeed < RedPuzzleViewer.MAX_ANIM_SPEED) {
@@ -43,21 +43,22 @@ final class RedPuzzleViewer private[ui]()
     }
   }
 
-  override def finalRefresh(path: Option[Seq[OrientedPiece]], pieces: Option[PieceList], numTries: Long, millis: Long) {
+  override def finalRefresh(path: Option[Seq[OrientedPiece]], pieces: Option[PieceList],
+                            numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, pieces, numTries, millis)
     if (animationSpeed < RedPuzzleViewer.MAX_ANIM_SPEED - 1) ThreadUtil.sleep(10 * RedPuzzleViewer.MAX_ANIM_SPEED / animationSpeed)
     else ThreadUtil.sleep(20)
   }
 
   /** make a little click noise when the piece fits into place. */
-  override def makeSound() {
+  override def makeSound(): Unit = {
     musicMaker.playNote(60, 20, 940)
   }
 
   /** This renders the current state of the PuzzlePanel to the screen.
     * This method is part of the component interface.
     */
-  override protected def paintComponent(g: Graphics) {
+  override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     renderer.render(g, board, this.getWidth, this.getHeight)
   }

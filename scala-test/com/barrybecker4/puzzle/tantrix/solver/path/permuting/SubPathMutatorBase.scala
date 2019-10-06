@@ -1,7 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
-
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
 import com.barrybecker4.common.geometry.ByteLocation
@@ -15,7 +12,6 @@ import org.scalatest.FunSuite
 
 /**
   * Base class for sub path mutator tests.
-  *
   * @author Barry Becker
   */
 trait  SubPathMutatorBase extends FunSuite {
@@ -75,11 +71,8 @@ trait  SubPathMutatorBase extends FunSuite {
     verifyMutated3aTilePath(resultPath)
   }
 
-  protected def verifyMutated1TilePath(resultPath: TantrixPath)
-
-  protected def verifyMutated2TilePath(resultPath: TantrixPath)
-
-  protected def verifyMutated3TilePath(resultPath: TantrixPath)
-
-  protected def verifyMutated3aTilePath(resultPath: TantrixPath)
+  protected def verifyMutated1TilePath(resultPath: TantrixPath): Unit
+  protected def verifyMutated2TilePath(resultPath: TantrixPath): Unit
+  protected def verifyMutated3TilePath(resultPath: TantrixPath): Unit
+  protected def verifyMutated3aTilePath(resultPath: TantrixPath): Unit
 }

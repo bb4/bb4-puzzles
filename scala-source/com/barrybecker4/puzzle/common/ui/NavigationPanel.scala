@@ -70,7 +70,7 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
     updateButtonStates()
   }
 
-  private def updateButtonStates() = {
+  private def updateButtonStates(): Unit = {
     val isAtStart = currentStep == -1
     val isAtEnd = currentStep == navigator.getPath.size - 1
     backButton.setEnabled(!isAtStart)

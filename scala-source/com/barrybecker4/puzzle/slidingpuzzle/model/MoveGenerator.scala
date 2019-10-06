@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.ByteLocation
-import scala.collection.Seq
 import MoveGenerator.OFFSETS
 
 

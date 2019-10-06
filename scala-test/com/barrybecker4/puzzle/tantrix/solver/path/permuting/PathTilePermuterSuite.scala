@@ -18,7 +18,7 @@ class PathTilePermuterSuite {
   private var permuter: PathTilePermuter = _
   
 
-  @Test def testPermute3TileLoopFirstTwoPermuted() {
+  @Test def testPermute3TileLoopFirstTwoPermuted(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0))
@@ -30,7 +30,7 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testPermute3TileLoopSecond2Permuted() {
+  @Test def testPermute3TileLoopSecond2Permuted(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1))
@@ -42,7 +42,7 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testPermute3TileLoopAll3PermutedA() {
+  @Test def testPermute3TileLoopAll3PermutedA(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(2, 1, 0))
@@ -54,7 +54,7 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testPermute3TileLoopAll3PermutedB() {
+  @Test def testPermute3TileLoopAll3PermutedB(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(1, 2, 0))
@@ -66,7 +66,7 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testPermute3TileNonLoopPath1() {
+  @Test def testPermute3TileNonLoopPath1(): Unit = {
     val path = NON_LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0))
@@ -74,7 +74,7 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testSwapIn3TileNonLoopPath2() {
+  @Test def testSwapIn3TileNonLoopPath2(): Unit = {
     val path = NON_LOOP_PATH3
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1))
@@ -86,19 +86,19 @@ class PathTilePermuterSuite {
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 
-  @Test def testSwapIn4TileLoopPathWideArc() {
+  @Test def testSwapIn4TileLoopPathWideArc(): Unit = {
     val path = LOOP_PATH4
     permuter = new PathTilePermuter(path)
     permuter.permute(ListBuffer(0, 2), ListBuffer(2, 0))
   }
 
-  @Test def testSwapIn4TileNonLoopPathWideArc() {
+  @Test def testSwapIn4TileNonLoopPathWideArc(): Unit = {
     val path = NON_LOOP_PATH4
     permuter = new PathTilePermuter(path)
     permuter.permute(ListBuffer(0, 2), ListBuffer(2, 0))
   }
 
-  @Test def testSwapIn4TileNonLoopPathTightArc() {
+  @Test def testSwapIn4TileNonLoopPathTightArc(): Unit = {
     val path = NON_LOOP_PATH4
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(1, 3), ListBuffer(3, 1))
@@ -114,7 +114,7 @@ class PathTilePermuterSuite {
   /** Exception if the tiles cannot be swapped.
     * Should not be able to swap a tile with itself.
     */
-  @Test(expected = classOf[AssertionError]) def testSwapDuplicateIdices() {
+  @Test(expected = classOf[AssertionError]) def testSwapDuplicateIdices(): Unit = {
     permuter = new PathTilePermuter(NON_LOOP_PATH3)
     permuter.permute(ListBuffer(0, 0), ListBuffer(0, 0))
   }
@@ -122,7 +122,7 @@ class PathTilePermuterSuite {
   /** Exception if the tiles cannot be swapped.
     * The permutation indices need to match.
     */
-  @Test(expected = classOf[AssertionError]) def testSwapInvalidIndices() {
+  @Test(expected = classOf[AssertionError]) def testSwapInvalidIndices(): Unit = {
     permuter = new PathTilePermuter(NON_LOOP_PATH3)
     permuter.permute(ListBuffer(0, 2), ListBuffer(0, 1))
   }

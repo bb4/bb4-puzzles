@@ -6,13 +6,11 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.PrimaryPathFitter
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, RotationEnum, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-
 import scala.collection.mutable.ListBuffer
 
 
 /**
   * Swap tiles in place in a specified originalPath.
-  *
   * @author Barry Becker
   */
 class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
@@ -21,7 +19,6 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
 
   /**
     * Permutes the tiles at oldIndices to new positions at new Indices
-    *
     * @param oldIndices old positions in the path
     * @param newIndices new positions to place the tiles at.
     * @return the new rearranged path.
@@ -33,24 +30,22 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     for (i <- oldIndices.indices)
       auxList(i) = originalPath.tiles(newIndices(i))
     val fitter = new PrimaryPathFitter(originalPath.tiles, color)
-    val origPlacements: ListBuffer[TilePlacement] = originalPath.tiles.to[ListBuffer]
+    val origPlacements: ListBuffer[TilePlacement] = ListBuffer.empty ++= originalPath.tiles
     for (i <- newIndices.indices) {
       val oldIndex = oldIndices(i)
       val oldPlacement = auxList(i)
       val newPlacement = findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter)
       origPlacements(oldIndex) = newPlacement
     }
-    new TantrixPath(origPlacements, originalPath.primaryPathColor) //permutedPath
+    new TantrixPath(origPlacements.toSeq, originalPath.primaryPathColor) //permutedPath
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {
-    val uniqueVals: Set[Int] = Set(oldIndices:_*)
+    val uniqueVals: Set[Int] = (Set.empty ++ oldIndices)
     uniqueVals.size == oldIndices.size && newIndices.forall(oldIndices.contains(_))
   }
 
-  /**
-    * @return The new placement with the tile rotated so it fits at the new location.
-    */
+  /** @return The new placement with the tile rotated so it fits at the new location. */
   private def findNewPlacement(tile: HexTile, location: Location, fitter: PrimaryPathFitter) = {
     var newPlacement = TilePlacement(tile, location, RotationEnum.ANGLE_0)
     var ct = 0

@@ -26,7 +26,7 @@ class SudokuSolver(puzzlePanel: Container = null) {
     solved
   }
 
-  private def refresh() {
+  private def refresh(): Unit = {
     if (puzzlePanel != null && delay >= 0) {
       puzzlePanel.repaint()
       ThreadUtil.sleep(10 + delay) // give it a chance to repaint.

@@ -14,10 +14,8 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TilePlacement}
   */
 abstract class AbstractFitter(val primaryColor: PathColor) {
 
-  /**
-    * The number of placements can be 0, 1, 2, or 3 (rare).
+  /** The number of placements can be 0, 1, 2, or 3 (rare).
     * PrimaryPathFitter can never have just one, because there are two outputs for every path on a tile.
-    *
     * @param tile the tile to place.
     * @param loc  the location to try and place it at.
     * @return the placements (at most 3) if any could be found, else an empty list.
@@ -30,9 +28,7 @@ abstract class AbstractFitter(val primaryColor: PathColor) {
     }).flatten
   }
 
-  /**
-    * The tile fits if the primary path and all the other paths match for edges that have neighbors.
-    *
+  /** The tile fits if the primary path and all the other paths match for edges that have neighbors.
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */

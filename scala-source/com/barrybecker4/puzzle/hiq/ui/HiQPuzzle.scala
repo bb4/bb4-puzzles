@@ -41,14 +41,12 @@ import javax.swing.JPanel
   * After parallelizing the algorithm using ConcurrentPuzzleSolver it is down to 93 seconds on the CoreDuo.
   * Using A* search, concurrency, and further optimization and running on a Skylake 4 core - it takes about 10 seconds.
   */
-object HiQPuzzle {
+object HiQPuzzle extends App {
 
   /** Use this to run as an application instead of an applet. */
-  def main(args: Array[String]) {
-    val applet = new HiQPuzzle(args)
-    // this will call applet.init() and start() methods instead of the browser
-    GUIUtil.showApplet(applet)
-  }
+  val applet = new HiQPuzzle(args)
+  // this will call applet.init() and start() methods instead of the browser
+  GUIUtil.showApplet(applet)
 }
 
 case class HiQPuzzle(myargs: Array[String])

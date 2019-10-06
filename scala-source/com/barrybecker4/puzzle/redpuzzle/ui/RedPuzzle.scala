@@ -25,14 +25,10 @@ import RedPuzzleViewer._
   *
   * @author Barry Becker
   */
-object RedPuzzle {
-
-  /** use this to run as an application instead of an applet. */
-  def main(args: Array[String]) {
-    val applet = new RedPuzzle(args)
-    // this will call applet.init() and start() methods instead of the browser
-    GUIUtil.showApplet(applet)
-  }
+object RedPuzzle extends App {
+  val applet = new RedPuzzle(args)
+  // this will call applet.init() and start() methods instead of the browser
+  GUIUtil.showApplet(applet)
 }
 
 final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, OrientedPiece] with SliderChangeListener {
@@ -59,7 +55,7 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
     animSpeedSlider
   }
 
-  def sliderChanged(slider: LabeledSlider) {
+  def sliderChanged(slider: LabeledSlider): Unit = {
     viewer.asInstanceOf[RedPuzzleViewer].setAnimationSpeed(animSpeedSlider.getValue.toInt)
   }
 }

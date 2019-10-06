@@ -20,7 +20,7 @@ class MazePanel() extends JComponent {
   var animationSpeed: Int = 0
   private var cellSize = 0
 
-  def setThickness(thickness: Int) {
+  def setThickness(thickness: Int): Unit = {
     val dim: Dimension = this.getSize
     if (dim.width <= 0 || dim.height < 0) return
     cellSize = thickness
@@ -31,7 +31,7 @@ class MazePanel() extends JComponent {
   }
 
   /** paint the whole window right now! */
-  def paintAll() {
+  def paintAll(): Unit = {
     val d: Dimension = this.getSize
     this.paintImmediately(0, 0, d.getWidth.toInt, d.getHeight.toInt)
   }
@@ -41,7 +41,7 @@ class MazePanel() extends JComponent {
     *
     * @param point location of the cell to render.
     */
-  def paintCell(point: Location) {
+  def paintCell(point: Location): Unit = {
     val csized2 = (cellSize / 2) + 2
     val xpos = point.getX * cellSize
     val ypos = point.getY * cellSize
@@ -58,7 +58,7 @@ class MazePanel() extends JComponent {
   }
 
   /** Render the Environment on the screen. */
-  override def paintComponent(g: Graphics) {
+  override def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     renderer.render(g.asInstanceOf[Graphics2D], maze)
   }

@@ -29,7 +29,7 @@ class SolvingSuite extends FunSuite with BeforeAndAfter {
   }
 
   @throws[Exception]
-  private def runSolverTest(algorithm: Algorithm) {
+  private def runSolverTest(algorithm: Algorithm): Unit = {
     val controller = new HiQController(null)
 
     val start = System.currentTimeMillis()

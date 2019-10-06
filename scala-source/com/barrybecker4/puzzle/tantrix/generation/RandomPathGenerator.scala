@@ -8,7 +8,6 @@ import scala.util.Random
 
 /**
   * Generates random continuous primary color paths that do not necessarily match on secondary colors.
-  *
   * @author Barry Becker
   */
 class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Random()) {

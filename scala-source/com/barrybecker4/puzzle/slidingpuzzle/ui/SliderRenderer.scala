@@ -26,7 +26,7 @@ object SliderRenderer {
 class SliderRenderer extends PuzzleRenderer[SliderBoard] {
 
   /** This renders the current state of the Slider to the screen. */
-  def render(g: Graphics, board: SliderBoard, width: Int, height: Int) {
+  def render(g: Graphics, board: SliderBoard, width: Int, height: Int): Unit = {
     val size = board.size
     val rightEdgePos = SliderRenderer.LEFT_MARGIN + SliderRenderer.INC * size
     val bottomEdgePos = SliderRenderer.TOP_MARGIN + SliderRenderer.INC * size
@@ -37,7 +37,7 @@ class SliderRenderer extends PuzzleRenderer[SliderBoard] {
   }
 
   /** draw the hatches which delineate the cells */
-  private def drawBorder(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int) {
+  private def drawBorder(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int): Unit = {
     var i = 0
     var ypos = 0
     var xpos = 0
@@ -57,7 +57,7 @@ class SliderRenderer extends PuzzleRenderer[SliderBoard] {
     }
   }
 
-  private def drawTile(g: Graphics, board: SliderBoard, row: Int, col: Int) {
+  private def drawTile(g: Graphics, board: SliderBoard, row: Int, col: Int): Unit = {
     val xpos = SliderRenderer.LEFT_MARGIN + col * SliderRenderer.INC
     val ypos = SliderRenderer.TOP_MARGIN + row * SliderRenderer.INC
     val value = board.getPosition(row.toByte, col.toByte)

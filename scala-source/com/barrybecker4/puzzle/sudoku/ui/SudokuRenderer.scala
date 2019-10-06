@@ -36,13 +36,13 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   private var showCandidates: Boolean = false
   private var pieceSize: Int = 0
 
-  def setShowCandidates (show: Boolean) {
+  def setShowCandidates (show: Boolean): Unit = {
     showCandidates = show
   }
 
   /** This renders the current state of the Sudoku puzzle to the screen. */
   def render(g: Graphics, userEnteredValues: Map[Location, UserValue],
-             currentFocusLocation: Location, width: Int, height: Int) {
+             currentFocusLocation: Location, width: Int, height: Int): Unit = {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
     val minEdge: Int = Math.min (width, height) - 20 - SudokuRenderer.MARGIN
     pieceSize = minEdge / board.edgeLength
@@ -78,7 +78,8 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   /**
     * Draw a cell at the specified location.
     */
-  private def drawCell(g2: Graphics2D, cell: Cell, cands: Seq[Int], xpos: Int, ypos: Int, userValue: Option[UserValue]) {
+  private def drawCell(g2: Graphics2D, cell: Cell, cands: Seq[Int], xpos: Int, ypos: Int,
+    userValue: Option[UserValue]) : Unit = {
     val s: Int = getScale (pieceSize)
     val jitteredXpos: Int = xpos + (Math.random * 3 - 1).toInt
     val jitteredYpos: Int = ypos + (Math.random * 3 - 1).toInt
@@ -102,7 +103,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     }
   }
 
-  private def drawUserValue (g2: Graphics2D, userValue: UserValue, s: Int, xpos: Int, ypos: Int) {
+  private def drawUserValue (g2: Graphics2D, userValue: UserValue, s: Int, xpos: Int, ypos: Int) : Unit = {
     if (userValue.isValidated) {
       if (userValue.isValid) {
         g2.setColor(SudokuRenderer.USER_VALUE_CORRECT_COLOR)
@@ -118,7 +119,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawString(ValueConverter.getSymbol (userValue.getValue), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
   }
 
-  private def drawBigX(g2: Graphics2D, s: Int, xpos: Int, ypos: Int) {
+  private def drawBigX(g2: Graphics2D, s: Int, xpos: Int, ypos: Int): Unit = {
     g2.setColor (SudokuRenderer.BIG_X_COLOR)
     g2.setStroke (SudokuRenderer.BIG_X_STROKE)
     val leftX: Int = xpos + (0.15 * s).toInt
@@ -129,7 +130,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     g2.drawLine (rightX, topY, leftX, bottomY)
   }
 
-  private def drawCandidates(g: Graphics, candidates: Seq[Int], xpos: Int, ypos: Int) {
+  private def drawCandidates(g: Graphics, candidates: Seq[Int], xpos: Int, ypos: Int): Unit = {
     if (candidates.nonEmpty) {
       g.setColor (SudokuRenderer.CANDIDATE_TEXT_COLOR)
       val candidateFont: Font = new Font ("Sans Serif", Font.PLAIN, (pieceSize >> 2) - 2)
@@ -138,7 +139,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     }
   }
 
-  private def drawCurrentFocus(g: Graphics, focusLocation: Location) {
+  private def drawCurrentFocus(g: Graphics, focusLocation: Location): Unit = {
     val xpos: Int = SudokuRenderer.MARGIN + focusLocation.col * pieceSize
     val ypos: Int = SudokuRenderer.MARGIN + focusLocation.row * pieceSize
     g.setColor (SudokuRenderer.CELL_FOCUS_COLOR)
@@ -147,7 +148,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
 
   private def getScale(pieceSize: Int): Int = (pieceSize * 0.4).toInt
 
-  private def drawHints(g: Graphics, candidates: Seq[Int], x: Int, y: Int, scale: Int) {
+  private def drawHints(g: Graphics, candidates: Seq[Int], x: Int, y: Int, scale: Int): Unit = {
     val xOffsetLow: Int = (0.3 * scale).toInt
     val xOffsetMed: Int = (1.1 * scale).toInt
     val xOffsetHi: Int = (1.9 * scale).toInt
@@ -173,7 +174,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   }
 
   /** draw the borders around each piece. */
-  private def drawCellBoundaryGrid (g: Graphics, edgeLen: Int) {
+  private def drawCellBoundaryGrid (g: Graphics, edgeLen: Int): Unit = {
     val g2: Graphics2D = g.asInstanceOf[Graphics2D]
     var xpos: Int = 0
     var ypos: Int = 0

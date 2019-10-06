@@ -4,8 +4,6 @@ package com.barrybecker4.puzzle.bridge.model
 import org.junit.Assert.assertEquals
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
-import scala.collection.Seq
-
 /**
   * @author Barry Becker
   */
@@ -45,7 +43,7 @@ class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  private def verifyGeneratedMoves(initialState: Bridge, expectedMoves: Seq[BridgeMove]) {
+  private def verifyGeneratedMoves(initialState: Bridge, expectedMoves: Seq[BridgeMove]): Unit = {
     val generator = new MoveGenerator(initialState)
     val possibleMoves = generator.generateMoves
     assertEquals("Unexpected list of candidate moves", expectedMoves, possibleMoves)

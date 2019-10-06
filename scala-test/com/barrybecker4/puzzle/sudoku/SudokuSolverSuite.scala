@@ -87,7 +87,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     // generateAndSolve(5);  // 625 cells  687,600 ms    too slow
   }
 
-  private def generateAndSolve(baseSize: Int, rand: Random) {
+  private def generateAndSolve(baseSize: Int, rand: Random): Unit = {
     val board = generatePuzzle(baseSize, rand)
     solve(board, rand)
   }
@@ -100,7 +100,7 @@ class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
     b
   }
 
-  private def solve(board: Board, rand: Random) {
+  private def solve(board: Board, rand: Random): Unit = {
     val solver = new SudokuSolver()
     val iterations = solver.solvePuzzle(board)
     assertTrue("Unexpectedly not solved.", iterations.isDefined)

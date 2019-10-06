@@ -25,8 +25,7 @@ object TantrixBoard {
 case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
                    unplacedTiles: Seq[HexTile], numTiles: Int) {
 
-  /**
-    * Constructor that creates a new tantrix instance when placing a move.
+  /** Constructor that creates a new tantrix instance when placing a move.
     * If the new tile to be placed is in the edge row of the grid, then we need to increase the size of the grid
     * by one in that direction and also only render the inside cells.
     *
@@ -44,16 +43,14 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
          TILES.getTile(initialTiles.size).primaryColor, initialTiles.drop(1), initialTiles.size)
   }
 
-  /**
-    * Create a board with the specified tile placements (nothing unplaced).
+  /** Create a board with the specified tile placements (nothing unplaced).
     * @param tiles specific placements to initialize the board with.
     */
   def this(tiles: Seq[TilePlacement], primaryColor: PathColor) {
     this(new Tantrix(tiles), primaryColor, Seq(), tiles.size)
   }
 
-  /**
-    * Take the specified tile and place it where indicated.
+  /** Take the specified tile and place it where indicated.
     * @param placement the placement containing the new tile to place.
     * @return the new immutable tantrix instance.
     */
@@ -62,16 +59,14 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
   /** @return true if the puzzle is solved. TODO: Maybe move this out because it adds dependency*/
   def isSolved: Boolean = new SolutionVerifier(this).isSolved
 
-  /**
-    * @param currentPlacement where we are now
+  /** @param currentPlacement where we are now
     * @param direction   side to navigate to to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile, if any.
     */
   def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] =
     tantrix.getNeighbor(currentPlacement, direction)
 
-  /**
-    * The tile fits if the primary path and all the other paths match for edges that have neighbors.
+  /** The tile fits if the primary path and all the other paths match for edges that have neighbors.
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
@@ -82,9 +77,7 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
 
   def getLastTile: TilePlacement = tantrix.lastTile
 
-  /**
-    * @return a list of all the tiles in the puzzle (both placed and unplaced)
-    */
+  /** @return a list of all the tiles in the puzzle (both placed and unplaced) */
   def getAllTiles: Seq[HexTile] = tantrix.getTiles ++ unplacedTiles
 
   /** @return the edge of the smallest square that will hold the tantrix */
@@ -95,8 +88,7 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
 
   def getTantrixLocations: Set[Location] = tantrix.tileMap.keySet
 
-  /**
-    * @param location get the tile placement for this location.
+  /** @param location get the tile placement for this location.
     * @return null of there is no placement at that location.
     */
   def getTilePlacement(location: Location): Option[TilePlacement] = tantrix(location)

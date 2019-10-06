@@ -10,7 +10,6 @@ object HexTile {
 
 /**
   * Valid rotations for the hexagonal tiles.
-  *
   * @author Barry Becker
   */
 object RotationEnum  {
@@ -33,14 +32,12 @@ object RotationEnum  {
   val values = Array(ANGLE_0, ANGLE_60, ANGLE_120, ANGLE_180, ANGLE_240, ANGLE_300)
 }
 
-/**
-  * Represents a single tantrix tile. Immutable.
+/** Represents a single tantrix tile. Immutable.
   * @param tantrixNumber the number on the back of the tile
   * @param primaryColor  The primary path color on the back of the tile
   * @param edgeColors outgoing path colors for each orientation index
   * @author Barry Becker
   */
 case class HexTile(tantrixNumber: Byte, primaryColor: PathColor, edgeColors: PathColors) {
-
   override def toString: String = "tileNum=" + tantrixNumber + " colors: " + edgeColors
 }

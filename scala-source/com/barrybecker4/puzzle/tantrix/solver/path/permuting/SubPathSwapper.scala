@@ -53,7 +53,7 @@ class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPath
         origLocation = previousTilePlacement.location //currentTilePlacement.getLocation();
         previousTilePlacement = currentTilePlacement
     }
-    new TantrixPath(tiles, primaryColor)
+    new TantrixPath(tiles.toSeq, primaryColor)
   }
 
   /**

@@ -13,27 +13,24 @@ package com.barrybecker4.puzzle.shuffle
   * Find the result for shuffles(402, 101)
   * Find the result for shuffles(802, 101)
   * Find the result for shuffles(1002, 101)
-  *
   * @author Barry Becker Date: Jan 3, 2006
   */
-object ShufflePuzzle {
-  def main(args: Array[String]) {
-    val nCards = 802
-    // 402, 802, 1002
-    val iCut = 101
-    val puzzle = new ShufflePuzzle
-    // Copare the two types of algorithm
-    puzzle.shuffleUntilSorted(new Deck2(nCards), iCut) // analytic
-    puzzle.shuffleUntilSorted(new Deck1(nCards), iCut) // brute force
-  }
+object ShufflePuzzle extends App {
+  val nCards = 802
+  // 402, 802, 1002
+  val iCut = 101
+  val puzzle = new ShufflePuzzle
+  // Copare the two types of algorithm
+  puzzle.shuffleUntilSorted(new Deck2(nCards), iCut) // analytic
+  puzzle.shuffleUntilSorted(new Deck1(nCards), iCut) // brute force
 }
 
 class ShufflePuzzle private() {
-  private def shuffleUntilSorted(deck: Deck, iCut: Int) {
+  private def shuffleUntilSorted(deck: Deck, iCut: Int): Unit = {
     val time = System.currentTimeMillis
     val numShuffles = deck.shuffleUntilSorted(iCut)
-    println("A sorted deck of " + deck.size + " cards, cut at " + iCut + " deep takes " + numShuffles + " perfect shuffles to restore the deck.")
-    println("time elapsed = " + (System.currentTimeMillis - time) + " milliseconds")
+    println(s"A sorted deck of ${deck.size} cards, cut at $iCut deep takes $numShuffles perfect shuffles to restore the deck.")
+    println(s"time elapsed ${System.currentTimeMillis - time} milliseconds")
   }
 }
 

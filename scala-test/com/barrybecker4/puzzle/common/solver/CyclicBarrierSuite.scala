@@ -12,7 +12,7 @@ import org.scalactic.{Equality, TolerantNumerics}
 
 
 /**
-  * <p>A <tt>CyclicBarrier</tt> supports an optional {@link Runnable} command
+  * <p>A <tt>CyclicBarrier</tt> supports an optional @link Runnable command
   * that is run once per barrier point, after the last thread in the party
   * arrives, but before any threads are released.
   * This <em>barrier action</em> is useful

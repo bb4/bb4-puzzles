@@ -104,5 +104,5 @@ object TestData {
   )
 
   /** Complex 16x16 puzzle from grandma */
-  val COMPLEX_16 = Data.SAMPLE_16
+  val COMPLEX_16: Array[Array[Int]] = Data.SAMPLE_16
 }

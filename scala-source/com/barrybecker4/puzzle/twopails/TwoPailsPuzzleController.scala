@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.twopails.model.MoveGenerator
 import com.barrybecker4.puzzle.twopails.model.PailParams
 import com.barrybecker4.puzzle.twopails.model.Pails
 import com.barrybecker4.puzzle.twopails.model.PourOperation
-import scala.collection.Seq
 
 
 /**

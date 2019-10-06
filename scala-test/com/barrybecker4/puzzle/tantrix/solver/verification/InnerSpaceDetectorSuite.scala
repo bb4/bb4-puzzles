@@ -74,7 +74,7 @@ class InnerSpaceDetectorSuite extends FunSuite {
   /**
     * @param expHasInnerSpace true if we expect one or more inner spaces.
     */
-  private def verifyHasInnerSpaces(expHasInnerSpace: Boolean) {
+  private def verifyHasInnerSpaces(expHasInnerSpace: Boolean): Unit = {
     detector = new InnerSpaceDetector(tantrix)
     if (expHasInnerSpace) assertTrue("Unexpectedly did not have inner spaces.", detector.hasInnerSpaces)
     else assertFalse("Unexpectedly had inner spaces.", detector.hasInnerSpaces)

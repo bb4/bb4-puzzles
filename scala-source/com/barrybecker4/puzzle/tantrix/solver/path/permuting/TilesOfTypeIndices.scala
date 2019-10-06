@@ -21,7 +21,7 @@ class TilesOfTypeIndices private[permuting](val pathType: PathType, val original
   private var primColor: PathColor = _
   def size: Int = list.size
 
-  private def initialize(pathType: PathType, path: TantrixPath) {
+  private def initialize(pathType: PathType, path: TantrixPath): Unit = {
     val tiles = path.tiles
     primColor = path.primaryPathColor
     for (i <- 0 until path.size) {

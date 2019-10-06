@@ -1,8 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.model
 
-import scala.collection.Seq
-
 
 /**
   * Bridge Puzzle move generator. Generates valid next moves.
@@ -15,7 +13,7 @@ class MoveGenerator(var board: Bridge) {
 
   else createMoves(board.uncrossed, crossing = true)
 
-  private def createMoves(people: List[Int], crossing: Boolean) = {
+  private def createMoves(people: List[Int], crossing: Boolean): Seq[BridgeMove] = {
     var moves = List[BridgeMove]()
     val numPeople = people.size
     moves ::= BridgeMove(List(people.head), crossing)

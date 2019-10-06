@@ -84,7 +84,7 @@ class LoopDetectorSuite extends FunSuite {
   /**
     * @param expHasLoop true if we expect a loop.
     */
-  private def verifyHasLoop(expHasLoop: Boolean) {
+  private def verifyHasLoop(expHasLoop: Boolean): Unit = {
     detector = new LoopDetector(board)
     if (expHasLoop) assertTrue("Unexpectedly did not have loop.", detector.hasLoop)
     else assertFalse("Unexpectedly had loop.", detector.hasLoop)

@@ -13,7 +13,6 @@ import java.awt.event.ActionListener
 
 /**
   * A maze generator and solver
-  *
   * @author Barry Becker
   */
 object TopControlPanel {
@@ -55,13 +54,13 @@ class TopControlPanel(var controller: MazeController) extends JPanel with Action
   controller.setRepaintListener(this)
 
   /** Called when a button is pressed. */
-  def actionPerformed(e: ActionEvent) {
+  def actionPerformed(e: ActionEvent): Unit = {
     val source = e.getSource
     if (source eq regenerateButton) regenerate()
     if (source eq solveButton) controller.solve(getAnimationSpeed)
   }
 
-  def regenerate() {
+  def regenerate(): Unit = {
     controller.regenerate(getThickness, getAnimationSpeed, getForwardProbability, getLeftProbability, getRightProbability)
   }
 

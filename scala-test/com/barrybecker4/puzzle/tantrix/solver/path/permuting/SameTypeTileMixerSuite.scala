@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.permuting.SameTypeTileMixerSu
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathType, TantrixPath}
 import org.junit.Assert.assertEquals
 import org.scalatest.FunSuite
-
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
@@ -46,9 +45,12 @@ class SameTypeTileMixerSuite extends FunSuite {
                            new TilePlacement(TILE3, LOWER_LEFT, Rotation.ANGLE_120))
             );*/
     val expPathList = ListBuffer(
-      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, LOWER_LEFT, ANGLE_120)),
-      createPath(TilePlacement(TILE3, UPPER, ANGLE_0), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)),
-      createPath(TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180),
+        TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE1, LOWER_LEFT, ANGLE_120)),
+      createPath(TilePlacement(TILE3, UPPER, ANGLE_0),
+        TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)),
+      createPath(TilePlacement(TILE2, UPPER, ANGLE_180),
+        TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
     )
     /*
     val expPathList = ListBuffer(
@@ -133,5 +135,5 @@ class SameTypeTileMixerSuite extends FunSuite {
   }
 
   private def createPath(placement1: TilePlacement, placement2: TilePlacement, placement3: TilePlacement) =
-    new TantrixPath(ListBuffer(placement1, placement2, placement3), PathColor.YELLOW)
+    new TantrixPath(ListBuffer(placement1, placement2, placement3).toSeq, PathColor.YELLOW)
 }

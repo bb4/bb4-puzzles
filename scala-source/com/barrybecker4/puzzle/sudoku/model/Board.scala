@@ -26,7 +26,7 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
 
-  def reset() {
+  def reset(): Unit = {
     valuesMap = comps.initialValueMap
   }
 
@@ -46,7 +46,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
 
   /** Remove specified value if it does not prevent the puzzle from being solved using just base consistency check. */
-  def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None) {
+  def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None): Unit = {
     val initial = initialDataCopy
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
@@ -79,14 +79,14 @@ class Board(val initialData: Array[Array[Cell]]) {
     true
   }
 
-  def doRefresh(refresh: Option[() => Unit]) {
+  def doRefresh(refresh: Option[() => Unit]): Unit = {
     if (refresh.isDefined) {
       setSolvedValues()
       refresh.get()
     }
   }
 
-  /** Assign a value to a square if possible.
+  /** Assign a value, d, to a square if possible.
     * Eliminate all the other values (except d) from values[s] and propagate.
     * @return Some(values), except return None if a contradiction is detected.
     */
@@ -100,7 +100,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     newValues
   }
 
-  /** Eliminate d from values[s]; propagate when values or places <= 2.
+  /** Eliminate d from values[s]; propagate when values or places == 1.
     * @return Some(values), except return None if a contradiction is detected.
     */
   private def eliminate(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
@@ -108,8 +108,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     if (!values(s).contains(d)) return Some(values)
     var newValues = values.updated(s, values(s) - d)
     // If a square s is reduced to one value, d2, then eliminate d2 from the peers.
-    if (newValues(s).isEmpty)
-      return None // Contradiction
+    if (newValues(s).isEmpty) return None // Contradiction
     // val candidates = newValues(s)
     else if (newValues(s).size == 1) {
       val d2 = newValues(s).head

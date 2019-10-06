@@ -12,5 +12,5 @@ trait Deck {
 
   def shuffleUntilSorted(iCut: Int): Long
 
-  def doPerfectShuffle(iCut: Int)
+  def doPerfectShuffle(iCut: Int): Unit
 }
