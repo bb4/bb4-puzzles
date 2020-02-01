@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.shuffle
 
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 
 /**
   * Analytic solution to the card shuffling problem.

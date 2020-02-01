@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.maze.model
 
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 import org.junit.Assert.assertEquals

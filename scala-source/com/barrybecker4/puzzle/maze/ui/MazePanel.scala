@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.maze.ui
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.model.MazeModel
 import javax.swing.JComponent
 import java.awt.{Dimension, Graphics, Graphics2D}

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.maze
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.model.MazeCell
 import com.barrybecker4.puzzle.maze.model.Probabilities
 import com.barrybecker4.puzzle.maze.model.StateStack

@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.common.solver
 
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.model.PuzzleNode
 import scala.collection.mutable

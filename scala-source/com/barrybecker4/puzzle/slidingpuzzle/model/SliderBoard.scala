@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.common.math.MathUtil
+import com.barrybecker4.math.MathUtil
 import scala.util.Random
 
 /**
