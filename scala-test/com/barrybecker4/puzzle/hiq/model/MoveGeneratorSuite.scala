@@ -2,12 +2,13 @@
 package com.barrybecker4.puzzle.hiq.model
 
 import org.junit.Assert.assertEquals
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
+class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("GenerateMovesForStandardProblemInitialState") {
     val initialState = PegBoard.INITIAL_BOARD_POSITION

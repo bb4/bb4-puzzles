@@ -4,11 +4,11 @@ package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.solver.path.PathType._
 import org.junit.Assert.assertTrue
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 /**
   * @author Barry Becker
   */
-class TilesOfTypeIndicesSuite extends FunSuite {
+class TilesOfTypeIndicesSuite extends AnyFunSuite {
 
   /** instance under test */
   private var indices: TilesOfTypeIndices = _

@@ -6,13 +6,13 @@ package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * @author Barry Becker
   */
-class TantrixTileFitterSuite extends FunSuite  {
+class TantrixTileFitterSuite extends AnyFunSuite  {
   
   private val TILES = new HexTiles
   /** instance under test */

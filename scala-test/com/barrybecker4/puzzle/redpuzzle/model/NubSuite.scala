@@ -2,12 +2,13 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class NubSuite extends FunSuite with BeforeAndAfter {
+class NubSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test */
   private val nub = null

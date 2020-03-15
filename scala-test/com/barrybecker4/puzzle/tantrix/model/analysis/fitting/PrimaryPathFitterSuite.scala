@@ -7,13 +7,13 @@ package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, RotationEnum, Tantrix, TilePlacement}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * @author Barry Becker
   */
-class PrimaryPathFitterSuite extends FunSuite  {
+class PrimaryPathFitterSuite extends AnyFunSuite  {
 
   /** instance under test */
   private var fitter: PrimaryPathFitter = _

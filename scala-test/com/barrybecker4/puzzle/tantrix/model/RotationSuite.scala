@@ -2,12 +2,12 @@
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class RotationSuite extends FunSuite {
+class RotationSuite extends AnyFunSuite {
 
   test("RotateBy2") {
     assertResult(ANGLE_120) { ANGLE_0.rotateBy(2) }

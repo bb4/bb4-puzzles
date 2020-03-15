@@ -2,12 +2,13 @@
 package com.barrybecker4.puzzle.bridge.model
 
 import org.junit.Assert.assertEquals
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
 
 /**
   * @author Barry Becker
   */
-class MoveGeneratorSuite extends FunSuite with BeforeAndAfter {
+class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("GenerateMovesForStandardProblemInitialStateMoveRight") {
     val initialState = Bridge(List(1, 2, 5, 8), List[Int](), lightCrossed = false)

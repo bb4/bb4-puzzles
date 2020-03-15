@@ -4,10 +4,11 @@ package com.barrybecker4.puzzle.hiq
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.i18n.StubMessageContext
 import org.junit.Assert.{assertEquals,assertTrue}
-import org.scalatest.{BeforeAndAfter,  FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
 
 
-class SolvingSuite extends FunSuite with BeforeAndAfter {
+class SolvingSuite extends AnyFunSuite with BeforeAndAfter {
 
   before { AppContext.injectMessageContext(new StubMessageContext) }
   after { AppContext.injectMessageContext(null) }

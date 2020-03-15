@@ -3,14 +3,15 @@ package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.puzzle.sudoku.model.Board
 import org.junit.Assert.{assertEquals, assertNotNull, assertTrue}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class SudokuGeneratorSuite extends FunSuite with BeforeAndAfter {
+class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test. */
   private var generator: SudokuGenerator = _
   private var rand: Random = _

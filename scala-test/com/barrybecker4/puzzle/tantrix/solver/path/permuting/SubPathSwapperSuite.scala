@@ -9,12 +9,12 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class SubPathSwapperSuite extends FunSuite with SubPathMutatorBase {
+class SubPathSwapperSuite extends AnyFunSuite with SubPathMutatorBase {
   def createMutator(primaryColor: PathColor) = new SubPathSwapper(primaryColor)
 
   protected def verifyMutated1TilePath(resultPath: TantrixPath): Unit = {

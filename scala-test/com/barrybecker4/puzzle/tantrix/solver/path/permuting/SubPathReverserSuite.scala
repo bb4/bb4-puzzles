@@ -8,12 +8,12 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class SubPathReverserSuite extends FunSuite with SubPathMutatorBase {
+class SubPathReverserSuite extends AnyFunSuite with SubPathMutatorBase {
 
   protected def createMutator(primaryColor: PathColor) = new SubPathReverser(primaryColor)
 

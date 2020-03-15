@@ -4,12 +4,12 @@ package com.barrybecker4.puzzle.tantrix.model
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import org.junit.Assert.{assertEquals, assertNotNull}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class TantrixSuite extends FunSuite {
+class TantrixSuite extends AnyFunSuite {
 
   var tantrix: Tantrix = _
 

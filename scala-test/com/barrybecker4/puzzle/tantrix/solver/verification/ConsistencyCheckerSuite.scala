@@ -5,13 +5,13 @@ import com.barrybecker4.puzzle.tantrix.PathTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.PathColor._
 import com.barrybecker4.puzzle.tantrix.model.Tantrix
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * @author Barry Becker
   */
-class ConsistencyCheckerSuite extends FunSuite {
+class ConsistencyCheckerSuite extends AnyFunSuite {
   /** instance under test */
   private var checker: ConsistencyChecker = _
   private var tantrix: Tantrix = _

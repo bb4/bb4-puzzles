@@ -8,13 +8,13 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model._
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Base class for sub path mutator tests.
   * @author Barry Becker
   */
-trait  SubPathMutatorBase extends FunSuite {
+trait  SubPathMutatorBase extends AnyFunSuite {
   /** instance under test */
   private[permuting] var mutator: SubPathMutator = _
 

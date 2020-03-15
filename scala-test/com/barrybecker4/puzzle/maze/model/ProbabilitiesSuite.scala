@@ -1,15 +1,15 @@
 package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.math.MathUtil
-import org.scalatest.{BeforeAndAfter, FunSuite}
-
+import org.scalatest.BeforeAndAfter
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class ProbabilitiesSuite extends FunSuite with BeforeAndAfter  {
+class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfter  {
 
   /** instance under test */
   private var probs: Probabilities = _

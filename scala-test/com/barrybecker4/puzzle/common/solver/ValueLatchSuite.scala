@@ -2,13 +2,13 @@
 package com.barrybecker4.puzzle.common.solver
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * The ValueLatch blocks until the its result has been set.
   */
-class ValueLatchSuite extends FunSuite {
+class ValueLatchSuite extends AnyFunSuite {
 
   private var valueLatch: ValueLatch[Int] = _
 

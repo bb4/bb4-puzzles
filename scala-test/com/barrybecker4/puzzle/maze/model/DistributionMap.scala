@@ -1,17 +1,15 @@
 package com.barrybecker4.puzzle.maze.model
 
-import scala.collection.mutable
-
 
 /**
   * @author Barry Becker
   */
-class DistributionMap(forwardDist: List[Int], leftDist: List[Int], rightDist: List[Int])
-            extends mutable.HashMap[Direction, List[Int]] {
+class DistributionMap(forwardDist: List[Int], leftDist: List[Int], rightDist: List[Int]) {
 
-  this(FORWARD) = forwardDist
-  this(LEFT) = leftDist
-  this(RIGHT) = rightDist
+  private var map = Map[Direction, List[Int]]()
+  map += FORWARD -> forwardDist
+  map += LEFT -> leftDist
+  map += RIGHT -> rightDist
 
   def this() {
     this(List(0, 0, 0), List(0, 0, 0), List(0, 0, 0))
@@ -24,8 +22,8 @@ class DistributionMap(forwardDist: List[Int], leftDist: List[Int], rightDist: Li
   }
 
   private def increment(dir: Direction, position: Int): Unit = {
-    val list = this(dir)
-    this(dir) = list.updated(position, list(position) + 1)
-    //this(dir) = list.patch(position, Seq(list(position) + 1), 1)
+    val list = map(dir)
+    map += dir -> list.updated(position, list(position) + 1)
+    //map += dir -> list.patch(position, Seq(list(position) + 1), 1
   }
 }

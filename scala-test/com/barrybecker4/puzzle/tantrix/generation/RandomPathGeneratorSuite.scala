@@ -9,7 +9,8 @@ import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 import org.junit.Assert.{assertEquals, assertNotEquals}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
@@ -20,7 +21,7 @@ object RandomPathGeneratorSuite {
 /**
   * @author Barry Becker
   */
-class RandomPathGeneratorSuite extends FunSuite with BeforeAndAfter {
+class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test */
   private var pathGenerator: RandomPathGenerator = _

@@ -3,12 +3,12 @@ package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import org.junit.Assert.{assertFalse, assertTrue}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class SolutionVerifierSuite extends FunSuite {
+class SolutionVerifierSuite extends AnyFunSuite {
   /** instance under test */
   private var verifier: SolutionVerifier = _
 

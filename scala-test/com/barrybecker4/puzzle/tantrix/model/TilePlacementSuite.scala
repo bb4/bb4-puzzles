@@ -3,12 +3,12 @@
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.IntLocation
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Created by barry on 3/25/2017.
   */
-class TilePlacementSuite extends FunSuite {
+class TilePlacementSuite extends AnyFunSuite {
 
   private val tiles = new HexTiles()
   private val placement = TilePlacement(tiles.getTile(1), IntLocation(2, 2), RotationEnum.ANGLE_0)

@@ -7,7 +7,8 @@ import com.barrybecker4.puzzle.tantrix.generation.RandomTilePlacerSuite.RND
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TantrixBoard, TilePlacement}
 import org.junit.Assert.assertEquals
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
@@ -18,7 +19,7 @@ object RandomTilePlacerSuite {
 /**
   * @author Barry Becker
   */
-class RandomTilePlacerSuite extends FunSuite with BeforeAndAfter {
+class RandomTilePlacerSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */
   private[generation] var placer : RandomTilePlacer = _
   private[generation] var tantrix: TantrixBoard = _

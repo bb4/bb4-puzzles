@@ -7,13 +7,13 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles._
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class TantrixPathSuite extends FunSuite {
+class TantrixPathSuite extends AnyFunSuite {
   /** instance under test */
   private var path: TantrixPath = _
 

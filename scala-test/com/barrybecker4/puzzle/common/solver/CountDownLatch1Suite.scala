@@ -4,7 +4,8 @@ import com.barrybecker4.common.concurrency.ThreadUtil
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
 
 
 /**
@@ -16,7 +17,7 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
   * until all workers have completed.
   * </ul>
   */
-class CountDownLatch1Suite extends FunSuite with BeforeAndAfter {
+class CountDownLatch1Suite extends AnyFunSuite with BeforeAndAfter {
   private var counter = 0
 
   before {

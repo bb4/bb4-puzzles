@@ -8,14 +8,14 @@ import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class PathPivotPermuterSuite extends FunSuite {
+class PathPivotPermuterSuite extends AnyFunSuite {
 
   /** instance under test */
   private var permuter: PathPivotPermuter = _

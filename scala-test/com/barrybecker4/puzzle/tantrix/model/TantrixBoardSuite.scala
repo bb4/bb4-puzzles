@@ -5,12 +5,12 @@ import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class TantrixBoardSuite extends FunSuite {
+class TantrixBoardSuite extends AnyFunSuite {
   /** instance under test */
   private[model] var board: TantrixBoard = _
 

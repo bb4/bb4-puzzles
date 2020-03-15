@@ -1,10 +1,11 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 
-class BoardComponentsSuite extends FunSuite with BeforeAndAfter {
+class BoardComponentsSuite extends AnyFunSuite with BeforeAndAfter {
 
   // For sudoku, the most commong baseSize is 3 (for 9x9 board).
   private val bc3 = COMPONENTS(3)

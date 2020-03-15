@@ -2,21 +2,22 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.common.testsupport.strip
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
 import PieceListSuite._
+import org.scalatest.BeforeAndAfter
 import scala.util.Random
 
 
 object PieceListSuite {
-  val ALL_OUTTY_CLUB_PIECE = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
-  val RANDOM_PIECE = Piece(Nub.INNY_CLUB, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 5)
+  val ALL_OUTTY_CLUB_PIECE: Piece = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
+  val RANDOM_PIECE: Piece = Piece(Nub.INNY_CLUB, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 5)
   val INCOMPLETE_PUZZLE = new PieceList(PieceLists.INITIAL_PIECES_4.take(2).map(new OrientedPiece(_)).toList, 4)
 }
 
 /**
   * @author Barry Becker
   */
-class PieceListSuite extends FunSuite with BeforeAndAfter {
+class PieceListSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("ConstructionOfEmptyList") {
     val pieceList = new PieceList

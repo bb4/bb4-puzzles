@@ -4,12 +4,12 @@ package com.barrybecker4.puzzle.twopails.model
 
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Action._
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Container._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class MoveGeneratorSuite extends FunSuite {
+class MoveGeneratorSuite extends AnyFunSuite {
 
   test("GenerateMovesWhenBothEmpty") {
     val pails = new Pails(new PailParams(9, 4, 6))

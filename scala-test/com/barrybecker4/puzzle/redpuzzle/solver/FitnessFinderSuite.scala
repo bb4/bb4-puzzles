@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.puzzle.redpuzzle.model.{Nub, Piece, PieceList, PieceLists}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
@@ -10,7 +11,7 @@ import scala.util.Random
 /**
   * @author Barry Becker
   */
-class FitnessFinderSuite extends FunSuite with BeforeAndAfter {
+class FitnessFinderSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */
   private val fitnessFinder = new FitnessFinder
   private var rnd: Random = _

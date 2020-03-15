@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.tantrix.model._
 import com.barrybecker4.puzzle.tantrix.solver.path.permuting.SameTypeTileMixerSuite.RND
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathType, TantrixPath}
 import org.junit.Assert.assertEquals
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
@@ -21,7 +21,7 @@ object SameTypeTileMixerSuite {
 /**
   * @author Barry Becker
   */
-class SameTypeTileMixerSuite extends FunSuite {
+class SameTypeTileMixerSuite extends AnyFunSuite {
   /** instance under test */
   private var mixer: SameTypeTileMixer = _
 

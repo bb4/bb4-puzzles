@@ -1,9 +1,11 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
 import PieceParameterArraySuite._
 import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder
+import org.scalatest.funsuite.AnyFunSuite
+
 import scala.util.Random
 
 
@@ -14,7 +16,7 @@ object PieceParameterArraySuite {
 /**
   * @author Barry Becker
   */
-class PieceParameterArraySuite extends FunSuite with BeforeAndAfter {
+class PieceParameterArraySuite extends AnyFunSuite with BeforeAndAfter {
 
   private var fourPieces: PieceParameterArray = _
   private var ninePieces: PieceParameterArray = _

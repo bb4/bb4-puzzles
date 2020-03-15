@@ -1,13 +1,11 @@
 package com.barrybecker4.puzzle.common.solver
 
-import org.junit.Test
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.CyclicBarrier
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
 
 
 
@@ -18,7 +16,7 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
   * When all sub-parts are complete, the coordinating thread will be able to pass through await.
   * (When threads must repeatedly count down in this way, instead use a CyclicBarrier)
   */
-class CountDownLatch2Suite extends FunSuite with BeforeAndAfter {
+class CountDownLatch2Suite extends AnyFunSuite with BeforeAndAfter {
   private var counter: AtomicInteger = _
 
   before {

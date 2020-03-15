@@ -3,14 +3,16 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.ByteLocation
 import org.junit.Assert.assertEquals
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
+
 import scala.collection.immutable.HashSet
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class SliderSuite extends FunSuite with BeforeAndAfter {
+class SliderSuite extends AnyFunSuite with BeforeAndAfter {
 
   val RAND = new Random(1)
 

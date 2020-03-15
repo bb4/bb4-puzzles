@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ValueConverterSuite extends FunSuite {
+class ValueConverterSuite extends AnyFunSuite {
 
   test("Convert from number to character") {
     assert(ValueConverter.getSymbol(10) == "X")

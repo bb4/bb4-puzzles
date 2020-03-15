@@ -6,12 +6,12 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.PathColor._
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
 import org.junit.Assert.{assertFalse, assertTrue}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class LoopDetectorSuite extends FunSuite {
+class LoopDetectorSuite extends AnyFunSuite {
 
   /** instance under test */
   private var detector: LoopDetector = _

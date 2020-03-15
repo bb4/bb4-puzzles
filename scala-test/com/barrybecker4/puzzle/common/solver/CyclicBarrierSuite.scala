@@ -7,7 +7,7 @@ import java.util.concurrent.CyclicBarrier
 
 import org.junit.Assert.assertEquals
 import CyclicBarrierSuite._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalactic.{Equality, TolerantNumerics}
 
 
@@ -39,7 +39,7 @@ object CyclicBarrierSuite {
   }
 }
 
-class CyclicBarrierSuite extends FunSuite {
+class CyclicBarrierSuite extends AnyFunSuite {
 
   val epsilon = 1e-3f
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(epsilon)

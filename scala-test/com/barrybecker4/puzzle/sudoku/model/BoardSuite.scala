@@ -5,13 +5,14 @@ package com.barrybecker4.puzzle.sudoku.model
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * @author Barry Becker
   */
-class BoardSuite extends FunSuite with BeforeAndAfter {
+class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test */
   private var board: Board = _

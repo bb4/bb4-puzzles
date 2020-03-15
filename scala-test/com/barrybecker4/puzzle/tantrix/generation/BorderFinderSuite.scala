@@ -5,12 +5,12 @@ import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, Tantrix, TantrixBoard}
 import org.junit.Assert.assertEquals
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class BorderFinderSuite extends FunSuite {
+class BorderFinderSuite extends AnyFunSuite {
 
   /** instance under test */
   private[generation] var borderFinder: BorderFinder = _

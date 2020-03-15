@@ -1,9 +1,9 @@
 package com.barrybecker4.puzzle.hiq.model
 
 import com.barrybecker4.common.geometry.ByteLocation
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class PegBoardSuite extends FunSuite {
+class PegBoardSuite extends AnyFunSuite {
 
   test("default construction") {
     val board: PegBoard = new PegBoard()

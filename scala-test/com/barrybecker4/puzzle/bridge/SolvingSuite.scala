@@ -6,7 +6,8 @@ import com.barrybecker4.common.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.model._
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.scalatest.{BeforeAndAfterAll, FunSuite}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
@@ -14,7 +15,7 @@ import org.scalatest.{BeforeAndAfterAll, FunSuite}
   *
   * @author Barry Becker
   */
-class SolvingSuite extends FunSuite with BeforeAndAfterAll {
+class SolvingSuite extends AnyFunSuite with BeforeAndAfterAll {
 
   override def beforeAll(): Unit = {
     AppContext.injectMessageContext(new StubMessageContext)

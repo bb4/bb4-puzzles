@@ -5,12 +5,12 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.Tantrix
 import org.junit.Assert.{assertFalse, assertTrue}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class InnerSpaceDetectorSuite extends FunSuite {
+class InnerSpaceDetectorSuite extends AnyFunSuite {
 
   /** instance under test */
   private var detector: InnerSpaceDetector = _

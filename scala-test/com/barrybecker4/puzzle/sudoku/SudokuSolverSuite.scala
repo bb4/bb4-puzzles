@@ -4,14 +4,15 @@ package com.barrybecker4.puzzle.sudoku
 import com.barrybecker4.puzzle.sudoku.data.TestData._
 import com.barrybecker4.puzzle.sudoku.model.Board
 import org.junit.Assert.{assertFalse, assertTrue}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
 /**
   * @author Barry Becker
   */
-class SudokuSolverSuite extends FunSuite with BeforeAndAfter {
+class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
   
   /** instance under test. */
   private var solver: SudokuSolver = _

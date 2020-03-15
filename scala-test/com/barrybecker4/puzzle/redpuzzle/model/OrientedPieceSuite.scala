@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import OrientedPieceSuite.PIECE
 
 
@@ -8,7 +8,7 @@ object OrientedPieceSuite {
   val PIECE = Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1)
 }
 
-class OrientedPieceSuite extends FunSuite {
+class OrientedPieceSuite extends AnyFunSuite {
 
   test("Construction") {
     val op = OrientedPiece(PIECE, Direction.TOP)

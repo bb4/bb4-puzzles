@@ -5,7 +5,7 @@ import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexUtilSuite.TOL
 import org.scalactic.TolerantNumerics
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
@@ -14,7 +14,7 @@ object HexUtilSuite {
   private val TOL = 0.001
 }
 
-class HexUtilSuite extends FunSuite {
+class HexUtilSuite extends AnyFunSuite {
 
   private var tantrix: Tantrix = _
   implicit val doubleEq = TolerantNumerics.tolerantDoubleEquality(TOL)

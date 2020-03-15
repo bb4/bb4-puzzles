@@ -7,12 +7,12 @@ import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import org.junit.Assert.assertEquals
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Barry Becker
   */
-class MoveGeneratorSuite extends FunSuite {
+class MoveGeneratorSuite extends AnyFunSuite {
 
   private[generation] var generator: MoveGenerator = _
   private[generation] var board: TantrixBoard = _
