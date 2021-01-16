@@ -1,4 +1,14 @@
 // Copyright by Barry G. Becker, 2013  - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+buildscript {
+    repositories {
+        // retrieve the shared gradle build scripts from here
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+    }
+    dependencies {
+        classpath 'com.barrybecker4:bb4-gradle:1.6-SNAPSHOT'
+    }
+}
+
 plugins {
     id "com.github.maiflai.scalatest" version "0.26" // needed to run scala tests
 }
@@ -11,7 +21,7 @@ ext {
     mainClass = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
 }
 
-apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4.gradle'
+apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
 dependencies {
     compile 'com.barrybecker4:bb4-A-star:1.6-SNAPSHOT'
@@ -183,5 +193,5 @@ appMap.each { appId, propMap ->
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4-publish.gradle'
-apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4-deploy.gradle'
+apply from: project.buildscript.classLoader.getResource('bb4-publish.gradle').toURI()
+apply from: project.buildscript.classLoader.getResource('bb4-deploy.gradle').toURI()

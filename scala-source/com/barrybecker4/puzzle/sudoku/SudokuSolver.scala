@@ -7,8 +7,7 @@ import com.barrybecker4.puzzle.sudoku.model.Board
 
 /**
   * This does the hard work of actually solving the puzzle.
-  * Controller in the model-view-controller pattern.
-  * @param puzzlePanel the viewer (may be null)
+  * @param puzzlePanel the viewer (may be null if no UI)
   * @author Barry Becker
   */
 class SudokuSolver(puzzlePanel: Container = null) {
@@ -18,7 +17,7 @@ class SudokuSolver(puzzlePanel: Container = null) {
   /** Solves the puzzle.
     * This implements the main algorithm for solving the Sudoku puzzle.
     * @param board       puzzle to solve
-    * @return number of iteraction or None if not solved.
+    * @return number of iteration or None if not solved.
     */
   def solvePuzzle(board: Board): Option[Int] = {
     val solved = board.solve(Some(refresh _))
