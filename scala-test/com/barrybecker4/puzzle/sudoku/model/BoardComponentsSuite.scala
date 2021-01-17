@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.sudoku.model
 
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
+import BoardComponents.COMPONENTS
 
 
 class BoardComponentsSuite extends AnyFunSuite with BeforeAndAfter {

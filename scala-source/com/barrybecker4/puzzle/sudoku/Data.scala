@@ -28,19 +28,33 @@ object Data {
     Array(1, 0, 0, 0, 0, 0, 6, 0, 0))
 
   /**
-    * Hardest 9*9 puzzle according to
-    * http://news.yahoo.com/solve-hardest-ever-sudoku-133055603--abc-news-topstories.html
+    * PeterNorvig's hardest from https://norvig.com/sudoku.html
     */
-  val HARDEST_9 = Array(
-    Array(8, 0, 0, 0, 0, 0, 0, 0, 0),
-    Array(0, 0, 3, 6, 0, 0, 0, 0, 0),
-    Array(0, 7, 0, 0, 9, 0, 2, 0, 0),
-    Array(0, 5, 0, 0, 0, 7, 0, 0, 0),
-    Array(0, 0, 0, 0, 4, 5, 7, 0, 0),
-    Array(0, 0, 0, 1, 0, 0, 0, 3, 0),
-    Array(0, 0, 1, 0, 0, 0, 0, 6, 8),
-    Array(0, 0, 8, 5, 0, 0, 0, 1, 0),
-    Array(0, 9, 0, 0, 0, 0, 4, 0, 0))
+  val NORVIG_HARD_9 = Array(
+    Array(0, 0, 0, 0, 0, 6, 0, 0, 0),
+    Array(0, 5, 9, 0, 0, 0, 0, 0, 8),
+    Array(2, 0, 0, 0, 0, 8, 0, 0, 0),
+    Array(0, 4, 5, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 3, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 6, 0, 0, 3, 0, 5, 4),
+    Array(0, 0, 0, 3, 2, 5, 0, 0, 6),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+  )
+
+  /** From http://norvig.com/sudoku.html
+    */
+  val NORVIG_IMPOSSIBLE_9 = Array(
+    Array(0, 0, 0, 0, 0, 5, 0, 8, 0),
+    Array(0, 0, 0, 6, 0, 1, 0, 4, 3),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 1, 0, 5, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 1, 0, 6, 0, 0, 0),
+    Array(3, 0, 0, 0, 0, 0, 0, 0, 5),
+    Array(5, 3, 0, 0, 0, 0, 0, 6, 1),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 4),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
+
 
   val SAMPLE_16 = Array(
     Array(0, 13, 16, 14, 10, 4, 0, 0, 0, 0, 0, 0, 0, 15, 2, 7),

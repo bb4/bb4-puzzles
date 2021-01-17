@@ -78,30 +78,41 @@ object TestData {
     Array(4, 0, 0, 7, 0, 5, 1, 0, 0)
   )
 
-  /** From http://norvig.com/sudoku.html
+  /** Underconstrained
     */
-  val NORVIG_IMPOSSIBLE_9 = Array(
-    Array(0, 0, 0, 0, 0, 5, 0, 8, 0),
+  val UNDER_CONSTRAINED_IMPOSSIBLE_9 = Array(
+    Array(0, 0, 0, 0, 0, 5, 0, 0, 0),
     Array(0, 0, 0, 6, 0, 1, 0, 4, 3),
     Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-    Array(0, 1, 0, 5, 0, 0, 0, 0, 0),
-    Array(0, 0, 0, 1, 0, 6, 0, 0, 0),
+    Array(0, 0, 0, 5, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
     Array(3, 0, 0, 0, 0, 0, 0, 0, 5),
-    Array(5, 3, 0, 0, 0, 0, 0, 6, 1),
-    Array(0, 0, 0, 0, 0, 0, 0, 0, 4),
+    Array(5, 3, 0, 0, 0, 0, 0, 6, 0),
+    Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
     Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
 
-  val NORVIG_HARD_9 = Array(
-    Array(0, 0, 0, 0, 0, 6, 0, 0, 0),
-    Array(0, 5, 9, 0, 0, 0, 0, 0, 8),
-    Array(2, 0, 0, 0, 0, 8, 0, 0, 0),
-    Array(0, 4, 5, 0, 0, 0, 0, 0, 0),
-    Array(0, 0, 3, 0, 0, 0, 0, 0, 0),
-    Array(0, 0, 6, 0, 0, 3, 0, 5, 4),
-    Array(0, 0, 0, 3, 2, 5, 0, 0, 6),
+  /** Underconstrained
+    */
+  val OVER_CONSTRAINED_IMPOSSIBLE_9 = Array(
+    Array(0, 0, 0, 4, 0, 5, 0, 0, 0),
+    Array(0, 0, 0, 6, 0, 1, 0, 4, 3),
+    Array(0, 4, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 0, 5, 0, 0, 4, 0, 0),
     Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-    Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
-  )
+    Array(3, 0, 0, 0, 0, 0, 0, 0, 5),
+    Array(5, 3, 0, 0, 0, 0, 0, 6, 4),
+    Array(4, 0, 0, 0, 0, 0, 0, 0, 0),
+    Array(0, 0, 4, 0, 0, 0, 0, 0, 0))
+
+  /** From http://norvig.com/sudoku.html
+    */
+  val NORVIG_IMPOSSIBLE_9 = Data.NORVIG_IMPOSSIBLE_9
+
+  /**
+    * hardest of a million samples
+    * from https://norvig.com/sudoku.html
+    */
+  val NORVIG_HARD_9 = Data.NORVIG_HARD_9
 
   /** Complex 16x16 puzzle from grandma */
   val COMPLEX_16: Array[Array[Int]] = Data.SAMPLE_16

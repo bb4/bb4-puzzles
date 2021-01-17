@@ -28,11 +28,6 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       Array(3, 1, 2, 4),
       Array(1, 3, 4, 2),
       Array(2, 4, 1, 3)))
-//    val expBoard = new Board(Array[Array[Int]](
-//      Array(4, 1, 3, 2),
-//      Array(3, 2, 1, 4),
-//      Array(1, 4, 2, 3),
-//      Array(2, 3, 4, 1)))
     assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
   }
 
@@ -48,17 +43,6 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       Array(8, 7, 9, 5, 6, 3, 1, 4, 2),
       Array(2, 5, 6, 4, 1, 9, 8, 7, 3),
       Array(1, 3, 4, 8, 2, 7, 5, 6, 9)))
-
-    //    val expBoard = new Board(Array[Array[Int]](
-//      Array(7, 2, 4, 5, 1, 3, 6, 9, 8),
-//      Array(8, 9, 1, 6, 2, 7, 3, 5, 4),
-//      Array(5, 3, 6, 8, 9, 4, 7, 2, 1),
-//      Array(6, 8, 7, 1, 5, 9, 4, 3, 2),
-//      Array(1, 5, 2, 3, 4, 8, 9, 7, 6),
-//      Array(3, 4, 9, 7, 6, 2, 8, 1, 5),
-//      Array(9, 1, 3, 4, 8, 5, 2, 6, 7),
-//      Array(2, 6, 8, 9, 7, 1, 5, 4, 3),
-//      Array(4, 7, 5, 2, 3, 6, 1, 8, 9)))
     assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
   }
 
@@ -72,10 +56,15 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
     }
   }
 
-  test("GenerateInitialSolution4") {
-    rand.setSeed(0)
-    val board = generateInitialSolution(4, rand)
-    assertNotNull("Could not create a consistent board", board)
+  /** Generate solutions for a bunch of random puzzles  */
+  test("GenerateInitialSolution5Many") {
+    for (i <- 0 to 10) {
+      val rand = new Random()
+      rand.setSeed(i)
+      val board = generateInitialSolution(5, rand)
+      println(board)
+      assertTrue("Could not create a consistent board", board.isDefined)
+    }
   }
 
   test("GeneratePuzzle2") {

@@ -53,11 +53,27 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", iterations.isDefined)
   }
 
-  /** negative test case. Takes a very long time to determine that it is impossible *
+  /** negative test case. Takes a very long time to determine that it is impossible (over 3 minutes on i7-6700K) *
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
     val iterations = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
-    assertFalse("Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.", iterations.isEmpty)
+    assertTrue(s"Solved impossible NORVIG_IMPOSSIBLE_9 puzzle in $iterations iterations. Should not have.",
+      iterations.isEmpty)
+  }*/
+
+  /** There are many solutions for under-constrained puzzle. */
+  test("UnderConstrainedPuzzle") {
+    solver = new SudokuSolver()
+    val iterations = solver.solvePuzzle(new Board(UNDER_CONSTRAINED_IMPOSSIBLE_9))
+    assertFalse("Failed to solve UNDER_CONSTRAINED_IMPOSSIBLE_9 puzzle.", iterations.isEmpty)
+  }
+
+  /** No solutions if over-constrained *
+  test("ImpossibleOverConstrainedPuzzle") {
+    solver = new SudokuSolver()
+    val iterations = solver.solvePuzzle(new Board(OVER_CONSTRAINED_IMPOSSIBLE_9))
+    assertTrue(s"Solved OVER_CONSTRAINED_IMPOSSIBLE_9 puzzle in $iterations iterations. Should not have.",
+      iterations.isEmpty)
   }*/
 
   test("Solving16x16Puzzle") {

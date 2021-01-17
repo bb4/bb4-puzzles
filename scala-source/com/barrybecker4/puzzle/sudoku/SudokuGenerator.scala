@@ -15,7 +15,7 @@ object SudokuGenerator {
 /**
   * Generate a Sudoku puzzle.
   * Initially created with grandma Becker July 8, 2006
-  * In 2017, I revised the solver algorithm based on ...
+  * In 2017, I revised the solver algorithm based on https://norvig.com/sudoku.html
   * Though that change made the solver better, it actually made the generator worse.
   * Now the generator can only generate very simple to solve problems.
   * To really understand why, see
@@ -23,7 +23,7 @@ object SudokuGenerator {
   * The Norvig solution will find a solution to any initial configuration - even one that is under specified.
   * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
-  * @param ppanel   renders the puzzle. May be null if you do not want to see animation.
+  * @param ppanel renders the puzzle. May be null if you do not want to see animation.
   * @author Barry Becker
   */
 class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
@@ -41,8 +41,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     if (ppanel != null) ppanel.repaint()
     assert(success, "We were not able to generate a consistent board " + board +
       ". numCombinations examined: " + totalCt)
-    // now start removing values until we cannot deduce the final solution from it.
-    // for every position (in random order) if we can remove it, do so.
+
     generateByRemoving(board)
   }
 

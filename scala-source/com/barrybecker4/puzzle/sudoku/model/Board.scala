@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017 - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.model
 
+import BoardComponents.COMPONENTS
+
 /**
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
@@ -19,7 +21,7 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
   def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
-  def copy() = new Board(initialDataCopy)
+  def copy() = new Board(initialDataCopy)  // @TODO remove and make immutable
 
   private def initialDataCopy =
     initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
@@ -60,7 +62,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     }
   }
 
-  /** return number of iterations it took to solve, or None if not solved */
+  /** @return number of iterations it took to solve, or None if not solved */
   def solve(refresh: Option[() => Unit] = None): Option[Int] = Solver(this, refresh).solve()
 
   def setSolvedValues(): Unit = {
