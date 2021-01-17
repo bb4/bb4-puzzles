@@ -1,5 +1,6 @@
 package com.barrybecker4.puzzle.sudoku
 
 package object model {
-  type ValueMap = Map[(Int, Int), Set[Int]]
+  type Location = (Int, Int)
+  type ValueMap = Map[Location, Set[Int]]
 }

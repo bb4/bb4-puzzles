@@ -27,7 +27,7 @@ private case class Solver(board: Board, refresh: Option[() => Unit] = None) {
       case Some(vals) =>
         if (vals.values.forall(_.size == 1)) return Some(vals)
         // Chose the unfilled square, s, with the fewest possibilities
-        val minSq: (Int, Int) = (for (s <- board.comps.squares; if vals(s).size > 1)
+        val minSq: Location = (for (s <- board.comps.squares; if vals(s).size > 1)
           yield (vals(s).size, s)).min._2
         for (d <- vals(minSq)) {
           numIterations += 1

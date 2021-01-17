@@ -31,19 +31,19 @@ case class BoardComponents(baseSize: Int = 3) {
   private val subSeqs = subCellSeqs(baseSize)
 
   val digits: Seq[Int] = 1 to unitSize
-  val squares: Seq[(Int, Int)] = cross(digits, digits)
+  val squares: Seq[Location] = cross(digits, digits)
 
-  val unitList: Seq[Seq[(Int, Int)]] =
+  val unitList: Seq[Seq[Location]] =
     (for (c <- digits) yield cross(digits, Seq(c))) ++
     (for (r <- digits) yield cross(Seq(r), digits)) ++
     (for (rs <- subSeqs; cs <- subSeqs) yield cross(rs, cs))
 
-  val units: Map[(Int, Int), Seq[Seq[(Int, Int)]]] =
+  val units: Map[Location, Seq[Seq[Location]]] =
     (for (s <- squares) yield {
       s -> (for (u <- unitList; if u.contains(s)) yield u)
     }).toMap
 
-  val peers: Map[(Int, Int), Set[(Int, Int)]] =
+  val peers: Map[Location, Set[Location]] =
     (for (s <- squares) yield s -> (units(s).reduceLeft(_ ++ _).toSet - s)).toMap
 
   val initialValueMap: ValueMap = (for (s <- squares) yield s -> digits.toSet).toMap

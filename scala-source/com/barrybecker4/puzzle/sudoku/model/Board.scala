@@ -26,7 +26,7 @@ class Board(val initialData: Array[Array[Cell]]) {
   private def initialDataCopy =
     initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
 
-  def getCell(location: (Int, Int)): Cell = initialData(location._1 - 1)(location._2 - 1)
+  def getCell(location: Location): Cell = initialData(location._1 - 1)(location._2 - 1)
 
   def reset(): Unit = {
     valuesMap = comps.initialValueMap
@@ -34,9 +34,9 @@ class Board(val initialData: Array[Array[Cell]]) {
 
   /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
   def isSolved: Boolean = valuesMap.values.forall(_.size == 1)
-  def getValues(location: (Int, Int)): Seq[Int] = valuesMap(location).toList
+  def getValues(location: Location): Seq[Int] = valuesMap(location).toList
 
-  def getValue(location: (Int, Int)): Int = {
+  def getValue(location: Location): Int = {
     valuesMap(location) match {
       case singleValue if singleValue.size == 1 => singleValue.head
       case notSingle => 0
@@ -44,11 +44,11 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** Sets the original value, and update valuesMap accordingly */
-  def setOriginalValue(location: (Int, Int), v: Int): Unit =
+  def setOriginalValue(location: Location, v: Int): Unit =
     initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
 
   /** Remove specified value if it does not prevent the puzzle from being solved using just base consistency check. */
-  def removeValueIfPossible(location: (Int, Int), refresh: Option[() => Unit] = None): Unit = {
+  def removeValueIfPossible(location: Location, refresh: Option[() => Unit] = None): Unit = {
     val initial = initialDataCopy
     initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
 
@@ -92,7 +92,7 @@ class Board(val initialData: Array[Array[Cell]]) {
     * Eliminate all the other values (except d) from values[s] and propagate.
     * @return Some(values), except return None if a contradiction is detected.
     */
-  def assign(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
+  def assign(values: ValueMap, s: Location, d: Int): Option[ValueMap] = {
     val otherValues: Set[Int] = values(s) - d
     var newValues: Option[ValueMap] = Some(values)
     for (d2 <- otherValues) {
@@ -105,7 +105,7 @@ class Board(val initialData: Array[Array[Cell]]) {
   /** Eliminate d from values[s]; propagate when values or places == 1.
     * @return Some(values), except return None if a contradiction is detected.
     */
-  private def eliminate(values: ValueMap, s: (Int, Int), d: Int): Option[ValueMap] = {
+  private def eliminate(values: ValueMap, s: Location, d: Int): Option[ValueMap] = {
 
     if (!values(s).contains(d)) return Some(values)
     var newValues = values.updated(s, values(s) - d)
