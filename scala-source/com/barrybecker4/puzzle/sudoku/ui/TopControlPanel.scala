@@ -115,5 +115,8 @@ final class TopControlPanel(var controller: SudokuController)
     if (e.getSource == sizeSelector) {
       generatePuzzle(speedSelector.getSelectedDelay)
     }
+    if (e.getSource == speedSelector) {
+      controller.setDelay(speedSelector.getSelectedDelay)
+    }
   }
 }

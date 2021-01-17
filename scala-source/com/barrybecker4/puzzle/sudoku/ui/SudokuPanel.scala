@@ -77,15 +77,19 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   def getBoard: Board = renderer.board
   def valueEntered(): Unit = { repaint() }
-  def cellSelected(location: Location): Unit = { repaint() }
+
+  def cellSelected(location: Location): Unit = {
+    repaint()
+    // without this we do not get key events.
+    requestFocus()
+  }
+
   def requestValidation(): Unit = { validatePuzzle() }
 
   /** This renders the current state of the PuzzlePanel to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponents(g)
     renderer.render(g, inputListener.getUserEnteredValues, inputListener.getCurrentCellLocation, getWidth, getHeight)
-    // without this we do not get key events.
-    requestFocus()
   }
 }
 

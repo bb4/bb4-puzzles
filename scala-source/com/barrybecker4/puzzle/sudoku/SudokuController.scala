@@ -12,6 +12,10 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
+  private var solver: SudokuSolver = _
+  private var generator: SudokuGenerator = _
+
+  override def toString: String = super.toString
   def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
   def validatePuzzle(): Unit = puzzlePanel.validatePuzzle()
 
@@ -21,7 +25,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
 
       def construct: AnyRef = {
         puzzlePanel.setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) )
-        val generator: SudokuGenerator = new SudokuGenerator(puzzlePanel)
+        generator = new SudokuGenerator(puzzlePanel)
         generator.delay = delay
         puzzlePanel.generateNewPuzzle(generator, size)
         None
@@ -38,7 +42,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   def solvePuzzle(delay: Int): Unit = {
     val worker: Worker = new Worker() {
       def construct: AnyRef = {
-        val solver: SudokuSolver = new SudokuSolver(puzzlePanel)
+        solver = new SudokuSolver(puzzlePanel)
         solver.delay = delay
         puzzlePanel.startSolving(solver)
         None
@@ -49,5 +53,15 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
       }
     }
     worker.start()
+  }
+
+  def setDelay(delay: Int): Unit = {
+    println("Changing delay to " + delay)
+    if (solver != null) {
+      solver.delay = delay
+    }
+    if (generator != null) {
+      generator.delay = delay
+    }
   }
 }
