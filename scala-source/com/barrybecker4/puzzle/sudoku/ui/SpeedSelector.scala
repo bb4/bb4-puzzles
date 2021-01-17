@@ -27,8 +27,8 @@ final class SpeedSelector private[ui]() extends Choice {
   /** @return the delay for selected speed.*/
   def getSelectedDelay: Int = {
     this.getSelectedIndex match {
-      case 0 =>  -1
-      case 1 =>  0
+      case 0 => -1
+      case 1 => 0
       case 2 => 10
       case 3 => 50
       case 4 => 400

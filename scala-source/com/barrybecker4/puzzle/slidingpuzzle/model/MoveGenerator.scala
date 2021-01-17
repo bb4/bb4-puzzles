@@ -6,7 +6,7 @@ import MoveGenerator.OFFSETS
 
 
 object MoveGenerator {
-  val OFFSETS = Array(
+  val OFFSETS: Array[ByteLocation] = Array(
     new ByteLocation(-1, 0),
     new ByteLocation(1, 0),
     new ByteLocation(0, -1),
