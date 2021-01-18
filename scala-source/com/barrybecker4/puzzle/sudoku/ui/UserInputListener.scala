@@ -14,7 +14,7 @@ import scala.collection.immutable.HashMap
   * The view in the model-view-controller pattern.
   * @author Barry Becker
   */
-final class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
+class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
 
   private var currentCellLocation: Location = _
   private var userEnteredValues: Map[Location, UserValue] = _

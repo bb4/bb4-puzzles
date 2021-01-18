@@ -40,55 +40,51 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("Easy to Solve") {
     board = new Board(TestData.SIMPLE_4)
-    val iterations = board.solve()
-    assertTrue("Unexpectedly not solved", board.isSolved)
-    assertResult(Some(0)) { iterations }
+    val solution = board.solve()
+    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 
   test("Difficult to Solve") {
     board = new Board(TestData.DIFFICULT_9)
-    val iterations = board.solve()
-    assertTrue("Unexpectedly not solved", board.isSolved)
-    assertResult(Some(33)) { iterations }
+    val solution = board.solve()
+    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 
   test("Norvig hard 9") {
     board = new Board(TestData.NORVIG_HARD_9)
-    val iterations = board.solve()
-    assertTrue("Unexpectedly not solved", board.isSolved)
-    assertResult(Some(24)) { iterations }
+    val solution = board.solve()
+    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 
   // We cannot solve an invalid or inconsistent puzzle
   test("Impossible to Solve") {
 
     board = new Board(TestData.INCONSISTENT_9)
-    val iterations = board.solve()
-    assertFalse("Unexpectedly soved impossible puzzle", board.isSolved)
+    val solution = board.solve()
+    assertFalse("Unexpectedly solved impossible puzzle", solution.isDefined)
   }
 
   test("Invalid puzzle") {
 
     board = new Board(TestData.INVALID_9)
-    val iterations = board.solve()
-    assertFalse("Unexpectedly solved invalid puzzle", board.isSolved)
+    val solution = board.solve()
+    assertFalse("Unexpectedly solved invalid puzzle", solution.isDefined)
   }
 
   test("Completely Solved") {
     board = new Board(TestData.SIMPLE_4_SOLVED)
-    val iterations = board.solve()
-    assertTrue("Unexpectedly not solved", board.isSolved)
+    val solution = board.solve()
+    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 
   test("Large complex 16") {
     board = new Board(TestData.COMPLEX_16)
-    val iterations = board.solve()
+    val solution = board.solve()
 
     assertResult(16) {board.edgeLength}
     assertResult(256) {board.numCells}
 
-    assertTrue("Unexpectedly not solved", board.isSolved)
-    assertResult(Some(174)) { iterations }
+    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 }
 

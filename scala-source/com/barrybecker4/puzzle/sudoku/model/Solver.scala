@@ -2,17 +2,17 @@
 package com.barrybecker4.puzzle.sudoku.model
 
 /** Solves a Sudoku Board configuration */
-private case class Solver(board: Board, refresh: Option[() => Unit] = None) {
+private case class Solver(board: Board, refresh: Option[Board => Unit] = None) {
 
   private var numIterations = 0
 
-  /** @return then number of iterations it took to solve, or None, if could not be solved */
-  def solve(): Option[Int] = {
-    if (board.updateFromInitialData()) {
+  /** @return the solved board, or None, if could not be solved */
+  def solve(): Option[Board] = {
+    val updatedBoard = board.updateFromInitialData()
+    if (updatedBoard.isDefined) {
       searchForSolution(Some(board.valuesMap)) match {
         case Some(vals) =>
-          board.valuesMap = vals
-          return Some(numIterations)
+          return Some(board.setValuesMap(vals))
         case None => return None
       }
     }
@@ -31,7 +31,8 @@ private case class Solver(board: Board, refresh: Option[() => Unit] = None) {
           yield (vals(s).size, s)).min._2
         for (d <- vals(minSq)) {
           numIterations += 1
-          board.doRefresh(refresh)
+          //if (values.isDefined)
+          //    refresh.foreach(f => f(board))
           val result = searchForSolution(board.assign(vals, minSq, d))
           if (result.nonEmpty) return result
         }

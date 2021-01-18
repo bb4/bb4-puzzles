@@ -3,94 +3,133 @@ package com.barrybecker4.puzzle.sudoku.model
 
 import BoardComponents.COMPONENTS
 
+import scala.collection.immutable.HashMap
+
+object Board {
+  private def arrayToMap(initial: Array[Array[Int]]) = {
+    val baseSize = Math.sqrt(initial.length).toInt
+    val allCandidates = COMPONENTS(baseSize).digits.toSet
+    var map = new HashMap[Location, Cell]()
+    for (i <- initial.indices) {
+      val row = initial(i)
+      for (j <- row.indices) {
+        val v = initial(i)(j)
+        val cell = if (v > 0) Cell(v, v, Set(v)) else Cell(0, 0, allCandidates)
+        map += (i + 1, j + 1) -> cell
+      }
+    }
+    map
+  }
+}
+
 /**
   * The Board describes the physical layout of the puzzle.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
   * This implementation is based on Peter Norvig's algorithm - http://norvig.com/sudoku.html
-  * @param initialData array giving initially set values
+  * @param cells map from location to Cell giving initially set values
   * @author Barry Becker
   */
-class Board(val initialData: Array[Array[Cell]]) {
+case class Board(cells: Map[Location, Cell]) {
 
-  val edgeLength: Int = initialData.length
+  val edgeLength: Int = Math.sqrt(cells.size).toInt
   val baseSize: Int = Math.sqrt(edgeLength).toInt
   private[model] val comps = COMPONENTS(baseSize)
-  private[model] var valuesMap: ValueMap = _
   val numCells: Int = edgeLength * edgeLength
-  reset()
 
-  def this(initial: Array[Array[Int]]) = this(initial.map(_.map(v => new Cell(v, v))))
-  def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
-  def copy() = new Board(initialDataCopy)  // @TODO remove and make immutable
-
-  private def initialDataCopy =
-    initialData.map(_.map(c => new Cell(c.originalValue, c.proposedValue)))
-
-  def getCell(location: Location): Cell = initialData(location._1 - 1)(location._2 - 1)
-
-  def reset(): Unit = {
-    valuesMap = comps.initialValueMap
+  def this(initial: Array[Array[Int]]) = {
+    this(Board.arrayToMap(initial))
   }
 
-  /** @return true if the board has been successfully solved. Solved if all candidates a single value. */
-  def isSolved: Boolean = valuesMap.values.forall(_.size == 1)
-  def getValues(location: Location): Seq[Int] = valuesMap(location).toList
+  def this(baseSize: Int) = this(Array.ofDim[Int](baseSize * baseSize, baseSize * baseSize))
+
+  def getCell(location: Location): Cell = cells(location)
+
+  def reset(): Board = {
+    val candidates = comps.digits.toSet
+    new Board(cells.map(c => (c._1, c._2.setCandidateValues(candidates))))
+  }
+
+  /** @return true if the board has been successfully solved. Solved if all candidates have a single value. */
+  def isSolved: Boolean = cells.values.forall(_.candidateValues.size == 1)
+  def getValues(location: Location): Seq[Int] = cells(location).candidateValues.toList
 
   def getValue(location: Location): Int = {
-    valuesMap(location) match {
-      case singleValue if singleValue.size == 1 => singleValue.head
-      case notSingle => 0
+    cells(location) match {
+      case singleValue if singleValue.candidateValues.size == 1 => singleValue.candidateValues.head
+      case _ => 0
     }
   }
 
-  /** Sets the original value, and update valuesMap accordingly */
-  def setOriginalValue(location: Location, v: Int): Unit =
-    initialData(location._1 - 1)(location._2 - 1) = new Cell(v, v)
-
-  /** Remove specified value if it does not prevent the puzzle from being solved using just base consistency check. */
-  def removeValueIfPossible(location: Location, refresh: Option[() => Unit] = None): Unit = {
-    val initial = initialDataCopy
-    initial(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
-
-    val b = new Board(initial)
-    b.updateFromInitialData()
-
-    if (b.isSolved) {
-      initialData(location._1 - 1)(location._2 - 1) = new Cell(0, 0)
-      this.valuesMap = b.valuesMap
-      if (refresh.isDefined) refresh.get()
-    }
+  /** Sets the original value, and update the list of candidates accordingly */
+  def setOriginalValue(location: Location, v: Int): Board = {
+    val updatedCells = cells + (location -> cells(location).setValue(v))
+    Board(updatedCells)
   }
 
-  /** @return number of iterations it took to solve, or None if not solved */
-  def solve(refresh: Option[() => Unit] = None): Option[Int] = Solver(this, refresh).solve()
+  /** Remove specified value if it does not prevent the puzzle from being solved using just base consistency check.
+    * @return the updated board, or None if not possible to remove value */
+  def removeValueIfPossible(location: Location, refresh: Option[Board => Unit] = None): Option[Board] = {
+    val initialCells = cells + (location -> Cell(0, 0, comps.digits.toSet))
 
-  def setSolvedValues(): Unit = {
-    for ((s, values) <- valuesMap) {
-      if (values.size == 1) initialData(s._1 - 1)(s._2 - 1).proposedValue = values.head
+    val board = Board(initialCells)
+    val updatedBoard = board.updateFromInitialData()
+
+    if (updatedBoard.isDefined && updatedBoard.get.isSolved && refresh.isDefined) {
+      refresh.foreach(f => f(updatedBoard.get)) // better way to write this?
     }
+    updatedBoard
   }
 
-  /** @return true if updated successfully. False if there was an inconsistency. */
-  def updateFromInitialData(): Boolean = {
-    for (r <- comps.digits; c <- comps.digits; v = initialData(r - 1)(c - 1).originalValue; if v > 0)
-      assign(valuesMap, (r, c), v) match {
-        case Some(values) => valuesMap = values
-        case None => return false
+  /** @return the solved board, or None if not solved */
+  def solve(refresh: Option[Board => Unit] = None): Option[Board] =
+    Solver(this, refresh).solve()
+
+  /*
+  def setSolvedValues(): Board = {
+    var newBoard: Board = this
+    for ((s, cell) <- cells) {
+      if (cell.candidateValues.size == 1) {
+        newBoard = Board(cells.updated(s, cells(s).setValue(cell.candidateValues.head)))
       }
-    true
+    }
+    newBoard
+  }*/
+
+  /** @return the new board if updated successfully, else None if there was an inconsistency. */
+  def updateFromInitialData(): Option[Board] = {
+
+    var localValuesMap: ValueMap = this.valuesMap
+    for (r <- comps.digits; c <- comps.digits; v = cells((r, c)).originalValue; if v > 0) {
+      assign(localValuesMap, (r, c), v) match {
+        case Some(values) => localValuesMap = values
+        case None => return None
+      }
+    }
+    Some(setValuesMap(localValuesMap))
   }
 
-  def doRefresh(refresh: Option[() => Unit]): Unit = {
-    if (refresh.isDefined) {
-      setSolvedValues()
-      refresh.get()
-    }
+  def valuesMap: ValueMap = {
+    cells.map({case (loc: Location, cell: Cell) => loc -> cell.candidateValues})
   }
+
+  def setValuesMap(valuesMap: ValueMap): Board = {
+    val newCells = cells.map({
+      case (loc: Location, cell: Cell) => loc -> cell.setCandidateValues(valuesMap(loc))
+    })
+    Board(newCells)
+  }
+
+  /*
+  def doRefresh(refresh: Option[(Board) => Unit]): Unit = {
+    if (refresh.isDefined) {
+      val solvedBoard = setSolvedValues()
+      refresh.get(solvedBoard)
+    }
+  }*/
 
   /** Assign a value, d, to a square if possible.
     * Eliminate all the other values (except d) from values[s] and propagate.
-    * @return Some(values), except return None if a contradiction is detected.
+    * @return Some(values), or None if a contradiction is detected.
     */
   def assign(values: ValueMap, s: Location, d: Int): Option[ValueMap] = {
     val otherValues: Set[Int] = values(s) - d
@@ -103,33 +142,36 @@ class Board(val initialData: Array[Array[Cell]]) {
   }
 
   /** Eliminate d from values[s]; propagate when values or places == 1.
-    * @return Some(values), except return None if a contradiction is detected.
+    * @return Some(values), or None if a contradiction is detected.
     */
   private def eliminate(values: ValueMap, s: Location, d: Int): Option[ValueMap] = {
 
     if (!values(s).contains(d)) return Some(values)
     var newValues = values.updated(s, values(s) - d)
     // If a square s is reduced to one value, d2, then eliminate d2 from the peers.
-    if (newValues(s).isEmpty) return None // Contradiction
-    // val candidates = newValues(s)
+    if (newValues(s).isEmpty)
+      return None // Contradiction
     else if (newValues(s).size == 1) {
       val d2 = newValues(s).head
       for (s2 <- comps.peers(s)) {
         eliminate(newValues, s2, d2) match {   // Recursive call
           case Some(vals) => newValues = vals
-          case None => return None // Contradiction
+          case None =>
+            return None // Contradiction
         }
       }
     }
     // If a unit u is reduced to only one place for a value d, then put it there.
     for (u <- comps.units(s)) {
       val dplaces = for (s <- u; if newValues(s).contains(d)) yield s
-      if (dplaces.isEmpty) return None // Contradiction
+      if (dplaces.isEmpty)
+        return None // Contradiction
       if (dplaces.size == 1) {
         // d can only be in one place in unit; assign it there
         assign(newValues, dplaces.head, d) match {
           case Some(vals) => newValues = vals
-          case None => return None  // Contradiction
+          case None =>
+            return None  // Contradiction
         }
       }
     }

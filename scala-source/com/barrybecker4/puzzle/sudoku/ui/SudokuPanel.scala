@@ -30,6 +30,11 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
     renderer.board = b
   }
 
+  def repaint(board: Board): Unit = {
+    setBoard(board)
+    super.repaint();
+  }
+
   def setShowCandidates(show: Boolean): Unit = {
     renderer.setShowCandidates(show)
     repaint()
@@ -58,14 +63,14 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   }
 
   def startSolving(solver: SudokuSolver): Unit = {
-    val iterations = solver.solvePuzzle(getBoard)
-    showMessage(iterations)
+    val solution = solver.solvePuzzle(getBoard)
+    showMessage(solution)
     inputListener.clear()
   }
 
-  private def showMessage(iterations: Option[Int]): Unit = {
-    if (iterations.isDefined)
-      println("The final solution is shown. the number of iterations was:" + iterations.get)
+  private def showMessage(solution: Option[Board]): Unit = {
+    if (solution.isDefined)
+      println("The final solution is shown.")
     else println("This puzzle is not solvable!")
   }
 

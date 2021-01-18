@@ -4,13 +4,13 @@ case class BoardSerializer(board: Board) {
 
   def serialize: String = {
     val b = for (r <- board.comps.digits) yield
-      for (c <- board.comps.digits; v = board.initialData(r-1)(c-1)) yield v.proposedValue
+      for (c <- board.comps.digits; v = board.getCell((r, c))) yield v.proposedValue
     "\n" + b.map(_.map(ValueConverter.getSymbol).mkString("Array(", ", ", "),")).mkString("\n")
   }
 
   def debugSerialize: String = {
     val b = for (r <- board.comps.digits) yield
-      for (c <- board.comps.digits; v = board.valuesMap((r, c))) yield v
+      for (c <- board.comps.digits; v = board.getCell((r, c)).candidateValues) yield v
     b.map(_.map(_.map(ValueConverter.getSymbol)).mkString("[", ",", "]")).mkString("\n")
   }
 }

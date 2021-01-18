@@ -4,13 +4,14 @@ package com.barrybecker4.puzzle.sudoku
 import java.awt.Container
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.sudoku.model.Board
+import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 /**
   * This does the hard work of actually solving the puzzle.
   * @param puzzlePanel the viewer (may be null if no UI)
   * @author Barry Becker
   */
-class SudokuSolver(puzzlePanel: Container = null) {
+class SudokuSolver(puzzlePanel: SudokuPanel = null) {
 
   var delay: Int = 0
 
@@ -19,15 +20,14 @@ class SudokuSolver(puzzlePanel: Container = null) {
     * @param board puzzle to solve
     * @return number of iterations or None if not solved.
     */
-  def solvePuzzle(board: Board): Option[Int] = {
-    val numIterations = board.solve(Some(refresh _))
-    if (numIterations.isDefined) board.setSolvedValues()
-    numIterations
+  def solvePuzzle(board: Board): Option[Board] = {
+    val solution = board.solve(Some(refresh))
+    if (solution.isDefined) solution else None
   }
 
-  private def refresh(): Unit = {
+  private def refresh(board: Board): Unit = {
     if (puzzlePanel != null && delay >= 0) {
-      puzzlePanel.repaint()
+      puzzlePanel.repaint(board)
       ThreadUtil.sleep(10 + delay) // give it a chance to repaint.
     }
   }

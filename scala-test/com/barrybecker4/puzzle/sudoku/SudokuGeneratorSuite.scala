@@ -12,7 +12,7 @@ import scala.util.Random
   * @author Barry Becker
   */
 class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
-  /** instance under test. */
+
   private var generator: SudokuGenerator = _
   private var rand: Random = _
 
@@ -62,7 +62,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       val rand = new Random()
       rand.setSeed(i)
       val board = generateInitialSolution(5, rand)
-      println(board)
+      //println(board)
       assertTrue("Could not create a consistent board", board.isDefined)
     }
   }
@@ -81,9 +81,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   private def generateInitialSolution(baseSize: Int, rand: Random): Option[Board] = {
     generator = new SudokuGenerator(rand = rand)
     val b = new Board(baseSize)
-    val solved = generator.generateSolution(b)
-    //assertTrue("The board was not solved!", solved);
-    if (!solved) None else Some(b)
+    generator.generateSolution(b)
   }
 
   private def generatePuzzle(baseSize: Int, rand: Random): Board = {

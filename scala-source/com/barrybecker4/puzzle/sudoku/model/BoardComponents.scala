@@ -46,5 +46,5 @@ case class BoardComponents(baseSize: Int = 3) {
   val peers: Map[Location, Set[Location]] =
     (for (s <- squares) yield s -> (units(s).reduceLeft(_ ++ _).toSet - s)).toMap
 
-  val initialValueMap: ValueMap = (for (s <- squares) yield s -> digits.toSet).toMap
+  //val initialValueMap: ValueMap = (for (s <- squares) yield s -> digits.toSet).toMap
 }

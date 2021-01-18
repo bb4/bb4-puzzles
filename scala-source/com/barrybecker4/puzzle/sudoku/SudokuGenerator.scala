@@ -37,54 +37,60 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     */
   def generatePuzzleBoard(board: Board): Board = {
     if (ppanel != null) ppanel.setBoard(board)
-    val success: Boolean = generateSolution(board)  // sometimes fails to generate solution...
-    if (ppanel != null) ppanel.repaint()
-    assert(success, "We were not able to generate a consistent board " + board +
+    val solution: Option[Board] = generateSolution(board)  // sometimes fails to generate solution...
+    assert(solution.isDefined, "We were not able to generate a consistent board " + board +
       ". numCombinations examined: " + totalCt)
+    if (ppanel != null) ppanel.repaint(solution.get)
 
-    generateByRemoving(board)
+    generateByRemoving(solution.get)
   }
 
-  /** @return whether or not the specified board has a consistent solution. */
-  def generateSolution(board: Board): Boolean = generateSolution(board, 0)
+  /** @return board representing a consistent solution if one could be found, else None  */
+  def generateSolution(board: Board): Option[Board] = {
+    val (consistent, solution) = generateSolution(board, 0)
+    if (consistent) Some(solution) else None
+  }
 
   /**
     * Recursive method to generate a completely solved, consistent sudoku board.
     * If at any point we find that we have an inconsistent/unsolvable board, then backtrack.
     * @param board the currently generated board (may be partial)
-    * @return whether or not the current board is consistent.
+    * @return (true, solvedBoard), or (false, board) if could not find consistent solution.
     */
-  private def generateSolution(board: Board, position: Int): Boolean = {
+  private def generateSolution(board: Board, position: Int): (Boolean, Board) = {
 
-    if (position == board.numCells)   // base case of recursion
-      return true // board completely solved now
+    if (position == board.numCells) // base case of recursion
+      return (true, board) // board completely solved now
 
     val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
     val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
-    refresh()
+    refresh(board)
+
+    var updatedBoard = board
 
     for (value <- shuffledValues) {
       totalCt += 1
-      board.setOriginalValue(loc, value)
-      refresh()
-      if (board.updateFromInitialData()) {
-        if (generateSolution(board, position + 1)) return true
+      updatedBoard = board.setOriginalValue(loc, value)
+      refresh(updatedBoard)
+      val updatedBoard2 = updatedBoard.updateFromInitialData()
+      if (updatedBoard2.isDefined) {
+        val (consistent, updatedBoard3) = generateSolution(updatedBoard2.get, position + 1)
+        if (consistent) return (true, updatedBoard3)
         else {
-          board.reset()
+          updatedBoard = updatedBoard.reset() // updatedBoard3.reset()?
         }
       }
     }
-    board.setOriginalValue(loc, 0) // undo
-    false
+    (false, updatedBoard.setOriginalValue(loc, 0)) // undo
   }
 
-  private def refresh(): Unit = {
+  private def refresh(board: Board): Unit = {
     if (ppanel == null) return
     if (delay < 0) {
       if (Math.random() < 0.05) ppanel.repaint()
     }
     else {
-      ppanel.repaint()
+      ppanel.repaint(board)
       ThreadUtil.sleep(delay)
     }
   }
@@ -101,10 +107,16 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     val len: Int = board.edgeLength
     val last: Int = len * len
 
+    var b = board
     for (i <- 0 until last) {
-      board.removeValueIfPossible(positionList(i), Some(refresh _))
+      val newBoard = b.removeValueIfPossible(positionList(i), Some(refresh))
+      if (newBoard.isDefined) {
+        println("removed a position at " + positionList(i))
+        println("new board = " + newBoard)
+        b = newBoard.get
+      }
     }
-    board
+    b
   }
 
   /** @param size the base size (fourth root of the number of cells).
