@@ -31,6 +31,7 @@ case class BoardComponents(baseSize: Int = 3) {
   private val subSeqs = subCellSeqs(baseSize)
 
   val digits: Seq[Int] = 1 to unitSize
+  val digitSet = digits.toSet
   val squares: Seq[Location] = cross(digits, digits)
 
   val unitList: Seq[Seq[Location]] =
@@ -46,5 +47,5 @@ case class BoardComponents(baseSize: Int = 3) {
   val peers: Map[Location, Set[Location]] =
     (for (s <- squares) yield s -> (units(s).reduceLeft(_ ++ _).toSet - s)).toMap
 
-  //val initialValueMap: ValueMap = (for (s <- squares) yield s -> digits.toSet).toMap
+  val initialValueMap: ValueMap = (for (s <- squares) yield s -> digitSet).toMap
 }

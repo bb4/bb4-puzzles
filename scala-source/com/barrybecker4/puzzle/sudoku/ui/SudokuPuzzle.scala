@@ -28,7 +28,7 @@ final class SudokuPuzzle() extends JApplet {
     * (init required for applet)
     */
   override def init(): Unit = {
-    val puzzlePanel = new SudokuPanel(Data.SIMPLE_9)
+    val puzzlePanel = new SudokuPanel(Data.DIFFICULT_9)
     val controller = new SudokuController(puzzlePanel)
     val topControls = new TopControlPanel(controller)
     val panel = new JPanel(new BorderLayout)

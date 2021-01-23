@@ -10,7 +10,7 @@ case class BoardSerializer(board: Board) {
 
   def debugSerialize: String = {
     val b = for (r <- board.comps.digits) yield
-      for (c <- board.comps.digits; v = board.getCell((r, c)).candidateValues) yield v
+      for (c <- board.comps.digits; v = board.getValues((r, c))) yield v
     b.map(_.map(_.map(ValueConverter.getSymbol)).mkString("[", ",", "]")).mkString("\n")
   }
 }

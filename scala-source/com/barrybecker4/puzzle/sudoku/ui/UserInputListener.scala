@@ -101,7 +101,8 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
       userEnteredValues += (currentCellLocation -> userValue)
       notifyValueEntered()
     } catch {
-      case exception: IllegalArgumentException => JOptionPane.showMessageDialog(null, exception.getMessage)
+      case exception: IllegalArgumentException =>
+        JOptionPane.showMessageDialog(null, exception.getMessage)
     }
   }
 

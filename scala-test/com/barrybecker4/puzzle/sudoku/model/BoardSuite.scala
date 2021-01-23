@@ -44,10 +44,22 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
   }
 
+  test("Remove if possible on 4x4") {
+    board = new Board(TestData.SIMPLE_4)
+    assertTrue("Was able to remove, but shouldn't have been",
+      board.removeValueIfPossible((1, 2)).isEmpty)
+  }
+
   test("Difficult to Solve") {
     board = new Board(TestData.DIFFICULT_9)
     val solution = board.solve()
     assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+  }
+
+  test("Remove if possible on 9x9") {
+    board = new Board(TestData.DIFFICULT_9)
+    assertTrue("Was able to remove, but shouldn't have been",
+      board.removeValueIfPossible((1, 3)).isEmpty)
   }
 
   test("Norvig hard 9") {

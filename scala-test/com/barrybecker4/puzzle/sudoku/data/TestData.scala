@@ -39,17 +39,7 @@ object TestData {
   )
 
   /** Difficult to solve 9*9 puzzle */
-  val DIFFICULT_9 = Array(
-    Array(0, 0, 5, 3, 0, 0, 0, 0, 0),
-    Array(8, 0, 0, 0, 0, 0, 0, 2, 0),
-    Array(0, 7, 0, 0, 1, 0, 5, 0, 0),
-    Array(4, 0, 0, 0, 0, 5, 3, 0, 0),
-    Array(0, 1, 0, 0, 7, 0, 0, 0, 6),
-    Array(0, 0, 3, 2, 0, 0, 0, 8, 0),
-    Array(0, 6, 0, 5, 0, 0, 0, 0, 9),
-    Array(0, 0, 4, 0, 0, 0, 0, 3, 0),
-    Array(0, 0, 0, 0, 0, 9, 7, 0, 0)
-  )
+  val DIFFICULT_9 = Data.DIFFICULT_9
 
   /** simple test of a 9*9 puzzle
     * (inconsistent. use only for testing)
@@ -78,7 +68,7 @@ object TestData {
     Array(4, 0, 0, 7, 0, 5, 1, 0, 0)
   )
 
-  /** Underconstrained
+  /** Under-constrained
     */
   val UNDER_CONSTRAINED_IMPOSSIBLE_9 = Array(
     Array(0, 0, 0, 0, 0, 5, 0, 0, 0),

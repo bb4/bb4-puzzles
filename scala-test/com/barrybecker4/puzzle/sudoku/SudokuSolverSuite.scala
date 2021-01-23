@@ -68,13 +68,13 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertFalse("Failed to solve UNDER_CONSTRAINED_IMPOSSIBLE_9 puzzle.", iterations.isEmpty)
   }
 
-  /** No solutions if over-constrained *
+  /** No solutions if over-constrained */
   test("ImpossibleOverConstrainedPuzzle") {
     solver = new SudokuSolver()
     val iterations = solver.solvePuzzle(new Board(OVER_CONSTRAINED_IMPOSSIBLE_9))
     assertTrue(s"Solved OVER_CONSTRAINED_IMPOSSIBLE_9 puzzle in $iterations iterations. Should not have.",
       iterations.isEmpty)
-  }*/
+  }
 
   test("Solving16x16Puzzle") {
     solver = new SudokuSolver

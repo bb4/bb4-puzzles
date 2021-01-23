@@ -10,31 +10,31 @@ private case class Solver(board: Board, refresh: Option[Board => Unit] = None) {
   def solve(): Option[Board] = {
     val updatedBoard = board.updateFromInitialData()
     if (updatedBoard.isDefined) {
-      searchForSolution(Some(board.valuesMap)) match {
-        case Some(vals) =>
-          return Some(board.setValuesMap(vals))
-        case None => return None
-      }
+      return searchForSolution(Some(board))
     }
     None
   }
 
   def getNumIterations: Int = numIterations
 
-  private def searchForSolution(values: Option[ValueMap]): Option[ValueMap] = {
-    values match {
+  private def searchForSolution(board: Option[Board]): Option[Board] = {
+    board match {
       case None => None
-      case Some(vals) =>
-        if (vals.values.forall(_.size == 1)) return Some(vals)
-        // Chose the unfilled square, s, with the fewest possibilities
-        val minSq: Location = (for (s <- board.comps.squares; if vals(s).size > 1)
-          yield (vals(s).size, s)).min._2
-        for (d <- vals(minSq)) {
+      case Some(b) =>
+        if (b.valuesMap.values.forall(_.size == 1)) {
+          b.doRefresh(refresh)
+          return Some(b)
+        }
+
+        // Chose the unfilled square, s, with the fewest possibilities greater than one (helps performance)
+        val minSq: Location = (for (s <- b.comps.squares; if b.valuesMap(s).size > 1)
+          yield (b.valuesMap(s).size, s)).min._2
+        for (d <- b.valuesMap(minSq)) {
           numIterations += 1
-          //if (values.isDefined)
-          //    refresh.foreach(f => f(board))
-          val result = searchForSolution(board.assign(vals, minSq, d))
-          if (result.nonEmpty) return result
+          b.doRefresh(refresh)
+          val newValuesMap = b.assign(minSq, d, b.valuesMap)
+          if (newValuesMap.isDefined)
+            return searchForSolution(Some(Board(b.cells, newValuesMap.get)))
         }
         None
     }

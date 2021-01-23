@@ -111,8 +111,6 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     for (i <- 0 until last) {
       val newBoard = b.removeValueIfPossible(positionList(i), Some(refresh))
       if (newBoard.isDefined) {
-        println("removed a position at " + positionList(i))
-        println("new board = " + newBoard)
         b = newBoard.get
       }
     }
