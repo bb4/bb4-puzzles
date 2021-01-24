@@ -1,7 +1,6 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
-import java.awt.Container
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
@@ -20,10 +19,7 @@ class SudokuSolver(puzzlePanel: SudokuPanel = null) {
     * @param board puzzle to solve
     * @return number of iterations or None if not solved.
     */
-  def solvePuzzle(board: Board): Option[Board] = {
-    val solution = board.solve(Some(refresh))
-    if (solution.isDefined) solution else None
-  }
+  def solvePuzzle(board: Board): Option[Board] = board.solve(Some(refresh))
 
   private def refresh(board: Board): Unit = {
     if (puzzlePanel != null && delay >= 0) {

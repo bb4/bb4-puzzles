@@ -23,7 +23,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
 
   def this(initialData: Array[Array[Int]]) {
-    this(new Board(initialData))
+    this(new Board(initialData).updateFromInitialData().get)
   }
 
   def setBoard(b: Board): Unit = {
@@ -32,7 +32,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   def repaint(board: Board): Unit = {
     setBoard(board)
-    super.repaint();
+    super.repaint()
   }
 
   def setShowCandidates(show: Boolean): Unit = {
@@ -49,9 +49,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   private def getSolvedPuzzle = {
     val solver = new SudokuSolver
-    val boardCopy = getBoard.copy()
-    solver.solvePuzzle(boardCopy)
-    boardCopy
+    solver.solvePuzzle(getBoard).get
   }
 
   /** Reset to new puzzle with specified initial data.
@@ -76,7 +74,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   def generateNewPuzzle(generator: SudokuGenerator, size: Int): Unit = {
     inputListener.clear()
-    renderer.board = generator.generatePuzzleBoard(new Board(size))
+    renderer.board = generator.generatePuzzleBoard(size)
     repaint()
   }
 

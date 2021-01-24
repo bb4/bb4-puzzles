@@ -86,7 +86,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
   private def generatePuzzle(baseSize: Int, rand: Random): Board = {
     generator = new SudokuGenerator(null, rand)
-    generator.generatePuzzleBoard(new Board(baseSize))
+    generator.generatePuzzleBoard(baseSize)
   }
 }
 

@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.sudoku.ui
 
 import java.awt.BorderLayout
 import javax.swing.{JApplet, JPanel, SwingUtilities}
-
 import com.barrybecker4.puzzle.sudoku.{Data, SudokuController}
 import com.barrybecker4.ui.util.GUIUtil
 

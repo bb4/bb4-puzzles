@@ -116,12 +116,11 @@ case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
     Board(newCells, valuesMap)
   }
 
-  def doRefresh(refresh: Option[(Board) => Unit]): Unit = {
+  def doRefresh(refresh: Option[Board => Unit]): Unit = {
     if (refresh.isDefined) {
       refresh.get(setSolvedValues())
     }
   }
 
   override def toString: String = BoardSerializer(this).serialize
-  def toDebugString: String = BoardSerializer(this).debugSerialize
 }

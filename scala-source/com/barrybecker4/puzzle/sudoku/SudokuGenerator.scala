@@ -35,7 +35,9 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     * Find a complete, consistent solution.
     * @return generated random board
     */
-  def generatePuzzleBoard(board: Board): Board = {
+  def generatePuzzleBoard(size: Int): Board = {
+    totalCt = 0
+    val board: Board = new Board(size)
     if (ppanel != null) ppanel.setBoard(board)
     val solution: Option[Board] = generateSolution(board)  // sometimes fails to generate solution...
     assert(solution.isDefined, "We were not able to generate a consistent board " + board +
@@ -77,7 +79,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
         val (consistent, updatedBoard3) = generateSolution(updatedBoard2.get, position + 1)
         if (consistent) return (true, updatedBoard3)
         else {
-          updatedBoard = updatedBoard.reset() // updatedBoard3.reset()?
+          updatedBoard = updatedBoard.reset()
         }
       }
     }

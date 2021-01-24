@@ -1,9 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
+import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.sudoku.data.TestData._
 import com.barrybecker4.puzzle.sudoku.model.Board
-import org.junit.Assert.{assertFalse, assertTrue}
+import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -29,57 +30,74 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("CaseSimpleSample") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(SIMPLE_9))
-    assertTrue("Did not solve SIMPLE_9 successfully", iterations.isDefined)
+    val solvedBoard = solver.solvePuzzle(new Board(SIMPLE_9))
+    assertTrue("Did not solve SIMPLE_9 successfully", solvedBoard.isDefined)
   }
 
   /** negative test case */
   test("ImpossiblePuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(INCONSISTENT_9))
-    assertFalse("Solved impossible INCONSISTENT_9 puzzle. Should not have.", iterations.isDefined)
+    val solvedBoard = solver.solvePuzzle(new Board(INCONSISTENT_9))
+    assertFalse("Solved impossible INCONSISTENT_9 puzzle. Should not have.", solvedBoard.isDefined)
   }
 
   /** negative test case */
   test("InvalidPuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(INVALID_9))
-    assertResult(None) { iterations }
+    val solvedBoard = solver.solvePuzzle(new Board(INVALID_9))
+    assertResult(None) { solvedBoard }
+  }
+
+  test("Difficult9Puzzle") {
+    solver = new SudokuSolver()
+    val solvedBoard = solver.solvePuzzle(new Board(DIFFICULT_9))
+    assertTrue("Did not solve DIFFICULT_9 puzzle successfully.", solvedBoard.isDefined)
+    assertEquals(
+      strip("""
+        |Array(., ., 5, 3, ., ., ., ., .),
+        |Array(8, ., ., ., ., ., ., 2, .),
+        |Array(., 7, ., ., 1, ., 5, ., .),
+        |Array(4, ., ., ., ., 5, 3, ., .),
+        |Array(., 1, ., ., 7, ., ., ., 6),
+        |Array(., ., 3, 2, ., ., ., 8, .),
+        |Array(., 6, ., 5, ., ., ., ., 9),
+        |Array(., ., 4, ., ., ., ., 3, .),
+        |Array(., ., ., ., ., 9, 7, ., .)"""), solvedBoard.get.setSolvedValues().toString)
   }
 
   test("HardNorvigPuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(NORVIG_HARD_9))
-    assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", iterations.isDefined)
+    val solvedBoard = solver.solvePuzzle(new Board(NORVIG_HARD_9))
+    assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", solvedBoard.isDefined)
   }
 
   /** negative test case. Takes a very long time to determine that it is impossible (over 3 minutes on i7-6700K) *
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
-    assertTrue(s"Solved impossible NORVIG_IMPOSSIBLE_9 puzzle in $iterations iterations. Should not have.",
-      iterations.isEmpty)
+    val solvedBoard = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
+    assertTrue(s"Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.",
+      solvedBoard.isEmpty)
   }*/
 
   /** There are many solutions for under-constrained puzzle. */
   test("UnderConstrainedPuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(UNDER_CONSTRAINED_IMPOSSIBLE_9))
-    assertFalse("Failed to solve UNDER_CONSTRAINED_IMPOSSIBLE_9 puzzle.", iterations.isEmpty)
+    val solvedBoard = solver.solvePuzzle(new Board(UNDER_CONSTRAINED_IMPOSSIBLE_9))
+    assertFalse("Failed to solve UNDER_CONSTRAINED_IMPOSSIBLE_9 puzzle.", solvedBoard.isEmpty)
   }
 
   /** No solutions if over-constrained */
   test("ImpossibleOverConstrainedPuzzle") {
     solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(new Board(OVER_CONSTRAINED_IMPOSSIBLE_9))
-    assertTrue(s"Solved OVER_CONSTRAINED_IMPOSSIBLE_9 puzzle in $iterations iterations. Should not have.",
-      iterations.isEmpty)
+    val solvedBoard = solver.solvePuzzle(new Board(OVER_CONSTRAINED_IMPOSSIBLE_9))
+    assertTrue(s"Solved OVER_CONSTRAINED_IMPOSSIBLE_9 puzzle. Should not have.",
+      solvedBoard.isEmpty)
   }
 
   test("Solving16x16Puzzle") {
     solver = new SudokuSolver
-    val iterations = solver.solvePuzzle(new Board(COMPLEX_16))
-    assertTrue("Unexpectedly could not solve 16x16 puzzle.", iterations.isDefined)
+    val solvedBoard = solver.solvePuzzle(new Board(COMPLEX_16))
+    assertTrue("Unexpectedly could not solve 16x16 puzzle.", solvedBoard.isDefined)
   }
 
   test("GenerateAndSolveMany 9x9 puzzles") {
@@ -111,16 +129,13 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
 
   private def generatePuzzle(baseSize: Int, rand: Random) = {
     generator = new SudokuGenerator(null, rand)
-    val start = System.currentTimeMillis
-    val b = generator.generatePuzzleBoard(new Board(baseSize))
-    //System.out.println("Time to generate size=" + baseSize + " was " + (System.currentTimeMillis - start))
-    b
+    generator.generatePuzzleBoard(baseSize)
   }
 
   private def solve(board: Board, rand: Random): Unit = {
     val solver = new SudokuSolver()
-    val iterations = solver.solvePuzzle(board)
-    assertTrue("Unexpectedly not solved.", iterations.isDefined)
+    val solvedBoard = solver.solvePuzzle(board)
+    assertTrue("Unexpectedly not solved.", solvedBoard.isDefined)
   }
 }
 
