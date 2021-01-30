@@ -54,15 +54,15 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Did not solve DIFFICULT_9 puzzle successfully.", solvedBoard.isDefined)
     assertEquals(
       strip("""
-        |Array(., ., 5, 3, ., ., ., ., .),
-        |Array(8, ., ., ., ., ., ., 2, .),
-        |Array(., 7, ., ., 1, ., 5, ., .),
-        |Array(4, ., ., ., ., 5, 3, ., .),
-        |Array(., 1, ., ., 7, ., ., ., 6),
-        |Array(., ., 3, 2, ., ., ., 8, .),
-        |Array(., 6, ., 5, ., ., ., ., 9),
-        |Array(., ., 4, ., ., ., ., 3, .),
-        |Array(., ., ., ., ., 9, 7, ., .)"""), solvedBoard.get.setSolvedValues().toString)
+              |Array(1, 4, 5, 3, 2, 7, 6, 9, 8),
+              |Array(8, 3, 9, 6, 5, 4, 1, 2, 7),
+              |Array(6, 7, 2, 9, 1, 8, 5, 4, 3),
+              |Array(4, 9, 6, 1, 8, 5, 3, 7, 2),
+              |Array(2, 1, 8, 4, 7, 3, 9, 5, 6),
+              |Array(7, 5, 3, 2, 9, 6, 4, 8, 1),
+              |Array(3, 6, 7, 5, 4, 2, 8, 1, 9),
+              |Array(9, 8, 4, 7, 6, 1, 2, 3, 5),
+              |Array(5, 2, 1, 8, 3, 9, 7, 6, 4)"""), solvedBoard.get.setSolvedValues().toString)
   }
 
   test("HardNorvigPuzzle") {
@@ -71,13 +71,13 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", solvedBoard.isDefined)
   }
 
-  /** negative test case. Takes a very long time to determine that it is impossible (over 3 minutes on i7-6700K) *
+  /** negative test case. Takes a very long time to determine that it is impossible (over 3 minutes on i7-6700K) */
   test("ImpossibleNorvigPuzzle") {
     solver = new SudokuSolver()
     val solvedBoard = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
     assertTrue(s"Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.",
       solvedBoard.isEmpty)
-  }*/
+  }
 
   /** There are many solutions for under-constrained puzzle. */
   test("UnderConstrainedPuzzle") {

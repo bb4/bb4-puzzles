@@ -30,8 +30,11 @@ private case class Solver(board: Board, refresh: Option[Board => Unit] = None) {
           numIterations += 1
           b.doRefresh(refresh)
           val newValuesMap = b.assign(minSq, value, b.valuesMap)
-          if (newValuesMap.isDefined)
-            return searchForSolution(Some(Board(b.cells, newValuesMap.get)))
+          if (newValuesMap.isDefined) {
+            val resultBoard = searchForSolution(Some(Board(b.cells, newValuesMap.get)))
+            if (resultBoard.isDefined)
+              return resultBoard
+          }
         }
         None
     }
