@@ -9,7 +9,7 @@ object BoardComponents {
   val COMPONENTS: Array[BoardComponents] = (0 to 5).map(i => BoardComponents(i)).toArray
 
   /** @return the cross product of two sequences */
-  private def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[(Int, Int)] =
+  private def cross(seq1: Seq[Int], seq2:  Seq[Int]): Seq[Location] =
     for (x <- seq1; y <- seq2) yield (x, y)
 
   /** @return sub sequences. e.g. for a unitSize of 9, these are Seq(1,2,3) Seq(4,5,6) Seq(7,8,9) */
@@ -47,5 +47,5 @@ case class BoardComponents(baseSize: Int = 3) {
   val peers: Map[Location, Set[Location]] =
     (for (s <- squares) yield s -> (units(s).reduceLeft(_ ++ _).toSet - s)).toMap
 
-  val initialValueMap: ValueMap = (for (s <- squares) yield s -> digitSet).toMap
+  val initialValueMap: ValuesMap = (for (s <- squares) yield s -> digitSet).toMap
 }

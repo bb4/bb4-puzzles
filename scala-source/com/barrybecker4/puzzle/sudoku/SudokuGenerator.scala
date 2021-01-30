@@ -44,7 +44,8 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
       ". numCombinations examined: " + totalCt)
     if (ppanel != null) ppanel.repaint(solution.get)
 
-    generateByRemoving(solution.get)
+    val puzzleBoard = generateByRemoving(solution.get)
+    puzzleBoard.reset()
   }
 
   /** @return board representing a consistent solution if one could be found, else None  */

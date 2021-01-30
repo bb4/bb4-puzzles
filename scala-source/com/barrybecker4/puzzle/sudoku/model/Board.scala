@@ -7,32 +7,28 @@ import scala.collection.immutable.HashMap
 
 
 object Board {
-  private def arrayToMap(initial: Array[Array[Int]]) = {
-    var map = new HashMap[Location, Cell]()
-    for (i <- initial.indices) {
-      val row = initial(i)
-      for (j <- row.indices) {
-        val v = row(j)
-        map += (i + 1, j + 1) -> (if (v > 0) Cell(v, v) else Cell(0, 0))
-      }
-    }
-    map
+  private def arrayToMap(initial: Array[Array[Int]]): CellMap = {
+    (for (i <- initial.indices; row = initial(i);
+          j <- row.indices; v = row(j))
+      yield (i + 1, j + 1) -> (if (v > 0) Cell(v, v) else Cell(0, 0))
+    ).toMap
   }
 
-  private def getInitialValuesMap(cells: Map[Location, Cell]): ValueMap = {
+  private def getInitialValuesMap(cells: CellMap): ValuesMap = {
     val baseSize = Math.sqrt(Math.sqrt(cells.size)).toInt
      COMPONENTS(baseSize).initialValueMap
   }
 }
 
 /**
-  * The Board describes the physical layout of the puzzle.
+  * The Board describes the physical layout of the puzzle. It is immutable.
   * The number of Cells in the board is n^2 * n^2, but there are n * n big cells.
   * This implementation is based on Peter Norvig's algorithm - http://norvig.com/sudoku.html
-  * @param cells map from location to Cell giving initially set values
+  * @param cells map from location to Cell giving initially set values (immutable)
+  * @param valuesMap map from locations to candidate values (immutable)
   * @author Barry Becker
   */
-case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
+case class Board(cells: CellMap, valuesMap: ValuesMap) {
 
   val edgeLength: Int = Math.sqrt(cells.size).toInt
   val baseSize: Int = Math.sqrt(edgeLength).toInt
@@ -40,7 +36,7 @@ case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
   private val valueAssigner: ValueAssigner = ValueAssigner(comps)
   val numCells: Int = edgeLength * edgeLength
 
-  def this(cells: Map[Location, Cell]) {
+  def this(cells: CellMap) {
     this(cells, getInitialValuesMap(cells))
   }
   def this(initial: Array[Array[Int]]) = {
@@ -80,7 +76,7 @@ case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
     val updatedBoard = board.updateFromInitialData()
 
     if (updatedBoard.isDefined && updatedBoard.get.isSolved && refresh.isDefined) {
-      refresh.foreach(f => f(updatedBoard.get)) // better way to write this?
+      refresh.get(updatedBoard.get) // better way to write this?
       updatedBoard
     }
     else None
@@ -92,7 +88,7 @@ case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
 
   /** @return the new board if updated successfully, else None if there was an inconsistency. */
   def updateFromInitialData(): Option[Board] = {
-    var localValuesMap: ValueMap = this.valuesMap
+    var localValuesMap: ValuesMap = this.valuesMap
     for (r <- comps.digits; c <- comps.digits; v = cells((r, c)).originalValue; if v > 0) {
       assign((r, c), v, localValuesMap) match {
         case Some(values) =>
@@ -104,7 +100,7 @@ case class Board(cells: Map[Location, Cell], valuesMap: ValueMap) {
     Some(Board(cells, localValuesMap))
   }
 
-  def assign(loc: Location, value: Int, valuesMap: ValueMap): Option[ValueMap] =
+  def assign(loc: Location, value: Int, valuesMap: ValuesMap): Option[ValuesMap] =
     valueAssigner.assign(loc, value, valuesMap)
 
   def setSolvedValues(): Board = {

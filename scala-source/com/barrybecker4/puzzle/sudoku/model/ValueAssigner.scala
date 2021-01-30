@@ -15,9 +15,9 @@ case class ValueAssigner(comps: BoardComponents) {
     * @param valuesMap a valid initial state for the map
     * @return Some(values), or None if the assignment cannot be done legally (a contradiction is detected).
     */
-  def assign(location: Location, value: Int, valuesMap: ValueMap): Option[ValueMap] = {
+  def assign(location: Location, value: Int, valuesMap: ValuesMap): Option[ValuesMap] = {
     val otherValues: Set[Int] = valuesMap(location) - value
-    var newValues: Option[ValueMap] = Some(valuesMap)
+    var newValues: Option[ValuesMap] = Some(valuesMap)
     for (v <- otherValues) {
       newValues = eliminate(v, location, newValues.get)
       if (newValues.isEmpty) return None
@@ -28,7 +28,7 @@ case class ValueAssigner(comps: BoardComponents) {
   /** Eliminate value from specified location. Propagate when values or places == 1.
     * @return Some(valueMap), or None if a contradiction is detected.
     */
-  private def eliminate(value: Int, location: (Int, Int), valuesMap: ValueMap): Option[ValueMap] = {
+  private def eliminate(value: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
 
     if (!valuesMap(location).contains(value))
       return Some(valuesMap) // already removed, no nothing
