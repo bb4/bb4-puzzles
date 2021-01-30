@@ -40,7 +40,7 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
     for (location <- userEnteredValues.keySet) {
       val value = userEnteredValues.get(location)
       if (value.get.isValid)
-        board.setOriginalValue(toTuple(location), value.get.getValue)
+        board.setOriginalValue(toTuple(location), value.get.value)
     }
   }
 
@@ -97,7 +97,7 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
   private def handleValueEntry(key: Char): Unit = {
     try {
       val value = ValueConverter.getValue(key, locator.board.edgeLength)
-      val userValue = new UserValue(value)
+      val userValue = UserValue(value)
       userEnteredValues += (currentCellLocation -> userValue)
       notifyValueEntered()
     } catch {
@@ -110,8 +110,8 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
     for (location <- userEnteredValues.keySet) {
       assert(location != null)
       val userValue = userEnteredValues.get(location)
-      val valid = userValue.get.getValue == solvedPuzzle.getValue((location.row + 1, location.col + 1))
-      userValue.get.setValid(valid)
+      val valid = userValue.get.value == solvedPuzzle.getValue((location.row + 1, location.col + 1))
+      userEnteredValues += location -> userValue.get.setValid(valid)
     }
   }
 

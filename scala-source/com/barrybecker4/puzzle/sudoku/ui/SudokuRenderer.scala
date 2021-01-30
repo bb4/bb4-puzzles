@@ -116,7 +116,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
     else {
       g2.setColor(SudokuRenderer.USER_VALUE_COLOR)
     }
-    g2.drawString(ValueConverter.getSymbol (userValue.getValue), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
+    g2.drawString(ValueConverter.getSymbol(userValue.value), xpos + (0.8 * s).toInt, (ypos + s * 1.7).toInt)
   }
 
   private def drawBigX(g2: Graphics2D, s: Int, xpos: Int, ypos: Int): Unit = {

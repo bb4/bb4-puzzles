@@ -2,18 +2,13 @@
 package com.barrybecker4.puzzle.sudoku.ui
 
 /**
-  * A user entered value and it cell location.
+  * A user entered value and it cell location. Immutable
   * @author Barry Becker
   */
-class UserValue(var value: Int) {
+case class UserValue(value: Int, isValid: Boolean = false, isValidated: Boolean = false) {
 
-  var isValid = false
-  var isValidated = false
+  def setValue(v: Int): UserValue = UserValue(v, isValid, isValidated)
 
-  def getValue: Int = value
+  def setValid(valid: Boolean): UserValue = UserValue(value, valid, isValidated = true)
 
-  def setValid(valid: Boolean): Unit = {
-    isValid = valid
-    isValidated = true
-  }
 }
