@@ -31,7 +31,7 @@ case class BoardComponents(baseSize: Int = 3) {
   private val subSeqs = subCellSeqs(baseSize)
 
   val digits: Seq[Int] = 1 to unitSize
-  val digitSet = digits.toSet
+  val digitSet: Set[Int] = digits.toSet
   val squares: Seq[Location] = cross(digits, digits)
 
   val unitList: Seq[Seq[Location]] =

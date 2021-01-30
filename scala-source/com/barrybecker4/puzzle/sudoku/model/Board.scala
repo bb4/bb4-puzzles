@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.sudoku.model
 
 import BoardComponents.COMPONENTS
 import com.barrybecker4.puzzle.sudoku.model.Board.getInitialValuesMap
-import scala.collection.immutable.HashMap
 
 
 object Board {
@@ -47,9 +46,7 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
 
   def getCell(location: Location): Cell = cells(location)
 
-  def reset(): Board = {
-    Board(cells, comps.initialValueMap)
-  }
+  def reset(): Board = Board(cells, comps.initialValueMap)
 
   /** @return true if the board has been successfully solved. Solved if all candidates have a single value. */
   def isSolved: Boolean = valuesMap.values.forall(_.size == 1)
@@ -76,7 +73,7 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
     val updatedBoard = board.updateFromInitialData()
 
     if (updatedBoard.isDefined && updatedBoard.get.isSolved && refresh.isDefined) {
-      refresh.get(updatedBoard.get) // better way to write this?
+      refresh.get(updatedBoard.get) // draws updated board
       updatedBoard
     }
     else None
@@ -91,10 +88,8 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
     var localValuesMap: ValuesMap = this.valuesMap
     for (r <- comps.digits; c <- comps.digits; v = cells((r, c)).originalValue; if v > 0) {
       assign((r, c), v, localValuesMap) match {
-        case Some(values) =>
-          localValuesMap = values
-        case None =>
-          return None
+        case Some(values) => localValuesMap = values
+        case None => return None
       }
     }
     Some(Board(cells, localValuesMap))
@@ -113,9 +108,8 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
   }
 
   def doRefresh(refresh: Option[Board => Unit]): Unit = {
-    if (refresh.isDefined) {
+    if (refresh.isDefined)
       refresh.get(setSolvedValues())
-    }
   }
 
   override def toString: String = BoardSerializer(this).serialize

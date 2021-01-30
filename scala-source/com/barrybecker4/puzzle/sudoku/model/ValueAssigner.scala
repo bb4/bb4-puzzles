@@ -41,9 +41,7 @@ case class ValueAssigner(comps: BoardComponents) {
     else if (candidates.size == 1) {
       // If a location is reduced to one value, then eliminate it from its peers.
       val v = candidates.head
-      //println(s"reduced to $v at $location, so eliminating $v from all peers")
       for (loc <- comps.peers(location)) {
-        //println(s"eliminating $v from $loc")
         eliminate(v, loc, newValuesMap) match {   // Recursive call
           case Some(valsMap) => newValuesMap = valsMap
           case None => return None // Contradiction
@@ -53,7 +51,6 @@ case class ValueAssigner(comps: BoardComponents) {
     // If a unit is reduced to only one possible place for value, then put it there and recurse.
     for (unit <- comps.units(location)) {
       val possibleLocs = for (loc <- unit; if newValuesMap(loc).contains(value)) yield loc
-      //println(s"possible locs = $possibleLocs  are in unit: $unit")
 
       if (possibleLocs.isEmpty)
         return None // it can't go anywhere - a contradiction
