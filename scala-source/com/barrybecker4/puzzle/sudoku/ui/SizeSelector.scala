@@ -18,7 +18,7 @@ object SizeSelector {
 
 final class SizeSelector() extends Choice {
 
-  SizeSelector.SIZE_MENU_ITEMS.foreach(item =>add(item))
+  SizeSelector.SIZE_MENU_ITEMS.foreach(item => add(item))
   select(1)
 
   /** @return the puzzle size for what was selected.*/

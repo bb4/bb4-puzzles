@@ -10,8 +10,7 @@ import com.barrybecker4.puzzle.sudoku.model.{Board, ValueConverter}
 import scala.collection.immutable.HashMap
 
 /**
-  * Draws the current best solution to the puzzle in a panel.
-  * The view in the model-view-controller pattern.
+  * Responsible for managing interaction with the visible board as user makes guesses.
   * @author Barry Becker
   */
 class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
@@ -29,12 +28,17 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   private[ui] def getUserEnteredValues = userEnteredValues
 
-  def mouseClicked(e: MouseEvent): Unit = {
+  def mousePressed(e: MouseEvent): Unit = {
     val location = locator.getCellCoordinates(e.getPoint)
     setCurrentLocation(location)
   }
 
-  private def toTuple(loc: Location) = (loc.row + 1, loc.col + 1)
+  def mouseClicked(e: MouseEvent): Unit = {
+    //val location = locator.getCellCoordinates(e.getPoint)
+    //setCurrentLocation(location)
+  }
+
+  private def toTuple(loc: Location): (Int, Int) = (loc.row + 1, loc.col + 1)
 
   private[ui] def useCorrectEntriesAsOriginal(board: Board): Unit = {
     for (location <- userEnteredValues.keySet) {
@@ -46,7 +50,6 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   /**
     * Handle keyboard input.
-    *
     * @param event the key event corresponding to key pressed.
     */
   def keyPressed(event: KeyEvent): Unit = {
@@ -79,7 +82,6 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   /**
     * Set the current location if it valid, and notify renderer of change.
-    *
     * @param location location
     */
   private def setCurrentLocation(location: Location): Unit = {
@@ -131,7 +133,6 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   def keyTyped(event: KeyEvent): Unit = {}
   def keyReleased(e: KeyEvent): Unit = {}
-  def mousePressed(e: MouseEvent): Unit = {}
   def mouseReleased(e: MouseEvent): Unit = {}
   def mouseEntered(e: MouseEvent): Unit = {}
   def mouseExited(e: MouseEvent): Unit = {}

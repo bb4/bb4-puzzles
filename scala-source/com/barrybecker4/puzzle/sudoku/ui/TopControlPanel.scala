@@ -99,7 +99,6 @@ final class TopControlPanel(var controller: SudokuController)
     validateButton.setEnabled(true)
   }
 
-  /** */
   private def solvePuzzle(): Unit = {
     controller.solvePuzzle(speedSelector.getSelectedDelay)
     solveButton.setEnabled(false)
