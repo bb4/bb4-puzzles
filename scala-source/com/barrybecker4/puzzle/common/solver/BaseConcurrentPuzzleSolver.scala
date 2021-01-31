@@ -63,7 +63,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   }
 
   /** initialize the thread pool with some initial fixed size */
-  private def initThreadPool = Executors.newFixedThreadPool(BaseConcurrentPuzzleSolver.THREAD_POOL_SIZE)
+  private def initThreadPool =
+    Executors.newFixedThreadPool(BaseConcurrentPuzzleSolver.THREAD_POOL_SIZE)
 
   @throws[InterruptedException]
   override def solve: Option[Seq[M]] = try
@@ -72,13 +73,14 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     exec.shutdown()
   catch {
     case e: AccessControlException =>
-      println("AccessControlException shutting down exec thread. " + "Probably because running in a secure sandbox.")
+      println("AccessControlException shutting down exec thread. "
+        + "Probably because running in a secure sandbox. " + e.getMessage)
   }
 
   /**
     * Solve the puzzle concurrently
     *
-    * @return list fo moves leading to the solution (assuming one was found).
+    * @return list of moves leading to the solution (assuming one was found).
     *         Null is returned if there was no solution.
     * @throws InterruptedException if interrupted during processing.
     */
@@ -86,12 +88,16 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     val p: P = puzzle.initialState
     val startTime = System.currentTimeMillis
     val task: Runnable = newTask(p, None, None)
+
     exec.execute(task)
+
     // block until solution found
     val solutionPuzzleNode = solution.getValue
     // there has to be a better way to do this
-    val path = if (solutionPuzzleNode == null) None //Option.apply(null)
-    else Some(solutionPuzzleNode.asMoveList)
+    val path =
+      if (solutionPuzzleNode == null) None
+      else Some(solutionPuzzleNode.asMoveList)
+
     val elapsedTime = System.currentTimeMillis - startTime
     val position: Option[P] = if (solutionPuzzleNode == null) None
                    else Some(solutionPuzzleNode.getPosition)
@@ -101,7 +107,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   }
 
   protected def newTask(p: P, m: Option[M], n: Option[PuzzleNode[P, M]]): Runnable =
-    new SolverTask(p, m, n) // BaseConcurrentPuzzleSolver[P, M]#SolverTask(p, m, n)
+    new SolverTask(p, m, n)
 
   /**
     * Runnable used to solve a puzzle.

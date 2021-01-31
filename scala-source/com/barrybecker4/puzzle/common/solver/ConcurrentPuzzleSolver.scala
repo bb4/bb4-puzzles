@@ -28,7 +28,7 @@ class ConcurrentPuzzleSolver[P, M](puzzle: PuzzleController[P, M], val depthBrea
     * Inner class to identify when all tasks have been run without finding a solution.
     */
   class CountingSolverTask(pos: P, move: Option[M], prev: Option[PuzzleNode[P, M]])
-    extends SolverTask(pos, move, prev) { // BaseConcurrentPuzzleSolver[P, M]#SolverTask
+    extends SolverTask(pos, move, prev) {
 
     taskCount.incrementAndGet
 
