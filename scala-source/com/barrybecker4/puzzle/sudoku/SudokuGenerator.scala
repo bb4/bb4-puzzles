@@ -45,7 +45,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     if (ppanel != null) ppanel.repaint(solution.get)
 
     val puzzleBoard = generateByRemoving(solution.get)
-    puzzleBoard.reset()
+    puzzleBoard.reset().updateFromInitialData().get
   }
 
   /** @return board representing a consistent solution if one could be found, else None  */
