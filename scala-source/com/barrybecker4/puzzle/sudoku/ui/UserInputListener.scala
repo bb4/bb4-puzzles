@@ -33,11 +33,6 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
     setCurrentLocation(location)
   }
 
-  def mouseClicked(e: MouseEvent): Unit = {
-    //val location = locator.getCellCoordinates(e.getPoint)
-    //setCurrentLocation(location)
-  }
-
   private def toTuple(loc: Location): (Int, Int) = (loc.row + 1, loc.col + 1)
 
   private[ui] def useCorrectEntriesAsOriginal(board: Board): Unit = {
@@ -133,6 +128,7 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   def keyTyped(event: KeyEvent): Unit = {}
   def keyReleased(e: KeyEvent): Unit = {}
+  def mouseClicked(e: MouseEvent): Unit = {}
   def mouseReleased(e: MouseEvent): Unit = {}
   def mouseEntered(e: MouseEvent): Unit = {}
   def mouseExited(e: MouseEvent): Unit = {}

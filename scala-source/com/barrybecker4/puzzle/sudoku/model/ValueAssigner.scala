@@ -38,6 +38,7 @@ case class ValueAssigner(comps: BoardComponents) {
 
     if (candidates.isEmpty)
       return None // Contradiction
+
     else if (candidates.size == 1) {
       // If a location is reduced to one value, then eliminate it from its peers.
       val v = candidates.head
@@ -54,6 +55,7 @@ case class ValueAssigner(comps: BoardComponents) {
 
       if (possibleLocs.isEmpty)
         return None // it can't go anywhere - a contradiction
+
       if (possibleLocs.size == 1) {
         // value can only be in one place in the unit; assign it there.
         assign(possibleLocs.head, value, newValuesMap) match { // recursive call
