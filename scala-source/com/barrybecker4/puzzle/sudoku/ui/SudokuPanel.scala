@@ -3,10 +3,10 @@ package com.barrybecker4.puzzle.sudoku.ui
 
 import java.awt.Graphics
 import javax.swing.JPanel
-
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.sudoku.model.Board
-import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
+import com.barrybecker4.puzzle.sudoku.SudokuSolver
+import com.barrybecker4.puzzle.sudoku.generation.{SimpleSudokuGenerator, SudokuGenerator}
 
 /**
   * Draws the current best solution to the puzzle in a panel.

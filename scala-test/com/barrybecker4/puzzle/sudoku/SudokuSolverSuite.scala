@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.sudoku.data.TestData._
+import com.barrybecker4.puzzle.sudoku.generation.SimpleSudokuGenerator
 import com.barrybecker4.puzzle.sudoku.model.Board
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.BeforeAndAfter
@@ -17,7 +18,7 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
   
   /** instance under test. */
   private var solver: SudokuSolver = _
-  private var generator: SudokuGenerator = _
+  private var generator: SimpleSudokuGenerator = _
   private var rand: Random = _
 
   /**
@@ -128,7 +129,7 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   private def generatePuzzle(baseSize: Int, rand: Random) = {
-    generator = new SudokuGenerator(null, rand)
+    generator = new SimpleSudokuGenerator(null, rand)
     generator.generatePuzzleBoard(baseSize)
   }
 

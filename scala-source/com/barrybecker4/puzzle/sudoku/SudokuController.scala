@@ -2,8 +2,8 @@
 package com.barrybecker4.puzzle.sudoku
 
 import java.awt.Cursor
-
 import com.barrybecker4.common.concurrency.Worker
+import com.barrybecker4.puzzle.sudoku.generation.{DifficultSudokuGenerator, SimpleSudokuGenerator, SudokuGenerator}
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 /**
@@ -19,13 +19,33 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
   def validatePuzzle(): Unit = puzzlePanel.validatePuzzle()
 
-  def generatePuzzle(delay: Int, size: Int): Unit = {
+  def generateSimplePuzzle(delay: Int, size: Int): Unit = {
 
     val worker: Worker = new Worker() {
 
       def construct: AnyRef = {
         puzzlePanel.setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) )
-        generator = new SudokuGenerator(puzzlePanel)
+        generator = SimpleSudokuGenerator(puzzlePanel)
+        generator.delay = delay
+        puzzlePanel.generateNewPuzzle(generator, size)
+        None
+      }
+
+      override def finished(): Unit = {
+        puzzlePanel.repaint()
+        puzzlePanel.setCursor(Cursor.getDefaultCursor)
+      }
+    }
+    worker.start()
+  }
+
+  def generateDifficultPuzzle(delay: Int, size: Int): Unit = {
+
+    val worker: Worker = new Worker() {
+
+      def construct: AnyRef = {
+        puzzlePanel.setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) )
+        generator = DifficultSudokuGenerator(puzzlePanel)
         generator.delay = delay
         puzzlePanel.generateNewPuzzle(generator, size)
         None

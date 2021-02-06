@@ -1,45 +1,38 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.sudoku
+package com.barrybecker4.puzzle.sudoku.generation
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
 import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
-
+import SudokuGenerator.RANDOM
 import scala.util.Random
 
-object SudokuGenerator {
-  val RANDOM: Random = new Random()
-}
-
 /**
-  * Generate a Sudoku puzzle.
-  * Initially created with grandma Becker July 8, 2006
-  * In 2017, I revised the solver algorithm based on https://norvig.com/sudoku.html
-  * Though that change made the solver better, it actually made the generator worse.
-  * Now the generator can only generate very simple to solve problems.
-  * To really understand why, see
-  * https://www.quora.com/Are-all-sudoku-puzzles-solvable-by-logical-deductions-or-some-do-require-a-guess-at-some-stage
-  * The Norvig solution will find a solution to any initial configuration - even one that is under specified.
-  * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
-  *
+  * Generate a difficult Sudoku puzzle rougly based on the algorithm described at
+  * https://dlbeer.co.nz/articles/sudoku.html
+  * 1) Start by storing the solution grid as the best puzzle, with a score of 0.
+  * 2) Randomly remove a value.
+  * 3) If the new grid is not uniquely solvable, add a value randomly.
+  *    If it is solvable and has a difficulty score lower or equal to current, remove a value randomly.
+  *    If solvable and better score than current best, advance to step 4.
+  * 4) store it as the new best puzzle,
+  *    go to step 2 and repeat until get diminishing returns or threshold difficulty reached.
   * @param ppanel renders the puzzle. May be null if you do not want to see animation.
   * @author Barry Becker
   */
-class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
+case class DifficultSudokuGenerator(ppanel: SudokuPanel = null, rand: Random = RANDOM) extends SudokuGenerator {
 
-  var delay: Int = 0
   private var totalCt: Long = 0L
 
   /**
     * Find a complete, consistent solution.
+    *
     * @return generated random board
     */
   def generatePuzzleBoard(size: Int): Board = {
     totalCt = 0
     val board: Board = new Board(size)
     if (ppanel != null) ppanel.setBoard(board)
-    val solution: Option[Board] = generateSolution(board)  // sometimes fails to generate solution...
+    val solution: Option[Board] = generateSolution(board) // sometimes fails to generate solution...
     assert(solution.isDefined, "We were not able to generate a consistent board " + board +
       ". numCombinations examined: " + totalCt)
     if (ppanel != null) ppanel.repaint(solution.get)
@@ -48,7 +41,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     puzzleBoard.reset().updateFromInitialData().get
   }
 
-  /** @return board representing a consistent solution if one could be found, else None  */
+  /** @return board representing a consistent solution if one could be found, else None */
   def generateSolution(board: Board): Option[Board] = {
     val (consistent, solution) = generateSolution(board, 0)
     if (consistent) Some(solution) else None
@@ -57,6 +50,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   /**
     * Recursive method to generate a completely solved, consistent sudoku board.
     * If at any point we find that we have an inconsistent/unsolvable board, then backtrack.
+    *
     * @param board the currently generated board (may be partial)
     * @return (true, solvedBoard), or (false, board) if could not find consistent solution.
     */
@@ -100,6 +94,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
 
   /** Generate a sudoku puzzle that someone can solve. Do it by removing all the values you can and still
     * have a consistent board.
+    *
     * @param board the initially solved puzzle
     * @return same puzzle after removing values in as many cells as possible and still retain consistency.
     */
