@@ -10,7 +10,7 @@ import scala.util.Random
   * @param tiles square grid of tiles. Size is the board edge. If size = 4, then there will be 16-1 = 15 tiles.
   * @author Barry Becker
   */
-case class SliderBoard(tiles:Tiles) {
+case class SliderBoard(tiles: Tiles) {
 
   private var hamming: Byte = -1
   private val manhattan = tiles.calculateManhattan
