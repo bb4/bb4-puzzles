@@ -50,7 +50,7 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
     val sliceLocations = comps.sliceLocations((move.orientation, move.level))
     var loc2mini = locationToMinicube
     for (loc <- sliceLocations)
-      loc2mini += loc -> loc2mini(loc).rotate(move.orientation, move.direction)
+      loc2mini += move.rotateMinicube(loc, loc2mini(loc), size)
     Cube(loc2mini)
   }
 
