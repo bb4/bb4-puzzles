@@ -18,7 +18,7 @@ import java.awt.event.ItemListener
   * @author Barry Becker
   */
 case class SliderTopControls private[ui](
-        override val controller: PuzzleController[SliderBoard, SlideMove],
+        override val controller: SlidingPuzzleController,
         override val algorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]])
      extends TopControlPanel[SliderBoard, SlideMove](controller, algorithmValues) with ItemListener {
 

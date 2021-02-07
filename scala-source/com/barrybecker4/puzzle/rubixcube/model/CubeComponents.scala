@@ -9,7 +9,9 @@ object CubeComponents {
   val numMinicubesToBaseSize: Map[Int, Int] = Map(4 -> 2, 26 -> 3, 60 -> 4, 98 -> 5)
 
   /** static because they are the same for every board. */
-  val COMPONENTS: Array[CubeComponents] = (2 to 5).map(i => CubeComponents(i)).toArray
+  private val COMPONENTS: Array[CubeComponents] = (2 to 5).map(i => CubeComponents(i)).toArray
+
+  def getCompsForSize(size: Int): CubeComponents = COMPONENTS(size - 2)
 }
 
 /**
@@ -32,14 +34,8 @@ case class CubeComponents(baseSize: Int = 3) {
 
   /** A cube slice can be rotated. It is defined by the positions at a given orientation and level. */
   val sliceLocations: Map[(Orientation, Int), Seq[(Int, Int, Int)]] = {
-    var m: Map[(Orientation, Int), Seq[(Int, Int, Int)]] = Map()
-
-    for (orientation <- Array(TOP, LEFT, FRONT)) {
-      for (level <- 1 to baseSize) {
-        m += (orientation, level) -> getSlicePositions(orientation, level)
-      }
-    }
-    m
+    (for (orientation <- Array(TOP, LEFT, FRONT); level <- 1 to baseSize)
+        yield (orientation, level) -> getSlicePositions(orientation, level)).toMap
   }
 
   private def getSlicePositions(orientation: Orientation, level: Int): Seq[(Int, Int, Int)] = {
@@ -94,7 +90,8 @@ case class CubeComponents(baseSize: Int = 3) {
             if (left == 1 || left == baseSize)
               orientationToColor += getLeftRight(left)
           }
-          initialMap += (top, left, front) -> Minicube(orientationToColor)
+          if (orientationToColor.nonEmpty)
+            initialMap += (top, left, front) -> Minicube(orientationToColor)
         }
       }
     }

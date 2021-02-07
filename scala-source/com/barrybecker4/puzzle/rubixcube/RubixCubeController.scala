@@ -8,7 +8,7 @@ import com.barrybecker4.search.Refreshable
 
 
 object RubixCubeController {
-  private val DEFAULT_SIZE = 3.toByte
+  private val DEFAULT_SIZE = 3
   private val generator = new MoveGenerator
 }
 

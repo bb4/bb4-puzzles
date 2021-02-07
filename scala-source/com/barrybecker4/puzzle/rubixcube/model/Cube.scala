@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.math.MathUtil
-import CubeComponents.{COMPONENTS, numMinicubesToBaseSize}
+import CubeComponents.{COMPONENTS, getCompsForSize, numMinicubesToBaseSize}
 
 import scala.util.Random
 
@@ -15,10 +15,10 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
 
   val size: Int = numMinicubesToBaseSize(locationToMinicube.size)
 
-  private val comps = COMPONENTS(size)
+  private val comps = getCompsForSize(size)
 
   def this(size: Int = 3) {
-    this(COMPONENTS(size).initialCubeMap)
+    this(getCompsForSize(size).initialCubeMap)
   }
 
   /** shuffle the cube tiles */

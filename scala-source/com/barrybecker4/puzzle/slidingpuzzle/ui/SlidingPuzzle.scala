@@ -41,7 +41,8 @@ case class SlidingPuzzle(myargs: Array[String])
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]] = Algorithm.VALUES
 
-  override protected def createTopControls = SliderTopControls(controller, getAlgorithmValues)
+  override protected def createTopControls: SliderTopControls = 
+    SliderTopControls(controller.asInstanceOf[SlidingPuzzleController], getAlgorithmValues)
 
   override protected def createBottomControls: JPanel = {
     navPanel = new NavigationPanel()

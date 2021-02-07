@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2013  - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013  - 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 buildscript {
     repositories {
         // retrieve the shared gradle build scripts from here
@@ -61,6 +61,14 @@ appMap['slidingpuzzle'] = [
                 'or some picture is completed. There is one tile missing, ' +
                 'which allows the rest to move around. Typical sizes are n^2-1, or 8, 16, and 25.'
 ]
+appMap['rubixcube'] = [
+        title: 'Rubix Cube',
+        mainClass: 'com.barrybecker4.puzzle.rubixcube.ui.RubixCubePuzzle',
+        command: 'bb4-rubixcube',
+        description: 'Rotate slices of the cube until all the faces have the same color.',
+        longDescription: 'In the <a href="https://en.wikipedia.org/wiki/Rubik%27s_Cube</a> ' +
+                'Rotate layers until every face has uniform color.'
+]
 appMap['sudoku'] = [
         title: 'Sudoku Puzzle',
         mainClass: 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle',
@@ -105,17 +113,17 @@ appMap['redpuzzle'] = [
         description: 'A 9 piece jigsaw puzzle that is nearly impossible to do without the aid of a computer.',
         longDescription: 'The Red Puzzle (Also Called ' +
                 '<a href="http://www.google.com/search?q=one+tough+puzzle&hl=en&rls=com.microsoft:en-us:IE-SearchBox&prmd=ivns&source=univ&tbs=shop:1&tbo=u&sa=X&ei=jhSFTeeyNYq4sQORpOzvAQ&sqi=2&ved=0CEwQrQQ">"One Tough Puzzle"</a> from Great American Puzzle ' +
-                'Factory, Inc) is a 9 piece jigsaw puzzle. It is very hard because every ' +
-                'piece has four nubs. There are no edge pieces. There are over 300,000 incorrect configurations. ' +
-                'The brute force solver will solve it in about 5,000 - 60,000 iterations. ' +
-                'It shuffles the pieces so there is a different result each time. The search ' +
-                'algorithm tries pieces until it finds one that doesn\'t fit. If none of ' +
-                'the remaining pieces fit after all rotations have been tried, it backtracks ' +
-                'one position and tries again. Its guaranteed to find a solution if there is one. ' +
-                'Brute force was too slow, so I created other solvers that use concurrency and ' +
-                'genetic algorthm search to make finding the solution much faster. ' +
-                '<p>The letters indicate the shape of the nub: Heart, Diamond, Club ' +
-                'or Spade. Maybe someday I will draw the pieces as they really look.</p>'
+        'Factory, Inc) is a 9 piece jigsaw puzzle. It is very hard because every ' +
+        'piece has four nubs. There are no edge pieces. There are over 300,000 incorrect configurations. ' +
+        'The brute force solver will solve it in about 5,000 - 60,000 iterations. ' +
+        'It shuffles the pieces so there is a different result each time. The search ' +
+        'algorithm tries pieces until it finds one that doesn\'t fit. If none of ' +
+        'the remaining pieces fit after all rotations have been tried, it backtracks ' +
+        'one position and tries again. Its guaranteed to find a solution if there is one. ' +
+        'Brute force was too slow, so I created other solvers that use concurrency and ' +
+        'genetic algorthm search to make finding the solution much faster. ' +
+        '<p>The letters indicate the shape of the nub: Heart, Diamond, Club ' +
+        'or Spade. Maybe someday I will draw the pieces as they really look.</p>'
 ]
 appMap['bridge'] = [
         title: 'Bridge Crossing with Flashlight',
@@ -167,6 +175,7 @@ ext.jarMap = new LinkedHashMap()
 jarMap['puzzle'] = [include:['com/barrybecker4/puzzle/common/**']]
 jarMap['hiq'] = [include:['com/barrybecker4/puzzle/hiq/**']]
 jarMap['slidingpuzzle'] = [include:['com/barrybecker4/puzzle/slidingpuzzle/**']]
+jarMap['rubixcube'] = [include:['com/barrybecker4/puzzle/rubixcube/**']]
 jarMap['maze'] = [include:['com/barrybecker4/puzzle/maze/**']]
 jarMap['redpuzzle'] = [include:['com/barrybecker4/puzzle/redpuzzle/**']]
 jarMap['sudoku'] = [include:['com/barrybecker4/puzzle/sudoku/**']]
