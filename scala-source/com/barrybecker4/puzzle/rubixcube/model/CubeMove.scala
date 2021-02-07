@@ -14,7 +14,7 @@ case class CubeMove(orientation: Orientation, level: Int, direction: Direction =
     val sizeP1 = size + 1
 
     val rotatedLocation = orientation match {
-      case TOP => if (direction == CLOCKWISE) (loc._1, sizeP1 - loc._3, loc._2) else (loc._1, loc._3, sizeP1 - loc._2)
+      case TOP => if (direction == CLOCKWISE) (loc._1,  loc._3, sizeP1 - loc._2) else (loc._1, sizeP1 - loc._3, loc._2)
       case LEFT => if (direction == CLOCKWISE) (sizeP1 - loc._3,  loc._2, loc._1) else (loc._3, loc._2, sizeP1 - loc._1)
       case FRONT => if (direction == CLOCKWISE) (loc._2, sizeP1 - loc._1, loc._3) else (sizeP1 - loc._2, loc._1, loc._3)
     }

@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
 
 object CubeComponents {
 
-  val numMinicubesToBaseSize: Map[Int, Int] = Map(4 -> 2, 26 -> 3, 60 -> 4, 98 -> 5)
+  val numMinicubesToBaseSize: Map[Int, Int] = Map(8 -> 2, 26 -> 3, 60 -> 4, 98 -> 5)
 
   /** static because they are the same for every board. */
   private val COMPONENTS: Array[CubeComponents] = (2 to 5).map(i => CubeComponents(i)).toArray
@@ -34,7 +34,7 @@ case class CubeComponents(baseSize: Int = 3) {
 
   /** A cube slice can be rotated. It is defined by the positions at a given orientation and level. */
   val sliceLocations: Map[(Orientation, Int), Seq[(Int, Int, Int)]] = {
-    (for (orientation <- Array(TOP, LEFT, FRONT); level <- 1 to baseSize)
+    (for (orientation <- Orientation.PRIMARY_ORIENTATIONS; level <- 1 to baseSize)
         yield (orientation, level) -> getSlicePositions(orientation, level)).toMap
   }
 
@@ -90,8 +90,9 @@ case class CubeComponents(baseSize: Int = 3) {
             if (left == 1 || left == baseSize)
               orientationToColor += getLeftRight(left)
           }
-          if (orientationToColor.nonEmpty)
+          if (orientationToColor.nonEmpty) {
             initialMap += (top, left, front) -> Minicube(orientationToColor)
+          }
         }
       }
     }

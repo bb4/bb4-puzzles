@@ -22,23 +22,23 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
   }
 
   /** shuffle the cube tiles */
-  def shuffle(rand: Random = MathUtil.RANDOM): Cube = {
-    // create CubeShuffler that applies a buch of random rotations to a cube
-    //Cube(locationToMinicube.shuffle(getEmptyLocation, rand))
-    this
-  }
+  def shuffle(rand: Random = MathUtil.RANDOM): Cube =
+    new CubeShuffler(rand).shuffle(this)
 
   /** @return number of colors not in the goal state. Faces are arbitrarily assigned the 6 goal colors */
   def distanceToGoal: Int = {
     val faceGoalNum = size * size
 
-    def numOnFaceInGoal(orientation: Orientation, locations: Seq[(Int, Int, Int)]) =
-      locations.map(loc => orientation.goalColor() == locationToMinicube(loc).orientationToColor(orientation))
+    def numOnFaceInGoal(orientation: Orientation, locations: Seq[(Int, Int, Int)]) = {
+      val goalColor = orientation.goalColor()
+      locations.map(loc => goalColor == locationToMinicube(loc).getColorForOrientation(orientation))
+    }
 
     val numInGoal: Int =
       comps.faceToLocations
         .flatMap({ case (orientation, locations) => numOnFaceInGoal(orientation, locations) })
         .count(v => v)
+
     6 * faceGoalNum - numInGoal
   }
 

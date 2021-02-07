@@ -11,10 +11,14 @@ object Orientation {
     throw new IllegalArgumentException("Orientation must be one of TOP, LEFT, or FRONT")
   }
 
-  val VALUES: Array[Orientation] = Array(TOP, LEFT, FRONT, BOTTOM, RIGHT, BACK)
+  val PRIMARY_ORIENTATIONS: Array[Orientation] = Array(TOP, LEFT, FRONT)
 }
 
+/**
+  * Note: Blue is opposite Green; Red opposite Orange; White opposite Yellow.
+  */
 sealed trait Orientation {
+  /** @return the new orientation after rotating 'direction' from the specified orientation */
   def rotate(orientation: Orientation, direction: Direction): Orientation
   def goalColor(): FaceColor
 }
@@ -42,7 +46,7 @@ case object LEFT extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => BOTTOM
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = GREEN
+  override def goalColor(): FaceColor = YELLOW
 }
 
 case object FRONT extends Orientation {
@@ -65,23 +69,23 @@ case object BACK extends Orientation {
       case TOP if direction == COUNTER_CLOCKWISE => LEFT
       case LEFT if direction == CLOCKWISE => TOP
       case LEFT if direction == COUNTER_CLOCKWISE => BOTTOM
-      case FRONT => FRONT
+      case FRONT => BACK
       case _ => invalid()
     }
-    override def goalColor(): FaceColor = YELLOW
+    override def goalColor(): FaceColor = ORANGE
 }
 
 case object BOTTOM extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP => TOP
+      case TOP => BOTTOM
       case LEFT if direction == CLOCKWISE => BACK
       case LEFT if direction == COUNTER_CLOCKWISE => FRONT
       case FRONT if direction == CLOCKWISE => LEFT
       case FRONT if direction == COUNTER_CLOCKWISE => RIGHT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = ORANGE
+  override def goalColor(): FaceColor = GREEN
 }
 
 case object RIGHT extends Orientation {
@@ -89,7 +93,7 @@ case object RIGHT extends Orientation {
     orientation match {
       case TOP if direction == CLOCKWISE => FRONT
       case TOP if direction == COUNTER_CLOCKWISE => BACK
-      case LEFT => LEFT
+      case LEFT => RIGHT
       case FRONT if direction == CLOCKWISE => BOTTOM
       case FRONT if direction == COUNTER_CLOCKWISE => TOP
       case _ => invalid()
