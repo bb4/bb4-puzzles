@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
 
 object CubeComponents {
 
-  val numMinicubesToBaseSize: Map[Int, Int] = Map(8 -> 2, 26 -> 3, 60 -> 4, 98 -> 5)
+  val numMinicubesToBaseSize: Map[Int, Int] = Map(8 -> 2, 26 -> 3, 56 -> 4, 98 -> 5)
 
   /** static because they are the same for every board. */
   private val COMPONENTS: Array[CubeComponents] = (2 to 5).map(i => CubeComponents(i)).toArray

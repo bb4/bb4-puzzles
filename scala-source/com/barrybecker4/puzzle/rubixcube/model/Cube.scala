@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.math.MathUtil
-import CubeComponents.{COMPONENTS, getCompsForSize, numMinicubesToBaseSize}
+import CubeComponents.{getCompsForSize, numMinicubesToBaseSize}
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
 
 import scala.util.Random
 
@@ -24,6 +25,20 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
   /** shuffle the cube tiles */
   def shuffle(rand: Random = MathUtil.RANDOM): Cube =
     new CubeShuffler(rand).shuffle(this)
+
+  def getFace(orientation: Orientation): Map[(Int, Int), FaceColor] = {
+    val faceLocs = comps.faceToLocations(orientation)
+    def getColor(loc: (Int, Int, Int)): FaceColor = locationToMinicube(loc).orientationToColor(orientation)
+
+    orientation match {
+      case TOP => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
+      case LEFT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
+      case FRONT => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
+      case BOTTOM => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
+      case RIGHT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
+      case BACK => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
+    }
+  }
 
   /** @return number of colors not in the goal state. Faces are arbitrarily assigned the 6 goal colors */
   def distanceToGoal: Int = {

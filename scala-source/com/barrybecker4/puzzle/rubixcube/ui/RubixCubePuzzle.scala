@@ -5,8 +5,6 @@ import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.{NavigationPanel, _}
 import com.barrybecker4.puzzle.rubixcube.{Algorithm, RubixCubeController}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
-import com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle
-import com.barrybecker4.puzzle.slidingpuzzle.ui.SlidingPuzzle.args
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.ui.util.GUIUtil
 
