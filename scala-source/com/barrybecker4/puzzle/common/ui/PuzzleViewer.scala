@@ -17,7 +17,7 @@ import java.awt._
   */
 object PuzzleViewer {
   private val MARGIN = 15
-  private val BACKGROUND_COLOR = new Color(235, 235, 240)
+  private val BACKGROUND_COLOR = new Color(225, 225, 230)
 }
 
 abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {

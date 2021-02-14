@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
-import com.barrybecker4.puzzle.rubixcube.model.{Cube, FRONT, LEFT, TOP}
+import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.CubeRenderer._
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor._
 
@@ -18,25 +18,42 @@ object CubeRenderer {
   type Point = (Float, Float)
 
   private val INC = 60
-  private val LEFT_MARGIN = 40
-  private val TOP_MARGIN = 55
-  private val LINE_COLOR = new Color(5, 25, 25)
-  private val LINE_STROKE = new BasicStroke(2)
+  private val LEFT_MARGIN = 0.5f
+  private val TOP_MARGIN = 0.5f
+  private val LINE_COLOR = new Color(25, 35, 35)
+  private val LINE_STROKE = new BasicStroke(3)
+
+  private val THIN_LINE_COLOR = new Color(15, 15, 25)
+  private val THIN_LINE_STROKE = new BasicStroke(2)
+
   private val FONT = new Font("Sans Serif", Font.PLAIN, INC / 2)
-  private val root5 = Math.sqrt(5).toFloat
+  private val EDGE_HT = Math.sqrt(5.0).toFloat
+  private val CUBE2_X = LEFT_MARGIN + 4.5f
   
   // these points form a hexagon with A at the center
-  private val A: Point = (2, 2)
-  private val B: Point = (2, 0)
-  private val C: Point = (0, 1 + root5)
-  private val D: Point = (4, 1 + root5)
-  private val E: Point = (0, 1)
-  private val F: Point = (4, 1)
-  private val G: Point = (2, 2 + root5)
+  private val A1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2)
+  private val B1: Point = (LEFT_MARGIN + 2, TOP_MARGIN)
+  private val C1: Point = (LEFT_MARGIN, TOP_MARGIN + 1 + EDGE_HT)
+  private val D1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1 + EDGE_HT)
+  private val E1: Point = (LEFT_MARGIN, TOP_MARGIN + 1)
+  private val F1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1)
+  private val G1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2 + EDGE_HT)
 
-  private val TOP_FACE_POLY: Array[Point] = Array(A, E, B, F)
-  private val LEFT_FACE_POLY: Array[Point] = Array(A, G, C, E)
-  private val FRONT_FACE_POLY: Array[Point] = Array(A, F, D, G)
+  private val TOP_FACE_POLY: Array[Point] = Array(A1, E1, B1, F1)
+  private val LEFT_FACE_POLY: Array[Point] = Array(A1, G1, C1, E1)
+  private val FRONT_FACE_POLY: Array[Point] = Array(A1, F1, D1, G1)
+
+  private val A2: Point = (CUBE2_X + 2, TOP_MARGIN + EDGE_HT)
+  private val B2: Point = (CUBE2_X + 2, TOP_MARGIN + 2 + EDGE_HT)
+  private val C2: Point = (CUBE2_X + 4, TOP_MARGIN + 1)
+  private val D2: Point = (CUBE2_X, TOP_MARGIN + 1)
+  private val E2: Point = (CUBE2_X + 4, TOP_MARGIN + 1 + EDGE_HT)
+  private val F2: Point = (CUBE2_X, TOP_MARGIN + 1 + EDGE_HT)
+  private val G2: Point = (CUBE2_X + 2, TOP_MARGIN)
+
+  private val BOTTOM_FACE_POLY: Array[Point] = Array(B2, F2, A2, E2)
+  private val RIGHT_FACE_POLY: Array[Point] = Array(G2, A2, F2, D2)
+  private val BACK_FACE_POLY: Array[Point] = Array(G2, A2, E2, C2)
 }
 
 
@@ -60,6 +77,9 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     drawFace(g2, cube.getFace(FRONT), FRONT_FACE_POLY)
 
     // draw the 3 sides on the other side (facing away)
+    drawFace(g2, cube.getFace(BOTTOM), BOTTOM_FACE_POLY)
+    drawFace(g2, cube.getFace(RIGHT), RIGHT_FACE_POLY)
+    drawFace(g2, cube.getFace(BACK), BACK_FACE_POLY)
   }
 
   /** @param face the 2d positions and colors of the squares on the face
@@ -71,8 +91,8 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     // fill the face's colored squares
     drawFaceSquares(g2, face, points)
 
-    // f draw grid based on the 4 points
-    drawFaceLines(g2, points.head, points(3), points(1)) // horz lines that interpolate from A->E and F->B
+    // draw grid based on the 4 points
+    drawFaceLines(g2, points(0), points(3), points(1)) // horz lines
     drawFaceLines(g2, points(1), points(0), points(2)) // vert lines
   }
 
@@ -90,10 +110,10 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     for (i <- 0 to size) {
       val xinc: Float = i * delta._1
       val yinc: Float = i * delta._2
-      val xx1 = LEFT_MARGIN + (scaleX * (x1 + xinc)).toInt
-      val yy1 = TOP_MARGIN + (scaleY * (y1 + yinc)).toInt
-      val xx2 = LEFT_MARGIN + (scaleX * (x2 + xinc)).toInt
-      val yy2 = TOP_MARGIN + (scaleY * (y2 + yinc)).toInt
+      val xx1 = (scaleX * (x1 + xinc)).toInt
+      val yy1 = (scaleY * (y1 + yinc)).toInt
+      val xx2 = (scaleX * (x2 + xinc)).toInt
+      val yy2 = (scaleY * (y2 + yinc)).toInt
       g2.drawLine(xx1, yy1, xx2, yy2)
     }
   }
@@ -108,13 +128,16 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     for (i <- 0 until size) {
       for (j <- 0 until size) {
 
-        val x1 = LEFT_MARGIN + (scaleX * (baseX + i * colDelta._1 + j * rowDelta._1 )).toInt
-        val x2 = LEFT_MARGIN + (scaleX * (baseX + (i + 1) * colDelta._1 + j * rowDelta._1)).toInt
+        val jDelta1 = j * rowDelta._1
+        val jDelta2 = j * rowDelta._2
+
+        val x1 = (scaleX * (baseX + i * colDelta._1 + jDelta1 )).toInt
+        val x2 = (scaleX * (baseX + (i + 1) * colDelta._1 + jDelta1)).toInt
         val x3 = (x2 + scaleX * rowDelta._1).toInt
         val x4 = (x1 + scaleX * rowDelta._1).toInt
 
-        val y1 = TOP_MARGIN + (scaleY * (baseY + i * colDelta._2 + j * rowDelta._2)).toInt
-        val y2 = TOP_MARGIN + (scaleY * (baseY + (i + 1) * colDelta._2 + j * rowDelta._2)).toInt
+        val y1 = (scaleY * (baseY + i * colDelta._2 + jDelta2)).toInt
+        val y2 = (scaleY * (baseY + (i + 1) * colDelta._2 + jDelta2)).toInt
         val y3 = (y2 + scaleY * rowDelta._2).toInt
         val y4 = (y1 + scaleY * rowDelta._2).toInt
 
@@ -124,6 +147,10 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
         val loc = (i + 1, j + 1)
         g2.setColor(FaceColorMap.getColor(face(loc)))
         g2.fillPolygon(xpoints, ypoints, 4)
+
+        g2.setStroke(THIN_LINE_STROKE)
+        g2.setColor(THIN_LINE_COLOR)
+        g2.drawPolygon(xpoints, ypoints, 4)
       }
     }
   }

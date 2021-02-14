@@ -21,6 +21,15 @@ class RubixCubeController(ui: Refreshable[Cube, CubeMove])
   /** @param size the edge length of the rubix cube to be solved */
   def setSize(size: Int): Unit = {
     initialPosition = new Cube(size.toByte).shuffle()
+    refresh()
+  }
+
+  def doMove(move: CubeMove): Unit = {
+    initialPosition = initialPosition.doMove(move)
+    refresh()
+  }
+
+  private def refresh(): Unit = {
     if (ui != null) ui.refresh(initialPosition, 0)
   }
 

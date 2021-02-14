@@ -15,13 +15,23 @@ class CubeMoveSuite extends AnyFunSuite {
     assert(rotatedMinicube == (2, 3, 3) -> Minicube(Map(RIGHT -> BLUE, TOP -> RED)))
   }
 
+  test("Minicube rotating 4 times should get back to original state") {
+    val cubeMove = CubeMove(FRONT, 2, CLOCKWISE)
+    val origMinicube = Minicube(Map(TOP -> BLUE, LEFT -> RED))
+    var rotatedMinicube = cubeMove.rotateMinicube((1, 2, 3), origMinicube, 3)
+    rotatedMinicube = cubeMove.rotateMinicube(rotatedMinicube._1, rotatedMinicube._2, 3)
+    rotatedMinicube = cubeMove.rotateMinicube(rotatedMinicube._1, rotatedMinicube._2, 3)
+    rotatedMinicube = cubeMove.rotateMinicube(rotatedMinicube._1, rotatedMinicube._2, 3)
+
+    assert(rotatedMinicube == (1, 2, 3) -> origMinicube)
+  }
+
   test("Minicube rotate edge piece counter-clockwise from front") {
     val cubeMove = CubeMove(FRONT, 2, COUNTER_CLOCKWISE)
     val rotatedMinicube = cubeMove.rotateMinicube((1, 2, 3), Minicube(Map(TOP -> BLUE, LEFT -> RED)), 3)
 
     assert(rotatedMinicube == (2, 1, 3) -> Minicube(Map(LEFT -> BLUE, BOTTOM -> RED)))
   }
-
 
   test("Minicube rotate edge piece clockwise from top") {
     val cubeMove = CubeMove(TOP, 1, CLOCKWISE)
@@ -61,4 +71,37 @@ class CubeMoveSuite extends AnyFunSuite {
     assert(rotatedMinicube == (3, 3, 1) -> Minicube(Map(RIGHT -> BLUE, BOTTOM -> RED, FRONT -> GREEN)))
   }
 
+  test("Cube rotate TOP 1, clockwise") {
+
+    val cube = new Cube(2)
+
+    val cubeMove = CubeMove(TOP, 1, CLOCKWISE)
+    val modifiedCube = cube.doMove(cubeMove)
+
+    val expFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.RED,
+      (1, 2) -> FaceColor.RED,
+      (2, 1) -> FaceColor.YELLOW,
+      (2, 2) -> FaceColor.YELLOW
+    )
+
+    assert(modifiedCube.getFace(LEFT) == expFace)
+  }
+
+  test("Cube rotate FRONT 1, clockwise") {
+
+    val cube = new Cube(2)
+
+    val cubeMove = CubeMove(FRONT, 1, CLOCKWISE)
+    val modifiedCube = cube.doMove(cubeMove)
+
+    val expFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.GREEN,
+      (1, 2) -> FaceColor.YELLOW,
+      (2, 1) -> FaceColor.BLUE,  // this is wrong
+      (2, 2) -> FaceColor.YELLOW
+    )
+
+    assert(modifiedCube.getFace(LEFT) == expFace)
+  }
 }

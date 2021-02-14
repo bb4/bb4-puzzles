@@ -23,13 +23,15 @@ class TopControlPanel[P, M](
                  val algorithmValues: Array[AlgorithmEnum[P, M]])
   extends JPanel with ActionListener with ItemListener {
 
-  val firstRowPanel: JPanel = new JPanel (createLayout)
-  addFirstRowControls (firstRowPanel)
-  firstRowPanel.add (new JPanel)
-  val additionalControlsPanel: JPanel = new JPanel (createLayout)
+  val firstRowPanel: JPanel = new JPanel(createLayout)
+  firstRowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT)
+  addFirstRowControls(firstRowPanel)
+
+  firstRowPanel.add(new JPanel)
+  val additionalControlsPanel: JPanel = new JPanel(createLayout)
   addAdditionalControls (additionalControlsPanel)
-  val mainPanel: JPanel = new JPanel (new BorderLayout)
-  mainPanel.add (firstRowPanel, BorderLayout.NORTH)
+  val mainPanel: JPanel = new JPanel(new BorderLayout)
+  mainPanel.add(firstRowPanel, BorderLayout.NORTH)
   if (additionalControlsPanel.getComponents.length > 0) {
     mainPanel.add (additionalControlsPanel, BorderLayout.CENTER)
   }
@@ -38,16 +40,14 @@ class TopControlPanel[P, M](
   private var algorithmChoice: JComboBox[String] = _
 
   private def createLayout: FlowLayout = {
-    val layout: FlowLayout = new FlowLayout
-    layout.setAlignment(FlowLayout.LEADING)
-    layout
+    new FlowLayout(FlowLayout.LEADING)
   }
 
-  protected def addFirstRowControls (firstRowPanel: JPanel): Unit = {
-    solveButton = new GradientButton (AppContext.getLabel ("SOLVE") )
-    solveButton.addActionListener (this)
-    firstRowPanel.add (solveButton)
-    firstRowPanel.add (createAlgorithmDropdown)
+  protected def addFirstRowControls(firstRowPanel: JPanel): Unit = {
+    solveButton = new GradientButton(AppContext.getLabel ("SOLVE") )
+    solveButton.addActionListener(this)
+    firstRowPanel.add(solveButton)
+    firstRowPanel.add(createAlgorithmDropdown)
   }
   protected def addAdditionalControls (panel: JPanel): Unit = {
     // override to add stuff

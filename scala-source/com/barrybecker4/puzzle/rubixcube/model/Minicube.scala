@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
 case class Minicube(orientationToColor: Map[Orientation, FaceColor]) {
 
    def rotate(orientation: Orientation, direction: Direction): Minicube =
-      Minicube(orientationToColor.map({case (oriented, color) => oriented.rotate(orientation, direction) -> color }))
+      Minicube(orientationToColor.map({ case (oriented, color) => oriented.rotate(orientation, direction) -> color }))
 
    def getColorForOrientation(orientation: Orientation): FaceColor =
       if (orientationToColor.contains(orientation))

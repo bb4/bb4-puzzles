@@ -7,4 +7,6 @@ package com.barrybecker4.puzzle.rubixcube.model
 object Direction extends Enumeration {
   type Direction = Value
   val CLOCKWISE, COUNTER_CLOCKWISE = Value
+
+  val VALUES: Array[Direction] = Array(CLOCKWISE, COUNTER_CLOCKWISE)
 }
