@@ -9,10 +9,9 @@ import scala.util.Random
 
 /**
   * Immutable representation of a Rubix cube.
-  *
   * @param locationToMinicube map from position to minicube. Size is the edge length. If size = 3, then there will be 26 entries.
   */
-case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
+case class Cube(locationToMinicube: Map[Location, Minicube]) {
 
   val size: Int = numMinicubesToBaseSize(locationToMinicube.size)
 
@@ -28,7 +27,7 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
 
   def getFace(orientation: Orientation): Map[(Int, Int), FaceColor] = {
     val faceLocs = comps.faceToLocations(orientation)
-    def getColor(loc: (Int, Int, Int)): FaceColor = locationToMinicube(loc).orientationToColor(orientation)
+    def getColor(loc: Location): FaceColor = locationToMinicube(loc).orientationToColor(orientation)
 
     orientation match {
       case TOP => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
@@ -44,7 +43,7 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
   def distanceToGoal: Int = {
     val faceGoalNum = size * size
 
-    def numOnFaceInGoal(orientation: Orientation, locations: Seq[(Int, Int, Int)]) = {
+    def numOnFaceInGoal(orientation: Orientation, locations: Seq[Location]) = {
       val goalColor = orientation.goalColor()
       locations.map(loc => goalColor == locationToMinicube(loc).getColorForOrientation(orientation))
     }
@@ -64,17 +63,16 @@ case class Cube(locationToMinicube: Map[(Int, Int, Int), Minicube]) {
   def doMove(move: CubeMove): Cube = {
     val sliceLocations = comps.sliceLocations((move.orientation, move.level))
     var loc2mini = locationToMinicube
-    var slice: Map[(Int, Int, Int), Minicube] = Map()
+    var slice: Map[Location, Minicube] = Map()
 
     for (loc <- sliceLocations)
-        slice += loc -> locationToMinicube(loc)
+      slice += loc -> locationToMinicube(loc)
 
     for (loc <- sliceLocations)
       loc2mini += move.rotateMinicube(loc, slice(loc), size)
 
     Cube(loc2mini)
   }
-
 
   override def toString: String =
     "Cube (distanceToGoal: " + distanceToGoal + "):\n" + locationToMinicube.toString

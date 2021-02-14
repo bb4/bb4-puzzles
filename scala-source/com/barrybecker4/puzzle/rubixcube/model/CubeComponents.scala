@@ -23,7 +23,7 @@ case class CubeComponents(baseSize: Int = 3) {
   assert (baseSize <= 5, "baseSize = " + baseSize)
   val faceSize: Int = baseSize * baseSize
 
-  val faceToLocations: Map[Orientation, Seq[(Int, Int, Int)]] = Map(
+  val faceToLocations: Map[Orientation, Seq[Location]] = Map(
     TOP -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (1, i, j)),
     LEFT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, 1, j)),
     FRONT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, j, 1)),
@@ -33,14 +33,14 @@ case class CubeComponents(baseSize: Int = 3) {
   )
 
   /** A cube slice can be rotated. It is defined by the positions at a given orientation and level. */
-  val sliceLocations: Map[(Orientation, Int), Seq[(Int, Int, Int)]] = {
+  val sliceLocations: Map[(Orientation, Int), Seq[Location]] = {
     (for (orientation <- Orientation.PRIMARY_ORIENTATIONS; level <- 1 to baseSize)
         yield (orientation, level) -> getSlicePositions(orientation, level)).toMap
   }
 
-  private def getSlicePositions(orientation: Orientation, level: Int): Seq[(Int, Int, Int)] = {
+  private def getSlicePositions(orientation: Orientation, level: Int): Seq[Location] = {
 
-    def getLoc(orientation: Orientation, i: Int, j: Int): (Int, Int, Int) = {
+    def getLoc(orientation: Orientation, i: Int, j: Int): Location = {
       orientation match {
         case TOP => (level, i, j)
         case LEFT => (i, level, j)
@@ -57,8 +57,8 @@ case class CubeComponents(baseSize: Int = 3) {
     }
   }
 
-  val initialCubeMap: Map[(Int, Int, Int), Minicube] = {
-    var initialMap: Map[(Int, Int, Int), Minicube] = Map()
+  val initialCubeMap: Map[Location, Minicube] = {
+    var initialMap: Map[Location, Minicube] = Map()
 
     def getTopBottom(topLevel: Int): (Orientation, FaceColor) =
       if (topLevel == 1) TOP -> TOP.goalColor() else BOTTOM -> BOTTOM.goalColor()

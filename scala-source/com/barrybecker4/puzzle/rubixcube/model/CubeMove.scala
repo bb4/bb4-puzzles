@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.common.model.Move
   */
 case class CubeMove(orientation: Orientation, level: Int, direction: Direction = CLOCKWISE) extends Move {
 
-  def rotateMinicube(loc: (Int, Int, Int), minicube: Minicube, size: Int): ((Int, Int, Int), Minicube) = {
+  def rotateMinicube(loc: Location, minicube: Minicube, size: Int): (Location, Minicube) = {
     val sizeP1 = size + 1
 
     val rotatedLocation = orientation match {

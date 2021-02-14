@@ -9,5 +9,5 @@ import java.awt.Color
 object FaceColor extends Enumeration {
 
   type FaceColor = Value
-  val RED, GREEN , BLUE, YELLOW, ORANGE, WHITE = Value
+  val RED, GREEN, BLUE, YELLOW, ORANGE, WHITE = Value
 }

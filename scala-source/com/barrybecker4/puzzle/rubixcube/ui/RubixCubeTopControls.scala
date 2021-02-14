@@ -15,6 +15,11 @@ import javax.swing.{Box, JButton, JPanel}
 /**
   * Buttons at the top for generating and solving the Rubix cube using different strategies.
   * Contains the solve and shuffle buttons at the top.
+  *
+  * TODO: implement
+  *  - Thistlethwaite’s algorithm, which can solve any cube in 52 moves or fewer.
+  *  - Korf’s optimal algorithm, a.k.a. 'God’s algorithm', which can solve any cube in 20 or fewer moves.
+  *
   * @author Barry Becker
   */
 case class RubixCubeTopControls private[ui](
