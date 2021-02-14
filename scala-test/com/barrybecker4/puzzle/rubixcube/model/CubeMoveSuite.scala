@@ -92,16 +92,60 @@ class CubeMoveSuite extends AnyFunSuite {
 
     val cube = new Cube(2)
 
-    val cubeMove = CubeMove(FRONT, 1, CLOCKWISE)
-    val modifiedCube = cube.doMove(cubeMove)
-
-    val expFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.GREEN,
+    // before rotating the left face should be yellow and bottom should be green
+    val leftFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.YELLOW,
       (1, 2) -> FaceColor.YELLOW,
-      (2, 1) -> FaceColor.BLUE,  // this is wrong
+      (2, 1) -> FaceColor.YELLOW,
       (2, 2) -> FaceColor.YELLOW
     )
+    val bottomFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.GREEN,
+      (1, 2) -> FaceColor.GREEN,
+      (2, 1) -> FaceColor.GREEN,
+      (2, 2) -> FaceColor.GREEN
+    )
+    val rightFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.ORANGE,
+      (1, 2) -> FaceColor.ORANGE,
+      (2, 1) -> FaceColor.ORANGE,
+      (2, 2) -> FaceColor.ORANGE
+    )
+    // right is orange
+    assert(cube.getFace(LEFT) == leftFace)
+    assert(cube.getFace(BOTTOM) == bottomFace)
 
-    assert(modifiedCube.getFace(LEFT) == expFace)
+    val cubeMove = CubeMove(FRONT, 1, CLOCKWISE)  // rotate front face clockwise
+    val modifiedCube = cube.doMove(cubeMove)
+
+    val expLeftFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.GREEN,
+      (1, 2) -> FaceColor.YELLOW,
+      (2, 1) -> FaceColor.GREEN,
+      (2, 2) -> FaceColor.YELLOW
+    )
+    val expBottomFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.WHITE,
+      (1, 2) -> FaceColor.GREEN,
+      (2, 1) -> FaceColor.WHITE,
+      (2, 2) -> FaceColor.GREEN
+    )
+    val expTopFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.YELLOW,
+      (1, 2) -> FaceColor.BLUE,
+      (2, 1) -> FaceColor.YELLOW,
+      (2, 2) -> FaceColor.BLUE
+    )
+    val expFrontFace: Map[(Int, Int), FaceColor] = Map(
+      (1, 1) -> FaceColor.RED,
+      (1, 2) -> FaceColor.RED,
+      (2, 1) -> FaceColor.RED,
+      (2, 2) -> FaceColor.RED
+    )
+
+    assert(modifiedCube.getFace(LEFT) == expLeftFace)
+    assert(modifiedCube.getFace(BOTTOM) == expBottomFace)
+    assert(modifiedCube.getFace(TOP) == expTopFace)
+    assert(modifiedCube.getFace(FRONT) == expFrontFace)
   }
 }

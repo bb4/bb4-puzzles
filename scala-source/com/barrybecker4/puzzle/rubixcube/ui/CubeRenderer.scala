@@ -39,9 +39,9 @@ object CubeRenderer {
   private val F1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1)
   private val G1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2 + EDGE_HT)
 
-  private val TOP_FACE_POLY: Array[Point] = Array(A1, E1, B1, F1)
+  private val TOP_FACE_POLY: Array[Point] = Array(A1, F1, B1, E1) // F1, A1, E1, B1
   private val LEFT_FACE_POLY: Array[Point] = Array(A1, G1, C1, E1)
-  private val FRONT_FACE_POLY: Array[Point] = Array(A1, F1, D1, G1)
+  private val FRONT_FACE_POLY: Array[Point] = Array(A1, G1, D1, F1) // G1, A1, F1, D1
 
   private val A2: Point = (CUBE2_X + 2, TOP_MARGIN + EDGE_HT)
   private val B2: Point = (CUBE2_X + 2, TOP_MARGIN + 2 + EDGE_HT)
@@ -51,7 +51,7 @@ object CubeRenderer {
   private val F2: Point = (CUBE2_X, TOP_MARGIN + 1 + EDGE_HT)
   private val G2: Point = (CUBE2_X + 2, TOP_MARGIN)
 
-  private val BOTTOM_FACE_POLY: Array[Point] = Array(B2, F2, A2, E2)
+  private val BOTTOM_FACE_POLY: Array[Point] = Array(A2, E2, B2, F2)
   private val RIGHT_FACE_POLY: Array[Point] = Array(G2, A2, F2, D2)
   private val BACK_FACE_POLY: Array[Point] = Array(G2, A2, E2, C2)
 }
@@ -92,30 +92,8 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     drawFaceSquares(g2, face, points)
 
     // draw grid based on the 4 points
-    drawFaceLines(g2, points(0), points(3), points(1)) // horz lines
-    drawFaceLines(g2, points(1), points(0), points(2)) // vert lines
-  }
-
-  private def drawFaceLines(g2: Graphics2D,
-    leftStartPt: Point, rightStartPt: Point, upperLeftPt: Point): Unit = {
-
-    val x1 = leftStartPt._1
-    val y1 = leftStartPt._2
-    val x2 = upperLeftPt._1
-    val y2 = upperLeftPt._2
-    val delta = getDelta(leftStartPt, rightStartPt)
-    g2.setStroke(LINE_STROKE)
-    g2.setColor(LINE_COLOR)
-
-    for (i <- 0 to size) {
-      val xinc: Float = i * delta._1
-      val yinc: Float = i * delta._2
-      val xx1 = (scaleX * (x1 + xinc)).toInt
-      val yy1 = (scaleY * (y1 + yinc)).toInt
-      val xx2 = (scaleX * (x2 + xinc)).toInt
-      val yy2 = (scaleY * (y2 + yinc)).toInt
-      g2.drawLine(xx1, yy1, xx2, yy2)
-    }
+    //drawFaceLines(g2, points(0), points(3), points(1)) // horz lines
+    //drawFaceLines(g2, points(1), points(0), points(2)) // vert lines
   }
 
   private def drawFaceSquares(g2: Graphics2D, face: Map[(Int, Int), FaceColor], points: Array[Point]): Unit = {
@@ -152,6 +130,28 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
         g2.setColor(THIN_LINE_COLOR)
         g2.drawPolygon(xpoints, ypoints, 4)
       }
+    }
+  }
+
+  private def drawFaceLines(g2: Graphics2D,
+    leftStartPt: Point, rightStartPt: Point, upperLeftPt: Point): Unit = {
+
+    val x1 = leftStartPt._1
+    val y1 = leftStartPt._2
+    val x2 = upperLeftPt._1
+    val y2 = upperLeftPt._2
+    val delta = getDelta(leftStartPt, rightStartPt)
+    g2.setStroke(LINE_STROKE)
+    g2.setColor(LINE_COLOR)
+
+    for (i <- 0 to size) {
+      val xinc: Float = i * delta._1
+      val yinc: Float = i * delta._2
+      val xx1 = (scaleX * (x1 + xinc)).toInt
+      val yy1 = (scaleY * (y1 + yinc)).toInt
+      val xx2 = (scaleX * (x2 + xinc)).toInt
+      val yy2 = (scaleY * (y2 + yinc)).toInt
+      g2.drawLine(xx1, yy1, xx2, yy2)
     }
   }
 
