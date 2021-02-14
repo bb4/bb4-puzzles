@@ -1,26 +1,16 @@
 // Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.model
 
-import com.barrybecker4.common.geometry.ByteLocation
-import MoveGenerator.OFFSETS
-
-
-object MoveGenerator {
-  val OFFSETS: Array[ByteLocation] = Array(
-    new ByteLocation(-1, 0),
-    new ByteLocation(1, 0),
-    new ByteLocation(0, -1),
-    new ByteLocation(0, 1)
-  )
-}
 
 /**
   * Rubix cube move generator. Generates valid next moves from a given cube state.
   */
 class MoveGenerator {
 
-  /** @return List of valid next moves - all the tiles that can slide into the current empty position. */
-  def generateMoves(board: Cube): Seq[CubeMove] = {
-    Seq()
+  /** @return List of valid next moves. There should be 18 for a cube of size 3. */
+  def generateMoves(cube: Cube): Seq[CubeMove] = {
+    for (orientation <- Orientation.PRIMARY_ORIENTATIONS;
+         layer <- 1 to cube.size;
+         direction <- Direction.VALUES) yield CubeMove(orientation, layer, direction)
   }
 }

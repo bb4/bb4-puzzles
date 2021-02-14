@@ -67,7 +67,8 @@ appMap['rubixcube'] = [
         command: 'bb4-rubixcube',
         description: 'Rotate slices of the cube until all the faces have the same color.',
         longDescription: 'In the <a href="https://en.wikipedia.org/wiki/Rubik%27s_Cube</a> ' +
-                'Rotate layers until every face has uniform color.'
+                'Rotate layers until every face has uniform color.',
+        mx: '16G'
 ]
 appMap['sudoku'] = [
         title: 'Sudoku Puzzle',
@@ -94,7 +95,7 @@ appMap['tantrix'] = [
                 'is another one of those games that can be very frustrating without the aid of a computer. ' +
                 'There are a variety of different strategies that you can use for solving. ' +
                 'Some work better than others.',
-        mx: '4G'
+        mx: '8G'
 
 ]
 appMap['maze'] = [
