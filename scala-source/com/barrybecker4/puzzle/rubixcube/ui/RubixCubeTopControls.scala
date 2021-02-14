@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.common.ui.TopControlPanel
 import com.barrybecker4.puzzle.rubixcube.RubixCubeController
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.selectors.{DirectionSelector, LayerSelector, OrientationSelector, SizeSelector}
+import com.barrybecker4.ui.components.GradientButton
 
 import java.awt.FlowLayout
 import java.awt.event.{ActionEvent, ActionListener, ItemEvent, ItemListener}
@@ -21,15 +22,20 @@ case class RubixCubeTopControls private[ui](
         override val algorithmValues: Array[AlgorithmEnum[Cube, CubeMove]])
      extends TopControlPanel[Cube, CubeMove](controller, algorithmValues) with ItemListener {
 
+  private var shuffleButton: GradientButton = _
   private var sizeSelector: SizeSelector = _
   private var rotatorPanel: JPanel = _
 
-  private var rotateButton: JButton = _
+  private var rotateButton: GradientButton = _
   private var orientationSelector: OrientationSelector = _
   private var layerSelector: LayerSelector = _
   private var directionSelector: DirectionSelector = _
 
   override protected def addFirstRowControls(panel: JPanel): Unit = {
+    shuffleButton = new GradientButton("Shuffle")
+    shuffleButton.addActionListener(this)
+    panel.add(shuffleButton)
+
     super.addFirstRowControls(panel)
     sizeSelector = new SizeSelector
     sizeSelector.addItemListener(this)
@@ -41,7 +47,7 @@ case class RubixCubeTopControls private[ui](
 
   private def createRotatorControls(): JPanel = {
     rotatorPanel = new JPanel(new FlowLayout())
-    rotateButton = new JButton("Rotate")
+    rotateButton = new GradientButton("Rotate")
     rotateButton.addActionListener(this)
 
     orientationSelector = new OrientationSelector()
@@ -62,11 +68,7 @@ case class RubixCubeTopControls private[ui](
     super.itemStateChanged(e)
     if (e.getSource eq sizeSelector) {
       controller.asInstanceOf[RubixCubeController].setSize(sizeSelector.getSelectedSize)
-      rotatorPanel.remove(directionSelector)
-      rotatorPanel.remove(layerSelector)
-      layerSelector = new LayerSelector(sizeSelector.getSelectedSize)
-      rotatorPanel.add(layerSelector)
-      rotatorPanel.add(directionSelector)
+      layerSelector.setSize(sizeSelector.getSelectedSize)
     }
   }
 
@@ -74,7 +76,10 @@ case class RubixCubeTopControls private[ui](
     super.actionPerformed(e)
 
     val src: Any = e.getSource
-    if (src == rotateButton) {
+    if (src == shuffleButton) {
+      controller.shuffle()
+    }
+    else if (src == rotateButton) {
       val move = CubeMove(
         orientationSelector.getSelectedOrientation,
         layerSelector.getSelectedLayer,

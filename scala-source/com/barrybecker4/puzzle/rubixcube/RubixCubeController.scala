@@ -15,12 +15,17 @@ object RubixCubeController {
 class RubixCubeController(ui: Refreshable[Cube, CubeMove])
   extends AbstractPuzzleController[Cube, CubeMove](ui) {
 
-  private var initialPosition = new Cube(RubixCubeController.DEFAULT_SIZE).shuffle()
+  private var initialPosition = new Cube(RubixCubeController.DEFAULT_SIZE)
   algorithm = A_STAR_SEQUENTIAL
 
   /** @param size the edge length of the rubix cube to be solved */
   def setSize(size: Int): Unit = {
-    initialPosition = new Cube(size.toByte).shuffle()
+    initialPosition = new Cube(size.toByte)
+    refresh()
+  }
+
+  def shuffle(): Unit = {
+    initialPosition = initialPosition.shuffle()
     refresh()
   }
 

@@ -39,9 +39,9 @@ object CubeRenderer {
   private val F1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1)
   private val G1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2 + EDGE_HT)
 
-  private val TOP_FACE_POLY: Array[Point] = Array(A1, F1, B1, E1) // F1, A1, E1, B1
+  private val TOP_FACE_POLY: Array[Point] = Array(A1, F1, B1, E1)
   private val LEFT_FACE_POLY: Array[Point] = Array(A1, G1, C1, E1)
-  private val FRONT_FACE_POLY: Array[Point] = Array(A1, G1, D1, F1) // G1, A1, F1, D1
+  private val FRONT_FACE_POLY: Array[Point] = Array(A1, G1, D1, F1)
 
   private val A2: Point = (CUBE2_X + 2, TOP_MARGIN + EDGE_HT)
   private val B2: Point = (CUBE2_X + 2, TOP_MARGIN + 2 + EDGE_HT)

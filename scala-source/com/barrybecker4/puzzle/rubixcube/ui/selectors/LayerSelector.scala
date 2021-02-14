@@ -4,10 +4,24 @@ package com.barrybecker4.puzzle.rubixcube.ui.selectors
 import java.awt.Choice
 
 
-final class LayerSelector(size: Int) extends Choice {
+final class LayerSelector(initialSize: Int) extends Choice {
 
-  for (layer <- 1 to size) { add(layer.toString) }
+  private var numLayers: Int = initialSize
+
+  for (layer <- 1 to numLayers) { add(layer.toString) }
   select(0)
 
   def getSelectedLayer: Int = this.getSelectedIndex + 1
+
+  def setSize(newSize: Int): Unit = {
+    if (newSize < numLayers) {
+      for (i <- numLayers until newSize)
+        remove(i)
+    }
+    else {
+      for (i <- numLayers + 1 to newSize)
+        add(i.toString)
+    }
+    numLayers = newSize
+  }
 }

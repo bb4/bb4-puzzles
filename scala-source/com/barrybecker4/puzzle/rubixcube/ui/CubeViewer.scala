@@ -19,8 +19,8 @@ final class CubeViewer(var doneListener: DoneListener)
 
   def getPath: List[CubeMove] = path
 
-  override def refresh(theBoard: Cube, numTries: Long): Unit = {
-    board = theBoard
+  override def refresh(theCube: Cube, numTries: Long): Unit = {
+    board = theCube
     if (numTries % 500 == 0) {
       makeSound()
       status = createStatusMessage(numTries)
