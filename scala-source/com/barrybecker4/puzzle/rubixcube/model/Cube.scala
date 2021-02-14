@@ -44,7 +44,9 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
     val faceGoalNum = size * size
 
     def numOnFaceInGoal(orientation: Orientation, locations: Seq[Location]) = {
-      val goalColor = orientation.goalColor()
+      val goalColor =
+        if (size % 2 == 1) locationToMinicube(locations(locations.size / 2)).orientationToColor(orientation)
+        else orientation.goalColor()
       locations.map(loc => goalColor == locationToMinicube(loc).getColorForOrientation(orientation))
     }
 

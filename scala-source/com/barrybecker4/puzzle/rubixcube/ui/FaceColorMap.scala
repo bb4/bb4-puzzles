@@ -6,11 +6,11 @@ import java.awt.Color
 
 
 object FaceColorMap {
-  private val BLUE_COLOR = new Color(70, 100, 250)
-  private val RED_COLOR = new Color(250, 70, 70)
-  private val GREEN_COLOR = new Color(90, 220, 60)
-  private val YELLOW_COLOR = new Color(250, 240, 0)
-  private val ORANGE_COLOR = new Color(240, 150, 10)
+  private val BLUE_COLOR = new Color(120, 140, 255)
+  private val RED_COLOR = new Color(255,110, 130)
+  private val GREEN_COLOR = new Color(140, 240, 160)
+  private val YELLOW_COLOR = new Color(250, 240, 10)
+  private val ORANGE_COLOR = new Color(255, 180, 100)
   private val WHITE_COLOR = new Color(255, 255, 255)
 
   def getColor(c: FaceColor): Color = {

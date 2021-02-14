@@ -27,6 +27,6 @@ class CubeSuite extends AnyFunSuite {
 
   test("Distance to goal for shuffled cube of size 3 should be 5") {
     val cube = new Cube(3).shuffle()
-    assert(cube.distanceToGoal == 44)
+    assert(cube.distanceToGoal == 43)
   }
 }
