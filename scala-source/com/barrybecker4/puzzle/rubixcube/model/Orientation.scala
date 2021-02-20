@@ -11,7 +11,7 @@ object Orientation {
     throw new IllegalArgumentException("Orientation must be one of TOP, LEFT, or FRONT")
   }
 
-  val PRIMARY_ORIENTATIONS: Array[Orientation] = Array(TOP, LEFT, FRONT)
+  val PRIMARY_ORIENTATIONS: Array[Orientation] = Array(UP, LEFT, FRONT)
 }
 
 /**
@@ -23,10 +23,10 @@ sealed trait Orientation {
   def goalColor(): FaceColor
 }
 
-case object TOP extends Orientation {
+case object UP extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP => TOP
+      case UP => UP
       case LEFT if direction == CLOCKWISE => FRONT
       case LEFT if direction == COUNTER_CLOCKWISE => BACK
       case FRONT if direction == CLOCKWISE => RIGHT
@@ -39,11 +39,11 @@ case object TOP extends Orientation {
 case object LEFT extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP if direction == CLOCKWISE => BACK
-      case TOP if direction == COUNTER_CLOCKWISE => FRONT
+      case UP if direction == CLOCKWISE => BACK
+      case UP if direction == COUNTER_CLOCKWISE => FRONT
       case LEFT  => LEFT
-      case FRONT if direction == CLOCKWISE => TOP
-      case FRONT if direction == COUNTER_CLOCKWISE => BOTTOM
+      case FRONT if direction == CLOCKWISE => UP
+      case FRONT if direction == COUNTER_CLOCKWISE => DOWN
       case _ => invalid()
     }
   override def goalColor(): FaceColor = YELLOW
@@ -52,10 +52,10 @@ case object LEFT extends Orientation {
 case object FRONT extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP if direction == CLOCKWISE => LEFT
-      case TOP if direction == COUNTER_CLOCKWISE => RIGHT
-      case LEFT if direction == CLOCKWISE => BOTTOM
-      case LEFT if direction == COUNTER_CLOCKWISE => TOP
+      case UP if direction == CLOCKWISE => LEFT
+      case UP if direction == COUNTER_CLOCKWISE => RIGHT
+      case LEFT if direction == CLOCKWISE => DOWN
+      case LEFT if direction == COUNTER_CLOCKWISE => UP
       case FRONT => FRONT
       case _ => invalid()
     }
@@ -65,20 +65,20 @@ case object FRONT extends Orientation {
 case object BACK extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP if direction == CLOCKWISE => RIGHT
-      case TOP if direction == COUNTER_CLOCKWISE => LEFT
-      case LEFT if direction == CLOCKWISE => TOP
-      case LEFT if direction == COUNTER_CLOCKWISE => BOTTOM
+      case UP if direction == CLOCKWISE => RIGHT
+      case UP if direction == COUNTER_CLOCKWISE => LEFT
+      case LEFT if direction == CLOCKWISE => UP
+      case LEFT if direction == COUNTER_CLOCKWISE => DOWN
       case FRONT => BACK
       case _ => invalid()
     }
     override def goalColor(): FaceColor = ORANGE
 }
 
-case object BOTTOM extends Orientation {
+case object DOWN extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP => BOTTOM
+      case UP => DOWN
       case LEFT if direction == CLOCKWISE => BACK
       case LEFT if direction == COUNTER_CLOCKWISE => FRONT
       case FRONT if direction == CLOCKWISE => LEFT
@@ -91,20 +91,12 @@ case object BOTTOM extends Orientation {
 case object RIGHT extends Orientation {
   override def rotate(orientation: Orientation, direction: Direction): Orientation =
     orientation match {
-      case TOP if direction == CLOCKWISE => FRONT
-      case TOP if direction == COUNTER_CLOCKWISE => BACK
+      case UP if direction == CLOCKWISE => FRONT
+      case UP if direction == COUNTER_CLOCKWISE => BACK
       case LEFT => RIGHT
-      case FRONT if direction == CLOCKWISE => BOTTOM
-      case FRONT if direction == COUNTER_CLOCKWISE => TOP
+      case FRONT if direction == CLOCKWISE => DOWN
+      case FRONT if direction == COUNTER_CLOCKWISE => UP
       case _ => invalid()
     }
   override def goalColor(): FaceColor = WHITE
 }
-
-/**
-  * There are 6 different orientations for the face of a minicube
-  *
-object Orientation extends Enumeration {
-  type Orientation = Value
-  val TOP, FRONT, LEFT, BOTTOM, BACK, RIGHT = Value
-}*/

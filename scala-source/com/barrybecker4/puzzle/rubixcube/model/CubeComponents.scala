@@ -24,10 +24,10 @@ case class CubeComponents(baseSize: Int = 3) {
   val faceSize: Int = baseSize * baseSize
 
   val faceToLocations: Map[Orientation, Seq[Location]] = Map(
-    TOP -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (1, i, j)),
+    UP -> (for (i <- 1 to baseSize; j <- 1 to baseSize) yield (1, i, j)),
     LEFT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, 1, j)),
     FRONT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, j, 1)),
-    BOTTOM -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (baseSize, i, j)),
+    DOWN -> (for (i <- 1 to baseSize; j <- 1 to baseSize) yield (baseSize, i, j)),
     RIGHT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, baseSize, j)),
     BACK -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, j, baseSize))
   )
@@ -42,7 +42,7 @@ case class CubeComponents(baseSize: Int = 3) {
 
     def getLoc(orientation: Orientation, i: Int, j: Int): Location = {
       orientation match {
-        case TOP => (level, i, j)
+        case UP => (level, i, j)
         case LEFT => (i, level, j)
         case FRONT => (i, j, level)
       }
@@ -61,7 +61,7 @@ case class CubeComponents(baseSize: Int = 3) {
     var initialMap: Map[Location, Minicube] = Map()
 
     def getTopBottom(topLevel: Int): (Orientation, FaceColor) =
-      if (topLevel == 1) TOP -> TOP.goalColor() else BOTTOM -> BOTTOM.goalColor()
+      if (topLevel == 1) UP -> UP.goalColor() else DOWN -> DOWN.goalColor()
 
     def getFrontBack(frontLevel: Int): (Orientation, FaceColor) =
         if (frontLevel == 1) FRONT -> FRONT.goalColor() else BACK -> BACK.goalColor()

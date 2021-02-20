@@ -8,31 +8,31 @@ import Direction._
 class MinicubeSuite extends AnyFunSuite {
 
   test("Minicube rotate clockwise from front") {
-    val minicube = Minicube(Map(TOP -> BLUE, LEFT -> RED))
+    val minicube = Minicube(Map(UP -> BLUE, LEFT -> RED))
     val rotatedMinicube = minicube.rotate(FRONT, CLOCKWISE)
 
-    assert(rotatedMinicube == Minicube(Map(RIGHT -> BLUE, TOP -> RED)))
+    assert(rotatedMinicube == Minicube(Map(RIGHT -> BLUE, UP -> RED)))
   }
 
   test("Minicube rotate counter-clockwise from front") {
-    val minicube = Minicube(Map(TOP -> BLUE, LEFT -> RED))
+    val minicube = Minicube(Map(UP -> BLUE, LEFT -> RED))
     val rotatedMinicube = minicube.rotate(FRONT, COUNTER_CLOCKWISE)
 
-    assert(rotatedMinicube == Minicube(Map(LEFT -> BLUE, BOTTOM -> RED)))
+    assert(rotatedMinicube == Minicube(Map(LEFT -> BLUE, DOWN -> RED)))
   }
 
   test("Minicube rotate clockwise from top") {
-    val minicube = Minicube(Map(TOP -> BLUE, LEFT -> RED))
-    val rotatedMinicube = minicube.rotate(TOP, CLOCKWISE)
+    val minicube = Minicube(Map(UP -> BLUE, LEFT -> RED))
+    val rotatedMinicube = minicube.rotate(UP, CLOCKWISE)
 
-    assert(rotatedMinicube == Minicube(Map(TOP -> BLUE, BACK -> RED)))
+    assert(rotatedMinicube == Minicube(Map(UP -> BLUE, BACK -> RED)))
   }
 
   test("Minicube rotate counter-clockwise from top") {
-    val minicube = Minicube(Map(TOP -> BLUE, LEFT -> RED))
-    val rotatedMinicube = minicube.rotate(TOP, COUNTER_CLOCKWISE)
+    val minicube = Minicube(Map(UP -> BLUE, LEFT -> RED))
+    val rotatedMinicube = minicube.rotate(UP, COUNTER_CLOCKWISE)
 
-    assert(rotatedMinicube == Minicube(Map(TOP -> BLUE, FRONT -> RED)))
+    assert(rotatedMinicube == Minicube(Map(UP -> BLUE, FRONT -> RED)))
   }
 
 }

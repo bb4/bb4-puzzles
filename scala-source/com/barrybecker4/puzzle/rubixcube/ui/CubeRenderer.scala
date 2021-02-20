@@ -31,29 +31,29 @@ object CubeRenderer {
   private val CUBE2_X = LEFT_MARGIN + 4.5f
   
   // these points form a hexagon with A at the center
-  private val A1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2)
-  private val B1: Point = (LEFT_MARGIN + 2, TOP_MARGIN)
-  private val C1: Point = (LEFT_MARGIN, TOP_MARGIN + 1 + EDGE_HT)
-  private val D1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1 + EDGE_HT)
-  private val E1: Point = (LEFT_MARGIN, TOP_MARGIN + 1)
-  private val F1: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1)
-  private val G1: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2 + EDGE_HT)
+  private val ULF: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2)
+  private val URB: Point = (LEFT_MARGIN + 2, TOP_MARGIN)
+  private val DLB: Point = (LEFT_MARGIN, TOP_MARGIN + 1 + EDGE_HT)
+  private val DRF: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1 + EDGE_HT)
+  private val ULB: Point = (LEFT_MARGIN, TOP_MARGIN + 1)
+  private val URF: Point = (LEFT_MARGIN + 4, TOP_MARGIN + 1)
+  private val DLF: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 2 + EDGE_HT)
 
-  private val TOP_FACE_POLY: Array[Point] = Array(A1, F1, B1, E1)
-  private val LEFT_FACE_POLY: Array[Point] = Array(A1, G1, C1, E1)
-  private val FRONT_FACE_POLY: Array[Point] = Array(A1, G1, D1, F1)
+  private val TOP_FACE_POLY: Array[Point] = Array(ULF, URF, URB, ULB)
+  private val LEFT_FACE_POLY: Array[Point] = Array(ULF, DLF, DLB, ULB)
+  private val FRONT_FACE_POLY: Array[Point] = Array(ULF, DLF, DRF, URF)
 
-  private val A2: Point = (CUBE2_X + 2, TOP_MARGIN + EDGE_HT)
-  private val B2: Point = (CUBE2_X + 2, TOP_MARGIN + 2 + EDGE_HT)
-  private val C2: Point = (CUBE2_X + 4, TOP_MARGIN + 1)
-  private val D2: Point = (CUBE2_X, TOP_MARGIN + 1)
-  private val E2: Point = (CUBE2_X + 4, TOP_MARGIN + 1 + EDGE_HT)
-  private val F2: Point = (CUBE2_X, TOP_MARGIN + 1 + EDGE_HT)
-  private val G2: Point = (CUBE2_X + 2, TOP_MARGIN)
+  private val DRB2: Point = (CUBE2_X + 2, TOP_MARGIN + EDGE_HT)
+  private val DLF2: Point = (CUBE2_X + 2, TOP_MARGIN + 2 + EDGE_HT)
+  private val URF2: Point = (CUBE2_X + 4, TOP_MARGIN + 1)
+  private val ULB2: Point = (CUBE2_X, TOP_MARGIN + 1)
+  private val DRF2: Point = (CUBE2_X + 4, TOP_MARGIN + 1 + EDGE_HT)
+  private val DLB2: Point = (CUBE2_X, TOP_MARGIN + 1 + EDGE_HT)
+  private val URB2: Point = (CUBE2_X + 2, TOP_MARGIN)
 
-  private val BOTTOM_FACE_POLY: Array[Point] = Array(A2, E2, B2, F2)
-  private val RIGHT_FACE_POLY: Array[Point] = Array(G2, A2, F2, D2)
-  private val BACK_FACE_POLY: Array[Point] = Array(G2, A2, E2, C2)
+  private val BOTTOM_FACE_POLY: Array[Point] = Array(DRB2, DRF2, DLF2, DLB2)
+  private val RIGHT_FACE_POLY: Array[Point] = Array(URB2, DRB2, DLB2, ULB2)
+  private val BACK_FACE_POLY: Array[Point] = Array(URB2, DRB2, DRF2, URF2)
 }
 
 
@@ -72,12 +72,12 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     
     // draw 3 sides (their outline forms a hexagon)
     val g2 = g.asInstanceOf[Graphics2D]
-    drawFace(g2, cube.getFace(TOP), TOP_FACE_POLY)
+    drawFace(g2, cube.getFace(UP), TOP_FACE_POLY)
     drawFace(g2, cube.getFace(LEFT), LEFT_FACE_POLY)
     drawFace(g2, cube.getFace(FRONT), FRONT_FACE_POLY)
 
     // draw the 3 sides on the other side (facing away)
-    drawFace(g2, cube.getFace(BOTTOM), BOTTOM_FACE_POLY)
+    drawFace(g2, cube.getFace(DOWN), BOTTOM_FACE_POLY)
     drawFace(g2, cube.getFace(RIGHT), RIGHT_FACE_POLY)
     drawFace(g2, cube.getFace(BACK), BACK_FACE_POLY)
   }

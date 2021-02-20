@@ -14,6 +14,8 @@ import javax.swing._
 /**
   * Rubix Cube - https://en.wikipedia.org/wiki/Rubik%27s_Cube.
   * This program solves the well-known Rubix Cube puzzle.
+  * For advanced solving approaches see
+  * https://medium.com/@benjamin.botto/implementing-an-optimal-rubiks-cube-solver-using-korf-s-algorithm-bf750b332cf9
   */
 object RubixCubePuzzle extends App {
   /** Use this to run as an application instead of an applet.  */

@@ -16,7 +16,7 @@ class CubeSuite extends AnyFunSuite {
 
   test("Distance to goal for after 1 rotation should be 8") {
     val cube = new Cube(2)
-    val move = CubeMove(TOP, 2, Direction.CLOCKWISE)
+    val move = CubeMove(UP, 2, Direction.CLOCKWISE)
     assert(cube.doMove(move).distanceToGoal == 8)
   }
 

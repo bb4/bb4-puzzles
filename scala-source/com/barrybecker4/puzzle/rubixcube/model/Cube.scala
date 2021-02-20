@@ -30,10 +30,10 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
     def getColor(loc: Location): FaceColor = locationToMinicube(loc).orientationToColor(orientation)
 
     orientation match {
-      case TOP => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
+      case UP => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
       case LEFT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
       case FRONT => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
-      case BOTTOM => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
+      case DOWN => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
       case RIGHT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
       case BACK => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
     }
