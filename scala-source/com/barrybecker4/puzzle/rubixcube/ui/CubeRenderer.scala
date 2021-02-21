@@ -7,6 +7,7 @@ import com.barrybecker4.puzzle.rubixcube.ui.CubeRenderer._
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor._
 
 import java.awt.{BasicStroke, Color, Font, Graphics, Graphics2D}
+import scala.math.BigDecimal.double2bigDecimal
 
 
 /**
@@ -15,7 +16,6 @@ import java.awt.{BasicStroke, Color, Font, Graphics, Graphics2D}
   * That way all 6 sides can be seen at once.
   */
 object CubeRenderer {
-  type Point = (Float, Float)
 
   private val INC = 60
   private val LEFT_MARGIN = 0.5f
@@ -54,10 +54,15 @@ object CubeRenderer {
   private val BOTTOM_FACE_POLY: Array[Point] = Array(DRB2, DRF2, DLF2, DLB2)
   private val RIGHT_FACE_POLY: Array[Point] = Array(URB2, DRB2, DLB2, ULB2)
   private val BACK_FACE_POLY: Array[Point] = Array(URB2, DRB2, DRF2, URF2)
+
+  private val POINTS = (for (i <- -Math.PI to Math.PI by 0.1) yield i.toDouble).toArray
 }
 
 
-
+/**
+  * For rotating point in a slice, I use this equation for a rotated ellipse
+  * https://math.stackexchange.com/questions/426150/what-is-the-general-equation-of-the-ellipse-that-is-not-in-the-origin-and-rotate
+  */
 class CubeRenderer extends PuzzleRenderer[Cube] {
 
   private var size: Int = 0
@@ -66,9 +71,16 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
 
   /** This renders the current state of the Cube to the screen. */
   def render(g: Graphics, cube: Cube, width: Int, height: Int): Unit = {
+    render(g, cube, width, height, None)
+  }
+
+  /** This renders the current state of the Cube to the screen. */
+  def render(g: Graphics, cube: Cube, width: Int, height: Int, transition: Option[CubeMoveTransition]): Unit = {
     size = cube.size
     scaleX = width / 10.0f
     scaleY = height / 5.0f
+
+    // maybe instead draw slices based on 1 of the 3 orientations. that way one of the N slices can be rotating
     
     // draw 3 sides (their outline forms a hexagon)
     val g2 = g.asInstanceOf[Graphics2D]
@@ -80,6 +92,9 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     drawFace(g2, cube.getFace(DOWN), BOTTOM_FACE_POLY)
     drawFace(g2, cube.getFace(RIGHT), RIGHT_FACE_POLY)
     drawFace(g2, cube.getFace(BACK), BACK_FACE_POLY)
+
+    if (transition.nonEmpty)
+      drawPointsOnEllipse(g2, POINTS, transition.get)
   }
 
   /** @param face the 2d positions and colors of the squares on the face
@@ -90,10 +105,35 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
 
     // fill the face's colored squares
     drawFaceSquares(g2, face, points)
+  }
 
-    // draw grid based on the 4 points
-    //drawFaceLines(g2, points(0), points(3), points(1)) // horz lines
-    //drawFaceLines(g2, points(1), points(0), points(2)) // vert lines
+  private def drawPointsOnEllipse(g2: Graphics2D, thetas: Array[Double], transition: CubeMoveTransition): Unit = {
+    val ellipse = RotatedEllipse(4, 2, 3, 1,  HALF_PI / 2)
+    val rot = transition.percentDone * HALF_PI / 100.0
+
+    var xpts: Seq[Int] = Seq()
+    var ypts: Seq[Int] = Seq()
+    var ct = 0
+
+    for (theta <- thetas) {
+      val angle = theta + rot
+      val pt = ellipse.getPointAtAngle(angle)
+      if (theta > HALF_PI)
+        g2.setColor(Color.BLUE)
+      else if (theta < -HALF_PI)
+        g2.setColor(Color.RED)
+      else g2.setColor(THIN_LINE_COLOR)
+
+      ct += 1
+      if (ct % 10 == 0) {
+        xpts :+= (scaleX * pt._1).toInt
+        ypts :+= (scaleY * pt._2).toInt
+      }
+      g2.drawOval((scaleX * pt._1).toInt, (scaleY * pt._2).toInt, 3, 3)
+    }
+
+    g2.setColor(THIN_LINE_COLOR)
+    g2.drawPolygon(xpts.toArray, ypts.toArray, xpts.size)
   }
 
   private def drawFaceSquares(g2: Graphics2D, face: Map[(Int, Int), FaceColor], points: Array[Point]): Unit = {
