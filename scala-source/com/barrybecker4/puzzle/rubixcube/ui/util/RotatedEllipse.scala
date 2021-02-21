@@ -1,14 +1,14 @@
-package com.barrybecker4.puzzle.rubixcube.ui
+package com.barrybecker4.puzzle.rubixcube.ui.util
 
+import com.barrybecker4.puzzle.rubixcube.ui.{HALF_PI, Point}
 
 /**
-  * @param xOffset h in the standard formula
-  * @param yOffset k in the standard formula
-  * @param xRadius a in the standard formula
-  * @param yRadius b in the standard formula
+  * @param offset  (h, k) in the standard formula
+  * @param xRadius  a in the standard formula
+  * @param yRadius  b in the standard formula
   * @param rotation the amount to rotate the ellipse in radians in a counter-clockwise direction
   */
-case class RotatedEllipse(xOffset: Float, yOffset: Float, xRadius: Double, yRadius: Double, rotation: Double) {
+case class RotatedEllipse(offset: Point, xRadius: Double, yRadius: Double, rotation: Double) {
 
   private val aa = xRadius * xRadius
   private val bb = yRadius * yRadius
@@ -27,7 +27,7 @@ case class RotatedEllipse(xOffset: Float, yOffset: Float, xRadius: Double, yRadi
       if (isTopOrBottom) 0
       else {
         val denom = Math.sqrt(bb + aa * tanTheta * tanTheta)
-        assert (denom != 0)
+        assert(denom != 0)
         sign * ab / denom
       }
 
@@ -36,7 +36,7 @@ case class RotatedEllipse(xOffset: Float, yOffset: Float, xRadius: Double, yRadi
     val rotatedPoint = rotatePointOnCanonicalEllipse(x, y)
 
     // now shift it
-    (rotatedPoint._1 + xOffset, rotatedPoint._2 + yOffset)
+    (rotatedPoint._1 + offset._1, rotatedPoint._2 + offset._2)
   }
 
   private def rotatePointOnCanonicalEllipse(x: Double, y: Double): Point = {

@@ -5,8 +5,10 @@ import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.CubeRenderer._
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor._
+import com.barrybecker4.puzzle.rubixcube.ui.util.{CubeMoveTransition, FaceColorMap, RotatedEllipse}
 
 import java.awt.{BasicStroke, Color, Font, Graphics, Graphics2D}
+import java.lang.management.ThreadInfo
 import scala.math.BigDecimal.double2bigDecimal
 
 
@@ -56,6 +58,14 @@ object CubeRenderer {
   private val BACK_FACE_POLY: Array[Point] = Array(URB2, DRB2, DRF2, URF2)
 
   private val POINTS = (for (i <- -Math.PI to Math.PI by 0.1) yield i.toDouble).toArray
+
+  val FRONT_CENTER_Y: Float = TOP_MARGIN + 1 + (EDGE_HT + 1) / 2f
+  val FRONT_ELLIPSE_A: Double = Math.sqrt(10 + 2 * EDGE_HT) / 2
+  val FRONT_ELLIPSE_B: Double = Math.sqrt(10 - 2 * EDGE_HT) / 2 //Math.sqrt(1 + 5/16)
+
+  private val UP_ROTATION_CENTER: Point = (LEFT_MARGIN + 2, TOP_MARGIN + 1)
+  private val LEFT_ROTATION_CENTER: Point = (LEFT_MARGIN + 1, FRONT_CENTER_Y)
+  private val FRONT_ROTATION_CENTER: Point = (LEFT_MARGIN + 3, FRONT_CENTER_Y)
 }
 
 
@@ -93,8 +103,14 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     drawFace(g2, cube.getFace(RIGHT), RIGHT_FACE_POLY)
     drawFace(g2, cube.getFace(BACK), BACK_FACE_POLY)
 
-    if (transition.nonEmpty)
-      drawPointsOnEllipse(g2, POINTS, transition.get)
+    if (transition.nonEmpty) {
+      val topEllipse = RotatedEllipse(UP_ROTATION_CENTER, 2, 1, 0)
+      drawPointsOnEllipse(g2, topEllipse, transition.get)
+      val leftEllipse = RotatedEllipse(LEFT_ROTATION_CENTER, FRONT_ELLIPSE_A, FRONT_ELLIPSE_B, THIRD_PI)
+      drawPointsOnEllipse(g2, leftEllipse, transition.get)
+      val frontEllipse = RotatedEllipse(FRONT_ROTATION_CENTER, FRONT_ELLIPSE_A, FRONT_ELLIPSE_B, -THIRD_PI)
+      drawPointsOnEllipse(g2, frontEllipse, transition.get)
+    }
   }
 
   /** @param face the 2d positions and colors of the squares on the face
@@ -107,15 +123,14 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     drawFaceSquares(g2, face, points)
   }
 
-  private def drawPointsOnEllipse(g2: Graphics2D, thetas: Array[Double], transition: CubeMoveTransition): Unit = {
-    val ellipse = RotatedEllipse(4, 2, 3, 1,  HALF_PI / 2)
+  private def drawPointsOnEllipse(g2: Graphics2D, ellipse: RotatedEllipse, transition: CubeMoveTransition): Unit = {
     val rot = transition.percentDone * HALF_PI / 100.0
 
     var xpts: Seq[Int] = Seq()
     var ypts: Seq[Int] = Seq()
     var ct = 0
 
-    for (theta <- thetas) {
+    for (theta <- POINTS) {
       val angle = theta + rot
       val pt = ellipse.getPointAtAngle(angle)
       if (theta > HALF_PI)
@@ -125,7 +140,7 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
       else g2.setColor(THIN_LINE_COLOR)
 
       ct += 1
-      if (ct % 10 == 0) {
+      if (ct % 14 == 0) {
         xpts :+= (scaleX * pt._1).toInt
         ypts :+= (scaleY * pt._2).toInt
       }

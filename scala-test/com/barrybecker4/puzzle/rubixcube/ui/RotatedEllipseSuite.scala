@@ -1,7 +1,6 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.barrybecker4.puzzle.rubixcube.model.Direction.{CLOCKWISE, COUNTER_CLOCKWISE}
-import com.barrybecker4.puzzle.rubixcube.model.{BACK, DOWN, FRONT, LEFT, Minicube, RIGHT, UP}
+import com.barrybecker4.puzzle.rubixcube.ui.util.RotatedEllipse
 import org.scalatest.funsuite.AnyFunSuite
 
 
@@ -9,7 +8,7 @@ class RotatedEllipseSuite extends AnyFunSuite {
 
   test("Points on simple, non-rotated ellipse") {
 
-    val ellipse = RotatedEllipse(0, 0, 3, 1, 0)
+    val ellipse = RotatedEllipse((0, 0), 3, 1, 0)
 
     assert(ellipse.getPointAtAngle(0) == (3.0f, 0))
     assert(ellipse.getPointAtAngle(HALF_PI) == (6.123234E-17f, 1.0f))
@@ -20,7 +19,7 @@ class RotatedEllipseSuite extends AnyFunSuite {
 
   test("Points on simple, rotated ellipse") {
 
-    val ellipse = RotatedEllipse(0, 0, 3, 1, Math.PI / 3.0)
+    val ellipse = RotatedEllipse((0, 0), 3, 1, Math.PI / 3.0)
 
     assert(ellipse.getPointAtAngle(0) == (1.5f,2.598076f))
     assert(ellipse.getPointAtAngle(HALF_PI) == (-0.8660254f, 0.5f))
@@ -29,4 +28,11 @@ class RotatedEllipseSuite extends AnyFunSuite {
   }
 
 
+  test("Points on simple, rotated and translated ellipse") {
+
+    val ellipse = RotatedEllipse((2, 3), 5, 1, Math.PI / 3.0)
+
+    assert(ellipse.getPointAtAngle(0) == (4.5f, 7.3301272f))
+    assert(ellipse.getPointAtAngle(HALF_PI) == (1.1339746f, 3.5f))
+  }
 }

@@ -4,10 +4,10 @@ package com.barrybecker4.puzzle.rubixcube.ui
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import CubeViewer.ANIMATION_STEPS
+import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
 
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
-
 import java.awt.Graphics
 import javax.swing.Timer
 
@@ -45,14 +45,14 @@ final class CubeViewer(var doneListener: DoneListener)
 
   def makeMove(currentStep: Int, undo: Boolean): Unit = {
     val move: CubeMove = getPath(currentStep)
-    //animateMove(move, undo)
+    animateMove(move, undo)
     board = board.doMove(move)
     repaint()
   }
 
   def animateMove(move: CubeMove, undo: Boolean): Unit = {
 
-    val timerDelay = 100
+    val timerDelay = 200
 
     new Timer(timerDelay, new ActionListener() {
       private var step = 0
@@ -60,7 +60,7 @@ final class CubeViewer(var doneListener: DoneListener)
       def actionPerformed(e: ActionEvent): Unit = {
         step += 1
         val inc = if (undo) ANIMATION_STEPS - step else step
-        transition = Some(CubeMoveTransition(move, (100.0 * inc) / ANIMATION_STEPS))
+        transition = Some(util.CubeMoveTransition(move, (100.0 * inc) / ANIMATION_STEPS))
         println("calling repaint")
         repaint()
         if (step == ANIMATION_STEPS) e.getSource.asInstanceOf[Timer].stop()
