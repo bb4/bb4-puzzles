@@ -167,41 +167,39 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
 
     for (side <- 0 to 1) {
       for (i <- 1 to size) {
-        for (j <- 1 to size) {
-          val edgeOrientation = edgeOrientations(side)
-          val loc = orientation match {
-            case UP => if (edgeOrientation == FRONT) (layer, i, 1) else (layer, 1, i)
-            case LEFT => if (edgeOrientation == UP) (1, layer, i) else (i, layer, 1)
-            case FRONT => if (edgeOrientation == UP) (1, i, layer) else (i, 1, layer)
-            case _ => throw new IllegalArgumentException("Unexpected orientation: " + orientation)
-          }
-          val color = slice(loc).orientationToColor(edgeOrientation)
-          val d = delta(side)
-
-          val xOffset1 = (j - 1) * edgeOffset.x
-          val xOffset2 = scaleX * edgeOffset.x
-          val x1 = (scaleX * (baseX + (i - 1) * d.x + xOffset1)).toInt
-          val x2 = (scaleX * (baseX + i * d.x + xOffset1)).toInt
-          val x3 = (x2 + xOffset2).toInt
-          val x4 = (x1 + xOffset2).toInt
-
-          val yOffset1 = (j - 1) * edgeOffset.y
-          val yOffset2 = scaleY * edgeOffset.y
-          val y1 = (scaleY * (baseY + (i - 1) * d.y - yOffset1)).toInt
-          val y2 = (scaleY * (baseY + i * d.y - yOffset1)).toInt
-          val y3 = (y2 - yOffset2).toInt
-          val y4 = (y1 - yOffset2).toInt
-
-          val xpoints = Array(x1, x2, x3, x4)
-          val ypoints = Array(y1, y2, y3, y4)
-
-          g2.setColor(FaceColorMap.getColor(color))
-          g2.fillPolygon(xpoints, ypoints, 4)
-
-          g2.setStroke(LINE_STROKE)
-          g2.setColor(LINE_COLOR)
-          g2.drawPolygon(xpoints, ypoints, 4)
+        val edgeOrientation = edgeOrientations(side)
+        val loc = orientation match {
+          case UP => if (edgeOrientation == FRONT) (layer, i, 1) else (layer, 1, i)
+          case LEFT => if (edgeOrientation == UP) (1, layer, i) else (i, layer, 1)
+          case FRONT => if (edgeOrientation == UP) (1, i, layer) else (i, 1, layer)
+          case _ => throw new IllegalArgumentException("Unexpected orientation: " + orientation)
         }
+        val color = slice(loc).orientationToColor(edgeOrientation)
+        val d = delta(side)
+
+        val xOffset1 = (layer - 1) * edgeOffset.x
+        val xOffset2 = scaleX * edgeOffset.x
+        val x1 = (scaleX * (baseX + (i - 1) * d.x + xOffset1)).toInt
+        val x2 = (scaleX * (baseX + i * d.x + xOffset1)).toInt
+        val x3 = (x2 + xOffset2).toInt
+        val x4 = (x1 + xOffset2).toInt
+
+        val yOffset1 = (layer - 1) * edgeOffset.y
+        val yOffset2 = scaleY * edgeOffset.y
+        val y1 = (scaleY * (baseY + (i - 1) * d.y - yOffset1)).toInt
+        val y2 = (scaleY * (baseY + i * d.y - yOffset1)).toInt
+        val y3 = (y2 - yOffset2).toInt
+        val y4 = (y1 - yOffset2).toInt
+
+        val xpoints = Array(x1, x2, x3, x4)
+        val ypoints = Array(y1, y2, y3, y4)
+
+        g2.setColor(FaceColorMap.getColor(color))
+        g2.fillPolygon(xpoints, ypoints, 4)
+
+        g2.setStroke(LINE_STROKE)
+        g2.setColor(LINE_COLOR)
+        g2.drawPolygon(xpoints, ypoints, 4)
       }
     }
   }
