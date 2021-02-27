@@ -78,74 +78,69 @@ class CubeMoveSuite extends AnyFunSuite {
     val cubeMove = CubeMove(UP, 1, CLOCKWISE)
     val modifiedCube = cube.doMove(cubeMove)
 
-    val expFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.RED,
-      (1, 2) -> FaceColor.RED,
-      (2, 1) -> FaceColor.YELLOW,
-      (2, 2) -> FaceColor.YELLOW
+    val expSlice: Map[(Int, Int, Int), Minicube] = Map(
+      (1,1,1) -> Minicube(Map(UP -> BLUE, FRONT -> YELLOW, LEFT -> RED)),
+      (1,1,2) -> Minicube(Map(UP -> BLUE, BACK -> WHITE, LEFT -> RED)),
+      (2,1,1) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, FRONT -> RED)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE))
     )
 
-    assert(modifiedCube.getFace(LEFT) == expFace)
+    assert(modifiedCube.getSlice(LEFT, 1) == expSlice)
   }
 
   test("Cube rotate FRONT 1, clockwise") {
 
     val cube = new Cube(2)
 
-    // before rotating the left face should be yellow and bottom should be green
-    val leftFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.YELLOW,
-      (1, 2) -> FaceColor.YELLOW,
-      (2, 1) -> FaceColor.YELLOW,
-      (2, 2) -> FaceColor.YELLOW
+    // before rotating
+    val leftSlice = Map(
+      (1,1,1) -> Minicube(Map(UP -> BLUE, LEFT -> WHITE, FRONT -> RED)),
+      (1,1,2) -> Minicube(Map(UP -> BLUE, LEFT -> WHITE, BACK -> ORANGE)),
+      (2,1,1) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, FRONT -> RED)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE))
     )
-    val bottomFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.GREEN,
-      (1, 2) -> FaceColor.GREEN,
-      (2, 1) -> FaceColor.GREEN,
-      (2, 2) -> FaceColor.GREEN
+    val bottomSlice: Map[(Int, Int, Int), Minicube] = Map(
+      (2,1,1) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, FRONT -> RED)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE)),
+      (2,2,1) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, FRONT -> RED)),
+      (2,2,2) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, BACK -> ORANGE))
     )
-    val rightFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.ORANGE,
-      (1, 2) -> FaceColor.ORANGE,
-      (2, 1) -> FaceColor.ORANGE,
-      (2, 2) -> FaceColor.ORANGE
-    )
-    // right is orange
-    assert(cube.getFace(LEFT) == leftFace)
-    assert(cube.getFace(DOWN) == bottomFace)
+
+
+    assert(cube.getSlice(LEFT, 1) == leftSlice, "unexpected left slice")
+    assert(cube.getSlice(UP, 2) == bottomSlice, "unexpected down slice")
 
     val cubeMove = CubeMove(FRONT, 1, CLOCKWISE)  // rotate front face clockwise
     val modifiedCube = cube.doMove(cubeMove)
 
-    val expLeftFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.GREEN,
-      (1, 2) -> FaceColor.YELLOW,
-      (2, 1) -> FaceColor.GREEN,
-      (2, 2) -> FaceColor.YELLOW
+    val expLeftSlice = Map(
+      (1,2,1) -> Minicube(Map(RIGHT -> BLUE, UP -> WHITE, FRONT -> RED)),
+      (1,2,2) -> Minicube(Map(UP -> BLUE, RIGHT -> YELLOW, BACK -> ORANGE)),
+      (2,2,1) -> Minicube(Map(RIGHT -> BLUE, DOWN -> YELLOW, FRONT -> RED)),
+      (2,2,2) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, BACK -> ORANGE))
     )
-    val expBottomFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.WHITE,
-      (1, 2) -> FaceColor.GREEN,
-      (2, 1) -> FaceColor.WHITE,
-      (2, 2) -> FaceColor.GREEN
+    val expBottomSlice = Map(
+      (2,1,1) -> Minicube(Map(LEFT -> GREEN, DOWN -> YELLOW, FRONT -> RED)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE)),
+      (2,2,1) -> Minicube(Map(RIGHT -> BLUE, DOWN -> YELLOW, FRONT -> RED)),
+      (2,2,2) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, BACK -> ORANGE))
     )
-    val expTopFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.YELLOW,
-      (1, 2) -> FaceColor.BLUE,
-      (2, 1) -> FaceColor.YELLOW,
-      (2, 2) -> FaceColor.BLUE
+    val expTopSlice = Map(
+      (2,1,1) -> Minicube(Map(LEFT -> GREEN, DOWN -> YELLOW, FRONT -> RED)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE)),
+      (2,2,1) -> Minicube(Map(RIGHT -> BLUE, DOWN -> YELLOW, FRONT -> RED)),
+      (2,2,2) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, BACK -> ORANGE))
     )
-    val expFrontFace: Map[(Int, Int), FaceColor] = Map(
-      (1, 1) -> FaceColor.RED,
-      (1, 2) -> FaceColor.RED,
-      (2, 1) -> FaceColor.RED,
-      (2, 2) -> FaceColor.RED
+    val expFrontSlice = Map(
+      (1,1,2) -> Minicube(Map(UP -> BLUE, LEFT -> WHITE, BACK -> ORANGE)),
+      (1,2,2) -> Minicube(Map(UP -> BLUE, RIGHT -> YELLOW, BACK -> ORANGE)),
+      (2,1,2) -> Minicube(Map(DOWN -> GREEN, LEFT -> WHITE, BACK -> ORANGE)),
+      (2,2,2) -> Minicube(Map(DOWN -> GREEN, RIGHT -> YELLOW, BACK -> ORANGE))
     )
 
-    assert(modifiedCube.getFace(LEFT) == expLeftFace)
-    assert(modifiedCube.getFace(DOWN) == expBottomFace)
-    assert(modifiedCube.getFace(UP) == expTopFace)
-    assert(modifiedCube.getFace(FRONT) == expFrontFace)
+    assert(modifiedCube.getSlice(LEFT, 2) == expLeftSlice)
+    assert(modifiedCube.getSlice(UP, 2) == expBottomSlice)
+    assert(modifiedCube.getSlice(UP, 2) == expTopSlice)
+    assert(modifiedCube.getSlice(FRONT, 2) == expFrontSlice)
   }
 }

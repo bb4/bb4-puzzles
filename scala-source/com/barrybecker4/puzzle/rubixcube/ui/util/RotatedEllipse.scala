@@ -36,7 +36,7 @@ case class RotatedEllipse(offset: Point, xRadius: Double, yRadius: Double, rotat
     val rotatedPoint = rotatePointOnCanonicalEllipse(x, y)
 
     // now shift it
-    (rotatedPoint._1 + offset._1, rotatedPoint._2 + offset._2)
+    rotatedPoint.add(offset)
   }
 
   private def rotatePointOnCanonicalEllipse(x: Double, y: Double): Point = {
@@ -48,7 +48,7 @@ case class RotatedEllipse(offset: Point, xRadius: Double, yRadius: Double, rotat
     val rx = len * Math.cos(currentAngle + rotation)
     val ry = len * Math.sin(currentAngle + rotation)
     assert(!rx.isNaN && !ry.isNaN, "rx = " + rx + " ry = " + ry)
-    (rx.toFloat, ry.toFloat)
+    Point(rx.toFloat, ry.toFloat)
   }
 
 }

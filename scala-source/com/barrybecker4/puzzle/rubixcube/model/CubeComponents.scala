@@ -32,6 +32,15 @@ case class CubeComponents(baseSize: Int = 3) {
     BACK -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, j, baseSize))
   )
 
+  def locationsForSlice(orientation: Orientation, layer: Int): Seq[Location] = {
+    orientation match {
+      case UP => for (i <- 1 to baseSize; j <- 1 to baseSize) yield (layer, i, j)
+      case LEFT => for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, layer, j)
+      case FRONT => for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, j, layer)
+      case _ => throw new IllegalArgumentException("unexpected orientation = " + orientation)
+    }
+  }
+
   /** A cube slice can be rotated. It is defined by the positions at a given orientation and level. */
   val sliceLocations: Map[(Orientation, Int), Seq[Location]] = {
     (for (orientation <- Orientation.PRIMARY_ORIENTATIONS; level <- 1 to baseSize)

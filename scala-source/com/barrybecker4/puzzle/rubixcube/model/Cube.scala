@@ -25,19 +25,19 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
   def shuffle(rand: Random = MathUtil.RANDOM): Cube =
     new CubeShuffler(rand).shuffle(this)
 
-  def getFace(orientation: Orientation): Map[(Int, Int), FaceColor] = {
-    val faceLocs = comps.faceToLocations(orientation)
-    def getColor(loc: Location): FaceColor = locationToMinicube(loc).orientationToColor(orientation)
-
-    orientation match {
-      case UP => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
-      case LEFT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
-      case FRONT => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
-      case DOWN => faceLocs.map(loc => (loc._2, loc._3) -> getColor(loc)).toMap
-      case RIGHT => faceLocs.map(loc => (loc._1, loc._3) -> getColor(loc)).toMap
-      case BACK => faceLocs.map(loc => (loc._1, loc._2) -> getColor(loc)).toMap
-    }
+  def getSlice(orientation: Orientation, level: Int): Map[(Int, Int, Int), Minicube] = {
+    assert (level <= this.size)
+    val locsForSlice = comps.locationsForSlice(orientation, level)
+    println("locsForSlice = " + locsForSlice)
+    var m: Map[(Int, Int, Int), Minicube] = Map()
+    locsForSlice.foreach(loc => {
+      if (locationToMinicube.contains(loc)) {
+        m += loc -> locationToMinicube(loc)
+      }
+    })
+    m
   }
+
 
   /** @return number of colors not in the goal state. Faces are arbitrarily assigned the 6 goal colors */
   def distanceToGoal: Int = {

@@ -14,14 +14,10 @@ final class LayerSelector(initialSize: Int) extends Choice {
   def getSelectedLayer: Int = this.getSelectedIndex + 1
 
   def setSize(newSize: Int): Unit = {
-    if (newSize < numLayers) {
-      for (i <- numLayers until newSize)
-        remove(i)
-    }
-    else {
-      for (i <- numLayers + 1 to newSize)
-        add(i.toString)
-    }
+    this.removeAll()
+    for (i <- 1 to newSize)
+      add(i.toString)
+
     numLayers = newSize
   }
 }
