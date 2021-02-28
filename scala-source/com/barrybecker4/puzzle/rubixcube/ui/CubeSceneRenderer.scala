@@ -18,6 +18,10 @@ import com.jme3.texture.Image.Format
 import com.jme3.texture.Texture
 import com.jme3.texture.Texture2D
 import com.jme3.input.ChaseCamera
+import com.jme3.math.Vector3f
+import com.jme3.scene.CameraNode
+import com.jme3.scene.control.CameraControl.ControlDirection
+import com.jme3.scene.instancing.InstancedNode
 
 
 /**
@@ -36,7 +40,7 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
   private var offView: ViewPort = _
 
 
-  def setupOffscreenView: Texture = {
+  def setupOffscreenView(): Texture = {
 
     val offCamera = createOffscreenCamera()
 
@@ -47,9 +51,7 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
     val offTex = createTexture()
     val offBuffer = createFrameBuffer(offTex)
 
-    //set viewport to render to offscreen framebuffer
     offView.setOutputFrameBuffer(offBuffer)
-
     offBox = createCube()
 
     // attach the scene to the viewport to be rendered
@@ -85,35 +87,42 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
   private def createCube(): Geometry = {
     val boxMesh = new Box(1, 1, 1)
     val material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    //assetManager.loadMaterial("Interface/Logo/Logo.j3m")
     val offBox = new Geometry("box", boxMesh)
     offBox.setMaterial(material)
     offBox
   }
 
   override def simpleInitApp(): Unit = {
-    cam.setLocation(new Vector3f(3, 3, 2))
-    cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y)
+    //cam.setLocation(new Vector3f(0, 0, 0))
+    //cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y)
 
     flyCam.setEnabled(false)
-    flyCam.setDragToRotate(true)
+    //flyCam.setDragToRotate(true)
 
-    //setup main scene
-    val quad = new Geometry("box", new Box(1, 1, 1))
-    val offTex = setupOffscreenView
+    val quad = createQuad()
 
-    val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    mat.setTexture("ColorMap", offTex)
-    quad.setMaterial(mat)
+    val cubeNode = new InstancedNode()
+    cubeNode.attachChild(quad)
 
-    rootNode.attachChild(quad)
-    val chaseCam = new ChaseCamera(cam, quad, inputManager)
+    rootNode.attachChild(cubeNode)
+
+    val chaseCam = new ChaseCamera(cam, cubeNode, inputManager)
+    chaseCam.setSmoothMotion(false)
     chaseCam.setDefaultDistance(4)
 
     inputManager.addMapping(TOGGLE_UPDATE, new KeyTrigger(KeyInput.KEY_SPACE))
     inputManager.addListener(this, TOGGLE_UPDATE)
   }
 
+  private def createQuad() = {
+    val quad = new Geometry("box", new Box(1, 1, 1))
+    val offTex = setupOffscreenView()
+
+    val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
+    mat.setTexture("ColorMap", offTex)
+    quad.setMaterial(mat)
+    quad
+  }
 
   override def simpleUpdate(tpf: Float): Unit = {
     val q = new Quaternion
