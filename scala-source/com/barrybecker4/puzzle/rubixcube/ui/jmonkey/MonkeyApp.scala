@@ -1,13 +1,13 @@
-package com.barrybecker4.puzzle.rubixcube.ui
+package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
 
 import com.jme3.app.SimpleApplication
+import com.jme3.light.DirectionalLight
 import com.jme3.material.Material
 import com.jme3.math.Vector3f
-import com.jme3.scene.{Geometry, Node}
 import com.jme3.scene.shape.Box
+import com.jme3.scene.{Geometry, Node}
 import com.jme3.system.AppSettings
-import com.jme3.light.DirectionalLight
-import com.jme3.math.ColorRGBA
+
 
 
 object MonkeyApp {
@@ -17,6 +17,7 @@ object MonkeyApp {
     val settings = new AppSettings(false)
     settings.setTitle("Rubix Cube Solver")
     app.setSettings(settings)
+    app.setDisplayStatView(false)
     app.start()
   }
 }
@@ -48,6 +49,9 @@ class MonkeyApp extends SimpleApplication {
     sun.setDirection(new Vector3f(1, 0, -(2)).normalizeLocal)
     sun.setColor(ColorRGBA.White)
     rootNode.addLight(sun)
+
+    flyCam.setDragToRotate(true)
+
   }
 
   // main loop

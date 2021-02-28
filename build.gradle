@@ -23,7 +23,7 @@ ext {
 
 apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
-def jme3 = [v:'3.3.2-stable', g:'org.jmonkeyengine']
+def jme3 = [g:'org.jmonkeyengine', v:'3.3.2-stable']
 dependencies {
     implementation 'com.barrybecker4:bb4-A-star:1.6-SNAPSHOT'
     implementation 'com.barrybecker4:bb4-sound:1.6-SNAPSHOT'
