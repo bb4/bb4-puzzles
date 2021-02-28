@@ -159,7 +159,7 @@ object TestCanvas {
     app.createCanvas()
     app.startCanvas()
     context = app.getContext.asInstanceOf[JmeCanvasContext]
-    canvas = context.getCanvas
+    val canvas = context.getCanvas
     canvas.setSize(settings.getWidth, settings.getHeight)
     canvas
   }

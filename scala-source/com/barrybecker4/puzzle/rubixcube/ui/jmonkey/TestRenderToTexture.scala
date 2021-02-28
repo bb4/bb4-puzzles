@@ -70,6 +70,8 @@ class TestRenderToTexture extends SimpleApplication with ActionListener {
   override def simpleInitApp(): Unit = {
     cam.setLocation(new Vector3f(3, 3, 3))
     cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y)
+    flyCam.setDragToRotate(true)
+
     //setup main scene
     val quad = new Geometry("box", new Box(1, 1, 1))
     val offTex = setupOffscreenView

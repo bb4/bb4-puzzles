@@ -3,18 +3,13 @@ package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
-import CubeViewer._
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
+import com.jme3.app.{LegacyApplication, SimpleApplication}
+import com.jme3.system.{AppSettings, JmeCanvasContext}
 
-import java.awt.event.ActionEvent
-import java.awt.event.ActionListener
-import java.awt.Graphics
-import javax.swing.Timer
+import java.awt.{BorderLayout, Canvas, Graphics}
 
-object CubeViewer {
-  val ANIMATION_STEPS = 100
-  val TIME_PER_STEP = 200
-}
+
 
 /**
   * UI for drawing the current best solution to the puzzle.
@@ -28,6 +23,28 @@ final class CubeViewer(var doneListener: DoneListener)
   private var transition: Option[CubeMoveTransition] = None
 
   def getPath: List[CubeMove] = path
+
+  private var app: LegacyApplication = _
+  private var context: JmeCanvasContext = _
+  private val appClass = "com.barrybecker4.puzzle.rubixcube.ui.jmonkey.TestRenderToTexture"
+  private val canvas = createCanvas(appClass)
+  this.add(canvas, BorderLayout.CENTER)
+
+
+  def createCanvas(appClass: String): Canvas = {
+    val settings = new AppSettings(true)
+
+    val clazz = Class.forName(appClass)
+    app = clazz.getDeclaredConstructor().newInstance().asInstanceOf[LegacyApplication]
+
+    app.setPauseOnLostFocus(false)
+    app.setSettings(settings)
+    app.createCanvas()
+    app.startCanvas()
+    context = app.getContext.asInstanceOf[JmeCanvasContext]
+    val canvas = context.getCanvas
+    canvas
+  }
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
     board = theCube
@@ -52,26 +69,17 @@ final class CubeViewer(var doneListener: DoneListener)
   }
 
   def animateMove(move: CubeMove, undo: Boolean): Unit = {
-
-    new Timer(TIME_PER_STEP, new ActionListener() {
-      private var step = 0
-
-      def actionPerformed(e: ActionEvent): Unit = {
-        step += 1
-        val inc = if (undo) ANIMATION_STEPS - step else step
-        transition = Some(util.CubeMoveTransition(move, (100.0 * inc) / ANIMATION_STEPS))
-        repaint()
-        if (step == ANIMATION_STEPS) e.getSource.asInstanceOf[Timer].stop()
-      }
-    }).start()
-
-    transition = None
   }
 
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
+
+    if (board != null)
+      canvas.setSize(getWidth, getHeight)
+    /*
     super.paintComponent(g)
     if (board != null) renderer.render(g, board, getWidth, getHeight, transition)
+     */
   }
 
   private def showPath(thePath: List[CubeMove], theBoard: Cube): Unit = {
