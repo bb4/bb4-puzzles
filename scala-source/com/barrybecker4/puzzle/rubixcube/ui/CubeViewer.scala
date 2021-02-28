@@ -4,8 +4,6 @@ package com.barrybecker4.puzzle.rubixcube.ui
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
-import com.jme3.app.LegacyApplication
-import com.jme3.system.{AppSettings, JmeCanvasContext}
 
 import java.awt.{BorderLayout, Canvas, Graphics}
 
@@ -23,27 +21,9 @@ final class CubeViewer(var doneListener: DoneListener)
 
   def getPath: List[CubeMove] = path
 
-  private var app: LegacyApplication = _
-  private var context: JmeCanvasContext = _
-  private val appClass = "com.barrybecker4.puzzle.rubixcube.ui.CubeSceneRenderer"
-  private val canvas = createCanvas(appClass)
+  private val canvas = CubeCanvasFactory.createCanvas()
   this.add(canvas, BorderLayout.CENTER)
 
-
-  def createCanvas(appClass: String): Canvas = {
-    val settings = new AppSettings(true)
-
-    val clazz = Class.forName(appClass)
-    app = clazz.getDeclaredConstructor().newInstance().asInstanceOf[LegacyApplication]
-
-    app.setPauseOnLostFocus(false)
-    app.setSettings(settings)
-    app.createCanvas()
-    app.startCanvas()
-    context = app.getContext.asInstanceOf[JmeCanvasContext]
-    val canvas = context.getCanvas
-    canvas
-  }
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
     board = theCube
