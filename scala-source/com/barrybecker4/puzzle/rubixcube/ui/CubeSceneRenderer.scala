@@ -1,7 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.jme3.app.SimpleApplication
-import com.jme3.input.KeyInput
+import com.jme3.input.{ChaseCamera, KeyInput}
 import com.jme3.input.controls.ActionListener
 import com.jme3.input.controls.KeyTrigger
 import com.jme3.material.Material
@@ -17,6 +17,7 @@ import com.jme3.texture.FrameBuffer
 import com.jme3.texture.Image.Format
 import com.jme3.texture.Texture
 import com.jme3.texture.Texture2D
+import com.jme3.input.ChaseCamera
 
 
 /**
@@ -57,6 +58,7 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
   }
 
   private def createOffscreenCamera(): Camera = {
+
     val offCamera = new Camera(512, 512)
     offCamera.setFrustumPerspective(45f, 1f, 1f, 1000f)
 
@@ -92,6 +94,8 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
   override def simpleInitApp(): Unit = {
     cam.setLocation(new Vector3f(3, 3, 2))
     cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y)
+
+    flyCam.setEnabled(false)
     flyCam.setDragToRotate(true)
 
     //setup main scene
@@ -103,6 +107,9 @@ class CubeSceneRenderer extends SimpleApplication with ActionListener {
     quad.setMaterial(mat)
 
     rootNode.attachChild(quad)
+    val chaseCam = new ChaseCamera(cam, quad, inputManager)
+    chaseCam.setDefaultDistance(4)
+
     inputManager.addMapping(TOGGLE_UPDATE, new KeyTrigger(KeyInput.KEY_SPACE))
     inputManager.addListener(this, TOGGLE_UPDATE)
   }
