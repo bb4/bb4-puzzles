@@ -1,10 +1,10 @@
-// Copyright by Barry G. Becker, 20121 Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2021 Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
-import com.jme3.app.{LegacyApplication, SimpleApplication}
+import com.jme3.app.LegacyApplication
 import com.jme3.system.{AppSettings, JmeCanvasContext}
 
 import java.awt.{BorderLayout, Canvas, Graphics}
@@ -18,7 +18,6 @@ import java.awt.{BorderLayout, Canvas, Graphics}
 final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
-  private val renderer: CubeRenderer = new CubeRenderer
   private var path: List[CubeMove] = _
   private var transition: Option[CubeMoveTransition] = None
 
@@ -26,7 +25,7 @@ final class CubeViewer(var doneListener: DoneListener)
 
   private var app: LegacyApplication = _
   private var context: JmeCanvasContext = _
-  private val appClass = "com.barrybecker4.puzzle.rubixcube.ui.jmonkey.TestRenderToTexture"
+  private val appClass = "com.barrybecker4.puzzle.rubixcube.ui.CubeSceneRenderer"
   private val canvas = createCanvas(appClass)
   this.add(canvas, BorderLayout.CENTER)
 
