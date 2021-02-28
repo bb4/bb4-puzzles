@@ -28,7 +28,6 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
   def getSlice(orientation: Orientation, level: Int): Map[(Int, Int, Int), Minicube] = {
     assert (level <= this.size)
     val locsForSlice = comps.locationsForSlice(orientation, level)
-    println("locsForSlice = " + locsForSlice)
     var m: Map[(Int, Int, Int), Minicube] = Map()
     locsForSlice.foreach(loc => {
       if (locationToMinicube.contains(loc)) {

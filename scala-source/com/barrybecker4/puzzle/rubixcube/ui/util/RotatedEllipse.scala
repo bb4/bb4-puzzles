@@ -15,10 +15,11 @@ case class RotatedEllipse(offset: Point, xRadius: Double, yRadius: Double, rotat
   private val ab = xRadius * yRadius
 
   /**
-    * @param theta must be in the range -PI to PI
+    * @param angle can be any angle in radians
     * @return the point on the ellipse
     */
-  def getPointAtAngle(theta: Double): Point = {
+  def getPointAtAngle(angle: Double): Point = {
+    val theta = getNormalizedAngle(angle)
     val sign = if (theta > -HALF_PI && theta < HALF_PI) 1 else -1
     val isTopOrBottom = theta == HALF_PI || theta == -HALF_PI
     val tanTheta = Math.tan(theta)
@@ -37,6 +38,13 @@ case class RotatedEllipse(offset: Point, xRadius: Double, yRadius: Double, rotat
 
     // now shift it
     rotatedPoint.add(offset)
+  }
+
+  def getNormalizedAngle(angle: Double): Double = {
+    var theta = angle % (2 * Math.PI)
+    theta = if (theta < Math.PI) theta else theta - 2 * Math.PI
+    theta = if (theta > -Math.PI) theta else theta + 2 * Math.PI
+    theta
   }
 
   private def rotatePointOnCanonicalEllipse(x: Double, y: Double): Point = {

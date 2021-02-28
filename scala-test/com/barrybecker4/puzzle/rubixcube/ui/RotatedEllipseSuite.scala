@@ -6,6 +6,20 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class RotatedEllipseSuite extends AnyFunSuite {
 
+  test("Validate normalized angles") {
+
+    val ellipse = RotatedEllipse(Point(0, 0), 3, 1, 0)
+
+    assert(ellipse.getNormalizedAngle(0) == 0)
+    assert(ellipse.getNormalizedAngle(HALF_PI) == HALF_PI)
+    assert(ellipse.getNormalizedAngle(Math.PI) == Math.PI)
+    assert(ellipse.getNormalizedAngle(-Math.PI) == Math.PI)
+    assert(ellipse.getNormalizedAngle(-Math.PI + 0.01) == -Math.PI + 0.01)
+
+    assert(ellipse.getNormalizedAngle(3.0 * HALF_PI) == -HALF_PI)
+    assert(ellipse.getNormalizedAngle(- 3.0 * HALF_PI) == HALF_PI)
+  }
+
   test("Points on simple, non-rotated ellipse") {
 
     val ellipse = RotatedEllipse(Point(0, 0), 3, 1, 0)
@@ -14,6 +28,9 @@ class RotatedEllipseSuite extends AnyFunSuite {
     assert(ellipse.getPointAtAngle(HALF_PI) == Point(6.123234E-17f, 1.0f))
     assert(ellipse.getPointAtAngle(Math.PI) == Point(-3.0f, 3.6739403E-16f))
     assert(ellipse.getPointAtAngle(-Math.PI) == Point(-3.0f, 3.6739403E-16f))
+
+    assert(ellipse.getPointAtAngle(3 * HALF_PI) == Point(6.123234E-17f, 1.0f))
+    assert(ellipse.getPointAtAngle(- 3 * HALF_PI) == Point(6.123234E-17f, 1.0f)) // should be same as HALF_PI
   }
 
 

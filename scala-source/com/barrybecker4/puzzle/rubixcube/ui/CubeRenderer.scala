@@ -34,6 +34,7 @@ object CubeRenderer {
   private val CUBE2_X = LEFT_MARGIN + 4.5f
   
   // these points form a hexagon with ULF at the center
+  /*
   private val ULF: Point = Point(LEFT_MARGIN + 2, TOP_MARGIN + 2)
   private val URB: Point = Point(LEFT_MARGIN + 2, TOP_MARGIN)
   private val DLB: Point = Point(LEFT_MARGIN, TOP_MARGIN + 1 + EDGE_HT)
@@ -49,10 +50,12 @@ object CubeRenderer {
   private val DRF2: Point = Point(CUBE2_X + 4, TOP_MARGIN + 1 + EDGE_HT)
   private val DLB2: Point = Point(CUBE2_X, TOP_MARGIN + 1 + EDGE_HT)
   private val URB2: Point = Point(CUBE2_X + 2, TOP_MARGIN)
+  */
 
   private var g2: Graphics2D = _
 
   // points go counter clockwise around the square
+  /*
   private val ORIENTATION_TO_FACE: Map[Orientation, Array[Point]] = Map(
     UP -> Array(ULF, URF, URB, ULB),
     LEFT -> Array(ULF, DLF, DLB, ULB),
@@ -60,8 +63,8 @@ object CubeRenderer {
     DOWN -> Array(DRB2, DRF2, DLF2, DLB2),
     BACK -> Array(URB2, DRB2, DLB2, ULB2),
     RIGHT -> Array(URB2, DRB2, DRF2, URF2)
-  )
-
+  )*/
+  /*
   private val ORIENTATION_TO_EDGE: Map[Orientation, (Array[Point], Array[Orientation])] = Map(
     UP -> (Array(ULF, URF, ULB), Array(FRONT, LEFT)), // rm 3rd pt
     LEFT -> (Array(ULF, DLF, ULB), Array(FRONT, UP)), // rm 3rd
@@ -69,6 +72,31 @@ object CubeRenderer {
     DOWN -> (Array(DRB2, DRF2, DLB2), Array(RIGHT, BACK)), // rm 3rd
     BACK -> (Array(DRB2, URB2, DLB2), Array(RIGHT, DOWN)), // rm 4th
     RIGHT -> (Array(DRB2, URB2, DRF2), Array(BACK, DOWN)), // rm 4th
+  )*/
+
+  private val EDGE_ANGLES: Array[Double] = Array(-HALF_PI, 0, -Math.PI)
+  private val FACE_ANGLES: Array[Double] = Array(-HALF_PI, 0, HALF_PI, Math.PI)
+  private val ORIENTATION_TO_EDGE_ORIENTATIONS: Map[Orientation, Array[Orientation]] = Map(
+    UP -> Array(FRONT, LEFT),
+    LEFT -> Array(FRONT, UP),
+    FRONT -> Array(LEFT, UP),
+    DOWN -> Array(RIGHT, BACK),
+    BACK -> Array(RIGHT, DOWN),
+    RIGHT ->  Array(BACK, DOWN)
+  )
+
+  val FRONT_CENTER_Y: Float = TOP_MARGIN + 1 + (EDGE_HT + 1) / 2f
+  val FRONT_ELLIPSE_A: Double = Math.sqrt(10 + 2 * EDGE_HT) / 2
+  val FRONT_ELLIPSE_B: Double = Math.sqrt(10 - 2 * EDGE_HT) / 2
+
+  private val UP_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 2, TOP_MARGIN + 1)
+  private val LEFT_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 1, FRONT_CENTER_Y)
+  private val FRONT_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 3, FRONT_CENTER_Y)
+
+  private val ORIENTATION_TO_ELLIPSE: Map[Orientation, RotatedEllipse] = Map(
+    UP -> RotatedEllipse(UP_ROTATION_CENTER, 2, 1, 0),
+    LEFT -> RotatedEllipse(LEFT_ROTATION_CENTER, FRONT_ELLIPSE_A, FRONT_ELLIPSE_B, THIRD_PI),
+    FRONT -> RotatedEllipse(FRONT_ROTATION_CENTER, FRONT_ELLIPSE_A, FRONT_ELLIPSE_B, -THIRD_PI)
   )
 
   private val ORIENTATION_TO_ANGLE: Map[Orientation, Double] = Map(
@@ -81,14 +109,6 @@ object CubeRenderer {
   )
 
   private val POINTS = (for (i <- -Math.PI to Math.PI by 0.1) yield i.toDouble).toArray
-
-  val FRONT_CENTER_Y: Float = TOP_MARGIN + 1 + (EDGE_HT + 1) / 2f
-  val FRONT_ELLIPSE_A: Double = Math.sqrt(10 + 2 * EDGE_HT) / 2
-  val FRONT_ELLIPSE_B: Double = Math.sqrt(10 - 2 * EDGE_HT) / 2
-
-  private val UP_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 2, TOP_MARGIN + 1)
-  private val LEFT_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 1, FRONT_CENTER_Y)
-  private val FRONT_ROTATION_CENTER: Point = Point(LEFT_MARGIN + 3, FRONT_CENTER_Y)
 }
 
 
@@ -99,8 +119,7 @@ object CubeRenderer {
 class CubeRenderer extends PuzzleRenderer[Cube] {
 
   private var size: Int = 0
-  private var scaleX: Float = 0
-  private var scaleY: Float = 0
+  private var scale: Point = _
 
   /** This renders the current state of the Cube to the screen. */
   def render(g: Graphics, cube: Cube, width: Int, height: Int): Unit = {
@@ -110,8 +129,7 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
   /** This renders the current state of the Cube to the screen. */
   def render(g: Graphics, cube: Cube, width: Int, height: Int, transition: Option[CubeMoveTransition]): Unit = {
     size = cube.size
-    scaleX = width / 10.0f
-    scaleY = height / 5.0f
+    scale = Point(width / 10.0f, height / 5.0f)
     g2 = g.asInstanceOf[Graphics2D]
 
     // draw slices based on 1 of the 3 orientations. that way one of the N slices can be rotating
@@ -132,7 +150,10 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
   private def drawSlice(transition: Option[CubeMoveTransition], layer: Int, cube: Cube): Unit = {
 
     val orientation = if (transition.nonEmpty) transition.get.move.orientation else UP
+    val rotatedLayer = if (transition.nonEmpty) transition.get.move.level else -1
     val slice: Map[Location, Minicube] = cube.getSlice(orientation, layer)
+
+    val trans = if (rotatedLayer == layer) transition else None
 
     if (layer == 1) {
       val face: Map[(Int, Int), FaceColor] = orientation match {
@@ -141,29 +162,35 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
         case FRONT => slice.map { case (loc, minicube) => (loc._1, loc._2) -> minicube.orientationToColor(orientation) }
         case _ => throw new IllegalArgumentException("Unexpected orientation: " + orientation)
       }
-      drawFaceSquares(face, ORIENTATION_TO_FACE(orientation))
+      drawFaceSquares(face, orientation, trans)
     }
-    drawSliceEdge(slice, orientation, transition, layer, ORIENTATION_TO_FACE(orientation))
+    drawSliceEdge(slice, orientation, trans, layer)
   }
 
 
   private def drawSliceEdge(slice: Map[Location, Minicube],
-    orientation: Orientation, transition: Option[CubeMoveTransition],
-    layer: Int, points: Array[Point]): Unit = {
+                            orientation: Orientation, transition: Option[CubeMoveTransition],
+                            layer: Int): Unit = {
 
-    val edgePoints: (Array[Point], Array[Orientation]) = ORIENTATION_TO_EDGE(orientation)
-    val edgeOrientations = edgePoints._2
-    val angle = ORIENTATION_TO_ANGLE(orientation)
+    val ellipse = ORIENTATION_TO_ELLIPSE(orientation)
+    val percentDone: Double = if (transition.isDefined) transition.get.percentDone else 0.0
+    val direction = if (transition.isDefined) transition.get.move.direction else Direction.COUNTER_CLOCKWISE
+    val sign = if (direction == Direction.COUNTER_CLOCKWISE) 1 else -1
+    val rotation = sign * percentDone * HALF_PI / 100.0
+
+    val edgePoints: Array[Point] = EDGE_ANGLES.map(angle => ellipse.getPointAtAngle(angle + Math.PI - rotation))
+    val edgeOrientations = ORIENTATION_TO_EDGE_ORIENTATIONS(orientation)
+    val edgeAngle = ORIENTATION_TO_ANGLE(orientation)
 
     val delta = Array(
-      getDelta(edgePoints._1(0), edgePoints._1(1)),
-      getDelta(edgePoints._1(0), edgePoints._1(2))
+      getDelta(edgePoints(0), edgePoints(1)),
+      getDelta(edgePoints(0), edgePoints(2))
     )
-    val baseX = points.head.x
-    val baseY = points.head.y
+
+    val basePoint = edgePoints.head
 
     val miniEdgeLen = delta(0).length()
-    val edgeOffset = new Point(angle, miniEdgeLen)
+    val edgeOffset = new Point(edgeAngle, miniEdgeLen)
 
     for (side <- 0 to 1) {
       for (i <- 1 to size) {
@@ -175,24 +202,11 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
           case _ => throw new IllegalArgumentException("Unexpected orientation: " + orientation)
         }
         val color = slice(loc).orientationToColor(edgeOrientation)
-        val d = delta(side)
+        val sideDelta = delta(side)
 
-        val xOffset1 = (layer - 1) * edgeOffset.x
-        val xOffset2 = scaleX * edgeOffset.x
-        val x1 = (scaleX * (baseX + (i - 1) * d.x + xOffset1)).toInt
-        val x2 = (scaleX * (baseX + i * d.x + xOffset1)).toInt
-        val x3 = (x2 + xOffset2).toInt
-        val x4 = (x1 + xOffset2).toInt
-
-        val yOffset1 = (layer - 1) * edgeOffset.y
-        val yOffset2 = scaleY * edgeOffset.y
-        val y1 = (scaleY * (baseY + (i - 1) * d.y - yOffset1)).toInt
-        val y2 = (scaleY * (baseY + i * d.y - yOffset1)).toInt
-        val y3 = (y2 - yOffset2).toInt
-        val y4 = (y1 - yOffset2).toInt
-
-        val xpoints = Array(x1, x2, x3, x4)
-        val ypoints = Array(y1, y2, y3, y4)
+        val points = getQuadPoints(basePoint, edgeOffset, sideDelta, layer, i)
+        implicit def sep(p: Point): (Int, Int) = (p.x.toInt, p.y.toInt)
+        val (xpoints, ypoints): (Array[Int], Array[Int]) = points.unzip
 
         g2.setColor(FaceColorMap.getColor(color))
         g2.fillPolygon(xpoints, ypoints, 4)
@@ -204,12 +218,20 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
     }
   }
 
+  private def getQuadPoints(base: Point, edgeOffset: Point, sideDelta: Point, layer: Int, i: Int): Array[Point] = {
+
+    val offset1 = edgeOffset.scale(Point(layer - 1, 1 - layer))
+    val offset2 = edgeOffset.scale(Point(scale.x, -scale.y))
+    val pt1 = base.add(sideDelta.multiply(i-1).add(offset1)).scale(scale)
+    val pt2 = base.add(sideDelta.multiply(i).add(offset1)).scale(scale)
+    val pt3 = pt2.add(offset2)
+    val pt4 = pt1.add(offset2)
+
+    Array(pt1, pt2, pt3, pt4)
+  }
+
   private def drawPointsOnEllipse(ellipse: RotatedEllipse, transition: CubeMoveTransition): Unit = {
     val rot = transition.percentDone * HALF_PI / 100.0
-
-    var xpts: Seq[Int] = Seq()
-    var ypts: Seq[Int] = Seq()
-    var ct = 0
 
     for (theta <- POINTS) {
       val angle = theta + rot
@@ -220,24 +242,20 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
         g2.setColor(Color.RED)
       else g2.setColor(THIN_LINE_COLOR)
 
-      ct += 1
-      if (ct % 14 == 0) {
-        xpts :+= (scaleX * pt.x).toInt
-        ypts :+= (scaleY * pt.y).toInt
-      }
-      g2.drawOval((scaleX * pt.x).toInt, (scaleY * pt.y).toInt, 3, 3)
+      g2.drawOval((scale.x * pt.x).toInt, (scale.y * pt.y).toInt, 3, 3)
     }
-
-    g2.setColor(THIN_LINE_COLOR)
-    g2.drawPolygon(xpts.toArray, ypts.toArray, xpts.size)
   }
 
-
   /** @param face the 2d positions and colors of the squares on the face
-    * @param points 4 points, in clockwise order, starting from the origin,
-    *               which define a quadrilateral in which the grid of colored squares will be drawn.
+    * @param orientation determines which face will be drawn and or rotated
     */
-  private def drawFaceSquares(face: Map[(Int, Int), FaceColor], points: Array[Point]): Unit = {
+  private def drawFaceSquares(face: Map[(Int, Int), FaceColor], orientation: Orientation,
+                              transition: Option[CubeMoveTransition]): Unit = {
+    val ellipse = ORIENTATION_TO_ELLIPSE(orientation)
+    val percentDone: Double = if (transition.isDefined) transition.get.percentDone else 0.0
+    val rotation = percentDone * HALF_PI / 100.0
+    val points: Array[Point] = FACE_ANGLES.map(angle => ellipse.getPointAtAngle(angle + rotation))
+
     val rowDelta = getDelta(points.head, points(3))
     val colDelta = getDelta(points.head, points(1))
     val baseX = points.head.x
@@ -249,15 +267,15 @@ class CubeRenderer extends PuzzleRenderer[Cube] {
         val jDelta1 = j * rowDelta.x
         val jDelta2 = j * rowDelta.y
 
-        val x1 = (scaleX * (baseX + i * colDelta.x + jDelta1 )).toInt
-        val x2 = (scaleX * (baseX + (i + 1) * colDelta.x + jDelta1)).toInt
-        val x3 = (x2 + scaleX * rowDelta.x).toInt
-        val x4 = (x1 + scaleX * rowDelta.x).toInt
+        val x1 = (scale.x * (baseX + i * colDelta.x + jDelta1 )).toInt
+        val x2 = (scale.x * (baseX + (i + 1) * colDelta.x + jDelta1)).toInt
+        val x3 = (x2 + scale.x * rowDelta.x).toInt
+        val x4 = (x1 + scale.x * rowDelta.x).toInt
 
-        val y1 = (scaleY * (baseY + i * colDelta.y + jDelta2)).toInt
-        val y2 = (scaleY * (baseY + (i + 1) * colDelta.y + jDelta2)).toInt
-        val y3 = (y2 + scaleY * rowDelta.y).toInt
-        val y4 = (y1 + scaleY * rowDelta.y).toInt
+        val y1 = (scale.y * (baseY + i * colDelta.y + jDelta2)).toInt
+        val y2 = (scale.y * (baseY + (i + 1) * colDelta.y + jDelta2)).toInt
+        val y3 = (y2 + scale.y * rowDelta.y).toInt
+        val y4 = (y1 + scale.y * rowDelta.y).toInt
 
         val xpoints = Array(x1, x2, x3, x4)
         val ypoints = Array(y1, y2, y3, y4)
