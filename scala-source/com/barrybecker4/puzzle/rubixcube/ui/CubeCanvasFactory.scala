@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2021 Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.barrybecker4.puzzle.rubixcube.ui.CubeSceneRenderer.app
 import com.jme3.app.{LegacyApplication, SimpleApplication}
 import com.jme3.system.{AppSettings, JmeCanvasContext}
 
@@ -14,14 +13,15 @@ import java.awt.Canvas
   */
 object CubeCanvasFactory {
   private val APP_CLASS: String = "com.barrybecker4.puzzle.rubixcube.ui.CubeSceneRenderer"
+  private val AA_SAMPLES: Int = 5
 
   def createCanvas(): Canvas = {
-
     val clazz = Class.forName(APP_CLASS)
     val app: LegacyApplication = clazz.getDeclaredConstructor().newInstance().asInstanceOf[LegacyApplication]
 
     app.setPauseOnLostFocus(false)
     val settings = new AppSettings(true)
+    settings.setSamples(AA_SAMPLES)
     app.setSettings(settings)
     app.createCanvas()
     app.startCanvas()

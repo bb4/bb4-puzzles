@@ -33,7 +33,7 @@ case object UP extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => LEFT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = BLUE
+  override def goalColor(): FaceColor = GREEN
 }
 
 case object LEFT extends Orientation {
@@ -46,7 +46,7 @@ case object LEFT extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => DOWN
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = WHITE
+  override def goalColor(): FaceColor = RED
 }
 
 case object FRONT extends Orientation {
@@ -59,7 +59,7 @@ case object FRONT extends Orientation {
       case FRONT => FRONT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = RED
+  override def goalColor(): FaceColor = WHITE
 }
 
 case object BACK extends Orientation {
@@ -72,7 +72,7 @@ case object BACK extends Orientation {
       case FRONT => BACK
       case _ => invalid()
     }
-    override def goalColor(): FaceColor = ORANGE
+    override def goalColor(): FaceColor = YELLOW
 }
 
 case object DOWN extends Orientation {
@@ -85,7 +85,7 @@ case object DOWN extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => RIGHT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = GREEN
+  override def goalColor(): FaceColor = BLUE
 }
 
 case object RIGHT extends Orientation {
@@ -98,5 +98,5 @@ case object RIGHT extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => UP
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = YELLOW
+  override def goalColor(): FaceColor = ORANGE
 }

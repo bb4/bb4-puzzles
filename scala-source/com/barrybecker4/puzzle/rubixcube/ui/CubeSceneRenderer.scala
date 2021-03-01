@@ -1,5 +1,6 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
+import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.util.{CoordinateAxes, Jme3Util}
 import com.jme3.app.SimpleApplication
 import com.jme3.material.Material
@@ -8,10 +9,9 @@ import com.jme3.scene.shape.Box
 import com.jme3.input.ChaseCamera
 import com.jme3.light.DirectionalLight
 import com.jme3.math.{ColorRGBA, FastMath, Quaternion, Vector3f}
-import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.instancing.InstancedNode
 import com.jme3.system.AppSettings
-import com.jme3.util.BufferUtils
+
 
 
 /**
@@ -28,10 +28,10 @@ object CubeSceneRenderer extends App {
 
 class CubeSceneRenderer extends SimpleApplication {
 
-
+  private var util: Jme3Util = _
 
   override def simpleInitApp(): Unit = {
-    val util: Jme3Util = Jme3Util(assetManager)
+    util = Jme3Util(assetManager)
     setDisplayStatView(false)
     flyCam.setEnabled(false)
     //flyCam.setDragToRotate(true)
@@ -46,14 +46,12 @@ class CubeSceneRenderer extends SimpleApplication {
     rootNode.attachChild(new CoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), assetManager))
     rootNode.addLight(createDirectionalLight())
 
-    rootNode.attachChild(util.createTextNode(new Vector3f(1.8f, 1.8f, -1.4f), "Foo"))
-
     useChaseCamera()
   }
 
   /** Global scenegraph */
   private def createCubeScene(): Spatial = {
-    val cube = createCube()
+    val cube = util.createMinicubeCubeNode(Minicube(Map(UP -> FaceColor.ORANGE, DOWN -> FaceColor.RED, LEFT -> FaceColor.BLUE)) )
 
     val cubeNode = new InstancedNode()
 
@@ -78,56 +76,6 @@ class CubeSceneRenderer extends SimpleApplication {
     sun.setColor(ColorRGBA.White)
     sun
   }
-
-  private def createCube() = {
-
-    val mesh: Box = new Box(1, 1, 1);
-    val geom: Geometry = new Geometry("Minicube", mesh);
-
-    // "Common/MatDefs/Light/Lighting.j3md" or "Common/MatDefs/Misc/ShowNormals.j3md"?
-    val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-
-    mat.setBoolean("VertexColor", true)
-    geom.setMaterial(mat);
-
-    mesh.setBuffer(Type.Color, 4, Array[Float](
-      1, 0.5f, 0, 1,
-      1, 0.5f, 0, 1,
-      1, 0.5f, 0, 1,
-      1, 0.5f, 0, 1,
-
-      1, 1, 1, 1,
-      1, 1, 1, 1,
-      1, 1, 1, 1,
-      1, 1, 1, 1,
-
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
-
-      1, 1, 0, 1,
-      1, 1, 0, 1,
-      1, 1, 0, 1,
-      1, 1, 0, 1,
-
-      0, 1, 0, 1,
-      0, 1, 0, 1,
-      0, 1, 0, 1,
-      0, 1, 0, 1,
-
-      0, 0, 1, 1,
-      0, 0, 1, 1,
-      0, 0, 1, 1,
-      0, 0, 1, 1,
-    ));
-
-    val normals = Array[Float](0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1)
-    mesh.setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normals: _*))
-
-    geom
-  }
-
 
 
   override def simpleUpdate(tpf: Float): Unit = {

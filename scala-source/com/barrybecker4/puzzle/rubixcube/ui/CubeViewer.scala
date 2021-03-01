@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
 
 import java.awt.{BorderLayout, Canvas, Graphics}
+import javax.swing.SwingUtilities
 
 
 
@@ -16,13 +17,22 @@ import java.awt.{BorderLayout, Canvas, Graphics}
 final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
+  private var canvas: Canvas = _
   private var path: List[CubeMove] = _
   private var transition: Option[CubeMoveTransition] = None
 
   def getPath: List[CubeMove] = path
+  private val self = this
 
-  private val canvas = CubeCanvasFactory.createCanvas()
-  this.add(canvas, BorderLayout.CENTER)
+  // Need to add after initialization, or it may show in slightly wrong position
+  SwingUtilities.invokeLater(new Runnable() {
+    override def run(): Unit = {
+      canvas = CubeCanvasFactory.createCanvas()
+      self.add(canvas, BorderLayout.CENTER)
+    }
+  })
+
+
 
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
@@ -53,7 +63,7 @@ final class CubeViewer(var doneListener: DoneListener)
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
 
-    if (board != null)
+    if (board != null && canvas != null)
       canvas.setSize(getWidth, getHeight)
     /*
     super.paintComponent(g)
