@@ -1,14 +1,12 @@
-package com.barrybecker4.puzzle.rubixcube.ui
+package com.barrybecker4.puzzle.rubixcube.ui.render
 
 import com.barrybecker4.puzzle.rubixcube.model._
-import com.barrybecker4.puzzle.rubixcube.ui.util.{CoordinateAxes, Jme3Util}
+import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil}
 import com.jme3.app.SimpleApplication
-import com.jme3.material.Material
-import com.jme3.scene.{Geometry, Mesh, Spatial}
-import com.jme3.scene.shape.Box
 import com.jme3.input.ChaseCamera
 import com.jme3.light.DirectionalLight
 import com.jme3.math.{ColorRGBA, FastMath, Quaternion, Vector3f}
+import com.jme3.scene.Spatial
 import com.jme3.scene.instancing.InstancedNode
 import com.jme3.system.AppSettings
 
@@ -28,10 +26,10 @@ object CubeSceneRenderer extends App {
 
 class CubeSceneRenderer extends SimpleApplication {
 
-  private var util: Jme3Util = _
+  private var util: JmeUtil = _
 
   override def simpleInitApp(): Unit = {
-    util = Jme3Util(assetManager)
+    util = jme.JmeUtil(assetManager)
     setDisplayStatView(false)
     flyCam.setEnabled(false)
     //flyCam.setDragToRotate(true)

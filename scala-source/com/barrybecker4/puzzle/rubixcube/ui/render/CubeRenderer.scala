@@ -1,16 +1,15 @@
 // Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.puzzle.rubixcube.ui
+package com.barrybecker4.puzzle.rubixcube.ui.render
 
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
-import com.barrybecker4.puzzle.rubixcube.model._
-import com.barrybecker4.puzzle.rubixcube.ui.CubeRenderer._
-import com.barrybecker4.puzzle.rubixcube.model.FaceColor.{FaceColor, _}
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
+import com.barrybecker4.puzzle.rubixcube.model.{UP, _}
 import com.barrybecker4.puzzle.rubixcube.ui.util.{CubeMoveTransition, FaceColorMap, RotatedEllipse}
+import com.barrybecker4.puzzle.rubixcube.ui.{HALF_PI, Point, THIRD_PI}
 
-import java.awt.{BasicStroke, Color, Font, Graphics, Graphics2D}
-import com.barrybecker4.puzzle.rubixcube.model.UP
-
+import java.awt._
 import scala.math.BigDecimal.double2bigDecimal
+import CubeRenderer._
 
 
 /**

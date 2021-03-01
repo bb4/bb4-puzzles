@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.rubixcube.ui.util
+package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
 import com.jme3.asset.{AssetKey, AssetManager}
 import com.jme3.material.Material
@@ -11,7 +11,7 @@ import com.jme3.scene.{Geometry, Node}
 
 class CoordinateAxes(pos: Vector3f, assetManager: AssetManager) extends InstancedNode {
 
-  private val util = Jme3Util(assetManager)
+  private val util = JmeUtil(assetManager)
 
   attachCoordinateAxes(pos)
 

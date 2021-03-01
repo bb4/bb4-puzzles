@@ -3,11 +3,11 @@ package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
+import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasFactory
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
 
 import java.awt.{BorderLayout, Canvas, Graphics}
 import javax.swing.SwingUtilities
-
 
 
 /**
@@ -31,8 +31,6 @@ final class CubeViewer(var doneListener: DoneListener)
       self.add(canvas, BorderLayout.CENTER)
     }
   })
-
-
 
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {

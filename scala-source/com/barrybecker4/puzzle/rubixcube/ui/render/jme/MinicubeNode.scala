@@ -1,16 +1,19 @@
-package com.barrybecker4.puzzle.rubixcube.ui.util
+package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
-import com.barrybecker4.puzzle.rubixcube.model.{Minicube, UP}
+import com.barrybecker4.puzzle.rubixcube.model._
 import com.jme3.asset.{AssetKey, AssetManager}
 import com.jme3.material.Material
 import com.jme3.scene.Geometry
 import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.shape.Box
 import com.jme3.util.BufferUtils
-import com.barrybecker4.puzzle.rubixcube.model._
 
 import java.awt.Color
 
+object MinicubeNode {
+  private def getColorAsArray(color: Color): Array[Float] =
+    color.getRGBColorComponents(Array[Float](4))
+}
 
 
 case class MinicubeNode(assetManager: AssetManager,
@@ -34,12 +37,12 @@ case class MinicubeNode(assetManager: AssetManager,
   mat.setBoolean("VertexColor", true)
   setMaterial(mat)
 
-  private val rightColorF = Array[Float](1, 0, 0.5f, 1)
-  private val leftColorF = Array[Float](1, 0, 0.1f, 1)
-  private  val upColorF = Array[Float](0, 1, 0f, 1)
-  private val downColorF = Array[Float](0.1f, 0.1f, 1f, 1)
-  private val frontColorF = Array[Float](1, 1, 1f, 1)
-  private val backColorF = Array[Float](1, 1, 0f, 1)
+  private val rightColorF = rightColor.getRGBComponents(null)
+  private val leftColorF = leftColor.getRGBComponents(null)
+  private val upColorF = upColor.getRGBComponents(null)
+  private val downColorF = downColor.getRGBComponents(null)
+  private val frontColorF = frontColor.getRGBComponents(null)
+  private val backColorF = backColor.getRGBComponents(null)
 
   def colors(color: Array[Float]): Array[Float] = (for (i <- 0 to 3) yield color).flatten.toArray
 
