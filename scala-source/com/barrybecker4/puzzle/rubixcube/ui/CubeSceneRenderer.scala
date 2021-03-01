@@ -1,142 +1,137 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
+import com.barrybecker4.puzzle.rubixcube.ui.jmonkey.MyChaseCamera
+import com.barrybecker4.puzzle.rubixcube.ui.util.Jme3Util
 import com.jme3.app.SimpleApplication
-import com.jme3.input.{ChaseCamera, KeyInput}
-import com.jme3.input.controls.ActionListener
-import com.jme3.input.controls.KeyTrigger
 import com.jme3.material.Material
-import com.jme3.math.ColorRGBA
-import com.jme3.math.FastMath
-import com.jme3.math.Quaternion
-import com.jme3.math.Vector3f
-import com.jme3.renderer.Camera
-import com.jme3.renderer.ViewPort
-import com.jme3.scene.Geometry
+import com.jme3.scene.{Geometry, Mesh, Spatial}
 import com.jme3.scene.shape.Box
-import com.jme3.texture.FrameBuffer
-import com.jme3.texture.Image.Format
-import com.jme3.texture.Texture
-import com.jme3.texture.Texture2D
 import com.jme3.input.ChaseCamera
-import com.jme3.math.Vector3f
-import com.jme3.scene.CameraNode
-import com.jme3.scene.control.CameraControl.ControlDirection
+import com.jme3.light.DirectionalLight
+import com.jme3.math.{ColorRGBA, FastMath, Quaternion, Vector3f}
+import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.instancing.InstancedNode
-
+import com.jme3.util.BufferUtils
+import com.jme3.scene.debug.Arrow
 
 /**
-  * This test renders a scene to a texture, then displays the texture on a cube.
+  * Renders the rubix cube in 3D using JMonkeyEngine.
   */
 object CubeSceneRenderer extends App {
   val app = new CubeSceneRenderer
   app.start()
 }
 
-class CubeSceneRenderer extends SimpleApplication with ActionListener {
-  private val TOGGLE_UPDATE = "Toggle Update"
+class CubeSceneRenderer extends SimpleApplication {
 
-  private var offBox: Geometry = _
-  private var angle: Float = 0
-  private var offView: ViewPort = _
-
-
-  def setupOffscreenView(): Texture = {
-
-    val offCamera = createOffscreenCamera()
-
-    offView = renderManager.createPreView("Offscreen View", offCamera)
-    offView.setClearFlags(true, true, true)
-    offView.setBackgroundColor(ColorRGBA.DarkGray)
-
-    val offTex = createTexture()
-    val offBuffer = createFrameBuffer(offTex)
-
-    offView.setOutputFrameBuffer(offBuffer)
-    offBox = createCube()
-
-    // attach the scene to the viewport to be rendered
-    offView.attachScene(offBox)
-    offTex
-  }
-
-  private def createOffscreenCamera(): Camera = {
-
-    val offCamera = new Camera(512, 512)
-    offCamera.setFrustumPerspective(45f, 1f, 1f, 1000f)
-
-    offCamera.lookAt(new Vector3f(0f, 0f, 0f), Vector3f.UNIT_Y)
-    offCamera.setLocation(new Vector3f(0f, 0f, -5f))
-    offCamera
-  }
-
-  private def createFrameBuffer(texture: Texture2D): FrameBuffer = {
-    val offBuffer = new FrameBuffer(512, 512, 1)
-    //setup framebuffer to use texture
-    offBuffer.setDepthBuffer(Format.Depth)
-    offBuffer.setColorTexture(texture)
-    offBuffer
-  }
-
-  private def createTexture(): Texture2D = {
-    val offTex = new Texture2D(512, 512, Format.RGBA8)
-    offTex.setMinFilter(Texture.MinFilter.Trilinear)
-    offTex.setMagFilter(Texture.MagFilter.Bilinear)
-    offTex
-  }
-
-  private def createCube(): Geometry = {
-    val boxMesh = new Box(1, 1, 1)
-    val material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    val offBox = new Geometry("box", boxMesh)
-    offBox.setMaterial(material)
-    offBox
-  }
+  private var utils: Jme3Util = _
 
   override def simpleInitApp(): Unit = {
-    //cam.setLocation(new Vector3f(0, 0, 0))
-    //cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y)
-
+    utils = Jme3Util(rootNode, assetManager)
     flyCam.setEnabled(false)
     //flyCam.setDragToRotate(true)
 
-    val quad = createQuad()
-
-    val cubeNode = new InstancedNode()
-    cubeNode.attachChild(quad)
-
+    val cubeNode = createCubeScene()
     rootNode.attachChild(cubeNode)
 
-    val chaseCam = new ChaseCamera(cam, cubeNode, inputManager)
+    utils.attachCoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), rootNode)
+
+    rootNode.addLight(createDirectionalLight())
+
+    useChaseCamera()
+  }
+
+  /** Global scenegraph */
+  private def createCubeScene(): Spatial = {
+    val cube = createCube()
+
+    val cubeNode = new InstancedNode()
+
+    val q = new Quaternion()
+    q.fromAngleAxis((Math.PI / 2.0).toFloat, new Vector3f(0, 1, 0))
+    cubeNode.setLocalRotation(q)
+    cubeNode.attachChild(cube)
+    cubeNode
+  }
+
+  private def useChaseCamera(): Unit = {
+    val chaseCam = new ChaseCamera(cam, rootNode, inputManager)
+    chaseCam.setMaxVerticalRotation(2 * FastMath.PI)
+    chaseCam.setMinVerticalRotation(-2 * FastMath.PI)
     chaseCam.setSmoothMotion(false)
     chaseCam.setDefaultDistance(4)
-
-    inputManager.addMapping(TOGGLE_UPDATE, new KeyTrigger(KeyInput.KEY_SPACE))
-    inputManager.addListener(this, TOGGLE_UPDATE)
   }
 
-  private def createQuad() = {
-    val quad = new Geometry("box", new Box(1, 1, 1))
-    val offTex = setupOffscreenView()
+  private def createDirectionalLight(): DirectionalLight = {
+    val sun: DirectionalLight = new DirectionalLight
+    sun.setDirection(new Vector3f(1, 1, 1).normalizeLocal)
+    sun.setColor(ColorRGBA.White)
+    sun
+  }
+
+  private def createCube() = {
+
+    val mesh: Box = new Box(1, 1, 1);
+    val geom: Geometry = new Geometry("Minicube", mesh);
 
     val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    mat.setTexture("ColorMap", offTex)
-    quad.setMaterial(mat)
-    quad
+    //val mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md")
+    //val mat = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md")
+
+    mat.setBoolean("VertexColor", true)
+    geom.setMaterial(mat);
+    //rootNode.attachChild(geom);
+
+    //mat.setBoolean("UseVertexColor", true); // UserVertexColor?
+    //mat.setBoolean("UseMaterialColors", true);
+    //mat.setColor("Ambient", ColorRGBA.Yellow);
+    //mat.setColor("Diffuse", ColorRGBA.White);
+    //mat.setColor("Specular", specular); //Using yellow for example
+    //mat.setBoolean("VertexLighting", true);
+
+    mesh.setBuffer(Type.Color, 4, Array[Float](
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
+
+      0, 1, 0, 1,
+      0, 1, 0, 1,
+      0, 1, 0, 1,
+      0, 1, 0, 1,
+
+      1, 1, 0, 1,
+      1, 1, 0, 1,
+      1, 1, 0, 1,
+      1, 1, 0, 1,
+
+      0, 0, 1, 1,
+      0, 0, 1, 1,
+      0, 0, 1, 1,
+      0, 0, 1, 1,
+
+      1f, 0, 1, 1,
+      1f, 0, 1, 1,
+      1f, 0, 1, 1,
+      1f, 0, 1, 1,
+
+      0, 1, 1, 1,
+      0, 1, 1, 1,
+      0, 1, 1, 1,
+      0, 1, 1, 1
+    ));
+
+    val normals = Array[Float](0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1)
+    mesh.setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normals :_*))
+
+    geom
   }
+
+
+
 
   override def simpleUpdate(tpf: Float): Unit = {
-    val q = new Quaternion
-    if (offView.isEnabled) {
-      angle += tpf
-      angle %= FastMath.TWO_PI
-      q.fromAngles(angle, 0, angle)
-      offBox.setLocalRotation(q)
-      offBox.updateLogicalState(tpf)
-      offBox.updateGeometricState()
-    }
+    //val q = new Quaternion
   }
 
-  override def onAction(name: String, isPressed: Boolean, tpf: Float): Unit = {
-    if (name == TOGGLE_UPDATE && isPressed) offView.setEnabled(!offView.isEnabled)
-  }
 }
