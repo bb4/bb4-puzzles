@@ -1,7 +1,6 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.barrybecker4.puzzle.rubixcube.ui.jmonkey.MyChaseCamera
-import com.barrybecker4.puzzle.rubixcube.ui.util.Jme3Util
+import com.barrybecker4.puzzle.rubixcube.ui.util.{CoordinateAxes, Jme3Util}
 import com.jme3.app.SimpleApplication
 import com.jme3.material.Material
 import com.jme3.scene.{Geometry, Mesh, Spatial}
@@ -11,31 +10,38 @@ import com.jme3.light.DirectionalLight
 import com.jme3.math.{ColorRGBA, FastMath, Quaternion, Vector3f}
 import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.instancing.InstancedNode
+import com.jme3.system.AppSettings
 import com.jme3.util.BufferUtils
-import com.jme3.scene.debug.Arrow
+
 
 /**
   * Renders the rubix cube in 3D using JMonkeyEngine.
   */
 object CubeSceneRenderer extends App {
   val app = new CubeSceneRenderer
+
+  val settings = new AppSettings(false)
+  settings.setTitle("Rubix Cube Solver")
+  app.setSettings(settings)
+  app.setDisplayStatView(false)
+
   app.start()
 }
 
 class CubeSceneRenderer extends SimpleApplication {
 
-  private var utils: Jme3Util = _
-
   override def simpleInitApp(): Unit = {
-    utils = Jme3Util(rootNode, assetManager)
     flyCam.setEnabled(false)
     //flyCam.setDragToRotate(true)
 
     val cubeNode = createCubeScene()
     rootNode.attachChild(cubeNode)
 
-    utils.attachCoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), rootNode)
+    val q = new Quaternion()
+    q.fromAngleAxis((Math.PI / 2).toFloat, new Vector3f(0, 1, 0))
+    rootNode.setLocalRotation(q)
 
+    rootNode.attachChild(new CoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), assetManager))
     rootNode.addLight(createDirectionalLight())
 
     useChaseCamera()
@@ -48,7 +54,7 @@ class CubeSceneRenderer extends SimpleApplication {
     val cubeNode = new InstancedNode()
 
     val q = new Quaternion()
-    q.fromAngleAxis((Math.PI / 2.0).toFloat, new Vector3f(0, 1, 0))
+    q.fromAngleAxis(0, new Vector3f(0, 1, 0))
     cubeNode.setLocalRotation(q)
     cubeNode.attachChild(cube)
     cubeNode
@@ -90,43 +96,42 @@ class CubeSceneRenderer extends SimpleApplication {
     //mat.setBoolean("VertexLighting", true);
 
     mesh.setBuffer(Type.Color, 4, Array[Float](
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
-      1, 0, 0.1f, 1,
+      1, 0.5f, 0, 1,
+      1, 0.5f, 0, 1,
+      1, 0.5f, 0, 1,
+      1, 0.5f, 0, 1,
 
-      0, 1, 0, 1,
-      0, 1, 0, 1,
-      0, 1, 0, 1,
-      0, 1, 0, 1,
+      1, 1, 1, 1,
+      1, 1, 1, 1,
+      1, 1, 1, 1,
+      1, 1, 1, 1,
+
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
+      1, 0, 0.1f, 1,
 
       1, 1, 0, 1,
       1, 1, 0, 1,
       1, 1, 0, 1,
       1, 1, 0, 1,
 
-      0, 0, 1, 1,
-      0, 0, 1, 1,
-      0, 0, 1, 1,
-      0, 0, 1, 1,
+      0, 1, 0, 1,
+      0, 1, 0, 1,
+      0, 1, 0, 1,
+      0, 1, 0, 1,
 
-      1f, 0, 1, 1,
-      1f, 0, 1, 1,
-      1f, 0, 1, 1,
-      1f, 0, 1, 1,
-
-      0, 1, 1, 1,
-      0, 1, 1, 1,
-      0, 1, 1, 1,
-      0, 1, 1, 1
+      0, 0, 1, 1,
+      0, 0, 1, 1,
+      0, 0, 1, 1,
+      0, 0, 1, 1,
     ));
 
     val normals = Array[Float](0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1)
-    mesh.setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normals :_*))
+    mesh.setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normals: _*))
 
     geom
   }
-
 
 
 

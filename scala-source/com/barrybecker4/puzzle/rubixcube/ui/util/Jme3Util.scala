@@ -12,40 +12,10 @@ import com.jme3.scene.Spatial.CullHint
 import com.jme3.scene.control.BillboardControl
 
 
-case class Jme3Util(rootNode: Node, assetManager: AssetManager) {
+case class Jme3Util(assetManager: AssetManager) {
 
   //val TEXT_FONT: BitmapFont = assetManager.loadFont("Interface/Fonts/Console.fnt")
   val TEXT_FONT: BitmapFont = assetManager.loadFont("Interface/Fonts/Default.fnt")
-
-  def attachCoordinateAxes(pos: Vector3f, parentNode: Node): Unit = {
-    addArrow("X", ColorRGBA.Red, pos, parentNode)
-    addArrow("Y", ColorRGBA.Green, pos, parentNode)
-    addArrow("Z", ColorRGBA.Blue, pos, parentNode)
-  }
-
-  private def addArrow(axis: String, color: ColorRGBA, pos: Vector3f, parentNode: Node): Unit = {
-
-    val arrowDirection = axis match {
-      case "X" => Vector3f.UNIT_X
-      case "Y" => Vector3f.UNIT_Y
-      case "Z" => Vector3f.UNIT_Z
-    }
-    val arrow = new Arrow(arrowDirection)
-
-    val axisGeom = new Geometry(axis + "coordinate axis", arrow)
-    val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    mat.getAdditionalRenderState.setWireframe(true)
-    mat.getAdditionalRenderState.setLineWidth(4)
-    mat.setColor("Color", color)
-    axisGeom.setMaterial(mat)
-    parentNode.attachChild(axisGeom)
-
-    val textNode = createTextNode(pos.add(arrowDirection), axis)
-    parentNode.attachChild(textNode)
-
-    axisGeom.setLocalTranslation(pos)
-    //textNode.setLocalTranslation(pos)
-  }
 
   def createTextNode(pos: Vector3f, text: String): Node = {
 
