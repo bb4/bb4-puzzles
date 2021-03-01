@@ -1,7 +1,8 @@
 // Copyright by Barry G. Becker, 2021 Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.jme3.app.LegacyApplication
+import com.barrybecker4.puzzle.rubixcube.ui.CubeSceneRenderer.app
+import com.jme3.app.{LegacyApplication, SimpleApplication}
 import com.jme3.system.{AppSettings, JmeCanvasContext}
 
 import java.awt.Canvas

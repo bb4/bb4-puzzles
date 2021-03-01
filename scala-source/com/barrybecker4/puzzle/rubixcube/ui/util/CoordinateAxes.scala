@@ -1,7 +1,6 @@
 package com.barrybecker4.puzzle.rubixcube.ui.util
 
 import com.jme3.asset.{AssetKey, AssetManager}
-import com.jme3.font.{BitmapFont, BitmapText}
 import com.jme3.material.Material
 import com.jme3.math.{ColorRGBA, Vector3f}
 import com.jme3.scene.debug.Arrow
@@ -23,6 +22,7 @@ class CoordinateAxes(pos: Vector3f, assetManager: AssetManager) extends Instance
     this.setLocalTranslation(pos)
   }
 
+  // should need this, but for scala port
   override def setKey(key: AssetKey[_]): Unit = {
     this.key = key
   }
@@ -47,7 +47,7 @@ class CoordinateAxes(pos: Vector3f, assetManager: AssetManager) extends Instance
 
     parentNode.attachChild(axisGeom)
 
-    val textNode = util.createTextNode(pos.add(arrowDirection), axis)
+    val textNode = util.createTextNode(arrowDirection, axis)
     parentNode.attachChild(textNode)
   }
 }

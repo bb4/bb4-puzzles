@@ -23,14 +23,16 @@ object CubeSceneRenderer extends App {
   val settings = new AppSettings(false)
   settings.setTitle("Rubix Cube Solver")
   app.setSettings(settings)
-  app.setDisplayStatView(false)
-
   app.start()
 }
 
 class CubeSceneRenderer extends SimpleApplication {
 
+
+
   override def simpleInitApp(): Unit = {
+    val util: Jme3Util = Jme3Util(assetManager)
+    setDisplayStatView(false)
     flyCam.setEnabled(false)
     //flyCam.setDragToRotate(true)
 
@@ -43,6 +45,8 @@ class CubeSceneRenderer extends SimpleApplication {
 
     rootNode.attachChild(new CoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), assetManager))
     rootNode.addLight(createDirectionalLight())
+
+    rootNode.attachChild(util.createTextNode(new Vector3f(1.8f, 1.8f, -1.4f), "Foo"))
 
     useChaseCamera()
   }
@@ -80,20 +84,11 @@ class CubeSceneRenderer extends SimpleApplication {
     val mesh: Box = new Box(1, 1, 1);
     val geom: Geometry = new Geometry("Minicube", mesh);
 
+    // "Common/MatDefs/Light/Lighting.j3md" or "Common/MatDefs/Misc/ShowNormals.j3md"?
     val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
-    //val mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md")
-    //val mat = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md")
 
     mat.setBoolean("VertexColor", true)
     geom.setMaterial(mat);
-    //rootNode.attachChild(geom);
-
-    //mat.setBoolean("UseVertexColor", true); // UserVertexColor?
-    //mat.setBoolean("UseMaterialColors", true);
-    //mat.setColor("Ambient", ColorRGBA.Yellow);
-    //mat.setColor("Diffuse", ColorRGBA.White);
-    //mat.setColor("Specular", specular); //Using yellow for example
-    //mat.setBoolean("VertexLighting", true);
 
     mesh.setBuffer(Type.Color, 4, Array[Float](
       1, 0.5f, 0, 1,
