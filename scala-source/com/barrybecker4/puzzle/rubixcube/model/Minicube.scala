@@ -23,5 +23,5 @@ case class Minicube(orientationToColor: Map[Orientation, FaceColor]) {
 
   // this returns gray if no color for specified orientation
   def getColorFor(orientation: Orientation): Color =
-    if (orientationToColor.contains(orientation)) getColor(orientationToColor(orientation)) else Color.GRAY
+    if (orientationToColor.contains(orientation)) getColor(orientationToColor(orientation)) else Color.BLACK
 }

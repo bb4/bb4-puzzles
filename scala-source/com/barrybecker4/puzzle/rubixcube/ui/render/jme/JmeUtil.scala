@@ -14,10 +14,6 @@ case class JmeUtil(assetManager: AssetManager) {
   val TEXT_FONT: BitmapFont = assetManager.loadFont("Interface/Fonts/Default.fnt")
 
 
-  def createMinicubeCubeNode(minicube: Minicube): Geometry =
-    new MinicubeNode(assetManager, minicube)
-
-
   def createTextNode(localPos: Vector3f, text: String): Node = {
 
     val hudText = new BitmapText(TEXT_FONT, false)
@@ -25,7 +21,6 @@ case class JmeUtil(assetManager: AssetManager) {
     hudText.setText(text)
     hudText.setSize(0.3f) //TEXT_FONT.getCharSet.getRenderedSize) // font size
     hudText.setColor(ColorRGBA.White)
-    //hudText.setLocalTranslation(new Vector3f(0.01f, 0.03f, 0.1f))
 
     val bbControl: BillboardControl = new BillboardControl()
     bbControl.setAlignment(BillboardControl.Alignment.Screen)

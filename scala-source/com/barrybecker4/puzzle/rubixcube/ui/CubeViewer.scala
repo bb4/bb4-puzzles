@@ -3,12 +3,18 @@ package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
-import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasFactory
+import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
+import com.jme3.math.ColorRGBA
 
 import java.awt.{BorderLayout, Canvas, Graphics}
+import CubeViewer.BACKGROUND
 import javax.swing.SwingUtilities
 
+
+object CubeViewer {
+  private val BACKGROUND: ColorRGBA = new ColorRGBA(0.9f, 0.9f, 1.0f, 1.0f)
+}
 
 /**
   * UI for drawing the current best solution to the puzzle.
@@ -17,7 +23,7 @@ import javax.swing.SwingUtilities
 final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
-  private var canvas: Canvas = _
+  private var canvasContainer: CubeCanvasContainer = _
   private var path: List[CubeMove] = _
   private var transition: Option[CubeMoveTransition] = None
 
@@ -27,8 +33,8 @@ final class CubeViewer(var doneListener: DoneListener)
   // Need to add after initialization, or it may show in slightly wrong position
   SwingUtilities.invokeLater(new Runnable() {
     override def run(): Unit = {
-      canvas = CubeCanvasFactory.createCanvas()
-      self.add(canvas, BorderLayout.CENTER)
+      canvasContainer = new CubeCanvasContainer()
+      self.add(canvasContainer.canvas, BorderLayout.CENTER)
     }
   })
 
@@ -61,8 +67,9 @@ final class CubeViewer(var doneListener: DoneListener)
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
 
-    if (board != null && canvas != null)
-      canvas.setSize(getWidth, getHeight)
+    if (board != null && canvasContainer != null) {
+      canvasContainer.render(board, getWidth, getHeight)
+    }
     /*
     super.paintComponent(g)
     if (board != null) renderer.render(g, board, getWidth, getHeight, transition)
