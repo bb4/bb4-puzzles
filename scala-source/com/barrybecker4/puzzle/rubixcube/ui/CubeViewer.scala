@@ -55,8 +55,25 @@ final class CubeViewer(var doneListener: DoneListener)
     repaint()
   }
 
-  def animateMove(move: CubeMove, undo: Boolean): Unit = {
+  def animateMove(move: CubeMove, undo: Boolean): Unit = {/*
+   val timerDelay = 200
+   new Timer(timerDelay, new ActionListener() {
+   private var step = 0
+
+   def actionPerformed(e: ActionEvent): Unit = {
+       step += 1
+       val inc = if (undo) ANIMATION_STEPS - step else step
+       transition = Some(util.CubeMoveTransition(move, (100.0 * inc) / ANIMATION_STEPS))
+       println("calling repaint")
+       repaint()
+       if (step == ANIMATION_STEPS) e.getSource.asInstanceOf[Timer].stop()
+     }
+   }).start()
+
+   transition = None
+  */
   }
+
 
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {

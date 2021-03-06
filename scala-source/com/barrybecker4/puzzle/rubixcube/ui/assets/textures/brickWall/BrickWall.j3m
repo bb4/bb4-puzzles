@@ -1,0 +1,9 @@
+
+Material Pong Rock : Common/MatDefs/Light/Lighting.j3md {
+     MaterialParameters {
+         Shininess            : 2.0
+         DiffuseMap           : Repeat com/barrybecker4/puzzle/rubixcube/ui/assets/textures/brickWall/BrickWall.dds
+         NormalMap            : Repeat com/barrybecker4/puzzle/rubixcube/ui/assets/textures/brickWall/BrickWall_normal_parallax.dds
+         PackedNormalParallax : true
+     }
+}
