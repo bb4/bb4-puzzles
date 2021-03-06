@@ -8,13 +8,9 @@ import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
 import com.jme3.math.ColorRGBA
 
 import java.awt.{BorderLayout, Canvas, Graphics}
-import CubeViewer.BACKGROUND
 import javax.swing.SwingUtilities
 
 
-object CubeViewer {
-  private val BACKGROUND: ColorRGBA = new ColorRGBA(0.9f, 0.9f, 1.0f, 1.0f)
-}
 
 /**
   * UI for drawing the current best solution to the puzzle.

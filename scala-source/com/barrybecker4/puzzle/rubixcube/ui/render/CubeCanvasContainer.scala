@@ -15,7 +15,7 @@ import java.awt.Canvas
 object CubeCanvasContainer {
   private val APP_CLASS: String = "com.barrybecker4.puzzle.rubixcube.ui.render.CubeSceneRenderer"
   private val AA_SAMPLES: Int = 5
-  private val BACKGROUND: ColorRGBA = new ColorRGBA(0.8f, 0.8f, 0.9f, 1.0f)
+  private val BACKGROUND: ColorRGBA = new ColorRGBA(0.2f, 0.2f, 0.4f, 1.0f)
 }
 
 class CubeCanvasContainer() {
