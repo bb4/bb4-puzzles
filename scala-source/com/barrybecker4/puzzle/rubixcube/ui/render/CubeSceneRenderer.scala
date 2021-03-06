@@ -37,24 +37,14 @@ class CubeSceneRenderer() extends SimpleApplication {
   override def simpleInitApp(): Unit = {
     util = jme.JmeUtil(assetManager)
     setDisplayStatView(false)
-    //flyCam.setEnabled(false)
     flyCam.setDragToRotate(true)
-
-    //val q = new Quaternion()
-    //q.fromAngleAxis((Math.PI / 2).toFloat, new Vector3f(0, 1, 0))
-    //cam.setRotation(q)
 
     updateCube(currentCube)
     cubeNodeParent = createCubeScene(currentCube)
     rootNode.attachChild(cubeNodeParent)
 
-    //q.fromAngleAxis((Math.PI / 2).toFloat, new Vector3f(0, 1, 0))
-    //rootNode.setLocalRotation(q)
-
     rootNode.attachChild(new CoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), assetManager))
     rootNode.addLight(createDirectionalLight())
-
-    //useChaseCamera()
 
     viewPort.setBackgroundColor(bgColor)
   }
@@ -83,16 +73,6 @@ class CubeSceneRenderer() extends SimpleApplication {
     cubeNodeParent.setLocalRotation(q)
     cubeNodeParent
   }
-
-  /*
-  private def useChaseCamera(): Unit = {
-    val chaseCam = new ChaseCamera(cam, rootNode, inputManager)
-    chaseCam.setMinDistance(5)
-    chaseCam.setMaxVerticalRotation(2 * FastMath.PI)
-    chaseCam.setMinVerticalRotation(-2 * FastMath.PI)
-    chaseCam.setSmoothMotion(false)
-    chaseCam.setDefaultDistance(4)
-  }*/
 
   private def createDirectionalLight(): DirectionalLight = {
     val sun: DirectionalLight = new DirectionalLight
