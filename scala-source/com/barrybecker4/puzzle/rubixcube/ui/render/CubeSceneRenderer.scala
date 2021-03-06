@@ -27,7 +27,7 @@ class CubeSceneRenderer() extends SimpleApplication {
 
   private var util: JmeUtil = _
   private var currentCube: Cube = new Cube(4)
-  private var cubeNodeParent: Spatial = _
+  private var cubeNodeParent: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
@@ -50,23 +50,21 @@ class CubeSceneRenderer() extends SimpleApplication {
   }
 
   def updateCube(cube: Cube): Unit = {
-      if (cube.size != currentCube.size) {
-        // recreate cube geometry
-        currentCube = cube
+    val sizeChanged = cube.size != currentCube.size
+    currentCube = cube
 
-        rootNode.detachChildNamed("cubeNodeParent")
-        cubeNodeParent = createCubeScene(currentCube)
-        rootNode.attachChild(cubeNodeParent)
-      }
-      else {
-        // update cube geometry
-        currentCube = cube
-      }
+    if (sizeChanged) {
+      rootNode.detachChildNamed("cubeNodeParent")
+      cubeNodeParent = createCubeScene(currentCube)
+      rootNode.attachChild(cubeNodeParent)
+    }
+    else if (cubeNodeParent != null) {
+      cubeNodeParent.updateCube(currentCube)
+    }
   }
 
   /** Global scenegraph */
-  private def createCubeScene(cube: Cube): Spatial = {
-
+  private def createCubeScene(cube: Cube): RubixCubeNode = {
     val cubeNodeParent = new RubixCubeNode(cube, assetManager)
     val q = new Quaternion()
     q.fromAngleAxis(0, new Vector3f(0, 1, 0))

@@ -5,11 +5,9 @@ import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleVie
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
 import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
-import com.jme3.math.ColorRGBA
 
 import java.awt.{BorderLayout, Canvas, Graphics}
 import javax.swing.SwingUtilities
-
 
 
 /**

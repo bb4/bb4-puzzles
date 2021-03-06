@@ -16,49 +16,32 @@ object MinicubeNode {
 }
 
 
-case class MinicubeNode(assetManager: AssetManager,
-  upColor: Color = Color.GREEN, downColor: Color = Color.BLUE,
-  leftColor: Color = Color.ORANGE, rightColor: Color = Color.RED,
-  frontColor: Color = Color.WHITE, backColor: Color = Color.YELLOW)
+case class MinicubeNode(assetManager: AssetManager, minicube: Minicube)
   extends Geometry("Minicube", new Box(EDGE_LEN, EDGE_LEN, EDGE_LEN)) {
-
-
-  def this(assetManager: AssetManager, minicube: Minicube) {
-    this(assetManager,
-      minicube.getColorFor(UP), minicube.getColorFor(DOWN),
-      minicube.getColorFor(LEFT), minicube.getColorFor(RIGHT),
-      minicube.getColorFor(FRONT), minicube.getColorFor(BACK)
-    )
-  }
 
   // "Common/MatDefs/Light/Lighting.j3md" or "Common/MatDefs/Misc/ShowNormals.j3md"?
   val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
 
   mat.setBoolean("VertexColor", true)
   setMaterial(mat)
-
-  private val rightColorF = rightColor.getRGBComponents(null)
-  private val leftColorF = leftColor.getRGBComponents(null)
-  private val upColorF = upColor.getRGBComponents(null)
-  private val downColorF = downColor.getRGBComponents(null)
-  private val frontColorF = frontColor.getRGBComponents(null)
-  private val backColorF = backColor.getRGBComponents(null)
-
   def colors(color: Array[Float]): Array[Float] = (for (i <- 0 to 3) yield color).flatten.toArray
 
-  val colorBuf: Array[Float] = Array[Array[Float]](
-    colors(rightColorF),
-    colors(frontColorF),
-    colors(leftColorF),
-    colors(backColorF),
-    colors(upColorF),
-    colors(downColorF)
-  ).flatten
+  updateColors(minicube)
 
-  mesh.setBuffer(Type.Color, 4, colorBuf)
 
-  //private val normals = Array[Float](0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1)
-  //mesh.setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normals: _*))
+  def updateColors(minicube: Minicube): Unit = {
+    println("updating minicube colors")
+    val colorBuf: Array[Float] = Array[Array[Float]](
+      colors(minicube.getColorFor(RIGHT).getRGBComponents(null)),
+      colors(minicube.getColorFor(FRONT).getRGBComponents(null)),
+      colors(minicube.getColorFor(LEFT).getRGBComponents(null)),
+      colors(minicube.getColorFor(BACK).getRGBComponents(null)),
+      colors(minicube.getColorFor(UP).getRGBComponents(null)),
+      colors(minicube.getColorFor(DOWN).getRGBComponents(null))
+    ).flatten
+
+    mesh.setBuffer(Type.Color, 4, colorBuf)
+  }
 
   // should need this, but for scala port
   override def setKey(key: AssetKey[_]): Unit = {
