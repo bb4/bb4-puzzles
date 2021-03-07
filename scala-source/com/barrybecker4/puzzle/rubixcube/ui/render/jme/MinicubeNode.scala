@@ -30,7 +30,6 @@ case class MinicubeNode(assetManager: AssetManager, minicube: Minicube)
 
 
   def updateColors(minicube: Minicube): Unit = {
-    println("updating minicube colors")
     val colorBuf: Array[Float] = Array[Array[Float]](
       colors(minicube.getColorFor(RIGHT).getRGBComponents(null)),
       colors(minicube.getColorFor(FRONT).getRGBComponents(null)),

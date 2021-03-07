@@ -1,4 +1,4 @@
-package com.barrybecker4.puzzle.rubixcube.ui.util
+package com.barrybecker4.puzzle.rubixcube.ui
 
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor.{BLUE, FaceColor, GREEN, ORANGE, RED, WHITE, YELLOW}
 

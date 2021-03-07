@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.rubixcube.ui
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
-import com.barrybecker4.puzzle.rubixcube.ui.util.CubeMoveTransition
 
 import java.awt.{BorderLayout, Canvas, Graphics}
 import javax.swing.SwingUtilities
@@ -19,7 +18,6 @@ final class CubeViewer(var doneListener: DoneListener)
 
   private var canvasContainer: CubeCanvasContainer = _
   private var path: List[CubeMove] = _
-  private var transition: Option[CubeMoveTransition] = None
 
   def getPath: List[CubeMove] = path
   private val self = this
@@ -31,7 +29,6 @@ final class CubeViewer(var doneListener: DoneListener)
       self.add(canvasContainer.canvas, BorderLayout.CENTER)
     }
   })
-
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
     board = theCube
@@ -50,30 +47,11 @@ final class CubeViewer(var doneListener: DoneListener)
 
   def makeMove(currentStep: Int, undo: Boolean): Unit = {
     val move: CubeMove = getPath(currentStep)
-    animateMove(move, undo)
-    board = board.doMove(move)
+    val newCubeState = board.doMove(move)
+    canvasContainer.rotateSlice(move, undo, newCubeState)
+    board = newCubeState
     repaint()
   }
-
-  def animateMove(move: CubeMove, undo: Boolean): Unit = {/*
-   val timerDelay = 200
-   new Timer(timerDelay, new ActionListener() {
-   private var step = 0
-
-   def actionPerformed(e: ActionEvent): Unit = {
-       step += 1
-       val inc = if (undo) ANIMATION_STEPS - step else step
-       transition = Some(util.CubeMoveTransition(move, (100.0 * inc) / ANIMATION_STEPS))
-       println("calling repaint")
-       repaint()
-       if (step == ANIMATION_STEPS) e.getSource.asInstanceOf[Timer].stop()
-     }
-   }).start()
-
-   transition = None
-  */
-  }
-
 
   /** This renders the current state of the puzzle to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
@@ -81,10 +59,6 @@ final class CubeViewer(var doneListener: DoneListener)
     if (board != null && canvasContainer != null) {
       canvasContainer.render(board, getWidth, getHeight)
     }
-    /*
-    super.paintComponent(g)
-    if (board != null) renderer.render(g, board, getWidth, getHeight, transition)
-     */
   }
 
   private def showPath(thePath: List[CubeMove], theBoard: Cube): Unit = {

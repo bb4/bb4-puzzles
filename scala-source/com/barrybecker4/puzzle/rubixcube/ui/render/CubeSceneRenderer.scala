@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.rubixcube.ui.render
 import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil, RubixCubeNode}
 import com.jme3.app.SimpleApplication
-import com.jme3.input.ChaseCamera
 import com.jme3.light.DirectionalLight
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.Spatial
@@ -12,11 +11,10 @@ import com.jme3.math.ColorRGBA
 
 
 /**
-  * Renders the rubix cube in 3D using JMonkeyEngine.
+  * Renders the Rubix cube in 3D using JMonkeyEngine.
   */
 object CubeSceneRenderer extends App {
   val renderer = new CubeSceneRenderer()
-
   val settings = new AppSettings(false)
   settings.setTitle("Rubix Cube Solver")
   renderer.setSettings(settings)
@@ -29,6 +27,9 @@ class CubeSceneRenderer() extends SimpleApplication {
   private var currentCube: Cube = new Cube(4)
   private var cubeNodeParent: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
+  private var cubeStateAfterRotation: Option[Cube] = None
+  private var sliceRotationAngle: Float = 0
+  private var isUndo: Boolean = false
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
     bgColor = color
@@ -63,6 +64,13 @@ class CubeSceneRenderer() extends SimpleApplication {
     }
   }
 
+  // Rotate the slice, then set the new state at the end
+  def animateSliceRotation(cubeMove: CubeMove, undo: Boolean, newCubeState: Cube): Unit = {
+    cubeStateAfterRotation = Some(newCubeState)
+    isUndo = undo
+    cubeNodeParent.createSlice(cubeMove.orientation, cubeMove.level)
+  }
+
   /** Global scenegraph */
   private def createCubeScene(cube: Cube): RubixCubeNode = {
     val cubeNodeParent = new RubixCubeNode(cube, assetManager)
@@ -79,11 +87,23 @@ class CubeSceneRenderer() extends SimpleApplication {
     sun
   }
 
-
   override def simpleUpdate(tpf: Float): Unit = {
     // this allows the camera to rotate around a focal point
     cam.setLocation(cam.getDirection.negate.multLocal(cam.getLocation.length))
-    //val q = new Quaternion
+
+    // do slice rotation animations here
+    if (cubeStateAfterRotation.nonEmpty) {
+      sliceRotationAngle += 0.001f
+      println("now rotating slice " + sliceRotationAngle)
+      val sign = if (isUndo) -1 else 1
+      cubeNodeParent.rotateSlice(sign * sliceRotationAngle)
+      if (sliceRotationAngle >= FastMath.HALF_PI) {
+        sliceRotationAngle = 0
+        cubeNodeParent.restoreSlice()
+        cubeNodeParent.updateCube(cubeStateAfterRotation.get)
+        cubeStateAfterRotation = None
+      }
+    }
   }
 
 }

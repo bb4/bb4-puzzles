@@ -1,6 +1,6 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render
 
-import com.barrybecker4.puzzle.rubixcube.model.Cube
+import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer.{AA_SAMPLES, APP_CLASS, BACKGROUND}
 import com.jme3.math.ColorRGBA
 import com.jme3.system.{AppSettings, JmeCanvasContext}
@@ -39,4 +39,7 @@ class CubeCanvasContainer() {
     renderer.updateCube(cube)
   }
 
+  def rotateSlice(cubeMove: CubeMove, undo: Boolean, newCubeState: Cube): Unit = {
+    renderer.animateSliceRotation(cubeMove, undo, newCubeState)
+  }
 }

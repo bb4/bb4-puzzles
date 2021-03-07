@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction.Direction
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
-import com.barrybecker4.puzzle.rubixcube.ui.util.FaceColorMap.getColor
+import com.barrybecker4.puzzle.rubixcube.ui.FaceColorMap.getColor
 import java.awt.Color
 
 
