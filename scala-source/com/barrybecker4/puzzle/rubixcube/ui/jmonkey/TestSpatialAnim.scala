@@ -22,20 +22,19 @@ object TestSpatialAnim extends App {
 class TestSpatialAnim extends SimpleApplication {
 
   private val ANIM_NAME = "anim"
+  private val Y_AXIS = new Vector3f(0, 1f, 0)
 
   override def simpleInitApp(): Unit = {
-    val al = new AmbientLight
-    rootNode.addLight(al)
-    val dl = new DirectionalLight
-    dl.setDirection(Vector3f.UNIT_XYZ.negate)
-    rootNode.addLight(dl)
+    flyCam.setDragToRotate(true)
+
+    addLights(rootNode)
+
+    val model = new Node("model")
 
     val geom = createGeom()
-    val model = new Node("model")
     model.attachChild(geom)
 
     val childGeom = createChildGeom()
-
     val childModel = createChildModel(childGeom)
     model.attachChild(childModel)
 
@@ -45,6 +44,14 @@ class TestSpatialAnim extends SimpleApplication {
     rootNode.attachChild(model)
 
     model.getControl(classOf[AnimComposer]).setCurrentAction(ANIM_NAME)
+  }
+
+  private def addLights(rootNode: Node): Unit = {
+    val al = new AmbientLight
+    rootNode.addLight(al)
+    val dl = new DirectionalLight
+    dl.setDirection(Vector3f.UNIT_XYZ.negate)
+    rootNode.addLight(dl)
   }
 
   private def createGeom(): Geometry = {
@@ -90,7 +97,9 @@ class TestSpatialAnim extends SimpleApplication {
       t += dT
       translations(i) = new Vector3f(x, 0, 0)
       x += dX
-      rotations(i) = Quaternion.IDENTITY
+      val q = new Quaternion()
+      q.fromAngleAxis(t * 2, Y_AXIS)
+      rotations(i) = q //Quaternion.IDENTITY
       scales(i) = Vector3f.UNIT_XYZ
     }
 
