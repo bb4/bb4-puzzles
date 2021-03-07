@@ -1,21 +1,13 @@
-package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
+package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
-import com.jme3.anim.AnimClip
-import com.jme3.anim.AnimComposer
-import com.jme3.anim.SkinningControl
-import com.jme3.anim.tween.Tween
-import com.jme3.anim.tween.Tweens
-import com.jme3.anim.tween.action.Action
-import com.jme3.anim.tween.action.BaseAction
-import com.jme3.anim.tween.action.LinearBlendSpace
+import com.jme3.anim.{AnimComposer, SkinningControl}
+import com.jme3.anim.tween.{Tween, Tweens}
+import com.jme3.anim.tween.action.{Action, BaseAction, LinearBlendSpace}
 import com.jme3.app.SimpleApplication
 import com.jme3.input.KeyInput
-import com.jme3.input.controls.ActionListener
-import com.jme3.input.controls.KeyTrigger
+import com.jme3.input.controls.{ActionListener, KeyTrigger}
 import com.jme3.light.DirectionalLight
-import com.jme3.math.ColorRGBA
-import com.jme3.math.Quaternion
-import com.jme3.math.Vector3f
+import com.jme3.math.{ColorRGBA, Quaternion, Vector3f}
 import com.jme3.scene.Geometry
 import com.jme3.scene.shape.Box
 
