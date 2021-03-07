@@ -4,7 +4,7 @@ import com.jme3.app.SimpleApplication
 import com.jme3.input.KeyInput
 import com.jme3.input.controls.{ActionListener, KeyTrigger}
 import com.jme3.light.{AmbientLight, DirectionalLight}
-import com.jme3.math.{Quaternion, Transform, Vector3f}
+import com.jme3.math.{FastMath, Quaternion, Transform, Vector3f}
 import com.jme3.scene.shape.Box
 import com.jme3.scene.{Geometry, Node}
 
@@ -21,8 +21,9 @@ class BoxRotationTestAnim extends SimpleApplication with ActionListener {
   private val Y_AXIS = new Vector3f(0, 1f, 0)
   private var model: Node = _
   private var rotation: Quaternion = new Quaternion()
-  private var toggle: Boolean = false
+  private var doRotation: Boolean = false
   private var rotatorParent: Node = _
+  private var angle: Float = 0
 
   private var boxes: Array[Node] = new Array[Node](4)
 
@@ -84,34 +85,44 @@ class BoxRotationTestAnim extends SimpleApplication with ActionListener {
 
   override def onAction(binding: String, value: Boolean, tpf: Float): Unit = {
     if (binding == ROTATE && value) {
-      toggle = !toggle
-      if (toggle) {
-        println("rotate just 2 boxes")
+      doRotation = true
+      if (doRotation && !model.getChildren.isEmpty) {
         model.detachChild(boxes(0))
         model.detachChild(boxes(1))
 
         rotatorParent.attachChild(boxes(0))
         rotatorParent.attachChild(boxes(1))
       }
-      else {
-        println("return to rotating all boxes")
-        rotatorParent.detachAllChildren();
-
-        model.attachChild(boxes(0))
-        model.attachChild(boxes(1))
-      }
     }
+  }
+
+  private def rotationFinished(): Unit = {
+    rotatorParent.detachAllChildren();
+
+    model.attachChild(boxes(0))
+    model.attachChild(boxes(1))
+    angle = 0
+    doRotation = false
   }
 
   override def simpleUpdate(tpf: Float): Unit = { // Rotate around X axis
 
-    if (!rotatorParent.getChildren.isEmpty) {
+    if (doRotation && angle < FastMath.HALF_PI) {
       val rotate = new Quaternion
-      rotate.fromAngleAxis(tpf, Vector3f.UNIT_X)
-      rotation.multLocal(rotate)
-      rotatorParent.setLocalRotation(rotation)
+      angle += 0.001f
+      rotate.fromAngleAxis(angle, Vector3f.UNIT_X)
+      //rotation.multLocal(rotate)
+      rotatorParent.setLocalRotation(rotate)
+      if (angle >= FastMath.HALF_PI) {
+        rotationFinished()
+      }
     }
 
+    // global rotation
+    val rotate1 = new Quaternion
+    rotate1.fromAngleAxis(tpf, Vector3f.UNIT_X)
+    rotation.multLocal(rotate1)
+    model.setLocalRotation(rotation)
   }
 
 }
