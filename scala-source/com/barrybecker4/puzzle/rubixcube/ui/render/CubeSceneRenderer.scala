@@ -23,13 +23,14 @@ object CubeSceneRenderer extends App {
 
 class CubeSceneRenderer() extends SimpleApplication {
 
+  case class RequestedRotation(cubeMove: CubeMove, undo: Boolean, nextCube: Cube)
+
   private var util: JmeUtil = _
   private var currentCube: Cube = new Cube(4)
   private var cubeNodeParent: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
-  private var cubeStateAfterRotation: Option[Cube] = None
-  private var sliceRotationAngle: Float = 0
-  private var isUndo: Boolean = false
+  private var requestedRotation: Option[RequestedRotation] = None
+
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
     bgColor = color
@@ -66,9 +67,9 @@ class CubeSceneRenderer() extends SimpleApplication {
 
   // Rotate the slice, then set the new state at the end
   def animateSliceRotation(cubeMove: CubeMove, undo: Boolean, newCubeState: Cube): Unit = {
-    cubeStateAfterRotation = Some(newCubeState)
-    isUndo = undo
-    cubeNodeParent.createSlice(cubeMove.orientation, cubeMove.level)
+    if (requestedRotation.isEmpty) {
+      requestedRotation = Some(RequestedRotation(cubeMove, undo, newCubeState))
+    }
   }
 
   /** Global scenegraph */
@@ -91,18 +92,13 @@ class CubeSceneRenderer() extends SimpleApplication {
     // this allows the camera to rotate around a focal point
     cam.setLocation(cam.getDirection.negate.multLocal(cam.getLocation.length))
 
-    // do slice rotation animations here
-    if (cubeStateAfterRotation.nonEmpty) {
-      sliceRotationAngle += 0.001f
-      println("now rotating slice " + sliceRotationAngle)
-      val sign = if (isUndo) -1 else 1
-      cubeNodeParent.rotateSlice(sign * sliceRotationAngle)
-      if (sliceRotationAngle >= FastMath.HALF_PI) {
-        sliceRotationAngle = 0
-        cubeNodeParent.restoreSlice()
-        cubeNodeParent.updateCube(cubeStateAfterRotation.get)
-        cubeStateAfterRotation = None
-      }
+    if (requestedRotation.nonEmpty && !cubeNodeParent.isRotating) {
+      val req = requestedRotation.get
+      cubeNodeParent.startRotatingSlice(req.cubeMove.orientation, req.cubeMove.level, req.undo, req.nextCube)
+      requestedRotation = None
+    }
+    if (cubeNodeParent.isRotating) {
+      cubeNodeParent.incrementSliceRotation()
     }
   }
 

@@ -5,7 +5,7 @@ import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleVie
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
 
-import java.awt.{BorderLayout, Canvas, Graphics}
+import java.awt.{BorderLayout, Graphics}
 import javax.swing.SwingUtilities
 
 
@@ -31,7 +31,11 @@ final class CubeViewer(var doneListener: DoneListener)
   })
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
+    if (board != null && theCube.size != board.size) {
+      this.showPath(List(), theCube)
+    }
     board = theCube
+
     if (numTries % 500 == 0) {
       makeSound()
       status = createStatusMessage(numTries)
@@ -46,7 +50,9 @@ final class CubeViewer(var doneListener: DoneListener)
   }
 
   def makeMove(currentStep: Int, undo: Boolean): Unit = {
-    val move: CubeMove = getPath(currentStep)
+    val pathMove: CubeMove = getPath(currentStep)
+    val move = if (undo) pathMove.reverse else pathMove
+
     val newCubeState = board.doMove(move)
     canvasContainer.rotateSlice(move, undo, newCubeState)
     board = newCubeState
