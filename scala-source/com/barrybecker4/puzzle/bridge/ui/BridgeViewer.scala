@@ -7,7 +7,6 @@ import com.barrybecker4.common.format.FormatUtil
 import com.barrybecker4.puzzle.bridge.model.{Bridge, BridgeMove}
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 
-import scala.collection.JavaConverters._
 
 /**
   * UI for drawing the current best solution to the puzzle.
@@ -29,10 +28,15 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (board.isDefined) showPath(path.get, board.get)
   }
 
-  override
-  def refresh(board: Bridge, numTries: Long): Unit = {
+  override def refresh(board: Bridge, numTries: Long): Unit = {
     super.refresh(board, numTries)
     if (numTries == 0) lastMove = None
+  }
+
+  override def animateTransition(state: Bridge, transition: BridgeMove): Bridge = {
+    val newState = state.applyMove(transition, reverse = false)
+    simpleRefresh(newState)
+    newState
   }
 
   def makeMove(currentStep: Int, undo: Boolean): Unit = {

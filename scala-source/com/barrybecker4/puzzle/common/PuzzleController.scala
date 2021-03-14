@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common
 
-import com.barrybecker4.search.SearchSpace
+import com.barrybecker4.search.space.SearchSpace
 
 
 /**

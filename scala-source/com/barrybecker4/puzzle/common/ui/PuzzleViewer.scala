@@ -53,6 +53,11 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     repaint()
   }
 
+  protected def simpleRefresh(theBoard: P): Unit = {
+    board = theBoard
+    repaint()
+  }
+
   def makeSound(): Unit = {
     musicMaker.playNote(60, 5, 940)
   }

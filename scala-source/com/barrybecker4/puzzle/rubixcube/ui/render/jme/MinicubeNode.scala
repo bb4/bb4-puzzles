@@ -7,9 +7,8 @@ import com.jme3.material.Material
 import com.jme3.scene.Geometry
 import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.shape.Box
-import com.jme3.util.BufferUtils
 
-import java.awt.Color
+
 
 object MinicubeNode {
   private val EDGE_LEN: Float = 0.47f

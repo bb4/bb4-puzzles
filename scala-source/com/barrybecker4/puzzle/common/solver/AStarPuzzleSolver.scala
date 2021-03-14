@@ -1,8 +1,8 @@
 package com.barrybecker4.puzzle.common.solver
 
 import com.barrybecker4.search.AStarSearch
-import com.barrybecker4.search.HeapPriorityQueue
-import com.barrybecker4.search.SearchSpace
+import com.barrybecker4.search.queue.HeapPriorityQueue
+import com.barrybecker4.search.space.SearchSpace
 
 
 /**

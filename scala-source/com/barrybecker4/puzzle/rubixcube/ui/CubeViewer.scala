@@ -43,6 +43,14 @@ final class CubeViewer(var doneListener: DoneListener)
     }
   }
 
+  override def animateTransition(state: Cube, transition: CubeMove): Cube = {
+    board = state
+    val newCubeState = state.doMove(transition)
+    canvasContainer.rotateSlice(transition)
+    simpleRefresh(newCubeState)
+    newCubeState
+  }
+
   override def finalRefresh(path: Option[Seq[CubeMove]], board: Option[Cube],
                             numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, board, numTries, millis)
@@ -53,10 +61,7 @@ final class CubeViewer(var doneListener: DoneListener)
     val pathMove: CubeMove = getPath(currentStep)
     val move = if (undo) pathMove.reverse else pathMove
 
-    val newCubeState = board.doMove(move)
-    canvasContainer.rotateSlice(move, undo, newCubeState)
-    board = newCubeState
-    repaint()
+    animateTransition(board, move)
   }
 
   /** This renders the current state of the puzzle to the screen. */

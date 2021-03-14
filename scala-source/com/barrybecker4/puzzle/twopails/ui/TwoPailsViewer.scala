@@ -9,8 +9,6 @@ import com.barrybecker4.puzzle.twopails.model.Pails
 import com.barrybecker4.puzzle.twopails.model.PourOperation
 import javax.swing.JOptionPane
 import java.awt.Graphics
-//import java.util.List
-import collection.JavaConverters._
 
 
 /**
@@ -31,6 +29,12 @@ final class TwoPailsViewer(var doneListener: DoneListener)
     makeSound()
     status = createStatusMessage(numTries)
     simpleRefresh(pails, numTries)
+  }
+
+  override def animateTransition(state: Pails, transition: PourOperation): Pails = {
+    val newState = state.doMove(transition, undo = false)
+    simpleRefresh(newState)
+    newState
   }
 
   override def finalRefresh(path: Option[Seq[PourOperation]], pails: Option[Pails],

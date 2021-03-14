@@ -43,6 +43,12 @@ final class RedPuzzleViewer private[ui]()
     }
   }
 
+  override def animateTransition(state: PieceList, transition: OrientedPiece): PieceList = {
+    val newState = state.add(transition)
+    simpleRefresh(newState)
+    newState
+  }
+
   override def finalRefresh(path: Option[Seq[OrientedPiece]], pieces: Option[PieceList],
                             numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, pieces, numTries, millis)

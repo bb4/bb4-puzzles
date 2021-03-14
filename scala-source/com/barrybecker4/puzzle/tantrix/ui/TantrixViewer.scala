@@ -33,6 +33,12 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
     simpleRefresh(board, numTries)
   }
 
+  override def animateTransition(state: TantrixBoard, transition: TilePlacement): TantrixBoard = {
+    val newState = state.placeTile(transition)
+    simpleRefresh(newState)
+    newState
+  }
+
   override def makeSound(): Unit = {
     val note = Math.min(127, 20 + getBoard.unplacedTiles.size * 12)
     musicMaker.playNote(note * 20, 20, 640)

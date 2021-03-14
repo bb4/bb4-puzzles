@@ -6,9 +6,7 @@ import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
 import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegMove}
 import java.awt.Graphics
-import java.util
 
-import collection.JavaConverters._
 
 /**
   * UI for drawing the current best solution to the puzzle.
@@ -28,6 +26,12 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
       status = createStatusMessage(numTries)
       simpleRefresh(board, numTries)
     }
+  }
+
+  override def animateTransition(state: PegBoard, transition: PegMove): PegBoard = {
+    val newState = state.doMove(transition)
+    simpleRefresh(newState)
+    newState
   }
 
   override def finalRefresh(path: Option[Seq[PegMove]], board: Option[PegBoard],

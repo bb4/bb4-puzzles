@@ -66,6 +66,12 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     }
   }
 
+  override def animateTransition(state: P, trans: M): P = {
+    val newState = this.transition(state, trans)
+    refresh(newState, 0)
+    newState
+  }
+
   /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
   override def finalRefresh (path: Option[Seq[M]], position: Option[P], numTries: Long, elapsedMillis: Long): Unit = {
     if (path.isEmpty) {

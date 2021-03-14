@@ -7,8 +7,7 @@ import com.barrybecker4.puzzle.common.ui.PuzzleViewer
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
 import java.awt.Graphics
-import java.util
-import collection.JavaConverters._
+
 
 /**
   * UI for drawing the current best solution to the puzzle.
@@ -30,6 +29,12 @@ final class SliderViewer(var doneListener: DoneListener)
       status = createStatusMessage(numTries)
       simpleRefresh(board, numTries)
     }
+  }
+
+  override def animateTransition(state: SliderBoard, transition: SlideMove): SliderBoard = {
+    val newState = state.doMove(transition)
+    simpleRefresh(newState)
+    newState
   }
 
   override def finalRefresh(path: Option[Seq[SlideMove]], board: Option[SliderBoard],

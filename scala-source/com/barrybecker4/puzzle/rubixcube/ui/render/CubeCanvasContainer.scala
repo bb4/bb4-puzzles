@@ -39,7 +39,7 @@ class CubeCanvasContainer() {
     renderer.updateCube(cube)
   }
 
-  def rotateSlice(cubeMove: CubeMove, undo: Boolean, newCubeState: Cube): Unit = {
-    renderer.animateSliceRotation(cubeMove, undo, newCubeState)
+  def rotateSlice(cubeMove: CubeMove): Unit = {
+    renderer.animateSliceRotation(cubeMove)
   }
 }

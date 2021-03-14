@@ -5,7 +5,6 @@ import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil,
 import com.jme3.app.SimpleApplication
 import com.jme3.light.DirectionalLight
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
-import com.jme3.scene.Spatial
 import com.jme3.system.AppSettings
 import com.jme3.math.ColorRGBA
 
@@ -23,13 +22,11 @@ object CubeSceneRenderer extends App {
 
 class CubeSceneRenderer() extends SimpleApplication {
 
-  case class RequestedRotation(cubeMove: CubeMove, undo: Boolean, nextCube: Cube)
-
   private var util: JmeUtil = _
   private var currentCube: Cube = new Cube(4)
   private var cubeNodeParent: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
-  private var requestedRotation: Option[RequestedRotation] = None
+  private var requestedRotation: Option[CubeMove] = None
 
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
@@ -66,9 +63,9 @@ class CubeSceneRenderer() extends SimpleApplication {
   }
 
   // Rotate the slice, then set the new state at the end
-  def animateSliceRotation(cubeMove: CubeMove, undo: Boolean, newCubeState: Cube): Unit = {
+  def animateSliceRotation(cubeMove: CubeMove): Unit = {
     if (requestedRotation.isEmpty) {
-      requestedRotation = Some(RequestedRotation(cubeMove, undo, newCubeState))
+      requestedRotation = Some(cubeMove)
     }
   }
 
@@ -93,8 +90,7 @@ class CubeSceneRenderer() extends SimpleApplication {
     cam.setLocation(cam.getDirection.negate.multLocal(cam.getLocation.length))
 
     if (requestedRotation.nonEmpty && !cubeNodeParent.isRotating) {
-      val req = requestedRotation.get
-      cubeNodeParent.startRotatingSlice(req.cubeMove.orientation, req.cubeMove.level, req.undo, req.nextCube)
+      cubeNodeParent.startRotatingSlice(requestedRotation.get)
       requestedRotation = None
     }
     if (cubeNodeParent.isRotating) {

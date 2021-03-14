@@ -1,11 +1,16 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
-import com.barrybecker4.puzzle.rubixcube.model.{Cube, FRONT, LEFT, Location, Orientation, UP}
+import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove, Direction, FRONT, LEFT, Location, Orientation, UP}
 import com.jme3.scene.instancing.InstancedNode
 import com.jme3.asset.{AssetKey, AssetManager}
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.Node
+import com.barrybecker4.puzzle.rubixcube.ui.render.jme.RubixCubeNode.ROTATION_INCREMENT
 
+
+object RubixCubeNode {
+  private val ROTATION_INCREMENT: Float = 0.0001f
+}
 
 
 /* Renders the whole cube. The cube is composed by many minicubeNodes. */
@@ -13,16 +18,14 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   extends InstancedNode("cubeNodeParent") {
 
   private val halfEdgeLen: Float = cube.size / 2.0f
-  private val sliceNode: Node = new Node("slice")
+  private var sliceNode: Node = _
   private var sliceOrientation: Orientation = _
-
-  private var cubeStateAfterRotation: Option[Cube] = None
-  private var sliceRotationAngle: Float = 0
-  private var isUndo: Boolean = false
+  private var sliceRotationAngle: Float = FastMath.HALF_PI
+  private var isClockwise: Boolean = false
 
   this.setLocalScale(3f / cube.size)
   // The slice node is used to rotate slices to show animated cube rotations
-  this.attachChild(sliceNode)
+  //this.attachChild(sliceNode)
 
 
   // maintain a map from locations to minicubeNodes so that we can easily update the colors, or rotate slices
@@ -36,25 +39,23 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   })
 
   // Rotate the slice, then set the new state at the end
-  def startRotatingSlice(orientation: Orientation, level: Int, undo: Boolean, newCubeState: Cube): Unit = {
-    assert(cubeStateAfterRotation.isEmpty, "Only one active slice allowed at a time.")
-    cubeStateAfterRotation = Some(newCubeState)
-    isUndo = undo
-    createSlice(orientation, level)
+  def startRotatingSlice(cubeMove: CubeMove): Unit = {
+    assert(!isRotating, "Only one active slice allowed at a time.")
+    isClockwise = cubeMove.direction == Direction.CLOCKWISE
+    createSlice(cubeMove.orientation, cubeMove.level)
   }
 
-  def isRotating: Boolean = cubeStateAfterRotation.nonEmpty
+  def isRotating: Boolean = sliceNode != null //sliceNode.getChildren.size() > 0
 
   def incrementSliceRotation(): Unit = {
-    if (cubeStateAfterRotation.nonEmpty) {
-      sliceRotationAngle += 0.001f
-      val sign = if (isUndo) -1 else 1
+
+    if (isRotating) {
+      sliceRotationAngle -= ROTATION_INCREMENT
+      val sign = if (isClockwise) 1 else -1
       rotateSlice(sign * sliceRotationAngle)
-      if (sliceRotationAngle >= FastMath.HALF_PI) {
-        sliceRotationAngle = 0
+      if (sliceRotationAngle <= 0) {
+        sliceRotationAngle = FastMath.HALF_PI
         restoreSlice()
-        updateCube(cubeStateAfterRotation.get)
-        cubeStateAfterRotation = None
       }
     }
   }
@@ -65,7 +66,11 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
 
   // There can only be one slice rotating at any given time
   private def createSlice(orientation: Orientation, level: Int): Unit = {
-    assert(sliceNode.getChildren.isEmpty, "Only 1 slice allowed at a time.")
+    assert(sliceNode == null/*sliceNode.getChildren.isEmpty*/, "Only 1 slice allowed at a time.")
+
+    sliceNode = new Node("slice")
+    this.attachChild(sliceNode)
+
     sliceOrientation = orientation
     val m = cube.getSlice(orientation, level)
     for (loc <- m.keys) {
@@ -76,11 +81,11 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   }
 
   def rotateSlice(angle: Float): Unit = {
-     val q = new Quaternion()
+    val q = new Quaternion()
     val axis = sliceOrientation match {
       case UP => Vector3f.UNIT_Y
-      case LEFT => Vector3f.UNIT_X
-      case FRONT => Vector3f.UNIT_Z
+      case LEFT => Vector3f.UNIT_Z
+      case FRONT => Vector3f.UNIT_X
     }
     q.fromAngleAxis(angle, axis)
     sliceNode.setLocalRotation(q)
@@ -92,8 +97,10 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
       sliceNode.detachChild(mini)
       this.attachChild(mini)
     }
-    //sliceNode.detachAllChildren()
     assert(sliceNode.getChildren.isEmpty)
+
+    this.detachChild(sliceNode)
+    sliceNode = null
   }
 
   // the new cube must be the same size as the old
