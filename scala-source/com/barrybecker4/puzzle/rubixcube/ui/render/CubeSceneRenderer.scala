@@ -8,6 +8,8 @@ import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.system.AppSettings
 import com.jme3.math.ColorRGBA
 
+import scala.collection.immutable.Queue
+
 
 /**
   * Renders the Rubix cube in 3D using JMonkeyEngine.
@@ -22,11 +24,14 @@ object CubeSceneRenderer extends App {
 
 class CubeSceneRenderer() extends SimpleApplication {
 
+  case class SliceRotation(move: CubeMove, callback: () => Unit)
+
   private var util: JmeUtil = _
   private var currentCube: Cube = new Cube(4)
   private var cubeNodeParent: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
-  private var requestedRotation: Option[CubeMove] = None
+  private var requestedRotations: Queue[SliceRotation] = Queue()
+  private var rotationDoneCallback: Option[() => Unit] = None
 
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
@@ -63,10 +68,8 @@ class CubeSceneRenderer() extends SimpleApplication {
   }
 
   // Rotate the slice, then set the new state at the end
-  def animateSliceRotation(cubeMove: CubeMove): Unit = {
-    if (requestedRotation.isEmpty) {
-      requestedRotation = Some(cubeMove)
-    }
+  def animateSliceRotation(cubeMove: CubeMove, doneCallback: () => Unit): Unit = {
+      requestedRotations = requestedRotations.enqueue(SliceRotation(cubeMove, doneCallback))
   }
 
   /** Global scenegraph */
@@ -89,12 +92,19 @@ class CubeSceneRenderer() extends SimpleApplication {
     // this allows the camera to rotate around a focal point
     cam.setLocation(cam.getDirection.negate.multLocal(cam.getLocation.length))
 
-    if (requestedRotation.nonEmpty && !cubeNodeParent.isRotating) {
-      cubeNodeParent.startRotatingSlice(requestedRotation.get)
-      requestedRotation = None
+    if (requestedRotations.nonEmpty && !cubeNodeParent.isRotating) {
+      val d = requestedRotations.dequeue
+      val nextRotation = d._1
+      requestedRotations = d._2
+      rotationDoneCallback = Some(nextRotation.callback)
+      cubeNodeParent.startRotatingSlice(nextRotation.move)
     }
     if (cubeNodeParent.isRotating) {
       cubeNodeParent.incrementSliceRotation()
+    }
+    else if (rotationDoneCallback.isDefined) {
+      rotationDoneCallback.get.apply()
+      rotationDoneCallback = None
     }
   }
 

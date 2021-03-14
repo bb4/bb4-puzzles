@@ -27,6 +27,7 @@ final class CubeViewer(var doneListener: DoneListener)
     override def run(): Unit = {
       canvasContainer = new CubeCanvasContainer()
       self.add(canvasContainer.canvas, BorderLayout.CENTER)
+      self.invalidate();
     }
   })
 
@@ -44,10 +45,8 @@ final class CubeViewer(var doneListener: DoneListener)
   }
 
   override def animateTransition(state: Cube, transition: CubeMove): Cube = {
-    board = state
-    val newCubeState = state.doMove(transition)
-    canvasContainer.rotateSlice(transition)
-    simpleRefresh(newCubeState)
+    val newCubeState = board.doMove(transition)
+    canvasContainer.rotateSlice(transition, () => simpleRefresh(newCubeState))
     newCubeState
   }
 
