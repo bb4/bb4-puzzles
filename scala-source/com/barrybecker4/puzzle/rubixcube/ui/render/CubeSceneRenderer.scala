@@ -32,6 +32,7 @@ class CubeSceneRenderer() extends SimpleApplication {
   private var bgColor: ColorRGBA = _
   private var requestedRotations: Queue[SliceRotation] = Queue()
   private var rotationDoneCallback: Option[() => Unit] = None
+  private var cubeSizeChanged: Boolean = false
 
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
@@ -44,8 +45,6 @@ class CubeSceneRenderer() extends SimpleApplication {
     flyCam.setDragToRotate(true)
 
     updateCube(currentCube)
-    cubeNodeParent = createCubeScene(currentCube)
-    rootNode.attachChild(cubeNodeParent)
 
     rootNode.attachChild(new CoordinateAxes(new Vector3f(-1.5f, -1.5f, 1.5f), assetManager))
     rootNode.addLight(createDirectionalLight())
@@ -54,17 +53,23 @@ class CubeSceneRenderer() extends SimpleApplication {
   }
 
   def updateCube(cube: Cube): Unit = {
-    val sizeChanged = cube.size != currentCube.size
+    val sizeChanged = cubeNodeParent == null || cube.size != currentCube.size
     currentCube = cube
 
     if (sizeChanged) {
-      rootNode.detachChildNamed("cubeNodeParent")
-      cubeNodeParent = createCubeScene(currentCube)
-      rootNode.attachChild(cubeNodeParent)
+      cubeSizeChanged = true
     }
-    else if (cubeNodeParent != null) {
+    else if (cubeNodeParent != null && !cubeSizeChanged) {
       cubeNodeParent.updateCube(currentCube)
     }
+  }
+
+  private def initializeNewCube(): Unit = {
+    if (rootNode.hasChild(cubeNodeParent)) {
+      rootNode.detachChild(cubeNodeParent)
+    }
+    cubeNodeParent = createCubeScene(currentCube)
+    rootNode.attachChild(cubeNodeParent)
   }
 
   // Rotate the slice, then set the new state at the end
@@ -92,20 +97,27 @@ class CubeSceneRenderer() extends SimpleApplication {
     // this allows the camera to rotate around a focal point
     cam.setLocation(cam.getDirection.negate.multLocal(cam.getLocation.length))
 
-    if (requestedRotations.nonEmpty && !cubeNodeParent.isRotating) {
-      val d = requestedRotations.dequeue
-      val nextRotation = d._1
-      requestedRotations = d._2
-      rotationDoneCallback = Some(nextRotation.callback)
-      cubeNodeParent.startRotatingSlice(nextRotation.move)
+    if (cubeSizeChanged) {
+      initializeNewCube()
+      cubeSizeChanged = false
     }
-    if (cubeNodeParent.isRotating) {
-      cubeNodeParent.incrementSliceRotation()
+    else {
+      if (requestedRotations.nonEmpty && !cubeNodeParent.isRotating) {
+        val d = requestedRotations.dequeue
+        val nextRotation = d._1
+        requestedRotations = d._2
+        rotationDoneCallback = Some(nextRotation.callback)
+        cubeNodeParent.startRotatingSlice(nextRotation.move)
+      }
+      if (cubeNodeParent.isRotating) {
+        cubeNodeParent.incrementSliceRotation()
+      }
+      else if (rotationDoneCallback.isDefined) {
+        rotationDoneCallback.get.apply()
+        rotationDoneCallback = None
+      }
     }
-    else if (rotationDoneCallback.isDefined) {
-      rotationDoneCallback.get.apply()
-      rotationDoneCallback = None
-    }
+
   }
 
 }

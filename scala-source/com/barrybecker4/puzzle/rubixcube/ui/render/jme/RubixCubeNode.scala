@@ -9,11 +9,11 @@ import com.barrybecker4.puzzle.rubixcube.ui.render.jme.RubixCubeNode.DEFAULT_ROT
 
 
 object RubixCubeNode {
-  val DEFAULT_ROTATION_INCREMENT: Float = 0.001f
+  private val DEFAULT_ROTATION_INCREMENT: Float = 0.001f
 }
 
 
-/* Renders the whole cube. The cube is composed by many minicubeNodes. */
+/* Renders the whole cube. The cube is composed of many minicubeNodes. */
 class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   extends InstancedNode("cubeNodeParent") {
 

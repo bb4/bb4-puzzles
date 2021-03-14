@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities
 final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
-  private var canvasContainer: CubeCanvasContainer = _
+  private val canvasContainer: CubeCanvasContainer = new CubeCanvasContainer()
   private var isAnimating: Boolean = false
   private var path: List[CubeMove] = _
 
@@ -26,7 +26,6 @@ final class CubeViewer(var doneListener: DoneListener)
   // Need to add after initialization, or it may show in slightly wrong position
   SwingUtilities.invokeLater(new Runnable() {
     override def run(): Unit = {
-      canvasContainer = new CubeCanvasContainer()
       self.add(canvasContainer.canvas, BorderLayout.CENTER)
       self.invalidate();
     }
