@@ -31,8 +31,8 @@ final class TwoPailsViewer(var doneListener: DoneListener)
     simpleRefresh(pails, numTries)
   }
 
-  override def animateTransition(state: Pails, transition: PourOperation): Pails = {
-    val newState = state.doMove(transition, undo = false)
+  override def animateTransition(transition: PourOperation): Pails = {
+    val newState = board.doMove(transition, undo = false)
     simpleRefresh(newState)
     newState
   }

@@ -28,8 +28,8 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     }
   }
 
-  override def animateTransition(state: PegBoard, transition: PegMove): PegBoard = {
-    val newState = state.doMove(transition)
+  override def animateTransition(transition: PegMove): PegBoard = {
+    val newState = board.doMove(transition)
     simpleRefresh(newState)
     newState
   }

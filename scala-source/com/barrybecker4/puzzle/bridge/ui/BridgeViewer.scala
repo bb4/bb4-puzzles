@@ -33,8 +33,8 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (numTries == 0) lastMove = None
   }
 
-  override def animateTransition(state: Bridge, transition: BridgeMove): Bridge = {
-    val newState = state.applyMove(transition, reverse = false)
+  override def animateTransition(transition: BridgeMove): Bridge = {
+    val newState = board.applyMove(transition, reverse = false)
     simpleRefresh(newState)
     newState
   }

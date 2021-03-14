@@ -31,8 +31,8 @@ final class SliderViewer(var doneListener: DoneListener)
     }
   }
 
-  override def animateTransition(state: SliderBoard, transition: SlideMove): SliderBoard = {
-    val newState = state.doMove(transition)
+  override def animateTransition(transition: SlideMove): SliderBoard = {
+    val newState = board.doMove(transition)
     simpleRefresh(newState)
     newState
   }

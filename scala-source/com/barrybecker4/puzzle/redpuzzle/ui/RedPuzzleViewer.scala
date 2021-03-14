@@ -43,8 +43,8 @@ final class RedPuzzleViewer private[ui]()
     }
   }
 
-  override def animateTransition(state: PieceList, transition: OrientedPiece): PieceList = {
-    val newState = state.add(transition)
+  override def animateTransition(transition: OrientedPiece): PieceList = {
+    val newState = board.add(transition)
     simpleRefresh(newState)
     newState
   }

@@ -9,7 +9,7 @@ import com.barrybecker4.puzzle.rubixcube.ui.render.jme.RubixCubeNode.DEFAULT_ROT
 
 
 object RubixCubeNode {
-  val DEFAULT_ROTATION_INCREMENT: Float = 0.0001f
+  val DEFAULT_ROTATION_INCREMENT: Float = 0.001f
 }
 
 

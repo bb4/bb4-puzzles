@@ -31,7 +31,7 @@ class RubixCubeController(ui: Refreshable[Cube, CubeMove])
 
   def doMove(move: CubeMove): Unit = {
     if (ui != null)
-      initialPosition = ui.animateTransition(initialPosition, move)
+      initialPosition = ui.animateTransition(move)
   }
 
   private def refresh(): Unit = {

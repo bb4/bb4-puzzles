@@ -17,6 +17,7 @@ final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
   private var canvasContainer: CubeCanvasContainer = _
+  private var isAnimating: Boolean = false
   private var path: List[CubeMove] = _
 
   def getPath: List[CubeMove] = path
@@ -44,9 +45,18 @@ final class CubeViewer(var doneListener: DoneListener)
     }
   }
 
-  override def animateTransition(state: Cube, transition: CubeMove): Cube = {
+  /** the request is ignored if we are already animating */
+  override def animateTransition(transition: CubeMove): Cube = {
+
+    if (isAnimating) return board
+    isAnimating = true
+
     val newCubeState = board.doMove(transition)
-    canvasContainer.rotateSlice(transition, () => simpleRefresh(newCubeState))
+    canvasContainer.rotateSlice(transition, () => {
+      simpleRefresh(newCubeState)
+      isAnimating = false
+    })
+
     newCubeState
   }
 
@@ -59,8 +69,7 @@ final class CubeViewer(var doneListener: DoneListener)
   def makeMove(currentStep: Int, undo: Boolean): Unit = {
     val pathMove: CubeMove = getPath(currentStep)
     val move = if (undo) pathMove.reverse else pathMove
-
-    animateTransition(board, move)
+    animateTransition(move)
   }
 
   /** This renders the current state of the puzzle to the screen. */

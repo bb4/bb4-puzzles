@@ -33,8 +33,8 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
     simpleRefresh(board, numTries)
   }
 
-  override def animateTransition(state: TantrixBoard, transition: TilePlacement): TantrixBoard = {
-    val newState = state.placeTile(transition)
+  override def animateTransition(transition: TilePlacement): TantrixBoard = {
+    val newState = board.placeTile(transition)
     simpleRefresh(newState)
     newState
   }
