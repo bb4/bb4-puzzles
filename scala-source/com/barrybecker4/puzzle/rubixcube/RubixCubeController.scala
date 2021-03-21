@@ -4,11 +4,12 @@ package com.barrybecker4.puzzle.rubixcube
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.model.MoveGenerator
+import com.barrybecker4.puzzle.rubixcube.ui.selectors.SizeSelector
 import com.barrybecker4.search.Refreshable
 
 
 object RubixCubeController {
-  private val DEFAULT_SIZE = 3
+  private val DEFAULT_SIZE = SizeSelector.DEFAULT_SIZE
   private val generator = new MoveGenerator
 }
 

@@ -42,7 +42,7 @@ case class CubeComponents(baseSize: Int = 3) {
   }
 
   /** A cube slice can be rotated. It is defined by the positions at a given orientation and level. */
-  val sliceLocations: Map[(Orientation, Int), Seq[Location]] = {
+  lazy val sliceLocations: Map[(Orientation, Int), Seq[Location]] = {
     (for (orientation <- Orientation.PRIMARY_ORIENTATIONS; level <- 1 to baseSize)
         yield (orientation, level) -> getSlicePositions(orientation, level)).toMap
   }

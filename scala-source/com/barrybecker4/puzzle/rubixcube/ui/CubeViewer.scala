@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2021 Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
+import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
@@ -26,6 +27,7 @@ final class CubeViewer(var doneListener: DoneListener)
   // Need to add after initialization, or it may show in slightly wrong position
   SwingUtilities.invokeLater(new Runnable() {
     override def run(): Unit = {
+      ThreadUtil.sleep(500);
       self.add(canvasContainer.canvas, BorderLayout.CENTER)
       self.invalidate();
     }
@@ -45,7 +47,7 @@ final class CubeViewer(var doneListener: DoneListener)
   }
 
   /** the request is ignored if we are already animating */
-  override def animateTransition(transition: CubeMove): Cube = {
+  override def animateTransition(transition: CubeMove): Cube = this.synchronized {
 
     if (isAnimating) return board
     isAnimating = true

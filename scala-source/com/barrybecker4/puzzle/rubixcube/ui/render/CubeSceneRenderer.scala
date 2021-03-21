@@ -4,7 +4,7 @@ import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil, RubixCubeNode}
 import com.jme3.app.SimpleApplication
 import com.jme3.light.DirectionalLight
-import com.jme3.math.{FastMath, Quaternion, Vector3f}
+import com.jme3.math.{Quaternion, Vector3f}
 import com.jme3.system.AppSettings
 import com.jme3.math.ColorRGBA
 
@@ -15,25 +15,26 @@ import scala.collection.immutable.Queue
   * Renders the Rubix cube in 3D using JMonkeyEngine.
   */
 object CubeSceneRenderer extends App {
-  val renderer = new CubeSceneRenderer()
+  val renderer = new CubeSceneRenderer(5)
   val settings = new AppSettings(false)
   settings.setTitle("Rubix Cube Solver")
   renderer.setSettings(settings)
   renderer.start()
 }
 
-class CubeSceneRenderer() extends SimpleApplication {
+class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
 
   case class SliceRotation(move: CubeMove, callback: () => Unit)
 
   private var util: JmeUtil = _
-  private var currentCube: Cube = new Cube(4)
-  private var cubeNodeParent: RubixCubeNode = _
+  private var currentCube: Cube = new Cube(initialCubeSize)
+  private var rubixCubeNode: RubixCubeNode = _
   private var bgColor: ColorRGBA = _
   private var requestedRotations: Queue[SliceRotation] = Queue()
   private var rotationDoneCallback: Option[() => Unit] = None
   private var cubeSizeChanged: Boolean = false
 
+  def this() = this(3)
 
   def setBackgroundColor(color: ColorRGBA): Unit = {
     bgColor = color
@@ -53,37 +54,29 @@ class CubeSceneRenderer() extends SimpleApplication {
   }
 
   def updateCube(cube: Cube): Unit = {
-    val sizeChanged = cubeNodeParent == null || cube.size != currentCube.size
+    val sizeChanged = rubixCubeNode == null || cube.size != currentCube.size
     currentCube = cube
 
     if (sizeChanged) {
       cubeSizeChanged = true
     }
-    else if (cubeNodeParent != null && !cubeSizeChanged) {
-      cubeNodeParent.updateCube(currentCube)
+    else if (rubixCubeNode != null && !cubeSizeChanged) {
+      rubixCubeNode.updateCube(currentCube)
     }
   }
 
   private def initializeNewCube(): Unit = {
-    if (rootNode.hasChild(cubeNodeParent)) {
-      rootNode.detachChild(cubeNodeParent)
+    if (rootNode.hasChild(rubixCubeNode)) {
+      rootNode.detachChild(rubixCubeNode)
+      rubixCubeNode.destroy()
     }
-    cubeNodeParent = createCubeScene(currentCube)
-    rootNode.attachChild(cubeNodeParent)
+    rubixCubeNode = new RubixCubeNode(currentCube, assetManager)
+    rootNode.attachChild(rubixCubeNode)
   }
 
   // Rotate the slice, then set the new state at the end
   def animateSliceRotation(cubeMove: CubeMove, doneCallback: () => Unit): Unit = {
       requestedRotations = requestedRotations.enqueue(SliceRotation(cubeMove, doneCallback))
-  }
-
-  /** Global scenegraph */
-  private def createCubeScene(cube: Cube): RubixCubeNode = {
-    val cubeNodeParent = new RubixCubeNode(cube, assetManager)
-    val q = new Quaternion()
-    q.fromAngleAxis(0, new Vector3f(0, 1, 0))
-    cubeNodeParent.setLocalRotation(q)
-    cubeNodeParent
   }
 
   private def createDirectionalLight(): DirectionalLight = {
@@ -102,15 +95,15 @@ class CubeSceneRenderer() extends SimpleApplication {
       cubeSizeChanged = false
     }
     else {
-      if (requestedRotations.nonEmpty && !cubeNodeParent.isRotating) {
+      if (requestedRotations.nonEmpty && !rubixCubeNode.isRotating) {
         val d = requestedRotations.dequeue
         val nextRotation = d._1
         requestedRotations = d._2
         rotationDoneCallback = Some(nextRotation.callback)
-        cubeNodeParent.startRotatingSlice(nextRotation.move)
+        rubixCubeNode.startRotatingSlice(nextRotation.move)
       }
-      if (cubeNodeParent.isRotating) {
-        cubeNodeParent.incrementSliceRotation()
+      if (rubixCubeNode.isRotating) {
+        rubixCubeNode.incrementSliceRotation()
       }
       else if (rotationDoneCallback.isDefined) {
         rotationDoneCallback.get.apply()

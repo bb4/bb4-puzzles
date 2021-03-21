@@ -25,7 +25,7 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
     new CubeShuffler(rand).shuffle(this)
 
   def getSlice(orientation: Orientation, level: Int): Map[(Int, Int, Int), Minicube] = {
-    assert (level <= this.size)
+    assert (level <= size)
     val locsForSlice = comps.locationsForSlice(orientation, level)
     var m: Map[(Int, Int, Int), Minicube] = Map()
     locsForSlice.foreach(loc => {
