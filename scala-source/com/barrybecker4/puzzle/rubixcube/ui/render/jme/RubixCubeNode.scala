@@ -12,7 +12,7 @@ import com.jme3.math.Vector3f
  * We do not render cubes that are on the interior.
  */
 class RubixCubeNode(cube: Cube, assetManager: AssetManager)
-  extends InstancedNode("cubeNodeParent") with DoneRotatingListener {
+  extends InstancedNode("cubeNodeParent") {
 
   private val halfEdgeLen: Float = cube.size / 2.0f
   private var sliceNode: Option[SliceNode] = None
@@ -46,8 +46,7 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
     sliceMinicubes = sliceMinis
 
     val isClockwise = cubeMove.direction == Direction.CLOCKWISE
-    val sn = new SliceNode(sliceMinicubes, cubeMove.orientation, isClockwise)
-    sn.setDoneRotatingListener(this)
+    val sn = new SliceNode(sliceMinicubes, cubeMove.orientation, isClockwise, () => doneRotating())
     this.attachChild(sn)
     sliceNode = Some(sn)
   }

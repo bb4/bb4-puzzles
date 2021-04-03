@@ -4,26 +4,25 @@ import com.barrybecker4.puzzle.rubixcube.model._
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.instancing.InstancedNode
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.SliceNode.DEFAULT_ROTATION_INCREMENT
+import com.jme3.asset.AssetKey
 
 
 
 object SliceNode {
-  private val DEFAULT_ROTATION_INCREMENT: Float = 0.001f
+  private val DEFAULT_ROTATION_INCREMENT: Float = 0.005f
 }
 
 
 /* Show slice when it is rotating. */
-class SliceNode(miniCubes: Seq[MinicubeNode], sliceOrientation: Orientation, isClockwise: Boolean = false)
-  extends InstancedNode("slice") {
+class SliceNode(miniCubes: Seq[MinicubeNode],
+                sliceOrientation: Orientation,
+                isClockwise: Boolean = false,
+                onFinished: Runnable) extends InstancedNode("slice") {
 
   private var rotationInc: Float = DEFAULT_ROTATION_INCREMENT
   private var sliceRotationAngle: Float = 0f
-  private var doneRotatingListener: Option[DoneRotatingListener] = None
   miniCubes.foreach( this.attachChild)
 
-  def setDoneRotatingListener(listener: DoneRotatingListener): Unit = {
-    doneRotatingListener = Some(listener)
-  }
 
   def incrementSliceRotation(): Unit = {
       sliceRotationAngle += rotationInc
@@ -31,9 +30,7 @@ class SliceNode(miniCubes: Seq[MinicubeNode], sliceOrientation: Orientation, isC
       rotateSlice(sign * sliceRotationAngle)
       if (sliceRotationAngle >= FastMath.HALF_PI) {
         sliceRotationAngle = 0
-        if (doneRotatingListener.isDefined) {
-          doneRotatingListener.get.doneRotating()
-        }
+        onFinished.run()
       }
   }
 
@@ -48,4 +45,11 @@ class SliceNode(miniCubes: Seq[MinicubeNode], sliceOrientation: Orientation, isC
     this.setLocalRotation(q)
   }
 
+
+  // should need this, but for scala port
+  override def setKey(key: AssetKey[_]): Unit = {
+    this.key = key
+  }
+
+  override def getKey: AssetKey[_] = key
 }
