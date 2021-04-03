@@ -101,7 +101,7 @@ case class CubeComponents(baseSize: Int = 3) {
               orientationToColor += getLeftRight(left)
           }
           if (orientationToColor.nonEmpty) {
-            initialMap += (top, left, front) -> Minicube(orientationToColor)
+            initialMap += (top, left, front) -> Minicube(orientationToColor, (top, left, front))
           }
         }
       }

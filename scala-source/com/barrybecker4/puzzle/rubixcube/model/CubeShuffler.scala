@@ -25,7 +25,7 @@ case class CubeShuffler(rnd: Random = RND) {
     val num = if (numRotations < 0) randomRotationsForSize(size) else numRotations
 
     for (i <- 1 to num) {
-      val randomMove = CubeMove(PRIMARY_ORIENTATIONS(RND.nextInt(PRIMARY_ORIENTATIONS.length)), RND.nextInt(size) + 1, CLOCKWISE)
+      val randomMove = CubeMove(PRIMARY_ORIENTATIONS(rnd.nextInt(PRIMARY_ORIENTATIONS.length)), rnd.nextInt(size) + 1, CLOCKWISE)
       shuffledCube = shuffledCube.doMove(randomMove)
     }
     shuffledCube
