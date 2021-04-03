@@ -1,6 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
-import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove, Direction,  Location}
+import com.barrybecker4.puzzle.rubixcube.Location
+import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove, Direction}
 import com.jme3.scene.instancing.InstancedNode
 import com.jme3.asset.{AssetKey, AssetManager}
 import com.jme3.math.Vector3f

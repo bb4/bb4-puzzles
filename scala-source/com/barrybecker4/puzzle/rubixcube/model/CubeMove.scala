@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction._
 import com.barrybecker4.puzzle.common.model.Move
+import com.barrybecker4.puzzle.rubixcube.Location
 
 /**
   * The Rubix cube can be rotated in 3 * baseSize * baseSize ways. Immutable.

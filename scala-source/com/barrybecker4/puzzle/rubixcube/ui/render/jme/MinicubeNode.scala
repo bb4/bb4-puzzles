@@ -9,7 +9,6 @@ import com.jme3.scene.VertexBuffer.Type
 import com.jme3.scene.shape.Box
 
 
-
 object MinicubeNode {
   private val EDGE_LEN: Float = 0.47f
 }

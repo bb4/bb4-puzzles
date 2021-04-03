@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.model
 
+import com.barrybecker4.puzzle.rubixcube.Location
 import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
 
 

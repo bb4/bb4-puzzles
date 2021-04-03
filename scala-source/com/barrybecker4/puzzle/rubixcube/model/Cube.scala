@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.math.MathUtil
 import CubeComponents.{getCompsForSize, numMinicubesToBaseSize}
+import com.barrybecker4.puzzle.rubixcube.Location
 
 import scala.util.Random
 
