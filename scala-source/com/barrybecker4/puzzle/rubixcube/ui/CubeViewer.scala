@@ -27,7 +27,7 @@ final class CubeViewer(var doneListener: DoneListener)
   // Need to add after initialization, or it may show in slightly wrong position
   SwingUtilities.invokeLater(new Runnable() {
     override def run(): Unit = {
-      ThreadUtil.sleep(500);
+      ThreadUtil.sleep(1000);
       self.add(canvasContainer.canvas, BorderLayout.CENTER)
       self.invalidate();
     }

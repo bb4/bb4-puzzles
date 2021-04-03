@@ -8,7 +8,8 @@ import scala.util.Random
 
 /**
   * Immutable representation of a Rubix cube.
-  * @param locationToMinicube map from position to minicube. Size is the edge length. If size = 3, then there will be 26 entries.
+  * @param locationToMinicube map from position to minicube.
+  *                           Size is the edge length. If size = 3, then there will be 26 entries.
   */
 case class Cube(locationToMinicube: Map[Location, Minicube]) {
 
@@ -24,10 +25,10 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
   def shuffle(rand: Random = MathUtil.RANDOM): Cube =
     new CubeShuffler(rand).shuffle(this)
 
-  def getSlice(orientation: Orientation, level: Int): Map[(Int, Int, Int), Minicube] = {
+  def getSlice(orientation: Orientation, level: Int): Map[Location, Minicube] = {
     assert (level <= size)
     val locsForSlice = comps.locationsForSlice(orientation, level)
-    var m: Map[(Int, Int, Int), Minicube] = Map()
+    var m: Map[Location, Minicube] = Map()
     locsForSlice.foreach(loc => {
       if (locationToMinicube.contains(loc)) {
         m += loc -> locationToMinicube(loc)

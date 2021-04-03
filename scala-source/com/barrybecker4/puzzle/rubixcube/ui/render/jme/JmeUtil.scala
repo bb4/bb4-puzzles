@@ -6,7 +6,7 @@ import com.jme3.font.{BitmapFont, BitmapText}
 import com.jme3.math.{ColorRGBA, Vector3f}
 import com.jme3.scene.Spatial.CullHint
 import com.jme3.scene.control.BillboardControl
-import com.jme3.scene.{Geometry, Node}
+import com.jme3.scene.Node
 
 case class JmeUtil(assetManager: AssetManager) {
 

@@ -48,7 +48,4 @@ class SliceNode(miniCubes: Seq[MinicubeNode], sliceOrientation: Orientation, isC
     this.setLocalRotation(q)
   }
 
-  def destroy(): Unit = {
-    this.detachAllChildren();
-  }
 }

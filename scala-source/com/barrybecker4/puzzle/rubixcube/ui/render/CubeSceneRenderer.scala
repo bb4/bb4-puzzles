@@ -4,7 +4,7 @@ import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil, RubixCubeNode}
 import com.jme3.app.SimpleApplication
 import com.jme3.light.DirectionalLight
-import com.jme3.math.{Quaternion, Vector3f}
+import com.jme3.math.Vector3f
 import com.jme3.system.AppSettings
 import com.jme3.math.ColorRGBA
 
@@ -68,7 +68,6 @@ class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
   private def initializeNewCube(): Unit = {
     if (rootNode.hasChild(rubixCubeNode)) {
       rootNode.detachChild(rubixCubeNode)
-      rubixCubeNode.destroy()
     }
     rubixCubeNode = new RubixCubeNode(currentCube, assetManager)
     rootNode.attachChild(rubixCubeNode)
@@ -76,7 +75,7 @@ class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
 
   // Rotate the slice, then set the new state at the end
   def animateSliceRotation(cubeMove: CubeMove, doneCallback: () => Unit): Unit = {
-      requestedRotations = requestedRotations.enqueue(SliceRotation(cubeMove, doneCallback))
+    requestedRotations = requestedRotations.enqueue(SliceRotation(cubeMove, doneCallback))
   }
 
   private def createDirectionalLight(): DirectionalLight = {

@@ -32,22 +32,19 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
 
   // Rotate the slice, then set the new state at the end
   def startRotatingSlice(cubeMove: CubeMove): Unit = {
-    val isClockwise = cubeMove.direction == Direction.CLOCKWISE
 
-    val m = cube.getSlice(cubeMove.orientation, cubeMove.level)
-    println("cube size = " + cube.size + " num minis in slice m = " + m.size)
+    val loc2Mini = cube.getSlice(cubeMove.orientation, cubeMove.level)
 
     var sliceMinis: Seq[MinicubeNode] = Seq()
-    m.keys.foreach(loc => {
-      val mini = locToMinicubeNode(loc)
-      this.detachChild(mini)
-      println("mini for " + loc + " = " + mini)
-      sliceMinis :+= mini
+    loc2Mini.keys.foreach(loc => {
+      val miniNode = locToMinicubeNode(loc)
+      this.detachChild(miniNode)
+      sliceMinis :+= miniNode
     })
 
     sliceMinicubes = sliceMinis
-    println("num minicubes in slice = " + sliceMinicubes.length)
 
+    val isClockwise = cubeMove.direction == Direction.CLOCKWISE
     val sn = new SliceNode(sliceMinicubes, cubeMove.orientation, isClockwise)
     sn.setDoneRotatingListener(this)
     this.attachChild(sn)
@@ -67,8 +64,9 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   }
 
   def doneRotating(): Unit = {
-    sliceNode.get.destroy()
+    this.detachChild(sliceNode.get)
     sliceMinicubes.foreach(this.attachChild)
+    sliceMinicubes = Seq()
     sliceNode = None
   }
 
@@ -76,12 +74,9 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   def updateCube(newCube: Cube): Unit = {
     assert(newCube.size == cube.size, "newCube has size " + newCube.size + " but should have " + cube.size)
     newCube.locationToMinicube.foreach({case (loc, minicube) =>
-      val minicubeNode = locToMinicubeNode(loc)
-      minicubeNode.updateColors(minicube)
+      locToMinicubeNode(loc).updateColors(minicube)
     })
   }
-
-  def destroy(): Unit = this.detachAllChildren()
 
   // should need this, but for scala port
   override def setKey(key: AssetKey[_]): Unit = {
