@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.bridge
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.common.i18n.StubMessageContext
+import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.model._
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

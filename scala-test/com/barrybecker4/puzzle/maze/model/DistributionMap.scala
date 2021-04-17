@@ -11,7 +11,7 @@ class DistributionMap(forwardDist: List[Int], leftDist: List[Int], rightDist: Li
   map += LEFT -> leftDist
   map += RIGHT -> rightDist
 
-  def this() {
+  def this() = {
     this(List(0, 0, 0), List(0, 0, 0), List(0, 0, 0))
   }
 

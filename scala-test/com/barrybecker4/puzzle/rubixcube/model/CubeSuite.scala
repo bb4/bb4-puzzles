@@ -1,10 +1,14 @@
 package com.barrybecker4.puzzle.rubixcube.model
 
 import org.scalatest.funsuite.AnyFunSuite
-import FaceColor._
-import Direction._
-import Orientation._
+import com.barrybecker4.puzzle.rubixcube.model.CubeSuite.RND
 
+import scala.util.Random
+
+
+object CubeSuite {
+  val RND = new Random(1)
+}
 
 class CubeSuite extends AnyFunSuite {
 
@@ -21,12 +25,12 @@ class CubeSuite extends AnyFunSuite {
   }
 
   test("Distance to goal for shuffled cube of size 2 should be 22") {
-    val cube = new Cube(2).shuffle()
+    val cube = new Cube(2).shuffle(RND)
     assert(cube.distanceToGoal == 22)
   }
 
   test("Distance to goal for shuffled cube of size 3 should be 5") {
-    val cube = new Cube(3).shuffle()
+    val cube = new Cube(3).shuffle(RND)
     assert(cube.distanceToGoal == 43)
   }
 }
