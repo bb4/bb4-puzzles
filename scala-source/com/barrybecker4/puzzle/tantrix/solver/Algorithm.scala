@@ -10,6 +10,7 @@ case object SIMPLE_SEQUENTIAL extends Algorithm
 case object BRUTE_FORCE_SEQUENTIAL extends Algorithm
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
+case object IDA_STAR extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
 case object CONCURRENT_OPTIMUM extends Algorithm
@@ -36,6 +37,7 @@ sealed trait Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
       case BRUTE_FORCE_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller)
+      case IDA_STAR => new IDAStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.4f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.12f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.2f)
@@ -49,7 +51,7 @@ sealed trait Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[TantrixBoard, TilePlacement]] = Array(
-    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT,
+    SIMPLE_SEQUENTIAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, IDA_STAR,
     CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
   )
 }

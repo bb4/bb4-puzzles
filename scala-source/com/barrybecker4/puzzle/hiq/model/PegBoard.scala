@@ -48,7 +48,7 @@ object PegBoard {
   * @author Barry Becker
   */
 case class PegBoard(bits: PegBits) {
-  def this() { this(PegBits()) }
+  def this() = { this(PegBits()) }
   def getPosition(row: Byte, col: Byte): Boolean = get(bits.getIndexForPosition(row, col))
 
   /** Private so others can not modify our immutable state after construction. */

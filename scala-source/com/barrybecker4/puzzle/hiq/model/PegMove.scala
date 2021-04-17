@@ -15,7 +15,7 @@ import com.barrybecker4.puzzle.common.model.Move
   */
 final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) extends Move {
 
-  def this(fromRow: Byte, fromCol: Byte, destinationRow: Byte, destinationCol: Byte) {
+  def this(fromRow: Byte, fromCol: Byte, destinationRow: Byte, destinationCol: Byte) = {
     this(ByteLocation(fromRow, fromCol), ByteLocation(destinationRow, destinationCol))
   }
 

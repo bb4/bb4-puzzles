@@ -35,7 +35,7 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
   private val valueAssigner: ValueAssigner = ValueAssigner(comps)
   val numCells: Int = edgeLength * edgeLength
 
-  def this(cells: CellMap) {
+  def this(cells: CellMap) = {
     this(cells, getInitialValuesMap(cells))
   }
   def this(initial: Array[Array[Int]]) = {

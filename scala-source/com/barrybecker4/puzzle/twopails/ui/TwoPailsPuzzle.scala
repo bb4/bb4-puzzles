@@ -39,7 +39,7 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
   private var navPanel: NavigationPanel = _
 
   /** Construct the application */
-  def this() { this(Array[String]())}
+  def this() = { this(Array[String]())}
 
   override protected def createViewer = new TwoPailsViewer(this)
 

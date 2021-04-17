@@ -22,7 +22,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   addKeyListener(inputListener)
 
 
-  def this(initialData: Array[Array[Int]]) {
+  def this(initialData: Array[Array[Int]]) = {
     this(new Board(initialData).updateFromInitialData().get)
   }
 

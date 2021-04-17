@@ -10,7 +10,7 @@ import com.barrybecker4.ui.components.GradientButton
 
 import java.awt.FlowLayout
 import java.awt.event.{ActionEvent, ActionListener, ItemEvent, ItemListener}
-import javax.swing.{Box, JButton, JPanel}
+import javax.swing.{BorderFactory, Box, JButton, JPanel}
 
 /**
   * Buttons at the top for generating and solving the Rubix cube using different strategies.
@@ -18,7 +18,7 @@ import javax.swing.{Box, JButton, JPanel}
   *
   * TODO: implement
   *  - Thistlethwaite’s algorithm, which can solve any cube in 52 moves or fewer.
-  *  - Korf’s optimal algorithm, a.k.a. 'God’s algorithm', which can solve any cube in 20 or fewer moves.
+  *  - IDA* - Korf’s optimal algorithm, a.k.a. 'God’s algorithm', which can solve any cube in 20 or fewer moves.
   *
   * @author Barry Becker
   */

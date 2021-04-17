@@ -21,7 +21,7 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
 
   val size: Int = Math.sqrt(tiles.length).toInt
 
-  def this(edgeLen: Byte) {this(createGoalTiles(edgeLen))}
+  def this(edgeLen: Byte) = {this(createGoalTiles(edgeLen))}
 
   def get(loc:Location): Byte = get(loc.row, loc.col)
   def get(i: Int, j: Int): Byte = tiles(i * size + j)

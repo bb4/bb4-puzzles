@@ -17,7 +17,7 @@ object PathSelector {
   */
 class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
 
-  def this(rnd: Random) { this(new PathEvaluator, rnd) }
+  def this(rnd: Random) = { this(new PathEvaluator, rnd) }
 
   /** Skew toward selecting the best, but don't always select the best because then we
     * might always return the same random neighbor.
@@ -36,7 +36,7 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     }
 
     scores.append(10000.0)
-    val r = rnd.nextDouble * totalScore
+    val r = rnd.nextDouble() * totalScore
     var total: Double = 0
     var ct: Int = 0
     do {

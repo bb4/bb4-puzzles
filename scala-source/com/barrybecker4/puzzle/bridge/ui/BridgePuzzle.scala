@@ -27,7 +27,7 @@ final class BridgePuzzle(args: Array[String])
   private val navPanel = new NavigationPanel()
 
   /** Default constructor */
-  def this() { this(Array[String]()) }
+  def this() = { this(Array[String]()) }
 
   protected def createViewer = new BridgeViewer(this)
 

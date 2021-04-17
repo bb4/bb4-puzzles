@@ -59,7 +59,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     searchQueue ++= seedEmpties
     visited ++= seedEmpties
     while (searchQueue.nonEmpty) {
-      val loc: Location = searchQueue.dequeue
+      val loc: Location = searchQueue.dequeue()
       val nbrEmpties = findEmptyNeighborLocations(loc)
       for (empty <- nbrEmpties) {
         if (!visited.contains(empty)) {

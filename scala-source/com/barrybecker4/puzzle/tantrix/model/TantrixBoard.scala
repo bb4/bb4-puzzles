@@ -10,8 +10,8 @@ import com.barrybecker4.puzzle.tantrix.solver.verification.SolutionVerifier
 
 
 object TantrixBoard {
-  /** starting position. Must be odd I believe. */
-  val INITIAL_LOCATION = ByteLocation(21, 21)
+  /** starting position. Must be odd. */
+  val INITIAL_LOCATION: Location = ByteLocation(21, 21)
 }
 
 /**
@@ -23,7 +23,7 @@ object TantrixBoard {
   * @author Barry Becker
   */
 case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
-                   unplacedTiles: Seq[HexTile], numTiles: Int) {
+                        unplacedTiles: Seq[HexTile], numTiles: Int) {
 
   /** Constructor that creates a new tantrix instance when placing a move.
     * If the new tile to be placed is in the edge row of the grid, then we need to increase the size of the grid
@@ -32,13 +32,13 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
     * @param board current tantrix state.
     * @param placement new piece to add to the tantrix and its positioning.
     */
-  def this(board: TantrixBoard, placement: TilePlacement) {
+  def this(board: TantrixBoard, placement: TilePlacement) = {
     this(board.tantrix.placeTile(placement),
       board.primaryColor, board.unplacedTiles.filter(_ != placement.tile), board.numTiles)
   }
 
   /** Create a board with the first tile in the given list placed at the initial location */
-  def this(initialTiles: Seq[HexTile]) {
+  def this(initialTiles: Seq[HexTile]) = {
     this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, RotationEnum.ANGLE_0))),
          TILES.getTile(initialTiles.size).primaryColor, initialTiles.drop(1), initialTiles.size)
   }
@@ -46,7 +46,7 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
   /** Create a board with the specified tile placements (nothing unplaced).
     * @param tiles specific placements to initialize the board with.
     */
-  def this(tiles: Seq[TilePlacement], primaryColor: PathColor) {
+  def this(tiles: Seq[TilePlacement], primaryColor: PathColor) = {
     this(new Tantrix(tiles), primaryColor, Seq(), tiles.size)
   }
 

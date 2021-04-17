@@ -55,7 +55,7 @@ case class HiQPuzzle(myargs: Array[String])
   private var navPanel: NavigationPanel = _
 
   /** Construct the application */
-  def this() {this(Array[String]()) }
+  def this() = {this(Array[String]()) }
 
   protected def createViewer = new PegBoardViewer(PegBoard.INITIAL_BOARD_POSITION, this)
 

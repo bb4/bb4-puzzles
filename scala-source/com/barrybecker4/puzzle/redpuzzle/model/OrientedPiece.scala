@@ -16,7 +16,7 @@ object Direction extends Enumeration {
   */
 case class OrientedPiece(piece: Piece, orientation: Direction) {
 
-  def this(piece: Piece) { this(piece, Direction.TOP) }
+  def this(piece: Piece) = { this(piece, Direction.TOP) }
 
   /** This rotates the piece the specified number of 90 degree increments. By default roatates 90 degrees clockwise. */
   def rotate(num: Int = 1): OrientedPiece = {

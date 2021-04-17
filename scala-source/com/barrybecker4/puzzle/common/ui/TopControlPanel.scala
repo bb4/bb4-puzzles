@@ -62,6 +62,8 @@ class TopControlPanel[P, M](
     */
   private def createAlgorithmDropdown: JComboBox[String] = {
     algorithmChoice = new JComboBox[String]
+    // this is needed to get the menu to show over heavy/native controls like jm3d
+    algorithmChoice.setLightWeightPopupEnabled(false)
     algorithmChoice.addItemListener (this)
     for (a <- algorithmValues) {
       algorithmChoice.addItem (a.getLabel)

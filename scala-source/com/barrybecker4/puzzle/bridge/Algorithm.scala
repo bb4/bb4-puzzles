@@ -6,14 +6,11 @@ import com.barrybecker4.puzzle.bridge.model.Bridge
 import com.barrybecker4.puzzle.bridge.model.BridgeMove
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
-import com.barrybecker4.puzzle.common.solver.AStarConcurrentPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.ConcurrentPuzzleSolver
-import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
+import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStarPuzzleSolver, ConcurrentPuzzleSolver, IDAStarPuzzleSolver, PuzzleSolver, SequentialPuzzleSolver}
 
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
+case object IDA_STAR extends Algorithm
 case object SIMPLE_SEQUENTIAL extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
@@ -36,6 +33,7 @@ sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
     this match {
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Bridge, BridgeMove](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Bridge, BridgeMove](controller)
+      case IDA_STAR => new IDAStarPuzzleSolver[Bridge, BridgeMove](controller)
       // this will find a solution, but not necessary the shortest path
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Bridge, BridgeMove](controller)
       // this will find the shortest path to a solution if one exists, but takes longer
@@ -52,7 +50,7 @@ sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[Bridge, BridgeMove]] = Array(
-    A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, SIMPLE_SEQUENTIAL,
+    A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, IDA_STAR, SIMPLE_SEQUENTIAL,
     CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
   )
 }

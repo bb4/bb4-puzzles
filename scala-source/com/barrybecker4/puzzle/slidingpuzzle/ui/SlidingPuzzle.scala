@@ -30,7 +30,7 @@ case class SlidingPuzzle(myargs: Array[String])
   private var navPanel: NavigationPanel = _
 
   /** Construct the application */
-  def this() { this(Array[String]()) }
+  def this() = { this(Array[String]()) }
 
   protected def createViewer = new SliderViewer(this)
 

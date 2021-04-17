@@ -11,6 +11,7 @@ case object BRUTE_FORCE_ORIGINAL extends Algorithm
 case object BRUTE_FORCE_SEQUENTIAL extends Algorithm
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
+case object IDA_STAR extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
 case object CONCURRENT_OPTIMUM extends Algorithm
@@ -33,6 +34,7 @@ sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
       case BRUTE_FORCE_SEQUENTIAL => new SequentialPuzzleSolver[PieceList, OrientedPiece](controller)
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[PieceList, OrientedPiece](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[PieceList, OrientedPiece](controller)
+      case IDA_STAR => new IDAStarPuzzleSolver[PieceList, OrientedPiece](controller)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.1f)
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.3f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.2f)
@@ -47,7 +49,7 @@ sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[PieceList, OrientedPiece]] = Array(
-    BRUTE_FORCE_ORIGINAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT,
+    BRUTE_FORCE_ORIGINAL, BRUTE_FORCE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, IDA_STAR,
     CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM, GENETIC_SEARCH, CONCURRENT_GENETIC_SEARCH
   )
 }

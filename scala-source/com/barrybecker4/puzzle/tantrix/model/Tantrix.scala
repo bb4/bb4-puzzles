@@ -22,7 +22,7 @@ object Tantrix {
 case class Tantrix(tileMap: immutable.Map[Location, TilePlacement], lastTile: TilePlacement) {
 
   /** @param tiles tiles in the tantrix */
-  def this(tiles: Seq[TilePlacement]) { this(createTileMap(tiles), tiles.last) }
+  def this(tiles: Seq[TilePlacement]) = { this(createTileMap(tiles), tiles.last) }
   def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
 
   /**

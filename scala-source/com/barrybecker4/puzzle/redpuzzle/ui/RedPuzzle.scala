@@ -36,7 +36,7 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
   /** allows you to change the animation speed. */
   private var animSpeedSlider: LabeledSlider = _
 
-  def this() { this(Array[String]())}
+  def this() = { this(Array[String]())}
 
   protected def createViewer = new RedPuzzleViewer
 

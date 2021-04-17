@@ -24,11 +24,11 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   private val edgeLen = Math.sqrt(numTotal).toInt
 
 
-  def this(pieces: Array[Piece]) {
+  def this(pieces: Array[Piece]) = {
     this(pieces.map(new OrientedPiece(_)).toList, pieces.length)
   }
 
-  def this(numTotal: Int = PieceList.DEFAULT_NUM_PIECES) {
+  def this(numTotal: Int = PieceList.DEFAULT_NUM_PIECES) = {
     this(List[OrientedPiece](), numTotal)
   }
 

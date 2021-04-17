@@ -21,7 +21,7 @@ abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApple
   protected var viewer: PuzzleViewer[P, M] = _
 
   /** Construct the application. */
-  def this() { this(Array[String]())}
+  def this() = { this(Array[String]())}
 
   /**
     * Create and initialize the puzzle

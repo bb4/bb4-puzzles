@@ -58,7 +58,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * @param tantrix ordered path tiles.
     * @param primaryColor primary color
     */
-  def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) {
+  def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) = {
     this(new Pathifier(primaryColor).reorder(tantrix), primaryColor, rnd)
   }
 

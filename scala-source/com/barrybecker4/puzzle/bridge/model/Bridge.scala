@@ -14,7 +14,7 @@ case class Bridge(uncrossed: List[Int], crossed: List[Int], lightCrossed: Boolea
   /** Constructor that creates an initial bridge state given a set of people defined by their speeds.
     * @param people array of people (represented by their speeds) that need to cross the bridge.
     */
-  def this(people: Array[Int]) {
+  def this(people: Array[Int]) = {
     this(people.toList, List[Int](), false)
   }
 

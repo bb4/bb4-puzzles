@@ -12,7 +12,7 @@ import com.barrybecker4.puzzle.tantrix.model.{Tantrix, TilePlacement}
   */
 class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends AbstractFitter(primaryColor) {
 
-  def this(tiles: Seq[TilePlacement], primaryColor: PathColor) {
+  def this(tiles: Seq[TilePlacement], primaryColor: PathColor) = {
     this(new Tantrix(tiles), primaryColor)
   }
 

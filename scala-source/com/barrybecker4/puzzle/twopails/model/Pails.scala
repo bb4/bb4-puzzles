@@ -11,7 +11,7 @@ import PourOperation.Action._
 case class Pails(fill1: Int, fill2: Int, params: PailParams) {
 
   /** Constructor to create two empty pails. */
-  def this(params: PailParams) {this(0, 0, params)}
+  def this(params: PailParams) = {this(0, 0, params)}
 
   private[model] def pail1HasRoom = fill1 < params.pail1Size
   private[model] def pail2HasRoom = fill2 < params.pail2Size

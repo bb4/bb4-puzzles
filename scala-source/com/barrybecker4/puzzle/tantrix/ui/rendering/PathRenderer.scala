@@ -21,11 +21,11 @@ object PathRenderer {
   private val HEX_TURN_DEGREES = 60
 
   private def getPathStroke(thickness: Double) = {
-    new BasicStroke((PATH_FRAC * thickness).toInt, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL)
+    new BasicStroke((PATH_FRAC * thickness).toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL)
   }
 
   private def getPathBGStroke(thickness: Double) =
-    new BasicStroke(thickness.toInt, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)
+    new BasicStroke(thickness.toFloat, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)
 }
 
 class PathRenderer private[rendering]() {

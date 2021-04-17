@@ -29,7 +29,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
   private var spinner: JSpinner = _
   private var primaryColorLabel: JLabel = _
 
-  def this() { this(Array[String]())}
+  def this() = { this(Array[String]())}
 
   protected def createViewer: PuzzleViewer[TantrixBoard, TilePlacement] = {
     //TantrixBoard board = new TantrixBoard(new HexTiles());

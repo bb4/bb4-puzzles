@@ -3,12 +3,13 @@ package com.barrybecker4.puzzle.rubixcube
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
-import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStarPuzzleSolver, ConcurrentPuzzleSolver, PuzzleSolver, SequentialPuzzleSolver}
-import com.barrybecker4.puzzle.rubixcube.model.{CubeMove, Cube}
+import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStarPuzzleSolver, ConcurrentPuzzleSolver, IDAStarPuzzleSolver, PuzzleSolver, SequentialPuzzleSolver}
+import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 
 case object SIMPLE_SEQUENTIAL extends Algorithm
 case object A_STAR_SEQUENTIAL extends Algorithm
 case object A_STAR_CONCURRENT extends Algorithm
+case object IDA_STAR extends Algorithm
 case object CONCURRENT_BREADTH extends Algorithm
 case object CONCURRENT_DEPTH extends Algorithm
 case object CONCURRENT_OPTIMUM extends Algorithm
@@ -31,6 +32,7 @@ sealed trait Algorithm extends AlgorithmEnum[Cube, CubeMove] {
     this match {
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Cube, CubeMove](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Cube, CubeMove](controller)
+      case IDA_STAR => new IDAStarPuzzleSolver[Cube, CubeMove](controller)
       // this will find a solution, but not necessary the shortest path
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Cube, CubeMove](controller)
       // this will find the shortest path to a solution if one exists, but takes longer
@@ -45,6 +47,7 @@ sealed trait Algorithm extends AlgorithmEnum[Cube, CubeMove] {
 
 object Algorithm {
   val VALUES: Array[AlgorithmEnum[Cube, CubeMove]] = Array(
-    SIMPLE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
+    SIMPLE_SEQUENTIAL, A_STAR_SEQUENTIAL, A_STAR_CONCURRENT, IDA_STAR,
+    CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
   )
 }

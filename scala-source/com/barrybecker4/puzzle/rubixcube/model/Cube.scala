@@ -18,7 +18,7 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
 
   private val comps = getCompsForSize(size)
 
-  def this(size: Int = 3) {
+  def this(size: Int = 3) = {
     this(getCompsForSize(size).initialCubeMap)
   }
 

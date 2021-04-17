@@ -16,14 +16,14 @@ case class SliderBoard(tiles: Tiles) {
   private val manhattan = tiles.calculateManhattan
 
   /** @param size edge length of square board */
-  def this(size: Int) {
+  def this(size: Int) = {
     this(new Tiles(size.toByte))
   }
 
   /** Create a new Slider by applying a move to another Slider.
     * Applying the same move a second time will undo it because it just swaps tiles.
     */
-  def this(board: SliderBoard, move: SlideMove) {
+  def this(board: SliderBoard, move: SlideMove) = {
     this(board.tiles.applyMove(move))
   }
 
