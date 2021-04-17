@@ -69,7 +69,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   protected def createStatusMessage(numTries: Long): String = {
     var msg = "\nNumber of tries :" + FormatUtil.formatNumber(numTries)
     // I think this might be an expensive operation so don't do it every time
-    if (MathUtil.RANDOM.nextDouble < .05) {
+    if (MathUtil.RANDOM.nextDouble() < .05) {
       totalMem = Runtime.getRuntime.totalMemory / 1000
       freeMem = Runtime.getRuntime.freeMemory / 1000
     }

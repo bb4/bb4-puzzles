@@ -116,7 +116,7 @@ class MazeGenerator(val panel: MazePanel) {
   /** This can be really slow if you do a refresh every time */
   private def refresh(): Unit = {
     val speed = panel.animationSpeed
-    if (MathUtil.RANDOM.nextDouble < (2.0 / speed)) {
+    if (MathUtil.RANDOM.nextDouble() < (2.0 / speed)) {
       panel.paintAll()
       if (speed < MazeGenerator.SLOW_SPEED_THRESH) {
         val diff = MazeGenerator.SLOW_SPEED_THRESH - speed

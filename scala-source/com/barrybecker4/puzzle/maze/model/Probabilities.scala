@@ -18,7 +18,7 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     */
   def getShuffledDirections: List[Direction] = {
 
-    val rnd = MathUtil.RANDOM.nextDouble
+    val rnd = MathUtil.RANDOM.nextDouble()
     var directions: List[Direction] = List()
 
     if (rnd < forwardProb) {
@@ -38,7 +38,7 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     * @return the second direction.
     */
   private def getNextTwoDirs(twoDirections: Seq[Direction], prob: Double): List[Direction] = {
-    val rnd = MathUtil.RANDOM.nextDouble
+    val rnd = MathUtil.RANDOM.nextDouble()
     if (rnd < prob) List(twoDirections.tail.head, twoDirections.head)
     else List(twoDirections.head, twoDirections.tail.head)
   }

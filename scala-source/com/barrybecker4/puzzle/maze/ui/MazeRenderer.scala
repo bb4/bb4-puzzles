@@ -41,8 +41,8 @@ class MazeRenderer() {
   def setCellSize(size: Int): Unit = {
     cellSize = size
     halfCellSize = (cellSize / 2.0).toInt
-    val lineWidth = (MazeRenderer.WALL_LINE_WIDTH * cellSize / 30.0).toInt
-    val pathWidth = (MazeRenderer.PATH_LINE_WIDTH * cellSize / 30.0).toInt
+    val lineWidth = (MazeRenderer.WALL_LINE_WIDTH * cellSize / 30.0).toFloat
+    val pathWidth = (MazeRenderer.PATH_LINE_WIDTH * cellSize / 30.0).toFloat
     wallStroke = new BasicStroke(lineWidth)
     pathStroke = new BasicStroke(pathWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER)
     val fontSize = 2 + (cellSize >> 1)

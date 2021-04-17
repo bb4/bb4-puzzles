@@ -51,7 +51,7 @@ class MazePanel() extends JComponent {
       if (animationSpeed < 9) ThreadUtil.sleep(400 / animationSpeed - 40)
     }
     else {
-      val rand = MathUtil.RANDOM.nextDouble
+      val rand = MathUtil.RANDOM.nextDouble()
       if (rand < 1.0 / animationSpeed)
         this.repaint(xpos - csized2, ypos - csized2, 2 * cellSize, 2 * cellSize)
     }

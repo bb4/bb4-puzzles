@@ -11,7 +11,7 @@ import com.barrybecker4.ui.util.GUIUtil
 
 object HexTileRenderer {
   private val TILE_FONT = new Font(GUIUtil.DEFAULT_FONT_FAMILY, Font.PLAIN, 9)
-  private val TILE_STROKE = new BasicStroke(1)
+  private val TILE_STROKE = new BasicStroke(1f)
   private val TILE_BORDER_COLOR = new Color(70, 70, 70)
   private val TILE_BG_COLOR = new Color(200, 200, 200)
 }

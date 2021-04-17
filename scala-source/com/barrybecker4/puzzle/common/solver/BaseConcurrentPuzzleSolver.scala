@@ -126,7 +126,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
         val transitions = puzzle.legalTransitions(getPosition)
         for (move <- transitions) {
           val task = newTask(puzzle.transition(getPosition, move), Some(move), Some(this))
-          if (MathUtil.RANDOM.nextFloat > depthBreadthFactor) { // go deep
+          if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) { // go deep
             task.run()
           }
           else { // go wide

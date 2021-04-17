@@ -24,11 +24,11 @@ object PieceParameterArray {
     for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
 
     val tot = pieces.numTotal
-    val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble, swapProbabilities, tot)
+    val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
     var p2: Int = 0
 
     do {
-      p2 = getPieceFromProb(totalProb * rnd.nextDouble, swapProbabilities, tot)
+      p2 = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
     } while (p2 == p1)
 
     pieces.doSwap(p1, p2)

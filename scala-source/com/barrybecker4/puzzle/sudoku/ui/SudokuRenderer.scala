@@ -23,7 +23,7 @@ object SudokuRenderer {
   private val USER_VALUE_CORRECT_COLOR = new Color(0, 200, 0)
   private val USER_VALUE_WRONG_COLOR = new Color(255, 10, 0)
   private val BIG_X_COLOR = new Color(255, 0, 0, 50)
-  private val BIG_X_STROKE = new BasicStroke(10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)
+  private val BIG_X_STROKE = new BasicStroke(10f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)
   private val GRID_COLOR = new Color(10, 0, 100)
   private val TEXT_COLOR = new Color(0, 10, 10)
   private val BACKGROUND_COLOR = new Color(220, 220, 240)
