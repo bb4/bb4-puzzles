@@ -25,6 +25,6 @@ class MoveGenerator {
     val blankLocation = board.getEmptyLocation
     OFFSETS.map(loc => {
       new ByteLocation(blankLocation.row + loc.row, blankLocation.col + loc.col)
-    }).filter(board.isValidPosition).map(SlideMove(_, blankLocation))
+    }).filter(board.isValidPosition).map(SlideMove(_, blankLocation)).toIndexedSeq
   }
 }
