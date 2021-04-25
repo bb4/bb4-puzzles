@@ -42,7 +42,7 @@ class RubixCubeController(ui: Refreshable[Cube, CubeMove])
 
   def initialState: Cube = initialPosition
 
-  /** do this instead of using floats */
+  /** Use number bigger than one instead of using floats */
   override def getCost(move: CubeMove): Int = 10
 
   def isGoal(position: Cube): Boolean = position.isSolved

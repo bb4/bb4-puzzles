@@ -8,6 +8,7 @@ import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
 
 import java.awt.{BorderLayout, Graphics}
 import javax.swing.SwingUtilities
+import scala.collection.immutable.Queue
 
 
 /**
@@ -18,7 +19,8 @@ final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
   private val canvasContainer: CubeCanvasContainer = new CubeCanvasContainer()
-  private var isAnimating: Boolean = false
+  private var animatingQueue: Queue[CubeMove] = Queue()
+  private var isAnimating = false
   private var path: List[CubeMove] = _
 
   def getPath: List[CubeMove] = path
@@ -49,13 +51,27 @@ final class CubeViewer(var doneListener: DoneListener)
   /** the request is ignored if we are already animating */
   override def animateTransition(transition: CubeMove): Cube = this.synchronized {
 
-    if (isAnimating) return board
-    isAnimating = true
+    if (isAnimating) {
+      animatingQueue = animatingQueue.enqueue(transition)
+      return board
+    }
 
+    doNextAnimationTransition(transition)
+  }
+
+  private def doNextAnimationTransition(transition: CubeMove): Cube = {
+    isAnimating = true
     val newCubeState = board.doMove(transition)
     canvasContainer.rotateSlice(transition, () => {
       simpleRefresh(newCubeState)
-      isAnimating = false
+      if (animatingQueue.nonEmpty) {
+        val (nextTrans, q) = animatingQueue.dequeue
+        animatingQueue = q
+        doNextAnimationTransition(nextTrans)
+      }
+      else {
+        isAnimating = false
+      }
     })
 
     newCubeState

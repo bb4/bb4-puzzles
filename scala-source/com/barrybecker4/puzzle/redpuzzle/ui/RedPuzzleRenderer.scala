@@ -25,7 +25,7 @@ object RedPuzzleRenderer {
   private val THIRD_SIZE = PIECE_SIZE / 3
   private val MARGIN = 75
   private val ORIENT_ARROW_LEN = PIECE_SIZE >> 2
-  private val ARROW_HEAD_RAD = 2
+  private val ARROW_HEAD_RAD = 4
   private val PIECE_TEXT_COLOR = new Color(200, 0, 0)
   private val PIECE_BACKGROUND_COLOR = new Color(255, 205, 215, 55)
   private val GRID_COLOR = new Color(10, 0, 100)

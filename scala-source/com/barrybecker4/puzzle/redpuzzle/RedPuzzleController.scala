@@ -27,6 +27,8 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
 
   def initialState: PieceList = new PieceList  // empty piece list
 
+
+
   /** @return true if we have 9 pieces that fit */
   def isGoal(position: PieceList): Boolean = position.size == position.numTotal
 

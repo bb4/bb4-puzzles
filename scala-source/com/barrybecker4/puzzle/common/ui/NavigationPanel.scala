@@ -4,7 +4,8 @@ package com.barrybecker4.puzzle.common.ui
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.ui.components.GradientButton
 import com.barrybecker4.ui.util.GUIUtil
-import javax.swing.{JButton, JPanel}
+
+import javax.swing.{JButton, JLabel, JPanel}
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
@@ -25,6 +26,7 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
   private var forwardButton: JButton = _
   private var startButton: JButton = _
   private var endButton: JButton = _
+  private var stepInPathLabel: JLabel = _
   private var currentStep: Int = 0
   private var navigator: PathNavigator = _
 
@@ -40,9 +42,11 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
   private def createBackPanel = {
     backButton = createButton("BACKWARD", "backward_arrow.png")
     startButton = createButton("START", "start_arrow.png")
+    stepInPathLabel = new JLabel()
     val backPanel = new JPanel
     backPanel.add(startButton)
     backPanel.add(backButton)
+    backPanel.add(stepInPathLabel)
     backPanel
   }
 
@@ -56,7 +60,12 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
   def setPathNavigator(navigator: PathNavigator): Unit = {
     this.navigator = navigator
     currentStep = navigator.getPath.size - 1
+    setCurrentStepLabel()
     updateButtonStates()
+  }
+
+  private def setCurrentStepLabel(): Unit = {
+    stepInPathLabel.setText("Current step: " + (currentStep + 1))
   }
 
   override def actionPerformed(e: ActionEvent): Unit = {
@@ -88,6 +97,7 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
     if (stepSize == 0) return
     moveInPath(currentStep, stepSize)
     currentStep += stepSize
+    setCurrentStepLabel()
   }
 
   def moveInPath(currentPosition: Int, stepSize: Int): Unit = {
