@@ -17,7 +17,8 @@ object CubeShuffler {
   */
 case class CubeShuffler(rnd: Random = RND) {
 
-  private val randomRotationsForSize: Array[Int] = Array(0, 0, 10, 20, 50, 100)
+  // should increase for better shuffling
+  private val randomRotationsForSize: Array[Int] = Array(0, 0, 3, 6, 10, 20)
 
   def shuffle(cube: Cube, numRotations: Int = -1): Cube = {
     var shuffledCube = cube

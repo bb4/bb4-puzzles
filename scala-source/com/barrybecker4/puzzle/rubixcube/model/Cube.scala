@@ -39,14 +39,15 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
   }
 
 
-  /** @return number of colors not in the goal state. Faces are arbitrarily assigned the 6 goal colors */
+  /** @return number of colors not in the goal state. Faces are arbitrarily assigned the 6 goal colors
+    * Suggestions: https://stackoverflow.com/questions/60130124/heuristic-function-for-rubiks-cube-in-a-algorithm-artificial-intelligence
+    */
   def distanceToGoal: Int = {
     val faceGoalNum = size * size
+    val numPerim = 4 * (size - 1)
 
     def numOnFaceInGoal(orientation: Orientation, locations: Seq[Location]) = {
-      val goalColor =
-        if (size % 2 == 1) locationToMinicube(locations(locations.size / 2)).orientationToColor(orientation)
-        else orientation.goalColor()
+      val goalColor = orientation.goalColor()
       locations.map(loc => goalColor == locationToMinicube(loc).getColorForOrientation(orientation))
     }
 
@@ -55,7 +56,7 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
         .flatMap({ case (orientation, locations) => numOnFaceInGoal(orientation, locations) })
         .count(v => v)
 
-    6 * faceGoalNum - numInGoal
+    (10 * (6 * faceGoalNum - numInGoal)) / numPerim
   }
 
   /** @return true if all the tiles, when read across and down, are in increasing order. */

@@ -24,6 +24,7 @@ case class CubeComponents(baseSize: Int = 3) {
   assert (baseSize <= 5, "baseSize = " + baseSize)
   val faceSize: Int = baseSize * baseSize
 
+  // Map from an orientation to the minicube locations for that face */
   val faceToLocations: Map[Orientation, Seq[Location]] = Map(
     UP -> (for (i <- 1 to baseSize; j <- 1 to baseSize) yield (1, i, j)),
     LEFT -> (for (i <- 1 to baseSize; j <- 1 to baseSize ) yield (i, 1, j)),

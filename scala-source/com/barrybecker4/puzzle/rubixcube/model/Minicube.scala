@@ -10,7 +10,7 @@ import java.awt.Color
 
 /**
   * One of the little part-cubes that compose the big one. Immutable.
-  * The originalPosition is mainly used to get a unique hashcode
+  * The origPosition is mainly used to get a unique hashcode
   */
 case class Minicube(orientationToColor: Map[Orientation, FaceColor], origPosition: Location) {
 
