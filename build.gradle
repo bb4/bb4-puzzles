@@ -3,9 +3,10 @@ buildscript {
     repositories {
         // retrieve the shared gradle build scripts from here
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+        maven { url "https://oss.sonatype.org/content/repositories/releases" }
     }
     dependencies {
-        classpath 'com.barrybecker4:bb4-gradle:1.6-SNAPSHOT'
+        classpath 'com.barrybecker4:bb4-gradle:1.6.5'
     }
 }
 
@@ -15,7 +16,7 @@ plugins {
 description = 'A Scala puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
-version = '1.6-SNAPSHOT'
+version = '1.6'
 ext {
     archivesBaseName = 'bb4-puzzle'
     mainClass = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
@@ -25,9 +26,9 @@ apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
 def jme3 = [g:'org.jmonkeyengine', v:'3.3.2-stable']
 dependencies {
-    implementation 'com.barrybecker4:bb4-A-star:1.6-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-sound:1.6-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-optimization:1.6-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-A-star:1.6'
+    implementation 'com.barrybecker4:bb4-sound:1.6'
+    implementation 'com.barrybecker4:bb4-optimization:1.6'
 
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
@@ -38,6 +39,7 @@ dependencies {
 
 // The appMap is used to create the list of available application in the html index page and to generate the app tasks.
 ext.appMap = new LinkedHashMap()
+
 appMap['hiq'] = [
         title: 'Hi-Q',
         mainClass: 'com.barrybecker4.puzzle.hiq.ui.HiQPuzzle',

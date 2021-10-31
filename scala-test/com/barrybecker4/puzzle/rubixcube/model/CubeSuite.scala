@@ -21,16 +21,16 @@ class CubeSuite extends AnyFunSuite {
   test("Distance to goal for after 1 rotation should be 8") {
     val cube = new Cube(2)
     val move = CubeMove(UP, 2, Direction.CLOCKWISE)
-    assert(cube.doMove(move).distanceToGoal == 8)
+    assert(cube.doMove(move).distanceToGoal == 20)
   }
 
   test("Distance to goal for shuffled cube of size 2 should be 22") {
     val cube = new Cube(2).shuffle(RND)
-    assert(cube.distanceToGoal == 22)
+    assert(cube.distanceToGoal == 42)
   }
 
   test("Distance to goal for shuffled cube of size 3 should be 5") {
     val cube = new Cube(3).shuffle(RND)
-    assert(cube.distanceToGoal == 43)
+    assert(cube.distanceToGoal == 50)
   }
 }
