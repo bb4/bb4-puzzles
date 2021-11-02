@@ -3,10 +3,10 @@ buildscript {
     repositories {
         // retrieve the shared gradle build scripts from here
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
-        maven { url "https://oss.sonatype.org/content/repositories/releases" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
     dependencies {
-        classpath 'com.barrybecker4:bb4-gradle:1.6.5'
+        classpath 'com.barrybecker4:bb4-gradle:1.7-SNAPSHOT'
     }
 }
 
@@ -16,7 +16,7 @@ plugins {
 description = 'A Scala puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
-version = '1.6'
+version = '1.7-SNAPSHOT'
 ext {
     archivesBaseName = 'bb4-puzzle'
     mainClass = "com.barrybecker4.puzzle.maze.ui.MazeSimulator"
@@ -164,8 +164,6 @@ appMap['twopails'] = [
                 'The only allowed operations are fill a container, empty a container, ' +
                 'pour all the liquid from one container to the other. Sometimes the problem cannot be solved.'
 ]
-println("appMap size = " + appMap.size())
-println("appMap keys = " + appMap.keySet())
 
 appMap.each { appId, propMap ->
 
