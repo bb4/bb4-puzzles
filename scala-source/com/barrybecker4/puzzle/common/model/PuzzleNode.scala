@@ -16,7 +16,6 @@ package com.barrybecker4.puzzle.common.model
   * @author Brian Goetz and Tim Peierls
   * @author Barry Becker
   */
-
 case class PuzzleNode[P, M](position: P, move: Option[M] = None,
                             var previous: Option[PuzzleNode[P, M]] = None, estimatedFutureCost: Int = 1)
   extends Comparable[PuzzleNode[P, M]] {
