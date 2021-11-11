@@ -2,6 +2,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction.CLOCKWISE
 import org.scalatest.funsuite.AnyFunSuite
+import Orientation._
 import FaceColor._
 import Direction._
 import com.barrybecker4.puzzle.rubixcube.Location

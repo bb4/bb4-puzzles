@@ -2,9 +2,9 @@
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.IntLocation
-import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
+import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.HexUtilSuite.TOL
-import org.scalactic.TolerantNumerics
+import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
@@ -17,7 +17,7 @@ object HexUtilSuite {
 class HexUtilSuite extends AnyFunSuite {
 
   private var tantrix: Tantrix = _
-  implicit val doubleEq = TolerantNumerics.tolerantDoubleEquality(TOL)
+  implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(TOL)
 
 
   test("GetValidNeighborLocation") {

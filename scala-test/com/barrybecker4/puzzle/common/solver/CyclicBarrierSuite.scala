@@ -83,8 +83,7 @@ class CyclicBarrierSuite extends AnyFunSuite {
     waitUntilDone()
 
 
-
-    private class Worker private[solver](var myRow: Int) extends Runnable {
+    class Worker private[solver](var myRow: Int) extends Runnable {
       override def run(): Unit = {
         while (!done) {
           processRow(myRow)

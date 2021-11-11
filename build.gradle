@@ -1,8 +1,7 @@
 // Copyright by Barry G. Becker, 2013  - 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 buildscript {
     repositories {
-        // retrieve the shared gradle build scripts from here
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
     dependencies {

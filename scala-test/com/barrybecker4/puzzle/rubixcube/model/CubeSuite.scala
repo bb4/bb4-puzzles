@@ -2,7 +2,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import org.scalatest.funsuite.AnyFunSuite
 import com.barrybecker4.puzzle.rubixcube.model.CubeSuite.RND
-
+import Orientation._
 import scala.util.Random
 
 

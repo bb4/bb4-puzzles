@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.rubixcube.model
 import org.scalatest.funsuite.AnyFunSuite
 import FaceColor._
 import Direction._
+import Orientation._
 import com.barrybecker4.puzzle.rubixcube.Location
 
 class MinicubeSuite extends AnyFunSuite {
