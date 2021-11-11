@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
 import com.barrybecker4.puzzle.tantrix.solver.verification.SolutionVerifier

@@ -22,13 +22,6 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
   extends PuzzleController[P, M] {
 
   /**
-    * Get the algorithm to use.
-    *
-    * @return algorithm to use when solving.
-    */
-  override var algorithm: AlgorithmEnum[P, M] = _
-
-  /**
     * If this puzzle position was never seen before add it.
     * Must be synchronized because some solvers use concurrency.
     *

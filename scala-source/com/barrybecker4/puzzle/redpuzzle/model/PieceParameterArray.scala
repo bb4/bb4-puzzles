@@ -27,9 +27,9 @@ object PieceParameterArray {
     val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
     var p2: Int = 0
 
-    do {
+    while (p2 == p1) {
       p2 = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
-    } while (p2 == p1)
+    } 
 
     pieces.doSwap(p1, p2)
   }

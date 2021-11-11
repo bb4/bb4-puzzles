@@ -3,8 +3,9 @@ package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.HexUtil._
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
+
 
 /**
   * Used to check the consistency of all the paths.
@@ -12,7 +13,7 @@ import com.barrybecker4.puzzle.tantrix.model.TilePlacement
   * @param tiles Current set of placed tiles
   * @author Barry Becker
   */
-class TileFitter(var tiles: Iterable[TilePlacement], primaryColor: PathColor) extends AbstractFitter(primaryColor) {
+class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extends AbstractFitter(primaryColor) {
 
   /** The tile fits if the primary path and all the other paths match for edges that have neighbors.
     * @param placement the tile to check for a valid fit.

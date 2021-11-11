@@ -38,11 +38,11 @@ sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
-      case _ => throw new IllegalStateException("unknow solver type: " + this)
+      case null => throw new IllegalStateException("unknow solver type: " + this)
     }
   }
 
-  override def ordinal(): Int = Algorithm.VALUES.indexOf(this)
+  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
 }
 
 object Algorithm {

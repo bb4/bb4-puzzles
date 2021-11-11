@@ -39,10 +39,10 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     val r = rnd.nextDouble() * totalScore
     var total: Double = 0
     var ct: Int = 0
-    do {
+    while (r > total) {
       total += scores(ct)
       ct += 1
-    } while (r > total)
+    }
     paths(ct - 1)
   }
 }

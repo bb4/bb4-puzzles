@@ -1,10 +1,11 @@
 // Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-import com.barrybecker4.common.geometry.{ByteLocation, Location}
-import scala.collection.immutable.{IndexedSeq, HashSet}
+import com.barrybecker4.common.geometry.{ByteLocation, IntLocation, Location}
+
+import scala.collection.immutable.{HashSet, IndexedSeq}
 import scala.util.Random
-import Tiles._
+import Tiles.*
 
 
 object Tiles {
@@ -65,12 +66,12 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
 
     while (visited.size < tiles.length) {
       val indices: List[Int] = rand.shuffle(INDICES)
-      var loc: Location = null
+      var loc: Location = new IntLocation(-1, -1)
       var ct = 0
-      do {
+      while (!isValidPosition(loc)) {
         loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(indices(ct)))
         ct += 1
-      } while (!isValidPosition(loc))
+      }
 
       val move = SlideMove(blankLocation, loc)
       internalSwap(newTiles, move.fromPosition, move.toPosition)

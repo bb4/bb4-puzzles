@@ -47,7 +47,7 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
     val numPerim = 4 * (size - 1)
 
     def numOnFaceInGoal(orientation: Orientation, locations: Seq[Location]) = {
-      val goalColor = orientation.goalColor()
+      val goalColor = orientation.goalColor
       locations.map(loc => goalColor == locationToMinicube(loc).getColorForOrientation(orientation))
     }
 

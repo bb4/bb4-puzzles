@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.PrimaryPathFitter
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, RotationEnum, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath

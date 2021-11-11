@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.puzzle.rubixcube.Location
-import com.barrybecker4.puzzle.rubixcube.model.FaceColor.FaceColor
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor
+import com.barrybecker4.puzzle.rubixcube.model.Orientation._
 
 
 object CubeComponents {
@@ -56,6 +57,7 @@ case class CubeComponents(baseSize: Int = 3) {
         case UP => (level, i, j)
         case LEFT => (i, level, j)
         case FRONT => (i, j, level)
+        case _ => throw IllegalArgumentException("Unexpected case: " + orientation)
       }
     }
 
@@ -72,13 +74,13 @@ case class CubeComponents(baseSize: Int = 3) {
     var initialMap: Map[Location, Minicube] = Map()
 
     def getTopBottom(topLevel: Int): (Orientation, FaceColor) =
-      if (topLevel == 1) UP -> UP.goalColor() else DOWN -> DOWN.goalColor()
+      if (topLevel == 1) UP -> UP.goalColor else DOWN -> DOWN.goalColor
 
     def getFrontBack(frontLevel: Int): (Orientation, FaceColor) =
-        if (frontLevel == 1) FRONT -> FRONT.goalColor() else BACK -> BACK.goalColor()
+        if (frontLevel == 1) FRONT -> FRONT.goalColor else BACK -> BACK.goalColor
 
     def getLeftRight(leftLevel: Int): (Orientation, FaceColor) =
-      if (leftLevel == 1) LEFT -> LEFT.goalColor() else RIGHT -> RIGHT.goalColor()
+      if (leftLevel == 1) LEFT -> LEFT.goalColor else RIGHT -> RIGHT.goalColor
 
     for (top <- 1 to baseSize) {
       for (left <- 1 to baseSize) {

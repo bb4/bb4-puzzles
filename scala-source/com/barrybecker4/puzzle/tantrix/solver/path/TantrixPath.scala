@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 import scala.util.Random

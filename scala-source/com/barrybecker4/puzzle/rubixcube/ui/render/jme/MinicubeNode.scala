@@ -1,6 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
 import com.barrybecker4.puzzle.rubixcube.model._
+import com.barrybecker4.puzzle.rubixcube.model.Orientation._
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.MinicubeNode.EDGE_LEN
 import com.jme3.asset.{AssetKey, AssetManager}
 import com.jme3.material.Material
@@ -17,6 +18,9 @@ object MinicubeNode {
 case class MinicubeNode(assetManager: AssetManager, minicube: Minicube)
   extends Geometry("Minicube", new Box(EDGE_LEN, EDGE_LEN, EDGE_LEN)) {
 
+  // hack to avoid error overriding method clone in trait CloneableSmartAsset
+  override def clone: MinicubeNode = super.clone.asInstanceOf[MinicubeNode]
+  
   // "Common/MatDefs/Light/Lighting.j3md" or "Common/MatDefs/Misc/ShowNormals.j3md"?
   val mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md")
 

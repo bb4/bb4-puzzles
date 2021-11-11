@@ -1,13 +1,12 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 
 
-object PathColor extends Enumeration {
-  type PathColor = Value
-  val RED, GREEN, BLUE, YELLOW, WHITE = Value
-}
+enum PathColor:
+  case RED, GREEN, BLUE, YELLOW, WHITE
+
 
 /* This should have worked, but didn't */
 object PathColors {

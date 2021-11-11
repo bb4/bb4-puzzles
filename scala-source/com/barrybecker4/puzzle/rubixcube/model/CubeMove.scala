@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.rubixcube.model
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction._
+import com.barrybecker4.puzzle.rubixcube.model.Orientation._
 import com.barrybecker4.puzzle.common.model.Move
 import com.barrybecker4.puzzle.rubixcube.Location
 
@@ -9,7 +10,8 @@ import com.barrybecker4.puzzle.rubixcube.Location
   * The Rubix cube can be rotated in 3 * baseSize * baseSize ways. Immutable.
   * The rotation is defined by one of 3 orientations, the level/layer, and direction
   */
-case class CubeMove(orientation: Orientation, level: Int, direction: Direction = CLOCKWISE) extends Move {
+case class CubeMove(orientation: Orientation
+  , level: Int, direction: Direction = CLOCKWISE) extends Move {
 
   def rotateMinicube(loc: Location, minicube: Minicube, size: Int): (Location, Minicube) = {
     val sizeP1 = size + 1

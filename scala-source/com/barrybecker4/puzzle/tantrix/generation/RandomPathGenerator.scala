@@ -18,7 +18,7 @@ class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Rand
   def generateRandomPath: TantrixPath = {
     var currentBoard: TantrixBoard = initialBoard
     var foundPath = false
-    do {
+    while (!foundPath) {
       currentBoard = initialBoard
       var hasPlacement = true
       while (currentBoard.unplacedTiles.nonEmpty && hasPlacement) {
@@ -29,7 +29,7 @@ class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Rand
           currentBoard = currentBoard.placeTile(placement.get)
       }
       foundPath = currentBoard.unplacedTiles.isEmpty
-    } while (!foundPath)
+    }
 
     new TantrixPath(currentBoard.tantrix, initialBoard.primaryColor, rnd)
   }

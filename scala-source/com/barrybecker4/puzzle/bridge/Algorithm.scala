@@ -40,7 +40,7 @@ sealed trait Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.9f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.05f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.3f)
-      case _ => throw new IllegalArgumentException("Unexpected enum value: " + this)
+      case null => throw new IllegalArgumentException("Unexpected enum value: " + this)
     }
   }
 

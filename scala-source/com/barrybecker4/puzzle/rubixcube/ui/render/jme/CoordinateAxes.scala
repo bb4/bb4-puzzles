@@ -8,8 +8,10 @@ import com.jme3.scene.instancing.InstancedNode
 import com.jme3.scene.{Geometry, Node}
 
 
-
 class CoordinateAxes(pos: Vector3f, assetManager: AssetManager) extends InstancedNode {
+
+  // hack do avoid error overriding method clone in trait CloneableSmartAsset
+  override def clone: CoordinateAxes = super.clone.asInstanceOf[CoordinateAxes]
 
   private val util = JmeUtil(assetManager)
 

@@ -1,6 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
 import com.barrybecker4.puzzle.rubixcube.model._
+import com.barrybecker4.puzzle.rubixcube.model.Orientation._
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.instancing.InstancedNode
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.SliceNode.DEFAULT_ROTATION_INCREMENT
@@ -23,6 +24,8 @@ class SliceNode(miniCubes: Seq[MinicubeNode],
   private var sliceRotationAngle: Float = 0f
   miniCubes.foreach( this.attachChild)
 
+  // hack to avoid error overriding method clone in trait CloneableSmartAsset
+  override def clone: SliceNode = super.clone.asInstanceOf[SliceNode]
 
   def incrementSliceRotation(): Unit = {
       sliceRotationAngle += rotationInc
@@ -36,7 +39,7 @@ class SliceNode(miniCubes: Seq[MinicubeNode],
 
   def rotateSlice(angle: Float): Unit = {
     val q = new Quaternion()
-    val axis = sliceOrientation match {
+    val axis: Vector3f = sliceOrientation match {
       case UP => Vector3f.UNIT_Y
       case LEFT => Vector3f.UNIT_Z
       case FRONT => Vector3f.UNIT_X

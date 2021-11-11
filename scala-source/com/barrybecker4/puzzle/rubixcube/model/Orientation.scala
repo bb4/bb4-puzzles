@@ -1,9 +1,11 @@
 // Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.model
 
-import com.barrybecker4.puzzle.rubixcube.model.Direction._
+import com.barrybecker4.puzzle.rubixcube.model.Direction
+import com.barrybecker4.puzzle.rubixcube.model.Direction.*
 import Orientation.invalid
-import com.barrybecker4.puzzle.rubixcube.model.FaceColor._
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor.{BLUE, GREEN, ORANGE, RED, WHITE, YELLOW}
 
 
 object Orientation {
@@ -17,28 +19,20 @@ object Orientation {
 /**
   * Note: Blue is opposite Green; Red opposite Orange; White opposite Yellow.
   */
-sealed trait Orientation {
-  /** @return the new orientation after rotating 'direction' from the specified orientation */
-  def rotate(orientation: Orientation, direction: Direction): Orientation
-  def goalColor(): FaceColor
-}
+enum Orientation:
+  case UP, LEFT, FRONT, BACK, DOWN, RIGHT
 
-case object UP extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+  /** @return the new orientation after rotating 'direction' from the specified orientation */
+  def rotate(orientation: Orientation, direction: Direction): Orientation = this match {
+    case UP => orientation match {
       case UP => UP
-      case LEFT if direction == CLOCKWISE => FRONT
+      case LEFT if direction == Direction.CLOCKWISE => FRONT
       case LEFT if direction == COUNTER_CLOCKWISE => BACK
       case FRONT if direction == CLOCKWISE => RIGHT
       case FRONT if direction == COUNTER_CLOCKWISE => LEFT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = GREEN
-}
-
-case object LEFT extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+    case LEFT => orientation match {
       case UP if direction == CLOCKWISE => BACK
       case UP if direction == COUNTER_CLOCKWISE => FRONT
       case LEFT  => LEFT
@@ -46,12 +40,7 @@ case object LEFT extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => DOWN
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = RED
-}
-
-case object FRONT extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+    case FRONT => orientation match {
       case UP if direction == CLOCKWISE => LEFT
       case UP if direction == COUNTER_CLOCKWISE => RIGHT
       case LEFT if direction == CLOCKWISE => DOWN
@@ -59,12 +48,7 @@ case object FRONT extends Orientation {
       case FRONT => FRONT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = WHITE
-}
-
-case object BACK extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+    case BACK => orientation match {
       case UP if direction == CLOCKWISE => RIGHT
       case UP if direction == COUNTER_CLOCKWISE => LEFT
       case LEFT if direction == CLOCKWISE => UP
@@ -72,12 +56,7 @@ case object BACK extends Orientation {
       case FRONT => BACK
       case _ => invalid()
     }
-    override def goalColor(): FaceColor = YELLOW
-}
-
-case object DOWN extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+    case DOWN => orientation match {
       case UP => DOWN
       case LEFT if direction == CLOCKWISE => BACK
       case LEFT if direction == COUNTER_CLOCKWISE => FRONT
@@ -85,12 +64,7 @@ case object DOWN extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => RIGHT
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = BLUE
-}
-
-case object RIGHT extends Orientation {
-  override def rotate(orientation: Orientation, direction: Direction): Orientation =
-    orientation match {
+    case RIGHT => orientation match {
       case UP if direction == CLOCKWISE => FRONT
       case UP if direction == COUNTER_CLOCKWISE => BACK
       case LEFT => RIGHT
@@ -98,5 +72,13 @@ case object RIGHT extends Orientation {
       case FRONT if direction == COUNTER_CLOCKWISE => UP
       case _ => invalid()
     }
-  override def goalColor(): FaceColor = ORANGE
-}
+  }
+
+  def goalColor: FaceColor = this match {
+    case UP => GREEN
+    case LEFT => RED
+    case FRONT => WHITE
+    case BACK => YELLOW
+    case DOWN => BLUE
+    case RIGHT => ORANGE
+  }

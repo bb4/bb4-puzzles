@@ -77,20 +77,20 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
     else if (permutedPaths.isEmpty) {
       val types = rnd.shuffle(PathType.values.toList)
       val typeIter = types.iterator
-      do {
+      while (typeIter.hasNext) {
         val mixer = new SameTypeTileMixer(typeIter.next(), path, rnd)
         addAllPermutedPaths(mixer.findPermutedPaths, permutedPaths)
-      } while (typeIter.hasNext)
+      }
     }
     // as a last resort use this without checking for it in the cache.
     if (permutedPaths.isEmpty) {
       var paths: Option[ListBuffer[TantrixPath]] = None
-      do {
+      while (paths.isEmpty) {
         val pivotIndex1 = 1 + rnd.nextInt(tiles.size - 2)
         val pivotIndex2 = 1 + rnd.nextInt(tiles.size - 2)
         paths = Some(permuter.findPermutedPaths(pivotIndex1, pivotIndex2))
         println("paths unexpectedly empty! when p1=" + pivotIndex1 + " p2=" + pivotIndex2)
-      } while (paths.isEmpty)
+      }
       return paths.get
     }
     permutedPaths

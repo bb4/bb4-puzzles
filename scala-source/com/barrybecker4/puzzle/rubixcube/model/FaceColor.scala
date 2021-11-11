@@ -6,8 +6,5 @@ import java.awt.Color
 /**
   * There are 6 colors in a rubix cube of any size. One for each face
   */
-object FaceColor extends Enumeration {
-
-  type FaceColor = Value
-  val RED, GREEN, BLUE, YELLOW, ORANGE, WHITE = Value
-}
+enum FaceColor:
+  case RED, GREEN, BLUE, YELLOW, ORANGE, WHITE

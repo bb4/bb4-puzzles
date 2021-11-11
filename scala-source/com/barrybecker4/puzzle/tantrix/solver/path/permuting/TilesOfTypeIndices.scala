@@ -1,9 +1,9 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
 import com.barrybecker4.puzzle.tantrix.model.HexTile
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
-import com.barrybecker4.puzzle.tantrix.solver.path.PathType.PathType
+import com.barrybecker4.puzzle.tantrix.model.PathColor
+import com.barrybecker4.puzzle.tantrix.solver.path.PathType
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 
 import scala.collection.mutable.ListBuffer
@@ -42,6 +42,6 @@ class TilesOfTypeIndices private[permuting](val pathType: PathType, val original
     else diff
     diff = if (diff == 4) 2
     else diff
-    diff == (pathType.id + 1)
+    diff == (pathType.ordinal + 1)
   }
 }

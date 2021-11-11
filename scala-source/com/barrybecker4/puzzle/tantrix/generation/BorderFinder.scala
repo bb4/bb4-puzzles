@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.common.geometry.{Box, Location}
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model._
 import scala.collection.mutable
 

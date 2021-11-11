@@ -26,12 +26,14 @@ class LoopDetector(var board: TantrixBoard) {
     var currentTile: Option[TilePlacement] = Some(lastTilePlaced)
     var previousTile: Option[TilePlacement] = None
     var nextTile: Option[TilePlacement] = None
-    do {
+    var done = false
+    while (!done) {
       nextTile = findNeighborTile(currentTile, previousTile)
       previousTile = currentTile
       currentTile = nextTile
       numVisited += 1
-    } while (currentTile.isDefined && currentTile.get != lastTilePlaced)
+      done = currentTile.isEmpty || currentTile.get == lastTilePlaced
+    }
     numVisited == board.numTiles && currentTile.contains(lastTilePlaced)
   }
 

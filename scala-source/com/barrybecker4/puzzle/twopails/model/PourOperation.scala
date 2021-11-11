@@ -3,8 +3,8 @@ package com.barrybecker4.puzzle.twopails.model
 
 import com.barrybecker4.puzzle.common.model.Move
 import PourOperation.Action
-import com.barrybecker4.puzzle.twopails.model.PourOperation.Action.Action
-import com.barrybecker4.puzzle.twopails.model.PourOperation.Container.Container
+import com.barrybecker4.puzzle.twopails.model.PourOperation.Action
+import com.barrybecker4.puzzle.twopails.model.PourOperation.Container
 
 /**
   * There are 6 legal pour operations:
@@ -20,15 +20,11 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation.Container.Container
   */
 object PourOperation {
 
-  object Action extends Enumeration {
-    type Action = Value
-    val FILL, EMPTY, TRANSFER = Value
-  }
+  enum Action:
+    case FILL, EMPTY, TRANSFER
 
-  object Container extends Enumeration {
-    type Container = Value
-    val FIRST, SECOND = Value
-  }
+  enum Container:
+    case FIRST, SECOND
 }
 
 case class PourOperation(var action: Action, var container: Container) extends Move {

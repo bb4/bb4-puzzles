@@ -18,6 +18,8 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
   private var sliceNode: Option[SliceNode] = None
   private var sliceMinicubes: Seq[MinicubeNode] = _
 
+  // hack to avoid error overriding method clone in trait CloneableSmartAsset
+  override def clone: RubixCubeNode = super.clone.asInstanceOf[RubixCubeNode]
 
   this.setLocalScale(3f / cube.size)
 

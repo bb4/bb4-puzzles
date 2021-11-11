@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{Tantrix, TilePlacement}
 
 import scala.collection.mutable.ListBuffer

@@ -1,7 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.barrybecker4.puzzle.rubixcube.model.FaceColor.{BLUE, FaceColor, GREEN, ORANGE, RED, WHITE, YELLOW}
-
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor
+import com.barrybecker4.puzzle.rubixcube.model.FaceColor._
 import java.awt.Color
 
 object FaceColorMap {

@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.ui.rendering
 
 import java.awt._
-
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.PathColor._
 
 /**

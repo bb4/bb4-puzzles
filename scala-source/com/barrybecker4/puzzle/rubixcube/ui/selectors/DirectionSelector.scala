@@ -2,15 +2,13 @@
 package com.barrybecker4.puzzle.rubixcube.ui.selectors
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction
-import com.barrybecker4.puzzle.rubixcube.model.Direction.Direction
-
 import java.awt.Choice
 
 
 final class DirectionSelector() extends Choice {
 
-  for (direction <- Direction.VALUES) { add(direction.toString) }
+  for (direction <- Direction.values) { add(direction.toString) }
   select(0)
 
-  def getSelectedDirection: Direction = Direction.VALUES(this.getSelectedIndex)
+  def getSelectedDirection: Direction = Direction.values(this.getSelectedIndex)
 }

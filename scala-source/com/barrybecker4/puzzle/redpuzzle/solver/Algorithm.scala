@@ -40,7 +40,7 @@ sealed trait Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.2f)
       case GENETIC_SEARCH => new GeneticSearchSolver(controller, false)
       case CONCURRENT_GENETIC_SEARCH => new GeneticSearchSolver(controller, true)
-      case _ => throw new IllegalArgumentException("Unexpected enum value: " + this)
+      case null => throw new IllegalArgumentException("Unexpected enum value: " + this)
     }
   }
 

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.ui.rendering
 import java.awt._
 import java.awt.geom.Point2D
 
-import com.barrybecker4.puzzle.tantrix.model.PathColor.PathColor
+import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.ui.rendering.HexUtil._
 import com.barrybecker4.puzzle.tantrix.ui.rendering.PathColorInterpreter.getColorForPathColor
@@ -67,11 +67,11 @@ class PathRenderer private[rendering]() {
   private def getPathStartIndex(tile: HexTile, pathNumber: Int) = {
     var set: Set[PathColor] = Set()
     var i = 0
-    do {
+    while (set.size <= pathNumber) {
       val c = tile.edgeColors(i)
       set += c
       i += 1
-    } while (set.size <= pathNumber)
+    }
     i - 1
   }
 

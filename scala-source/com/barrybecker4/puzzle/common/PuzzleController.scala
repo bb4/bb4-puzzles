@@ -17,7 +17,7 @@ trait PuzzleController[P, M] extends SearchSpace[P, M] {
   /** Get the algorithm to use.
     * @return algorithm to use when solving.
     */
-  var algorithm: AlgorithmEnum[P, M]
+  var algorithm: AlgorithmEnum[P, M] = _
 
   /** Begin the search to find a solution to the puzzle. */
   def startSolving(): Unit

@@ -11,7 +11,7 @@ import java.awt.Font
 import java.awt.Graphics
 import java.awt.Graphics2D
 
-import com.barrybecker4.puzzle.redpuzzle.model.Direction.Direction
+import com.barrybecker4.puzzle.redpuzzle.model.Direction
 
 /**
   * Singleton class that takes a PieceList and renders it for the RedPuzzleViewer.

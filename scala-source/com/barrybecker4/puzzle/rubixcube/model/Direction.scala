@@ -4,9 +4,5 @@ package com.barrybecker4.puzzle.rubixcube.model
 /**
   * The 2 ways that a level can be rotates
   */
-object Direction extends Enumeration {
-  type Direction = Value
-  val CLOCKWISE, COUNTER_CLOCKWISE = Value
-
-  val VALUES: Array[Direction] = Array(CLOCKWISE, COUNTER_CLOCKWISE)
-}
+enum Direction:
+  case CLOCKWISE, COUNTER_CLOCKWISE

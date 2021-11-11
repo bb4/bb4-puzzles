@@ -1,14 +1,12 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import com.barrybecker4.puzzle.redpuzzle.model.Direction.Direction
+import com.barrybecker4.puzzle.redpuzzle.model.Direction
 
 
-object Direction extends Enumeration {
-  type Direction = Value
-  val TOP, RIGHT, BOTTOM, LEFT = Value
-  val DIRECTIONS: Seq[Direction] = values.toIndexedSeq
-}
+enum Direction:
+  case TOP, RIGHT, BOTTOM, LEFT
+
 
 /**
   * A puzzle piece and its orientation. Immutable
@@ -20,7 +18,7 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
 
   /** This rotates the piece the specified number of 90 degree increments. By default roatates 90 degrees clockwise. */
   def rotate(num: Int = 1): OrientedPiece = {
-    val newOrientation: Direction = Direction.DIRECTIONS((orientation.id + num) % Direction.maxId /*DIRECTIONS.size*/)
+    val newOrientation: Direction = Direction.values((orientation.ordinal + num) % Direction.values.length)
     OrientedPiece(piece, newOrientation)
   }
 
@@ -35,7 +33,7 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
   private def getNub(dir: Direction): Nub = piece.nub(getDirectionIndex(dir))
 
   /** @return sum of (orientation index + requested direction ) modulo the number of Directions (4). */
-  private def getDirectionIndex(dir: Direction): Int = (orientation.id + dir.id) % Direction.maxId
+  private def getDirectionIndex(dir: Direction): Int = (orientation.ordinal + dir.ordinal) % Direction.values.length
 
   /** @return a nice readable string representation for debugging. */
   override def toString: String = {

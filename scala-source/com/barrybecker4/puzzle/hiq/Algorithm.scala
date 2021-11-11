@@ -36,7 +36,7 @@ sealed trait Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.4f)
       case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.05f)
       case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.15f)
-      case _ => throw new IllegalArgumentException("Unexpected enum value: " + this)
+      case null => throw new IllegalArgumentException("Unexpected enum value: " + this)
     }
   }
 

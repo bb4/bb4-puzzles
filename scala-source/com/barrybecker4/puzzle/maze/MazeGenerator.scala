@@ -71,7 +71,7 @@ class MazeGenerator(val panel: MazePanel) {
     var depth: Int = -1
     var dir: Location = null
 
-    do {
+    while (!moved && !stack.isEmpty && !interrupted) {
       val state = stack.pop()
       currentPosition = state.position
       dir = state.getRelativeMovement
@@ -93,7 +93,7 @@ class MazeGenerator(val panel: MazePanel) {
         currentPosition = nextPosition
       }
       refresh()
-    } while (!moved && !stack.isEmpty && !interrupted)
+    }
 
     refresh()
     if (moved && !interrupted)

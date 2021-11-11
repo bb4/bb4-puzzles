@@ -127,12 +127,12 @@ class MazeSolver(var panel: MazePanel) {
     val lastState: GenState = stack.peek()
     var path = solutionPath
     var pos: Location = null
-    do {
+    while (!lastState.position.eq(pos)) {
       pos = path.head
       path = path.tail
       val cell: MazeCell = maze.getCell(pos)
       cell.clearPath()
-    } while (!pos.eq(lastState.position))
+    }
     path
   }
 }
