@@ -25,9 +25,12 @@ apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
 def jme3 = [g:'org.jmonkeyengine', v:'3.3.2-stable']
 dependencies {
-    implementation 'com.barrybecker4:bb4-A-star:1.6'
-    implementation 'com.barrybecker4:bb4-sound:1.6'
-    implementation 'com.barrybecker4:bb4-optimization:1.6'
+    implementation 'com.barrybecker4:bb4-A-star:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-sound:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-optimization:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-ui:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-common:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-math:1.7-SNAPSHOT'
 
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
