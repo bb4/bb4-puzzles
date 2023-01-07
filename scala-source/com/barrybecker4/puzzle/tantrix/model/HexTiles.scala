@@ -17,7 +17,7 @@ object HexTiles {
   */
 class HexTiles()  {
   var i = 1
-  val tiles = Seq(
+  private val tiles = Seq(
     HexTile(1, YELLOW, PathColors(RED, BLUE, RED, BLUE, YELLOW, YELLOW)),
     HexTile(2, YELLOW, PathColors(BLUE, YELLOW, YELLOW, BLUE, RED, RED)),
     HexTile(3, YELLOW, PathColors(BLUE, BLUE, RED, RED, YELLOW, YELLOW)),

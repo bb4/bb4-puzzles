@@ -29,7 +29,7 @@ object RotationEnum  {
   case object ANGLE_240 extends Rotation(4)
   case object ANGLE_300 extends Rotation(5)
 
-  val values = Array(ANGLE_0, ANGLE_60, ANGLE_120, ANGLE_180, ANGLE_240, ANGLE_300)
+  val values: Array[Rotation] = Array(ANGLE_0, ANGLE_60, ANGLE_120, ANGLE_180, ANGLE_240, ANGLE_300)
 }
 
 /** Represents a single tantrix tile. Immutable.
