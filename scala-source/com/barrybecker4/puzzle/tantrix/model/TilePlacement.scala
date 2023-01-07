@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.Location
@@ -18,12 +18,7 @@ case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) 
   assert(rotation != null)
   assert(tile != null)
 
-  def getPathColor(i: Int): PathColor = {
-    var index = (i - rotation.ordinal) % NUM_SIDES
-    index = if (index < 0) index + NUM_SIDES
-    else index
-    tile.edgeColors(index)
-  }
+  def getPathColor(i: Int): PathColor = tile.edgeColors((NUM_SIDES + i - rotation.ordinal) % NUM_SIDES)
 
   /** @return new tile placement that is the old tile placement rotated counter-clockwise once. */
   def rotate(): TilePlacement = TilePlacement(tile, location, rotation.rotateBy(1))

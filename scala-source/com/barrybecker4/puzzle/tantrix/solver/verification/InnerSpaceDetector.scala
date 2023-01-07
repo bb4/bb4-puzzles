@@ -55,7 +55,7 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
   /** @return all empty region connected to a set of seed positions */
   private def findConnectedEmpties(seedEmpties: Set[Location]) = {
     var visited: Set[Location] = Set()
-    var searchQueue: mutable.Queue[Location] = mutable.Queue()
+    val searchQueue: mutable.Queue[Location] = mutable.Queue()
     searchQueue ++= seedEmpties
     visited ++= seedEmpties
     while (searchQueue.nonEmpty) {

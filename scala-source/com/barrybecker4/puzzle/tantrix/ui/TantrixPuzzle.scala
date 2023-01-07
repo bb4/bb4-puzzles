@@ -17,7 +17,7 @@ import com.barrybecker4.ui.util.GUIUtil
   *
   * @author Barry Becker
   */
-object TantrixPuzzle extends App{
+object TantrixPuzzle extends App {
   private val DEFAULT_NUM_TILES = 7
   val applet = new TantrixPuzzle(args)
   // this will call applet.init() and start() methods instead of the browser
