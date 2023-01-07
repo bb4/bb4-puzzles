@@ -31,10 +31,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
 
   def this() = { this(Array[String]())}
 
-  protected def createViewer: PuzzleViewer[TantrixBoard, TilePlacement] = {
-    //TantrixBoard board = new TantrixBoard(new HexTiles());
-    new TantrixViewer
-  }
+  protected def createViewer: PuzzleViewer[TantrixBoard, TilePlacement] = new TantrixViewer
 
   protected def createController(viewer: Refreshable[TantrixBoard, TilePlacement]): PuzzleController[TantrixBoard, TilePlacement] = {
     val controller = new TantrixController(viewer)

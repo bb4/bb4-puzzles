@@ -7,8 +7,6 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor
 enum PathColor:
   case RED, GREEN, BLUE, YELLOW, WHITE
 
-
-/* This should have worked, but didn't */
 object PathColors {
   def apply(c1: PathColor, c2: PathColor, c3: PathColor, c4: PathColor, c5: PathColor, c6: PathColor) =
     new PathColors(Array(c1, c2, c3, c4, c5, c6))

@@ -9,18 +9,17 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
 import scala.util.Random
+import com.barrybecker4.optimization.strategy._
+
 
 /**
   * Solve the Tantrix puzzle using a genetic search algorithm.
-  * @author Barry Becker
   */
 class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePlacement], val useConcurrency: Boolean)
   extends TantrixSolver(controller.initialState) with Optimizee with OptimizationListener {
 
   /** either genetic or concurrent genetic strategy. */
-  private val strategy =
-    if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
-    else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
+  private val strategy = if (useConcurrency) CONCURRENT_GENETIC_SEARCH else GENETIC_SEARCH
   private val evaluator = new PathEvaluator
   private var numTries: Int = 0
   private var currentBestFitness = SOLVED_THRESH

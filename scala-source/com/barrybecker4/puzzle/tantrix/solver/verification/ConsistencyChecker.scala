@@ -20,6 +20,5 @@ class ConsistencyChecker(var tiles: Iterable[TilePlacement], val primaryColor: P
   def numFittingTiles: Int = tiles.foldLeft(0) {
     (z, placement) => { z + (if (fitter.isFit(placement)) 1 else 0) }
   }
-  //  tiles.map(fitter.isFit).map(if (_) 1 else 0).sum
 
 }

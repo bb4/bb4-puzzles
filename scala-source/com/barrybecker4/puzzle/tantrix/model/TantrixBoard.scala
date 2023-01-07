@@ -26,8 +26,8 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
                         unplacedTiles: Seq[HexTile], numTiles: Int) {
 
   /** Constructor that creates a new tantrix instance when placing a move.
-    * If the new tile to be placed is in the edge row of the grid, then we need to increase the size of the grid
-    * by one in that direction and also only render the inside cells.
+    * If the new tile to be placed is in the edge row of the grid, then we need to increase the size 
+    * of the grid by one in that direction and also only render the inside cells.
     *
     * @param board current tantrix state.
     * @param placement new piece to add to the tantrix and its positioning.

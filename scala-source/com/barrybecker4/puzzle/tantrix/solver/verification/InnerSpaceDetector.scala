@@ -22,7 +22,6 @@ class InnerSpaceDetector(var tantrix: Tantrix) {
     */
   def hasInnerSpaces: Boolean = {
     val seedEmpties = findEmptyBorderPositions
-    //println("seedEmpties = " + seedEmpties.mkString(", "))
     val visited = findConnectedEmpties(seedEmpties)
     !allEmptiesVisited(visited)
   }

@@ -6,20 +6,20 @@ import com.barrybecker4.puzzle.tantrix.model.Tantrix.createTileMap
 
 import scala.collection.immutable
 
+type TileMap = immutable.Map[Location, TilePlacement]
+
 object Tantrix {
-  def createTileMap(tiles: Seq[TilePlacement]): immutable.Map[Location, TilePlacement] = {
+  def createTileMap(tiles: Seq[TilePlacement]): TileMap = {
     tiles.map(tilePlacement => tilePlacement.location -> tilePlacement).toMap
   }
 }
 
 /**
-  * Represents "The Tantrix". In other words the set of currently placed tiles.
-  * Immutable.
+  * Represents "The Tantrix". In other words the set of currently placed tiles. Immutable.
   * @param tileMap current tantrix.
   * @param lastTile the last tile placed.
-  * @author Barry Becker
   */
-case class Tantrix(tileMap: immutable.Map[Location, TilePlacement], lastTile: TilePlacement) {
+case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
 
   /** @param tiles tiles in the tantrix */
   def this(tiles: Seq[TilePlacement]) = { this(createTileMap(tiles), tiles.last) }
