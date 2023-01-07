@@ -8,30 +8,6 @@ object HexTile {
   val NUM_SIDES = 6
 }
 
-/**
-  * Valid rotations for the hexagonal tiles.
-  * @author Barry Becker
-  */
-object RotationEnum  {
-
-  sealed abstract class Rotation(val ordinal: Int) {
-    def rotateBy(numRotations: Int): Rotation = {
-      var rot = numRotations
-      while (rot < 0) rot += HexTile.NUM_SIDES
-      RotationEnum.values((this.ordinal + rot) % HexTile.NUM_SIDES)
-    }
-  }
-
-  case object ANGLE_0 extends Rotation(0)
-  case object ANGLE_60 extends Rotation(1)
-  case object ANGLE_120 extends Rotation(2)
-  case object ANGLE_180 extends Rotation(3)
-  case object ANGLE_240 extends Rotation(4)
-  case object ANGLE_300 extends Rotation(5)
-
-  val values: Array[Rotation] = Array(ANGLE_0, ANGLE_60, ANGLE_120, ANGLE_180, ANGLE_240, ANGLE_300)
-}
-
 /** Represents a single tantrix tile. Immutable.
   * @param tantrixNumber the number on the back of the tile
   * @param primaryColor  The primary path color on the back of the tile

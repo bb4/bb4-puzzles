@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.PathColor
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
+import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, TilePlacement}
 
 /**

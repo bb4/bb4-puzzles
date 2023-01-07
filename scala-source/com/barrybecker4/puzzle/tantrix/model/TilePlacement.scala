@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.model
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.PathColor
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum.Rotation
+import com.barrybecker4.puzzle.tantrix.model.Rotation
 
 import scala.collection.immutable.HashMap
 

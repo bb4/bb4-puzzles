@@ -39,7 +39,7 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
 
   /** Create a board with the first tile in the given list placed at the initial location */
   def this(initialTiles: Seq[HexTile]) = {
-    this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, RotationEnum.ANGLE_0))),
+    this(new Tantrix(Seq(TilePlacement(initialTiles.head, INITIAL_LOCATION, Rotation.ANGLE_0))),
          TILES.getTile(initialTiles.size).primaryColor, initialTiles.drop(1), initialTiles.size)
   }
 
@@ -76,9 +76,6 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
   }
 
   def getLastTile: TilePlacement = tantrix.lastTile
-
-  /** @return a list of all the tiles in the puzzle (both placed and unplaced) */
-  def getAllTiles: Seq[HexTile] = tantrix.getTiles ++ unplacedTiles
 
   /** @return the edge of the smallest square that will hold the tantrix */
   def getEdgeLength: Int = tantrix.getEdgeLength

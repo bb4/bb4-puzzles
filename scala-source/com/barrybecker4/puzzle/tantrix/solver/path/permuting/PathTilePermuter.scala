@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.PrimaryPathFitter
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, RotationEnum, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexTile, Rotation, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 import scala.collection.mutable.ListBuffer
 
@@ -41,13 +41,13 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {
-    val uniqueVals: Set[Int] = (Set.empty ++ oldIndices)
+    val uniqueVals: Set[Int] = Set.empty ++ oldIndices
     uniqueVals.size == oldIndices.size && newIndices.forall(oldIndices.contains(_))
   }
 
   /** @return The new placement with the tile rotated so it fits at the new location. */
   private def findNewPlacement(tile: HexTile, location: Location, fitter: PrimaryPathFitter) = {
-    var newPlacement = TilePlacement(tile, location, RotationEnum.ANGLE_0)
+    var newPlacement = TilePlacement(tile, location, Rotation.ANGLE_0)
     var ct = 0
     while (!fitter.isFit(newPlacement) && ct < HexTile.NUM_SIDES) {
       newPlacement = newPlacement.rotate()
