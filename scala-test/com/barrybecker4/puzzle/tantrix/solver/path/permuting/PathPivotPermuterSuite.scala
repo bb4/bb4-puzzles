@@ -5,7 +5,7 @@ import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
+import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 import org.scalatest.funsuite.AnyFunSuite

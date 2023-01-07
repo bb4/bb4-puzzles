@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.generation
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.generation.RandomTilePlacerSuite.RND
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
+import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TantrixBoard, TilePlacement}
 import org.junit.Assert.assertEquals
 import org.scalatest.BeforeAndAfter

@@ -42,13 +42,11 @@ object HexUtil {
     * @param loc2 second location
     * @return distance between two hex locations.
     */
-  def distanceBetween(loc1: Location, loc2: Location): Double = {
-    val row1 = loc1.row
-    val row2 = loc2.row
-    val point1 = new Point2D.Double(loc1.col + (if (row1 % 2 == 1) -0.5
-    else 0), row1)
-    val point2 = new Point2D.Double(loc2.col + (if (row2 % 2 == 1) -0.5
-    else 0), row2)
-    point1.distance(point2)
+  def distanceBetween(loc1: Location, loc2: Location): Double =
+    pointFromLocation(loc1).distance(pointFromLocation(loc2))
+  
+  private def pointFromLocation(loc: Location): Point2D = {
+    val row = loc.row
+    new Point2D.Double(loc.col + (if (row % 2 == 1) -0.5 else 0), row)
   }
 }

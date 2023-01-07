@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
+import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 import org.junit.Assert.assertEquals

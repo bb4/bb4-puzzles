@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
-import com.barrybecker4.puzzle.tantrix.model.RotationEnum._
+import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
 

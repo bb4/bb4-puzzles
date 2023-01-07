@@ -1,5 +1,4 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.IntLocation
@@ -11,7 +10,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class TilePlacementSuite extends AnyFunSuite {
 
   private val tiles = new HexTiles()
-  private val placement = TilePlacement(tiles.getTile(1), IntLocation(2, 2), RotationEnum.ANGLE_0)
+  private val placement = TilePlacement(tiles.getTile(1), IntLocation(2, 2), Rotation.ANGLE_0)
 
   test("TilePlacement construction") {
     assertResult(IntLocation(2, 2)) { placement.location }
@@ -29,6 +28,12 @@ class TilePlacementSuite extends AnyFunSuite {
     assertResult(Map(5 -> IntLocation(3, 3), 4 -> IntLocation(3, 2))) {
       placement.getOutgoingPathLocations(PathColor.YELLOW)
     }
+  }
+
+  test("mod negatives") {
+    assertResult(2) { 5 % 3 }
+    assertResult(-2) { -5 % 3 }
+    assertResult(1) { 3 + (-5 % 3) }
   }
 
   // negative test
