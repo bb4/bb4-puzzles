@@ -12,7 +12,7 @@ import scala.collection.mutable
   * @param tantrix the tantrix state to test for solution.
   * @author Barry Becker
   */
-class InnerSpaceDetector(var tantrix: Tantrix) {
+case class InnerSpaceDetector(tantrix: Tantrix) {
 
   /** Start with an empty position on the border of the bbox.
     * Do a seed fill to visit all the spaces connected to that.

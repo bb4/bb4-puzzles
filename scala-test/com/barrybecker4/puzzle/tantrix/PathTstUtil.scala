@@ -37,14 +37,14 @@ object PathTstUtil {
       TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
       TilePlacement(TILE4, UPPER, ANGLE_60),
       TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
-    ), PathColor.RED)
+    ), PathColor.RED, 4)
 
   val NON_LOOP_PATH4 = new TantrixPath(Seq(
     TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
     TilePlacement(TILE2, UPPER_LEFT, ANGLE_60),
     TilePlacement(TILE4, UPPER, ANGLE_60),
     TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
-  ), PathColor.RED)
+  ), PathColor.RED, 4)
 
   def createPathList: List[TantrixPath] = {
     // for each of the 7 permuted paths, we expect that tile 2 will be the middle/pivot tile.
@@ -58,5 +58,5 @@ object PathTstUtil {
       createPath(TilePlacement(tile3, lowerLeft, ANGLE_180), pivot, TilePlacement(tile2, lowerRight, ANGLE_0)))
   }
 
-  def createPath(placements: TilePlacement*) = new TantrixPath(placements, PathColor.YELLOW)
+  def createPath(placements: TilePlacement*) = new TantrixPath(placements, PathColor.YELLOW, placements.length)
 }

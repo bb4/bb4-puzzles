@@ -5,6 +5,8 @@ import com.barrybecker4.puzzle.tantrix.solver.path.PathSelector.RAND
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
+import scala.util.control.NonLocalReturns.*
+
 
 object PathSelector {
   val RAND = new Random()
@@ -29,8 +31,10 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     val scores: ListBuffer[Double] = ListBuffer()
 
     for (path <- paths) {
-      val score = PathEvaluator.SOLVED_THRESH - evaluator.evaluateFitness(path)
-      if (score <= 0) return path  // solved path
+      val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
+
+      if (score <= 0) return path // solved path
+      // then throwReturn[TantrixPath](path)  // above is deprecated, but this not quite working either
       totalScore += score
       scores.append(score)
     }

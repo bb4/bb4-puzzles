@@ -22,7 +22,7 @@ class PathPivotPermuterSuite extends AnyFunSuite {
 
   test("Permute3TilePath") {
     val board = place3UnsolvedTiles
-    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, board.primaryColor, new Random(0)))
+    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, new Random(0)))
     val permutedPathList = permuter.findPermutedPaths(1, 1)
     assertResult(7) { permutedPathList.size }
 
@@ -45,7 +45,7 @@ class PathPivotPermuterSuite extends AnyFunSuite {
 
   test("Permute9AlmostLoop") {
     val board = place9AlmostLoop
-    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, PathColor.RED, new Random(0)))
+    permuter = new PathPivotPermuter(new TantrixPath(board.tantrix, PathColor.RED, board.numTiles, new Random(0)))
     val permutedPathList = permuter.findPermutedPaths(1, 1)
     assertResult(7) { permutedPathList.size }
   }

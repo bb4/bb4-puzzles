@@ -107,7 +107,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE3, UPPER_LEFT, ANGLE_180),
       TilePlacement(TILE4, UPPER, ANGLE_60),
       TilePlacement(TILE2, LOWER_RIGHT, ANGLE_180)
-    ), PathColor.RED)
+    ), PathColor.RED, 4)
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
 

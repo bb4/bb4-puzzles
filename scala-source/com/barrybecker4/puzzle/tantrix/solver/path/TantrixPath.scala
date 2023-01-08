@@ -47,8 +47,8 @@ object TantrixPath {
   * @param primaryPathColor primary path color
   * @author Barry Becker
   */
-class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, rnd: Random = MathUtil.RANDOM)
-  extends PermutedParameterArray(rnd) {
+class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int, 
+                  rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
     throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
@@ -58,15 +58,15 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * @param tantrix ordered path tiles.
     * @param primaryColor primary color
     */
-  def this(tantrix: Tantrix, primaryColor: PathColor, rnd: Random) = {
-    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor, rnd)
+  def this(tantrix: Tantrix, primaryColor: PathColor, desiredLength: Int, rnd: Random) = {
+    this(new Pathifier(primaryColor).reorder(tantrix), primaryColor, desiredLength, rnd)
   }
 
   /** Creates a random path given a board state.
     * @param board placed tiles
     */
   def this(board: TantrixBoard, rnd: Random) = {
-    this(getPathTilesFromBoard(board), board.primaryColor, rnd)
+    this(getPathTilesFromBoard(board), board.primaryColor, board.numTiles, rnd)
   }
 
   def getFirst: TilePlacement = tiles.head
@@ -88,7 +88,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
       for (i <- startIndex to endIndex by -1)
         pathTiles :+= this.tiles(i)
     }
-    new TantrixPath(pathTiles, primaryPathColor, rnd)
+    new TantrixPath(pathTiles, primaryPathColor, desiredLength, rnd)
   }
 
   /** We want to find a potential solution close to the one that we have,

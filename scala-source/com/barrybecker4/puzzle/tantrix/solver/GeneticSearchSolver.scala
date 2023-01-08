@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.optimization.optimizee.Optimizee
@@ -7,7 +7,7 @@ import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
-import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.SOLVED_THRESH
+import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.FITNESS_RANGE
 import scala.util.Random
 import com.barrybecker4.optimization.strategy._
 
@@ -22,7 +22,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
   private val strategy = if (useConcurrency) CONCURRENT_GENETIC_SEARCH else GENETIC_SEARCH
   private val evaluator = new PathEvaluator
   private var numTries: Int = 0
-  private var currentBestFitness = SOLVED_THRESH
+  private var currentBestFitness = FITNESS_RANGE
 
   /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
@@ -31,7 +31,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
-    val foundSolution = optimizer.doOptimization(strategy, initialGuess, SOLVED_THRESH)
+    val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
     solution = new TantrixBoard(foundSolution.pa.asInstanceOf[TantrixPath].tiles, board.primaryColor)
     val tilePlacements =
       if (evaluateFitness(foundSolution.pa) <= 0) Option.apply(foundSolution.pa.asInstanceOf[TantrixPath].tiles)
@@ -54,7 +54,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     */
   def evaluateFitness(params: ParameterArray): Double = {
     val fitness = evaluator.evaluateFitness(params.asInstanceOf[TantrixPath])
-    //println("fit = " + fitness + " currentBest = " + currentBestFitness)
+    println("fit = " + fitness + " currentBest = " + currentBestFitness)
     if (fitness < currentBestFitness) currentBestFitness = fitness
     fitness
   }

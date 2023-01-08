@@ -37,7 +37,7 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
       val newPlacement = findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter)
       origPlacements(oldIndex) = newPlacement
     }
-    new TantrixPath(origPlacements.toSeq, originalPath.primaryPathColor) //permutedPath
+    new TantrixPath(origPlacements.toSeq, originalPath.primaryPathColor, originalPath.desiredLength) //permutedPath
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {

@@ -36,7 +36,7 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), ANGLE_180)
     )
-    val expectedPath = new TantrixPath(tiles, PathColor.YELLOW)
+    val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, 3)
     assertEquals("Unexpected path.", expectedPath, rPath)
   }
 
@@ -83,7 +83,7 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 //      TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), ANGLE_300)
 //    )
 
-    val expectedPath = new TantrixPath(tiles, PathColor.BLUE)
+    val expectedPath = new TantrixPath(tiles, PathColor.BLUE, 6)
     assertResult(expectedPath) { rPath }
     // make sure we get a different random path on the second call.
     val rPath2 = pathGenerator.generateRandomPath

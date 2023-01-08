@@ -48,7 +48,7 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
         origLocation = previousTilePlacement.location
         previousTilePlacement = currentTilePlacement
     }
-    new TantrixPath(tiles.toSeq, primaryColor)
+    new TantrixPath(tiles.toSeq, primaryColor, subPath.desiredLength)
   }
 
   /**

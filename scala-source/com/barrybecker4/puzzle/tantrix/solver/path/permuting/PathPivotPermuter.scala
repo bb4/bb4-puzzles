@@ -43,7 +43,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
 
   override def setPermutation(indices: List[Int]): PathPivotPermuter = {
     val tilePlacements: Seq[TilePlacement] = indices.map(myPath.tiles(_))
-    new PathPivotPermuter(new TantrixPath(tilePlacements, myPath.primaryPathColor))
+    new PathPivotPermuter(new TantrixPath(tilePlacements, myPath.primaryPathColor, myPath.desiredLength))
   }
 
   /** Try the seven cases and take any that are valid.
@@ -107,7 +107,7 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     val path: Option[TantrixPath] = if (isValid(tileSeq)) {
       assert(TantrixPath.hasOrderedPrimaryPath(tileSeq, myPath.primaryPathColor),
         s"out of order path tiles \nsubpath1$subPath1\npivot=$pivotPath\nsubpath2=$subPath2\norigPath=$myPath")
-      Some(new TantrixPath(tileSeq, myPath.primaryPathColor))
+      Some(new TantrixPath(tileSeq, myPath.primaryPathColor, myPath.desiredLength))
     } else None
     path
   }

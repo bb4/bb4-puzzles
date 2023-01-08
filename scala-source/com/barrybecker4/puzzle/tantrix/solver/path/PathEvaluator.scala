@@ -2,7 +2,8 @@
 package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}
-import com.barrybecker4.puzzle.tantrix.solver.verification.{ConsistencyChecker, InnerSpaceDetector}
+import com.barrybecker4.puzzle.tantrix.solver.verification.{CompactnessDetector, ConsistencyChecker, InnerSpaceDetector}
+import PathEvaluator.*
 
 /**
   * Evaluates the fitness of a tantrix path.
@@ -12,7 +13,10 @@ import com.barrybecker4.puzzle.tantrix.solver.verification.{ConsistencyChecker, 
   */
 object PathEvaluator {
   /** When reached, the puzzle is solved. */
-  val SOLVED_THRESH = 3.1
+  val FITNESS_RANGE: Double = 8.0
+
+  /** If more than this many tiles away from the required path length it doesn't matter */
+  private val MAX_NUM_MISSING_TILES = 4
 
   /** How close are the endpoints of the primary path from forming a loop. */
   private val LOOP_PROXIMITY_WEIGHT = 0.3
@@ -33,63 +37,57 @@ object PathEvaluator {
   private val COMPACTNESS = 0.2
 }
 
-class PathEvaluator {
+case class PathEvaluator() {
 
   /** The main criteria for quality of the path is
+    * 0) How close the path is to using all the tiles.
     * 1) How close the ends of the path are to each other. Perfection achieved when we have a closed loop.
     * 2) Better if more matching secondary path colors
     * 3) Fewer inner spaces and a bbox with less area.
+    * Getting a closed loop with no internal spaces is more important than having a lot of matching paths,
+    * since tiles can be swapped to get more matches after the loop is determined.
     * @return a measure of how good the path is. Smaller number indicates better fitness.
     */
   def evaluateFitness(path: TantrixPath): Double = {
     val numTiles = path.size
     val distance = path.getEndPointDistance
     val isLoop = distance == 0 && path.isLoop
-    val checker = new ConsistencyChecker(path.tiles, path.primaryPathColor)
+    val checker = ConsistencyChecker(path.tiles, path.primaryPathColor)
     val numFits = checker.numFittingTiles
     val allFit = numFits == numTiles
     val consistentLoop = isLoop && allFit
     var perfectLoop = false
-    val compactness = determineCompactness(path)
+    val compactness = CompactnessDetector().determineCompactness(path)
     if (consistentLoop) {
       val tantrix = new Tantrix(path.tiles)
-      val innerDetector = new InnerSpaceDetector(tantrix)
+      val innerDetector = InnerSpaceDetector(tantrix)
       perfectLoop = !innerDetector.hasInnerSpaces
     }
     assert(numFits <= numTiles)
 
-    val fitness = PathEvaluator.SOLVED_THRESH -
-      PathEvaluator.LOOP_PROXIMITY_WEIGHT * (numTiles - distance) / (0.1 + numTiles) -
-      (if (isLoop) PathEvaluator.LOOP_WEIGHT else 0) -
-      numFits.toDouble / numTiles * PathEvaluator.PATH_MATCH_WEIGHT -
-      compactness * PathEvaluator.COMPACTNESS -
-      (if (consistentLoop) PathEvaluator.CONSISTENT_LOOP_BONUS else 0) -
-      (if (perfectLoop) PathEvaluator.PERFECT_LOOP_BONUS else 0)
+
+    val fitness = if (perfectLoop && allFit) 0.0 else {
+      val sum: Double = (MAX_NUM_MISSING_TILES - Math.min(path.desiredLength - numTiles, MAX_NUM_MISSING_TILES)) +
+        LOOP_PROXIMITY_WEIGHT * distance / (0.1 + numTiles) +
+        (if (isLoop) LOOP_WEIGHT else 0) +
+        (numFits.toDouble / numTiles) * PATH_MATCH_WEIGHT +
+        compactness * COMPACTNESS +
+        (if (consistentLoop) CONSISTENT_LOOP_BONUS else 0) +
+        (if (perfectLoop) PERFECT_LOOP_BONUS else 0)
+      val score: Double = FITNESS_RANGE - sum
+      assert(score >= 0, "Score not positive. " + score)
+      if (score < 1.0)
+        print("***SCORE < 2.0 : " + score)
+      score
+    }
 
     println("fitness = " + fitness)
+    assert(fitness >= 0, "Fitness (" + fitness + ") must be >= 0")
+    assert(fitness <= FITNESS_RANGE, "Fitness (" + fitness + ") must be <= " + FITNESS_RANGE)
     assert(!fitness.isNaN, "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop +
       " numTiles=" + numTiles + " distance=" + distance)
-    //Math.max(0, fitness)
+
     fitness
   }
 
-  /** First add all the tiles to a hash keyed on location.
-    * Then for every one of the six sides of each tile, add one if the
-    * neighbor is in the hash. Return (num nbrs in hash - 2(numTiles-1))/numTiles
-    * @param path the path to determine compactness of.
-    * @return measure of path compactness between 0 and ~1
-    */
-  private def determineCompactness(path: TantrixPath) = {
-    val locationHash = path.tiles.map(_.location).toSet
-    val numTiles = path.size
-
-    var ct = 0
-    for (p <- path.tiles) {
-      for (i <- 0 until HexTile.NUM_SIDES) {
-          if (locationHash.contains(HexUtil.getNeighborLocation(p.location, i)))
-            ct += 1
-      }
-    }
-    (ct - 2.0 * (numTiles - 1)) / numTiles * 0.5
-  }
 }

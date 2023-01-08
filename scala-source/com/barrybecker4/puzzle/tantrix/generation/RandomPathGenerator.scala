@@ -31,6 +31,6 @@ class RandomPathGenerator(var initialBoard: TantrixBoard, rnd: Random = new Rand
       foundPath = currentBoard.unplacedTiles.isEmpty
     }
 
-    new TantrixPath(currentBoard.tantrix, initialBoard.primaryColor, rnd)
+    new TantrixPath(currentBoard.tantrix, initialBoard.primaryColor, currentBoard.numTiles, rnd)
   }
 }

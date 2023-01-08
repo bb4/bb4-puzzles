@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TileFitter
   * @param tiles tiles that have not yet been placed on the tantrix
   * @author Barry Becker
   */
-class ConsistencyChecker(var tiles: Iterable[TilePlacement], val primaryColor: PathColor) {
+case class ConsistencyChecker(tiles: Iterable[TilePlacement], primaryColor: PathColor) {
 
   /** Used to check the consistency of all the paths. */
   val fitter: TileFitter = new TileFitter(tiles, primaryColor)

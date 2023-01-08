@@ -17,6 +17,7 @@ import scala.collection.mutable.ListBuffer
   * @author Barry Becker
   */
 class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPathMutator(primaryColor) {
+  
   /**
     * Only one tile in the subPath is touching the pivotTile. When we are done swapping,
     * the same path tile will be rotated and translated (as well as all the tiles connected to it) so that
@@ -53,7 +54,7 @@ class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPath
         origLocation = previousTilePlacement.location //currentTilePlacement.getLocation();
         previousTilePlacement = currentTilePlacement
     }
-    new TantrixPath(tiles.toSeq, primaryColor)
+    new TantrixPath(tiles.toSeq, primaryColor, subPath.desiredLength)
   }
 
   /**

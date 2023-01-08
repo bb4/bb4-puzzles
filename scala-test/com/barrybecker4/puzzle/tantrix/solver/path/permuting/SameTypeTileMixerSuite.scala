@@ -28,7 +28,7 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
 
   test("Mix3TilesTIGHT") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
+    mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertResult(3) { permutedPathList.size }
     /* This is how it used to be. I think it is also correct,
@@ -62,7 +62,7 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
 
   test("Mix11TilesWIDE_CURVE") {
     val board = place10LoopWithInnerSpace
-    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
+    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, 11, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertResult(11) { permutedPathList.size }
     /* this is large
@@ -77,14 +77,14 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
 
   test("Mix3TilesWIDE") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
+    mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
   }
 
   test("Mix3TilesSTRAIGHT") {
     val board = place3SolvedTiles
-    mixer = new SameTypeTileMixer(PathType.STRAIGHT, new TantrixPath(board.tantrix, board.primaryColor, RND), RND)
+    mixer = new SameTypeTileMixer(PathType.STRAIGHT, new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
     assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
   }
@@ -99,7 +99,7 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
       TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), ANGLE_0),
       TilePlacement(TILES.getTile(3), new ByteLocation(21, 21), ANGLE_300),
       TilePlacement(TILES.getTile(1), new ByteLocation(20, 20), ANGLE_300),
-      TilePlacement(TILES.getTile(4), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED))
+      TilePlacement(TILES.getTile(4), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED, 5))
     assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
   }
 
@@ -113,7 +113,7 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
       TilePlacement(TILES.getTile(3), new ByteLocation(20, 21), ANGLE_120),
       TilePlacement(TILES.getTile(2), new ByteLocation(21, 21), ANGLE_180),
       TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), ANGLE_180),
-      TilePlacement(TILES.getTile(1), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED))
+      TilePlacement(TILES.getTile(1), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED, 5))
     assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
   }
 
@@ -131,9 +131,9 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
       TilePlacement(TILES.getTile(2), new ByteLocation(21, 21), ANGLE_180),
       TilePlacement(TILES.getTile(1), new ByteLocation(20, 20), ANGLE_300),
       TilePlacement(TILES.getTile(4), new ByteLocation(19, 21), ANGLE_120))
-    new TantrixPath(tiles, PathColor.RED)
+    new TantrixPath(tiles, PathColor.RED, 5)
   }
 
   private def createPath(placement1: TilePlacement, placement2: TilePlacement, placement3: TilePlacement) =
-    new TantrixPath(ListBuffer(placement1, placement2, placement3).toSeq, PathColor.YELLOW)
+    new TantrixPath(ListBuffer(placement1, placement2, placement3).toSeq, PathColor.YELLOW, 4)
 }
