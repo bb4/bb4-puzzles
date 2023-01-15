@@ -50,6 +50,7 @@ object TantrixPath {
 class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int, 
                   rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
 
+  assert(desiredLength >= tiles.length)
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
     throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
 

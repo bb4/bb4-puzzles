@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}
-import com.barrybecker4.puzzle.tantrix.solver.verification.{CompactnessDetector, ConsistencyChecker, InnerSpaceDetector}
+import com.barrybecker4.puzzle.tantrix.solver.verification.{CompactnessCalculator, ConsistencyChecker, InnerSpaceDetector}
 import PathEvaluator.*
 
 /**
@@ -57,7 +57,7 @@ case class PathEvaluator() {
     val allFit = numFits == numTiles
     val consistentLoop = isLoop && allFit
     var perfectLoop = false
-    val compactness = CompactnessDetector().determineCompactness(path)
+    val compactness = CompactnessCalculator().determineCompactness(path)
     if (consistentLoop) {
       val tantrix = new Tantrix(path.tiles)
       val innerDetector = InnerSpaceDetector(tantrix)

@@ -1,15 +1,15 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui.rendering
 
-import java.awt._
-
+import java.awt.*
 import com.barrybecker4.common.format.FormatUtil
-import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.tantrix.model.TilePlacement
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.puzzle.tantrix.model.{Rotation, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer.TOP_MARGIN
 import com.barrybecker4.ui.util.GUIUtil
 
 object HexTileRenderer {
+  private val TILE_NUMBER_FONT = new Font(GUIUtil.DEFAULT_FONT_FAMILY, Font.BOLD, 10)
   private val TILE_FONT = new Font(GUIUtil.DEFAULT_FONT_FAMILY, Font.PLAIN, 9)
   private val TILE_STROKE = new BasicStroke(1f)
   private val TILE_BORDER_COLOR = new Color(70, 70, 70)
@@ -36,7 +36,7 @@ class HexTileRenderer() {
     val point = new Point(x.toInt, y.toInt)
     drawHexagon(g2, point, radius)
     drawPaths(g2, tilePlacement, point, radius)
-    drawTileNumber(g2, tilePlacement, radius, x, y)
+    drawTileInfo(g2, tilePlacement, radius, x, y)
   }
 
   /** draw the outline for a tile */
@@ -58,16 +58,31 @@ class HexTileRenderer() {
     pathRenderer.drawPath(g2, 2, tilePlacement, point, radius)
   }
 
-  private def drawTileNumber(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double,
+  private def drawTileInfo(g2: Graphics2D, tilePlacement: TilePlacement, radius: Double,
                              x: Double, y: Double): Unit = {
     g2.setColor(Color.BLACK)
-    g2.setFont(HexTileRenderer.TILE_FONT)
+    g2.setFont(HexTileRenderer.TILE_NUMBER_FONT)
     val xpos = x.toInt - 2
     val ypos = (y +  0.95 * radius).toInt
-    g2.drawString(FormatUtil.formatNumber(tilePlacement.tile.tantrixNumber), xpos, ypos)
-    // also draw coordinate location
-    val loc = tilePlacement.location
+
+    drawTileNumber(g2, tilePlacement.tile.tantrixNumber, xpos, ypos)
+    drawTileCoords(g2, tilePlacement.location, xpos, ypos)
+    drawTileRotationAngle(g2, tilePlacement.rotation, xpos, (y -  0.8 * radius).toInt)
+  }
+
+  private def drawTileNumber(g2: Graphics2D, tileNumber: Int, xpos: Int, ypos: Int): Unit = {
+    g2.setFont(HexTileRenderer.TILE_NUMBER_FONT)
+    g2.drawString(FormatUtil.formatNumber(tileNumber), xpos, ypos)
+  }
+
+  private def drawTileCoords(g2: Graphics2D, loc: Location, xpos: Int, ypos: Int): Unit = {
+    g2.setFont(HexTileRenderer.TILE_FONT)
     g2.drawString(s"(${loc.row}, ${loc.col})", xpos - 15, ypos - 12)
+  }
+
+  private def drawTileRotationAngle(d: Graphics2D, rotation: Rotation, xpos: Int, ypos: Int): Unit = {
+    d.setFont(HexTileRenderer.TILE_FONT)
+    d.drawString(rotation.toString, xpos - 6, ypos)
   }
 
   private def drawHexagon(g2: Graphics2D, point: Point, radius: Double, filled: Boolean = true): Unit = {

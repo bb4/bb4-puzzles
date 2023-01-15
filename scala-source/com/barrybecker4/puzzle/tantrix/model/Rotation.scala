@@ -16,4 +16,6 @@ enum Rotation(rotation: Int) {
     while (rot < 0) rot += HexTile.NUM_SIDES
     Rotation.values((this.ordinal + rot) % HexTile.NUM_SIDES)
   }
+
+  override def toString: String = s"${60 * rotation}\u00B0"
 }
