@@ -26,15 +26,14 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     * @param paths list of paths to evaluate.
     * @return a random path with a likely good score. In other words, the path which is close to a valid solution.
     */
-  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = {
+  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = returning {
     var totalScore: Double = 0
     val scores: ListBuffer[Double] = ListBuffer()
 
     for (path <- paths) {
       val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
 
-      if (score <= 0) return path // solved path
-      // then throwReturn[TantrixPath](path)  // above is deprecated, but this not quite working either
+      if (score <= 0) throwReturn(path)
       totalScore += score
       scores.append(score)
     }

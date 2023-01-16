@@ -32,7 +32,6 @@ class MoveGeneratorSuite extends AnyFunSuite {
     board = place2of3Tiles_OneThenThree
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    //System.out.println("moves = " + moves)
     assertEquals("Unexpected number of next moves.", 1, moves.size)
   }
 
@@ -40,7 +39,6 @@ class MoveGeneratorSuite extends AnyFunSuite {
     board = new TantrixBoard(THREE_TILES)
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    //System.out.println("moves = " + moves)
     assertEquals("Unexpected number of next moves.", 8, moves.size)
   }
 }

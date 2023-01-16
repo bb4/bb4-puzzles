@@ -75,7 +75,6 @@ class TantrixTileFitterSuite extends AnyFunSuite  {
     */
   test("PlacementDoesNotFit0") {
     tantrix = place2of3Tiles_OneThenThree.tantrix
-    //System.out.println("tantrix=" + tantrix)
     val tile2 = TilePlacement(TILES.getTile(2), loc(2, 1), Rotation.ANGLE_0)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     assert(fitter.isFit(tile2))

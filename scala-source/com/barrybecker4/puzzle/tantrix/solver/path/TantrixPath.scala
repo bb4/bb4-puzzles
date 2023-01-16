@@ -8,6 +8,7 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 import scala.util.Random
+import scala.util.control.NonLocalReturns.*
 
 
 object TantrixPath {
@@ -15,13 +16,13 @@ object TantrixPath {
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
     * @return true if there exists a primary path or loop.
     */
-  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = {
-    if (tiles.size < 2) return true
+  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = returning {
+    if (tiles.size < 2) throwReturn(true)
     var lastTile = tiles.head
-    for (i <- 1 until tiles.size) {
+    for (i <- 1 until tiles.size)  {
       val currentTile = tiles(i)
       val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
-      if (!outgoing.values.exists(_ == lastTile.location)) return false
+      if (!outgoing.values.exists(_ == lastTile.location)) throwReturn(false)
       lastTile = currentTile
     }
     true
@@ -52,7 +53,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
 
   assert(desiredLength >= tiles.length)
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
-    throw new IllegalStateException("The following " + tiles.size + " tiles must form a primary path :\n" + tiles)
+    throw new IllegalStateException(s"The following ${tiles.size} tiles must form a primary path (${primaryPathColor}) :\n${tiles}")
 
   /** The list of tiles that are passed in must be a continuous primary path,
     * but it is not required that it be a loop, or that any of the secondary colors match.

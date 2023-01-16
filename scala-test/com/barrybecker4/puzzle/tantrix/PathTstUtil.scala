@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix
 
 import com.barrybecker4.common.geometry.ByteLocation
@@ -19,6 +19,8 @@ object PathTstUtil {
   val TILE2: HexTile = TILES.getTile(2)
   val TILE3: HexTile = TILES.getTile(3)
   val TILE4: HexTile = TILES.getTile(4)
+  val TILE5: HexTile = TILES.getTile(5)
+  val TILE6: HexTile = TILES.getTile(6)
   
   val LOOP_PATH3: TantrixPath = createPath(
     TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
@@ -45,6 +47,47 @@ object PathTstUtil {
     TilePlacement(TILE4, UPPER, ANGLE_60),
     TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
   ), PathColor.RED, 4)
+
+  val LOOP_PATH5 = new TantrixPath(Seq(
+    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_240),
+    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_60),
+    TilePlacement(TILE3, new ByteLocation(21, 22), ANGLE_0),
+    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_0),
+    TilePlacement(TILE2, new ByteLocation(21, 20), ANGLE_120)
+  ), PathColor.RED, 5)
+
+  // linear. Not very compact
+  val NON_LOOP_PATH5 = new TantrixPath(Seq(
+    TilePlacement(TILE2, new ByteLocation(19, 20), ANGLE_0),
+    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_0),
+    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_60),
+    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_240),
+    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_0)
+  ), PathColor.RED, 5)
+
+  val LINEAR_NON_LOOP_PATH5 = new TantrixPath(Seq(
+    TilePlacement(TILE2, new ByteLocation(20, 18), ANGLE_120),
+    TilePlacement(TILE4, new ByteLocation(20, 19), ANGLE_60),
+    TilePlacement(TILE5, new ByteLocation(21, 20), ANGLE_120),
+    TilePlacement(TILE1, new ByteLocation(22, 20), ANGLE_0),
+    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_60)
+  ), PathColor.RED, 5)
+  
+  val NON_LOOP_S_PATH5 = new TantrixPath(Seq(
+    TilePlacement(TILE5, new ByteLocation(19, 20), ANGLE_0),
+    TilePlacement(TILE2, new ByteLocation(19, 21), ANGLE_300),
+    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_60),
+    TilePlacement(TILE3, new ByteLocation(20, 19), ANGLE_180),
+    TilePlacement(TILE4, new ByteLocation(21, 20), ANGLE_240)
+  ), PathColor.RED, 5)
+  
+  val COMPACT_NON_LOOP_PATH5 = new TantrixPath(Seq(
+    TilePlacement(TILE2, new ByteLocation(19, 20), ANGLE_0),
+    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_0),
+    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_60),
+    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_240),
+    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_0)
+  ), PathColor.RED, 5)
 
   def createPathList: List[TantrixPath] = {
     // for each of the 7 permuted paths, we expect that tile 2 will be the middle/pivot tile.

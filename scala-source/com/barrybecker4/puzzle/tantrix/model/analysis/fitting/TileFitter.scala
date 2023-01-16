@@ -5,21 +5,23 @@ import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.HexUtil._
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
+import scala.util.control.NonLocalReturns.*
+
 
 
 /**
   * Used to check the consistency of all the paths.
   * If you have the tantrix, use TantrixTileFitter instead of this class.
   * @param tiles Current set of placed tiles
-  * @author Barry Becker
   */
 class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extends AbstractFitter(primaryColor) {
-
+  
   /** The tile fits if the primary path and all the other paths match for edges that have neighbors.
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
-  def isFit(placement: TilePlacement): Boolean = {
+  def isFit(placement: TilePlacement): Boolean = returning {
+
     var primaryPathMatched = false
 
     for (i <- 0 until NUM_SIDES) {
@@ -30,7 +32,7 @@ class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extend
           if (pathColor == primaryColor)
             primaryPathMatched = true
         }
-        else return false
+        else throwReturn(false)
       }
     }
     primaryPathMatched
