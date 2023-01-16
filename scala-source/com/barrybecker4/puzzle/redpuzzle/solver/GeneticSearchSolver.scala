@@ -54,7 +54,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     val pieces = params.asInstanceOf[PieceParameterArray].getPieceList
     val fitness = fitnessFinder.calculateFitness(pieces)
     if (fitness < currentBestFitness) {
-      println("better fitness = " + fitness)
+      //println("better fitness = " + fitness)
       currentBestFitness = fitness
     }
     fitness

@@ -15,7 +15,8 @@ class InnerSpaceDetectorSuite extends AnyFunSuite {
   /** instance under test */
   private var detector: InnerSpaceDetector = _
   private var tantrix: Tantrix = _
-
+  
+  
   /** Two tiles do not have a loop */
   test("ThatTwoTilesDoNotHaveInnerSpace") {
     tantrix = place2of3Tiles_OneThenTwo.tantrix
@@ -75,7 +76,7 @@ class InnerSpaceDetectorSuite extends AnyFunSuite {
     * @param expHasInnerSpace true if we expect one or more inner spaces.
     */
   private def verifyHasInnerSpaces(expHasInnerSpace: Boolean): Unit = {
-    detector = new InnerSpaceDetector(tantrix)
+    detector = InnerSpaceDetector(tantrix)
     if (expHasInnerSpace) assertTrue("Unexpectedly did not have inner spaces.", detector.hasInnerSpaces)
     else assertFalse("Unexpectedly had inner spaces.", detector.hasInnerSpaces)
   }

@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.puzzle.tantrix.PathTstUtil
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
+import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
 import com.barrybecker4.puzzle.tantrix.model.PathColor.*
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, Tantrix}
 import org.scalatest.funsuite.AnyFunSuite
@@ -19,7 +20,7 @@ class ConsistencyCheckerSuite extends AnyFunSuite {
   case class TestCase(pathCase: PathVerificationCase, color: PathColor)
 
   test("Check consistency of paths") {
-    for (testCase <- pathVerificationCases) {
+    for (testCase <- PathVerificationCase.cases) {
 
       val numFits =
         List(RED, YELLOW, BLUE)
@@ -37,7 +38,7 @@ class ConsistencyCheckerSuite extends AnyFunSuite {
     */
   test("FitOnTwoWhereOnePossible") {
     tantrix = place2of3Tiles_OneThenTwo.tantrix
-    checker = new ConsistencyChecker(tantrix.tiles, YELLOW)
+    checker = ConsistencyChecker(tantrix.tiles, YELLOW)
     assertResult(2) {
       checker.numFittingTiles
     }

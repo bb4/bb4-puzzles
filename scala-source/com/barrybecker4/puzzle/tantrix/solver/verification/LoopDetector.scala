@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlaceme
   * @param board the tantrix state to test for solution.
   * @author Barry Becker
   */
-class LoopDetector(var board: TantrixBoard) {
+case class LoopDetector(var board: TantrixBoard) {
 
   /**
     * True if loop of the primary color.

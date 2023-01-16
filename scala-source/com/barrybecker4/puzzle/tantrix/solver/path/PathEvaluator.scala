@@ -81,7 +81,7 @@ case class PathEvaluator() {
       score
     }
 
-    println("fitness = " + fitness)
+    //println("fitness = " + fitness)
     assert(fitness >= 0, "Fitness (" + fitness + ") must be >= 0")
     assert(fitness <= FITNESS_RANGE, "Fitness (" + fitness + ") must be <= " + FITNESS_RANGE)
     assert(!fitness.isNaN, "Invalid fitness  isLoop=" + isLoop + " consistentLoop=" + consistentLoop +
