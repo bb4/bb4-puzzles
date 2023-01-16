@@ -8,6 +8,7 @@ import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
 
 
 object PathVerificationCase {
+
   val cases: Seq[PathVerificationCase] = Seq(
     PathVerificationCase("LOOP_PATH3", PathTstUtil.LOOP_PATH3,
       0.3333333333333333, Map(RED -> 0, YELLOW -> 3, BLUE -> 0), false, Map(RED -> false, YELLOW -> true, BLUE -> false), 0),
@@ -23,8 +24,12 @@ object PathVerificationCase {
       0.6, Map(RED -> 3, YELLOW -> 1, BLUE -> 1), false, Map(RED -> false, YELLOW -> false, BLUE -> false), 3.1623529411764713),
     PathVerificationCase("LINEAR_NON_LOOP_PATH5", PathTstUtil.LINEAR_NON_LOOP_PATH5,
       0.0, Map(RED -> 5, YELLOW -> 0, BLUE -> 0), false, Map(RED -> false, YELLOW -> false, BLUE -> false), 2.787908748502118),
-    PathVerificationCase("PathTstUtil.LOOP_PATH5", PathTstUtil.LOOP_PATH5,
-      0.6, Map(RED -> 5, YELLOW -> 0, BLUE -> 3), false, Map(RED -> true, YELLOW -> false, BLUE -> false), 0)
+    PathVerificationCase("LOOP_PATH5", PathTstUtil.LOOP_PATH5,
+      0.6, Map(RED -> 5, YELLOW -> 0, BLUE -> 3), false, Map(RED -> true, YELLOW -> false, BLUE -> false), 0),
+    PathVerificationCase("LOOP_PATH6", PathTstUtil.LOOP_PATH6,
+      0.6666666666666666, Map(RED -> 2, YELLOW -> 3, BLUE -> 6), false, Map(RED -> false, YELLOW -> false, BLUE -> true), 0),
+    PathVerificationCase("LOOP_PATH7", PathTstUtil.LOOP_PATH7,
+      0.7142857142857143, Map(RED -> 3, YELLOW -> 3, BLUE -> 7), false, Map(RED -> false, YELLOW -> false, BLUE -> true), 0)
   )
 }
 

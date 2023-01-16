@@ -15,7 +15,7 @@ class CompactnessCalculatorSuite extends AnyFunSuite {
 
     for (testCase <- PathVerificationCase.cases) {
       val compactness = calculator.determineCompactness(testCase.path)
-      assertResult(testCase.compactness, s"expected compactness = ${testCase.compactness} but got $compactness for ${testCase.path}") {
+      assertResult(testCase.compactness, s"expected compactness = ${testCase.compactness} but got $compactness for ${testCase.name}") {
         compactness
       }
     }

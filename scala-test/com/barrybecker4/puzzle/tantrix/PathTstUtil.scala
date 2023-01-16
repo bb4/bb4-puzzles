@@ -21,6 +21,7 @@ object PathTstUtil {
   val TILE4: HexTile = TILES.getTile(4)
   val TILE5: HexTile = TILES.getTile(5)
   val TILE6: HexTile = TILES.getTile(6)
+  val TILE7: HexTile = TILES.getTile(7)
   
   val LOOP_PATH3: TantrixPath = createPath(
     TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
@@ -88,6 +89,36 @@ object PathTstUtil {
     TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_240),
     TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_0)
   ), PathColor.RED, 5)
+
+  val LOOP_PATH6 = new TantrixPath(Seq(
+    TilePlacement(TILE3, new ByteLocation(18, 20), ANGLE_240),
+    TilePlacement(TILE2, new ByteLocation(19, 21), ANGLE_120),
+    TilePlacement(TILE1, new ByteLocation(20, 21), ANGLE_60),
+    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_0),
+    TilePlacement(TILE4, new ByteLocation(20, 20), ANGLE_120),
+    TilePlacement(TILE6, new ByteLocation(19, 20), ANGLE_180)
+  ), PathColor.BLUE, 6)
+
+  val LOOP_PATH7 = new TantrixPath(Seq(
+    TilePlacement(TILE2, new ByteLocation(19, 22), ANGLE_0),
+    TilePlacement(TILE5, new ByteLocation(19, 23), ANGLE_120),
+    TilePlacement(TILE4, new ByteLocation(20, 22), ANGLE_240),
+    TilePlacement(TILE6, new ByteLocation(21, 22), ANGLE_300),
+    TilePlacement(TILE3, new ByteLocation(21, 21), ANGLE_0),
+    TilePlacement(TILE1, new ByteLocation(20, 21), ANGLE_60),
+    TilePlacement(TILE7, new ByteLocation(19, 21), ANGLE_60)
+  ), PathColor.BLUE, 7)
+//
+//  val LOOP_PATH7 = new TantrixPath(Seq(
+//    TilePlacement(TILE2, new ByteLocation(21, 21), ANGLE_0),
+//    TilePlacement(TILE7, new ByteLocation(21, 22), ANGLE_300),
+//    TilePlacement(TILE4, new ByteLocation(22, 21), ANGLE_240),
+//    TilePlacement(TILE1, new ByteLocation(23, 22), ANGLE_0),
+//    TilePlacement(TILE3, new ByteLocation(23, 20), ANGLE_0),
+//    TilePlacement(TILE6, new ByteLocation(22, 20), ANGLE_0),
+//    TilePlacement(TILE5, new ByteLocation(22, 20), ANGLE_240)
+//  ), PathColor.BLUE, 7)
+
 
   def createPathList: List[TantrixPath] = {
     // for each of the 7 permuted paths, we expect that tile 2 will be the middle/pivot tile.

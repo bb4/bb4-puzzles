@@ -56,9 +56,6 @@ class LoopDetectorSuite extends AnyFunSuite {
     verifyHasLoop(place10LoopWithInnerSpace, true)
   }
 
-
-
-
   /**
     * @param expHasLoop true if we expect a loop.
     */

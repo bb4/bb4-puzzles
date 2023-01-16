@@ -19,8 +19,9 @@ object TantrixPath {
   def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = returning {
     if (tiles.size < 2) throwReturn(true)
     var lastTile = tiles.head
-    for (i <- 1 until tiles.size)  {
+    for (i <- 1 until tiles.size) {
       val currentTile = tiles(i)
+      println("now checking " + currentTile)
       val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
       if (!outgoing.values.exists(_ == lastTile.location)) throwReturn(false)
       lastTile = currentTile
@@ -53,7 +54,7 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
 
   assert(desiredLength >= tiles.length)
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
-    throw new IllegalStateException(s"The following ${tiles.size} tiles must form a primary path (${primaryPathColor}) :\n${tiles}")
+    throw new IllegalStateException(s"The following ${tiles.size} tiles must form a primary path ($primaryPathColor) :\n$tiles")
 
   /** The list of tiles that are passed in must be a continuous primary path,
     * but it is not required that it be a loop, or that any of the secondary colors match.
