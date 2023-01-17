@@ -42,7 +42,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
 
     val topLeftCorner = board.getBoundingBox.getTopLeftCorner.incrementOnCopy(-padding, -padding)
     drawGrid(g2, topLeftCorner)
-
+    
     for (loc <- board.getTantrixLocations) {
       val placement: Option[TilePlacement] = board.getTilePlacement(loc)
       tileRenderer.renderBorder(g2, placement.get, topLeftCorner, hexRadius)

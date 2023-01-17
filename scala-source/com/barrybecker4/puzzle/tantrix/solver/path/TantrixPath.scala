@@ -21,7 +21,6 @@ object TantrixPath {
     var lastTile = tiles.head
     for (i <- 1 until tiles.size) {
       val currentTile = tiles(i)
-      println("now checking " + currentTile)
       val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
       if (!outgoing.values.exists(_ == lastTile.location)) throwReturn(false)
       lastTile = currentTile
