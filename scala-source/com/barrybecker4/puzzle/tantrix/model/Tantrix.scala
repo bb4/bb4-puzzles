@@ -1,14 +1,17 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
-import com.barrybecker4.puzzle.tantrix.model.Tantrix.createTileMap
+import com.barrybecker4.puzzle.tantrix.model.Tantrix.{createTileMap, boundingBoxCalculator}
 
 import scala.collection.immutable
 
 type TileMap = immutable.Map[Location, TilePlacement]
 
 object Tantrix {
+  
+  private val boundingBoxCalculator = BoundingBoxCalculator()
+  
   def createTileMap(tiles: Seq[TilePlacement]): TileMap = {
     tiles.map(tilePlacement => tilePlacement.location -> tilePlacement).toMap
   }
@@ -53,13 +56,7 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
   def tiles: Iterable[TilePlacement] = tileMap.values
 
   /** @return the bounds of the current tantrix tiles. */
-  def getBoundingBox: Box = {
-    var bbox = new Box(lastTile.location)
-    tileMap.keySet.foreach(pt => {
-      bbox = bbox.expandBy(pt)
-    })
-    bbox
-  }
+  def getBoundingBox: Box = boundingBoxCalculator.getBoundingBox(tileMap.values.toSeq)
 
   override def toString: String = tileMap.values.mkString(" ")
 }

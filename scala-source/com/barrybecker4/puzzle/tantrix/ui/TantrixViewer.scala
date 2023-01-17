@@ -25,7 +25,7 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
     */
   override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
-    renderer.render(g, board, getWidth, getHeight)
+    renderer.render(g, board.tantrix.tiles, getWidth, getHeight)
   }
 
   override def refresh(board: TantrixBoard, numTries: Long): Unit = {
