@@ -27,6 +27,16 @@ class TantrixPathSuite extends AnyFunSuite {
     assert(!result.contains("!="))
   }
 
+  test("isLoop") {
+    var result = ""
+    for (testCase <- PathVerificationCase.cases) {
+      val isLoop = testCase.path.isLoop
+      val equality = if (isLoop == testCase.isLoop) "matched" else s"!= $isLoop"
+      result += s"${testCase.name} isLoop = exp: ${testCase.isLoop} $equality \n"
+    }
+    assert(!result.contains("!="))
+  }
+
   test("2TilePathConstruction") {
     val pivotTile = TILES.getTile(1)
     val first = TilePlacement(TILES.getTile(2), loc(2, 1), ANGLE_0)
