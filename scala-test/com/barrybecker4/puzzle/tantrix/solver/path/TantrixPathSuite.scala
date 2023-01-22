@@ -17,6 +17,16 @@ class TantrixPathSuite extends AnyFunSuite {
   /** instance under test */
   private var path: TantrixPath = _
 
+  test("path endpoint distance") {
+    var result = ""
+    for (testCase <- PathVerificationCase.cases) {
+      val endPointDistance = testCase.path.getEndPointDistance
+      val equality = if (endPointDistance == testCase.endPointDistance) "matched" else s"!= $endPointDistance"
+      result += s"${testCase.name} endPointDistance = exp: ${testCase.endPointDistance} $equality \n"
+    }
+    assert(!result.contains("!="))
+  }
+
   test("2TilePathConstruction") {
     val pivotTile = TILES.getTile(1)
     val first = TilePlacement(TILES.getTile(2), loc(2, 1), ANGLE_0)

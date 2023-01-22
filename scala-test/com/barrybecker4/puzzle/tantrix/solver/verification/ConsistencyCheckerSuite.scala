@@ -20,17 +20,17 @@ class ConsistencyCheckerSuite extends AnyFunSuite {
   case class TestCase(pathCase: PathVerificationCase, color: PathColor)
 
   test("Check consistency of paths") {
+    var result: String = ""
     for (testCase <- PathVerificationCase.cases) {
-
       val numFits =
         List(RED, YELLOW, BLUE)
           .map(color => (color, ConsistencyChecker(testCase.path.tiles, color).numFittingTiles))
           .toMap
 
-      assertResult(testCase.numFits, s" for ${testCase.name}\n") {
-        numFits
-      }
+      val equality = if (testCase.numFits.equals(numFits)) "matched" else s"!= $numFits"
+      result += s"${testCase.name} = exp: ${testCase.numFits} $equality \n"
     }
+    assert(!result.contains("!="))
   }
 
   /**

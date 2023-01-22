@@ -1,3 +1,4 @@
+// Copyright by Barry G. Becker, 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui.viewer
 
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
@@ -11,7 +12,7 @@ import javax.swing.JPanel
 class TantrixViewerFrame(board: TantrixBoard)
 
   extends ApplicationFrame("Tantrix Tile Viewer") {
-  this.setPreferredSize(new Dimension(800, 700))
+  this.setPreferredSize(new Dimension(900, 800))
   this.getContentPane.add(createContent(board))
   this.pack()
   this.setVisible(true)

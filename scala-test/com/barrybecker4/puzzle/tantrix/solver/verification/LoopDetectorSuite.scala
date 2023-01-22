@@ -16,16 +16,16 @@ class LoopDetectorSuite extends AnyFunSuite {
   private var detector: LoopDetector = _
 
   test("Loop Detection") {
+    var result: String = ""
     for (testCase <- PathVerificationCase.cases) {
       val hasLoop =
         List(RED, YELLOW, BLUE)
           .map(color => (color, LoopDetector(new TantrixBoard(testCase.path.tiles, color)).hasLoop))
           .toMap
-
-      assertResult(testCase.hasLoop, s" for ${testCase.name}\n") {
-        hasLoop
-      }
+      val equality = if (hasLoop.equals(testCase.hasLoop)) "matched" else s"!= $hasLoop"
+      result += s"${testCase.name} exp ${testCase.hasLoop} $equality \n"
     }
+    assert(!result.contains("!="))
   }
 
   /**

@@ -12,8 +12,8 @@ import PathEvaluator.*
   * @author Barry Becker
   */
 object PathEvaluator {
-  /** When reached, the puzzle is solved. */
-  val FITNESS_RANGE: Double = 8.0
+  /** If fitness is 0, then puzzle is solved. The worst finess is this value. */
+  val FITNESS_RANGE: Double = 6.0
 
   /** If more than this many tiles away from the required path length it doesn't matter */
   private val MAX_NUM_MISSING_TILES = 4

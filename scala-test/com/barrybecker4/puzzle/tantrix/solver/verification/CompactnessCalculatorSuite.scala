@@ -13,11 +13,13 @@ class CompactnessCalculatorSuite extends AnyFunSuite {
 
   test("Compactness of paths") {
 
+    var result: String = ""
     for (testCase <- PathVerificationCase.cases) {
       val compactness = calculator.determineCompactness(testCase.path)
-      assertResult(testCase.compactness, s"expected compactness = ${testCase.compactness} but got $compactness for ${testCase.name}") {
-        compactness
-      }
+      val equality = if (compactness == testCase.compactness) "matched" else s"!= $compactness"
+      result += s"${testCase.name} = exp: ${testCase.compactness} $equality \n"
     }
+
+    assert(!result.contains("!="))
   }
 }
