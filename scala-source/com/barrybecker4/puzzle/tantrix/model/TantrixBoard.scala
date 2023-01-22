@@ -92,6 +92,8 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
 
   def isEmpty(loc: Location): Boolean = getTilePlacement(loc).isEmpty
 
-  override def toString: String = { "primaryColor = " + primaryColor + "\ntantrix = " + tantrix.toString +
-    "\nunplaced tiles = " + unplacedTiles.mkString(", ") }
+  override def toString: String = {
+    val unplacedTilesStr = if (unplacedTiles.isEmpty) "" else unplacedTiles.mkString(", ")
+    s"primaryColor = $primaryColor\ntantrix = \n${tantrix.toString}\n$unplacedTilesStr"
+  }
 }

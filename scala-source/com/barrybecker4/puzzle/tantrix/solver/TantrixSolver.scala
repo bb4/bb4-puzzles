@@ -22,9 +22,5 @@ abstract class TantrixSolver private[solver](var board: TantrixBoard) extends Pu
     * @return true if a solution is found.
     */
   def solve: Option[Seq[TilePlacement]]
-
-  /**
-    * @return the list of successfully placed pieces so far.
-    */
-  def getSolution: TantrixBoard = solution
+  
 }

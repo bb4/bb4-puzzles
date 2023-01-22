@@ -5,9 +5,10 @@ import com.barrybecker4.optimization.OptimizationListener
 import com.barrybecker4.optimization.Optimizer
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
-import com.barrybecker4.puzzle.common.PuzzleController
+import com.barrybecker4.puzzle.common.*
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceParameterArray}
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
+
 import scala.util.Random
 
 /**

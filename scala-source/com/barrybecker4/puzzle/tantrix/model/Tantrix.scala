@@ -58,5 +58,5 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
   /** @return the bounds of the current tantrix tiles. */
   def getBoundingBox: Box = boundingBoxCalculator.getBoundingBox(tileMap.values.toSeq)
 
-  override def toString: String = tileMap.values.mkString(" ")
+  override def toString: String = tileMap.values.mkString("\n")
 }

@@ -70,6 +70,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
       System.out.println ("The number of steps in path to solution = " + path.get.size)
       if (ui != null) {
         ui.finalRefresh(path, position, numTries, elapsedMillis)
+        print(position.get)
       }
     }
   }

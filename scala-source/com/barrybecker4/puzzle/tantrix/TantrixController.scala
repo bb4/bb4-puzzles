@@ -46,11 +46,8 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
     */
   def isGoal(position: TantrixBoard): Boolean = position.isSolved
 
-  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] = {
-    val trans = new MoveGenerator(position).generateMoves
-    //println("num trans = " + trans.length)
-    trans
-  }
+  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] = 
+    new MoveGenerator(position).generateMoves
 
   def transition(position: TantrixBoard, move: TilePlacement): TantrixBoard = position.placeTile(move)
 
