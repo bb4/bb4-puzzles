@@ -90,7 +90,7 @@ class HexTileRenderer() {
     val xpoints = new Array[Int](numPoints)
     val ypoints = new Array[Int](numPoints)
     for (i <- 0 to 6) {
-        val angStart = HexUtil.rad(30 + 60 * i) // was 30 +
+        val angStart = HexUtil.rad(30 + 60 * i) 
         xpoints(i) = (point.getX + radius * Math.cos(angStart)).toInt
         ypoints(i) = (point.getY + radius * Math.sin(angStart)).toInt
     }

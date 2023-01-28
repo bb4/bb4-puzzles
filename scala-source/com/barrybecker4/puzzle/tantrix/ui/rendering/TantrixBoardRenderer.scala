@@ -16,7 +16,7 @@ import scala.Iterable
   */
 object TantrixBoardRenderer {
   private val MARGIN_FRAC = 0.2
-  private[rendering] val TOP_MARGIN = 15
+  private[rendering] val TOP_MARGIN = 30
   private val GRID_COLOR = new Color(130, 140, 170)
   private val MIN_EDGE_LEN = 5
 }
@@ -26,7 +26,6 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
   private val tileRenderer = new HexTileRenderer
   private var hexRadius = .0
   private var edgeLen: Int = _
-  private var padding: Int = 0
   private val boundingBoxCalculator = BoundingBoxCalculator()
 
   def render(g: Graphics, board: TantrixBoard, width: Int, height: Int): Unit = {
@@ -41,11 +40,11 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     if (tiles == null) return
     val g2 = g.asInstanceOf[Graphics2D]
     val bbox: Box = boundingBoxCalculator.getBoundingBox(tiles.toSeq)
-    val boardEdgeLength = bbox.getMaxDimension + 1
+    val boardEdgeLength = bbox.getMaxDimension
     val minEdge = Math.min(width, height)
 
-    edgeLen = Math.max(MIN_EDGE_LEN, bbox.getWidth)
-    padding = Math.max(0, MIN_EDGE_LEN - boardEdgeLength) / 2
+    edgeLen = Math.max(MIN_EDGE_LEN, bbox.getMaxDimension)
+    val padding = Math.max(0, MIN_EDGE_LEN - boardEdgeLength) / 2
     hexRadius = (1.0 - MARGIN_FRAC) * minEdge / (edgeLen * ROOT3 * .9)
     setHints(g2)
 

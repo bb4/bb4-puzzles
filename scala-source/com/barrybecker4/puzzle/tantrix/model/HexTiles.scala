@@ -80,6 +80,10 @@ class HexTiles()  {
     * @param tantrixNumber the number on the back of the tile.
     */
   def getTile(tantrixNumber: Int): HexTile = tiles(tantrixNumber - 1)
+  
+  def getNumTiles: Int = tiles.length
+
+  def getMaxSolitaireSize: Int = 30
 
   def createOrderedList(numTiles: Int): Seq[HexTile] = tiles.slice(0, numTiles)
   def createRandomList(numTiles: Int): Seq[HexTile] = RAND.shuffle(tiles.slice(0, numTiles))

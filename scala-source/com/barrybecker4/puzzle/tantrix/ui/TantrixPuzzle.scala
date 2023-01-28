@@ -11,6 +11,7 @@ import com.barrybecker4.puzzle.tantrix.TantrixController
 import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm
 import com.barrybecker4.ui.util.GUIUtil
+import HexTiles.TILES
 
 /**
   * Tantrix Puzzle Application to show the solving of the puzzle.
@@ -43,7 +44,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
 
   override protected def createBottomControls: JPanel = {
     val label = new JLabel("Number of Tiles")
-    val model = new SpinnerNumberModel(TantrixPuzzle.DEFAULT_NUM_TILES, 3, 30, 1)
+    val model = new SpinnerNumberModel(TantrixPuzzle.DEFAULT_NUM_TILES, 3, TILES.getMaxSolitaireSize, 1)
     spinner = new JSpinner(model)
     spinner.addChangeListener(this)
     val numTilesSelector = new JPanel

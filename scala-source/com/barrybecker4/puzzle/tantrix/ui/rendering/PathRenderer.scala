@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui.rendering
 
 import java.awt._
@@ -11,8 +11,7 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.PathColorInterpreter.getColo
 import com.barrybecker4.puzzle.tantrix.ui.rendering.PathRenderer._
 
 /**
-  * Renders a single tantrix tilePlacement. The placement has position and orientation.
-  * @author Barry Becker
+  * Renders a tantrix path on a single tile.
   */
 object PathRenderer {
   private val PATH_BORDER_COLOR = new Color(10, 10, 10)
