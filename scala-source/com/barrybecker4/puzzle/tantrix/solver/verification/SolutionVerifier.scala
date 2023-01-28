@@ -19,8 +19,8 @@ class SolutionVerifier(var board: TantrixBoard) {
     * @return true if solved.
     */
   def isSolved: Boolean = {
-    val loopDetector = new LoopDetector(board)
-    val detector = new InnerSpaceDetector(board.tantrix)
-    loopDetector.hasLoop && !detector.hasInnerSpaces
+    val loopDetector = LoopDetector(board)
+    val detector = InnerSpaceDetector(board.tantrix)
+    loopDetector.hasLoop && detector.numInnerSpaces() == 0
   }
 }

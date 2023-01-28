@@ -12,7 +12,7 @@ import com.barrybecker4.puzzle.tantrix.PathTstUtil
   * Simple class to help viewing tile arrangements
   */
 @main def TantrixViewerApp(): Unit =
-  val tiles = PathTstUtil.LOOP_PATH14.tiles
+  val tiles = PathTstUtil.IMPERFECT_LOOP_PATH14.tiles
   val board = new TantrixBoard(tiles, PathColor.BLUE)
   new TantrixViewerFrame(board)
 

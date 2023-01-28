@@ -125,9 +125,9 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
-      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_0)) // was _60
+      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, board.numTiles)
     assertResult(expectedPath) { nbr }
@@ -141,7 +141,6 @@ class TantrixPathSuite extends AnyFunSuite {
     [tileNum=1 colors: RED,BLUE,RED,BLUE,YELLOW,YELLOW at (row=21, column=21) ANGLE_0],
     [tileNum=2 colors: BLUE,YELLOW,YELLOW,BLUE,RED,RED at (row=22, column=21) ANGLE_60]),
 
-
     ([tileNum=3 colors: BLUE,BLUE,RED,RED,YELLOW,YELLOW at (row=22, column=20) ANGLE_120],
     [tileNum=1 colors: RED,BLUE,RED,BLUE,YELLOW,YELLOW at (row=21, column=21) ANGLE_0],
     [tileNum=2 colors: BLUE,YELLOW,YELLOW,BLUE,RED,RED at (row=22, column=21) ANGLE_0]) (TantrixPathSuite.scala:128)
@@ -154,9 +153,9 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
-      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_0)) // was _60
+      TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, board.numTiles)
     assertResult(expectedPath) { nbr }

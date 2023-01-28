@@ -13,10 +13,10 @@ import PathEvaluator.*
   */
 object PathEvaluator {
   /** If fitness is 0, then puzzle is solved. The worst fitness is this value. */
-  val FITNESS_RANGE: Double = 6.0
+  val FITNESS_RANGE: Double = 10.0
 
   /** If more than this many tiles away from the required path length it doesn't matter */
-  private val MAX_NUM_MISSING_TILES = 4
+  private val MAX_NUM_MISSING_TILES = 8
 
   private val UNPLACED_TILE_WEIGHT = 1.0
 
@@ -24,16 +24,15 @@ object PathEvaluator {
   private val LOOP_PROXIMITY_WEIGHT = 0.4
 
   /** Weight to give if we actually have a primary path loop. */
-  private val LOOP_WEIGHT = 0.4
+  private val LOOP_WEIGHT = FITNESS_RANGE - 1.0
 
   /** Weight to give matching paths (includes secondary paths) */
-  private val PATH_MATCH_WEIGHT = 0.6
-
-  /** We have a loop and all paths match */
-  private val CONSISTENT_LOOP_BONUS = 0.3
+  private val PATH_MATCH_WEIGHT = 0.7
 
   /** A measure of compactness. Avoids inner spaces. */
   private val COMPACTNESS_WEIGHT = 0.3
+
+  private val INNER_SPACE_WEIGHT = 0.3
 }
 
 case class PathEvaluator() {
@@ -53,18 +52,20 @@ case class PathEvaluator() {
     val consistencyChecker = ConsistencyChecker(path.tiles, path.primaryPathColor)
     val numFits = consistencyChecker.numFittingTiles
     val allFit = numFits == numTiles
+    var numInnerSpaces = 0
     val consistentLoop = isLoop && allFit
     var perfectLoop = false
     if (consistentLoop) {
       val tantrix = new Tantrix(path.tiles)
       val innerDetector = InnerSpaceDetector(tantrix)
-      perfectLoop = !innerDetector.hasInnerSpaces && numTiles == path.desiredLength
+      numInnerSpaces = innerDetector.numInnerSpaces()
+      perfectLoop = numInnerSpaces == 0 && numTiles == path.desiredLength
     }
-    assert(numFits <= numTiles)
 
-    val fitness = if (perfectLoop) 0.0 else {
-      calcFitnessForNonLoop(path, numTiles, numFits, isLoop, consistentLoop)
-    }
+    val fitness =
+      if (perfectLoop) 0.0
+      else if (isLoop && numTiles == path.desiredLength) calcFitnessForImperfectLoop(path, numFits, numInnerSpaces)
+      else calcFitnessForNonLoop(path, numTiles, numFits)
 
     assert(fitness >= 0, "Fitness (" + fitness + ") must be >= 0")
     assert(fitness <= FITNESS_RANGE, "Fitness (" + fitness + ") must be <= " + FITNESS_RANGE)
@@ -75,20 +76,36 @@ case class PathEvaluator() {
   }
 
   /**
-    * Heuristic function to determine the fitness of an imperfect path
+    * Heuristic function to determine the fitness of an imperfect loop path
     * @return approximate fitness
     */
-  private def calcFitnessForNonLoop(path: TantrixPath, numTiles: Int, numFits: Int, isLoop: Boolean, consistentLoop: Boolean): Double = {
+  private def calcFitnessForImperfectLoop(path: TantrixPath, numFits: Int, numInnerSpaces: Int): Double = {
+    val distance = path.getEndPointDistance
+    assert(distance == 0, "Distance from loop end points should be 0. " + distance)
+
+    val compactness = CompactnessCalculator().determineCompactness(path)
+
+    val sum: Double = LOOP_WEIGHT +
+        PATH_MATCH_WEIGHT * (numFits.toDouble / path.desiredLength) +
+        COMPACTNESS_WEIGHT * compactness - INNER_SPACE_WEIGHT * numInnerSpaces
+    val score: Double = FITNESS_RANGE - sum  // between 0 and 1
+    assert(score >= 0, "Score not positive. " + score)
+    score
+  }
+
+  /**
+    * Heuristic function to determine the fitness of a non-loop path
+    * @return approximate fitness
+    */
+  private def calcFitnessForNonLoop(path: TantrixPath, numTiles: Int, numFits: Int): Double = {
     val distance = path.getEndPointDistance
     val compactness = CompactnessCalculator().determineCompactness(path)
 
     val sum: Double =
       UNPLACED_TILE_WEIGHT * (MAX_NUM_MISSING_TILES - Math.min(path.desiredLength - numTiles, MAX_NUM_MISSING_TILES)) +
       LOOP_PROXIMITY_WEIGHT * distance / numTiles +
-      (if (isLoop) LOOP_WEIGHT else 0) +
       PATH_MATCH_WEIGHT * (numFits.toDouble / numTiles) +
-      COMPACTNESS_WEIGHT * compactness +
-      (if (consistentLoop) CONSISTENT_LOOP_BONUS else 0)
+      COMPACTNESS_WEIGHT * compactness
     val score: Double = FITNESS_RANGE - sum
     assert(score >= 0, "Score not positive. " + score)
     score

@@ -35,6 +35,7 @@ object PathTstUtil {
     TilePlacement(TILE1, UPPER, ANGLE_0),
     TilePlacement(TILE3, LOWER_LEFT, ANGLE_120)
   )
+
   /** left end of the yellow path is blocked by tile 2 */
   val NON_LOOP_PATH3: TantrixPath = createPath(
     TilePlacement(TILE2, LOWER_RIGHT, ANGLE_0),
@@ -49,12 +50,61 @@ object PathTstUtil {
       TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
     ), PathColor.RED, 4)
 
+  val LOOP_PATH4_OF_5 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED, 5)
+
+  val LOOP_PATH4_OF_6 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED, 6)
+
+  val LOOP_PATH4_OF_7 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED, 7)
+
+  val LOOP_PATH4_OF_8 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED, 8)
+
+  val LOOP_PATH4_OF_9 = new TantrixPath(
+    Seq(TilePlacement(TILE1, LOWER_LEFT, ANGLE_0),
+      TilePlacement(TILE3, LOWER_RIGHT, ANGLE_0),
+      TilePlacement(TILE4, UPPER, ANGLE_60),
+      TilePlacement(TILE2, UPPER_LEFT, ANGLE_60)
+    ), PathColor.RED, 9)
+
   val NON_LOOP_PATH4 = new TantrixPath(Seq(
     TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
     TilePlacement(TILE2, UPPER_LEFT, ANGLE_60),
     TilePlacement(TILE4, UPPER, ANGLE_60),
     TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
   ), PathColor.RED, 4)
+
+  val NON_LOOP_PATH4_OF_5 = new TantrixPath(Seq(
+    TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
+    TilePlacement(TILE2, UPPER_LEFT, ANGLE_60),
+    TilePlacement(TILE4, UPPER, ANGLE_60),
+    TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
+  ), PathColor.RED, 5)
+
+  val NON_LOOP_PATH4_OF_6 = new TantrixPath(Seq(
+    TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
+    TilePlacement(TILE2, UPPER_LEFT, ANGLE_60),
+    TilePlacement(TILE4, UPPER, ANGLE_60),
+    TilePlacement(TILE3, LOWER_RIGHT, ANGLE_300)
+  ), PathColor.RED, 6)
 
   val LINEAR_PATH4 = new TantrixPath(Seq(
     TilePlacement(TILE2, new ByteLocation(21, 19), ANGLE_60),
@@ -211,6 +261,22 @@ object PathTstUtil {
     TilePlacement(TILE10, new ByteLocation(19, 19), ANGLE_240),
   ), PathColor.BLUE, 14)
 
+  val IMPERFECT_LOOP_PATH14 = new TantrixPath(Seq(
+    TilePlacement(TILE7, new ByteLocation(18, 19), ANGLE_0),
+    TilePlacement(TILE1, new ByteLocation(19, 20), ANGLE_300),
+    TilePlacement(TILE5, new ByteLocation(19, 21), ANGLE_120),
+    TilePlacement(TILE8, new ByteLocation(20, 20), ANGLE_120),
+    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_0),
+    TilePlacement(TILE13, new ByteLocation(20, 22), ANGLE_120),
+    TilePlacement(TILE2, new ByteLocation(21, 22), ANGLE_60),
+    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_60),
+    TilePlacement(TILE12, new ByteLocation(21, 21), ANGLE_0),
+    TilePlacement(TILE6, new ByteLocation(21, 20), ANGLE_240),
+    TilePlacement(TILE11, new ByteLocation(20, 19), ANGLE_300),
+    TilePlacement(TILE9, new ByteLocation(20, 18), ANGLE_240),
+    TilePlacement(TILE14, new ByteLocation(19, 18), ANGLE_0),
+    TilePlacement(TILE10, new ByteLocation(19, 19), ANGLE_240),
+    ), PathColor.BLUE, 14)
   
 
   def createPathList: List[TantrixPath] = {

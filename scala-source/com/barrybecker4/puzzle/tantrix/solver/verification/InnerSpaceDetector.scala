@@ -20,10 +20,10 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
     * then there are inner spaces and it is not a valid solution.
     * @return true if there are no inner empty spaces.
     */
-  def hasInnerSpaces: Boolean = {
+  def numInnerSpaces(): Int = {
     val seedEmpties = findEmptyBorderPositions
     val visited = findConnectedEmpties(seedEmpties)
-    !allEmptiesVisited(visited)
+    numInternalEmpties(visited)
   }
 
   /** @return all the empty positions on the border  */
@@ -83,17 +83,18 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
   }
 
   /** @param visited set of visited empties.
-    * @return true if any empties in the tantrix bbox are not visited
+    * @return the number of empties in the tantrix bbox that are not visited
     */
-  private def allEmptiesVisited(visited: Set[Location]): Boolean = {
+  private def numInternalEmpties(visited: Set[Location]): Int = {
     val bbox = tantrix.getBoundingBox
+    var numEmpties = 0
     for (i <- bbox.getMinRow until bbox.getMaxRow) {
       for (j <- bbox.getMinCol to bbox.getMaxCol) {
         val loc = new ByteLocation(i, j)
         if (tantrix(loc).isEmpty && !visited.contains(loc))
-          return false
+          numEmpties += 1
       }
     }
-    true
+    numEmpties
   }
 }
