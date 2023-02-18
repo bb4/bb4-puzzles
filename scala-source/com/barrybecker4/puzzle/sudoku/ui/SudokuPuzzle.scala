@@ -2,8 +2,9 @@
 package com.barrybecker4.puzzle.sudoku.ui
 
 import java.awt.BorderLayout
-import javax.swing.{JApplet, JPanel, SwingUtilities}
+import javax.swing.{JPanel, SwingUtilities}
 import com.barrybecker4.puzzle.sudoku.{Data, SudokuController}
+import com.barrybecker4.ui.application.MyJApplet
 import com.barrybecker4.ui.util.GUIUtil
 
 /**
@@ -18,7 +19,7 @@ object SudokuPuzzle extends App {
 }
 
 /** Construct the application and set the look and feel. */
-final class SudokuPuzzle() extends JApplet {
+final class SudokuPuzzle() extends MyJApplet {
 
   GUIUtil.setCustomLookAndFeel()
 
