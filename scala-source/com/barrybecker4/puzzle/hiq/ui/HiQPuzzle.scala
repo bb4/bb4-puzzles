@@ -62,7 +62,8 @@ case class HiQPuzzle(myargs: Array[String])
   protected def createController(viewer: Refreshable[PegBoard, PegMove] ): PuzzleController[PegBoard, PegMove] =
     new HiQController(viewer)
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[PegBoard, PegMove]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[PegBoard, PegMove]] = 
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[PegBoard, PegMove]]]
 
   override protected def createBottomControls: JPanel = {
     navPanel = new NavigationPanel()

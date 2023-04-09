@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.hiq.model.MoveGenerator
 import com.barrybecker4.puzzle.hiq.model.PegBoard
 import com.barrybecker4.puzzle.hiq.model.PegMove
+import com.barrybecker4.puzzle.hiq.Algorithm.CONCURRENT_OPTIMUM
 import collection.mutable
 
 /**

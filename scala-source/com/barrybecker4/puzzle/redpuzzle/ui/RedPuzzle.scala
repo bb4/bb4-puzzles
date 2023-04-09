@@ -45,7 +45,8 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
     new RedPuzzleController(viewer)
   }
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, OrientedPiece]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[PieceList, OrientedPiece]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[PieceList, OrientedPiece]]]
 
   override protected def createBottomControls: JPanel = {
     animSpeedSlider = new LabeledSlider("Speed ", INITIAL_ANIM_SPEED, 1, MAX_ANIM_SPEED)
