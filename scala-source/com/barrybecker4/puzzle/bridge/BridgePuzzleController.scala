@@ -4,6 +4,7 @@ package com.barrybecker4.puzzle.bridge
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.bridge.model._
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
+import com.barrybecker4.puzzle.bridge.Algorithm.A_STAR_SEQUENTIAL
 import InitialConfiguration.CONFIGURATIONS
 import scala.collection.mutable
 

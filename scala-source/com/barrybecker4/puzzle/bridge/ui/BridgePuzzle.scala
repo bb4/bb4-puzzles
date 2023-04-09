@@ -35,7 +35,8 @@ final class BridgePuzzle(args: Array[String])
     new BridgePuzzleController(viewer)
   }
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Bridge, BridgeMove]]]
 
   override protected def createTopControls = new BridgeTopControls(controller, getAlgorithmValues)
 

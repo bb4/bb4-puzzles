@@ -23,13 +23,13 @@ enum Algorithm extends AlgorithmEnum[Pails, PourOperation] {
     * Create an instance of the algorithm given the controller.
     */
   def createSolver(controller: PuzzleController[Pails, PourOperation]): PuzzleSolver[PourOperation] = this match {
-    case Algorithm.SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Pails, PourOperation](controller)
-    case Algorithm.A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Pails, PourOperation](controller)
-    case Algorithm.A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Pails, PourOperation](controller)
-    case Algorithm.IDA_STAR => new IDAStarPuzzleSolver[Pails, PourOperation](controller)
-    case Algorithm.CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
-    case Algorithm.CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
-    case Algorithm.CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
+    case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Pails, PourOperation](controller)
+    case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Pails, PourOperation](controller)
+    case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Pails, PourOperation](controller)
+    case IDA_STAR => new IDAStarPuzzleSolver[Pails, PourOperation](controller)
+    case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
+    case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
+    case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
   }
 
   case SIMPLE_SEQUENTIAL extends Algorithm
