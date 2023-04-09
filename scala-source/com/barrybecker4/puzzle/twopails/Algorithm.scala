@@ -8,46 +8,35 @@ import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStar
 import com.barrybecker4.puzzle.twopails.model.Pails
 import com.barrybecker4.puzzle.twopails.model.PourOperation
 
-case object SIMPLE_SEQUENTIAL extends Algorithm
-case object A_STAR_SEQUENTIAL extends Algorithm
-case object A_STAR_CONCURRENT extends Algorithm
-case object IDA_STAR extends Algorithm
-case object CONCURRENT_BREADTH extends Algorithm
-case object CONCURRENT_DEPTH extends Algorithm
-case object CONCURRENT_OPTIMUM extends Algorithm
 
 /**
   * Type of search solver to use.
   *
   * @author Barry Becker
   */
-sealed trait Algorithm extends AlgorithmEnum[Pails, PourOperation] {
+enum Algorithm extends AlgorithmEnum[Pails, PourOperation] {
 
   private val label = AppContext.getLabel(this.toString)
   def getLabel: String = label
 
   /**
-    * Create an instance of the algorithm given the controller and a refreshable.
+    * Create an instance of the algorithm given the controller.
     */
-  def createSolver(controller: PuzzleController[Pails, PourOperation]): PuzzleSolver[PourOperation] = {
-    this match {
-      case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Pails, PourOperation](controller)
-      case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Pails, PourOperation](controller)
-      case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Pails, PourOperation](controller)
-      case IDA_STAR => new IDAStarPuzzleSolver[Pails, PourOperation](controller)
-      case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
-      case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
-      case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
-      case null => throw new IllegalStateException("unknow solver type: " + this)
-    }
+  def createSolver(controller: PuzzleController[Pails, PourOperation]): PuzzleSolver[PourOperation] = this match {
+    case Algorithm.SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Pails, PourOperation](controller)
+    case Algorithm.A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Pails, PourOperation](controller)
+    case Algorithm.A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Pails, PourOperation](controller)
+    case Algorithm.IDA_STAR => new IDAStarPuzzleSolver[Pails, PourOperation](controller)
+    case Algorithm.CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.4f)
+    case Algorithm.CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.12f)
+    case Algorithm.CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[Pails, PourOperation](controller, 0.2f)
   }
 
-  override def ordinal: Int = Algorithm.VALUES.indexOf(this)
-}
-
-object Algorithm {
-  val VALUES: Array[AlgorithmEnum[Pails, PourOperation]] = Array(
-    SIMPLE_SEQUENTIAL, A_STAR_CONCURRENT, IDA_STAR,
-    CONCURRENT_BREADTH, CONCURRENT_DEPTH, CONCURRENT_OPTIMUM
-  )
+  case SIMPLE_SEQUENTIAL extends Algorithm
+  case A_STAR_SEQUENTIAL extends Algorithm
+  case A_STAR_CONCURRENT extends Algorithm
+  case IDA_STAR extends Algorithm
+  case CONCURRENT_BREADTH extends Algorithm
+  case CONCURRENT_DEPTH extends Algorithm
+  case CONCURRENT_OPTIMUM extends Algorithm
 }

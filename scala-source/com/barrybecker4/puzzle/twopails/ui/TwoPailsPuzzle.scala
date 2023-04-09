@@ -1,8 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
-import com.barrybecker4.puzzle.common.AlgorithmEnum
-import com.barrybecker4.puzzle.common.PuzzleController
+import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.NavigationPanel
@@ -47,7 +46,8 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
     new TwoPailsPuzzleController(viewer)
   }
 
-  override protected def getAlgorithmValues: Array[AlgorithmEnum[Pails, PourOperation]] = Algorithm.VALUES
+  override protected def getAlgorithmValues: Array[AlgorithmEnum[Pails, PourOperation]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Pails, PourOperation]]];
 
   override protected def createTopControls = new TopControls(controller, getAlgorithmValues)
 
