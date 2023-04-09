@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.math.MathUtil
+import com.barrybecker4.puzzle.maze.model.Direction._
 
 /**
   * The three normalized directional probabilities.
