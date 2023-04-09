@@ -6,7 +6,7 @@ import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
-import com.barrybecker4.puzzle.tantrix.solver.SIMPLE_SEQUENTIAL
+import com.barrybecker4.puzzle.tantrix.solver.Algorithm.SIMPLE_SEQUENTIAL
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 
 

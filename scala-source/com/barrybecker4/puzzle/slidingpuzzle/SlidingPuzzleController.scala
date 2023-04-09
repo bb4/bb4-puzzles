@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
+import com.barrybecker4.puzzle.slidingpuzzle.Algorithm.A_STAR_SEQUENTIAL
 
 
 /**

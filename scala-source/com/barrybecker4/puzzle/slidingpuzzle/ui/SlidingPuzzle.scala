@@ -39,7 +39,8 @@ case class SlidingPuzzle(myargs: Array[String])
     new SlidingPuzzleController(viewer)
   }
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[SliderBoard, SlideMove]]]
 
   override protected def createTopControls: SliderTopControls = 
     SliderTopControls(controller.asInstanceOf[SlidingPuzzleController], getAlgorithmValues)

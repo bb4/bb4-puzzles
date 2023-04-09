@@ -40,7 +40,8 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     controller
   }
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[TantrixBoard, TilePlacement]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[TantrixBoard, TilePlacement]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[TantrixBoard, TilePlacement]]]
 
   override protected def createBottomControls: JPanel = {
     val label = new JLabel("Number of Tiles")
