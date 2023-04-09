@@ -22,12 +22,13 @@ class MazePanel() extends JComponent {
 
   def setThickness(thickness: Int): Unit = {
     val dim: Dimension = this.getSize
-    if (dim.width <= 0 || dim.height < 0) return
-    cellSize = thickness
-    renderer.setCellSize(cellSize)
-    val width = dim.width / thickness
-    val height = dim.height / thickness
-    maze.setDimensions(width, height)
+    if (dim.width > 0 && dim.height > 0) {
+      cellSize = thickness
+      renderer.setCellSize(cellSize)
+      val width = dim.width / thickness
+      val height = dim.height / thickness
+      maze.setDimensions(width, height)
+    }
   }
 
   /** paint the whole window right now! */
@@ -45,10 +46,10 @@ class MazePanel() extends JComponent {
     val csized2 = (cellSize / 2) + 2
     val xpos = point.getX * cellSize
     val ypos = point.getY * cellSize
-    if (animationSpeed <= 10) {
+    if (animationSpeed <= TopControlPanel.ANIMATION_SLOW_SPEED_THRESH) {
       // this paints just the cell immediately (sorta slow)
       this.paintImmediately(xpos - csized2, ypos - csized2, 2 * cellSize, 2 * cellSize)
-      if (animationSpeed < 9) ThreadUtil.sleep(400 / animationSpeed - 40)
+      if (animationSpeed < TopControlPanel.ANIMATION_SLOW_SPEED_THRESH / 2) ThreadUtil.sleep(200 / animationSpeed)
     }
     else {
       val rand = MathUtil.RANDOM.nextDouble()

@@ -40,7 +40,7 @@ final class MazeController(var mazePanel: MazePanel)
     mazePanel.animationSpeed = slider.getValue.toInt
   }
 
-  /** Regenerate the maze based on the current UI parameter settingsand current size of the panel. */
+  /** Regenerate the maze based on the current UI parameter settings and current size of the panel. */
   def regenerate(thickness: Int, animationSpeed: Int, forwardP: Double, leftP: Double, rightP: Double): Unit = {
     if (solver.isWorking) solver.interrupt()
     if (generator != null) {
@@ -76,21 +76,23 @@ final class MazeController(var mazePanel: MazePanel)
     * @param animationSpeed the speed at which to show the solution.
     */
   def solve(animationSpeed: Int): Unit = {
-    if (generateWorker.isWorking) return
-    if (solver.isWorking) solver.interrupt()
-    val worker: Worker = new Worker() {
-      def construct: AnyRef = {
-        mazePanel.animationSpeed = animationSpeed
-        solver = new MazeSolver(mazePanel)
-        solver.solve()
-        boolean2Boolean(true)
-      }
+    if (!generateWorker.isWorking) {
+      if (solver.isWorking) solver.interrupt()
 
-      override def finished(): Unit = {
-        mazePanel.repaint()
+      val worker: Worker = new Worker() {
+        def construct: AnyRef = {
+          mazePanel.animationSpeed = animationSpeed
+          solver = new MazeSolver(mazePanel)
+          solver.solve()
+          boolean2Boolean(true)
+        }
+
+        override def finished(): Unit = {
+          mazePanel.repaint()
+        }
       }
+      worker.start()
     }
-    worker.start()
   }
 
 }

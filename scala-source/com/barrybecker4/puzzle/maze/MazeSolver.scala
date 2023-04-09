@@ -38,7 +38,6 @@ class MazeSolver(var panel: MazePanel) {
     maze.unvisitAll()
     stack.clear()
     findSolution()
-    panel.paintAll()
     isWorking = false
   }
 
@@ -49,12 +48,11 @@ class MazeSolver(var panel: MazePanel) {
     var currentCell: MazeCell = maze.getCell(currentPosition)
     // push the initial moves
     stack.pushMoves(currentPosition, IntLocation (0, 1), 0)
-    panel.paintAll()
     var dir: Location = null
     var depth: Int = 0
     var solved: Boolean = false
 
-    // while there are still paths to try and we have not yet encountered the finish
+    // while there are still paths to try, and we have not yet encountered the finish
     while (!stack.isEmpty && !solved && !interrupted) {
       val state: GenState = stack.pop()
       currentPosition = state.position

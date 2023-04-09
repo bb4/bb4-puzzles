@@ -1,9 +1,11 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.ui
 
+import com.barrybecker4.puzzle.maze.ui.TopControlPanel.MAX_ANIMATION_SPEED
 import com.barrybecker4.ui.components.GradientButton
 import com.barrybecker4.ui.components.NumberInput
 import com.barrybecker4.ui.sliders.LabeledSlider
+
 import javax.swing.BorderFactory
 import javax.swing.JPanel
 import java.awt.GridBagConstraints
@@ -18,7 +20,9 @@ import java.awt.event.ActionListener
 object TopControlPanel {
   /** the passage thickness in pixels */
   private val PASSAGE_THICKNESS = 40
-  private val INITIAL_ANIMATION_SPEED = 20
+  private val INITIAL_ANIMATION_SPEED = 30
+  val MAX_ANIMATION_SPEED = 100
+  val ANIMATION_SLOW_SPEED_THRESH = 30
 }
 
 class TopControlPanel(var controller: MazeController) extends JPanel with ActionListener {
@@ -28,8 +32,8 @@ class TopControlPanel(var controller: MazeController) extends JPanel with Action
   this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2))
   private val thicknessField =
     new NumberInput("Thickness", TopControlPanel.PASSAGE_THICKNESS, "The passage thickness", 2, 200, true)
-  private val animSpeedSlider = new LabeledSlider("Speed ", TopControlPanel.INITIAL_ANIMATION_SPEED, 1, 100)
-  animSpeedSlider.setResolution(99)
+  private val animSpeedSlider = new LabeledSlider("Speed ", TopControlPanel.INITIAL_ANIMATION_SPEED, 1, MAX_ANIMATION_SPEED)
+  animSpeedSlider.setResolution(MAX_ANIMATION_SPEED - 1)
   animSpeedSlider.setShowAsInteger(true)
   animSpeedSlider.addChangeListener(controller)
 

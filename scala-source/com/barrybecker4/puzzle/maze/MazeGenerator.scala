@@ -5,10 +5,11 @@ import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.math.MathUtil
+import com.barrybecker4.puzzle.maze.MazeGenerator.SLOW_SPEED_THRESH
 import com.barrybecker4.puzzle.maze.model.MazeCell
 import com.barrybecker4.puzzle.maze.model.Probabilities
 import com.barrybecker4.puzzle.maze.model.StateStack
-import com.barrybecker4.puzzle.maze.ui.MazePanel
+import com.barrybecker4.puzzle.maze.ui.{MazePanel, TopControlPanel}
 
 /**
   * Program to automatically generate a Maze.
@@ -22,7 +23,7 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel
   */
 object MazeGenerator {
   /** if the animation speed is less than this things will slow down a lot */
-  private val SLOW_SPEED_THRESH = 10
+  private val SLOW_SPEED_THRESH = 20
 }
 
 class MazeGenerator(val panel: MazePanel) {
@@ -116,11 +117,12 @@ class MazeGenerator(val panel: MazePanel) {
   /** This can be really slow if you do a refresh every time */
   private def refresh(): Unit = {
     val speed = panel.animationSpeed
-    if (MathUtil.RANDOM.nextDouble() < (2.0 / speed)) {
+    val thresh = 0.3 * (TopControlPanel.MAX_ANIMATION_SPEED.toDouble / speed) - 0.3
+    if (MathUtil.RANDOM.nextDouble() < thresh) {
       panel.paintAll()
       if (speed < MazeGenerator.SLOW_SPEED_THRESH) {
         val diff = MazeGenerator.SLOW_SPEED_THRESH - speed
-        ThreadUtil.sleep(diff * diff * 6)
+        ThreadUtil.sleep(diff * diff)
       }
     }
   }
