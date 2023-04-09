@@ -5,6 +5,7 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.model.MoveGenerator
 import com.barrybecker4.puzzle.rubixcube.ui.selectors.SizeSelector
+import com.barrybecker4.puzzle.rubixcube.Algorithm.A_STAR_SEQUENTIAL
 import com.barrybecker4.search.Refreshable
 
 

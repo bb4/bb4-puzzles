@@ -37,7 +37,8 @@ case class RubixCubePuzzle(myargs: Array[String])
   protected def createController(
       viewer: Refreshable[Cube, CubeMove]): RubixCubeController = new RubixCubeController(viewer)
 
-  protected def getAlgorithmValues: Array[AlgorithmEnum[Cube, CubeMove]] = Algorithm.VALUES
+  protected def getAlgorithmValues: Array[AlgorithmEnum[Cube, CubeMove]] =
+    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Cube, CubeMove]]]
 
   override protected def createTopControls: RubixCubeTopControls =
     RubixCubeTopControls(controller.asInstanceOf[RubixCubeController], getAlgorithmValues)
