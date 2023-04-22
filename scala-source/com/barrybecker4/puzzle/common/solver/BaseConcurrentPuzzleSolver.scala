@@ -4,7 +4,6 @@ import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.model.PuzzleNode
 import scala.collection.mutable
-import java.security.AccessControlException
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadPoolExecutor
 
@@ -72,8 +71,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   finally try
     exec.shutdown()
   catch {
-    case e: AccessControlException =>
-      println("AccessControlException shutting down exec thread. "
+    case e: SecurityException =>
+      println("SecurityException shutting down exec thread. "
         + "Probably because running in a secure sandbox. " + e.getMessage)
   }
 
@@ -116,12 +115,17 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     */
   protected class SolverTask(pos: P, move: Option[M], prev: Option[PuzzleNode[P, M]])
     extends PuzzleNode[P, M](pos, move, prev) with Runnable {
+
     override def run(): Unit = {
       numTries += 1
-      if (solution.isSet || puzzle.alreadySeen(getPosition, seen))
-        return // already solved or seen this position, so skip
+
+      // Terminate if already solved or seen this position, so skip
+      if (solution.isSet || puzzle.alreadySeen(getPosition, seen)) return
+
       puzzle.refresh(getPosition, numTries)
-      if (puzzle.isGoal(getPosition)) solution.setValue(this)
+
+      if (puzzle.isGoal(getPosition))
+        solution.setValue(this)
       else {
         val transitions = puzzle.legalTransitions(getPosition)
         for (move <- transitions) {
@@ -138,4 +142,3 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   }
 
 }
-
