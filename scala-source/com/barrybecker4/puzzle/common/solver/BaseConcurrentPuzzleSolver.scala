@@ -92,14 +92,10 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
 
     // block until solution found
     val solutionPuzzleNode = solution.getValue
-    // there has to be a better way to do this
-    val path =
-      if (solutionPuzzleNode == null) None
-      else Some(solutionPuzzleNode.asMoveList)
+    val path = solutionPuzzleNode.map(_.asMoveList)
 
     val elapsedTime = System.currentTimeMillis - startTime
-    val position: Option[P] = if (solutionPuzzleNode == null) None
-                   else Some(solutionPuzzleNode.getPosition)
+    val position: Option[P] = solutionPuzzleNode.map(_.getPosition)
     System.out.println("solution = " + position)
     puzzle.finalRefresh(path, position, numTries, elapsedTime)
     path

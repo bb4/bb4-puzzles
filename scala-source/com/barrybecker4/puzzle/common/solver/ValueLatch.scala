@@ -35,10 +35,10 @@ class ValueLatch[T] {
     * @return the final computed value
     */
   @throws[InterruptedException]
-  def getValue: T = {
+  def getValue: Option[T] = {
     done.await()
     done synchronized
-      value
+      Some(value)
   }
 }
 
