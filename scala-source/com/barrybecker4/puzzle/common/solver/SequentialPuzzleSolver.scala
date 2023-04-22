@@ -42,7 +42,7 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
     * Recursive Depth first search for a solution to the puzzle.
     *
     * @param node the current state of the puzzle.
-    * @return list of moves leading to a solution. Null if no solution.
+    * @return list of moves leading to a solution. None if no solution.
     */
   private def search(node: PuzzleNode[P, M]): Option[PuzzleNode[P, M]] = {
     val currentState = node.getPosition

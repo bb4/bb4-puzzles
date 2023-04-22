@@ -11,7 +11,7 @@ trait PuzzleSolver[M] {
 
   /** Solve the puzzle and return a list of moves that lead to the solution.
     * @return list of moves (transitions) that can be made to arrive at a solution.
-    *         Null if no solution found.
+    *         None if no solution found.
     */
   @throws[InterruptedException]
   def solve: Option[Seq[M]]

@@ -13,7 +13,7 @@ import scala.collection.mutable
   * Provides default implementation for a PuzzleController.
   * The puzzle controller is what will solve a puzzle using some provided strategy.
   * It updates the ui (refreshable) and determines what algorithm is used to solve it.
-  * If a non-null Refreshable is pass into the constructor that that will be delegated
+  * If a non-null Refreshable is passed into the constructor that that will be delegated
   * to when the controller is asked to do a refresh.
   *
   * @author Barry Becker
