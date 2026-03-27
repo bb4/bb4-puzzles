@@ -14,9 +14,11 @@ import com.jme3.scene.Geometry
 import com.jme3.scene.shape.Box
 
 
-object OgreAnimation extends App {
-  val app = new OgreAnimation()
-  app.start()
+object OgreAnimation {
+  def main(args: Array[String]): Unit = {
+    val app = new OgreAnimation()
+    app.start()
+  }
 }
 
 // Hit space key to make the Ogre "attack"

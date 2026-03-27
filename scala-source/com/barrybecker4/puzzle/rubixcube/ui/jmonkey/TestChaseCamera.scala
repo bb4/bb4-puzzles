@@ -16,9 +16,11 @@ import com.jme3.input.KeyInput
 
 /** A 3rd-person chase camera orbits a target.
   * Follow the cube with WASD keys, rotate by dragging the mouse. */
-object TestChaseCamera extends App {
-  val app = new TestChaseCamera
-  app.start()
+object TestChaseCamera {
+  def main(args: Array[String]): Unit = {
+    val app = new TestChaseCamera
+    app.start()
+  }
 }
 
 class TestChaseCamera extends SimpleApplication with AnalogListener with ActionListener {

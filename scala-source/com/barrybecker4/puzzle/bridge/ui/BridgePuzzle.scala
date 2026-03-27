@@ -15,10 +15,12 @@ import javax.swing.JPanel
   * This program solves a very difficult classic solitaire puzzle
   * where you select pairs of people to move across a bridge at night to get them all to the other side.
   */
-object BridgePuzzle extends App {
-  val applet = new BridgePuzzle(args)
-  // this will call applet.init() and start() methods instead of the browser
-  GUIUtil.showApplet(applet)
+object BridgePuzzle {
+  def main(args: Array[String]): Unit = {
+    val applet = new BridgePuzzle(args)
+    // this will call applet.init() and start() methods instead of the browser
+    GUIUtil.showApplet(applet)
+  }
 }
 
 final class BridgePuzzle(args: Array[String])

@@ -12,10 +12,12 @@ import com.barrybecker4.ui.util.GUIUtil
   * This program can generate and solve Sudoku puzzles.
   * @author Barry Becker
   */
-object SudokuPuzzle extends App {
-  val applet = new SudokuPuzzle
-  // this will call applet.init() and start() methods instead of the browser
-  GUIUtil.showApplet(applet)
+object SudokuPuzzle {
+  def main(args: Array[String]): Unit = {
+    val applet = new SudokuPuzzle
+    // this will call applet.init() and start() methods instead of the browser
+    GUIUtil.showApplet(applet)
+  }
 }
 
 /** Construct the application and set the look and feel. */

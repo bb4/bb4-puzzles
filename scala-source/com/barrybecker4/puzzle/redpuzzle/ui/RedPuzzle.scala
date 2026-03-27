@@ -26,10 +26,12 @@ import RedPuzzleViewer._
   *
   * @author Barry Becker
   */
-object RedPuzzle extends App {
-  val applet = new RedPuzzle(args)
-  // this will call applet.init() and start() methods instead of the browser
-  GUIUtil.showApplet(applet)
+object RedPuzzle {
+  def main(args: Array[String]): Unit = {
+    val applet = new RedPuzzle(args)
+    // this will call applet.init() and start() methods instead of the browser
+    GUIUtil.showApplet(applet)
+  }
 }
 
 final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, OrientedPiece] with SliderChangeListener {

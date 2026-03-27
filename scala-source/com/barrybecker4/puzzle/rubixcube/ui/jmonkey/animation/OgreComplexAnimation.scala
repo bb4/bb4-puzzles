@@ -5,7 +5,6 @@ import scala.compiletime.uninitialized
 import com.jme3.anim.AnimComposer
 import com.jme3.anim.ArmatureMask
 import com.jme3.anim.SkinningControl
-import com.jme3.anim.tween.action.Action
 import com.jme3.app.SimpleApplication
 import com.jme3.light.DirectionalLight
 import com.jme3.material.Material
@@ -17,9 +16,11 @@ import com.jme3.scene.Node
 import com.jme3.scene.debug.custom.ArmatureDebugger
 
 
-object OgreComplexAnimation extends App {
-  val app = new OgreComplexAnimation()
-  app.start()
+object OgreComplexAnimation {
+  def main(args: Array[String]): Unit = {
+    val app = new OgreComplexAnimation()
+    app.start()
+  }
 }
 
 class OgreComplexAnimation extends SimpleApplication {

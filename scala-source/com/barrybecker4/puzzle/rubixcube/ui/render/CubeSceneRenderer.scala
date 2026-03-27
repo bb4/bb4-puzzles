@@ -16,13 +16,15 @@ import scala.collection.immutable.Queue
 /**
   * Renders the Rubix cube in 3D using JMonkeyEngine.
   */
-object CubeSceneRenderer extends App {
-  val renderer = new CubeSceneRenderer(5)
-  val settings = new AppSettings(false)
-  settings.setTitle("Rubix Cube Solver")
-  settings.setRenderer(AppSettings.LWJGL_OPENGL3)
-  renderer.setSettings(settings)
-  renderer.start()
+object CubeSceneRenderer {
+  def main(args: Array[String]): Unit = {
+    val renderer = new CubeSceneRenderer(5)
+    val settings = new AppSettings(false)
+    settings.setTitle("Rubix Cube Solver")
+    settings.setRenderer(AppSettings.LWJGL_OPENGL3)
+    renderer.setSettings(settings)
+    renderer.start()
+  }
 }
 
 class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {

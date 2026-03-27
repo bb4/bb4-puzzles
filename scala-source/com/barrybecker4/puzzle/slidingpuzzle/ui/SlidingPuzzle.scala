@@ -18,11 +18,13 @@ import javax.swing._
   * Sliding Puzzle - http://en.wikipedia.org/wiki/Sliding_puzzle.
   * This program solves a difficult classic solitaire puzzle where you slide tiles to make the correct sequence.
   */
-object SlidingPuzzle extends App {
+object SlidingPuzzle {
   /** Use this to run as an application instead of an applet.  */
-  val applet = new SlidingPuzzle(args)
-  // this will call applet.init() and start() methods instead of the browser
-  GUIUtil.showApplet(applet)
+  def main(args: Array[String]): Unit = {
+    val applet = new SlidingPuzzle(args)
+    // this will call applet.init() and start() methods instead of the browser
+    GUIUtil.showApplet(applet)
+  }
 }
 
 case class SlidingPuzzle(myargs: Array[String])

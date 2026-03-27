@@ -19,11 +19,14 @@ import HexTiles.TILES
   *
   * @author Barry Becker
   */
-object TantrixPuzzle extends App {
+object TantrixPuzzle {
   private val DEFAULT_NUM_TILES = 7
-  val applet = new TantrixPuzzle(args)
-  // this will call applet.init() and start() methods instead of the browser
-  GUIUtil.showApplet(applet)
+
+  def main(args: Array[String]): Unit = {
+    val applet = new TantrixPuzzle(args)
+    // this will call applet.init() and start() methods instead of the browser
+    GUIUtil.showApplet(applet)
+  }
 }
 
 final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard, TilePlacement] with ChangeListener {

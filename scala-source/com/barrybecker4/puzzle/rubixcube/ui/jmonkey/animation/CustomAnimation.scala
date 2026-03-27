@@ -13,9 +13,11 @@ import com.jme3.scene.shape.Box
 import java.nio.{ByteBuffer, FloatBuffer}
 
 
-object CustomAnimation extends App {
+object CustomAnimation {
+  def main(args: Array[String]): Unit = {
     val app = new CustomAnimation
     app.start()
+  }
 }
 
 class CustomAnimation extends SimpleApplication {

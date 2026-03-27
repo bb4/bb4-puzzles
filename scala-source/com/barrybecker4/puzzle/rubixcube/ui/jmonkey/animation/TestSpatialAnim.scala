@@ -13,9 +13,11 @@ import com.jme3.scene.{Geometry, Node}
 import com.jme3.scene.shape.Box
 
 
-object TestSpatialAnim extends App {
-  val app = new TestSpatialAnim
-  app.start()
+object TestSpatialAnim {
+  def main(args: Array[String]): Unit = {
+    val app = new TestSpatialAnim
+    app.start()
+  }
 }
 
 class TestSpatialAnim extends SimpleApplication with ActionListener with AnimEventListener {

@@ -11,10 +11,12 @@ import com.jme3.scene.shape.Box
 import com.jme3.scene.{Geometry, Node}
 
 
-object BoxRotationTestAnim extends App {
-  val app = new BoxRotationTestAnim
-  app.setDisplayStatView(false)
-  app.start()
+object BoxRotationTestAnim {
+  def main(args: Array[String]): Unit = {
+    val app = new BoxRotationTestAnim
+    app.setDisplayStatView(false)
+    app.start()
+  }
 }
 
 class BoxRotationTestAnim extends SimpleApplication with ActionListener {

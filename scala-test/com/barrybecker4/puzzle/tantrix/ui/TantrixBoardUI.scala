@@ -12,9 +12,11 @@ import com.barrybecker4.ui.util.GUIUtil
   * An app that tries to demonstrate the use of most of the UI components in this package.
   * @author Barry Becker
   */
-object TantrixBoardUI extends App {
+object TantrixBoardUI {
+  def main(args: Array[String]): Unit = {
     val applet = new TantrixBoardUI
     GUIUtil.showApplet(applet)
+  }
 }
 
 class TantrixBoardUI() extends ApplicationApplet {
