@@ -1,7 +1,7 @@
 package com.barrybecker4.puzzle.redpuzzle
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.common.i18n.MessageContext
+import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.puzzle.redpuzzle.model.{Direction, OrientedPiece, PieceList, PieceLists}
 import org.scalatest.funsuite.AnyFunSuite
 import PieceLists.RED_INITIAL_PIECES_9
@@ -11,7 +11,7 @@ import com.barrybecker4.common.testsupport.strip
 
 class RedPuzzleControllerSuite extends AnyFunSuite {
 
-  AppContext.injectMessageContext(new MessageContext("com.barrybecker4.puzzle.redpuzzle.ui.message"))
+  AppContext.injectMessageContext(new StubMessageContext)
   val controller = new RedPuzzleController(new StubRefreshable)
 
   test("isGoal when is") {

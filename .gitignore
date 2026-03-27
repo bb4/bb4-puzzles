@@ -9,3 +9,6 @@ bin/
 *.iws
 *.ipr
 out/
+.vscode/settings.json
+.bloop/
+.metals/

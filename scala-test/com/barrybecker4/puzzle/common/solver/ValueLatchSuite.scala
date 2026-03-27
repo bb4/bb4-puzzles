@@ -15,7 +15,7 @@ class ValueLatchSuite extends AnyFunSuite {
   test("ValueLatchResult") {
     valueLatch = new ValueLatch[Int]
     computeResult(100)
-    assertResult(4950) { valueLatch.getValue }
+    assertResult(Some(4950)) { valueLatch.getValue }
   }
 
   /**

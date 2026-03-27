@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.hiq
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.testsupport.i18n.StubMessageContext
+import com.barrybecker4.puzzle.hiq.Algorithm.{A_STAR_CONCURRENT, A_STAR_SEQUENTIAL, CONCURRENT_OPTIMUM, SIMPLE_SEQUENTIAL}
 import org.junit.Assert.{assertEquals, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.BeforeAndAfter
