@@ -2,18 +2,25 @@
 package com.barrybecker4.puzzle.common
 
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-
+import scala.reflect.Enum as ScalaEnum
 
 /**
-  * Enum for type of solver to employ when solving the puzzle.
-  * Solver for a given puzzle position P and state transition/move M.
+  * Common supertype for each puzzle’s `enum Algorithm` (Scala 3).
+  * Implementations must be Scala `enum` types so `ordinal` and exhaustiveness come from `scala.reflect.Enum`.
   *
   * @author Barr Becker
   */
-trait AlgorithmEnum[P, M] {
+trait AlgorithmEnum[P, M] extends ScalaEnum:
+
   def getLabel: String
 
-  def ordinal: Int
-
   def createSolver(controller: PuzzleController[P, M]): PuzzleSolver[M]
-}
+
+object AlgorithmEnum:
+
+  /**
+    * Each puzzle defines `enum Algorithm extends AlgorithmEnum[P, M]`; `Array` is invariant, so
+    * `Algorithm.values` needs a single widened reference for UI that expects `Array[AlgorithmEnum[P, M]]`.
+    */
+  def widenArray[P, M, E <: AlgorithmEnum[P, M]](values: Array[E]): Array[AlgorithmEnum[P, M]] =
+    values.asInstanceOf[Array[AlgorithmEnum[P, M]]]

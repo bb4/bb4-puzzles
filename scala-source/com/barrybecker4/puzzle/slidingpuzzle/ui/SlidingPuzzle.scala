@@ -41,7 +41,7 @@ case class SlidingPuzzle(myargs: Array[String])
   }
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]] =
-    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[SliderBoard, SlideMove]]]
+    AlgorithmEnum.widenArray(Algorithm.values)
 
   override protected def createTopControls: SliderTopControls = 
     SliderTopControls(controller.asInstanceOf[SlidingPuzzleController], getAlgorithmValues)

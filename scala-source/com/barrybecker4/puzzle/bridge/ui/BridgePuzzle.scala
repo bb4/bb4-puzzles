@@ -36,7 +36,7 @@ final class BridgePuzzle(args: Array[String])
   }
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]] =
-    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Bridge, BridgeMove]]]
+    AlgorithmEnum.widenArray(Algorithm.values)
 
   override protected def createTopControls: JPanel =
     new BridgeTopControls(controller.asInstanceOf[BridgePuzzleController], getAlgorithmValues)

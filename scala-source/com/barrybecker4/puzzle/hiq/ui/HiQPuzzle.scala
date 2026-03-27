@@ -64,7 +64,7 @@ case class HiQPuzzle(myargs: Array[String])
     new HiQController(viewer)
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[PegBoard, PegMove]] = 
-    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[PegBoard, PegMove]]]
+    AlgorithmEnum.widenArray(Algorithm.values)
 
   override protected def createBottomControls: JPanel = {
     navPanel = new NavigationPanel()

@@ -48,7 +48,7 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
   }
 
   override protected def getAlgorithmValues: Array[AlgorithmEnum[Pails, PourOperation]] =
-    Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Pails, PourOperation]]];
+    AlgorithmEnum.widenArray(Algorithm.values)
 
   override protected def createTopControls = new TopControls(controller, getAlgorithmValues)
 
