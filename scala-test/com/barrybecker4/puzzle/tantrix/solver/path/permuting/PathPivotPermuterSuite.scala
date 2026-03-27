@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
@@ -18,7 +19,7 @@ import scala.util.Random
 class PathPivotPermuterSuite extends AnyFunSuite {
 
   /** instance under test */
-  private var permuter: PathPivotPermuter = _
+  private var permuter: PathPivotPermuter = uninitialized
 
   test("Permute3TilePath") {
     val board = place3UnsolvedTiles
@@ -50,3 +51,4 @@ class PathPivotPermuterSuite extends AnyFunSuite {
     assertResult(7) { permutedPathList.size }
   }
 }
+

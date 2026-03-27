@@ -1,6 +1,5 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
-import com.barrybecker4.puzzle.rubixcube.model.Minicube
 import com.jme3.asset.AssetManager
 import com.jme3.font.{BitmapFont, BitmapText}
 import com.jme3.math.{ColorRGBA, Vector3f}

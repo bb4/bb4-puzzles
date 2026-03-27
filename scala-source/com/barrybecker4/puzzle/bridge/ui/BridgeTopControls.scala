@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.ui
 
+import scala.compiletime.uninitialized
 import java.awt.Choice
 
 import com.barrybecker4.puzzle.bridge.model.Bridge
@@ -24,7 +25,7 @@ import com.barrybecker4.puzzle.common.ui.TopControlPanel
 final class BridgeTopControls(controller: PuzzleController[Bridge, BridgeMove],
                               algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])
   extends TopControlPanel[Bridge, BridgeMove](controller, algorithmValues) with ItemListener {
-  private var configurationSelector: Choice = _
+  private var configurationSelector: Choice = uninitialized
 
   override protected def addFirstRowControls(panel: JPanel): Unit = {
     super.addFirstRowControls(panel)
@@ -48,3 +49,4 @@ final class BridgeTopControls(controller: PuzzleController[Bridge, BridgeMove],
     }
   }
 }
+

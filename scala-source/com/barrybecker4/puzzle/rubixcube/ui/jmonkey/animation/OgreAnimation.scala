@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
+import scala.compiletime.uninitialized
+
 import com.jme3.anim.{AnimComposer, SkinningControl}
 import com.jme3.anim.tween.{Tween, Tweens}
 import com.jme3.anim.tween.action.{Action, BaseAction, LinearBlendSpace}
@@ -19,8 +21,8 @@ object OgreAnimation extends App {
 
 // Hit space key to make the Ogre "attack"
 class OgreAnimation extends SimpleApplication with ActionListener {
-  private var animComposer: AnimComposer = _
-  var currentAction: Action = _
+  private var animComposer: AnimComposer = uninitialized
+  var currentAction: Action = uninitialized
 
   override def simpleInitApp(): Unit = {
     flyCam.setMoveSpeed(10f)

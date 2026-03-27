@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
 import com.barrybecker4.puzzle.rubixcube.RubixCubeController
@@ -27,14 +28,14 @@ case class RubixCubeTopControls private[ui](
         override val algorithmValues: Array[AlgorithmEnum[Cube, CubeMove]])
      extends TopControlPanel[Cube, CubeMove](controller, algorithmValues) with ItemListener {
 
-  private var shuffleButton: GradientButton = _
-  private var sizeSelector: SizeSelector = _
-  private var rotatorPanel: JPanel = _
+  private var shuffleButton: GradientButton = uninitialized
+  private var sizeSelector: SizeSelector = uninitialized
+  private var rotatorPanel: JPanel = uninitialized
 
-  private var rotateButton: GradientButton = _
-  private var orientationSelector: OrientationSelector = _
-  private var layerSelector: LayerSelector = _
-  private var directionSelector: DirectionSelector = _
+  private var rotateButton: GradientButton = uninitialized
+  private var orientationSelector: OrientationSelector = uninitialized
+  private var layerSelector: LayerSelector = uninitialized
+  private var directionSelector: DirectionSelector = uninitialized
 
   override protected def addFirstRowControls(panel: JPanel): Unit = {
     shuffleButton = new GradientButton("Shuffle")
@@ -95,3 +96,4 @@ case class RubixCubeTopControls private[ui](
   }
 
 }
+

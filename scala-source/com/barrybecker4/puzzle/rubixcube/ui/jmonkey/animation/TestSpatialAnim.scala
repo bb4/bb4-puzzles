@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
+import scala.compiletime.uninitialized
+
 import com.jme3.anim.{AnimClip, AnimComposer, AnimTrack, TransformTrack}
 import com.jme3.animation.{AnimChannel, AnimControl, AnimEventListener}
 import com.jme3.app.SimpleApplication
@@ -21,7 +23,7 @@ class TestSpatialAnim extends SimpleApplication with ActionListener with AnimEve
   private val ROTATE = "ROTATE"
   private val X_AXIS = new Vector3f(1f, 0, 0)
   private val Y_AXIS = new Vector3f(0, 1f, 0)
-  private var model: Node = _
+  private var model: Node = uninitialized
 
   override def simpleInitApp(): Unit = {
     flyCam.setDragToRotate(true)

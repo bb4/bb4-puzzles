@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.loc
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
@@ -16,7 +17,7 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 trait  SubPathMutatorBase extends AnyFunSuite {
   /** instance under test */
-  private[permuting] var mutator: SubPathMutator = _
+  private[permuting] var mutator: SubPathMutator = uninitialized
 
   /** creates the mutator to test */
   protected def createMutator(primaryColor: PathColor): SubPathMutator
@@ -89,3 +90,4 @@ trait  SubPathMutatorBase extends AnyFunSuite {
   protected def verifyMutated3TilePath(resultPath: TantrixPath): Unit
   protected def verifyMutated3aTilePath(resultPath: TantrixPath): Unit
 }
+

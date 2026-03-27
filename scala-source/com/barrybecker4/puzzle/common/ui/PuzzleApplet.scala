@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.search.Refreshable
@@ -17,8 +18,8 @@ import java.util
   */
 abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApplet() {
   protected var controller:
-  PuzzleController[P, M] = _
-  protected var viewer: PuzzleViewer[P, M] = _
+  PuzzleController[P, M] = uninitialized
+  protected var viewer: PuzzleViewer[P, M] = uninitialized
 
   /** Construct the application. */
   def this() = { this(Array[String]())}
@@ -58,4 +59,5 @@ abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApple
 
   protected def getAlgorithmValues: Array[AlgorithmEnum[P, M]]
 }
+
 

@@ -1,9 +1,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
-import com.barrybecker4.puzzle.tantrix.PathTstUtil
-import com.barrybecker4.puzzle.tantrix.solver.verification
-import org.scalatest.funsuite.AnyFunSuite
 import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
+import org.scalatest.funsuite.AnyFunSuite
 
 
 class CompactnessCalculatorSuite extends AnyFunSuite {

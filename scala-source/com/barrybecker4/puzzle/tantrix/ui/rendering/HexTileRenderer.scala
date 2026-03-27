@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix.ui.rendering
 
 import java.awt.*
 import com.barrybecker4.common.format.FormatUtil
-import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.{Rotation, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer.TOP_MARGIN
 import com.barrybecker4.ui.util.GUIUtil

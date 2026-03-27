@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.maze.model.MazeModel
 import com.barrybecker4.ui.util.GUIUtil
@@ -34,9 +35,9 @@ class MazeRenderer() {
   setCellSize(MazeRenderer.DEFAULT_CELL_SIZE)
   private var cellSize = 0
   private var halfCellSize = 0
-  private var wallStroke: BasicStroke = _
-  private var pathStroke: BasicStroke = _
-  private var textFont: Font = _
+  private var wallStroke: BasicStroke = uninitialized
+  private var pathStroke: BasicStroke = uninitialized
+  private var textFont: Font = uninitialized
 
   def setCellSize(size: Int): Unit = {
     cellSize = size
@@ -121,3 +122,4 @@ class MazeRenderer() {
     MazeRenderer.drawChar("F", maze.stopPosition, cellSize, g2)
   }
 }
+

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
@@ -25,9 +26,9 @@ final class TopControls (controller: PuzzleController[Pails, PourOperation],
   extends TopControlPanel[Pails, PourOperation](controller, algorithmValues) with KeyListener {
 
   // ui for entering the direction probabilities.
-  private var firstPailSize: NumberInput = _
-  private var secondPailSize: NumberInput = _
-  private var targetMeasure: NumberInput = _
+  private var firstPailSize: NumberInput = uninitialized
+  private var secondPailSize: NumberInput = uninitialized
+  private var targetMeasure: NumberInput = uninitialized
 
   override protected def addAdditionalControls(panel: JPanel): Unit = {
     super.addAdditionalControls(panel)
@@ -57,3 +58,4 @@ final class TopControls (controller: PuzzleController[Pails, PourOperation],
     controller.asInstanceOf[TwoPailsPuzzleController].setParams(params)
   }
 }
+

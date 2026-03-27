@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.format.FormatUtil
 import com.barrybecker4.math.MathUtil
@@ -21,7 +22,7 @@ object PuzzleViewer {
 }
 
 abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
-  protected var board: P = _
+  protected var board: P = uninitialized
   protected var status: String = ""
   private var numTries = 0L
   private var totalMem = Runtime.getRuntime.totalMemory
@@ -115,3 +116,4 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
     }
   }
 }
+

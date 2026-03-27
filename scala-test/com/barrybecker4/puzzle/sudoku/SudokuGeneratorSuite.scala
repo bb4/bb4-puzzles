@@ -1,8 +1,9 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.sudoku.model.Board
-import org.junit.Assert.{assertEquals, assertNotNull, assertTrue}
+import org.junit.Assert.{assertEquals, assertTrue}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -13,8 +14,8 @@ import scala.util.Random
   */
 class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
-  private var generator: SudokuGenerator = _
-  private var rand: Random = _
+  private var generator: SudokuGenerator = uninitialized
+  private var rand: Random = uninitialized
 
   before {
     rand = Random
@@ -89,5 +90,6 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
     generator.generatePuzzleBoard(baseSize)
   }
 }
+
 
 

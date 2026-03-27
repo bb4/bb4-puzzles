@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui
 
+import scala.compiletime.uninitialized
 import javax.swing._
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
@@ -27,8 +28,8 @@ object TantrixPuzzle extends App {
 
 final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard, TilePlacement] with ChangeListener {
 
-  private var spinner: JSpinner = _
-  private var primaryColorLabel: JLabel = _
+  private var spinner: JSpinner = uninitialized
+  private var primaryColorLabel: JLabel = uninitialized
 
   def this() = { this(Array[String]())}
 
@@ -70,3 +71,4 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
 
   private def getController = controller.asInstanceOf[TantrixController]
 }
+

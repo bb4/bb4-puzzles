@@ -2,7 +2,6 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import scala.util.Random
 import Orientation.PRIMARY_ORIENTATIONS
-import Direction._
 import CubeShuffler.RND
 
 
@@ -26,7 +25,7 @@ case class CubeShuffler(rnd: Random = RND) {
     val num = if (numRotations < 0) randomRotationsForSize(size) else numRotations
 
     for (i <- 1 to num) {
-      val randomMove = CubeMove(PRIMARY_ORIENTATIONS(rnd.nextInt(PRIMARY_ORIENTATIONS.length)), rnd.nextInt(size) + 1, CLOCKWISE)
+      val randomMove = CubeMove(PRIMARY_ORIENTATIONS(rnd.nextInt(PRIMARY_ORIENTATIONS.length)), rnd.nextInt(size) + 1, Direction.CLOCKWISE)
       shuffledCube = shuffledCube.doMove(randomMove)
     }
     shuffledCube

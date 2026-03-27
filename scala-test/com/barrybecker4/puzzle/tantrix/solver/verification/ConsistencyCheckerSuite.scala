@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
-import com.barrybecker4.puzzle.tantrix.PathTstUtil
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
 import com.barrybecker4.puzzle.tantrix.model.PathColor.*
@@ -14,8 +14,8 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class ConsistencyCheckerSuite extends AnyFunSuite {
   /** instance under test */
-  private var checker: ConsistencyChecker = _
-  private var tantrix: Tantrix = _
+  private var checker: ConsistencyChecker = uninitialized
+  private var tantrix: Tantrix = uninitialized
 
   case class TestCase(pathCase: PathVerificationCase, color: PathColor)
 

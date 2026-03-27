@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.testsupport.strip
 import com.barrybecker4.puzzle.sudoku.data.TestData._
 import com.barrybecker4.puzzle.sudoku.model.Board
@@ -16,9 +17,9 @@ import scala.util.Random
 class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
   
   /** instance under test. */
-  private var solver: SudokuSolver = _
-  private var generator: SudokuGenerator = _
-  private var rand: Random = _
+  private var solver: SudokuSolver = uninitialized
+  private var generator: SudokuGenerator = uninitialized
+  private var rand: Random = uninitialized
 
   /**
     * common initialization for all go test cases.
@@ -138,3 +139,4 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Unexpectedly not solved.", solvedBoard.isDefined)
   }
 }
+

@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
 
+import scala.compiletime.uninitialized
+
 import com.jme3.app.SimpleApplication
 import com.jme3.light.DirectionalLight
 import com.jme3.material.Material
@@ -16,6 +18,7 @@ object MonkeyApp {
     val app = new MonkeyApp
     val settings = new AppSettings(false)
     settings.setTitle("Rubix Cube Solver")
+    settings.setRenderer(AppSettings.LWJGL_OPENGL3)
     app.setSettings(settings)
     app.setDisplayStatView(false)
     app.start()
@@ -24,7 +27,7 @@ object MonkeyApp {
 
 class MonkeyApp extends SimpleApplication {
 
-  private var cube: Geometry = _
+  private var cube: Geometry = uninitialized
 
   def simpleInitApp(): Unit = {
     val b = new Box(1, 1, 1)

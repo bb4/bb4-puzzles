@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
@@ -10,7 +11,7 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class SolutionVerifierSuite extends AnyFunSuite {
   /** instance under test */
-  private var verifier: SolutionVerifier = _
+  private var verifier: SolutionVerifier = uninitialized
 
   test("3TilesIsNotSolved") {
     verifier = new SolutionVerifier(place3UnsolvedTiles)

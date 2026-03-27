@@ -72,19 +72,19 @@ class MazeSolver(var panel: MazePanel) {
   }
 
   /** @return path to the solution */
+  private def isMoveBlocked(dir: Location, currentCell: MazeCell, nextCell: MazeCell): Boolean =
+    (dir.getX == 1 && currentCell.eastWall) ||
+      (dir.getX == -1 && nextCell.eastWall) ||
+      (dir.getY == 1 && currentCell.southWall) ||
+      (dir.getY == -1 && nextCell.southWall)
+
   private def search(solutionPath: List[Location], currentCell: MazeCell,
                      dir: Location, depth: Int, nextPosition: Location): List[Location] = {
     var path = solutionPath
-    val nextCell: MazeCell = maze.getCell (nextPosition)
-    val eastBlocked: Boolean = dir.getX == 1 && currentCell.eastWall
-    val westBlocked: Boolean = dir.getX == - 1 && nextCell.eastWall
-    val southBlocked: Boolean = dir.getY == 1 && currentCell.southWall
-    val northBlocked: Boolean = dir.getY == - 1 && nextCell.southWall
-    val pathBlocked: Boolean = eastBlocked || westBlocked || southBlocked || northBlocked
-    if (!pathBlocked) {
+    val nextCell: MazeCell = maze.getCell(nextPosition)
+    if (!isMoveBlocked(dir, currentCell, nextCell)) {
       advanceToNextCell(currentCell, dir, depth, nextPosition, nextCell)
-    }
-    else {
+    } else {
       path = backTrack(path)
     }
     path

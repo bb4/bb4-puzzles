@@ -4,6 +4,7 @@
 
 package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, Rotation, Tantrix, TilePlacement}
@@ -16,8 +17,8 @@ import org.scalatest.funsuite.AnyFunSuite
 class PrimaryPathFitterSuite extends AnyFunSuite  {
 
   /** instance under test */
-  private var fitter: PrimaryPathFitter = _
-  private var tantrix: Tantrix = _
+  private var fitter: PrimaryPathFitter = uninitialized
+  private var tantrix: Tantrix = uninitialized
 
   /**
     * Here we ask if there are fits where one should be possible.
@@ -121,3 +122,4 @@ class PrimaryPathFitterSuite extends AnyFunSuite  {
     assertResult(2) { fitter.numPrimaryFits }
   }
 }
+

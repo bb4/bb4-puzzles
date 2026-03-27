@@ -4,6 +4,7 @@
 
 package com.barrybecker4.puzzle.tantrix.model.analysis.fitting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model._
 import org.scalatest.funsuite.AnyFunSuite
@@ -16,8 +17,8 @@ class TantrixTileFitterSuite extends AnyFunSuite  {
   
   private val TILES = new HexTiles
   /** instance under test */
-  private var fitter: TantrixTileFitter = _
-  private var tantrix: Tantrix = _
+  private var fitter: TantrixTileFitter = uninitialized
+  private var tantrix: Tantrix = uninitialized
 
   /**
     * Here we ask if there are fits where three should be possible.
@@ -102,3 +103,4 @@ class TantrixTileFitterSuite extends AnyFunSuite  {
     assert(fitter.isFit(tile2))
   }
 }
+

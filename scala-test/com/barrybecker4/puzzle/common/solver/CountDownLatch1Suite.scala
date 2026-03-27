@@ -1,7 +1,5 @@
 package com.barrybecker4.puzzle.common.solver
 
-import com.barrybecker4.common.concurrency.ThreadUtil
-import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
 import org.scalatest.funsuite.AnyFunSuite

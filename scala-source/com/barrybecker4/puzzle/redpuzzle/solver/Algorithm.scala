@@ -28,7 +28,6 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.2f)
     case GENETIC_SEARCH => new GeneticSearchSolver(controller, false)
     case CONCURRENT_GENETIC_SEARCH => new GeneticSearchSolver(controller, true)
-    case null => throw new IllegalArgumentException("Unexpected enum value: " + this)
   }
 
   case BRUTE_FORCE_ORIGINAL extends Algorithm

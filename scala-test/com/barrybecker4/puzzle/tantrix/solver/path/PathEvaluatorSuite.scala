@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
-import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import org.scalatest.funsuite.AnyFunSuite
 
 

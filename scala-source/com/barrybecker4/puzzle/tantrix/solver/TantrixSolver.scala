@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
@@ -14,7 +15,7 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   */
 abstract class TantrixSolver private[solver](var board: TantrixBoard) extends PuzzleSolver[TilePlacement] {
 
-  protected var solution: TantrixBoard = _
+  protected var solution: TantrixBoard = uninitialized
 
   /**
     * Derived classes must provide the implementation for this abstract method.
@@ -24,3 +25,4 @@ abstract class TantrixSolver private[solver](var board: TantrixBoard) extends Pu
   def solve: Option[Seq[TilePlacement]]
   
 }
+

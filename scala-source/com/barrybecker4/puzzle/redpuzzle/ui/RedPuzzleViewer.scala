@@ -3,10 +3,9 @@ package com.barrybecker4.puzzle.redpuzzle.ui
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
-import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 import java.awt.Dimension
 import java.awt.Graphics
-import java.util
 
 /**
   * Draws the current best solution to the puzzle in a panel.

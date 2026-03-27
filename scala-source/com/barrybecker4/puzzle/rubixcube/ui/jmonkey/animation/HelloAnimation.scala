@@ -1,6 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
-import com.jme3.anim.AnimComposer
+import scala.compiletime.uninitialized
+
 import com.jme3.animation.AnimChannel
 import com.jme3.animation.AnimControl
 import com.jme3.animation.AnimEventListener
@@ -25,7 +26,7 @@ object HelloAnimation {
 }
 
 class HelloAnimation extends SimpleApplication with AnimEventListener {
-  private var channel: AnimChannel = _
+  private var channel: AnimChannel = uninitialized
 
   override def simpleInitApp(): Unit = {
     viewPort.setBackgroundColor(ColorRGBA.LightGray)

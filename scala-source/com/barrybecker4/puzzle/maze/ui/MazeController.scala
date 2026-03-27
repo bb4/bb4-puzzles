@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.ui
 
+import scala.compiletime.uninitialized
 import java.awt.Cursor
 import javax.swing.JPanel
 
@@ -21,9 +22,9 @@ final class MazeController(var mazePanel: MazePanel)
   */
   extends SliderChangeListener {
   private var solver = new MazeSolver(mazePanel)
-  private var generateWorker: Worker = _
-  private var generator: MazeGenerator = _
-  private var repaintListener: JPanel = _
+  private var generateWorker: Worker = uninitialized
+  private var generator: MazeGenerator = uninitialized
+  private var repaintListener: JPanel = uninitialized
 
   /**
     * This panel will be repainted when the regeneration is complete.
@@ -96,3 +97,4 @@ final class MazeController(var mazePanel: MazePanel)
   }
 
 }
+

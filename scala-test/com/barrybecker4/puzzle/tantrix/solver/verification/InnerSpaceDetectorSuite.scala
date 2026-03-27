@@ -1,10 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil
-import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
+import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.Tantrix
-import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
@@ -13,8 +13,8 @@ import org.scalatest.funsuite.AnyFunSuite
 class InnerSpaceDetectorSuite extends AnyFunSuite {
 
   /** instance under test */
-  private var detector: InnerSpaceDetector = _
-  private var tantrix: Tantrix = _
+  private var detector: InnerSpaceDetector = uninitialized
+  private var tantrix: Tantrix = uninitialized
   
   
   /** Two tiles do not have a loop */
@@ -82,3 +82,4 @@ class InnerSpaceDetectorSuite extends AnyFunSuite {
     }
   }
 }
+

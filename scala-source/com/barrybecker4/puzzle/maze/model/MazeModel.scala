@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.model
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.{IntLocation, Location}
 
 /**
@@ -11,9 +12,9 @@ class MazeModel(var width: Int, var height: Int) {
   setDimensions(width, height)
 
   /** The grid of cells that make up the maze paths in x,y (col, row) order. */
-  private var grid: Array[Array[MazeCell]] = _
+  private var grid: Array[Array[MazeCell]] = uninitialized
   val startPosition: Location = IntLocation(2, 2)
-  var stopPosition: Location = _
+  var stopPosition: Location = uninitialized
 
   def setDimensions(width: Int, height: Int): Unit = {
     this.width = width
@@ -74,3 +75,4 @@ class MazeModel(var width: Int, var height: Int) {
     }
   }
 }
+

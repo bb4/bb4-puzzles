@@ -81,15 +81,9 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * @return sub path
     */
   def subPath(startIndex: Int, endIndex: Int): TantrixPath = {
-    var pathTiles: Seq[TilePlacement] = Seq()
-    if (startIndex <= endIndex) {
-      for (i <- startIndex to endIndex)
-        pathTiles :+= this.tiles(i)
-    }
-    else {
-      for (i <- startIndex to endIndex by -1)
-        pathTiles :+= this.tiles(i)
-    }
+    val pathTiles =
+      if (startIndex <= endIndex) tiles.slice(startIndex, endIndex + 1)
+      else tiles.slice(endIndex, startIndex + 1).reverse
     new TantrixPath(pathTiles, primaryPathColor, desiredLength, rnd)
   }
 

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGeneratorSuite.RND
@@ -24,7 +25,7 @@ object RandomPathGeneratorSuite {
 class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test */
-  private var pathGenerator: RandomPathGenerator = _
+  private var pathGenerator: RandomPathGenerator = uninitialized
 
 
   test("3TilesPathGen") {
@@ -101,3 +102,4 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
     }
   }
 }
+

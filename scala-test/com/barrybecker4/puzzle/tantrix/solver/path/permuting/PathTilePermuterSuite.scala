@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
@@ -15,7 +16,7 @@ import scala.collection.mutable.ListBuffer
   */
 class PathTilePermuterSuite {
   /** instance under test */
-  private var permuter: PathTilePermuter = _
+  private var permuter: PathTilePermuter = uninitialized
   
 
   @Test def testPermute3TileLoopFirstTwoPermuted(): Unit = {
@@ -127,3 +128,4 @@ class PathTilePermuterSuite {
     permuter.permute(ListBuffer(0, 2), ListBuffer(0, 1))
   }
 }
+

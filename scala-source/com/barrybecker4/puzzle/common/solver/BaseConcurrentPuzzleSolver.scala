@@ -6,6 +6,7 @@ import com.barrybecker4.puzzle.common.model.PuzzleNode
 import scala.collection.mutable
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.atomic.AtomicLong
 
 
 /**
@@ -33,8 +34,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   /** Set of positions that have been visited */
   final private val seen = new mutable.HashSet[P]
 
-  /** Number of nodes visited during search. Volatile to prevent corruption during concurrent updates */
-  private var numTries = 0
+  /** Number of nodes visited during search (atomic for correct concurrent increments). */
+  private val numTries = new AtomicLong(0)
   /** default is a mixture between depth (0) (sequential) and breadth (1.0) (concurrent) first search. */
   private var depthBreadthFactor = 0.4f
 
@@ -79,8 +80,8 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
   /**
     * Solve the puzzle concurrently
     *
-    * @return list of moves leading to the solution (assuming one was found).
-    *         Null is returned if there was no solution.
+    * @return list of moves leading to the solution if one was found;
+    *         [[None]] if there was no solution.
     * @throws InterruptedException if interrupted during processing.
     */
   private def doSolve() = {
@@ -97,7 +98,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     val elapsedTime = System.currentTimeMillis - startTime
     val position: Option[P] = solutionPuzzleNode.map(_.getPosition)
     System.out.println("solution = " + position)
-    puzzle.finalRefresh(path, position, numTries, elapsedTime)
+    puzzle.finalRefresh(path, position, numTries.get.toInt, elapsedTime)
     path
   }
 
@@ -113,12 +114,12 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     extends PuzzleNode[P, M](pos, move, prev) with Runnable {
 
     override def run(): Unit = {
-      numTries += 1
+      numTries.incrementAndGet()
 
       // Terminate if already solved or seen this position, so skip
       if (solution.isSet || puzzle.alreadySeen(getPosition, seen)) return
 
-      puzzle.refresh(getPosition, numTries)
+      puzzle.refresh(getPosition, numTries.get.toInt)
 
       if (puzzle.isGoal(getPosition))
         solution.setValue(this)

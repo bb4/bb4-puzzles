@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render
 
+import scala.compiletime.uninitialized
+
 import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.ui.render.jme.{CoordinateAxes, JmeUtil, RubixCubeNode}
 import com.jme3.app.SimpleApplication
@@ -18,6 +20,7 @@ object CubeSceneRenderer extends App {
   val renderer = new CubeSceneRenderer(5)
   val settings = new AppSettings(false)
   settings.setTitle("Rubix Cube Solver")
+  settings.setRenderer(AppSettings.LWJGL_OPENGL3)
   renderer.setSettings(settings)
   renderer.start()
 }
@@ -26,10 +29,10 @@ class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
 
   case class SliceRotation(move: CubeMove, callback: () => Unit)
 
-  private var util: JmeUtil = _
+  private var util: JmeUtil = uninitialized
   private var currentCube: Cube = new Cube(initialCubeSize)
-  private var rubixCubeNode: RubixCubeNode = _
-  private var bgColor: ColorRGBA = _
+  private var rubixCubeNode: RubixCubeNode = uninitialized
+  private var bgColor: ColorRGBA = uninitialized
   private var requestedRotations: Queue[SliceRotation] = Queue()
   private var rotationDoneCallback: Option[() => Unit] = None
   private var cubeSizeChanged: Boolean = false

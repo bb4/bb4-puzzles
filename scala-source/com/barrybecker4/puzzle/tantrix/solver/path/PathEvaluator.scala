@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}
+import com.barrybecker4.puzzle.tantrix.model.{HexTile, Tantrix}
 import com.barrybecker4.puzzle.tantrix.solver.verification.{CompactnessCalculator, ConsistencyChecker, InnerSpaceDetector}
 import PathEvaluator.*
 

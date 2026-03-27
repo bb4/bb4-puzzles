@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.generation.RandomTilePlacerSuite.RND
@@ -21,8 +22,8 @@ object RandomTilePlacerSuite {
   */
 class RandomTilePlacerSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */
-  private[generation] var placer : RandomTilePlacer = _
-  private[generation] var tantrix: TantrixBoard = _
+  private[generation] var placer : RandomTilePlacer = uninitialized
+  private[generation] var tantrix: TantrixBoard = uninitialized
 
 
   test("FindRandomPlacementForFirstTileOfThreeYellowPath") {
@@ -93,3 +94,4 @@ class RandomTilePlacerSuite extends AnyFunSuite with BeforeAndAfter {
     assertEquals("Unexpected placement.", expPlacement, placement)
   }
 }
+

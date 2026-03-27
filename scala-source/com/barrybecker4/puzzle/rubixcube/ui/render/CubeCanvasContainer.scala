@@ -4,6 +4,7 @@ import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer.{AA_SAMPLES, APP_CLASS, BACKGROUND}
 import com.jme3.math.ColorRGBA
 import com.jme3.system.{AppSettings, JmeCanvasContext}
+import org.lwjgl.system.Configuration
 
 import java.awt.Canvas
 
@@ -19,6 +20,9 @@ object CubeCanvasContainer {
 }
 
 class CubeCanvasContainer() {
+  // On macOS the JME render thread (not thread-0) calls glfwInit. Disable LWJGL's strict thread-0 check so
+  // the render thread can proceed. The LwjglAWTGLCanvas path uses JAWT (not a GLFW window) for pixel output.
+  Configuration.GLFW_CHECK_THREAD0.set(false)
 
   private val clazz = Class.forName(APP_CLASS)
   val renderer: CubeSceneRenderer = clazz.getDeclaredConstructor().newInstance().asInstanceOf[CubeSceneRenderer]
@@ -26,6 +30,7 @@ class CubeCanvasContainer() {
 
   renderer.setPauseOnLostFocus(false)
   val settings = new AppSettings(true)
+  settings.setRenderer(AppSettings.LWJGL_OPENGL3)
   settings.setSamples(AA_SAMPLES)
   renderer.setSettings(settings)
   renderer.createCanvas()

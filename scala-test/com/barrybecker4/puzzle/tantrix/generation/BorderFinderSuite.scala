@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, Tantrix, TantrixBoard}
@@ -13,8 +14,8 @@ import org.scalatest.funsuite.AnyFunSuite
 class BorderFinderSuite extends AnyFunSuite {
 
   /** instance under test */
-  private[generation] var borderFinder: BorderFinder = _
-  private[generation] var tantrix: Tantrix = _
+  private[generation] var borderFinder: BorderFinder = uninitialized
+  private[generation] var tantrix: Tantrix = uninitialized
 
   test("FindBorderForFirstTileOfThree") {
     tantrix = new TantrixBoard(THREE_TILES).tantrix
@@ -93,3 +94,4 @@ class BorderFinderSuite extends AnyFunSuite {
     assertEquals("Unexpected number of border locations.", locations.toSet, positions)
   }
 }
+

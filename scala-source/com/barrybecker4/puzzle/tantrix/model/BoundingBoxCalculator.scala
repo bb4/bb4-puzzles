@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.tantrix.model
 
 import com.barrybecker4.common.geometry.Box
-import scala.Iterable
 
 
 case class BoundingBoxCalculator() {

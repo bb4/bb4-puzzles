@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.optimization.parameter.PermutedParameterArray
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
@@ -21,7 +22,7 @@ import scala.collection.mutable.ListBuffer
 class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray {
 
   /** The pivot path remains unchanged while the ends change. */
-  private var pivotPath: TantrixPath = _
+  private var pivotPath: TantrixPath = uninitialized
 
   /** Try the seven cases and take any that are valid for the n squared positions of the pivot path.
     * @return no more than 7 permuted path cases.
@@ -125,3 +126,4 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     true
   }
 }
+

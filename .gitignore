@@ -12,3 +12,7 @@ out/
 .vscode/settings.json
 .bloop/
 .metals/
+
+# Native libs sometimes appear in project root from LWJGL/JME; use Gradle-extracted natives instead.
+*.dylib
+*.dll

@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.common.ui
 
 import com.barrybecker4.common.concurrency.Worker
 import com.barrybecker4.search.Refreshable
-import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import scala.collection.mutable
@@ -37,7 +36,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
 
   /**
     * Override this to help some search algorithms prioritize the order in which they search.
-    * By default this is provides no information.
+    * By default, this provides no information.
     * It can only be used for puzzles that have a path from an initial state to a solution.
     *
     * @return estimate of the cost to reach the goal from the specified position

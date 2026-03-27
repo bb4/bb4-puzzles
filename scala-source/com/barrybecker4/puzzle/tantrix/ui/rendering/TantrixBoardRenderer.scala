@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.ui.rendering
 
+import scala.compiletime.uninitialized
 import java.awt.*
 import com.barrybecker4.common.geometry.{Box, IntLocation, Location}
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
@@ -25,7 +26,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
 
   private val tileRenderer = new HexTileRenderer
   private var hexRadius = .0
-  private var edgeLen: Int = _
+  private var edgeLen: Int = uninitialized
   private val boundingBoxCalculator = BoundingBoxCalculator()
 
   def render(g: Graphics, board: TantrixBoard, width: Int, height: Int): Unit = {
@@ -80,3 +81,4 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     }
   }
 }
+

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.ui
 
+import scala.compiletime.uninitialized
 import java.awt.event.{ActionEvent, ActionListener, ItemEvent, ItemListener}
 import javax.swing._
 
@@ -38,8 +39,8 @@ final class TopControlPanel(var controller: SudokuController)
   private val sizeSelector: SizeSelector = new SizeSelector
   sizeSelector.addItemListener(this)
 
-  private var speedSelector: SpeedSelector = _
-  private var showCandidatesCheckBox: JCheckBox = _
+  private var speedSelector: SpeedSelector = uninitialized
+  private var showCandidatesCheckBox: JCheckBox = uninitialized
 
   add(createRowOneControls)
   add(createRowTwoControls)
@@ -119,3 +120,4 @@ final class TopControlPanel(var controller: SudokuController)
     }
   }
 }
+

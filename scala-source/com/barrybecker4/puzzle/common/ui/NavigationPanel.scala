@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2013-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.ui.components.GradientButton
 import com.barrybecker4.ui.util.GUIUtil
@@ -22,13 +23,13 @@ object NavigationPanel {
 final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListener {
   add(createBackPanel, BorderLayout.WEST)
   add(createForwardPanel, BorderLayout.EAST)
-  private var backButton: JButton = _
-  private var forwardButton: JButton = _
-  private var startButton: JButton = _
-  private var endButton: JButton = _
-  private var stepInPathLabel: JLabel = _
+  private var backButton: JButton = uninitialized
+  private var forwardButton: JButton = uninitialized
+  private var startButton: JButton = uninitialized
+  private var endButton: JButton = uninitialized
+  private var stepInPathLabel: JLabel = uninitialized
   private var currentStep: Int = 0
-  private var navigator: PathNavigator = _
+  private var navigator: PathNavigator = uninitialized
 
   private def createForwardPanel = {
     forwardButton = createButton("FORWARD", "forward_arrow.png")
@@ -117,4 +118,5 @@ final class NavigationPanel() extends JPanel(new BorderLayout) with ActionListen
     }
   }
 }
+
 

@@ -1,13 +1,12 @@
 // Copyright by Barry G. Becker, 2021 Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
-import com.barrybecker4.common.concurrency.ThreadUtil
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleViewer}
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer
 
-import java.awt.{BorderLayout, Graphics}
-import javax.swing.SwingUtilities
+import java.awt.{BorderLayout, Dimension, Graphics}
 import scala.collection.immutable.Queue
 
 
@@ -18,22 +17,23 @@ import scala.collection.immutable.Queue
 final class CubeViewer(var doneListener: DoneListener)
       extends PuzzleViewer[Cube, CubeMove] with PathNavigator {
 
+  setLayout(new BorderLayout())
+  // JME uses a heavyweight AWT Canvas; disable double-buffering so Swing does not fight the GL surface.
+  setDoubleBuffered(false)
+
   private val canvasContainer: CubeCanvasContainer = new CubeCanvasContainer()
   private var animatingQueue: Queue[CubeMove] = Queue()
   private var isAnimating = false
-  private var path: List[CubeMove] = _
+  private var path: List[CubeMove] = uninitialized
 
   def getPath: List[CubeMove] = path
   private val self = this
 
-  // Need to add after initialization, or it may show in slightly wrong position
-  SwingUtilities.invokeLater(new Runnable() {
-    override def run(): Unit = {
-      ThreadUtil.sleep(1000);
-      self.add(canvasContainer.canvas, BorderLayout.CENTER)
-      self.invalidate();
-    }
-  })
+  // RubixCubePuzzle wraps GUIUtil.showApplet in invokeLater so this constructor runs on the EDT.
+  // Adding the canvas here (synchronously) ensures it is in the hierarchy before setVisible(true).
+  // BorderLayout is required — FlowLayout gives AWT Canvas ~0 preferred size.
+  add(canvasContainer.canvas, BorderLayout.CENTER)
+  setMinimumSize(new Dimension(400, 400))
 
   override def refresh(theCube: Cube, numTries: Long): Unit = {
     if (board != null && theCube.size != board.size) {
@@ -103,3 +103,4 @@ final class CubeViewer(var doneListener: DoneListener)
     if (doneListener != null) doneListener.done()
   }
 }
+

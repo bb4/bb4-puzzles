@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
@@ -17,7 +18,7 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
 
   board = theBoard
   private val renderer: PegBoardRenderer = new PegBoardRenderer()
-  private var path: List[PegMove] = _
+  private var path: List[PegMove] = uninitialized
 
   def getPath: List[PegMove] = path
 
@@ -60,3 +61,4 @@ final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListene
     if (doneListener != null) doneListener.done()
   }
 }
+

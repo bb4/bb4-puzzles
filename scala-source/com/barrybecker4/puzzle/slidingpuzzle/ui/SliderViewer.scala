@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.PathNavigator
 import com.barrybecker4.puzzle.common.ui.PuzzleViewer
@@ -18,7 +19,7 @@ final class SliderViewer(var doneListener: DoneListener)
       extends PuzzleViewer[SliderBoard, SlideMove] with PathNavigator {
 
   private val renderer: SliderRenderer = new SliderRenderer
-  private var path: List[SlideMove] = _
+  private var path: List[SlideMove] = uninitialized
 
   def getPath: List[SlideMove] = path
 
@@ -60,3 +61,4 @@ final class SliderViewer(var doneListener: DoneListener)
     if (doneListener != null) doneListener.done()
   }
 }
+

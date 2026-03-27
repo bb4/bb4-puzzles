@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
@@ -27,7 +28,7 @@ object SlidingPuzzle extends App {
 case class SlidingPuzzle(myargs: Array[String])
   extends PuzzleApplet[SliderBoard, SlideMove](myargs) with DoneListener {
 
-  private var navPanel: NavigationPanel = _
+  private var navPanel: NavigationPanel = uninitialized
 
   /** Construct the application */
   def this() = { this(Array[String]()) }
@@ -54,4 +55,5 @@ case class SlidingPuzzle(myargs: Array[String])
     navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
 }
+
 

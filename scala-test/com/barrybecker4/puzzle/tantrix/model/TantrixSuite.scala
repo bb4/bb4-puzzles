@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import org.junit.Assert.{assertEquals, assertNotNull}
@@ -11,7 +12,7 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class TantrixSuite extends AnyFunSuite {
 
-  var tantrix: Tantrix = _
+  var tantrix: Tantrix = uninitialized
 
   test("test3TilePlacement") {
     tantrix = place3SolvedTiles.tantrix
@@ -72,3 +73,4 @@ class TantrixSuite extends AnyFunSuite {
     assertEquals("Unexpected tiles at " + loc, loc, placement.get.location)
   }
 }
+

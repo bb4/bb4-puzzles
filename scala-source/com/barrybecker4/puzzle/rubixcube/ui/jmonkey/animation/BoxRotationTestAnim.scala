@@ -1,10 +1,12 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
+import scala.compiletime.uninitialized
+
 import com.jme3.app.SimpleApplication
 import com.jme3.input.KeyInput
 import com.jme3.input.controls.{ActionListener, KeyTrigger}
 import com.jme3.light.{AmbientLight, DirectionalLight}
-import com.jme3.math.{FastMath, Quaternion, Transform, Vector3f}
+import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.shape.Box
 import com.jme3.scene.{Geometry, Node}
 
@@ -19,10 +21,10 @@ class BoxRotationTestAnim extends SimpleApplication with ActionListener {
   private val ROTATE = "ROTATE"
   private val X_AXIS = new Vector3f(1f, 0, 0)
   private val Y_AXIS = new Vector3f(0, 1f, 0)
-  private var model: Node = _
+  private var model: Node = uninitialized
   private var rotation: Quaternion = new Quaternion()
   private var doRotation: Boolean = false
-  private var rotatorParent: Node = _
+  private var rotatorParent: Node = uninitialized
   private var angle: Float = 0
 
   private var boxes: Array[Node] = new Array[Node](4)

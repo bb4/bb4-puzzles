@@ -2,9 +2,7 @@
 package com.barrybecker4.puzzle.twopails.model
 
 import com.barrybecker4.puzzle.common.model.Move
-import PourOperation.Action
-import com.barrybecker4.puzzle.twopails.model.PourOperation.Action
-import com.barrybecker4.puzzle.twopails.model.PourOperation.Container
+import PourOperation.{Action, Container}
 
 /**
   * There are 6 legal pour operations:

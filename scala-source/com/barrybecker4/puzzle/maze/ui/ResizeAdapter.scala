@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.ui
 
+import scala.compiletime.uninitialized
 import java.awt.Dimension
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
@@ -10,7 +11,7 @@ import java.awt.event.ComponentEvent
   * @author Barry Becker
   */
 class ResizeAdapter private[ui](var mazePanel: MazePanel, var topControls: TopControlPanel) extends ComponentAdapter {
-  private var oldSize: Dimension = _
+  private var oldSize: Dimension = uninitialized
 
   override def componentResized(ce: ComponentEvent): Unit = {
     // only resize if the dimensions have changed
@@ -22,3 +23,4 @@ class ResizeAdapter private[ui](var mazePanel: MazePanel, var topControls: TopCo
     }
   }
 }
+

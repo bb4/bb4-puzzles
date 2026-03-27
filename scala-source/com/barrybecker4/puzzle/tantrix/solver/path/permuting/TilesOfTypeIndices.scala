@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017 - 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.model.HexTile
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.solver.path.PathType
@@ -18,7 +19,7 @@ import scala.collection.mutable.ListBuffer
 class TilesOfTypeIndices private[permuting](val pathType: PathType, val originalPath: TantrixPath) {
   val list: ListBuffer[Int] = ListBuffer()
   initialize(pathType, originalPath)
-  private var primColor: PathColor = _
+  private var primColor: PathColor = uninitialized
   def size: Int = list.size
 
   private def initialize(pathType: PathType, path: TantrixPath): Unit = {
@@ -45,3 +46,4 @@ class TilesOfTypeIndices private[permuting](val pathType: PathType, val original
     diff == (pathType.ordinal + 1)
   }
 }
+

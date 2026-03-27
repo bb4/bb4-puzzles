@@ -15,14 +15,30 @@ bb4 {
     mainClass.set('com.barrybecker4.puzzle.maze.ui.MazeSimulator')
 }
 
-// Demo harness in scala-test/; not a suite — ScalaTest would fail discovery if compiled as test code.
+tasks.withType(ScalaCompile).configureEach {
+    // Deprecation + imports/privates: full -Wunused:all is very noisy for UI/test code.
+    scalaCompileOptions.additionalParameters += ['-deprecation', '-Wunused:imports']
+}
+
+// Manual UI harness under scala-test/ (not a test suite); exclude so test compile does not pick it up as tests.
 sourceSets.named('test').configure {
     scala {
         exclude 'com/barrybecker4/puzzle/tantrix/ui/TantrixBoardUI.scala'
     }
 }
 
-def jme3 = [g: 'org.jmonkeyengine', v: '3.3.2-stable']
+// 3.7+: LwjglCanvas lives in jme3-lwjgl3 (LWJGL3 + macOS arm64). JME 3.3.x only shipped it in jme3-lwjgl (LWJGL2).
+def jme3 = [g: 'org.jmonkeyengine', v: '3.7.0-stable']
+
+def jvmArgsForApp(Map propMap) {
+    def args = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
+    // LWJGL3/GLFW on macOS must run on thread-0. Without -XstartOnFirstThread the native Cocoa code
+    // crashes with SIGTRAP when glfwInit() is called from the JME render thread.
+    if (propMap.startOnFirstThreadMac && System.getProperty('os.name').toLowerCase().contains('mac')) {
+        args.add(0, '-XstartOnFirstThread')
+    }
+    args
+}
 dependencies {
     // jme3-plugins pulls gson:2.8.1; bump for CVE-2022-25647 / WS-2021-0419
     constraints {
@@ -41,7 +57,14 @@ dependencies {
 
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
-    implementation "${jme3.g}:jme3-lwjgl:${jme3.v}"
+    // LWJGL 3 (jme3-lwjgl3) ships macOS arm64 natives; jme3-lwjgl uses LWJGL 2 (x86_64-only on Mac) and fails on Apple Silicon.
+    implementation("${jme3.g}:jme3-lwjgl3:${jme3.v}") {
+        // 0.1.8 embeds x86_64-only liblwjgl3awt.dylib; 0.2+ uses LWJGL jawt natives (arm64 on Apple Silicon). POM uses Maven-only ${lwjgl.natives}, so use transitive=false.
+        exclude group: 'org.lwjglx', module: 'lwjgl3-awt'
+    }
+    implementation('org.lwjglx:lwjgl3-awt:0.2.4') {
+        transitive = false
+    }
     implementation "${jme3.g}:jme3-plugins:${jme3.v}"
 
     // JUnit 4-style tests (Assert, @Test) alongside ScalaTest / JUnit 5 from bb4.scala-library
@@ -88,7 +111,8 @@ appMap['rubixcube'] = [
         description     : 'Rotate slices of the cube until all the faces have the same color.',
         longDescription : 'Rotate layers of the <a href="https://en.wikipedia.org/wiki/Rubik%27s_Cube">Rubix Cube</a> ' +
                 ' until every face has a uniform color.',
-        mx              : '16G'
+        mx              : '16G',
+        startOnFirstThreadMac : true
 ]
 appMap['sudoku'] = [
         title           : 'Sudoku Puzzle',
@@ -187,7 +211,7 @@ appMap.each { appId, propMap ->
         mainClass.set("${propMap['mainClass']}")
         args = argsList
         classpath = sourceSets.main.runtimeClasspath
-        jvmArgs = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
+        jvmArgs = jvmArgsForApp(propMap)
     }
 }
 
@@ -212,7 +236,7 @@ appMap.each { appId, propMap ->
         classpath = startScripts.classpath
         outputDir = startScripts.outputDir
         applicationName = "bb4-${appId}"
-        defaultJvmOpts = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
+        defaultJvmOpts = jvmArgsForApp(propMap)
     }
     application.applicationDistribution.into('bin') {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE

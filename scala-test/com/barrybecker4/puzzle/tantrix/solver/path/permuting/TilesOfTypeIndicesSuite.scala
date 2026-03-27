@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.solver.path.PathType._
 import org.junit.Assert.assertTrue
@@ -11,7 +12,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class TilesOfTypeIndicesSuite extends AnyFunSuite {
 
   /** instance under test */
-  private var indices: TilesOfTypeIndices = _
+  private var indices: TilesOfTypeIndices = uninitialized
 
 
   test("TIGHTIndicesIn3TileLoop") {
@@ -38,3 +39,4 @@ class TilesOfTypeIndicesSuite extends AnyFunSuite {
   //    return  new TantrixPath(new TilePlacementList(placement1, placement2, placement3), PathColor.YELLOW);
   //}
 }
+

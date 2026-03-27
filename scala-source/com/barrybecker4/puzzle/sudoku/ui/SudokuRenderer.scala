@@ -43,30 +43,27 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   /** This renders the current state of the Sudoku puzzle to the screen. */
   def render(g: Graphics, userEnteredValues: Map[Location, UserValue],
              currentFocusLocation: Location, width: Int, height: Int): Unit = {
-    val g2: Graphics2D = g.asInstanceOf[Graphics2D]
-    val minEdge: Int = Math.min (width, height) - 20 - SudokuRenderer.MARGIN
+    val g2 = g.asInstanceOf[Graphics2D]
+    val minEdge = Math.min(width, height) - 20 - SudokuRenderer.MARGIN
     pieceSize = minEdge / board.edgeLength
-    // erase what's there and redraw.
-    g.setColor (SudokuRenderer.BACKGROUND_COLOR)
-    g.fillRect (0, 0, width, height)
-    g.setColor (SudokuRenderer.TEXT_COLOR)
-    // g.drawString ("Number of tries: " + board.numIterations, SudokuRenderer.MARGIN, SudokuRenderer.MARGIN - 24)
-    val len: Int = board.edgeLength
-    var xpos: Int = 0
-    var ypos: Int = 0
-    if (currentFocusLocation != null) {
-      drawCurrentFocus (g, currentFocusLocation)
-    }
+    g.setColor(SudokuRenderer.BACKGROUND_COLOR)
+    g.fillRect(0, 0, width, height)
+    g.setColor(SudokuRenderer.TEXT_COLOR)
+    val len = board.edgeLength
+    if (currentFocusLocation != null) drawCurrentFocus(g, currentFocusLocation)
+    drawAllCells(g2, len, userEnteredValues)
+    drawCellBoundaryGrid(g, len)
+  }
 
+  private def drawAllCells(g2: Graphics2D, len: Int, userEnteredValues: Map[Location, UserValue]): Unit = {
     for (i <- 0 until len; j <- 0 until len) {
       val loc = (i + 1, j + 1)
-      val c: Cell = board.getCell(loc)
+      val c = board.getCell(loc)
       val cands = board.getValues(loc)
-      xpos = SudokuRenderer.MARGIN + j * pieceSize
-      ypos = SudokuRenderer.MARGIN + i * pieceSize
+      val xpos = SudokuRenderer.MARGIN + j * pieceSize
+      val ypos = SudokuRenderer.MARGIN + i * pieceSize
       drawCell(g2, c, cands, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
     }
-    drawCellBoundaryGrid (g, len)
   }
 
   def getCellCoordinates(point: Point): Location = {

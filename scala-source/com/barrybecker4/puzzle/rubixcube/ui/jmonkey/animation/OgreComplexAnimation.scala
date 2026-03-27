@@ -1,8 +1,9 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
+import scala.compiletime.uninitialized
+
 import com.jme3.anim.AnimComposer
 import com.jme3.anim.ArmatureMask
-import com.jme3.anim.Joint
 import com.jme3.anim.SkinningControl
 import com.jme3.anim.tween.action.Action
 import com.jme3.app.SimpleApplication
@@ -22,7 +23,7 @@ object OgreComplexAnimation extends App {
 }
 
 class OgreComplexAnimation extends SimpleApplication {
-  private var skinningControl: SkinningControl = _
+  private var skinningControl: SkinningControl = uninitialized
   private var angle: Float = 0
   private var rate: Float = 1
 

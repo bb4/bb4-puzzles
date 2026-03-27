@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.search.Refreshable
@@ -52,7 +53,7 @@ object HiQPuzzle extends App {
 case class HiQPuzzle(myargs: Array[String])
   extends PuzzleApplet[PegBoard, PegMove](myargs) with DoneListener {
 
-  private var navPanel: NavigationPanel = _
+  private var navPanel: NavigationPanel = uninitialized
 
   /** Construct the application */
   def this() = {this(Array[String]()) }
@@ -73,4 +74,5 @@ case class HiQPuzzle(myargs: Array[String])
   def done(): Unit = navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
 
 }
+
 

@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
-import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
 import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
@@ -22,7 +22,7 @@ case class SliderTopControls private[ui](
         override val algorithmValues: Array[AlgorithmEnum[SliderBoard, SlideMove]])
      extends TopControlPanel[SliderBoard, SlideMove](controller, algorithmValues) with ItemListener {
 
-  private var sizeSelector: SizeSelector = _
+  private var sizeSelector: SizeSelector = uninitialized
 
   override protected def addFirstRowControls(panel: JPanel): Unit = {
     super.addFirstRowControls(panel)
@@ -41,3 +41,4 @@ case class SliderTopControls private[ui](
       controller.asInstanceOf[SlidingPuzzleController].setSize(sizeSelector.getSelectedSize)
   }
 }
+

@@ -1,13 +1,14 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.ui
 
+import scala.compiletime.uninitialized
 import javax.swing.JPanel
 
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.PuzzleApplet
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.redpuzzle.RedPuzzleController
-import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, Piece, PieceList}
+import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm
 import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener}
 import com.barrybecker4.ui.util.GUIUtil
@@ -34,7 +35,7 @@ object RedPuzzle extends App {
 final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, OrientedPiece] with SliderChangeListener {
 
   /** allows you to change the animation speed. */
-  private var animSpeedSlider: LabeledSlider = _
+  private var animSpeedSlider: LabeledSlider = uninitialized
 
   def this() = { this(Array[String]())}
 
@@ -60,3 +61,4 @@ final class RedPuzzle(args: Array[String]) extends PuzzleApplet[PieceList, Orien
     viewer.asInstanceOf[RedPuzzleViewer].setAnimationSpeed(animSpeedSlider.getValue.toInt)
   }
 }
+

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
+import scala.compiletime.uninitialized
 import java.awt.Cursor
 
 import com.barrybecker4.common.concurrency.Worker
@@ -12,8 +13,8 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
-  private var solver: SudokuSolver = _
-  private var generator: SudokuGenerator = _
+  private var solver: SudokuSolver = uninitialized
+  private var generator: SudokuGenerator = uninitialized
 
   override def toString: String = super.toString
   def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
@@ -65,3 +66,4 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
     }
   }
 }
+

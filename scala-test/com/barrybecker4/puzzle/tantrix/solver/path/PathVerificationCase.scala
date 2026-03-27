@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 import com.barrybecker4.puzzle.tantrix.PathTstUtil
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.PathColor.{BLUE, RED, YELLOW}
-import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
 
 
 object PathVerificationCase {

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.{Box, Location}
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.PathColor
@@ -18,7 +19,7 @@ import scala.collection.mutable
 class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, var primaryColor: PathColor) {
   private val maxHalfPathLength = (numTiles + 1) / 2
   private var boundingBox = tantrix.getBoundingBox
-  private var visited: Set[Location] = _
+  private var visited: Set[Location] = uninitialized
 
   /** Travel the primary path in both directions, adding all adjacent empty placements
     * as long as they do not push either boundingBox dimension beyond maxHalfPathLength.
@@ -80,3 +81,4 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
     pathNbrs
   }
 }
+

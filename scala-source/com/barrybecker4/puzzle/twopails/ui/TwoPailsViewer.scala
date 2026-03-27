@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.puzzle.common.ui.DoneListener
 import com.barrybecker4.puzzle.common.ui.PathNavigator
@@ -20,7 +21,7 @@ final class TwoPailsViewer(var doneListener: DoneListener)
   extends PuzzleViewer[Pails, PourOperation] with PathNavigator {
 
   private val renderer: TwoPailsRenderer = new TwoPailsRenderer
-  private var path: List[PourOperation] = _
+  private var path: List[PourOperation] = uninitialized
 
   override def getPath: List[PourOperation] = path
 
@@ -66,4 +67,5 @@ final class TwoPailsViewer(var doneListener: DoneListener)
     if (doneListener != null) doneListener.done()
   }
 }
+
 

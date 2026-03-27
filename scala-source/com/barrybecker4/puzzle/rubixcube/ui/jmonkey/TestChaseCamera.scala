@@ -1,12 +1,14 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
 
+import scala.compiletime.uninitialized
+
 import com.jme3.app.SimpleApplication
 import com.jme3.input.ChaseCamera
 import com.jme3.input.controls.ActionListener
 import com.jme3.input.controls.AnalogListener
 import com.jme3.input.controls.KeyTrigger
 import com.jme3.material.Material
-import com.jme3.math.{ColorRGBA, FastMath, Quaternion, Vector3f}
+import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.Geometry
 import com.jme3.scene.shape.{Box, Quad}
 import com.jme3.input.KeyInput
@@ -20,8 +22,8 @@ object TestChaseCamera extends App {
 }
 
 class TestChaseCamera extends SimpleApplication with AnalogListener with ActionListener {
-  private var cubeGeom: Geometry = _
-  private var chaseCam: ChaseCamera = _
+  private var cubeGeom: Geometry = uninitialized
+  private var chaseCam: ChaseCamera = uninitialized
 
   override def simpleInitApp(): Unit = { // Load a teapot model
     cubeGeom = createCube() //assetManager.loadModel("Models/Teapot/Teapot.obj").asInstanceOf[Geometry]

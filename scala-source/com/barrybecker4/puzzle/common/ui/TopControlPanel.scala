@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2000-2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.common.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
@@ -36,8 +37,8 @@ class TopControlPanel[P, M](
     mainPanel.add (additionalControlsPanel, BorderLayout.CENTER)
   }
   add (mainPanel)
-  private var solveButton: JButton = _
-  private var algorithmChoice: JComboBox[String] = _
+  private var solveButton: JButton = uninitialized
+  private var algorithmChoice: JComboBox[String] = uninitialized
 
   private def createLayout: FlowLayout = {
     new FlowLayout(FlowLayout.LEADING)
@@ -93,4 +94,5 @@ class TopControlPanel[P, M](
     }
   }
 }
+
 

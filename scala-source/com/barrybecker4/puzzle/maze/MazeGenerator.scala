@@ -1,11 +1,11 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.math.MathUtil
-import com.barrybecker4.puzzle.maze.MazeGenerator.SLOW_SPEED_THRESH
 import com.barrybecker4.puzzle.maze.model.MazeCell
 import com.barrybecker4.puzzle.maze.model.Probabilities
 import com.barrybecker4.puzzle.maze.model.StateStack
@@ -29,7 +29,7 @@ object MazeGenerator {
 class MazeGenerator(val panel: MazePanel) {
 
   private val maze = panel.maze
-  private var stack: StateStack = _
+  private var stack: StateStack = uninitialized
   /** put the stop point at the maximum search depth. */
   private var maxDepth = 0
   /** set this to true to get the generator to stop generating */
@@ -127,3 +127,4 @@ class MazeGenerator(val panel: MazePanel) {
     }
   }
 }
+

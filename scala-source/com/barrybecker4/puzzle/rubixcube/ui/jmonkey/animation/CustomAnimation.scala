@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey.animation
 
+import scala.compiletime.uninitialized
+
 import com.jme3.anim.{Armature, Joint, SkinningControl}
 import com.jme3.app.SimpleApplication
 import com.jme3.light.{AmbientLight, DirectionalLight}
@@ -17,8 +19,8 @@ object CustomAnimation extends App {
 }
 
 class CustomAnimation extends SimpleApplication {
-  private var bone: Joint = _
-  private var armature: Armature = _
+  private var bone: Joint = uninitialized
+  private var armature: Armature = uninitialized
   private val rotation: Quaternion = new Quaternion
 
   override def simpleInitApp(): Unit = {

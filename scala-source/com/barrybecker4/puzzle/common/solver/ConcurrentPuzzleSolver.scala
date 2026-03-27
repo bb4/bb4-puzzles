@@ -36,7 +36,7 @@ class ConcurrentPuzzleSolver[P, M](puzzle: PuzzleController[P, M], val depthBrea
       try
         super.run()
       finally if (taskCount.decrementAndGet == 0) { // then there was no solution found
-        solution.setValue(null)
+        solution.completeWithoutValue()
       }
     }
   }

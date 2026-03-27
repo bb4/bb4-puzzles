@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku.ui
 
+import scala.compiletime.uninitialized
 import java.awt.event.{KeyEvent, KeyListener, MouseEvent, MouseListener}
 import javax.swing.JOptionPane
 
@@ -15,8 +16,8 @@ import scala.collection.immutable.HashMap
   */
 class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
 
-  private var currentCellLocation: Location = _
-  private var userEnteredValues: Map[Location, UserValue] = _
+  private var currentCellLocation: Location = uninitialized
+  private var userEnteredValues: Map[Location, UserValue] = uninitialized
   private var listeners = List[RepaintListener]()
   clear()
 
@@ -133,3 +134,4 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
   def mouseEntered(e: MouseEvent): Unit = {}
   def mouseExited(e: MouseEvent): Unit = {}
 }
+

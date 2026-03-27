@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
@@ -15,7 +16,7 @@ import scala.util.Random
   */
 class TantrixPathSuite extends AnyFunSuite {
   /** instance under test */
-  private var path: TantrixPath = _
+  private var path: TantrixPath = uninitialized
 
   test("path endpoint distance") {
     var result = ""
@@ -98,6 +99,16 @@ class TantrixPathSuite extends AnyFunSuite {
     assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.YELLOW))
   }
 
+  test("subPath forward slice matches reverse subPath") {
+    val tiles = List(
+      TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
+      TilePlacement(TILE1, UPPER, ANGLE_0),
+      TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
+    val path = new TantrixPath(tiles, PathColor.YELLOW, 3)
+    assert(path.subPath(0, 1).tiles == tiles.take(2))
+    assert(path.subPath(2, 0).tiles == tiles.reverse)
+  }
+
   test("HasOrderedPrimaryPathRedOfLength7") {
     val tiles = sevenTilesInAWrongRedLoop
     //println("tiles = " + tiles.mkString("\n"))
@@ -161,3 +172,4 @@ class TantrixPathSuite extends AnyFunSuite {
     assertResult(expectedPath) { nbr }
   }
 }
+

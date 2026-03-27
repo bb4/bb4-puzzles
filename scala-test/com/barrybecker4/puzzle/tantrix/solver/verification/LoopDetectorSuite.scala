@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.PathTstUtil.*
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.PathColor.*
@@ -13,7 +14,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class LoopDetectorSuite extends AnyFunSuite {
 
   /** instance under test */
-  private var detector: LoopDetector = _
+  private var detector: LoopDetector = uninitialized
 
   test("Loop Detection") {
     var result: String = ""
@@ -65,3 +66,4 @@ class LoopDetectorSuite extends AnyFunSuite {
     else assertFalse("Unexpectedly had loop.", detector.hasLoop)
   }
 }
+

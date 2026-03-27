@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.model
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.HexUtilSuite.TOL
@@ -16,7 +17,7 @@ object HexUtilSuite {
 
 class HexUtilSuite extends AnyFunSuite {
 
-  private var tantrix: Tantrix = _
+  private var tantrix: Tantrix = uninitialized
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(TOL)
 
 

@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
@@ -23,7 +24,7 @@ object SameTypeTileMixerSuite {
   */
 class SameTypeTileMixerSuite extends AnyFunSuite {
   /** instance under test */
-  private var mixer: SameTypeTileMixer = _
+  private var mixer: SameTypeTileMixer = uninitialized
 
 
   test("Mix3TilesTIGHT") {
@@ -137,3 +138,4 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
   private def createPath(placement1: TilePlacement, placement2: TilePlacement, placement3: TilePlacement) =
     new TantrixPath(ListBuffer(placement1, placement2, placement3).toSeq, PathColor.YELLOW, 4)
 }
+

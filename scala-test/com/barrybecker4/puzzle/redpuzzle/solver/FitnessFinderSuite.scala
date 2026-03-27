@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.solver
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.redpuzzle.model.{Nub, Piece, PieceList, PieceLists}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
@@ -14,7 +15,7 @@ import scala.util.Random
 class FitnessFinderSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */
   private val fitnessFinder = new FitnessFinder
-  private var rnd: Random = _
+  private var rnd: Random = uninitialized
 
   before {
     rnd = new Random(1)
@@ -81,3 +82,4 @@ class FitnessFinderSuite extends AnyFunSuite with BeforeAndAfter {
     assertResult( 0.0) { fitnessFinder.calculateFitness(pieceList)}
   }
 }
+

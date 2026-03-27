@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render.jme
 
+import scala.compiletime.uninitialized
+
 import com.barrybecker4.puzzle.rubixcube.Location
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove, Direction}
 import com.jme3.scene.instancing.InstancedNode
@@ -16,7 +18,7 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
 
   private val halfEdgeLen: Float = cube.size / 2.0f
   private var sliceNode: Option[SliceNode] = None
-  private var sliceMinicubes: Seq[MinicubeNode] = _
+  private var sliceMinicubes: Seq[MinicubeNode] = uninitialized
 
   // hack to avoid error overriding method clone in trait CloneableSmartAsset
   override def clone: RubixCubeNode = super.clone.asInstanceOf[RubixCubeNode]

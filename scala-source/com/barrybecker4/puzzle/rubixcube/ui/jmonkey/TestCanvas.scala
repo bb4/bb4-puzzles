@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
 
+import scala.compiletime.uninitialized
+
 import com.jme3.app.LegacyApplication
 import com.jme3.app.SimpleApplication
 import com.jme3.system.AppSettings
@@ -16,14 +18,14 @@ import javax.swing._
 
 
 object TestCanvas {
-  private var context: JmeCanvasContext = _
-  private var canvas: Canvas = _
-  private var app: LegacyApplication = _
-  private var frame: JFrame = _
-  private var canvasPanel1: JPanel = _
-  private var canvasPanel2: JPanel = _
-  private var currentPanel: JPanel = _
-  private var tabbedPane: JTabbedPane = _
+  private var context: JmeCanvasContext = uninitialized
+  private var canvas: Canvas = uninitialized
+  private var app: LegacyApplication = uninitialized
+  private var frame: JFrame = uninitialized
+  private var canvasPanel1: JPanel = uninitialized
+  private var canvasPanel2: JPanel = uninitialized
+  private var currentPanel: JPanel = uninitialized
+  private var tabbedPane: JTabbedPane = uninitialized
   private val appClass = "com.barrybecker4.puzzle.rubixcube.ui.jmonkey.TestRenderToTexture"
 
   private def createTabs(): Unit = {
@@ -148,6 +150,7 @@ object TestCanvas {
 
   def createCanvas(appClass: String): Canvas = {
     val settings = new AppSettings(true)
+    settings.setRenderer(AppSettings.LWJGL_OPENGL3)
     settings.setWidth(1024)
     settings.setHeight(680)
 

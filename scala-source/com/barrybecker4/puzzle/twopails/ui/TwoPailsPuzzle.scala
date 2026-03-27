@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.twopails.ui
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.DoneListener
@@ -35,7 +36,7 @@ object TwoPailsPuzzle {
 
 final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, PourOperation] with DoneListener {
 
-  private var navPanel: NavigationPanel = _
+  private var navPanel: NavigationPanel = uninitialized
 
   /** Construct the application */
   def this() = { this(Array[String]())}
@@ -60,4 +61,5 @@ final class TwoPailsPuzzle(args: Array[String]) extends PuzzleApplet[Pails, Pour
     navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
 }
+
 

@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.common.solver
 
+import scala.compiletime.uninitialized
+
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
@@ -17,7 +19,7 @@ import org.scalatest.BeforeAndAfter
   * (When threads must repeatedly count down in this way, instead use a CyclicBarrier)
   */
 class CountDownLatch2Suite extends AnyFunSuite with BeforeAndAfter {
-  private var counter: AtomicInteger = _
+  private var counter: AtomicInteger = uninitialized
 
   before {
     counter =  new AtomicInteger(0)

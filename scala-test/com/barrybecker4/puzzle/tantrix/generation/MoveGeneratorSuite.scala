@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
+import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
@@ -14,8 +15,8 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class MoveGeneratorSuite extends AnyFunSuite {
 
-  private[generation] var generator: MoveGenerator = _
-  private[generation] var board: TantrixBoard = _
+  private[generation] var generator: MoveGenerator = uninitialized
+  private[generation] var board: TantrixBoard = uninitialized
 
   test("MoveGenerationFromTwoOfThreeTilesA") {
     board = place2of3Tiles_OneThenTwo
@@ -42,4 +43,5 @@ class MoveGeneratorSuite extends AnyFunSuite {
     assertEquals("Unexpected number of next moves.", 8, moves.size)
   }
 }
+
 

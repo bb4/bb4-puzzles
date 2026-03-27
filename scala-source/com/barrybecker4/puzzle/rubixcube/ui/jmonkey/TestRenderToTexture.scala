@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.jmonkey
 
+import scala.compiletime.uninitialized
+
 import com.jme3.app.SimpleApplication
 import com.jme3.input.KeyInput
 import com.jme3.input.controls.ActionListener
@@ -32,9 +34,9 @@ object TestRenderToTexture {
 }
 
 class TestRenderToTexture extends SimpleApplication with ActionListener {
-  private var offBox: Geometry = _
+  private var offBox: Geometry = uninitialized
   private var angle: Float = 0
-  private var offView: ViewPort = _
+  private var offView: ViewPort = uninitialized
 
   def setupOffscreenView: Texture = {
     val offCamera = new Camera(512, 512)

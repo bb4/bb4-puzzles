@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.maze.model
 
+import scala.compiletime.uninitialized
+
 import com.barrybecker4.math.MathUtil
 import org.scalatest.BeforeAndAfter
 import org.junit.Assert.assertEquals
@@ -12,7 +14,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfter  {
 
   /** instance under test */
-  private var probs: Probabilities = _
+  private var probs: Probabilities = uninitialized
 
   before {
     MathUtil.RANDOM.setSeed(0)

@@ -1,5 +1,7 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
+import scala.compiletime.uninitialized
+
 import org.scalatest.BeforeAndAfter
 import PieceParameterArraySuite._
 import com.barrybecker4.common.testsupport.strip
@@ -18,12 +20,12 @@ object PieceParameterArraySuite {
   */
 class PieceParameterArraySuite extends AnyFunSuite with BeforeAndAfter {
 
-  private var fourPieces: PieceParameterArray = _
-  private var ninePieces: PieceParameterArray = _
-  private var rnd: Random = _
+  private var fourPieces: PieceParameterArray = uninitialized
+  private var ninePieces: PieceParameterArray = uninitialized
+  private var rnd: Random = uninitialized
 
   /** instance under test */
-  private var params: PieceParameterArray = _
+  private var params: PieceParameterArray = uninitialized
   private val fitnessFinder = new FitnessFinder()
 
   before {
