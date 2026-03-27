@@ -38,7 +38,8 @@ final class BridgePuzzle(args: Array[String])
   protected def getAlgorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]] =
     Algorithm.values.asInstanceOf[Array[AlgorithmEnum[Bridge, BridgeMove]]]
 
-  override protected def createTopControls = new BridgeTopControls(controller, getAlgorithmValues)
+  override protected def createTopControls: JPanel =
+    new BridgeTopControls(controller.asInstanceOf[BridgePuzzleController], getAlgorithmValues)
 
   override protected def createBottomControls: JPanel = navPanel
 

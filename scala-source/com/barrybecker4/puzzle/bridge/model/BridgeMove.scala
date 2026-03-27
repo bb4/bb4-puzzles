@@ -10,13 +10,17 @@ import com.barrybecker4.puzzle.common.model.Move
   * @param people the speeds of the person or people that are crossing
   * @param direction if true then crossing
   */
-case class BridgeMove(people: List[Int], direction: Boolean) extends Move with Comparable[BridgeMove] {
+case class BridgeMove(people: List[Int], direction: Boolean) extends Move {
+
+  require(people.nonEmpty && people.length <= 2, "A move must involve one or two people")
 
   /** The time for the slowest person out of everyone crossing at the same time */
-  val cost: Int = if (people.size == 1) people.head else Math.max(people.head, people(1))
+  val cost: Int = people.max
 
   override def toString: String = "people: " + people + (if (direction) " -> " else " <- ")
-
-  def compareTo(m: BridgeMove): Int = cost - m.cost
 }
 
+object BridgeMove {
+
+  given Ordering[BridgeMove] = Ordering.by(_.cost)
+}

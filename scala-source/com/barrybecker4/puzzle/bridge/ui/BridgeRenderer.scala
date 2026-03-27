@@ -8,11 +8,7 @@ import com.barrybecker4.puzzle.bridge.ui.BridgeRenderer._
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 
 /**
-  * Singleton class that renders the current state of the Bridge1 puzzle.
-  * Having the renderer separate from the viewer helps to separate out the rendering logic
-  * from other features of the BridgeViewer1.
-  *
-  * @author Barry Becker
+  * Layout constants and shared font for the bridge puzzle view.
   */
 object BridgeRenderer {
   val INC = 60
@@ -25,13 +21,12 @@ object BridgeRenderer {
 }
 
 /**
-  * private constructor because this class is a singleton.
-  * Use getPieceRenderer instead.
+  * Renders the current bridge puzzle state: people on each bank, bridge, torch, and last move hint.
   */
 class BridgeRenderer extends PuzzleRenderer[Bridge] {
 
   /**
-    * This renders the current state of the Bridge1 to the screen.
+    * Renders the current state of the bridge puzzle.
     * Show the people that have not yet crossed on the left; those that have on the right.
     */
   def render(g: Graphics, board: Bridge, width: Int, height: Int): Unit = {
@@ -39,7 +34,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
   }
 
   /**
-    * This renders the current state of the Bridge1 to the screen.
+    * Renders the current state of the bridge puzzle.
     * Show the people that have not yet crossed on the left; those that have on the right.
     */
   def render(g: Graphics, board: Bridge, lastMove: Option[BridgeMove], width: Int, height: Int): Unit = {
@@ -56,7 +51,7 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
   private def drawBridge(g: Graphics): Unit = {
     val leftX = MARGIN + TEXT_WIDTH
     val rightX = leftX + BridgeRenderer.BRIDGE_WIDTH
-    g.setColor(Color.darkGray)
+    g.setColor(Color.DARK_GRAY)
     for (i <- 0 to 10) {
       val ypos = TEXT_Y + i
       g.drawLine(leftX, ypos, rightX, ypos)
@@ -91,15 +86,12 @@ class BridgeRenderer extends PuzzleRenderer[Bridge] {
   private def drawPeopleMove(g: Graphics, lastMove: Option[BridgeMove], xpos: Int): Unit = {
     g.setColor(Color.BLACK)
     g.setFont(FONT)
-    if (lastMove.isDefined) {
-      val move = lastMove.get
+    lastMove.foreach { move =>
       val prefix = if (move.direction) "" else " <= "
       val suffix = if (move.direction) " => " else ""
       val peopleListString = move.people.mkString(prefix, ", ", suffix)
-
       g.drawString(peopleListString, xpos - 50, TEXT_Y - 15)
     }
   }
 }
-
 

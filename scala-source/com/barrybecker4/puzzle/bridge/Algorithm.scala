@@ -25,7 +25,7 @@ enum Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
       case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[Bridge, BridgeMove](controller)
       case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[Bridge, BridgeMove](controller)
       case IDA_STAR => new IDAStarPuzzleSolver[Bridge, BridgeMove](controller)
-      // this will find a solution, but not necessary the shortest path
+      // this will find a solution, but not necessarily the shortest path
       case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[Bridge, BridgeMove](controller)
       // this will find the shortest path to a solution if one exists, but takes longer
       case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[Bridge, BridgeMove](controller, 0.9f)

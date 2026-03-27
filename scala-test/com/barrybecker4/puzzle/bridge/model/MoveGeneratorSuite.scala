@@ -27,21 +27,33 @@ class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  test("GenerateMovesForStandardProblemMiddleStateMoveRight") {
-    val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = false)
+  /** Five-person variant (speeds 1,2,3,5,8): torch on left, {1,8} still to cross; {2,3,5} on the far bank. */
+  test("GenerateMovesForFivePersonMiddleStateMoveRight") {
+    val initialState = Bridge(List(1, 8), List(2, 5, 3), lightCrossed = false)
     val expectedMoves = Seq(
       BridgeMove(List(1), true), BridgeMove(List(8), direction = true), BridgeMove(List(1, 8), direction = true)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
   }
 
-  test("GenerateMovesForStandardProblemMiddleStateMoveLeft") {
-    val initialState = Bridge(List(1, 8), List[Int](2, 5, 3), lightCrossed = true)
+  /** Same positions as above, torch on far bank — return trips use people {2,3,5}. */
+  test("GenerateMovesForFivePersonMiddleStateMoveLeft") {
+    val initialState = Bridge(List(1, 8), List(2, 5, 3), lightCrossed = true)
     val expectedMoves = Seq(
-      BridgeMove(List(2), false), BridgeMove(List(3), false),BridgeMove(List(2, 3), false),
-      BridgeMove(List(5, 3), false), BridgeMove(List(5), direction = false), BridgeMove(List(2, 5), direction = false)
+      BridgeMove(List(2), false), BridgeMove(List(3), false), BridgeMove(List(2, 3), false),
+      BridgeMove(List(5), direction = false), BridgeMove(List(5, 3), direction = false),
+      BridgeMove(List(2, 5), direction = false)
     )
     verifyGeneratedMoves(initialState, expectedMoves)
+  }
+
+  /** Every generated move only references people currently on the torch side. */
+  test("GenerateMovesOnlyUsePeopleOnTorchSide") {
+    val initialState = Bridge(List(1, 2, 5, 8), Nil, lightCrossed = false)
+    val generator = new MoveGenerator(initialState)
+    for (m <- generator.generateMoves)
+      assert(m.people.forall(initialState.uncrossed.contains),
+        s"move $m must use only uncrossed people ${initialState.uncrossed}")
   }
 
   private def verifyGeneratedMoves(initialState: Bridge, expectedMoves: Seq[BridgeMove]): Unit = {

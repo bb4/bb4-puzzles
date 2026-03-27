@@ -25,7 +25,10 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   override def finalRefresh(path: Option[Seq[BridgeMove]], board: Option[Bridge],
                             numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, board, numTries, millis)
-    if (board.isDefined) showPath(path.get, board.get)
+    for {
+      p <- path
+      b <- board
+    } showPath(p, b)
   }
 
   override def refresh(board: Bridge, numTries: Long): Unit = {
@@ -49,10 +52,10 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
   override protected def createFinalStatusMessage(numTries: Long, millis: Long,
                                                   path: Option[Seq[BridgeMove]]): String = {
     val time = millis.toFloat / 1000.0f
-    var msg = "Did not find solution."
-    if (path.isDefined) msg = "Found solution with total time = " + findCost(path.get.toList) + " in " +
-      FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
-    msg
+    if (path.isEmpty) "Did not find solution."
+    else
+      "Found solution with total time = " + findCost(path.get.toList) + " in " +
+        FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
   }
 
   private def findCost(path: List[BridgeMove]) = path.map(_.cost).sum
@@ -69,4 +72,3 @@ final class BridgeViewer private[ui](var doneListener: DoneListener)
     if (doneListener != null) doneListener.done()
   }
 }
-

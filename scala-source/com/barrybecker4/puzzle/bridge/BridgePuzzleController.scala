@@ -5,7 +5,7 @@ import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.bridge.model._
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.bridge.Algorithm.A_STAR_SEQUENTIAL
-import InitialConfiguration.CONFIGURATIONS
+import InitialConfiguration.configurations
 
 /**
   * Bridge crossing Puzzle Controller.
@@ -19,14 +19,14 @@ import InitialConfiguration.CONFIGURATIONS
 class BridgePuzzleController(ui: Refreshable[Bridge, BridgeMove])
   extends AbstractPuzzleController[Bridge, BridgeMove](ui) {
 
-  private var initialPosition: Bridge = new Bridge(CONFIGURATIONS.head.peopleSpeeds)
+  private var initialPosition: Bridge = Bridge(configurations.head.peopleSpeeds)
   algorithm = A_STAR_SEQUENTIAL
 
   if (ui != null) ui.refresh(initialPosition, 0)
 
 
   def setConfiguration(config: Array[Int]): Unit = {
-    initialPosition = new Bridge(config)
+    initialPosition = Bridge(config)
     if (ui != null) ui.refresh(initialPosition, 0)
   }
 
@@ -38,7 +38,7 @@ class BridgePuzzleController(ui: Refreshable[Bridge, BridgeMove])
 
   def transition(position: Bridge, move: BridgeMove): Bridge = position.applyMove(move, reverse = false)
 
-  /** @return estimate of the cost to reach the goal of all 9 pieces successfully placed */
+  /** @return estimate of the cost to get everyone across the bridge */
   override def distanceFromGoal(position: Bridge): Int = position.distanceFromGoal
 
   override def getCost(move: BridgeMove): Int = move.cost

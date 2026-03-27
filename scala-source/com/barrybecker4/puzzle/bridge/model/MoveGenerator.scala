@@ -6,26 +6,18 @@ package com.barrybecker4.puzzle.bridge.model
   * Bridge Puzzle move generator. Generates valid next moves.
   * @author Barry Becker
   */
-class MoveGenerator(var board: Bridge) {
+class MoveGenerator(val board: Bridge) {
 
   /** @return List of next moves are all people that can move across the bridge. */
-  def generateMoves: Seq[BridgeMove] = if (board.lightCrossed) createMoves(board.crossed, crossing = false)
-
-  else createMoves(board.uncrossed, crossing = true)
+  def generateMoves: Seq[BridgeMove] =
+    if (board.lightCrossed) createMoves(board.crossed, crossing = false)
+    else createMoves(board.uncrossed, crossing = true)
 
   private def createMoves(people: List[Int], crossing: Boolean): Seq[BridgeMove] = {
-    var moves = List[BridgeMove]()
-    val numPeople = people.size
-    moves ::= BridgeMove(List(people.head), crossing)
-    if (numPeople > 1) {
-      for (i <- 0 until numPeople - 1) {
-        for (j <- (i + 1) until numPeople)
-          moves +:= BridgeMove(List(people(i), people(j)), crossing)
-        moves +:= BridgeMove(List(people(i + 1)), crossing)
-      }
-    }
-    // Putting them in order of fastest to cross first. This speeds A*, but slows sequential.
-    moves.sorted
-    //moves
+    if (people.isEmpty) return Nil
+    val singles = people.map(p => BridgeMove(List(p), crossing))
+    val pairs = people.combinations(2).map(c => BridgeMove(c.toList, crossing)).toSeq
+    // Sort by crossing time, then by slowest-first tie-break to match legacy move ordering (A* ordering).
+    (singles ++ pairs).sortBy(m => (m.cost, -m.people.min))
   }
 }

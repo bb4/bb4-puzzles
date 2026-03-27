@@ -53,13 +53,13 @@ class SolvingSuite extends AnyFunSuite with BeforeAndAfterAll {
   @throws[Exception]
   private def runSolvingTests(algorithm: Algorithm): Unit =  {
     val controller = new BridgePuzzleController(null)
-    for (testCase <- InitialConfiguration.CONFIGURATIONS) {
+    for (testCase <- InitialConfiguration.configurations) {
       controller.setConfiguration(testCase.peopleSpeeds)
       val solver = algorithm.createSolver(controller)
       //System.out.println("initial pos = " + controller.initialState)
       val path = solver.solve
-      assertNotNull("No solution found for case: " + testCase.getLabel, path)
-      val msg = "Unexpected minimum amount of time to cross for (" + testCase.getLabel + ") " +
+      assertNotNull("No solution found for case: " + testCase.labelText, path)
+      val msg = "Unexpected minimum amount of time to cross for (" + testCase.labelText + ") " +
         "for " + algorithm.getLabel + ". The path was " + path + ". "
       assertEquals(msg + "path length =" + path.get.size, testCase.shortestPath, pathCost(path.get))
     }
