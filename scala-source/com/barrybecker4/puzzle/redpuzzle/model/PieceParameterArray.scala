@@ -29,7 +29,7 @@ object PieceParameterArray {
 
     while (p2 == p1) {
       p2 = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
-    } 
+    }
 
     pieces.doSwap(p1, p2)
   }
@@ -53,6 +53,27 @@ object PieceParameterArray {
     */
   private def findSwapProbabilities(pieces: PieceList): IndexedSeq[Double] =
     for (i <- 0 until pieces.numTotal) yield 1.0 / (1.0 + pieces.getNumFits(i))
+
+  /** After swaps, rotate each piece to the rotation that maximizes local nub fits. */
+  private[model] def rotateEachPieceForBestLocalFits(pieceList: PieceList): PieceList = {
+    var pl = pieceList
+    for (k <- 0 until pl.size)
+      pl = rotateSinglePieceForBestFit(pl, k)
+    pl
+  }
+
+  private def rotateSinglePieceForBestFit(pieceList: PieceList, k: Int): PieceList = {
+    var bestNumFits = pieceList.getNumFits(k)
+    var bestRot = 0
+    for (i <- 1 to 3) {
+      val numFits = pieceList.rotate(k, i).getNumFits(k)
+      if (numFits > bestNumFits) {
+        bestNumFits = numFits
+        bestRot = i
+      }
+    }
+    pieceList.rotate(k, bestRot)
+  }
 }
 
 /**
@@ -75,29 +96,13 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
 
     var pieceList: PieceList = pieces
     val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
-    //println(s"numSwaps = $numSwaps rad= $radius   orig piecelist:")
 
     for (_ <- 0 until numSwaps)
       pieceList = doPieceSwap(pieceList, rnd)
 
     assert(pieceList.size == pieceList.numTotal)
 
-    // Make a pass over all the pieces. If rotating a piece leads to more fits, then do it.
-    for (k <- 0 until pieceList.size) {
-      var numFits: Int = pieceList.getNumFits(k)
-      var bestNumFits: Int = numFits
-      var bestRot: Int = 0
-      for (i <- 1 to 3) {
-        val plist = pieceList.rotate(k, i)
-        numFits = plist.getNumFits(k)
-        if (numFits > bestNumFits) {
-          bestNumFits = numFits
-          bestRot = i
-        }
-      }
-      // rotate the piece to position of best fit.
-      pieceList = pieceList.rotate(k, bestRot)
-    }
+    pieceList = rotateEachPieceForBestLocalFits(pieceList)
     new PieceParameterArray(pieceList, rnd)
   }
 
@@ -128,7 +133,7 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
   override def equals(other: Any): Boolean = other match {
     case that: PieceParameterArray =>
       super.equals(that) &&
-        (that canEqual this) &&
+        that.canEqual(this) &&
         pieces == that.pieces
     case _ => false
   }

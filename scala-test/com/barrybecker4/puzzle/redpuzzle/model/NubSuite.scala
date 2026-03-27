@@ -9,9 +9,6 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class NubSuite extends AnyFunSuite with BeforeAndAfter {
 
-  /** instance under test */
-  private val nub = null
-
   test("Construction") {
     assertResult(Nub.INNY_CLUB.suit) { Nub.CLUB }
     assert(Nub.OUTY_DIAMOND.isOuty)

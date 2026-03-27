@@ -11,7 +11,7 @@ import scala.util.Random
   */
 object PieceLists {
 
-  /** this defines the puzzle pieces for the standard 9x9 puzzle (not sorted). */
+  /** Defines the puzzle pieces for the standard 9-piece (3×3) puzzle (not sorted). */
   val RED_INITIAL_PIECES_9 = Array(
     Piece(Nub.OUTY_SPADE, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.INNY_DIAMOND, 1), // 0
     Piece(Nub.OUTY_CLUB, Nub.OUTY_HEART, Nub.INNY_DIAMOND, Nub.INNY_CLUB, 2), // 1
@@ -35,7 +35,7 @@ object PieceLists {
     Piece(Nub.OUTY_HEART, Nub.INNY_DIAMOND, Nub.INNY_SPADE, Nub.OUTY_CLUB, 8),
     Piece(Nub.OUTY_SPADE, Nub.INNY_DIAMOND, Nub.INNY_CLUB, Nub.INNY_SPADE, 9))
 
-  /** This defines the puzzle pieces for a simpler 4x4 puzzle. */
+  /** This defines the puzzle pieces for a simpler 4-piece (2×2) puzzle. */
   val INITIAL_PIECES_4 = Array(
     RED_INITIAL_PIECES_9(0),
     RED_INITIAL_PIECES_9(1),
@@ -47,7 +47,7 @@ object PieceLists {
     getInitialPuzzlePieces(PieceList.DEFAULT_NUM_PIECES, rnd)
 
   /** Factory method for creating the initial puzzle pieces.
-    * @return the initial 9 pieces (in random order) to use when solving.
+    * @return the initial pieces (in random order) to use when solving.
     */
   def getInitialPuzzlePieces(numPieces: Int, rnd: Random = MathUtil.RANDOM): PieceList = {
     val initialPieces = numPieces match {

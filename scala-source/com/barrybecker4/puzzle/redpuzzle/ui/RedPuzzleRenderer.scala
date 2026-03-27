@@ -32,8 +32,6 @@ object RedPuzzleRenderer {
   private val TEXT_FONT = new Font(GUIUtil.DEFAULT_FONT_FAMILY, Font.BOLD, 18)
   // put this here to avoid reallocation during rendering.
   private val symb: Array[Char] = new Array[Char](1)
-  // num pieces on edge
-  private val DIM = Math.sqrt(PieceList.DEFAULT_NUM_PIECES).toInt
 
   /** draw the borders around each piece. */
   private def drawPieceBoundaryGrid(g: Graphics2D, dim: Int): Unit = {
@@ -41,7 +39,7 @@ object RedPuzzleRenderer {
     var ypos = 0
     val rightEdgePos = MARGIN + PIECE_SIZE * dim
     val bottomEdgePos = MARGIN + PIECE_SIZE * dim
-    // draw the hatches which deliniate the cells
+    // draw the hatches which delineate the cells
     g.setColor(GRID_COLOR)
     for (i <- 0 to dim) { //   -----
         ypos = MARGIN + i * PIECE_SIZE
@@ -161,18 +159,18 @@ class RedPuzzleRenderer private[ui]() extends PuzzleRenderer[PieceList] {
 
   /** Renders the current state of the Slider to the screen. */
   def render(g: Graphics, board: PieceList, width: Int, height: Int): Unit = {
-    RedPuzzleRenderer.drawPieceBoundaryGrid(g.asInstanceOf[Graphics2D], RedPuzzleRenderer.DIM)
+    if (board == null) return
+    val dim = board.edgeLength
+    RedPuzzleRenderer.drawPieceBoundaryGrid(g.asInstanceOf[Graphics2D], dim)
     // use this to determine of there is a nub mismatch a a given location
     // allocates a little more space tha we actually use, but simpler this way.
     val nubChecks = Array.ofDim[Char](7, 7)
-    if (board == null) return
     for (i <- 0 until board.size) {
         val p = board.get(i)
-        val row = i / RedPuzzleRenderer.DIM
-        val col = i % RedPuzzleRenderer.DIM
+        val row = i / dim
+        val col = i % dim
         RedPuzzleRenderer.drawPiece(g, p, col, row, nubChecks)
     }
   }
 }
-
 

@@ -29,11 +29,11 @@ class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
 
 
 
-  /** @return true if we have 9 pieces that fit */
+  /** @return true when all pieces are placed (full board). */
   def isGoal(position: PieceList): Boolean = position.size == position.numTotal
 
-  /** The simplest estimate of the cost to reach the goal is 9 - number of pieces placed so far.
-    * @return estimate of the cost to reach the goal of all 9 pieces successfully placed
+  /** The simplest estimate of the cost to reach the goal is numTotal minus pieces placed so far.
+    * @return estimate of the cost to reach the goal of a complete placement
     */
   override def distanceFromGoal(position: PieceList): Int = position.numTotal - position.size
 

@@ -17,14 +17,14 @@ class OrientedPieceSuite extends AnyFunSuite {
     ) {op.toString}
   }
 
-  test("Rotate clokcwise by 90 degrees") {
+  test("Rotate clockwise by 90 degrees") {
     val op = OrientedPiece(PIECE, Direction.TOP)
     assertResult(
       "Piece 1 (orientation=RIGHT): TOP:outy Suit(D);RIGHT:inny Suit(H);BOTTOM:inny Suit(D);LEFT:outy Suit(S);"
     ) {op.rotate().toString}
   }
 
-  test("Rotate clokcwise by 180 degrees") {
+  test("Rotate clockwise by 180 degrees") {
     val op = OrientedPiece(PIECE, Direction.TOP)
     assertResult(
       "Piece 1 (orientation=BOTTOM): TOP:inny Suit(H);RIGHT:inny Suit(D);BOTTOM:outy Suit(S);LEFT:outy Suit(D);"

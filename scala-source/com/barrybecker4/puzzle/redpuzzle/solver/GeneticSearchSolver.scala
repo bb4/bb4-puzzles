@@ -34,9 +34,9 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     optimizer.setListener(this)
     val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
     solution = theSolution.pa.asInstanceOf[PieceParameterArray].getPieceList
-    val moves = if (evaluateFitness(theSolution.pa) == 0) Some(solution.pieces) else Option.empty
+    val moves = if (evaluateFitness(theSolution.pa) == 0) Some(solution.pieces) else None
     val elapsedTime = System.currentTimeMillis - startTime
-    puzzle.finalRefresh(moves, Option.apply(solution), numTries, elapsedTime)
+    puzzle.finalRefresh(moves, Some(solution), numTries, elapsedTime)
     moves
   }
 

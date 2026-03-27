@@ -8,17 +8,19 @@ package com.barrybecker4.puzzle.redpuzzle.model
   */
 case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub, pieceNumber: Int) {
 
-  require(pieceNumber >= 1 && pieceNumber <= 9, "The piece number is not valid : " + pieceNumber)
+  require(pieceNumber >= 1 && pieceNumber <= 9, s"The piece number is not valid: $pieceNumber")
 
-  def nub(i: Int): Nub = {
-    i match {
-      case 0 => topNub
-      case 1 => rightNub
-      case 2 => bottomNub
-      case 3 => leftNub
-      case _ => throw new IllegalArgumentException("Invalid nub index of " + i)
-    }
+  /** Nub on the given side in the piece's default (TOP-oriented) layout. */
+  def nub(dir: Direction): Nub = dir match {
+    case Direction.TOP => topNub
+    case Direction.RIGHT => rightNub
+    case Direction.BOTTOM => bottomNub
+    case Direction.LEFT => leftNub
   }
+
+  def nub(i: Int): Nub =
+    if i >= 0 && i < Direction.values.length then nub(Direction.values(i))
+    else throw new IllegalArgumentException("Invalid nub index of " + i)
 
   override def toString: String = s"Piece $pieceNumber: $topNub,  $rightNub $bottomNub, $leftNub"
 }

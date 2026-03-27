@@ -25,6 +25,34 @@ class PieceListSuite extends AnyFunSuite with BeforeAndAfter {
     assertResult("PieceList: (0 pieces)\n") {pieceList.toString}
   }
 
+  test("illegal numTotal is rejected") {
+    intercept[IllegalArgumentException] {
+      PieceList(List.empty[OrientedPiece], 5)
+    }
+  }
+
+  test("rowColForIndex maps linear index to row and column") {
+    assertResult((0, 0)) { PieceList.rowColForIndex(0, 4) }
+    assertResult((0, 1)) { PieceList.rowColForIndex(1, 4) }
+    assertResult((1, 0)) { PieceList.rowColForIndex(2, 4) }
+    assertResult((1, 1)) { PieceList.rowColForIndex(3, 4) }
+    assertResult((0, 0)) { PieceList.rowColForIndex(0, 9) }
+    assertResult((2, 2)) { PieceList.rowColForIndex(8, 9) }
+  }
+
+  test("doSwap rejects invalid indices") {
+    val pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
+    intercept[IllegalArgumentException] {
+      pieceList.doSwap(-1, 0)
+    }
+    intercept[IllegalArgumentException] {
+      pieceList.doSwap(0, 4)
+    }
+    intercept[IllegalArgumentException] {
+      pieceList.doSwap(4, 0)
+    }
+  }
+
   test("Construction") {
     val pieceList = new PieceList(PieceLists.INITIAL_PIECES_4)
     assertResult(4) { pieceList.size }

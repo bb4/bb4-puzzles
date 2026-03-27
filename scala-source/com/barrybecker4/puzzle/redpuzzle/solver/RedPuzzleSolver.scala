@@ -11,16 +11,16 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceL
   * Abstract base class for puzzle solver strategies (see strategy pattern).
   * Subclasses do the hard work of actually solving the puzzle.
   * @param puzzle the puzzle to solve.
+  * @param pieces initial pool of shuffled pieces to place (defaults to a random standard set).
   * @author Barry Becker
   */
-abstract class RedPuzzleSolver(val puzzle: PuzzleController[PieceList, OrientedPiece])
-  extends PuzzleSolver[OrientedPiece] {
-
-  /** the unsorted pieces that we draw from and place in the solvedPieces list. */
+abstract class RedPuzzleSolver(
+  val puzzle: PuzzleController[PieceList, OrientedPiece],
   val pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
+) extends PuzzleSolver[OrientedPiece] {
 
   /** the pieces we have correctly fitted so far. */
-  var solution: PieceList = new PieceList
+  var solution: PieceList = PieceList(List.empty[OrientedPiece], pieces.numTotal)
 
   /** some measure of the number of iterations the solver needs to solve the puzzle. */
   var numTries: Int = 0

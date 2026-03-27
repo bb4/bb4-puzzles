@@ -10,13 +10,11 @@ enum Direction:
   * A puzzle piece and its orientation. Immutable
   * @author Barry Becker
   */
-case class OrientedPiece(piece: Piece, orientation: Direction) {
+case class OrientedPiece(piece: Piece, orientation: Direction = Direction.TOP) {
 
-  def this(piece: Piece) = { this(piece, Direction.TOP) }
-
-  /** This rotates the piece the specified number of 90 degree increments. By default roatates 90 degrees clockwise. */
+  /** Rotates the piece the specified number of 90 degree increments. By default rotates 90 degrees clockwise. */
   def rotate(num: Int = 1): OrientedPiece = {
-    val newOrientation: Direction = Direction.values((orientation.ordinal + num) % Direction.values.length)
+    val newOrientation = Direction.values((orientation.ordinal + num) % Direction.values.length)
     OrientedPiece(piece, newOrientation)
   }
 
@@ -25,18 +23,19 @@ case class OrientedPiece(piece: Piece, orientation: Direction) {
   def getBottomNub: Nub = getNub(Direction.BOTTOM)
   def getLeftNub: Nub = getNub(Direction.LEFT)
 
-  /** @param dir nub orientation direction.
-    * @return the suit of the nub fot the specified direction.
+  /** @param dir nub orientation direction in board space.
+    * @return the nub for the specified direction.
     */
-  private def getNub(dir: Direction): Nub = piece.nub(getDirectionIndex(dir))
+  private def getNub(dir: Direction): Nub = piece.nub(localDirectionFor(dir))
 
-  /** @return sum of (orientation index + requested direction ) modulo the number of Directions (4). */
-  private def getDirectionIndex(dir: Direction): Int = (orientation.ordinal + dir.ordinal) % Direction.values.length
+  /** Piece-local side that corresponds to the given board direction given current orientation. */
+  private def localDirectionFor(worldDir: Direction): Direction =
+    Direction.values((orientation.ordinal + worldDir.ordinal) % Direction.values.length)
 
   /** @return a nice readable string representation for debugging. */
   override def toString: String = {
-    val buf: StringBuilder = new StringBuilder ("Piece " + piece.pieceNumber + " (orientation=" + orientation + "): ")
-    for (d <- Direction.values) buf.append(d).append (':').append(getNub(d)).append (";")
+    val buf = new StringBuilder(s"Piece ${piece.pieceNumber} (orientation=$orientation): ")
+    for (d <- Direction.values) buf.append(d).append(':').append(getNub(d)).append(';')
     buf.toString
   }
 }
