@@ -58,6 +58,10 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     }
   }
 
+  /**
+    * Apply a move for UI animation. Subclasses that support stepping through moves must implement this;
+    * puzzle solvers do not call it.
+    */
   override def animateTransition(trans: M): P = ???
 
   /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
@@ -66,7 +70,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
       println ("No Solution found!")
     }
     else {
-      System.out.println ("The number of steps in path to solution = " + path.get.size)
+      println("The number of steps in path to solution = " + path.get.size)
       if (ui != null) {
         ui.finalRefresh(path, position, numTries, elapsedMillis)
         print(position.get)

@@ -7,4 +7,4 @@ package com.barrybecker4.puzzle.common.model
   *
   * @author Barry Becker
   */
-trait Move {}
+trait Move

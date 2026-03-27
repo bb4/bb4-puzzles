@@ -97,7 +97,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
 
     val elapsedTime = System.currentTimeMillis - startTime
     val position: Option[P] = solutionPuzzleNode.map(_.getPosition)
-    System.out.println("solution = " + position)
+    println("solution = " + position)
     puzzle.finalRefresh(path, position, numTries.get.toInt, elapsedTime)
     path
   }
@@ -115,24 +115,24 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
 
     override def run(): Unit = {
       numTries.incrementAndGet()
-
-      // Terminate if already solved or seen this position, so skip
-      if (solution.isSet || puzzle.alreadySeen(getPosition, seen)) return
-
+      if (skipIfSolvedOrSeen()) return
       puzzle.refresh(getPosition, numTries.get.toInt)
+      if (puzzle.isGoal(getPosition)) solution.setValue(this)
+      else expandTransitions()
+    }
 
-      if (puzzle.isGoal(getPosition))
-        solution.setValue(this)
-      else {
-        val transitions = puzzle.legalTransitions(getPosition)
-        for (move <- transitions) {
-          val task = newTask(puzzle.transition(getPosition, move), Some(move), Some(this))
-          if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) { // go deep
-            task.run()
-          }
-          else { // go wide
-            exec.execute(task)
-          }
+    /** @return true if this task should not expand (goal already found or position already visited). */
+    private def skipIfSolvedOrSeen(): Boolean =
+      solution.isSet || puzzle.alreadySeen(getPosition, seen)
+
+    private def expandTransitions(): Unit = {
+      val transitions = puzzle.legalTransitions(getPosition)
+      for (move <- transitions) {
+        val task = newTask(puzzle.transition(getPosition, move), Some(move), Some(this))
+        if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) { // go deep
+          task.run()
+        } else { // go wide
+          exec.execute(task)
         }
       }
     }

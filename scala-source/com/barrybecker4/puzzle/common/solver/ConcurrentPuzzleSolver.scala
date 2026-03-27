@@ -19,7 +19,6 @@ class ConcurrentPuzzleSolver[P, M](puzzle: PuzzleController[P, M], val depthBrea
 
   setDepthBreadthFactor(depthBreadthFactor)
   final private val taskCount = new AtomicInteger(0)
-  taskCount.set(0)
 
   override protected def newTask(p: P, m: Option[M], n: Option[PuzzleNode[P, M]]) =
     new CountingSolverTask(p, m, n)

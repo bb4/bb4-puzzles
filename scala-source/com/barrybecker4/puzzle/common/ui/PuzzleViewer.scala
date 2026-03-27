@@ -80,12 +80,12 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
 
   protected def createFinalStatusMessage(numTries: Long, millis: Long, path: Option[Seq[M]]): String = {
     val time = millis.toFloat / 1000.0f
-    var msg = "Did not find solution."
-    if (path.isDefined) {
-      msg = "Found solution with " + path.size + " steps in " +
-        FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
-    }
-    msg
+    path match
+      case Some(moves) =>
+        "Found solution with " + moves.size + " steps in " +
+          FormatUtil.formatNumber(time) + " seconds. " + createStatusMessage(numTries)
+      case None =>
+        "Did not find solution."
   }
 
   /**
