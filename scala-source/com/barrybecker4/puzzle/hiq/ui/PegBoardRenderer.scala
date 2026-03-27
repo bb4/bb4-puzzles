@@ -7,9 +7,7 @@ import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.hiq.model.PegBoard
 
 /**
-  * Singleton class that takes a PieceList and renders it for the PegBoardViewer1.
-  * Having the renderer separate from the viewer helps to separate out the rendering logic
-  * from other features of the PegBoardViewer1.
+  * Layout constants and colors for drawing the peg board.
   * @author Barry Becker
   */
 object PegBoardRenderer {
@@ -23,13 +21,10 @@ object PegBoardRenderer {
   private val EMPTY_HOLE_RAD = 9
 }
 
-/**
-  * private constructor because this class is a singleton.
-  * Use getPieceRenderer instead.
-  */
+/** Renders a [[PegBoard]] to a [[java.awt.Graphics]] context. */
 class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
 
-  /** This renders the current state of the Slider to the screen. */
+  /** Draws the board grid and pegs for the current state. */
   def render(g: Graphics, board: PegBoard, width: Int, height: Int): Unit = {
     val size = PegBoard.SIZE
     val rightEdgePos = PegBoardRenderer.LEFT_MARGIN + 3 * PegBoardRenderer.INC * size
@@ -44,7 +39,7 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
   private def drawGrid(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int): Unit = {
     var ypos = 0
     var xpos = 0
-    g.setColor(Color.darkGray)
+    g.setColor(Color.DARK_GRAY)
     for (i <- 0 to size) { //   -----
         ypos = PegBoardRenderer.TOP_MARGIN + i * 3 * PegBoardRenderer.INC
         g.drawLine(PegBoardRenderer.LEFT_MARGIN, ypos, rightEdgePos, ypos)
@@ -56,10 +51,8 @@ class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
   }
 
   private def drawPegLocation(g: Graphics, board: PegBoard, row: Byte, col: Byte): Unit = {
-    var xpos = 0
-    var ypos = 0
-    xpos = PegBoardRenderer.LEFT_MARGIN + col * 3 * PegBoardRenderer.INC + PegBoardRenderer.INC / 3
-    ypos = PegBoardRenderer.TOP_MARGIN + row * 3 * PegBoardRenderer.INC + 2 * PegBoardRenderer.INC / 3
+    val xpos = PegBoardRenderer.LEFT_MARGIN + col * 3 * PegBoardRenderer.INC + PegBoardRenderer.INC / 3
+    val ypos = PegBoardRenderer.TOP_MARGIN + row * 3 * PegBoardRenderer.INC + 2 * PegBoardRenderer.INC / 3
     val empty = board.isEmpty(row, col)
     val c = if (empty) PegBoardRenderer.EMPTY_HOLE_COLOR
     else PegBoardRenderer.FILLED_HOLE_COLOR

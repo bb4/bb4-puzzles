@@ -12,9 +12,9 @@ object PegBoardSymmetries {
     */
   private[model] val SYMMETRIES = 8
 
-  /** The 8 fold symmetry of the board. */
+  /** Permutation tables for symmetries 1–7; index 0 is unused (identity is handled without a table). */
   private val BOARD_SYMMETRY = Array(
-    Array[Byte]() /* placeholder for 0 index. i.e. 0-31 */,
+    Array[Byte](),
     Array[Byte](2, 1, 0, 5, 4, 3, 12, 11, 10, 9, 8, 7, 6, 19, 18, 17, 16, 15, 14, 13, 26, 25, 24, 23, 22, 21, 20, 29, 28, 27, 32, 31, 30),
     Array[Byte](12, 19, 26, 11, 18, 25, 2, 5, 10, 17, 24, 29, 32, 1, 4, 9, 16, 23, 28, 31, 0, 3, 8, 15, 22, 27, 30, 7, 14, 21, 6, 13, 20),
     Array[Byte](26, 19, 12, 25, 18, 11, 32, 29, 24, 17, 10, 5, 2, 31, 28, 23, 16, 9, 4, 1, 30, 27, 22, 15, 8, 3, 0, 21, 14, 7, 20, 13, 6),

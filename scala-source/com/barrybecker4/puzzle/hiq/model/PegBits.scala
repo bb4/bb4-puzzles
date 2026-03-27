@@ -57,12 +57,10 @@ case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boo
   }
 
   /** @return number of pegs left on the board. */
-  def getNumPegsLeft: Int = {
-    var nPegsLeft = 0
-    for (i <- 0 until NUM_PEG_HOLES)
-      if (get(i)) nPegsLeft += 1
-    nPegsLeft
-  }
+  def getNumPegsLeft: Int =
+    java.lang.Integer.bitCount(bits) +
+      (if nextToFinalBit then 1 else 0) +
+      (if finalBit then 1 else 0)
 
   override def toString: String = {
     val buf = new StringBuilder(Integer.toBinaryString(bits))

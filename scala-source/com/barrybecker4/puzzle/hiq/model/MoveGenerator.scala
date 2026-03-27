@@ -8,36 +8,26 @@ import com.barrybecker4.common.geometry.Location
   * HiQ Puzzle move generator. Generates valid next moves.
   * @author Barry Becker
   */
-class MoveGenerator(var board: PegBoard) {
+class MoveGenerator(val board: PegBoard) {
 
   /** @return List of all valid jumps for the current board state */
-  def generateMoves: Seq[PegMove] = {
-    var moves = List[PegMove]()
+  def generateMoves: Seq[PegMove] =
     val emptyLocations = board.getLocations(false)
-    if (emptyLocations.isEmpty)
-      moves +:= board.getFirstMove
-    else
-      for (pos <- emptyLocations) moves ++= findMovesForLocation(pos, undo = false)
-
-    moves
-  }
+    if emptyLocations.isEmpty then Seq(board.getFirstMove)
+    else emptyLocations.flatMap(findMovesForLocation(_, undo = false))
 
   /**
     * @param location Location empty or peg location based on undo
     * @param undo     boolean find undo (peg) or redo (empty location) moves.
     * @return List of possible peg moves
     */
-  private def findMovesForLocation(location: Location, undo: Boolean) = {
-    var moves = List[PegMove]()
+  private def findMovesForLocation(location: Location, undo: Boolean): List[PegMove] =
     val r = location.row.toByte
     val c = location.col.toByte
-    // 4 cases to consider: NEWS
-    moves = checkMoveForDirection(r, c, 0, -2, undo, moves)
-    moves = checkMoveForDirection(r, c, 0, 2, undo, moves)
-    moves = checkMoveForDirection(r, c, -2, 0, undo, moves)
-    moves = checkMoveForDirection(r, c, 2, 0, undo, moves)
-    moves
-  }
+    val directions = List((0, -2), (0, 2), (-2, 0), (2, 0))
+    directions.foldLeft(List.empty[PegMove]) { (moves, dir) =>
+      checkMoveForDirection(r, c, dir._1, dir._2, undo, moves)
+    }
 
   private def checkMoveForDirection(r: Byte, c: Byte, rowOffset: Int, colOffset: Int,
                                     undo: Boolean, moves: List[PegMove]): List[PegMove] = {

@@ -14,6 +14,14 @@ import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegMove}
   */
 enum Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
 
+  case SIMPLE_SEQUENTIAL extends Algorithm
+  case A_STAR_SEQUENTIAL extends Algorithm
+  case A_STAR_CONCURRENT extends Algorithm
+  case IDA_STAR extends Algorithm
+  case CONCURRENT_BREADTH extends Algorithm
+  case CONCURRENT_DEPTH extends Algorithm
+  case CONCURRENT_OPTIMUM extends Algorithm
+
   private val label = AppContext.getLabel(this.toString)
 
   def getLabel: String = label
@@ -28,12 +36,4 @@ enum Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
     case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.05f)
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PegBoard, PegMove](controller, 0.15f)
   }
-
-  case SIMPLE_SEQUENTIAL extends Algorithm
-  case A_STAR_SEQUENTIAL extends Algorithm
-  case A_STAR_CONCURRENT extends Algorithm
-  case IDA_STAR extends Algorithm
-  case CONCURRENT_BREADTH extends Algorithm
-  case CONCURRENT_DEPTH extends Algorithm
-  case CONCURRENT_OPTIMUM extends Algorithm
 }

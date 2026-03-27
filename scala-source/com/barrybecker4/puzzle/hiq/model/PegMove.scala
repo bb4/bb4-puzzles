@@ -19,9 +19,6 @@ final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) e
     this(ByteLocation(fromRow, fromCol), ByteLocation(destinationRow, destinationCol))
   }
 
-  /** @return a deep copy. */
-  def copy: PegMove = PegMove(fromPosition, toPosition)
-
   def getFromRow: Byte = fromPosition.row.toByte
   def getFromCol: Byte = fromPosition.col.toByte
   def getToRow: Byte = toPosition.row.toByte

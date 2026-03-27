@@ -7,7 +7,7 @@ import com.barrybecker4.puzzle.hiq.model.MoveGenerator
 import com.barrybecker4.puzzle.hiq.model.PegBoard
 import com.barrybecker4.puzzle.hiq.model.PegMove
 import com.barrybecker4.puzzle.hiq.Algorithm.CONCURRENT_OPTIMUM
-import collection.mutable
+import scala.collection.mutable
 
 /**
   * HiQ Puzzle Controller.
@@ -29,7 +29,7 @@ class HiQController(ui: Refreshable[PegBoard, PegMove])
 
   /** A simple estimate of the future cost to the goal is the number of pegs remaining.
     * Other secondary factors like how spread out the remaining pegs are may be used to improve this estimate.
-    * @return estimate of the cost to reach the a single bag remaining
+    * @return estimate of the cost to reach a single peg remaining
     */
   override def distanceFromGoal(position: PegBoard): Int = position.getNumPegsLeft
 

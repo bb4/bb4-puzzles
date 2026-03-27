@@ -60,7 +60,7 @@ case class PegBoard(bits: PegBits) {
   /** Because of symmetry, there is really only one first move not 4.
     * @return Move the first move.
     */
-  def getFirstMove = new PegMove(CENTER, (CENTER - 2).toByte, CENTER, CENTER)
+  def getFirstMove: PegMove = new PegMove(CENTER, (CENTER - 2).toByte, CENTER, CENTER)
 
   def isSolved: Boolean = getNumPegsLeft == 1 && getPosition(CENTER, CENTER)
 
@@ -70,28 +70,18 @@ case class PegBoard(bits: PegBits) {
   /** @param pegged boolean if true, get pegged locations, else empty locations
     * @return List of pegged or empty locations
     */
-  def getLocations(pegged: Boolean): List[Location] = {
-    var list = List[Location]()
-    for {
+  def getLocations(pegged: Boolean): List[Location] =
+    (for {
       i <- 0 until SIZE
       j <- 0 until SIZE
       if isValidPosition(i, j) && getPosition(i.toByte, j.toByte) == pegged
-    } list +:= new ByteLocation(i, j)
-    list
-  }
+    } yield new ByteLocation(i, j)).toList
 
   /** @return number of pegs left on the board. */
   def getNumPegsLeft: Int = bits.getNumPegsLeft
 
-  def containedIn(setOfBoards: mutable.Set[PegBoard]): Boolean = {
-    var visited = false
-    var i = 0
-    while (!visited && i < PegBoardSymmetries.SYMMETRIES) {
-        if (setOfBoards.contains(symmetry(i))) visited = true
-        i += 1
-    }
-    visited
-  }
+  def containedIn(setOfBoards: mutable.Set[PegBoard]): Boolean =
+    (0 until PegBoardSymmetries.SYMMETRIES).exists(i => setOfBoards.contains(symmetry(i)))
 
   /** Check all 8 symmetries
     * if rotateIndex = 0 then no rotation
@@ -100,10 +90,12 @@ case class PegBoard(bits: PegBits) {
     * if rotateIndex = 3 then mirror image of 2, etc
     * @return specified rotation of the board.
     */
-  private def symmetry(symmIndex: Int) =
-    if (symmIndex == 0) this else rotate(PegBoardSymmetries.getSymmetry(symmIndex))
+  private[model] def symmetry(symmIndex: Int): PegBoard =
+    if symmIndex == 0 then this else rotate(PegBoardSymmetries.getSymmetry(symmIndex))
 
-  override def equals(b: Any): Boolean = bits equals b.asInstanceOf[PegBoard].bits
+  override def equals(obj: Any): Boolean = obj match
+    case that: PegBoard => this.bits == that.bits
+    case _ => false
 
   /** All but one bit accounted for in the hash. */
   override def hashCode: Int = bits.hashCode
