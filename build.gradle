@@ -24,6 +24,14 @@ sourceSets.named('test').configure {
 
 def jme3 = [g: 'org.jmonkeyengine', v: '3.3.2-stable']
 dependencies {
+    // jme3-plugins pulls gson:2.8.1; bump for CVE-2022-25647 / WS-2021-0419
+    constraints {
+        implementation('com.google.code.gson:gson') {
+            version { require '[2.11.0,)' }
+            because 'Transitive from jme3-plugins; addresses known Gson deserialization CVEs'
+        }
+    }
+
     implementation 'com.barrybecker4:bb4-A-star:2.0-SNAPSHOT'
     implementation 'com.barrybecker4:bb4-sound:2.0-SNAPSHOT'
     implementation 'com.barrybecker4:bb4-optimization:2.0-SNAPSHOT'
@@ -208,7 +216,10 @@ appMap.each { appId, propMap ->
     }
     application.applicationDistribution.into('bin') {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        from(t)
-        fileMode = 0755
+        // Cast so IDEs recognize Copy.from(Object); TaskProvider is valid at runtime
+        from(t as Object)
+        filePermissions {
+            unix('755')
+        }
     }
 }
