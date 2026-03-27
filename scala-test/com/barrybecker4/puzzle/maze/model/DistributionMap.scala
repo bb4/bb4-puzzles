@@ -3,29 +3,20 @@ package com.barrybecker4.puzzle.maze.model
 import com.barrybecker4.puzzle.maze.model.Direction.{FORWARD, LEFT, RIGHT}
 
 /**
-  * @author Barry Becker
+  * Immutable counts of where FORWARD, LEFT, RIGHT appeared in each of the three shuffled positions.
   */
-class DistributionMap(forwardDist: List[Int], leftDist: List[Int], rightDist: List[Int]) {
+case class DistributionMap(
+    forwardDist: List[Int] = List(0, 0, 0),
+    leftDist: List[Int] = List(0, 0, 0),
+    rightDist: List[Int] = List(0, 0, 0)
+) {
 
-  private var map = Map[Direction, List[Int]](
-    FORWARD -> forwardDist,
-    LEFT -> leftDist,
-    RIGHT -> rightDist
-  )
+  def increment(directions: List[Direction]): DistributionMap =
+    incrAt(directions(0), 0).incrAt(directions(1), 1).incrAt(directions(2), 2)
 
-  def this() = {
-    this(List(0, 0, 0), List(0, 0, 0), List(0, 0, 0))
-  }
-
-  def increment(directions: List[Direction]): Unit = {
-    increment(directions(0), 0)
-    increment(directions(1), 1)
-    increment(directions(2), 2)
-  }
-
-  private def increment(dir: Direction, position: Int): Unit = {
-    val list = map(dir)
-    map = map.updated(dir, list.updated(position, list(position) + 1))
-    //map += dir -> list.patch(position, Seq(list(position) + 1), 1
+  private def incrAt(dir: Direction, position: Int): DistributionMap = dir match {
+    case FORWARD => copy(forwardDist = forwardDist.updated(position, forwardDist(position) + 1))
+    case LEFT    => copy(leftDist = leftDist.updated(position, leftDist(position) + 1))
+    case RIGHT   => copy(rightDist = rightDist.updated(position, rightDist(position) + 1))
   }
 }

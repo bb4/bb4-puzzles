@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze
 
-import scala.compiletime.uninitialized
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
@@ -29,7 +28,7 @@ object MazeGenerator {
 class MazeGenerator(val panel: MazePanel) {
 
   private val maze = panel.maze
-  private var stack: StateStack = uninitialized
+  private var stack: StateStack = new StateStack(Probabilities(1.0, 1.0, 1.0))
   /** put the stop point at the maximum search depth. */
   private var maxDepth = 0
   /** set this to true to get the generator to stop generating */
@@ -61,11 +60,11 @@ class MazeGenerator(val panel: MazePanel) {
   /** Stop current work and clear the search stack of states. */
   def interrupt(): Unit = {
     interrupted = true
-    if (stack != null) stack.clear()
+    stack.clear()
   }
 
   /** Find the next cell to visit, given the last cell */
-  private def findNextCell(lastCell: MazeCell) = {
+  private def findNextCell(lastCell: MazeCell): MazeCell = {
     var moved = false
     var currentPosition: Location = null
     var nextCell: MazeCell = null
@@ -75,14 +74,9 @@ class MazeGenerator(val panel: MazePanel) {
     while (!moved && !stack.isEmpty && !interrupted) {
       val state = stack.pop()
       currentPosition = state.position
-      dir = state.getRelativeMovement
+      dir = state.movement
       depth = state.depth
-      if (depth > maxDepth) {
-        maxDepth = depth
-        maze.stopPosition = currentPosition
-      }
-      if (depth > lastCell.depth)
-        lastCell.depth = depth
+      applyDepthFromState(depth, currentPosition, lastCell)
       val currentCell = maze.getCell(currentPosition)
       val nextPosition = currentCell.getNextPosition(currentPosition, dir)
       nextCell = maze.getCell(nextPosition)
@@ -102,6 +96,15 @@ class MazeGenerator(val panel: MazePanel) {
     nextCell
   }
 
+  private def applyDepthFromState(depth: Int, currentPosition: Location, lastCell: MazeCell): Unit = {
+    if (depth > maxDepth) {
+      maxDepth = depth
+      maze.stopPosition = currentPosition
+    }
+    if (depth > lastCell.depth)
+      lastCell.depth = depth
+  }
+
   /** Place a wall when the path is blocked */
   private def addWall(currentCell: MazeCell, dir: Location, nextCell: MazeCell): Unit = {
     if (dir.getX == 1)          // east
@@ -116,7 +119,7 @@ class MazeGenerator(val panel: MazePanel) {
 
   /** This can be really slow if you do a refresh every time */
   private def refresh(): Unit = {
-    val speed = panel.animationSpeed
+    val speed = math.max(1, panel.animationSpeed)
     val thresh = 0.3 * (TopControlPanel.MAX_ANIMATION_SPEED.toDouble / speed) - 0.3
     if (MathUtil.RANDOM.nextDouble() < thresh) {
       panel.paintAll()

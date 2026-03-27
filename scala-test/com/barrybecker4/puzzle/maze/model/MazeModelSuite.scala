@@ -32,4 +32,16 @@ class MazeModelSuite extends AnyFunSuite {
     m.unvisitAll()
     assert(!m.getCell(2, 2).visited)
   }
+
+  test("perimeter cells are marked visited for wall generation") {
+    val m = new MazeModel(6, 5)
+    for (j <- 0 until m.height) {
+      assert(m.getCell(0, j).visited)
+      assert(m.getCell(m.width - 1, j).visited)
+    }
+    for (i <- 0 until m.width) {
+      assert(m.getCell(i, 0).visited)
+      assert(m.getCell(i, m.height - 1).visited)
+    }
+  }
 }

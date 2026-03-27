@@ -24,11 +24,9 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
 
     if (rnd < forwardProb) {
       directions = FORWARD +: getNextTwoDirs(List(LEFT, RIGHT), leftProb / (leftProb + rightProb))
-    }
-    else if (rnd >= forwardProb && rnd < (forwardProb + leftProbability)) {
+    } else if (rnd < forwardProb + leftProb) {
       directions = LEFT +: getNextTwoDirs(List(FORWARD, RIGHT), forwardProb / (forwardProb + rightProb))
-    }
-    else {
+    } else {
       directions = RIGHT +: getNextTwoDirs(List(FORWARD, LEFT), forwardProb / (forwardProb + leftProb))
     }
     directions

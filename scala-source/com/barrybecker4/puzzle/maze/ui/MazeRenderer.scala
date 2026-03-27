@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.maze.ui
 
 import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.puzzle.maze.model.MazeModel
+import com.barrybecker4.puzzle.maze.model.{MazeCell, MazeModel}
 import com.barrybecker4.ui.util.GUIUtil
 import java.awt.BasicStroke
 import java.awt.Color
@@ -67,51 +67,41 @@ class MazeRenderer() {
     g2.fillRect(0, 0, cellSize * width, cellSize * height)
   }
 
+  private def foreachCell(maze: MazeModel)(f: (Int, Int, MazeCell) => Unit): Unit =
+    for (j <- 0 until maze.height; i <- 0 until maze.width)
+      f(i, j, maze.getCell(i, j))
+
   private def drawVisitedCells(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setColor(MazeRenderer.VISITED_COLOR)
-    for (j <- 0 until maze.height) {
-      for (i <- 0 until maze.width) {
-        val c = maze.getCell(i, j)
-        assert(c != null, "Error1 pos i=" + i + " j=" + j + " is out of bounds.")
-        val xpos = i * cellSize
-        val ypos = j * cellSize
-        if (c.visited) {
-          g2.setColor(MazeRenderer.VISITED_COLOR)
-          g2.fillRect(xpos + 1, ypos + 1, cellSize, cellSize)
-        }
-      }
+    foreachCell(maze) { (i, j, c) =>
+      val xpos = i * cellSize
+      val ypos = j * cellSize
+      if (c.visited)
+        g2.fillRect(xpos + 1, ypos + 1, cellSize, cellSize)
     }
   }
 
   private def drawWalls(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setStroke(wallStroke)
     g2.setColor(MazeRenderer.WALL_COLOR)
-    for (j <- 0 until maze.height) {
-      for (i <- 0 until maze.width) {
-        val c = maze.getCell(i, j)
-        assert(c != null, "Error2 pos i=" + i + " j=" + j + " is out of bounds.")
-        val xpos = i * cellSize
-        val ypos = j * cellSize
-        if (c.eastWall) g2.drawLine(xpos + cellSize, ypos, xpos + cellSize, ypos + cellSize)
-        if (c.southWall) g2.drawLine(xpos, ypos + cellSize, xpos + cellSize, ypos + cellSize)
-      }
+    foreachCell(maze) { (i, j, c) =>
+      val xpos = i * cellSize
+      val ypos = j * cellSize
+      if (c.eastWall) g2.drawLine(xpos + cellSize, ypos, xpos + cellSize, ypos + cellSize)
+      if (c.southWall) g2.drawLine(xpos, ypos + cellSize, xpos + cellSize, ypos + cellSize)
     }
   }
 
   private def drawPath(g2: Graphics2D, maze: MazeModel): Unit = {
     g2.setStroke(pathStroke)
     g2.setColor(MazeRenderer.PATH_COLOR)
-    for (j <- 0 until maze.height) {
-      for (i <- 0 until maze.width) {
-        val c = maze.getCell(i, j)
-        val xpos = i * cellSize
-        val ypos = j * cellSize
-        assert(c != null)
-        if (c.eastPath) g2.drawLine(xpos + halfCellSize, ypos + halfCellSize, xpos + cellSize, ypos + halfCellSize)
-        if (c.westPath) g2.drawLine(xpos, ypos + halfCellSize, xpos + halfCellSize, ypos + halfCellSize)
-        if (c.northPath) g2.drawLine(xpos + halfCellSize, ypos + halfCellSize, xpos + halfCellSize, ypos)
-        if (c.southPath) g2.drawLine(xpos + halfCellSize, ypos + cellSize, xpos + halfCellSize, ypos + halfCellSize)
-      }
+    foreachCell(maze) { (i, j, c) =>
+      val xpos = i * cellSize
+      val ypos = j * cellSize
+      if (c.eastPath) g2.drawLine(xpos + halfCellSize, ypos + halfCellSize, xpos + cellSize, ypos + halfCellSize)
+      if (c.westPath) g2.drawLine(xpos, ypos + halfCellSize, xpos + halfCellSize, ypos + halfCellSize)
+      if (c.northPath) g2.drawLine(xpos + halfCellSize, ypos + halfCellSize, xpos + halfCellSize, ypos)
+      if (c.southPath) g2.drawLine(xpos + halfCellSize, ypos + cellSize, xpos + halfCellSize, ypos + halfCellSize)
     }
   }
 

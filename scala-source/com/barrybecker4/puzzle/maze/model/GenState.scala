@@ -13,9 +13,6 @@ import com.barrybecker4.common.geometry.Location
   */
 case class GenState(position: Location, movement: Location, depth: Int) {
 
-  /** The amount to move relative to the current position */
-  def getRelativeMovement: Location = movement
-
   override def toString: String = "[pos=" + position + " move=" + movement + " depth=" + depth + "]"
 }
 

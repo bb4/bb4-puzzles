@@ -25,7 +25,7 @@ class MazeSolver(var panel: MazePanel) {
   /** Stop current work and clear the search stack of states. */
   def interrupt(): Unit = {
     interrupted = true
-    stack.clear ()
+    stack.clear()
   }
 
   /**
@@ -46,13 +46,11 @@ class MazeSolver(var panel: MazePanel) {
     var solutionPath: List[Location] = List()
     var currentPosition: Location = maze.startPosition
     var currentCell: MazeCell = maze.getCell(currentPosition)
-    // push the initial moves
-    stack.pushMoves(currentPosition, IntLocation (0, 1), 0)
+    stack.pushMoves(currentPosition, IntLocation(0, 1), 0)
     var dir: Location = null
     var depth: Int = 0
     var solved: Boolean = false
 
-    // while there are still paths to try, and we have not yet encountered the finish
     while (!stack.isEmpty && !solved && !interrupted) {
       val state: GenState = stack.pop()
       currentPosition = state.position
@@ -60,14 +58,16 @@ class MazeSolver(var panel: MazePanel) {
       if (currentPosition == maze.stopPosition) {
         solved = true
       }
-      dir = state.getRelativeMovement
+      dir = state.movement
       depth = state.depth
       if (depth > currentCell.depth) {
         currentCell.depth = depth
       }
-      currentCell = maze.getCell (currentPosition)
-      val nextPosition: Location = currentCell.getNextPosition (currentPosition, dir)
-      search(solutionPath, currentCell, dir, depth, nextPosition)
+      currentCell = maze.getCell(currentPosition)
+      if (!solved) {
+        val nextPosition: Location = currentCell.getNextPosition(currentPosition, dir)
+        solutionPath = search(solutionPath, currentCell, dir, depth, nextPosition)
+      }
     }
   }
 
@@ -92,7 +92,6 @@ class MazeSolver(var panel: MazePanel) {
 
   private def advanceToNextCell(currentCell: MazeCell, dir: Location, depth: Int,
                                  nextPosition: Location, nextCell: MazeCell): Unit = {
-    var currentPosition: Location = null
     if (dir.getX == 1) {   // east
       currentCell.eastPath = true
       nextCell.westPath = true
@@ -110,10 +109,8 @@ class MazeSolver(var panel: MazePanel) {
       nextCell.southPath = true
     }
     nextCell.visited = true
-    currentPosition = nextPosition
-    // now at a new location
-    stack.pushMoves(currentPosition, dir, depth + 1)
-    panel.paintCell(currentPosition)
+    stack.pushMoves(nextPosition, dir, depth + 1)
+    panel.paintCell(nextPosition)
   }
 
   /**

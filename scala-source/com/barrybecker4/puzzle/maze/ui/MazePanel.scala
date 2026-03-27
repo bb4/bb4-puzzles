@@ -49,11 +49,14 @@ class MazePanel() extends JComponent {
     if (animationSpeed <= TopControlPanel.ANIMATION_SLOW_SPEED_THRESH) {
       // this paints just the cell immediately (sorta slow)
       this.paintImmediately(xpos - csized2, ypos - csized2, 2 * cellSize, 2 * cellSize)
-      if (animationSpeed < TopControlPanel.ANIMATION_SLOW_SPEED_THRESH / 2) ThreadUtil.sleep(200 / animationSpeed)
+      if (animationSpeed < TopControlPanel.ANIMATION_SLOW_SPEED_THRESH / 2 && animationSpeed > 0) {
+        val speed = math.max(1, animationSpeed)
+        ThreadUtil.sleep(200 / speed)
+      }
     }
     else {
       val rand = MathUtil.RANDOM.nextDouble()
-      if (rand < 1.0 / animationSpeed)
+      if (animationSpeed > 0 && rand < 1.0 / animationSpeed)
         this.repaint(xpos - csized2, ypos - csized2, 2 * cellSize, 2 * cellSize)
     }
   }

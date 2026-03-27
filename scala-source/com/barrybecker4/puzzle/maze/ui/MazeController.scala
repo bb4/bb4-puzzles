@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.ui
 
-import scala.compiletime.uninitialized
 import java.awt.Cursor
 import javax.swing.JPanel
 
@@ -15,16 +14,12 @@ import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener}
   *
   * @author Barry Becker
   */
-final class MazeController(var mazePanel: MazePanel)
+final class MazeController(var mazePanel: MazePanel) extends SliderChangeListener {
 
-/**
-  * Constructor.
-  */
-  extends SliderChangeListener {
   private var solver = new MazeSolver(mazePanel)
-  private var generateWorker: Worker = uninitialized
-  private var generator: MazeGenerator = uninitialized
-  private var repaintListener: JPanel = uninitialized
+  private var generateWorker: Option[Worker] = None
+  private var generator: Option[MazeGenerator] = None
+  private var repaintListener: JPanel | Null = null
 
   /**
     * This panel will be repainted when the regeneration is complete.
@@ -44,32 +39,11 @@ final class MazeController(var mazePanel: MazePanel)
   /** Regenerate the maze based on the current UI parameter settings and current size of the panel. */
   def regenerate(thickness: Int, animationSpeed: Int, forwardP: Double, leftP: Double, rightP: Double): Unit = {
     if (solver.isWorking) solver.interrupt()
-    if (generator != null) {
-      generator.interrupt()
-      // blocks until done working (which will be soon now that it has been interrupted)
-      generateWorker.get
-    }
-
-    class GeneratorWorker extends Worker {
-
-      def construct(): AnyRef = {
-        generator = new MazeGenerator(mazePanel)
-        mazePanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR))
-        val sum: Double = forwardP + leftP + rightP
-        mazePanel.animationSpeed = animationSpeed
-        mazePanel.setThickness(thickness)
-        generator.generate(forwardP / sum, leftP / sum, rightP / sum)
-        boolean2Boolean(true)
-      }
-
-      override def finished(): Unit = {
-        mazePanel.setCursor(Cursor.getDefaultCursor)
-        if (repaintListener != null) repaintListener.repaint()
-      }
-    }
-
-    generateWorker = new GeneratorWorker()
-    generateWorker.start()
+    generator.foreach(_.interrupt())
+    generateWorker.foreach(_.get)
+    val worker = new GeneratorWorker(thickness, animationSpeed, forwardP, leftP, rightP)
+    generateWorker = Some(worker)
+    worker.start()
   }
 
   /**
@@ -77,7 +51,7 @@ final class MazeController(var mazePanel: MazePanel)
     * @param animationSpeed the speed at which to show the solution.
     */
   def solve(animationSpeed: Int): Unit = {
-    if (!generateWorker.isWorking) {
+    if (!generateWorker.exists(_.isWorking)) {
       if (solver.isWorking) solver.interrupt()
 
       val worker: Worker = new Worker() {
@@ -96,5 +70,28 @@ final class MazeController(var mazePanel: MazePanel)
     }
   }
 
-}
+  private final class GeneratorWorker(
+      thickness: Int,
+      animationSpeed: Int,
+      forwardP: Double,
+      leftP: Double,
+      rightP: Double
+  ) extends Worker {
 
+    def construct(): AnyRef = {
+      val gen = new MazeGenerator(mazePanel)
+      generator = Some(gen)
+      mazePanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR))
+      val sum: Double = forwardP + leftP + rightP
+      mazePanel.animationSpeed = animationSpeed
+      mazePanel.setThickness(thickness)
+      gen.generate(forwardP / sum, leftP / sum, rightP / sum)
+      boolean2Boolean(true)
+    }
+
+    override def finished(): Unit = {
+      mazePanel.setCursor(Cursor.getDefaultCursor)
+      if (repaintListener != null) repaintListener.repaint()
+    }
+  }
+}

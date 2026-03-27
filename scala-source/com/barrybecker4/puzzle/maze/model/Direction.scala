@@ -3,8 +3,6 @@ package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
-import Direction._
-
 
 /**
   * Possible directions that we can go.
@@ -32,6 +30,9 @@ enum Direction {
     if (dir.getX == 0) IntLocation(0, if (dir.getY > 0) 1 else -1)
     else IntLocation(if (dir.getX > 0) -1 else 1, 0)
   }
+}
 
-  def VALUES: Seq[Direction] = Seq(FORWARD, LEFT, RIGHT)
+object Direction {
+  /** All directions (same order as [[Direction.values]]). */
+  val All: IndexedSeq[Direction] = Direction.values.toIndexedSeq
 }

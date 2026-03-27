@@ -1,67 +1,63 @@
 package com.barrybecker4.puzzle.maze.model
 
-import scala.compiletime.uninitialized
-
 import com.barrybecker4.math.MathUtil
-import org.scalatest.BeforeAndAfter
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
+  * Statistical checks on shuffled direction order (fixed RNG seed).
   */
-class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfter  {
+class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
 
-  /** instance under test */
-  private var probs: Probabilities = uninitialized
-
-  before {
+  override def beforeEach(): Unit =
     MathUtil.RANDOM.setSeed(0)
-  }
 
-  @Test
-  @throws[Exception]
-  def testEqualProbabilities(): Unit = {
-    probs = Probabilities(1.0, 1.0, 1.0)
-    val expDist = new DistributionMap(List(43, 28, 29), List(57, 22, 21), List(0, 50, 50))
-    assertEquals("Unexpected distribution", expDist, getDistribution(100))
-  }
-
-  @Test
-  @throws[Exception]
-  def testSkewForwardProbabilities(): Unit = {
-    probs = Probabilities(3.0, 1.0, 1.0)
-    val expDist = new DistributionMap(List(115, 25, 60), List(85, 60, 55), List(0, 115, 85))
-    assertEquals("Unexpected distribution", expDist, getDistribution(200))
-  }
-
-  @Test
-  @throws[Exception]
-  def testSkewLeftProbabilities(): Unit = {
-    probs = Probabilities(0.9, 1.9, 0.1)
-    val expDist = new DistributionMap(List(61, 17, 122), List(139, 2, 59), List(0, 181, 19))
-    assertEquals("Unexpected distribution", expDist, getDistribution(200))
-  }
-
-  @Test
-  @throws[Exception]
-  def testSkewRightProbabilities(): Unit = {
-    probs = Probabilities(0.1, 0.5, 8.0)
-    val expDist = new DistributionMap(List(3, 172, 25), List(101, 25, 74), List(96, 3, 101))
-    assertEquals("Unexpected distribution", expDist, getDistribution(200))
-  }
-
-  /**
-    * @param num number of shuffled trials to run
-    * @return map from direction to list of counts for the three positions that direction fell in.
-    */
-  private def getDistribution(num: Int) = {
-    val dist = new DistributionMap
-    for (i <- 0 until num) {
-        val dirs = probs.getShuffledDirections
-        dist.increment(dirs)
+  private def getDistribution(num: Int, probs: Probabilities): DistributionMap = {
+    var dist = DistributionMap()
+    for (_ <- 0 until num) {
+      val dirs = probs.getShuffledDirections
+      dist = dist.increment(dirs)
     }
     dist
+  }
+
+  test("equal probabilities") {
+    val probs = Probabilities(1.0, 1.0, 1.0)
+    val expDist = DistributionMap(
+      forwardDist = List(31, 36, 33),
+      leftDist = List(34, 33, 33),
+      rightDist = List(35, 31, 34)
+    )
+    assert(getDistribution(100, probs) == expDist)
+  }
+
+  test("skew forward") {
+    val probs = Probabilities(3.0, 1.0, 1.0)
+    val expDist = DistributionMap(
+      forwardDist = List(127, 18, 55),
+      leftDist = List(34, 94, 72),
+      rightDist = List(39, 88, 73)
+    )
+    assert(getDistribution(200, probs) == expDist)
+  }
+
+  test("skew left") {
+    val probs = Probabilities(0.9, 1.9, 0.1)
+    val expDist = DistributionMap(
+      forwardDist = List(71, 20, 109),
+      leftDist = List(124, 3, 73),
+      rightDist = List(5, 177, 18)
+    )
+    assert(getDistribution(200, probs) == expDist)
+  }
+
+  test("skew right") {
+    val probs = Probabilities(0.1, 0.5, 8.0)
+    val expDist = DistributionMap(
+      forwardDist = List(4, 161, 35),
+      leftDist = List(14, 38, 148),
+      rightDist = List(182, 1, 17)
+    )
+    assert(getDistribution(200, probs) == expDist)
   }
 }

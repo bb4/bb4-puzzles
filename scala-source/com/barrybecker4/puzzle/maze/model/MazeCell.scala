@@ -23,9 +23,14 @@ class MazeCell() {
   var southPath = false
   var depth: Int = 0
 
+  /** Grid neighbor in direction `dir` from `currentPosition` (no side effects). */
+  def stepFrom(currentPosition: Location, dir: Location): Location =
+    currentPosition.incrementOnCopy(dir)
+
+  /** Mark this cell visited and return the neighbor in direction `dir`. */
   def getNextPosition(currentPosition: Location, dir: Location): Location = {
     visited = true
-    currentPosition.incrementOnCopy(dir)
+    stepFrom(currentPosition, dir)
   }
 
   /** return to initial state. */
