@@ -4,6 +4,9 @@ package com.barrybecker4.puzzle.sudoku.model
 import BoardComponents.COMPONENTS
 import com.barrybecker4.puzzle.sudoku.model.Board.getInitialValuesMap
 
+import scala.util.boundary
+import scala.util.boundary.break
+
 
 object Board {
   private def arrayToMap(initial: Array[Array[Int]]): CellMap = {
@@ -72,11 +75,12 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
     val board = new Board(initialCells)
     val updatedBoard = board.updateFromInitialData()
 
-    if (updatedBoard.isDefined && updatedBoard.get.isSolved && refresh.isDefined) {
-      refresh.get(updatedBoard.get) // draws updated board
-      updatedBoard
+    updatedBoard match {
+      case Some(b) if b.isSolved =>
+        refresh.foreach(_(b))
+        Some(b)
+      case _ => None
     }
-    else None
   }
 
   /** @return the solved board, or None if not solved */
@@ -84,16 +88,15 @@ case class Board(cells: CellMap, valuesMap: ValuesMap) {
     Solver(this, refresh).solve()
 
   /** @return the new board if updated successfully, else None if there was an inconsistency. */
-  def updateFromInitialData(): Option[Board] = {
+  def updateFromInitialData(): Option[Board] = boundary:
     var localValuesMap: ValuesMap = this.valuesMap
     for (r <- comps.digits; c <- comps.digits; v = cells((r, c)).originalValue; if v > 0) {
       assign((r, c), v, localValuesMap) match {
         case Some(values) => localValuesMap = values
-        case None => return None
+        case None => break(None)
       }
     }
     Some(Board(cells, localValuesMap))
-  }
 
   def assign(loc: Location, value: Int, valuesMap: ValuesMap): Option[ValuesMap] =
     valueAssigner.assign(loc, value, valuesMap)

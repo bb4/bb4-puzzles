@@ -14,7 +14,7 @@ object ValueConverter {
   def getSymbol(value: Int): String = value match {
     case 0 => "."
     case 10 => "X"
-    case i if i > 10 => (65 + i - 11).asInstanceOf[Char].toString // A=65 ASCII
+    case i if i > 10 => (65 + i - 11).toChar.toString // 'A' = 65
     case _ => Integer.toString(value)
   }
 

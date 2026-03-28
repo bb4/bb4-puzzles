@@ -62,7 +62,7 @@ class SudokuRenderer(var board: Board) extends CellLocator {
       val cands = board.getValues(loc)
       val xpos = SudokuRenderer.MARGIN + j * pieceSize
       val ypos = SudokuRenderer.MARGIN + i * pieceSize
-      drawCell(g2, c, cands, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
+      drawCell(g2, loc, c, cands, xpos, ypos, userEnteredValues.get(new ByteLocation(i, j)))
     }
   }
 
@@ -75,11 +75,12 @@ class SudokuRenderer(var board: Board) extends CellLocator {
   /**
     * Draw a cell at the specified location.
     */
-  private def drawCell(g2: Graphics2D, cell: Cell, cands: Seq[Int], xpos: Int, ypos: Int,
+  private def drawCell(g2: Graphics2D, loc: (Int, Int), cell: Cell, cands: Seq[Int], xpos: Int, ypos: Int,
     userValue: Option[UserValue]) : Unit = {
-    val s: Int = getScale (pieceSize)
-    val jitteredXpos: Int = xpos + (Math.random * 3 - 1).toInt
-    val jitteredYpos: Int = ypos + (Math.random * 3 - 1).toInt
+    val s: Int = getScale(pieceSize)
+    // Stable pseudo-jitter from cell coordinates (avoids per-frame RNG cost and flicker)
+    val jitteredXpos: Int = xpos + ((loc._1 * 3 + loc._2) % 3) - 1
+    val jitteredYpos: Int = ypos + ((loc._1 + loc._2 * 5) % 3) - 1
     val font: Font = new Font (GUIUtil.DEFAULT_FONT_FAMILY, Font.PLAIN, pieceSize >> 1)
     g2.setFont (font)
     val bg = if (cell.originalValue > 0) SudokuRenderer.CELL_ORIG_BACKGROUND_COLOR else SudokuRenderer.CELL_BACKGROUND_COLOR

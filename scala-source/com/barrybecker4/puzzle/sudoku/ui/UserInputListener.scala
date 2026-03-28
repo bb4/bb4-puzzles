@@ -8,7 +8,16 @@ import javax.swing.JOptionPane
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.sudoku.model.{Board, ValueConverter}
 
-import scala.collection.immutable.HashMap
+
+object UserInputListener {
+
+  /** For tests and internal use: promote validated correct user entries to original clues. */
+  private[sudoku] def mergeValidatedOriginals(board: Board, entries: Map[Location, UserValue]): Board =
+    entries.foldLeft(board) { case (b, (location, uv)) =>
+      if uv.isValidated && uv.isValid then b.setOriginalValue((location.row + 1, location.col + 1), uv.value)
+      else b
+    }
+}
 
 /**
   * Responsible for managing interaction with the visible board as user makes guesses.
@@ -22,7 +31,7 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
   clear()
 
   def clear(): Unit = {
-    userEnteredValues = HashMap[Location, UserValue]()
+    userEnteredValues = Map.empty
   }
 
   private[ui] def getCurrentCellLocation = currentCellLocation
@@ -36,13 +45,9 @@ class UserInputListener private[ui](var locator: CellLocator) extends MouseListe
 
   private def toTuple(loc: Location): (Int, Int) = (loc.row + 1, loc.col + 1)
 
-  private[ui] def useCorrectEntriesAsOriginal(board: Board): Unit = {
-    for (location <- userEnteredValues.keySet) {
-      val value = userEnteredValues.get(location)
-      if (value.get.isValid)
-        board.setOriginalValue(toTuple(location), value.get.value)
-    }
-  }
+  /** @return board with correct validated user entries promoted to original clues */
+  private[ui] def useCorrectEntriesAsOriginal(board: Board): Board =
+    UserInputListener.mergeValidatedOriginals(board, userEnteredValues)
 
   /**
     * Handle keyboard input.

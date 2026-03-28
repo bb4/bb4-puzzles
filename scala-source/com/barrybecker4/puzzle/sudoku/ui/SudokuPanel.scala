@@ -43,7 +43,8 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
   /** Mark the users values as correct or not. */
   def validatePuzzle(): Unit = {
     inputListener.validateValues(getSolvedPuzzle)
-    inputListener.useCorrectEntriesAsOriginal(getBoard)
+    val updated = inputListener.useCorrectEntriesAsOriginal(getBoard)
+    setBoard(updated)
     repaint()
   }
 
@@ -91,7 +92,7 @@ final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 
   /** This renders the current state of the PuzzlePanel to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
-    super.paintComponents(g)
+    super.paintComponent(g)
     renderer.render(g, inputListener.getUserEnteredValues, inputListener.getCurrentCellLocation, getWidth, getHeight)
   }
 }

@@ -112,6 +112,7 @@ final class TopControlPanel(var controller: SudokuController)
     * @param e item event.
     */
   def itemStateChanged(e: ItemEvent): Unit = {
+    if e.getStateChange != ItemEvent.SELECTED then return
     if (e.getSource == sizeSelector) {
       generatePuzzle(speedSelector.getSelectedDelay)
     }

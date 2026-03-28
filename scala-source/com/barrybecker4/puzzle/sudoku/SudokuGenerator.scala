@@ -2,15 +2,10 @@
 package com.barrybecker4.puzzle.sudoku
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import com.barrybecker4.puzzle.sudoku.SudokuGenerator.RANDOM
 import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 import scala.util.Random
-
-object SudokuGenerator {
-  val RANDOM: Random = new Random()
-}
 
 /**
   * Generate a Sudoku puzzle.
@@ -23,10 +18,10 @@ object SudokuGenerator {
   * The Norvig solution will find a solution to any initial configuration - even one that is under specified.
   * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
-  * @param ppanel renders the puzzle. May be null if you do not want to see animation.
+  * @param ppanel renders the puzzle when present
   * @author Barry Becker
   */
-class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
+class SudokuGenerator(var ppanel: Option[SudokuPanel] = None, val rand: Random = new Random()) {
 
   var delay: Int = 0
   private var totalCt: Long = 0L
@@ -38,11 +33,11 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   def generatePuzzleBoard(size: Int): Board = {
     totalCt = 0
     val board: Board = new Board(size)
-    if (ppanel != null) ppanel.setBoard(board)
-    val solution: Option[Board] = generateSolution(board)  // sometimes fails to generate solution...
+    ppanel.foreach(_.setBoard(board))
+    val solution: Option[Board] = generateSolution(board) // sometimes fails to generate solution...
     assert(solution.isDefined, "We were not able to generate a consistent board " + board +
       ". numCombinations examined: " + totalCt)
-    if (ppanel != null) ppanel.repaint(solution.get)
+    ppanel.foreach(_.repaint(solution.get))
 
     val puzzleBoard = generateByRemoving(solution.get)
     puzzleBoard.reset().updateFromInitialData().get
@@ -88,13 +83,13 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   }
 
   private def refresh(board: Board): Unit = {
-    if (ppanel == null) return
-    if (delay < 0) {
-      if (Math.random() < 0.05) ppanel.repaint()
-    }
-    else {
-      ppanel.repaint(board)
-      ThreadUtil.sleep(delay)
+    ppanel.foreach { p =>
+      if delay < 0 then {
+        if rand.nextDouble() < 0.05 then p.repaint()
+      } else {
+        p.repaint(board)
+        ThreadUtil.sleep(delay)
+      }
     }
   }
 
@@ -105,7 +100,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
     */
   private def generateByRemoving(board: Board): Board = {
 
-    val positionList: Seq[(Int, Int)] = getRandomPositions(board.baseSize, rand)
+    val positionList: Seq[(Int, Int)] = getRandomPositions(board.baseSize)
     // we need a solver to verify that we can still deduce the original
     val len: Int = board.edgeLength
     val last: Int = len * len
@@ -123,7 +118,7 @@ class SudokuGenerator (var ppanel: SudokuPanel = null, rand: Random = RANDOM) {
   /** @param size the base size (fourth root of the number of cells).
     * @return the positions on the board in a random order in a list .
     */
-  private def getRandomPositions(size: Int, rand: Random = RANDOM): Seq[(Int, Int)] = {
+  private def getRandomPositions(size: Int): Seq[(Int, Int)] = {
     val edgeLen = size * size
     val numPositions: Int = edgeLen * edgeLen
     val positionList: Seq[(Int, Int)] = (0 until numPositions).map(x => (x / edgeLen + 1, x % edgeLen + 1))

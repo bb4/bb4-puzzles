@@ -18,8 +18,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   private var rand: Random = uninitialized
 
   before {
-    rand = Random
-    rand.setSeed(1)
+    rand = new Random(1L)
   }
 
   test("GenerateInitialSolution2") {
@@ -86,7 +85,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   private def generatePuzzle(baseSize: Int, rand: Random): Board = {
-    generator = new SudokuGenerator(null, rand)
+    generator = new SudokuGenerator(None, rand)
     generator.generatePuzzleBoard(baseSize)
   }
 }

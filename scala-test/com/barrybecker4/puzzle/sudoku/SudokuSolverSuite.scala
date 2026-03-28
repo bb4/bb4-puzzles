@@ -72,14 +72,6 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
     assertTrue("Did not solve NORVIG_HARD_9 puzzle successfully.", solvedBoard.isDefined)
   }
 
-  /** negative test case. Takes a very long time to determine that it is impossible (almost 4 minutes on i7-6700K) *
-  test("ImpossibleNorvigPuzzle") {
-    solver = new SudokuSolver()
-    val solvedBoard = solver.solvePuzzle(new Board(NORVIG_IMPOSSIBLE_9))
-    assertTrue(s"Solved impossible NORVIG_IMPOSSIBLE_9 puzzle. Should not have.",
-      solvedBoard.isEmpty)
-  }*/
-
   /** There are many solutions for under-constrained puzzle. */
   test("UnderConstrainedPuzzle") {
     solver = new SudokuSolver()
@@ -129,7 +121,7 @@ class SudokuSolverSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   private def generatePuzzle(baseSize: Int, rand: Random) = {
-    generator = new SudokuGenerator(null, rand)
+    generator = new SudokuGenerator(None, rand)
     generator.generatePuzzleBoard(baseSize)
   }
 

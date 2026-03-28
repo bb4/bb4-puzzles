@@ -31,7 +31,7 @@ case class ValueAssigner(comps: BoardComponents) {
   private def eliminate(value: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
 
     if (!valuesMap(location).contains(value))
-      return Some(valuesMap) // already removed, no nothing
+      return Some(valuesMap) // already removed, do nothing
     var newValuesMap = valuesMap.updated(location, valuesMap(location) - value)
 
     val candidates = newValuesMap(location)
@@ -40,16 +40,29 @@ case class ValueAssigner(comps: BoardComponents) {
       return None // Contradiction
 
     else if (candidates.size == 1) {
-      // If a location is reduced to one value, then eliminate it from its peers.
-      val v = candidates.head
-      for (loc <- comps.peers(location)) {
-        eliminate(v, loc, newValuesMap) match {   // Recursive call
-          case Some(valsMap) => newValuesMap = valsMap
-          case None => return None // Contradiction
-        }
+      propagateSingletonToPeers(candidates.head, location, newValuesMap) match {
+        case Some(m) => newValuesMap = m
+        case None => return None
       }
     }
-    // If a unit is reduced to only one possible place for value, then put it there and recurse.
+
+    eliminateFromUnits(value, location, newValuesMap)
+  }
+
+  private def propagateSingletonToPeers(singleValue: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
+    var newValuesMap = valuesMap
+    for (loc <- comps.peers(location)) {
+      eliminate(singleValue, loc, newValuesMap) match {
+        case Some(valsMap) => newValuesMap = valsMap
+        case None => return None
+      }
+    }
+    Some(newValuesMap)
+  }
+
+  /** For each unit containing `location`, if `value` can appear in only one square, assign it there. */
+  private def eliminateFromUnits(value: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
+    var newValuesMap = valuesMap
     for (unit <- comps.units(location)) {
       val possibleLocs = for (loc <- unit; if newValuesMap(loc).contains(value)) yield loc
 
@@ -57,10 +70,9 @@ case class ValueAssigner(comps: BoardComponents) {
         return None // it can't go anywhere - a contradiction
 
       if (possibleLocs.size == 1) {
-        // value can only be in one place in the unit; assign it there.
-        assign(possibleLocs.head, value, newValuesMap) match { // recursive call
+        assign(possibleLocs.head, value, newValuesMap) match {
           case Some(valsMap) => newValuesMap = valsMap
-          case None => return None  // Contradiction
+          case None => return None // Contradiction
         }
       }
     }

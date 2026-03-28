@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.sudoku
 
-import scala.compiletime.uninitialized
 import java.awt.Cursor
 
 import com.barrybecker4.common.concurrency.Worker
@@ -13,10 +12,9 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 
-  private var solver: SudokuSolver = uninitialized
-  private var generator: SudokuGenerator = uninitialized
+  private var solver: Option[SudokuSolver] = None
+  private var generator: Option[SudokuGenerator] = None
 
-  override def toString: String = super.toString
   def setShowCandidates(show: Boolean): Unit = puzzlePanel.setShowCandidates(show)
   def validatePuzzle(): Unit = puzzlePanel.validatePuzzle()
 
@@ -25,10 +23,11 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
     val worker: Worker = new Worker() {
 
       def construct: AnyRef = {
-        puzzlePanel.setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) )
-        generator = new SudokuGenerator(puzzlePanel)
-        generator.delay = delay
-        puzzlePanel.generateNewPuzzle(generator, size)
+        puzzlePanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR))
+        val gen = new SudokuGenerator(Some(puzzlePanel))
+        gen.delay = delay
+        generator = Some(gen)
+        puzzlePanel.generateNewPuzzle(gen, size)
         None
       }
 
@@ -43,9 +42,10 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   def solvePuzzle(delay: Int): Unit = {
     val worker: Worker = new Worker() {
       def construct: AnyRef = {
-        solver = new SudokuSolver(puzzlePanel)
-        solver.delay = delay
-        puzzlePanel.startSolving(solver)
+        val sol = new SudokuSolver(Some(puzzlePanel))
+        sol.delay = delay
+        solver = Some(sol)
+        puzzlePanel.startSolving(sol)
         None
       }
 
@@ -57,13 +57,7 @@ final class SudokuController(var puzzlePanel: SudokuPanel) {
   }
 
   def setDelay(delay: Int): Unit = {
-    println("Changing delay to " + delay)
-    if (solver != null) {
-      solver.delay = delay
-    }
-    if (generator != null) {
-      generator.delay = delay
-    }
+    solver.foreach(_.delay = delay)
+    generator.foreach(_.delay = delay)
   }
 }
-

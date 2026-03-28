@@ -71,6 +71,7 @@ dependencies {
     implementation "${jme3.g}:jme3-plugins:${jme3.v}"
 
     // JUnit 4-style tests (Assert, @Test) alongside ScalaTest / JUnit 5 from bb4.scala-library
+    testImplementation 'org.scalacheck:scalacheck_3:1.18.1'
     testImplementation 'junit:junit:4.13.2'
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.11.4'
 }

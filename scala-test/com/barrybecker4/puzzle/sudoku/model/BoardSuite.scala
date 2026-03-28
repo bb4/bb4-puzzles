@@ -22,6 +22,13 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
     MathUtil.RANDOM.setSeed(1)
   }
 
+  test("updateFromInitialData removes assigned value from peer candidates") {
+    val empty = new Board(2)
+    val withOne = empty.setOriginalValue((1, 1), 1).updateFromInitialData().get
+    assertFalse(withOne.getValues((1, 2)).contains(1))
+    assertFalse(withOne.getValues((2, 1)).contains(1))
+  }
+
   test("BoardConstruction") {
     val board = new Board(3)
     val expectedBoard = new Board(Array[Array[Int]](
@@ -47,8 +54,10 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("Remove if possible on 4x4") {
     board = new Board(TestData.SIMPLE_4)
-    assertTrue("Was able to remove, but shouldn't have been",
-      board.removeValueIfPossible((1, 2)).isEmpty)
+    assertTrue(
+      "Removing this clue should not leave a puzzle fully determined by propagation alone",
+      board.removeValueIfPossible((1, 2)).isEmpty
+    )
   }
 
   test("Difficult to Solve") {
@@ -59,8 +68,21 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("Remove if possible on 9x9") {
     board = new Board(TestData.DIFFICULT_9)
-    assertTrue("Was able to remove, but shouldn't have been",
-      board.removeValueIfPossible((1, 3)).isEmpty)
+    assertTrue(
+      "Removing this clue should not leave a puzzle fully determined by propagation alone",
+      board.removeValueIfPossible((1, 3)).isEmpty
+    )
+  }
+
+  test("Remove redundant clue yields Some without refresh callback") {
+    val solved = new Board(TestData.SIMPLE_4_SOLVED).updateFromInitialData().get
+    assertTrue("Sanity check: filled valid grid should be propagation-solved", solved.isSolved)
+    val locations = for (r <- solved.comps.digits; c <- solved.comps.digits) yield (r, c)
+    val removable = locations.find(loc => solved.removeValueIfPossible(loc).isDefined)
+    assertTrue(
+      "Expected at least one clue removable while keeping full propagation to singletons",
+      removable.isDefined
+    )
   }
 
   test("Norvig hard 9") {

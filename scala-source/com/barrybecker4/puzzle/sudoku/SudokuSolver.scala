@@ -7,10 +7,10 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 /**
   * This does the hard work of actually solving the puzzle.
-  * @param puzzlePanel the viewer (may be null if no UI)
+  * @param puzzlePanel optional viewer for animated solving
   * @author Barry Becker
   */
-class SudokuSolver(puzzlePanel: SudokuPanel = null) {
+class SudokuSolver(puzzlePanel: Option[SudokuPanel] = None) {
 
   var delay: Int = 0
 
@@ -22,9 +22,10 @@ class SudokuSolver(puzzlePanel: SudokuPanel = null) {
   def solvePuzzle(board: Board): Option[Board] = board.solve(Some(refresh))
 
   private def refresh(board: Board): Unit = {
-    if (puzzlePanel != null && delay >= 0) {
-      puzzlePanel.repaint(board)
-      ThreadUtil.sleep(10 + delay) // give it a chance to repaint.
+    puzzlePanel.foreach { p =>
+      if delay >= 0 then
+        p.repaint(board)
+        ThreadUtil.sleep(10 + delay) // give it a chance to repaint.
     }
   }
 }

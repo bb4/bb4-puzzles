@@ -23,9 +23,9 @@ private case class Solver(board: Board, refresh: Option[Board => Unit] = None) {
           return Some(b) // Solved!
         }
 
-        // Chose the unfilled square, s, with the fewest possibilities greater than one (helps performance)
-        val minSq: Location = (for (s <- b.comps.squares; if b.valuesMap(s).size > 1)
-          yield (b.valuesMap(s).size, s)).min._2
+        // Choose the unfilled square with the fewest possibilities > 1 (helps performance)
+        val minSq: Location =
+          b.comps.squares.filter(s => b.valuesMap(s).size > 1).minBy(s => b.valuesMap(s).size)
 
         for (value <- b.valuesMap(minSq)) {
           numIterations += 1
