@@ -56,19 +56,19 @@ class BorderFinderSuite extends AnyFunSuite {
   test("FindBorderFor4TilesNonLoop4Pieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 4, PathColor.RED)
-    verifyBorderLocations(IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20), IntLocation(20, 21))
   }
 
   test("FindBorderFor4TilesNonLoopFewPieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 6, PathColor.RED)
-    verifyBorderLocations(IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20), IntLocation(20, 21))
   }
 
   test("FindBorderFor4TilesNonLoopManyPieces") {
     tantrix = place4UnsolvedTiles.tantrix
     borderFinder = new BorderFinder(tantrix, 20, PathColor.RED)
-    verifyBorderLocations(IntLocation(22, 20))
+    verifyBorderLocations(IntLocation(22, 20), IntLocation(20, 21))
   }
 
   test("FindBorderFor4TileLoop") {

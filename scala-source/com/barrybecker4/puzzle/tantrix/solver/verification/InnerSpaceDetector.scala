@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
-import com.barrybecker4.common.geometry.{ByteLocation, Location}
+import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}
 
 import scala.collection.mutable
@@ -22,45 +22,56 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
     * @return true if there are no inner empty spaces.
     */
   def numInnerSpaces(): Int = {
-    val seedEmpties = findEmptyBorderPositions
-    val visited = findConnectedEmpties(seedEmpties)
-    numInternalEmpties(visited)
+    val bbox = tantrix.getBoundingBox
+    val seedEmpties = findEmptyBorderPositions(bbox)
+    val visited = findConnectedEmpties(seedEmpties, bbox)
+    numInternalEmpties(visited, bbox)
   }
 
-  /** @return all the empty positions on the border  */
-  private def findEmptyBorderPositions = {
-    val bbox = tantrix.getBoundingBox
-    var empties: Set[Location] = Set()
+  /**
+    * Seeds for flood fill: empty cells that can reach the exterior of the bbox.
+    * Includes axis-aligned rectangle edges (original) plus any empty hex in the bbox that has a
+    * [[HexUtil]] neighbor strictly outside the bbox — needed on hex grids where every empty can lie
+    * off the top/bottom/left/right lines of the bounding rectangle but still touch outside (otherwise
+    * we would assert incorrectly and miss exterior-connected voids).
+    */
+  private def findEmptyBorderPositions(bbox: Box): Set[Location] = {
+    val seeds = mutable.Set.empty[Location]
     for (i <- bbox.getMinCol to bbox.getMaxCol) {
-      var loc = new ByteLocation(bbox.getMinRow, i) // top border
-      if (tantrix(loc).isEmpty) empties += loc
-      loc = new ByteLocation(bbox.getMaxRow, i)  // bottom border
-      if (tantrix(loc).isEmpty) empties += loc
+      val top = new ByteLocation(bbox.getMinRow, i)
+      if (tantrix(top).isEmpty) seeds += top
+      val bottom = new ByteLocation(bbox.getMaxRow, i)
+      if (tantrix(bottom).isEmpty) seeds += bottom
     }
-
     for (i <- bbox.getMinRow until bbox.getMaxRow) {
-      var loc = new ByteLocation(i, bbox.getMinCol)  // left border
-      if (tantrix(loc).isEmpty) empties += loc
-      loc = new ByteLocation(i, bbox.getMaxCol)   // right border
-      if (tantrix(loc).isEmpty) empties += loc
+      val left = new ByteLocation(i, bbox.getMinCol)
+      if (tantrix(left).isEmpty) seeds += left
+      val right = new ByteLocation(i, bbox.getMaxCol)
+      if (tantrix(right).isEmpty) seeds += right
     }
-
-    val totalLocs = (bbox.getHeight + 1) * (bbox.getWidth + 1)
-    assert(totalLocs == tantrix.size || empties.nonEmpty,
-      "We should have found at least one empty position on the border. Num Tiles = " + tantrix.size +
-        " bbox area = " + bbox.getArea + " totalLocs = " + totalLocs + " numEmpties = " + empties.size)
-    empties
+    for (r <- bbox.getMinRow to bbox.getMaxRow; c <- bbox.getMinCol to bbox.getMaxCol) {
+      val loc = new ByteLocation(r, c)
+      if (tantrix(loc).isEmpty) {
+        var i = 0
+        while (i < HexTile.NUM_SIDES) {
+          val nbr = HexUtil.getNeighborLocation(loc, i)
+          if (!bbox.contains(nbr)) seeds += loc
+          i += 1
+        }
+      }
+    }
+    seeds.toSet
   }
 
   /** @return all empty region connected to a set of seed positions */
-  private def findConnectedEmpties(seedEmpties: Set[Location]) = {
+  private def findConnectedEmpties(seedEmpties: Set[Location], bbox: Box) = {
     var visited: Set[Location] = Set()
     val searchQueue: mutable.Queue[Location] = mutable.Queue()
     searchQueue ++= seedEmpties
     visited ++= seedEmpties
     while (searchQueue.nonEmpty) {
       val loc: Location = searchQueue.dequeue()
-      val nbrEmpties = findEmptyNeighborLocations(loc)
+      val nbrEmpties = findEmptyNeighborLocations(loc, bbox)
       for (empty <- nbrEmpties) {
         if (!visited.contains(empty)) {
           visited += empty
@@ -72,10 +83,8 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
   }
 
   /** @return all the empty neighbor positions next to the current one. */
-  private def findEmptyNeighborLocations(loc: Location): List[Location] = {
+  private def findEmptyNeighborLocations(loc: Location, bbox: Box): List[Location] = {
     val buf = ListBuffer.empty[Location]
-    val bbox = tantrix.getBoundingBox
-
     for (i <- 0 until HexTile.NUM_SIDES) {
       val nbrLoc = HexUtil.getNeighborLocation(loc, i)
       if (tantrix(nbrLoc).isEmpty && bbox.contains(nbrLoc)) buf += nbrLoc
@@ -90,8 +99,7 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
     *
     * @param visited set of visited empties
     */
-  private def numInternalEmpties(visited: Set[Location]): Int = {
-    val bbox = tantrix.getBoundingBox
+  private def numInternalEmpties(visited: Set[Location], bbox: Box): Int = {
     val interiorRows = bbox.getMinRow until bbox.getMaxRow
     val interiorCols = bbox.getMinCol to bbox.getMaxCol
     var numEmpties = 0

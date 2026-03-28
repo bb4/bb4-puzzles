@@ -24,6 +24,11 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
   private var numTries: Int = 0
   private var currentBestFitness = FITNESS_RANGE
 
+  private def tantrixPath(pa: ParameterArray): TantrixPath =
+    pa match
+      case p: TantrixPath => p
+      case _ => throw new IllegalStateException("Tantrix genetic search expects TantrixPath parameters")
+
   /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
     val initialGuess = new TantrixPath(board, new Random(1))
@@ -34,10 +39,11 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
 
     val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
 
-    solution = new TantrixBoard(foundSolution.pa.asInstanceOf[TantrixPath].tiles, board.primaryColor)
+    val bestPath = tantrixPath(foundSolution.pa)
+    solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
     val tilePlacements =
-      if (evaluateFitness(foundSolution.pa) <= 0) Option.apply(foundSolution.pa.asInstanceOf[TantrixPath].tiles)
-      else Option.empty
+      if (evaluateFitness(foundSolution.pa) <= 0) Some(bestPath.tiles)
+      else None
     val elapsedTime = System.currentTimeMillis - startTime
     controller.finalRefresh(tilePlacements, Option.apply(solution), numTries, elapsedTime)
     tilePlacements
@@ -55,7 +61,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     * @return fitness value. Lower is better.
     */
   def evaluateFitness(params: ParameterArray): Double = {
-    val fitness = evaluator.evaluateFitness(params.asInstanceOf[TantrixPath])
+    val fitness = evaluator.evaluateFitness(tantrixPath(params))
     if (fitness < currentBestFitness) currentBestFitness = fitness
     fitness
   }
@@ -70,8 +76,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     * @param params optimized array of parameters representing tiles
     */
   def optimizerChanged(params: ParameterArrayWithFitness): Unit = {
-    // update our current best guess at the solution.
-    val path = params.pa.asInstanceOf[TantrixPath]
+    val path = tantrixPath(params.pa)
     solution = new TantrixBoard(path.tiles, path.primaryPathColor)
     controller.refresh(solution, {
       numTries += 1; numTries - 1

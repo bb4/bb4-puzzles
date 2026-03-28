@@ -46,12 +46,16 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
     */
   def isGoal(position: TantrixBoard): Boolean = position.isSolved
 
-  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] = 
+  def legalTransitions(position: TantrixBoard): Seq[TilePlacement] =
     new MoveGenerator(position).generateMoves
 
   def transition(position: TantrixBoard, move: TilePlacement): TantrixBoard = position.placeTile(move)
 
-  /** @return estimate of the cost to reach the goal from the specified position */
+  /**
+    * Informed estimate for [[com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver]] and related search.
+    * Uses [[PathEvaluator]] on the primary path derived from the board so ordering matches puzzle progress
+    * (loops, consistency, compactness), not just tile count and bbox spread.
+    */
   override def distanceFromGoal(position: TantrixBoard): Int = {
     val path = new TantrixPath(position.tantrix, position.primaryColor, position.numTiles, MathUtil.RANDOM)
     val fitness = evaluator.evaluateFitness(path)

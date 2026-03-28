@@ -2,8 +2,9 @@
 package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
+import scala.collection.mutable.ListBuffer
 
 /**
   * Tantrix puzzle move generator. Generates valid next moves given the current state.
@@ -18,22 +19,13 @@ class MoveGenerator(var board: TantrixBoard) {
     * @return List of all valid tile placements for the current tantrix state.
     */
   def generateMoves: List[TilePlacement] = {
-    var moves: List[TilePlacement] = List()
-    val unplacedTiles = board.unplacedTiles
-    for (tile <- unplacedTiles) {
-      findPlacementsForTile(tile).foreach(moves +:= _)
-    }
-    moves
-  }
-
-  /** @return list of all the legal placements for the specified tile.*/
-  private def findPlacementsForTile(tile: HexTile) = {
-    var placements: List[TilePlacement] = List()
-    val fitter: TantrixTileFitter = new TantrixTileFitter(board.tantrix, board.primaryColor)
-    for (loc <- borderSpaces) {
-      val validFits = fitter.getFittingPlacements(tile, loc)
-      validFits.foreach(placements +:= _)
-    }
-    placements
+    val fitter = new TantrixTileFitter(board.tantrix, board.primaryColor)
+    val buf = ListBuffer.empty[TilePlacement]
+    for {
+      tile <- board.unplacedTiles
+      loc <- borderSpaces
+      p <- fitter.getFittingPlacements(tile, loc)
+    } buf += p
+    buf.toList
   }
 }

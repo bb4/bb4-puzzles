@@ -50,12 +50,16 @@ case class LoopDetector(var board: TantrixBoard) {
     currentPlacement match
       case None => None
       case Some(cur) =>
-        (0 until HexTile.NUM_SIDES).flatMap { i =>
+        var result: Option[TilePlacement] = None
+        var i = 0
+        while (i < HexTile.NUM_SIDES && result.isEmpty) {
           val color = cur.getPathColor(i)
-          if (color != board.primaryColor) None
-          else
-            board.getNeighbor(Some(cur), i).flatMap { nbrTile =>
+          if (color == board.primaryColor) {
+            result = board.getNeighbor(Some(cur), i).flatMap { nbrTile =>
               Option.when(!previousTile.contains(nbrTile) && nbrTile.getPathColor(i + 3) == color)(nbrTile)
             }
-        }.headOption
+          }
+          i += 1
+        }
+        result
 }

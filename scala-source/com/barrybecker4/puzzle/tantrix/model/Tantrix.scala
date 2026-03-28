@@ -9,9 +9,9 @@ import scala.collection.immutable
 type TileMap = immutable.Map[Location, TilePlacement]
 
 object Tantrix {
-  
+
   private val boundingBoxCalculator = BoundingBoxCalculator()
-  
+
   def createTileMap(tiles: Seq[TilePlacement]): TileMap = {
     tiles.map(tilePlacement => tilePlacement.location -> tilePlacement).toMap
   }
@@ -19,14 +19,15 @@ object Tantrix {
 
 /**
   * Represents "The Tantrix". In other words the set of currently placed tiles. Immutable.
-  * @param tileMap current tantrix.
-  * @param lastTile the last tile placed.
+  * @param tileMap      current tantrix.
+  * @param lastTile     the last tile placed.
+  * @param boundingBox  axis-aligned bounds of all placed tiles; updated incrementally on [[placeTile]].
   */
-case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
+case class Tantrix(tileMap: TileMap, lastTile: TilePlacement, boundingBox: Box) {
 
   /** @param tiles tiles in the tantrix */
-  def this(tiles: Seq[TilePlacement]) = { this(createTileMap(tiles), tiles.last) }
-  def this(tantrix: Tantrix, placement: TilePlacement) = { this(tantrix.tileMap, placement) }
+  def this(tiles: Seq[TilePlacement]) =
+    this(createTileMap(tiles), tiles.last, boundingBoxCalculator.getBoundingBox(tiles))
 
   /**
     * Take the specified tile and place it where indicated.
@@ -34,7 +35,7 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
     * @return the new immutable tantrix instance.
     */
   def placeTile(placement: TilePlacement): Tantrix =
-    new Tantrix(tileMap + (placement.location -> placement), placement)
+    new Tantrix(tileMap + (placement.location -> placement), placement, Box(boundingBox, placement.location))
 
   /** @return the placement at the specified location, if there is one, else None. */
   def apply(row: Int, col: Int): Option[TilePlacement] = tileMap.get(new ByteLocation(row, col))
@@ -56,7 +57,7 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement) {
   def tiles: Iterable[TilePlacement] = tileMap.values
 
   /** @return the bounds of the current tantrix tiles. */
-  def getBoundingBox: Box = boundingBoxCalculator.getBoundingBox(tileMap.values.toSeq)
+  def getBoundingBox: Box = boundingBox
 
   override def toString: String = tileMap.values.mkString("\n")
 }
