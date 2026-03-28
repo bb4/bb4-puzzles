@@ -7,10 +7,10 @@ import MoveGenerator.OFFSETS
 
 object MoveGenerator {
   val OFFSETS: Array[ByteLocation] = Array(
-    new ByteLocation(-1, 0),
-    new ByteLocation(1, 0),
-    new ByteLocation(0, -1),
-    new ByteLocation(0, 1)
+    ByteLocation(-1, 0),
+    ByteLocation(1, 0),
+    ByteLocation(0, -1),
+    ByteLocation(0, 1)
   )
 }
 
@@ -23,8 +23,13 @@ class MoveGenerator {
   /** @return List of valid next moves - all the tiles that can slide into the current empty position. */
   def generateMoves(board: SliderBoard): Seq[SlideMove] = {
     val blankLocation = board.getEmptyLocation
-    OFFSETS.map(loc => {
-      new ByteLocation(blankLocation.row + loc.row, blankLocation.col + loc.col)
-    }).filter(board.isValidPosition).map(SlideMove(_, blankLocation)).toIndexedSeq
+    OFFSETS.iterator
+      .map(d =>
+        ByteLocation(
+          (blankLocation.row + d.row).toByte,
+          (blankLocation.col + d.col).toByte))
+      .filter(board.isValidPosition)
+      .map(adj => SlideMove(fromPosition = adj, toPosition = blankLocation))
+      .toIndexedSeq
   }
 }

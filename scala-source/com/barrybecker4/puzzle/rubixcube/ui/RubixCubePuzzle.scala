@@ -61,11 +61,12 @@ object RubixCubePuzzle {
 
     // macOS only: keep thread-0 alive and pump GLFW so JME/LWJGL can complete Cocoa work.
     // On Windows/Linux, glfwInit runs later on the jME render thread; calling glfwPollEvents()
-  // here fails with "GLFW library is not initialized".  EDT + jME keep the JVM alive.
-  if (isMacOS) {
-    while (!Thread.currentThread().isInterrupted) {
-      org.lwjgl.glfw.GLFW.glfwPollEvents()
-      Thread.sleep(16)
+    // here fails with "GLFW library is not initialized".  EDT + jME keep the JVM alive.
+    if (isMacOS) {
+      while (!Thread.currentThread().isInterrupted) {
+        org.lwjgl.glfw.GLFW.glfwPollEvents()
+        Thread.sleep(16)
+      }
     }
   }
 }

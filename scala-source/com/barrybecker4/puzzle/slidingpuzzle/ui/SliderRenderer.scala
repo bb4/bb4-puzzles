@@ -38,22 +38,19 @@ class SliderRenderer extends PuzzleRenderer[SliderBoard] {
 
   /** draw the hatches which delineate the cells */
   private def drawBorder(g: Graphics, size: Int, rightEdgePos: Int, bottomEdgePos: Int): Unit = {
-    var i = 0
-    var ypos = 0
-    var xpos = 0
     val offset = SliderRenderer.SEPARATION / 2
-    g.setColor(Color.darkGray)
-    i = 0
-    while (i <= size) {    //   -----
-      ypos = SliderRenderer.TOP_MARGIN + i * SliderRenderer.INC - offset
+    g.setColor(Color.DARK_GRAY)
+    var i = 0
+    while (i <= size) {
+      val ypos = SliderRenderer.TOP_MARGIN + i * SliderRenderer.INC - offset
       g.drawLine(SliderRenderer.LEFT_MARGIN - offset, ypos, rightEdgePos - offset, ypos)
-      i += size
+      i += 1
     }
     i = 0
-    while (i <= size) {    //   ||||
-      xpos = SliderRenderer.LEFT_MARGIN + i * SliderRenderer.INC - offset
+    while (i <= size) {
+      val xpos = SliderRenderer.LEFT_MARGIN + i * SliderRenderer.INC - offset
       g.drawLine(xpos, SliderRenderer.TOP_MARGIN - offset, xpos, bottomEdgePos - offset)
-      i += size
+      i += 1
     }
   }
 

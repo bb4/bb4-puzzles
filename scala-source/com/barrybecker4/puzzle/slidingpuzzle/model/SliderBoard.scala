@@ -12,7 +12,7 @@ import scala.util.Random
   */
 case class SliderBoard(tiles: Tiles) {
 
-  private var hamming: Byte = -1
+  lazy val hamming: Byte = tiles.calculateHamming
   private val manhattan = tiles.calculateManhattan
 
   /** @param size edge length of square board */
@@ -35,10 +35,7 @@ case class SliderBoard(tiles: Tiles) {
   }
 
   /** @return number of tiles not in the goal state (i.e. sequential order) */
-  def getHamming: Byte = {
-    if (hamming == -1) hamming = tiles.calculateHamming
-    hamming
-  }
+  def getHamming: Byte = hamming
 
   def distanceToGoal: Int = manhattan
   def getPosition(row: Byte, col: Byte): Byte = tiles.get(row, col)
@@ -56,5 +53,5 @@ case class SliderBoard(tiles: Tiles) {
   def getEmptyLocation: Location = tiles.getEmptyLocation
 
   override def toString: String =
-    "Slider (ham:" + hamming+" manhattan:" + manhattan +"):\n" + tiles.toString
+    s"Slider (ham:$getHamming manhattan:$manhattan):\n$tiles"
 }

@@ -38,7 +38,7 @@ case class SliderTopControls private[ui](
   override def itemStateChanged(e: ItemEvent): Unit = {
     super.itemStateChanged(e)
     if (e.getSource eq sizeSelector)
-      controller.asInstanceOf[SlidingPuzzleController].setSize(sizeSelector.getSelectedSize)
+      controller.setSize(sizeSelector.getSelectedSize)
   }
 }
 

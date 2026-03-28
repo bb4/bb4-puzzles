@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.collection.immutable.HashSet
+import scala.collection.immutable.{HashSet, IndexedSeq}
 import scala.util.Random
 
 /**
@@ -74,5 +74,49 @@ class SliderSuite extends AnyFunSuite with BeforeAndAfter {
   test("hamming") {
     val board = new SliderBoard(4).shuffle(new Random(1))
     assertResult(14) { board.getHamming }
+  }
+
+  test("manhattanSolved") {
+    val board = new SliderBoard(3)
+    assertResult(0) { board.distanceToGoal }
+    assertResult(0) { board.getHamming }
+  }
+
+  test("manhattanAdjacentSwap") {
+    val swapped = IndexedSeq[Byte](2, 1, 3, 4, 5, 6, 7, 8, 0)
+    val board = SliderBoard(Tiles(swapped))
+    assertResult(2) { board.distanceToGoal }
+    assertResult(2) { board.getHamming }
+  }
+
+  test("hammingWrongVsSolved") {
+    val wrong = IndexedSeq[Byte](2, 1, 3, 4, 5, 6, 7, 8, 0)
+    assert(new SliderBoard(3).getHamming == 0)
+    assert(SliderBoard(Tiles(wrong)).getHamming > 0)
+  }
+
+  test("isSolved") {
+    assert(new SliderBoard(3).isSolved)
+    assert(!new SliderBoard(3).shuffle(new Random(1)).isSolved)
+  }
+
+  test("moveGeneratorBlankAtCorner") {
+    val board = new SliderBoard(3)
+    val moves = new MoveGenerator().generateMoves(board)
+    assertResult(2) { moves.size }
+    assert(moves.forall(m => board.isValidPosition(m.fromPosition)))
+  }
+
+  test("moveGeneratorBlankAtCenter") {
+    val centerBlank = IndexedSeq[Byte](1, 2, 3, 4, 0, 5, 6, 7, 8)
+    val board = SliderBoard(Tiles(centerBlank))
+    assertResult(new ByteLocation(1, 1)) { board.getEmptyLocation }
+    assertResult(4) { new MoveGenerator().generateMoves(board).size }
+  }
+
+  test("doMoveIsOwnInverse") {
+    val board = new SliderBoard(3)
+    val m = new MoveGenerator().generateMoves(board).head
+    assert(board == board.doMove(m).doMove(m))
   }
 }

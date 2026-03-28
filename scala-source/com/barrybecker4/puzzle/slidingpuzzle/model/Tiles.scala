@@ -28,15 +28,10 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
   def get(i: Int, j: Int): Byte = tiles(i * size + j)
   def applyMove(move: SlideMove): Tiles = swap(move.fromPosition, move.toPosition)
 
-  def calculateHamming: Byte = {
-    var expected = 0
-    var hamCount = 0
-    tiles.foreach(value => {
-      expected += 1
-      if (value != 0 && value != expected) hamCount += 1
-    })
-    hamCount.toByte
-  }
+  def calculateHamming: Byte =
+    tiles.zipWithIndex.count { case (value, idx) =>
+      value != 0 && value != (idx + 1).toByte
+    }.toByte
 
   def calculateManhattan: Int = {
     var totalDistance = 0
@@ -65,20 +60,24 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
     val newTiles: Array[Byte] = tiles.toArray
 
     while (visited.size < tiles.length) {
-      val indices: List[Int] = rand.shuffle(INDICES)
-      var loc: Location = new IntLocation(-1, -1)
-      var ct = 0
-      while (!isValidPosition(loc)) {
-        loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(indices(ct)))
-        ct += 1
-      }
-
-      val move = SlideMove(blankLocation, loc)
-      internalSwap(newTiles, move.fromPosition, move.toPosition)
+      val loc = randomNeighbor(blankLocation, rand)
+      internalSwap(newTiles, blankLocation, loc)
       blankLocation = loc
       visited += blankLocation
     }
     Tiles(newTiles.toIndexedSeq)
+  }
+
+  /** A uniformly random orthogonally adjacent cell in bounds (neighbors of the blank exist while shuffling). */
+  private def randomNeighbor(blankLocation: Location, rand: Random): Location = {
+    val order = rand.shuffle(INDICES)
+    var i = 0
+    var loc: Location = new IntLocation(-1, -1)
+    while (!isValidPosition(loc)) {
+      loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(order(i)))
+      i += 1
+    }
+    loc
   }
 
   def isValidPosition(loc: Location): Boolean =
@@ -86,19 +85,20 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
 
   /** @return the position of the empty space (there is only one). */
   def getEmptyLocation: Location = {
-    for (i <- tiles.indices if tiles(i) == 0) return new ByteLocation(i / size, i % size)
-    throw new IllegalStateException("There should have been a blank space in\n" + toString)
+    val i = tiles.indexWhere(_ == 0)
+    if (i >= 0) ByteLocation((i / size).toByte, (i % size).toByte)
+    else throw new IllegalStateException("There should have been a blank space in\n" + this)
   }
 
   override def toString: String = {
-    var str = ""
+    val sb = new StringBuilder
     for (i <- 0 until size) {
       for (j <- 0 until size) {
-        str += s"${get(i, j)} "
+        sb.append(get(i, j).toString).append(' ')
       }
-      str += "\n"
+      sb.append('\n')
     }
-    str
+    sb.toString
   }
 
   private def swap(fromPosition: Location, toPosition: Location): Tiles = {

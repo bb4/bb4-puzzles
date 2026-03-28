@@ -26,7 +26,7 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[SliderBoard, SlideMove](controller)
     case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[SliderBoard, SlideMove](controller)
     case IDA_STAR => new IDAStarPuzzleSolver[SliderBoard, SlideMove](controller)
-    // this will find a solution, but not necessary the shortest path
+    // this will find a solution, but not necessarily the shortest path
     case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[SliderBoard, SlideMove](controller)
     // this will find the shortest path to a solution if one exists, but takes longer
     case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 1.0f)
