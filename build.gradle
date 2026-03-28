@@ -62,7 +62,10 @@ dependencies {
         // 0.1.8 embeds x86_64-only liblwjgl3awt.dylib; 0.2+ uses LWJGL jawt natives (arm64 on Apple Silicon). POM uses Maven-only ${lwjgl.natives}, so use transitive=false.
         exclude group: 'org.lwjglx', module: 'lwjgl3-awt'
     }
-    implementation('org.lwjglx:lwjgl3-awt:0.2.4') {
+    // macOS: 0.2.x for LWJGL jawt natives on Apple Silicon. Windows/Linux: 0.1.8 calls User32.RegisterClassEx(WNDCLASSEX),
+    // which matches JME's LWJGL 3.3.3; 0.2.4 bytecode expects RegisterClassEx(IntBuffer, WNDCLASSEX) and throws NoSuchMethodError on Windows.
+    def lwjgl3AwtVersion = System.getProperty('os.name', '').toLowerCase().contains('mac') ? '0.2.4' : '0.1.8'
+    implementation("org.lwjglx:lwjgl3-awt:${lwjgl3AwtVersion}") {
         transitive = false
     }
     implementation "${jme3.g}:jme3-plugins:${jme3.v}"

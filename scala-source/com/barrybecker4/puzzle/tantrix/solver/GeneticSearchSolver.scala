@@ -31,7 +31,9 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
+
     val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
+
     solution = new TantrixBoard(foundSolution.pa.asInstanceOf[TantrixPath].tiles, board.primaryColor)
     val tilePlacements =
       if (evaluateFitness(foundSolution.pa) <= 0) Option.apply(foundSolution.pa.asInstanceOf[TantrixPath].tiles)
@@ -50,7 +52,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
 
   /** Return 0 or less if a perfect solution has been found.
     * @param params parameters
-    * @return fitness value. High is good.
+    * @return fitness value. Lower is better.
     */
   def evaluateFitness(params: ParameterArray): Double = {
     val fitness = evaluator.evaluateFitness(params.asInstanceOf[TantrixPath])
