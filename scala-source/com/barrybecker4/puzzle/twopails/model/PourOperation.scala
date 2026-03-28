@@ -25,27 +25,17 @@ object PourOperation {
     case FIRST, SECOND
 }
 
-case class PourOperation(var action: Action, var container: Container) extends Move {
+case class PourOperation(action: Action, container: Container) extends Move {
 
-  /** @return the reverse of this operation*/
-  private[model] def reverse = {
-    var newAction = action
-    var newContainer = container
-    action match {
-      case Action.FILL =>
-        newAction = PourOperation.Action.EMPTY
-      case Action.EMPTY =>
-        newAction = PourOperation.Action.FILL
+  /** The reverse of this operation (undo step). */
+  private[model] def reverse: PourOperation =
+    action match
+      case Action.FILL => PourOperation(Action.EMPTY, container)
+      case Action.EMPTY => PourOperation(Action.FILL, container)
       case Action.TRANSFER =>
-        newContainer = if (container eq PourOperation.Container.FIRST) PourOperation.Container.SECOND
-                       else PourOperation.Container.FIRST
-    }
-    new PourOperation(newAction, newContainer)
-  }
+        val src = if container == Container.FIRST then Container.SECOND else Container.FIRST
+        PourOperation(Action.TRANSFER, src)
 
-  override def toString: String = {
-    val s = new StringBuilder
-    s.append(action).append(" ").append(container)
-    s.toString
-  }
+  override def toString: String =
+    action.toString + " " + container.toString
 }

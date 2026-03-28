@@ -5,8 +5,6 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation.Action
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Action._
 import com.barrybecker4.puzzle.twopails.model.PourOperation.Container._
 
-import scala.collection.mutable.ListBuffer
-
 
 /**
   * Two pails puzzle move generator. Generates valid next moves.
@@ -14,36 +12,27 @@ import scala.collection.mutable.ListBuffer
   *
   * @author Barry Becker
   */
-class MoveGenerator(var pails: Pails) {
-  /**
-    * Next moves are all the pour operations that make sense given the current pail fill states.
-    * For example, it does not make sense to empty and empty pail.
+class MoveGenerator(private val pails: Pails) {
+
+  /** Next moves are all the pour operations that make sense given the current pail fill states.
+    * For example, it does not make sense to empty an empty pail.
     * Similarly, you cannot transfer any liquid when both pails are completely full.
     *
     * @return List of all valid tile slides
     */
-  def generateMoves: List[PourOperation] = {
-    val moves = ListBuffer[PourOperation]()
-
-    for (action <- Action.values) {
-      action match {
-        case EMPTY =>
-          if (pails.fill1 > 0)
-            moves.append(new PourOperation(EMPTY, FIRST))
-          if (pails.fill2 > 0)
-            moves.append(new PourOperation(EMPTY, SECOND))
-        case FILL =>
-          if (pails.pail1HasRoom)
-            moves.append(new PourOperation(FILL, FIRST))
-          if (pails.pail2HasRoom)
-            moves.append(new PourOperation(FILL, SECOND))
-        case TRANSFER =>
-          if (pails.fill1 > 0 && pails.pail2HasRoom)
-            moves.append(new PourOperation(TRANSFER, FIRST))
-          if (pails.fill2 > 0 && pails.pail1HasRoom)
-            moves.append(new PourOperation(TRANSFER, SECOND))
-      }
+  def generateMoves: List[PourOperation] =
+    Action.values.toList.flatMap {
+      case EMPTY =>
+        List(
+          Option.when(pails.fill1 > 0)(PourOperation(EMPTY, FIRST)),
+          Option.when(pails.fill2 > 0)(PourOperation(EMPTY, SECOND))).flatten
+      case FILL =>
+        List(
+          Option.when(pails.pail1HasRoom)(PourOperation(FILL, FIRST)),
+          Option.when(pails.pail2HasRoom)(PourOperation(FILL, SECOND))).flatten
+      case TRANSFER =>
+        List(
+          Option.when(pails.fill1 > 0 && pails.pail2HasRoom)(PourOperation(TRANSFER, FIRST)),
+          Option.when(pails.fill2 > 0 && pails.pail1HasRoom)(PourOperation(TRANSFER, SECOND))).flatten
     }
-    moves.toList
-  }
 }

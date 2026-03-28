@@ -41,11 +41,13 @@ final class TwoPailsViewer(var doneListener: DoneListener)
   override def finalRefresh(path: Option[Seq[PourOperation]], pails: Option[Pails],
                             numTries: Long, millis: Long): Unit = {
     super.finalRefresh(path, pails, numTries, millis)
-    if (path == null)
-      JOptionPane.showMessageDialog(this,
-        AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"),
-        JOptionPane.WARNING_MESSAGE)
-    else showPath(path.get.toList, pails.get)
+    path match
+      case None =>
+        JOptionPane.showMessageDialog(this,
+          AppContext.getLabel("NO_SOLUTION_FOUND"), AppContext.getLabel("NO_SOLUTION"),
+          JOptionPane.WARNING_MESSAGE)
+      case Some(moves) =>
+        pails.foreach(p => showPath(moves.toList, p))
   }
 
   override def makeMove(currentStep: Int, undo: Boolean): Unit = {

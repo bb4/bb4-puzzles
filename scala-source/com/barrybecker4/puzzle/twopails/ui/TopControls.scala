@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.twopails.ui
 
 import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.common.AlgorithmEnum
-import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.ui.TopControlPanel
 import com.barrybecker4.puzzle.twopails.TwoPailsPuzzleController
 import com.barrybecker4.puzzle.twopails.model.PailParams
@@ -21,7 +20,7 @@ import com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY
   * The solve and generate button at the top.
   * @author Barry Becker
   */
-final class TopControls (controller: PuzzleController[Pails, PourOperation],
+final class TopControls (controller: TwoPailsPuzzleController,
                          algorithmValues: Array[AlgorithmEnum[Pails, PourOperation]])
   extends TopControlPanel[Pails, PourOperation](controller, algorithmValues) with KeyListener {
 
@@ -53,9 +52,8 @@ final class TopControls (controller: PuzzleController[Pails, PourOperation],
   override def keyTyped(e: KeyEvent): Unit = {}
   override def keyPressed(e: KeyEvent): Unit = {}
   override def keyReleased(e: KeyEvent): Unit = {
-    println("first= " + firstPailSize.getIntValue + " second = " + secondPailSize.getIntValue + " targ= " + targetMeasure.getIntValue)
     val params = new PailParams(firstPailSize.getIntValue, secondPailSize.getIntValue, targetMeasure.getIntValue)
-    controller.asInstanceOf[TwoPailsPuzzleController].setParams(params)
+    controller.setParams(params)
   }
 }
 

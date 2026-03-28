@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.twopails.ui
 
 import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
+import com.barrybecker4.puzzle.twopails.model.PailParams
 import com.barrybecker4.puzzle.twopails.model.Pails
 import java.awt.Color
 import java.awt.Font
@@ -25,6 +26,11 @@ object TwoPailsRenderer {
   private val CONTAINER_COLOR = new Color(5, 0, 80)
   private val LIQUID_COLOR = new Color(95, 145, 255)
   private val FONT = new Font("Sans Serif", Font.BOLD, 16)
+
+  /** Pixel height of liquid inside a pail outline, capped for a small inset. */
+  private[twopails] def liquidFillPixelHeight(fill: Int, capacity: Int, containerPixelHeight: Int): Int =
+    if capacity <= 0 || containerPixelHeight <= 2 then 0
+    else math.max(0, ((fill.toFloat / capacity) * containerPixelHeight).toInt - 2)
 }
 
 class TwoPailsRenderer extends PuzzleRenderer[Pails] {
@@ -32,39 +38,54 @@ class TwoPailsRenderer extends PuzzleRenderer[Pails] {
   /** This renders the current state of the Pails to the screen. */
   override def render(g: Graphics, pails: Pails, width: Int, height: Int): Unit = {
     val params = pails.params
-    val biggest = params.getBiggest
+    val biggest = math.max(1, params.getBiggest)
     val size1 = params.pail1Size.toFloat / biggest
     val size2 = params.pail2Size.toFloat / biggest
     val usableWidth = width - TwoPailsRenderer.MARGIN
     val contWidth = (TwoPailsRenderer.CONTAINER_WIDTH * usableWidth).toInt
-    val cont1Height = (size1 * (height - TwoPailsRenderer.TOP_MARGIN)).toInt
-    val cont2Height = (size2 * (height - TwoPailsRenderer.TOP_MARGIN)).toInt
+    val verticalSpan = height - TwoPailsRenderer.TOP_MARGIN
+    val cont1Height = (size1 * verticalSpan).toInt
+    val cont2Height = (size2 * verticalSpan).toInt
     val middle = TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_WIDTH +
       ((TwoPailsRenderer.CONTAINER_WIDTH + TwoPailsRenderer.SEPARATION) * usableWidth).toInt
     val container1Y = height - TwoPailsRenderer.MARGIN - cont1Height
     val container2Y = height - TwoPailsRenderer.MARGIN - cont2Height
 
+    drawLabels(g, pails, middle, container1Y, container2Y, height)
+    drawContainers(g, pails, middle, contWidth, cont1Height, cont2Height, container1Y, container2Y, height)
+  }
+
+  private def drawLabels(g: Graphics, pails: Pails, middleX: Int,
+                         container1Y: Int, container2Y: Int, height: Int): Unit = {
+    val params: PailParams = pails.params
     g.setColor(Color.BLACK)
     g.setFont(TwoPailsRenderer.FONT)
     g.drawString("First Pail", TwoPailsRenderer.MARGIN, TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_OFFSET)
     g.drawString("Max  = " + params.pail1Size, TwoPailsRenderer.MARGIN, container1Y + TwoPailsRenderer.TEXT_OFFSET)
     g.drawString("Fill = " + pails.fill1, TwoPailsRenderer.MARGIN, height - TwoPailsRenderer.MARGIN)
-    g.drawString("Second Pail", middle, TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_OFFSET)
-    g.drawString("Max = " + params.pail2Size, middle, container2Y + TwoPailsRenderer.TEXT_OFFSET)
-    g.drawString("Fill = " + pails.fill2, middle, height - TwoPailsRenderer.MARGIN)
+    g.drawString("Second Pail", middleX, TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_OFFSET)
+    g.drawString("Max = " + params.pail2Size, middleX, container2Y + TwoPailsRenderer.TEXT_OFFSET)
+    g.drawString("Fill = " + pails.fill2, middleX, height - TwoPailsRenderer.MARGIN)
+  }
 
-    // show outlines for two containers
+  private def drawContainers(g: Graphics, pails: Pails, middleX: Int, contWidth: Int,
+                             cont1Height: Int, cont2Height: Int,
+                             container1Y: Int, container2Y: Int, height: Int): Unit = {
     g.setColor(TwoPailsRenderer.CONTAINER_COLOR)
     g.drawRect(TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_WIDTH, container1Y, contWidth, cont1Height)
-    g.drawRect(middle + TwoPailsRenderer.TEXT_WIDTH, container2Y, contWidth, cont2Height)
+    g.drawRect(middleX + TwoPailsRenderer.TEXT_WIDTH, container2Y, contWidth, cont2Height)
     g.setColor(TwoPailsRenderer.LIQUID_COLOR)
-    // show fill for first container
-    var fillHeight = (pails.fill1.toFloat / biggest * cont1Height).toInt - 2
-    g.fillRect(TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_WIDTH + 1, height - TwoPailsRenderer.MARGIN - fillHeight, contWidth - 1, fillHeight)
-    // show fill for second container
-    fillHeight = (pails.fill2.toFloat / biggest * cont1Height).toInt - 2
-    g.fillRect(middle + TwoPailsRenderer.TEXT_WIDTH + 1, height - TwoPailsRenderer.MARGIN - fillHeight, contWidth - 1, fillHeight)
+    val fill1H = TwoPailsRenderer.liquidFillPixelHeight(pails.fill1, pails.params.pail1Size, cont1Height)
+    g.fillRect(
+      TwoPailsRenderer.MARGIN + TwoPailsRenderer.TEXT_WIDTH + 1,
+      height - TwoPailsRenderer.MARGIN - fill1H,
+      contWidth - 1,
+      fill1H)
+    val fill2H = TwoPailsRenderer.liquidFillPixelHeight(pails.fill2, pails.params.pail2Size, cont2Height)
+    g.fillRect(
+      middleX + TwoPailsRenderer.TEXT_WIDTH + 1,
+      height - TwoPailsRenderer.MARGIN - fill2H,
+      contWidth - 1,
+      fill2H)
   }
 }
-
-
