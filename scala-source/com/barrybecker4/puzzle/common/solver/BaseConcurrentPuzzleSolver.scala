@@ -67,14 +67,24 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
     Executors.newFixedThreadPool(BaseConcurrentPuzzleSolver.THREAD_POOL_SIZE)
 
   @throws[InterruptedException]
-  override def solve: Option[Seq[M]] = try
-    doSolve()
-  finally try
-    exec.shutdown()
-  catch {
-    case e: SecurityException =>
-      println("SecurityException shutting down exec thread. "
-        + "Probably because running in a secure sandbox. " + e.getMessage)
+  override def solve: Option[Seq[M]] = {
+    var cancelled = false
+    val result =
+      try doSolve()
+      catch {
+        case _: InterruptedException =>
+          cancelled = true
+          Thread.currentThread().interrupt()
+          None
+      }
+    try
+      if (cancelled) exec.shutdownNow() else exec.shutdown()
+    catch {
+      case e: SecurityException =>
+        println("SecurityException shutting down exec thread. "
+          + "Probably because running in a secure sandbox. " + e.getMessage)
+    }
+    result
   }
 
   /**

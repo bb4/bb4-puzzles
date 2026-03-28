@@ -22,5 +22,11 @@ trait PuzzleController[P, M] extends SearchSpace[P, M] {
 
   /** Begin the search to find a solution to the puzzle. */
   def startSolving(): Unit
+
+  /** Stop an in-progress solve (for example when the user changes solver settings). */
+  def stopSolving(): Unit = ()
+
+  /** True while a cancel/stop has been requested for the current solve attempt. */
+  def isSolveCancelled: Boolean = false
 }
 

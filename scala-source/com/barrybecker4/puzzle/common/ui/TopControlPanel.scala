@@ -78,8 +78,10 @@ class TopControlPanel[P, M](
     * @param e item event
     */
   override def itemStateChanged (e: ItemEvent): Unit = {
+    if !e.getSource.eq(algorithmChoice) || e.getStateChange != ItemEvent.SELECTED then return
     val selected: Int = algorithmChoice.getSelectedIndex
     controller.algorithm = algorithmValues(selected)
+    controller.stopSolving()
   }
 
   /**

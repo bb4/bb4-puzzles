@@ -37,16 +37,22 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
 
-    val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
+    try {
+      val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
 
-    val bestPath = tantrixPath(foundSolution.pa)
-    solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
-    val tilePlacements =
-      if (evaluateFitness(foundSolution.pa) <= 0) Some(bestPath.tiles)
-      else None
-    val elapsedTime = System.currentTimeMillis - startTime
-    controller.finalRefresh(tilePlacements, Option.apply(solution), numTries, elapsedTime)
-    tilePlacements
+      val bestPath = tantrixPath(foundSolution.pa)
+      solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
+      val tilePlacements =
+        if (evaluateFitness(foundSolution.pa) <= 0) Some(bestPath.tiles)
+        else None
+      val elapsedTime = System.currentTimeMillis - startTime
+      controller.finalRefresh(tilePlacements, Option.apply(solution), numTries, elapsedTime)
+      tilePlacements
+    } catch {
+      case _: InterruptedException =>
+        Thread.currentThread().interrupt()
+        None
+    }
   }
 
   def getName = "Genetic Search Solver for Tantrix Puzzle"

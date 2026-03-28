@@ -20,6 +20,23 @@ import scala.collection.mutable
 abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
   extends PuzzleController[P, M] {
 
+  @volatile private var solveCancelled: Boolean = false
+  private var solveWorker: Option[Worker] = None
+
+  override def isSolveCancelled: Boolean = solveCancelled
+
+  override def stopSolving(): Unit = {
+    solveCancelled = true
+    solveWorker.foreach { w =>
+      if (w.isWorking) w.interrupt()
+      try w.get
+      catch {
+        case _: InterruptedException => Thread.currentThread().interrupt()
+      }
+    }
+    solveWorker = None
+  }
+
   /**
     * If this puzzle position was never seen before add it.
     * Must be synchronized because some solvers use concurrency.
@@ -53,6 +70,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
 
   /** Called when the puzzle solver wants to show progress to the user somehow */
   override def refresh (pos: P, numTries: Long): Unit = {
+    if (solveCancelled) throw new InterruptedException("Solve cancelled")
     if (ui != null) {
       ui.refresh (pos, numTries)
     }
@@ -66,6 +84,7 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
 
   /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
   override def finalRefresh (path: Option[Seq[M]], position: Option[P], numTries: Long, elapsedMillis: Long): Unit = {
+    if (solveCancelled) return
     if (path.isEmpty) {
       println ("No Solution found!")
     }
@@ -83,6 +102,8 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     * Do it in a separate worker thread so the UI is not blocked.
     */
   override def startSolving (): Unit = {
+    stopSolving()
+    solveCancelled = false
     // Use either concurrent or sequential solver strategy
     val solver: PuzzleSolver[M] = algorithm.createSolver(this)
 
@@ -92,12 +113,13 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
           // this does all the heavy work of solving it.
           solver.solve
         } catch {
-          case e: InterruptedException =>
-            assert(assertion = false, "Thread interrupted. " + e.getMessage)
+          case _: InterruptedException =>
+            Thread.currentThread().interrupt()
         }
         "true"
       }
     }
+    solveWorker = Some(worker)
     worker.start ()
   }
 }

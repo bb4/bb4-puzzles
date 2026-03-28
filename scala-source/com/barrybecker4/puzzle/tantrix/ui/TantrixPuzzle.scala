@@ -64,6 +64,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
 
   def stateChanged(e: ChangeEvent): Unit = {
     val tileNum = spinner.getValue.asInstanceOf[Integer]
+    controller.stopSolving()
     getController.setNumTiles(tileNum)
     setPrimaryColor(tileNum)
   }
