@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 import scala.util.Random
-import scala.util.control.NonLocalReturns.*
 
 
 object TantrixPath {
@@ -16,17 +15,13 @@ object TantrixPath {
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
     * @return true if there exists a primary path or loop.
     */
-  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = returning {
-    if (tiles.size < 2) throwReturn(true)
-    var lastTile = tiles.head
-    for (i <- 1 until tiles.size) {
-      val currentTile = tiles(i)
-      val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
-      if (!outgoing.values.exists(_ == lastTile.location)) throwReturn(false)
-      lastTile = currentTile
+  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean =
+    tiles.length < 2 || tiles.iterator.sliding(2).forall {
+      case Seq(lastTile, currentTile) =>
+        val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
+        outgoing.values.exists(_ == lastTile.location)
+      case _ => true
     }
-    true
-  }
 
   private def getPathTilesFromBoard(board: TantrixBoard) = {
     val gen = new RandomPathGenerator(board)
@@ -143,21 +138,14 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     HexUtil.distanceBetween(end1, end2)
   }
 
-  override def equals(o: Any): Boolean = {
-    //if (this == o) return true
-    if (o == null || (getClass ne o.getClass)) return false
-    val that = o.asInstanceOf[TantrixPath]
-    val isEqual = if (tiles != null) tiles == that.tiles
-    else that.tiles == null
-    (primaryPathColor eq that.primaryPathColor) && isEqual
+  override def equals(o: Any): Boolean = o match {
+    case that: TantrixPath =>
+      (this eq that) || (primaryPathColor eq that.primaryPathColor) && tiles == that.tiles
+    case _ => false
   }
 
-  override def hashCode: Int = {
-    var result = super.hashCode
-    result = 31 * result + (if (tiles != null) tiles.hashCode else 0)
-    result = 31 * result + (if (primaryPathColor != null) primaryPathColor.hashCode else 0)
-    result
-  }
+  override def hashCode: Int =
+    31 * tiles.hashCode + primaryPathColor.hashCode
 
   /** @return the number of parameters in the array. */
   override def size: Int = tiles.size

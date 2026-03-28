@@ -99,6 +99,11 @@ class TantrixPathSuite extends AnyFunSuite {
     assert(TantrixPath.hasOrderedPrimaryPath(tiles, PathColor.YELLOW))
   }
 
+  test("HasOrderedPrimaryPath empty or one tile is trivially true") {
+    assert(TantrixPath.hasOrderedPrimaryPath(Nil, PathColor.YELLOW))
+    assert(TantrixPath.hasOrderedPrimaryPath(List(TilePlacement(TILE1, UPPER, ANGLE_0)), PathColor.YELLOW))
+  }
+
   test("subPath forward slice matches reverse subPath") {
     val tiles = List(
       TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),

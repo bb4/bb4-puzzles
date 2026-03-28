@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, Tantrix}
+import com.barrybecker4.puzzle.tantrix.model.Tantrix
 import com.barrybecker4.puzzle.tantrix.solver.verification.{CompactnessCalculator, ConsistencyChecker, InnerSpaceDetector}
 import PathEvaluator.*
 
@@ -52,15 +52,8 @@ case class PathEvaluator() {
     val consistencyChecker = ConsistencyChecker(path.tiles, path.primaryPathColor)
     val numFits = consistencyChecker.numFittingTiles
     val allFit = numFits == numTiles
-    var numInnerSpaces = 0
     val consistentLoop = isLoop && allFit
-    var perfectLoop = false
-    if (consistentLoop) {
-      val tantrix = new Tantrix(path.tiles)
-      val innerDetector = InnerSpaceDetector(tantrix)
-      numInnerSpaces = innerDetector.numInnerSpaces()
-      perfectLoop = numInnerSpaces == 0 && numTiles == path.desiredLength
-    }
+    val (numInnerSpaces, perfectLoop) = assessLoopClosure(path, numTiles, consistentLoop)
 
     val fitness =
       if (perfectLoop) 0.0
@@ -74,6 +67,14 @@ case class PathEvaluator() {
 
     fitness
   }
+
+  /** Inner holes and whether we already have a perfect closed loop using all tiles. */
+  private def assessLoopClosure(path: TantrixPath, numTiles: Int, consistentLoop: Boolean): (Int, Boolean) =
+    if (!consistentLoop) (0, false)
+    else {
+      val inner = InnerSpaceDetector(new Tantrix(path.tiles)).numInnerSpaces()
+      (inner, inner == 0 && numTiles == path.desiredLength)
+    }
 
   /**
     * Heuristic function to determine the fitness of an imperfect loop path

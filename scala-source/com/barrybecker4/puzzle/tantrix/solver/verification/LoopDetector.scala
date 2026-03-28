@@ -1,6 +1,4 @@
-/*
- * // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
@@ -20,21 +18,23 @@ case class LoopDetector(var board: TantrixBoard) {
     * @return true if solved.
     */
   def hasLoop: Boolean = {
-    if (board.unplacedTiles.nonEmpty) return false
-    var numVisited = 0
-    val lastTilePlaced = board.getLastTile
-    var currentTile: Option[TilePlacement] = Some(lastTilePlaced)
-    var previousTile: Option[TilePlacement] = None
-    var nextTile: Option[TilePlacement] = None
-    var done = false
-    while (!done) {
-      nextTile = findNeighborTile(currentTile, previousTile)
-      previousTile = currentTile
-      currentTile = nextTile
-      numVisited += 1
-      done = currentTile.isEmpty || currentTile.get == lastTilePlaced
+    if (board.unplacedTiles.nonEmpty) false
+    else {
+      var numVisited = 0
+      val lastTilePlaced = board.getLastTile
+      var currentTile: Option[TilePlacement] = Some(lastTilePlaced)
+      var previousTile: Option[TilePlacement] = None
+      var nextTile: Option[TilePlacement] = None
+      var done = false
+      while (!done) {
+        nextTile = findNeighborTile(currentTile, previousTile)
+        previousTile = currentTile
+        currentTile = nextTile
+        numVisited += 1
+        done = currentTile.isEmpty || currentTile.contains(lastTilePlaced)
+      }
+      numVisited == board.numTiles && currentTile.contains(lastTilePlaced)
     }
-    numVisited == board.numTiles && currentTile.contains(lastTilePlaced)
   }
 
   /**
@@ -43,17 +43,19 @@ case class LoopDetector(var board: TantrixBoard) {
     *
     * @param currentPlacement where we are now, if any
     * @param previousTile     where we were, if any
-    * @return the next tile in the path if there is one. Otherwise null.
+    * @return the next tile in the path if there is one, else `None`
     */
   private def findNeighborTile(currentPlacement: Option[TilePlacement],
-                               previousTile: Option[TilePlacement]): Option[TilePlacement] = {
-    for (i <- 0 until HexTile.NUM_SIDES) {
-        val color = currentPlacement.get.getPathColor(i)
-        if (color == board.primaryColor) {
-          val nbr = board.getNeighbor(currentPlacement, i)
-          if (nbr.isDefined && nbr != previousTile && (nbr.get.getPathColor(i + 3) == color)) return nbr
-        }
-    }
-    None
-  }
+                               previousTile: Option[TilePlacement]): Option[TilePlacement] =
+    currentPlacement match
+      case None => None
+      case Some(cur) =>
+        (0 until HexTile.NUM_SIDES).flatMap { i =>
+          val color = cur.getPathColor(i)
+          if (color != board.primaryColor) None
+          else
+            board.getNeighbor(Some(cur), i).flatMap { nbrTile =>
+              Option.when(!previousTile.contains(nbrTile) && nbrTile.getPathColor(i + 3) == color)(nbrTile)
+            }
+        }.headOption
 }

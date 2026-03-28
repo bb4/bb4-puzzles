@@ -5,6 +5,7 @@ import com.barrybecker4.common.geometry.{ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, Tantrix}
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 /**
   * Used to determine if a candidate solution has empty spaces within the tantrix.
@@ -71,29 +72,32 @@ case class InnerSpaceDetector(tantrix: Tantrix) {
   }
 
   /** @return all the empty neighbor positions next to the current one. */
-  private def findEmptyNeighborLocations(loc: Location) = {
-    var emptyNbrLocations: List[Location] = List()
+  private def findEmptyNeighborLocations(loc: Location): List[Location] = {
+    val buf = ListBuffer.empty[Location]
     val bbox = tantrix.getBoundingBox
 
     for (i <- 0 until HexTile.NUM_SIDES) {
       val nbrLoc = HexUtil.getNeighborLocation(loc, i)
-      if (tantrix(nbrLoc).isEmpty && bbox.contains(nbrLoc)) emptyNbrLocations +:= nbrLoc
+      if (tantrix(nbrLoc).isEmpty && bbox.contains(nbrLoc)) buf += nbrLoc
     }
-    emptyNbrLocations
+    buf.toList
   }
 
-  /** @param visited set of visited empties.
-    * @return the number of empties in the tantrix bbox that are not visited
+  /** Count empty hexes inside the bbox that are not reached from border empty cells.
+    * Rows run `minRow until maxRow` so the bottom bbox row is omitted here: those cells are on the border
+    * and were seeded in [[findEmptyBorderPositions]], so any empty there is either a seed or was classified
+    * via the side/corner border sweeps — not an enclosed cavity counted as "interior".
+    *
+    * @param visited set of visited empties
     */
   private def numInternalEmpties(visited: Set[Location]): Int = {
     val bbox = tantrix.getBoundingBox
+    val interiorRows = bbox.getMinRow until bbox.getMaxRow
+    val interiorCols = bbox.getMinCol to bbox.getMaxCol
     var numEmpties = 0
-    for (i <- bbox.getMinRow until bbox.getMaxRow) {
-      for (j <- bbox.getMinCol to bbox.getMaxCol) {
-        val loc = new ByteLocation(i, j)
-        if (tantrix(loc).isEmpty && !visited.contains(loc))
-          numEmpties += 1
-      }
+    for (i <- interiorRows; j <- interiorCols) {
+      val loc = new ByteLocation(i, j)
+      if (tantrix(loc).isEmpty && !visited.contains(loc)) numEmpties += 1
     }
     numEmpties
   }

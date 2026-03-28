@@ -99,7 +99,6 @@ class TantrixTileFitterSuite extends AnyFunSuite  {
     tantrix = place1of3Tiles_startingWithTile2.tantrix
     val tile2 = TilePlacement(TILES.getTile(3), loc(0, 0), Rotation.ANGLE_60)
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
-    System.out.println(tantrix)
     assert(fitter.isFit(tile2))
   }
 }

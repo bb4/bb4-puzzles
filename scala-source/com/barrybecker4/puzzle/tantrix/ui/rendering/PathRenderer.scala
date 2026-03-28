@@ -37,6 +37,16 @@ class PathRenderer private[rendering]() {
                tilePlacement: TilePlacement, position: Point, size: Double): Unit = {
 
     val tile: HexTile = tilePlacement.tile
+    val (pathStartIndexRaw, pathEndIndexRaw) = findPathEdgeIndices(tile, pathNumber)
+    val color = getColorForPathColor(tile.edgeColors(pathStartIndexRaw))
+    val pathStartIndex = pathStartIndexRaw + tilePlacement.rotation.ordinal
+    val pathEndIndex = pathEndIndexRaw + tilePlacement.rotation.ordinal
+    val diff = pathEndIndexRaw - pathStartIndexRaw
+    drawPathByKind(g2, position, pathStartIndex, pathEndIndex, diff, color, size)
+  }
+
+  /** @return (startIndex, endIndex) along unrotated hex sides where the path connects. */
+  private def findPathEdgeIndices(tile: HexTile, pathNumber: Int): (Int, Int) = {
     var pathStartIndex = getPathStartIndex(tile, pathNumber)
     var i = pathStartIndex + 1
     val pathColor = tile.edgeColors(pathStartIndex)
@@ -44,23 +54,26 @@ class PathRenderer private[rendering]() {
       assert(i < 6, "Should never exceed 6")
       i += 1
     }
+    (pathStartIndex, i)
+  }
 
-    var pathEndIndex = i
-    val diff = pathEndIndex - pathStartIndex
-    val color = getColorForPathColor(pathColor)
-    // account for the rotation.
-    pathStartIndex += tilePlacement.rotation.ordinal
-    pathEndIndex += tilePlacement.rotation.ordinal
-    diff match {
-      case 0 => println("Diff unexpectedly 0. PathStartIdx = " + pathStartIndex +
-        " pathEndIdx = " + pathEndIndex + " Position = " + position + " pathColor = " + pathColor)
+  private def drawPathByKind(
+      g2: Graphics2D,
+      position: Point,
+      pathStartIndex: Int,
+      pathEndIndex: Int,
+      diff: Int,
+      color: Color,
+      size: Double): Unit =
+    diff match
       case 1 => drawCornerPath(g2, position, pathStartIndex, color, size)
       case 5 => drawCornerPath(g2, position, pathEndIndex, color, size)
       case 2 => drawCurvedPath(g2, position, pathStartIndex, color, size)
       case 4 => drawCurvedPath(g2, position, pathEndIndex, color, size)
       case 3 => drawStraightPath(g2, position, pathStartIndex, color, size)
-    }
-  }
+      case _ =>
+        throw IllegalStateException(
+          s"Unexpected path span diff=$diff start=$pathStartIndex end=$pathEndIndex")
 
   /** @return index corresponding to the side that the path starts on.*/
   private def getPathStartIndex(tile: HexTile, pathNumber: Int) = {
@@ -90,10 +103,10 @@ class PathRenderer private[rendering]() {
     val startAngle = firstIndex * HEX_TURN_DEGREES + HEX_TURN_DEGREES
     val angle = HEX_TURN_DEGREES
     val rstartAng = HexUtil.rad(startAngle)
-    val rad = 2 * radius * ROOT3D2
+    val radLen = 2 * radius * ROOT3D2
     val center =
-      new Point((position.getX + rad * Math.cos(rstartAng)).toInt, (position.getY - rad * Math.sin(rstartAng)).toInt)
-    drawPathArc(g2, center, color, ROOT3 * rad, radius / 3.0, startAngle + 150, angle)
+      new Point((position.getX + radLen * Math.cos(rstartAng)).toInt, (position.getY - radLen * Math.sin(rstartAng)).toInt)
+    drawPathArc(g2, center, color, ROOT3 * radLen, radius / 3.0, startAngle + 150, angle)
   }
 
   private def drawPathArc(g2: Graphics2D, center: Point, color: Color, radius: Double, thickness: Double,
@@ -107,7 +120,6 @@ class PathRenderer private[rendering]() {
     // now the colored path
     g2.setColor(color)
     g2.setStroke(PathRenderer.getPathStroke(thickness))
-    //g2.drawLine((int)center.getX(), (int)center.getY(),(int)center.getX(), (int)center.getY());
     g2.drawArc(c.getX.toInt, c.getY.toInt, s, s, startAngle, angle)
   }
 
