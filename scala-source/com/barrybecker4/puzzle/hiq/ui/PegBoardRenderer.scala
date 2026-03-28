@@ -21,7 +21,7 @@ object PegBoardRenderer {
   private val EMPTY_HOLE_RAD = 9
 }
 
-/** Renders a [[PegBoard]] to a [[java.awt.Graphics]] context. */
+/** Renders a [[com.barrybecker4.puzzle.hiq.model.PegBoard]] to a [[java.awt.Graphics]] context. */
 class PegBoardRenderer extends PuzzleRenderer[PegBoard] {
 
   /** Draws the board grid and pegs for the current state. */

@@ -22,7 +22,7 @@ import scala.collection.mutable
   * same `getMaxDimension <= maxHalfPathLength` rule as empty slots (the old code used `<=` for
   * empty neighbors but `<` for stepping along existing tiles, which was asymmetric).
   *
-  * Invariants covered by [[com.barrybecker4.puzzle.tantrix.generation.BorderFinderCorrectnessSuite]]:
+  * Invariants covered by `BorderFinderCorrectnessSuite` (see test sources):
   * every result cell is empty, touches the primary color from some placed tile, lies in the
   * naive "occupied bbox union that one hex" half-length cap, and borders grow monotonically when
   * `numTiles` (the cap) increases.

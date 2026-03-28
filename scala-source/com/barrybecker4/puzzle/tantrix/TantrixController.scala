@@ -53,8 +53,9 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
 
   /**
     * Informed estimate for [[com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver]] and related search.
-    * Uses [[PathEvaluator]] on the primary path derived from the board so ordering matches puzzle progress
-    * (loops, consistency, compactness), not just tile count and bbox spread.
+    * Uses [[com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator]] on the primary path derived from
+    * the board so ordering matches puzzle progress (loops, consistency, compactness), not just tile count
+    * and bbox spread.
     */
   override def distanceFromGoal(position: TantrixBoard): Int = {
     val path = new TantrixPath(position.tantrix, position.primaryColor, position.numTiles, MathUtil.RANDOM)
