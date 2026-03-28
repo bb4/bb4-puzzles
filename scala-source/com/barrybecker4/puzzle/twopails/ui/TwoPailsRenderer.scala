@@ -19,7 +19,7 @@ import java.awt.Graphics
 object TwoPailsRenderer {
   private val CONTAINER_WIDTH = 0.2f
   private val SEPARATION = 0.11f
-  private val TEXT_WIDTH = 70
+  private val TEXT_WIDTH = 90
   private val TEXT_OFFSET = 10
   private val TOP_MARGIN = 160
   private val MARGIN = 60
