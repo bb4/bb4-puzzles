@@ -29,6 +29,7 @@ object RubixCubePuzzle {
   // macOS-only glfwPollEvents() loop below, which pumps the NSRunLoop so the EDT's
   // performSelectorOnMainThread:waitUntilDone:YES selector executes and the window appears.
   def main(args: Array[String]): Unit = {
+    JmeLwjglVerboseLogging.configureIfEnabled()
     JPopupMenu.setDefaultLightWeightPopupEnabled(false)
     val applet = new RubixCubePuzzle(args)
     val frame   = new JFrame()

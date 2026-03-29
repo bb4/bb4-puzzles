@@ -30,7 +30,7 @@ sourceSets.named('test').configure {
 // 3.7+: LwjglCanvas lives in jme3-lwjgl3 (LWJGL3 + macOS arm64). JME 3.3.x only shipped it in jme3-lwjgl (LWJGL2).
 def jme3 = [g: 'org.jmonkeyengine', v: '3.7.0-stable']
 
-def jvmArgsForApp(Map propMap) {
+def static jvmArgsForApp(Map propMap) {
     def args = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
     // LWJGL3/GLFW on macOS must run on thread-0. Without -XstartOnFirstThread the native Cocoa code
     // crashes with SIGTRAP when glfwInit() is called from the JME render thread.
@@ -69,6 +69,8 @@ dependencies {
         transitive = false
     }
     implementation "${jme3.g}:jme3-plugins:${jme3.v}"
+    // OGG audio loader (com.jme3.audio.plugins.OGGLoader); desktop.cfg references it — without this jar, startup logs a warning.
+    implementation "${jme3.g}:jme3-jogg:${jme3.v}"
 
     // JUnit 4-style tests (Assert, @Test) alongside ScalaTest / JUnit 5 from bb4.scala-library
     testImplementation 'org.scalacheck:scalacheck_3:1.18.1'
