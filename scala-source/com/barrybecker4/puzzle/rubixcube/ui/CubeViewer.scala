@@ -35,6 +35,9 @@ final class CubeViewer(var doneListener: DoneListener)
   add(canvasContainer.canvas, BorderLayout.CENTER)
   setMinimumSize(new Dimension(400, 400))
 
+  def startCubeRendering(): Unit =
+    canvasContainer.startRendering()
+
   override def refresh(theCube: Cube, numTries: Long): Unit = {
     if (board != null && theCube.size != board.size) {
       this.showPath(List(), theCube)

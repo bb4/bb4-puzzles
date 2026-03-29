@@ -34,10 +34,14 @@ class CubeCanvasContainer() {
   settings.setSamples(AA_SAMPLES)
   renderer.setSettings(settings)
   renderer.createCanvas()
-  renderer.startCanvas()
+  // startCanvas() must not run from applet.init() on macOS: LwjglWindow.create() calls run()
+  // synchronously on the calling thread, which would block main before the JFrame is shown.
 
   val context: JmeCanvasContext = renderer.getContext.asInstanceOf[JmeCanvasContext]
   var canvas: Canvas = context.getCanvas
+
+  def startRendering(): Unit =
+    renderer.startCanvas()
 
   def render(cube: Cube, width: Int, height: Int): Unit = {
     canvas.setSize(width, height)

@@ -11,6 +11,9 @@ import com.barrybecker4.search.Refreshable
 import java.awt.event.{WindowAdapter, WindowEvent}
 import javax.swing._
 
+import org.lwjgl.glfw.GLFW
+import org.lwjgl.system.Configuration
+
 
 /**
   * Rubix Cube - https://en.wikipedia.org/wiki/Rubik%27s_Cube.
@@ -20,16 +23,19 @@ import javax.swing._
   */
 object RubixCubePuzzle {
 
-  private def isMacOS: Boolean =
-    System.getProperty("os.name", "").toLowerCase.contains("mac")
-  // Replicates GUIUtil.showApplet but calls setVisible(true) via EDT invokeLater instead of
-  // from the main thread.  With -XstartOnFirstThread, calling setVisible from the main thread
-  // triggers LWCToolkit.invokeAndWait → EDT waits for macOS thread-0 → thread-0 (main) is
-  // blocked in invokeAndWait → deadlock.  Using invokeLater lets the main thread reach the
-  // macOS-only glfwPollEvents() loop below, which pumps the NSRunLoop so the EDT's
-  // performSelectorOnMainThread:waitUntilDone:YES selector executes and the window appears.
+  // With -XstartOnFirstThread, JME / LwjglWindow on macOS runs the game loop on whatever thread
+  // calls startCanvas(), so startCanvas() must not run during applet.init().
+  //
+  // GLFW must be initialized on the main thread before showing the Swing window; otherwise
+  // LWCToolkit ↔ AppKit can wedge (invokeLater never runs while the main thread waits).
+  // Call glfwInit here, then show the frame from the main thread, then startCanvas on the same
+  // thread (JME macOS path enters run() synchronously).
   def main(args: Array[String]): Unit = {
     JmeLwjglVerboseLogging.configureIfEnabled()
+    Configuration.GLFW_CHECK_THREAD0.set(false)
+    if (!GLFW.glfwInit())
+      throw new IllegalStateException("Unable to initialize GLFW")
+
     JPopupMenu.setDefaultLightWeightPopupEnabled(false)
     val applet = new RubixCubePuzzle(args)
     val frame   = new JFrame()
@@ -47,28 +53,11 @@ object RubixCubePuzzle {
 
     frame.setTitle(applet.getName)
 
-
-    // setVisible on the EDT — this is the critical difference vs GUIUtil.showApplet.
-    // On macOS the main thread is free to run glfwPollEvents() below, which drains the
-    // NSRunLoop so the Cocoa window-show calls dispatched by the EDT complete.
-    SwingUtilities.invokeLater(() => {
-
-      frame.setVisible(true)
-      frame.toFront()
-    })
+    frame.setVisible(true)
+    frame.toFront()
 
     applet.start()
-
-
-    // macOS only: keep thread-0 alive and pump GLFW so JME/LWJGL can complete Cocoa work.
-    // On Windows/Linux, glfwInit runs later on the jME render thread; calling glfwPollEvents()
-    // here fails with "GLFW library is not initialized".  EDT + jME keep the JVM alive.
-    if (isMacOS) {
-      while (!Thread.currentThread().isInterrupted) {
-        org.lwjgl.glfw.GLFW.glfwPollEvents()
-        Thread.sleep(16)
-      }
-    }
+    applet.startCubeRendering()
   }
 }
 
@@ -99,6 +88,9 @@ case class RubixCubePuzzle(myargs: Array[String])
   def done(): Unit = {
     navPanel.setPathNavigator(viewer.asInstanceOf[PathNavigator])
   }
+
+  def startCubeRendering(): Unit =
+    viewer.asInstanceOf[CubeViewer].startCubeRendering()
 }
 
 
