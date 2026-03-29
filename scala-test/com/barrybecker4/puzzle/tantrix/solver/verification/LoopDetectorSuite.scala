@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
 import scala.compiletime.uninitialized
-import com.barrybecker4.puzzle.tantrix.PathTstUtil.*
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.PathColor.*
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
