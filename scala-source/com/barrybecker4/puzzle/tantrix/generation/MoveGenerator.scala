@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
-import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
 
 import scala.collection.mutable.ListBuffer
 
@@ -16,14 +16,20 @@ class MoveGenerator(var board: TantrixBoard) {
 
   /** For each unplaced tile, find all valid placements given current configuration.
     * Valid placements must extend the primary path.
+    * Tiles are ordered by MRV (fewest fitting placements first) to fail fast in backtracking search.
     * @return List of all valid tile placements for the current tantrix state.
     */
   def generateMoves: List[TilePlacement] = {
     val fitter = new TantrixTileFitter(board.tantrix, board.primaryColor)
+    val borderList = borderSpaces.toList
+    def placementCount(tile: HexTile): Int =
+      borderList.iterator.map(loc => fitter.getFittingPlacements(tile, loc).size).sum
+
+    val tilesMrv = board.unplacedTiles.sortBy(placementCount)
     val buf = ListBuffer.empty[TilePlacement]
     for {
-      tile <- board.unplacedTiles
-      loc <- borderSpaces
+      tile <- tilesMrv
+      loc <- borderList
       p <- fitter.getFittingPlacements(tile, loc)
     } buf += p
     buf.toList

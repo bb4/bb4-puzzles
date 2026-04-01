@@ -4,6 +4,8 @@ package com.barrybecker4.puzzle.tantrix
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
+
+import java.util.concurrent.ConcurrentHashMap
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm.SIMPLE_SEQUENTIAL
@@ -31,6 +33,14 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
   private var numTiles = TantrixController.MIN_NUM_TILES
   private val evaluator = new PathEvaluator
 
+  /** Memoize PathEvaluator-based heuristic per board state for the current solve (thread-safe for concurrent A*). */
+  private val distanceFromGoalCache = new ConcurrentHashMap[TantrixBoard, Integer]
+
+  override def startSolving(): Unit = {
+    distanceFromGoalCache.clear()
+    super.startSolving()
+  }
+
   def setNumTiles(numTiles: Int): Unit = {
     this.numTiles = numTiles
   }
@@ -57,9 +67,15 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
     * the board so ordering matches puzzle progress (loops, consistency, compactness), not just tile count
     * and bbox spread.
     */
-  override def distanceFromGoal(position: TantrixBoard): Int = {
-    val path = new TantrixPath(position.tantrix, position.primaryColor, position.numTiles, MathUtil.RANDOM)
-    val fitness = evaluator.evaluateFitness(path)
-    (10.0 * Math.max(0, fitness)).toInt
-  }
+  override def distanceFromGoal(position: TantrixBoard): Int =
+    distanceFromGoalCache
+      .computeIfAbsent(
+        position,
+        p => {
+          val path = new TantrixPath(p.tantrix, p.primaryColor, p.numTiles, MathUtil.RANDOM)
+          val fitness = evaluator.evaluateFitness(path)
+          Integer.valueOf((10.0 * Math.max(0, fitness)).toInt)
+        }
+      )
+      .intValue()
 }

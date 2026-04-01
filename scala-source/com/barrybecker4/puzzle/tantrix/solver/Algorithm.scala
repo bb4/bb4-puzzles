@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.common.app.AppContext
+import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.common.solver._
 import com.barrybecker4.puzzle.common.{AlgorithmEnum, PuzzleController}
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
@@ -29,8 +30,13 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
     case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.4f)
     case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.12f)
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller, 0.2f)
-    case GENETIC_SEARCH => new GeneticSearchSolver(controller, false)
-    case CONCURRENT_GENETIC_SEARCH => new GeneticSearchSolver(controller, true)
+    case GENETIC_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.GENETIC_SEARCH)
+    case CONCURRENT_GENETIC_SEARCH =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH)
+    case SIMULATED_ANNEALING =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.SIMULATED_ANNEALING)
+    case GLOBAL_HILL_CLIMBING =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_HILL_CLIMBING)
   }
 
   case SIMPLE_SEQUENTIAL extends Algorithm
@@ -43,4 +49,6 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   case CONCURRENT_OPTIMUM extends Algorithm
   case GENETIC_SEARCH extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
+  case SIMULATED_ANNEALING extends Algorithm
+  case GLOBAL_HILL_CLIMBING extends Algorithm
 }

@@ -8,7 +8,7 @@ import com.barrybecker4.search.space.SearchSpace
 /**
   * @author Barry Becker
   */
-class IDAStarPuzzleSolver[P, M](searchSpace: SearchSpace[P, M])
-  extends IDAStarSearch[P, M](searchSpace)
+class IDAStarPuzzleSolver[P, M](searchSpace: SearchSpace[P, M], maxBoundIterations: Int = 1_000_000)
+  extends IDAStarSearch[P, M](searchSpace, maxBoundIterations)
   with PuzzleSolver[M] {
 }

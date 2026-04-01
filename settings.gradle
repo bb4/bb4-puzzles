@@ -16,4 +16,13 @@ if (optimizationSibling.isDirectory()) {
     }
 }
 
+def aStarSibling = new File(settings.rootDir, '../bb4-A-star')
+if (aStarSibling.isDirectory()) {
+    includeBuild(aStarSibling.absolutePath) {
+        dependencySubstitution {
+            substitute module('com.barrybecker4:bb4-A-star') using project(':')
+        }
+    }
+}
+
 rootProject.name = 'bb4-puzzles'

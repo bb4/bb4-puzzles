@@ -64,4 +64,11 @@ class TantrixDistanceFromGoalSuite extends AnyFunSuite {
       c.distanceFromGoal(place6UnsolvedTiles)
     }
   }
+
+  test("distanceFromGoal returns same value on repeat for one board (heuristic cache)") {
+    val b = place3UnsolvedTiles
+    val h1 = c.distanceFromGoal(b)
+    val h2 = c.distanceFromGoal(b)
+    assert(h1 == h2)
+  }
 }

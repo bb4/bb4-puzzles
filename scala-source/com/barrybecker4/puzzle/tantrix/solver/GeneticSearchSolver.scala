@@ -3,23 +3,22 @@ package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
+import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.FITNESS_RANGE
 import scala.util.Random
-import com.barrybecker4.optimization.strategy._
 
 
 /**
-  * Solve the Tantrix puzzle using a genetic search algorithm.
+  * Solve the Tantrix puzzle using a bb4-optimization strategy (genetic, simulated annealing, hill climbing, etc.).
   */
-class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePlacement], val useConcurrency: Boolean)
-  extends TantrixSolver(controller.initialState) with Optimizee with OptimizationListener {
-
-  /** either genetic or concurrent genetic strategy. */
-  private val strategy = if (useConcurrency) CONCURRENT_GENETIC_SEARCH else GENETIC_SEARCH
+class GeneticSearchSolver(
+    var controller: PuzzleController[TantrixBoard, TilePlacement],
+    val optimizationStrategy: OptimizationStrategyType
+) extends TantrixSolver(controller.initialState) with Optimizee with OptimizationListener {
   private val evaluator = new PathEvaluator
   private var numTries: Int = 0
   private var currentBestFitness = FITNESS_RANGE
@@ -38,7 +37,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     optimizer.setListener(this)
 
     try {
-      val foundSolution = optimizer.doOptimization(strategy, initialGuess, FITNESS_RANGE)
+      val foundSolution = optimizer.doOptimization(optimizationStrategy, initialGuess, FITNESS_RANGE)
 
       val bestPath = tantrixPath(foundSolution.pa)
       solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
@@ -55,7 +54,7 @@ class GeneticSearchSolver(var controller: PuzzleController[TantrixBoard, TilePla
     }
   }
 
-  def getName = "Genetic Search Solver for Tantrix Puzzle"
+  def getName = s"Tantrix metaheuristic solver (${optimizationStrategy.toString})"
 
   /** terminate the solver if we find a solution with this fitness. */
   def getOptimalFitness = 0 /* SOLVED_THRESH*/
