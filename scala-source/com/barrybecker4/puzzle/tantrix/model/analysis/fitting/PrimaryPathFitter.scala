@@ -5,6 +5,9 @@ import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{Tantrix, TilePlacement}
 
+import scala.util.boundary
+import scala.util.boundary.break
+
 /**
   * Determines valid primary path fits for a specified tile relative to an existing set at a specific location.
   * This is less strict than tile fitter - which checks all paths.
@@ -24,18 +27,18 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
-  def isFit(placement: TilePlacement): Boolean = {
-    for (i <- 0 until NUM_SIDES) {
-      val nbr = tantrix.getNeighbor(Some(placement), i)
-      if (nbr.isDefined) {
-        val pathColor = placement.getPathColor(i)
-        val nbrColor = nbr.get.getPathColor(i + 3)
-        if ((pathColor == primaryColor || nbrColor == primaryColor) && (pathColor != nbrColor))
-          return false
+  def isFit(placement: TilePlacement): Boolean =
+    boundary:
+      for (i <- 0 until NUM_SIDES) {
+        val nbr = tantrix.getNeighbor(Some(placement), i)
+        if (nbr.isDefined) {
+          val pathColor = placement.getPathColor(i)
+          val nbrColor = nbr.get.getPathColor(i + 3)
+          if ((pathColor == primaryColor || nbrColor == primaryColor) && (pathColor != nbrColor))
+            break(false)
+        }
       }
-    }
-    true
-  }
+      true
 
   /** @param placement the tile to check for a valid fit.
     * @return the number of primary path matches to neighboring tiles.

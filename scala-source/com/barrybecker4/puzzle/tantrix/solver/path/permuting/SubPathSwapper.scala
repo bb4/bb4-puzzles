@@ -63,12 +63,10 @@ class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPath
     */
   private def findRotationsToSwapLocation(firstTileLocation: Location, pivotTile: TilePlacement): Int = {
     val outgoingPathLocations = pivotTile.getOutgoingPathLocations(primaryColor)
-    val keys = outgoingPathLocations.keySet
-    for (key <- keys) {
-      val loc = outgoingPathLocations(key)
-      if (firstTileLocation != loc) return key
-    }
-    assert(false)
-    0
+    outgoingPathLocations.iterator.collectFirst { case (key, loc) if firstTileLocation != loc => key } match
+      case Some(key) => key
+      case None =>
+        assert(false)
+        0
   }
 }

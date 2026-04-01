@@ -5,7 +5,9 @@ import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.HexUtil.getNeighborLocation
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
-import scala.util.control.NonLocalReturns.*
+
+import scala.util.boundary
+import scala.util.boundary.break
 
 
 
@@ -20,8 +22,7 @@ class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extend
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
     */
-  def isFit(placement: TilePlacement): Boolean = returning {
-
+  def isFit(placement: TilePlacement): Boolean = boundary:
     var primaryPathMatched = false
 
     for (i <- 0 until NUM_SIDES) {
@@ -32,11 +33,10 @@ class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extend
           if (pathColor == primaryColor)
             primaryPathMatched = true
         }
-        else throwReturn(false)
+        else break(false)
       }
     }
     primaryPathMatched
-  }
 
   /** @param currentPlacement where we are now
     * @param direction    side to navigate in order to find the neighbor. 0 is to the right.

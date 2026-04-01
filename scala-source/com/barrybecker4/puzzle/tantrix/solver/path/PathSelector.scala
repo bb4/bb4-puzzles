@@ -3,7 +3,8 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-import scala.util.control.NonLocalReturns.*
+import scala.util.boundary
+import scala.util.boundary.break
 
 
 object PathSelector {
@@ -24,14 +25,14 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     * @param paths list of paths to evaluate.
     * @return a random path with a likely good score. In other words, the path which is close to a valid solution.
     */
-  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = returning {
+  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = boundary:
     var totalScore: Double = 0
     val scores: ListBuffer[Double] = ListBuffer()
 
     for (path <- paths) {
       val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
 
-      if (score <= 0) throwReturn(path)
+      if (score <= 0) break(path)
       totalScore += score
       scores.append(score)
     }
@@ -45,5 +46,4 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
       ct += 1
     }
     paths(ct - 1)
-  }
 }

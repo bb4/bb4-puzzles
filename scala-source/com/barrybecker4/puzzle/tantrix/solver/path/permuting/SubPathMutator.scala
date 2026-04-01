@@ -25,10 +25,7 @@ abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
 
   protected def fits(currentPlacement: TilePlacement, previousPlacement: TilePlacement): Boolean = {
     val outgoingPathLocations = currentPlacement.getOutgoingPathLocations(primaryColor)
-    for (loc <- outgoingPathLocations.values) {
-      if (loc == previousPlacement.location) return true
-    }
-    false
+    outgoingPathLocations.values.exists(_ == previousPlacement.location)
   }
 
   /**
@@ -41,12 +38,7 @@ abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
   private[permuting] def findOtherOutgoingLocation(sourcePlacement: TilePlacement,
                                                    excludeLocation: Location): Option[Location] = {
     val outgoingPathLocations = sourcePlacement.getOutgoingPathLocations(primaryColor)
-    var loc: Option[Location] = None
-    for (rot <- outgoingPathLocations.keySet) {
-      loc = outgoingPathLocations.get(rot)
-      if (loc.get != excludeLocation) return loc
-    }
-    loc
+    outgoingPathLocations.valuesIterator.find(_ != excludeLocation)
   }
 
   /**
@@ -58,10 +50,10 @@ abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
     */
   protected def findOutgoingDirection(sourcePlacement: TilePlacement, location: Location): Int = {
     val outgoingPathLocations = sourcePlacement.getOutgoingPathLocations(primaryColor)
-    for (rot <- outgoingPathLocations.keySet) {
-      if (outgoingPathLocations(rot) == location) return rot
-    }
-    assert(assertion = false, s"$location was not on an outgoing path from $sourcePlacement")
-    -1
+    outgoingPathLocations.iterator.collectFirst { case (rot, loc) if loc == location => rot } match
+      case Some(rot) => rot
+      case None =>
+        assert(assertion = false, s"$location was not on an outgoing path from $sourcePlacement")
+        -1
   }
 }
