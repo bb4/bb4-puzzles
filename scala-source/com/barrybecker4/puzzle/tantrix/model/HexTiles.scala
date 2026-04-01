@@ -12,7 +12,11 @@ object HexTiles {
 }
 
 /**
-  * The complete set of hexagonal tantrix tiles. There are 56 of them.
+  * The complete set of hexagonal Tantrix tiles. There are 56 of them.
+  * I entered the tiles by hand by orienting the number on the back so that it is legible, 
+  * then flipping over the tile and recording the colors on the sides 
+  * starting with the rightmost side and moving clockwise.
+  * 
   * @author Barry Becker
   */
 class HexTiles()  {

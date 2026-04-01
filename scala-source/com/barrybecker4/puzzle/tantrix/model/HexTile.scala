@@ -8,7 +8,7 @@ object HexTile {
   val NUM_SIDES = 6
 }
 
-/** Represents a single tantrix tile. Immutable.
+/** Represents a single Tantrix tile. Immutable.
   * @param tantrixNumber the number on the back of the tile
   * @param primaryColor  The primary path color on the back of the tile
   * @param edgeColors outgoing path colors for each orientation index
