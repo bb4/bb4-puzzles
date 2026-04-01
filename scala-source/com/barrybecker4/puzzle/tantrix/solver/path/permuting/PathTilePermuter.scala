@@ -23,21 +23,28 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     * @param newIndices new positions to place the tiles at.
     * @return the new rearranged path.
     */
-  private[permuting] def permute(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]) = {
-    //val permutedPath = originalPath.copy
+  /**
+    * @return [[Some]] path if every swapped tile can be rotated to fit at its target hex; [[None]] if not
+    *         (e.g. metaheuristic neighbor — skip instead of aborting the whole search).
+    */
+  private[permuting] def permute(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Option[TantrixPath] = {
     val auxList: Array[TilePlacement] = Array.ofDim[TilePlacement](oldIndices.size)
     assert(consistent(oldIndices, newIndices))
     for (i <- oldIndices.indices)
       auxList(i) = originalPath.tiles(newIndices(i))
     val fitter = new PrimaryPathFitter(originalPath.tiles, color)
     val origPlacements: ListBuffer[TilePlacement] = ListBuffer.empty ++= originalPath.tiles
-    for (i <- newIndices.indices) {
+    var ok = true
+    for (i <- newIndices.indices if ok) {
       val oldIndex = oldIndices(i)
       val oldPlacement = auxList(i)
-      val newPlacement = findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter)
-      origPlacements(oldIndex) = newPlacement
+      findNewPlacement(oldPlacement.tile, origPlacements(oldIndex).location, fitter) match {
+        case None         => ok = false
+        case Some(placed) => origPlacements(oldIndex) = placed
+      }
     }
-    new TantrixPath(origPlacements.toSeq, originalPath.primaryPathColor, originalPath.desiredLength) //permutedPath
+    if (ok) Some(new TantrixPath(origPlacements.toSeq, originalPath.primaryPathColor, originalPath.desiredLength))
+    else None
   }
 
   private def consistent(oldIndices: ListBuffer[Int], newIndices: ListBuffer[Int]): Boolean = {
@@ -45,16 +52,16 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     uniqueVals.size == oldIndices.size && newIndices.forall(oldIndices.contains(_))
   }
 
-  /** @return The new placement with the tile rotated so it fits at the new location. */
-  private def findNewPlacement(tile: HexTile, location: Location, fitter: PrimaryPathFitter) = {
+  /** @return placement with the tile rotated to fit at `location`, or [[None]] if no rotation works. */
+  private def findNewPlacement(tile: HexTile, location: Location, fitter: PrimaryPathFitter)
+      : Option[TilePlacement] = {
     var newPlacement = TilePlacement(tile, location, Rotation.ANGLE_0)
     var ct = 0
     while (!fitter.isFit(newPlacement) && ct < HexTile.NUM_SIDES) {
       newPlacement = newPlacement.rotate()
       ct += 1
     }
-    if (ct >= HexTile.NUM_SIDES)
-      throw new IllegalStateException("could not fit " + tile + " at " + location + " in " + fitter.getTantrix)
-    newPlacement
+    if (ct >= HexTile.NUM_SIDES) None
+    else Some(newPlacement)
   }
 }

@@ -1,9 +1,17 @@
 // Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
-import com.barrybecker4.optimization.strategy.OptimizationStrategyType
+import com.barrybecker4.optimization.strategy.{
+  GlobalHillClimbingStrategy,
+  OptimizationStrategy,
+  OptimizationStrategyType,
+  SimulatedAnnealingConfig,
+  SimulatedAnnealingStepMode,
+  SimulatedAnnealingStrategy
+}
 import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
@@ -28,16 +36,64 @@ class GeneticSearchSolver(
       case p: TantrixPath => p
       case _ => throw new IllegalStateException("Tantrix genetic search expects TantrixPath parameters")
 
+  /** SA / global hill climb need more exploration than default bb4-optimization presets for this puzzle. */
+  private def useTantrixTunedMetaheuristic: Boolean =
+    optimizationStrategy == OptimizationStrategyType.SIMULATED_ANNEALING ||
+      optimizationStrategy == OptimizationStrategyType.GLOBAL_HILL_CLIMBING
+
+  /**
+    * Hotter SA, longer inner chains, slower cooling, adaptive step scaling; larger global sample + multistart for GHC.
+    */
+  private def createTantrixTunedStrategy(rnd: Random): OptimizationStrategy =
+    val n = math.max(1, board.numTiles)
+    optimizationStrategy match
+      case OptimizationStrategyType.SIMULATED_ANNEALING =>
+        val s = new SimulatedAnnealingStrategy(this, rnd)
+        s.setMaxTemperature(FITNESS_RANGE * 0.55)
+        s.setConfig(
+          SimulatedAnnealingConfig(
+            innerIterationsPerDimension = math.max(30, 2 * n),
+            numTempIterations = 42,
+            tempDropFactor = 0.88,
+            defaultTempMax = 1000.0,
+            radiusMultiplier = 10.0
+          )
+        )
+        s.setStepMode(
+          SimulatedAnnealingStepMode.AdaptiveAcceptance(
+            targetRate = 0.42,
+            windowProposals = math.max(64, 4 * n),
+            initialScale = 1.0
+          )
+        )
+        s
+      case OptimizationStrategyType.GLOBAL_HILL_CLIMBING =>
+        val s = new GlobalHillClimbingStrategy(this)
+        s.setMultistartCount(math.min(28, math.max(12, n)))
+        s.setGlobalSampleBudget(math.max(4000, 200 * n))
+        s
+      case other =>
+        throw new IllegalStateException(s"Not a tuned metaheuristic: $other")
+
   /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
-    val initialGuess = new TantrixPath(board, new Random(1))
-    assert(initialGuess.size > 0, "The random path should have some tiles!")
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
 
     try {
-      val foundSolution = optimizer.doOptimization(optimizationStrategy, initialGuess, FITNESS_RANGE)
+      val foundSolution =
+        if useTantrixTunedMetaheuristic then
+          val rnd = new Random()
+          val guess = new TantrixPath(board, rnd)
+          assert(guess.size > 0, "The random path should have some tiles!")
+          val strategy = createTantrixTunedStrategy(rnd)
+          strategy.setListener(this)
+          strategy.doOptimization(guess, FITNESS_RANGE)
+        else
+          val guess = new TantrixPath(board, new Random(1))
+          assert(guess.size > 0, "The random path should have some tiles!")
+          optimizer.doOptimization(optimizationStrategy, guess, FITNESS_RANGE, MathUtil.RANDOM)
 
       val bestPath = tantrixPath(foundSolution.pa)
       solution = new TantrixBoard(bestPath.tiles, board.primaryColor)

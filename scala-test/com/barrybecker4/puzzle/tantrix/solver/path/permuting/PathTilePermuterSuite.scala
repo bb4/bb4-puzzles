@@ -22,7 +22,7 @@ class PathTilePermuterSuite {
   @Test def testPermute3TileLoopFirstTwoPermuted(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0))
+    val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0)).get
     val expPath = createPath(
       TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), 
       TilePlacement(TILE2, UPPER, ANGLE_180), 
@@ -34,7 +34,7 @@ class PathTilePermuterSuite {
   @Test def testPermute3TileLoopSecond2Permuted(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1))
+    val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1)).get
     val expPath = createPath(
       TilePlacement(TILE2, LOWER_RIGHT, ANGLE_60),
       TilePlacement(TILE3, UPPER, ANGLE_0),
@@ -46,7 +46,7 @@ class PathTilePermuterSuite {
   @Test def testPermute3TileLoopAll3PermutedA(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(2, 1, 0))
+    val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(2, 1, 0)).get
     val expPath = createPath(
       TilePlacement(TILE3, LOWER_RIGHT, ANGLE_240),
       TilePlacement(TILE1, UPPER, ANGLE_0),
@@ -58,7 +58,7 @@ class PathTilePermuterSuite {
   @Test def testPermute3TileLoopAll3PermutedB(): Unit = {
     val path = LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(1, 2, 0))
+    val permutedPath = permuter.permute(ListBuffer(0, 1, 2), ListBuffer(1, 2, 0)).get
     val expPath = createPath(
       TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240),
       TilePlacement(TILE3, UPPER, ANGLE_0),
@@ -70,7 +70,7 @@ class PathTilePermuterSuite {
   @Test def testPermute3TileNonLoopPath1(): Unit = {
     val path = NON_LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0))
+    val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0)).get
     val expPath = createPath(TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
     assertEquals("Unexpected permuted path.", expPath, permutedPath)
   }
@@ -78,7 +78,7 @@ class PathTilePermuterSuite {
   @Test def testSwapIn3TileNonLoopPath2(): Unit = {
     val path = NON_LOOP_PATH3
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1))
+    val permutedPath = permuter.permute(ListBuffer(1, 2), ListBuffer(2, 1)).get
     val expPath = createPath(
       TilePlacement(TILE2, LOWER_RIGHT, ANGLE_0),
       TilePlacement(TILE3, UPPER, ANGLE_0),
@@ -102,7 +102,7 @@ class PathTilePermuterSuite {
   @Test def testSwapIn4TileNonLoopPathTightArc(): Unit = {
     val path = NON_LOOP_PATH4
     permuter = new PathTilePermuter(path)
-    val permutedPath = permuter.permute(ListBuffer(1, 3), ListBuffer(3, 1))
+    val permutedPath = permuter.permute(ListBuffer(1, 3), ListBuffer(3, 1)).get
     val expPath = new TantrixPath(Seq(
       TilePlacement(TILE1, LOWER_LEFT, ANGLE_120),
       TilePlacement(TILE3, UPPER_LEFT, ANGLE_180),

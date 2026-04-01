@@ -87,6 +87,18 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
   def getLast: TilePlacement = tiles.last
   override def getSamplePopulationSize: Int = size * size
 
+  /**
+    * Exhaustive global permutation sampling ([[com.barrybecker4.optimization.parameter.sampling.PermutedGlobalSampler]])
+    * calls [[com.barrybecker4.optimization.parameter.PermutedParameterArray.setPermutation]], which would otherwise
+    * return a plain [[PermutedParameterArray]] and break Tantrix optimizees.
+    */
+  override def setPermutation(indices: List[Int]): PermutedParameterArray =
+    rebuildAfterOrderCrossover(indices.map(get).toIndexedSeq, rnd)
+
+  /** Multistart hill climbing must not replace this with a raw [[PermutedParameterArray]]. */
+  override def forkWithRnd(newRnd: Random): PermutedParameterArray =
+    new TantrixPath(tiles, primaryPathColor, desiredLength, newRnd)
+
   /** The start index is not necessarily smaller than the end index.
     * @param startIndex tile to add first
     * @param endIndex   tile to add last
