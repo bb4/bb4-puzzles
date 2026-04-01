@@ -49,14 +49,22 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   }
 
   protected def simpleRefresh(theBoard: P, numTries: Long): Unit = {
-    board = theBoard
-    this.numTries = numTries
-    repaint()
+    def apply(): Unit = {
+      board = theBoard
+      this.numTries = numTries
+      repaint()
+    }
+    if (SwingUtilities.isEventDispatchThread) apply()
+    else SwingUtilities.invokeLater(() => apply())
   }
 
   protected def simpleRefresh(theBoard: P): Unit = {
-    board = theBoard
-    repaint()
+    def apply(): Unit = {
+      board = theBoard
+      repaint()
+    }
+    if (SwingUtilities.isEventDispatchThread) apply()
+    else SwingUtilities.invokeLater(() => apply())
   }
 
   def makeSound(): Unit = {

@@ -40,7 +40,8 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
   def render(g: Graphics, tiles: Iterable[TilePlacement], width: Int, height: Int): Unit = {
     if (tiles == null) return
     val g2 = g.asInstanceOf[Graphics2D]
-    val bbox: Box = boundingBoxCalculator.getBoundingBox(tiles.toSeq)
+    val tileSeq = tiles.toSeq.sortBy(tp => (tp.location.row, tp.location.col))
+    val bbox: Box = boundingBoxCalculator.getBoundingBox(tileSeq)
     val boardEdgeLength = bbox.getMaxDimension
     val minEdge = Math.min(width, height)
 
@@ -52,7 +53,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     val topLeftCorner = bbox.getTopLeftCorner.incrementOnCopy(-padding, -padding)
     drawGrid(g2, topLeftCorner)
 
-    for (tile <- tiles) {
+    for (tile <- tileSeq) {
       tileRenderer.renderBorder(g2, tile, topLeftCorner, hexRadius)
     }
   }
@@ -73,9 +74,12 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     g2.setColor(GRID_COLOR)
 
     val bottomRightCorner = topLeftCorner.incrementOnCopy(edgeLen, edgeLen)
+    // Use row/col, not getX/getY: ByteLocation maps getX→row and getY→col (opposite of IntLocation).
+    val row0 = topLeftCorner.row
+    val col0 = topLeftCorner.col
     for {
-      i <- topLeftCorner.getY to bottomRightCorner.getY
-      j <- topLeftCorner.getX to bottomRightCorner.getX
+      i <- row0 to bottomRightCorner.row
+      j <- col0 to bottomRightCorner.col
     } {
       tileRenderer.renderBorder(g2, IntLocation(i, j), topLeftCorner, hexRadius)
     }
