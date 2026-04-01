@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.math.MathUtil
+import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor
@@ -11,6 +12,21 @@ import scala.util.Random
 
 
 object TantrixPath {
+
+  /** Stable tile ids for permutation / crossover: sort by location and rotation so both parents agree. */
+  private[tantrix] def canonicalOrderedTiles(tiles: Seq[TilePlacement]): IndexedSeq[TilePlacement] =
+    tiles.toIndexedSeq.sortBy(tp => (tp.location.row, tp.location.col, tp.rotation.ordinal))
+
+  /** One [[IntegerParameter]] per path position; values are ids from [[canonicalOrderedTiles]]. */
+  private def permutationParamsForTiles(tiles: Seq[TilePlacement]): IndexedSeq[Parameter] = {
+    val n = tiles.size
+    if (n == 0) IndexedSeq.empty
+    else {
+      val canonical = canonicalOrderedTiles(tiles)
+      def idOf(tp: TilePlacement): Int = canonical.indexOf(tp)
+      tiles.map(tp => IntegerParameter(idOf(tp), 0, n - 1, "tile")).toIndexedSeq
+    }
+  }
 
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
     * @return true if there exists a primary path or loop.
@@ -43,8 +59,9 @@ object TantrixPath {
   * @param primaryPathColor primary path color
   * @author Barry Becker
   */
-class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int, 
-                  rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
+class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int,
+                  rnd: Random = MathUtil.RANDOM)
+    extends PermutedParameterArray(TantrixPath.permutationParamsForTiles(tiles), rnd) {
 
   assert(desiredLength >= tiles.length)
   if (!hasOrderedPrimaryPath(tiles, primaryPathColor))
@@ -107,6 +124,16 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     gen.generateRandomPath
   }
 
+  override def rebuildAfterOrderCrossover(childParams: IndexedSeq[Parameter], rnd: Random): PermutedParameterArray = {
+    val canonical = TantrixPath.canonicalOrderedTiles(tiles)
+    val newTiles = childParams.map(p => canonical(p.getValue.toInt))
+    try new TantrixPath(newTiles, primaryPathColor, desiredLength, rnd)
+    catch {
+      case _: IllegalStateException =>
+        new TantrixPath(tiles, primaryPathColor, desiredLength, rnd)
+    }
+  }
+
   /** It's a loop if the beginning of the path connects with the end.
     * Having the distance between beginning and end be 0 is a prerequisite and quicker to compute.
     * @return true if the path is a complete loop (ignoring secondary paths)
@@ -147,8 +174,6 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
   override def hashCode: Int =
     31 * tiles.hashCode + primaryPathColor.hashCode
 
-  /** @return the number of parameters in the array. */
-  override def size: Int = tiles.size
   override def toString: String = tiles.toString
 
   /** @return the parameters in a string of Comma Separated Values. */
