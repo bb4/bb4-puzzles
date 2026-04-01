@@ -21,9 +21,6 @@ class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
     * Permutes the tiles at oldIndices to new positions at new Indices
     * @param oldIndices old positions in the path
     * @param newIndices new positions to place the tiles at.
-    * @return the new rearranged path.
-    */
-  /**
     * @return [[Some]] path if every swapped tile can be rotated to fit at its target hex; [[None]] if not
     *         (e.g. metaheuristic neighbor — skip instead of aborting the whole search).
     */
