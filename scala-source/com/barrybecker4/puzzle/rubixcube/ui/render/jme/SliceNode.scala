@@ -50,9 +50,9 @@ class SliceNode(miniCubes: Seq[MinicubeNode],
 
 
   // should need this, but for scala port
-  override def setKey(key: AssetKey[_]): Unit = {
+  override def setKey(key: AssetKey[?]): Unit = {
     this.key = key
   }
 
-  override def getKey: AssetKey[_] = key
+  override def getKey: AssetKey[?] = key
 }

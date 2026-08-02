@@ -25,11 +25,11 @@ class CoordinateAxes(pos: Vector3f, assetManager: AssetManager) extends Instance
   }
 
   // should need this, but for scala port
-  override def setKey(key: AssetKey[_]): Unit = {
+  override def setKey(key: AssetKey[?]): Unit = {
     this.key = key
   }
 
-  override def getKey: AssetKey[_] = key
+  override def getKey: AssetKey[?] = key
 
   private def addArrow(axis: String, color: ColorRGBA, pos: Vector3f, parentNode: Node): Unit = {
 

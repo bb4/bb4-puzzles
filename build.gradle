@@ -1,14 +1,14 @@
 // Copyright by Barry G. Becker, 2013  - 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 plugins {
-    id 'com.barrybecker4.bb4.scala-library' version '2.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.publish' version '2.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.application' version '2.0-SNAPSHOT'
+    id 'com.barrybecker4.bb4.scala-library' version '2.0.0'
+    id 'com.barrybecker4.bb4.publish' version '2.0.0'
+    id 'com.barrybecker4.bb4.application' version '2.0.0'
 }
 
 description = 'A Scala puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
-version = '2.0-SNAPSHOT'
+version = '2.0.0'
 
 bb4 {
     archivesBaseName.set('bb4-puzzle')
@@ -48,12 +48,12 @@ dependencies {
         }
     }
 
-    implementation 'com.barrybecker4:bb4-A-star:2.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-sound:2.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-optimization:2.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-ui:2.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-common:2.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-math:2.0-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-A-star:2.0.0'
+    implementation 'com.barrybecker4:bb4-sound:2.0.0'
+    implementation 'com.barrybecker4:bb4-optimization:2.0.0'
+    implementation 'com.barrybecker4:bb4-ui:2.0.0'
+    implementation 'com.barrybecker4:bb4-common:2.0.0'
+    implementation 'com.barrybecker4:bb4-math:2.0.0'
 
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"

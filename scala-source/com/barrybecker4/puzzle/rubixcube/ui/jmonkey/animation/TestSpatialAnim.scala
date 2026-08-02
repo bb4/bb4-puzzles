@@ -109,7 +109,7 @@ class TestSpatialAnim extends SimpleApplication with ActionListener with AnimEve
     val transformTrack = new TransformTrack(geom, times, translations, rotations, scales)
 
     val animClip = new AnimClip(ANIM_NAME)
-    animClip.setTracks(Array[AnimTrack[_]](transformTrack))
+    animClip.setTracks(Array[AnimTrack[?]](transformTrack))
 
     val animComposer = new AnimComposer
     animComposer.addAnimClip(animClip)

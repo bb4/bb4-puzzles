@@ -90,12 +90,12 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
   /**
     * Exhaustive global permutation sampling ([[com.barrybecker4.optimization.parameter.sampling.PermutedGlobalSampler]])
     * calls [[com.barrybecker4.optimization.parameter.PermutedParameterArray.setPermutation]], which would otherwise
-    * return a plain [[PermutedParameterArray]] and break Tantrix optimizees.
+    * return a plain [[com.barrybecker4.optimization.parameter.PermutedParameterArray]] and break Tantrix optimizees.
     */
   override def setPermutation(indices: List[Int]): PermutedParameterArray =
     rebuildAfterOrderCrossover(indices.map(get).toIndexedSeq, rnd)
 
-  /** Multistart hill climbing must not replace this with a raw [[PermutedParameterArray]]. */
+  /** Multistart hill climbing must not replace this with a raw [[com.barrybecker4.optimization.parameter.PermutedParameterArray]]. */
   override def forkWithRnd(newRnd: Random): PermutedParameterArray =
     new TantrixPath(tiles, primaryPathColor, desiredLength, newRnd)
 
