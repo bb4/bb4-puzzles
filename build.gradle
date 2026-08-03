@@ -8,7 +8,7 @@ plugins {
 description = 'A Scala puzzle framework with generator and solver implementations ' +
         'for puzzles like Sudoku, Hi-Q, OneTough Puzzle, Tantrix, and others.'
 group = 'com.barrybecker4'
-version = '2.0.0'
+version = '2.1-SNAPSHOT'
 
 bb4 {
     archivesBaseName.set('bb4-puzzle')
