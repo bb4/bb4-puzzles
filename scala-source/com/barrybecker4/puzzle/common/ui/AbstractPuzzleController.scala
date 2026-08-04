@@ -46,9 +46,8 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
   override def alreadySeen(position: P, seen: mutable.Set[P] ): Boolean = {
     if (!seen.contains(position)) {
       seen += position
-      return false
-    }
-    true
+      false
+    } else true
   }
 
   /**

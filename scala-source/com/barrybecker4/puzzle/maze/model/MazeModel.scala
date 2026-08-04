@@ -9,12 +9,14 @@ import com.barrybecker4.common.geometry.{IntLocation, Location}
   * @author Barry Becker
   */
 class MazeModel(var width: Int, var height: Int) {
-  setDimensions(width, height)
 
   /** The grid of cells that make up the maze paths in x,y (col, row) order. */
   private var grid: Array[Array[MazeCell]] = uninitialized
   val startPosition: Location = IntLocation(2, 2)
+  /** Set by [[com.barrybecker4.puzzle.maze.MazeGenerator]] to the deepest cell reached. */
   var stopPosition: Location = uninitialized
+
+  setDimensions(width, height)
 
   def setDimensions(width: Int, height: Int): Unit = {
     this.width = width

@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-import com.barrybecker4.common.geometry.{ByteLocation, IntLocation, Location}
+import com.barrybecker4.common.geometry.{ByteLocation, Location}
 
 import scala.collection.immutable.{HashSet, IndexedSeq}
 import scala.util.Random
@@ -69,16 +69,11 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
   }
 
   /** A uniformly random orthogonally adjacent cell in bounds (neighbors of the blank exist while shuffling). */
-  private def randomNeighbor(blankLocation: Location, rand: Random): Location = {
-    val order = rand.shuffle(INDICES)
-    var i = 0
-    var loc: Location = new IntLocation(-1, -1)
-    while (!isValidPosition(loc)) {
-      loc = blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(order(i)))
-      i += 1
-    }
-    loc
-  }
+  private def randomNeighbor(blankLocation: Location, rand: Random): Location =
+    rand.shuffle(INDICES).iterator
+      .map(i => blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(i)))
+      .find(isValidPosition)
+      .get
 
   def isValidPosition(loc: Location): Boolean =
     loc.row >= 0 && loc.row < size && loc.col >= 0 && loc.col < size
