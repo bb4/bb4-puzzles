@@ -47,7 +47,6 @@ class MazeSolver(var panel: MazePanel) {
     var currentPosition: Location = maze.startPosition
     var currentCell: MazeCell = maze.getCell(currentPosition)
     stack.pushMoves(currentPosition, IntLocation(0, 1), 0)
-    var dir: Location = null
     var depth: Int = 0
     var solved: Boolean = false
 
@@ -58,7 +57,7 @@ class MazeSolver(var panel: MazePanel) {
       if (currentPosition == maze.stopPosition) {
         solved = true
       }
-      dir = state.movement
+      val dir = state.movement
       depth = state.depth
       if (depth > currentCell.depth) {
         currentCell.depth = depth
@@ -119,14 +118,14 @@ class MazeSolver(var panel: MazePanel) {
     * @param solutionPath list of locations leading ot the solution.
     */
   private def backTrack(solutionPath: List[Location]): List[Location] = {
-    val lastState: GenState = stack.peek()
+    val target = stack.peek().position
     var path = solutionPath
-    var pos: Location = null
-    while (!lastState.position.eq(pos)) {
-      pos = path.head
+    var reachedTarget = false
+    while (!reachedTarget) {
+      val pos = path.head
       path = path.tail
-      val cell: MazeCell = maze.getCell(pos)
-      cell.clearPath()
+      maze.getCell(pos).clearPath()
+      reachedTarget = target.eq(pos)
     }
     path
   }

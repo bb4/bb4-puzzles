@@ -66,34 +66,40 @@ class MazeGenerator(val panel: MazePanel) {
   /** Find the next cell to visit, given the last cell */
   private def findNextCell(lastCell: MazeCell): MazeCell = {
     var moved = false
-    var currentPosition: Location = null
-    var nextCell: MazeCell = null
-    var depth: Int = -1
-    var dir: Location = null
+    var resultPosition: Option[Location] = None
+    var resultDir: Option[Location] = None
+    var resultDepth = -1
+    var resultCell: Option[MazeCell] = None
 
     while (!moved && !stack.isEmpty && !interrupted) {
       val state = stack.pop()
-      currentPosition = state.position
-      dir = state.movement
-      depth = state.depth
+      val currentPosition = state.position
+      val dir = state.movement
+      val depth = state.depth
       applyDepthFromState(depth, currentPosition, lastCell)
       val currentCell = maze.getCell(currentPosition)
       val nextPosition = currentCell.getNextPosition(currentPosition, dir)
-      nextCell = maze.getCell(nextPosition)
+      val nextCell = maze.getCell(nextPosition)
+      resultCell = Some(nextCell)
+      resultDepth = depth
+      resultDir = Some(dir)
       if (nextCell.visited) {
         addWall(currentCell, dir, nextCell)
+        resultPosition = Some(currentPosition)
       } else {
         moved = true
         nextCell.visited = true
-        currentPosition = nextPosition
+        resultPosition = Some(nextPosition)
       }
       refresh()
     }
 
     refresh()
     if (moved && !interrupted)
-      stack.pushMoves(currentPosition, dir, depth + 1)
-    nextCell
+      stack.pushMoves(resultPosition.get, resultDir.get, resultDepth + 1)
+    // When the loop never ran (interrupt between caller check and here), mirror prior null return
+    // by falling back to lastCell so the search loop can exit cleanly.
+    resultCell.getOrElse(lastCell)
   }
 
   private def applyDepthFromState(depth: Int, currentPosition: Location, lastCell: MazeCell): Unit = {
