@@ -46,21 +46,18 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
     */
   private def search(node: PuzzleNode[P, M]): Option[PuzzleNode[P, M]] = {
     val currentState = node.getPosition
-    if (!puzzle.alreadySeen(currentState, seen)) {
-      if (puzzle.isGoal(currentState))
-        return Some(node)
-      val moves = puzzle.legalTransitions(currentState)
-
-      for (move <- moves) {
-        val position = puzzle.transition(currentState, move)
-        puzzle.refresh(position, numTries)
-        val child = new PuzzleNode[P, M](position, Some(move), Some(node))
-        numTries += 1
-        val result = search(child) // recursive call
-        if (result.isDefined)
-          return result
-      }
+    if (puzzle.alreadySeen(currentState, seen)) None
+    else if (puzzle.isGoal(currentState)) Some(node)
+    else {
+      puzzle.legalTransitions(currentState).iterator
+        .map { move =>
+          val position = puzzle.transition(currentState, move)
+          puzzle.refresh(position, numTries)
+          val child = new PuzzleNode[P, M](position, Some(move), Some(node))
+          numTries += 1
+          search(child)
+        }
+        .collectFirst { case Some(result) => result }
     }
-    None
   }
 }
