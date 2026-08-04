@@ -10,8 +10,8 @@ import com.barrybecker4.puzzle.rubixcube.ui.selectors.{DirectionSelector, LayerS
 import com.barrybecker4.ui.components.GradientButton
 
 import java.awt.FlowLayout
-import java.awt.event.{ActionEvent, ActionListener, ItemEvent, ItemListener}
-import javax.swing.{BorderFactory, Box, JButton, JPanel}
+import java.awt.event.{ActionEvent, ItemEvent, ItemListener}
+import javax.swing.JPanel
 
 /**
   * Buttons at the top for generating and solving the Rubix cube using different strategies.

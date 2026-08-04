@@ -12,7 +12,7 @@ import com.barrybecker4.puzzle.common.model.Move
 trait PathNavigator {
 
   /** @return the path to navigate on. */
-  def getPath: List[_ <: Move]
+  def getPath: List[? <: Move]
 
   /**
     * Switch from the current move in the sequence forwards or backwards stepSize.

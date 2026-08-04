@@ -2,7 +2,6 @@ package com.barrybecker4.puzzle.rubixcube.model
 
 import scala.util.Random
 import Orientation.PRIMARY_ORIENTATIONS
-import CubeShuffler.RND
 
 
 object CubeShuffler {
