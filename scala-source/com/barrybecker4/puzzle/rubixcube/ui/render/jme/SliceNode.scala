@@ -40,9 +40,9 @@ class SliceNode(miniCubes: Seq[MinicubeNode],
   def rotateSlice(angle: Float): Unit = {
     val q = new Quaternion()
     val axis: Vector3f = sliceOrientation match {
-      case UP => Vector3f.UNIT_Y
-      case LEFT => Vector3f.UNIT_Z
-      case FRONT => Vector3f.UNIT_X
+      case UP | DOWN => Vector3f.UNIT_Y
+      case LEFT | RIGHT => Vector3f.UNIT_Z
+      case FRONT | BACK => Vector3f.UNIT_X
     }
     q.fromAngleAxis(angle, axis)
     this.setLocalRotation(q)
