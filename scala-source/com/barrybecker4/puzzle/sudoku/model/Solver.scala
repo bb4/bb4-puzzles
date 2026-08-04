@@ -20,24 +20,21 @@ private case class Solver(board: Board, refresh: Option[Board => Unit] = None) {
       case Some(b) =>
         if (b.valuesMap.values.forall(_.size == 1)) {
           b.doRefresh(refresh)
-          return Some(b) // Solved!
-        }
+          Some(b) // Solved!
+        } else {
+          // Choose the unfilled square with the fewest possibilities > 1 (helps performance)
+          val minSq: Location =
+            b.comps.squares.filter(s => b.valuesMap(s).size > 1).minBy(s => b.valuesMap(s).size)
 
-        // Choose the unfilled square with the fewest possibilities > 1 (helps performance)
-        val minSq: Location =
-          b.comps.squares.filter(s => b.valuesMap(s).size > 1).minBy(s => b.valuesMap(s).size)
-
-        for (value <- b.valuesMap(minSq)) {
-          numIterations += 1
-          b.doRefresh(refresh)
-          val newValuesMap = b.assign(minSq, value, b.valuesMap)
-          if (newValuesMap.isDefined) {
-            val resultBoard = searchForSolution(Some(Board(b.cells, newValuesMap.get)))
-            if (resultBoard.isDefined)
-              return resultBoard
-          }
+          b.valuesMap(minSq).iterator
+            .map { value =>
+              numIterations += 1
+              b.doRefresh(refresh)
+              b.assign(minSq, value, b.valuesMap)
+                .flatMap(m => searchForSolution(Some(Board(b.cells, m))))
+            }
+            .collectFirst { case Some(result) => result }
         }
-        None
     }
   }
 

@@ -17,12 +17,9 @@ case class ValueAssigner(comps: BoardComponents) {
     */
   def assign(location: Location, value: Int, valuesMap: ValuesMap): Option[ValuesMap] = {
     val otherValues: Set[Int] = valuesMap(location) - value
-    var newValues: Option[ValuesMap] = Some(valuesMap)
-    for (v <- otherValues) {
-      newValues = eliminate(v, location, newValues.get)
-      if (newValues.isEmpty) return None
+    otherValues.foldLeft(Option(valuesMap)) { (acc, v) =>
+      acc.flatMap(m => eliminate(v, location, m))
     }
-    newValues
   }
 
   /** Eliminate value from specified location. Propagate when values or places == 1.
@@ -49,33 +46,19 @@ case class ValueAssigner(comps: BoardComponents) {
     eliminateFromUnits(value, location, newValuesMap)
   }
 
-  private def propagateSingletonToPeers(singleValue: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
-    var newValuesMap = valuesMap
-    for (loc <- comps.peers(location)) {
-      eliminate(singleValue, loc, newValuesMap) match {
-        case Some(valsMap) => newValuesMap = valsMap
-        case None => return None
-      }
+  private def propagateSingletonToPeers(singleValue: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] =
+    comps.peers(location).foldLeft(Option(valuesMap)) { (acc, loc) =>
+      acc.flatMap(m => eliminate(singleValue, loc, m))
     }
-    Some(newValuesMap)
-  }
 
   /** For each unit containing `location`, if `value` can appear in only one square, assign it there. */
-  private def eliminateFromUnits(value: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] = {
-    var newValuesMap = valuesMap
-    for (unit <- comps.units(location)) {
-      val possibleLocs = for (loc <- unit; if newValuesMap(loc).contains(value)) yield loc
-
-      if (possibleLocs.isEmpty)
-        return None // it can't go anywhere - a contradiction
-
-      if (possibleLocs.size == 1) {
-        assign(possibleLocs.head, value, newValuesMap) match {
-          case Some(valsMap) => newValuesMap = valsMap
-          case None => return None // Contradiction
-        }
+  private def eliminateFromUnits(value: Int, location: Location, valuesMap: ValuesMap): Option[ValuesMap] =
+    comps.units(location).foldLeft(Option(valuesMap)) { (acc, unit) =>
+      acc.flatMap { newValuesMap =>
+        val possibleLocs = unit.filter(loc => newValuesMap(loc).contains(value))
+        if (possibleLocs.isEmpty) None // it can't go anywhere - a contradiction
+        else if (possibleLocs.size == 1) assign(possibleLocs.head, value, newValuesMap)
+        else Some(newValuesMap)
       }
     }
-    Some(newValuesMap)
-  }
 }

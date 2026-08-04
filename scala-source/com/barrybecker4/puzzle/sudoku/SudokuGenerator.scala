@@ -58,28 +58,24 @@ class SudokuGenerator(var ppanel: Option[SudokuPanel] = None, val rand: Random =
   private def generateSolution(board: Board, position: Int): (Boolean, Board) = {
 
     if (position == board.numCells) // base case of recursion
-      return (true, board) // board completely solved now
+      (true, board) // board completely solved now
+    else {
+      val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
+      val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
+      refresh(board)
 
-    val loc = (position / board.edgeLength + 1, position % board.edgeLength + 1)
-    val shuffledValues: Seq[Int] = rand.shuffle(board.getValues(loc))
-    refresh(board)
-
-    var updatedBoard = board
-
-    for (value <- shuffledValues) {
-      totalCt += 1
-      updatedBoard = board.setOriginalValue(loc, value)
-      refresh(updatedBoard)
-      val updatedBoard2 = updatedBoard.updateFromInitialData()
-      if (updatedBoard2.isDefined) {
-        val (consistent, updatedBoard3) = generateSolution(updatedBoard2.get, position + 1)
-        if (consistent) return (true, updatedBoard3)
-        else {
-          updatedBoard = updatedBoard.reset()
+      shuffledValues.iterator
+        .map { value =>
+          totalCt += 1
+          val updatedBoard = board.setOriginalValue(loc, value)
+          refresh(updatedBoard)
+          updatedBoard.updateFromInitialData()
+            .map(b => generateSolution(b, position + 1))
+            .collect { case (true, solved) => (true, solved) }
         }
-      }
+        .collectFirst { case Some(result) => result }
+        .getOrElse((false, board.setOriginalValue(loc, 0))) // undo
     }
-    (false, updatedBoard.setOriginalValue(loc, 0)) // undo
   }
 
   private def refresh(board: Board): Unit = {
