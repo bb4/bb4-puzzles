@@ -6,10 +6,7 @@ import com.barrybecker4.common.geometry.Box
 
 case class BoundingBoxCalculator() {
 
-    def getBoundingBox(tiles: Seq[TilePlacement]): Box = {
-      var bbox = new Box(tiles.head.location)
-      tiles.foreach(tile => bbox = bbox.expandBy(tile.location))
-      bbox
-    }
+    def getBoundingBox(tiles: Seq[TilePlacement]): Box =
+      tiles.tail.foldLeft(new Box(tiles.head.location))((bbox, tile) => bbox.expandBy(tile.location))
 
 }

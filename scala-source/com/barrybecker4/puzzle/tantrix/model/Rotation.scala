@@ -12,9 +12,9 @@ enum Rotation(rotation: Int) {
   case ANGLE_300 extends Rotation(5)
 
   def rotateBy(numRotations: Int): Rotation = {
-    var rot = numRotations
-    while (rot < 0) rot += HexTile.NUM_SIDES
-    Rotation.values((this.ordinal + rot) % HexTile.NUM_SIDES)
+    val n = HexTile.NUM_SIDES
+    val rot = ((numRotations % n) + n) % n
+    Rotation.values((this.ordinal + rot) % n)
   }
 
   override def toString: String = s"${60 * rotation}\u00B0"
