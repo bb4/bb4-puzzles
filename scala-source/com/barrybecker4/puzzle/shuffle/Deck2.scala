@@ -47,7 +47,7 @@ class Deck2(val count: Int) extends Deck {
   if (count < 1)
     throw new IllegalArgumentException("Deck must contain at least one card. You entered " + count + '.')
 
-  private var cards: Array[Int] = Array.tabulate(count)(identity)
+  private val cards: Array[Int] = Array.tabulate(count)(identity)
 
   def shuffleUntilSorted(iCut: Int): Long = {
     doPerfectShuffle(iCut)

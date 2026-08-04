@@ -35,17 +35,13 @@ case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boo
 
   /** @return new pegBits with new value of position in internal compressed data structure. */
   def set(i: Int, value: Boolean): PegBits = {
-    var newFinalBit = finalBit
-    var newNextToFinalBit = nextToFinalBit
-    var newBits = bits
-    if (i == NUM_PEG_HOLES - 1) newFinalBit = value
-    else if (i == NUM_PEG_HOLES - 2) newNextToFinalBit = value
+    if (i == NUM_PEG_HOLES - 1) PegBits(bits, value, nextToFinalBit)
+    else if (i == NUM_PEG_HOLES - 2) PegBits(bits, finalBit, value)
     else {
       val place = 1 << i
-      newBits -= (if (get(i)) place else 0)
-      newBits += (if (value) place else 0)
+      val newBits = bits - (if (get(i)) place else 0) + (if (value) place else 0)
+      PegBits(newBits, finalBit, nextToFinalBit)
     }
-    PegBits(newBits, newFinalBit, newNextToFinalBit)
   }
 
   /** @return extract the value of the ith bit. */

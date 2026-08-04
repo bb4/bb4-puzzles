@@ -10,7 +10,7 @@ class Deck1(val nCards: Int) extends Deck {
   if (nCards < 1)
     throw new IllegalArgumentException("Deck must contain at least one card. You entered " + nCards + '.')
 
-  private var data: Array[Int] = Array.tabulate(nCards)(identity)
+  private val data: Array[Int] = Array.tabulate(nCards)(identity)
 
   def size: Int = data.length
   def get(i: Int): Int = data(i)
