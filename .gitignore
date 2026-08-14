@@ -4,6 +4,7 @@
 .project
 classes/
 build/
+dist/
 bin/
 *.iml
 *.iws
@@ -16,3 +17,5 @@ out/
 # Native libs sometimes appear in project root from LWJGL/JME; use Gradle-extracted natives instead.
 *.dylib
 *.dll
+
+# jpackage installer output lives under build/jpackage/ (covered by build/ above).

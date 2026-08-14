@@ -124,13 +124,13 @@ appMap['sudoku'] = [
         title           : 'Sudoku Puzzle',
         mainClass       : 'com.barrybecker4.puzzle.sudoku.ui.SudokuPuzzle',
         command         : 'bb4-sudoku',
-        description     : 'SA Sudoku puzzle generator and solver.',
+        description     : 'A Sudoku puzzle generator and solver.',
         longDescription : '<a href="http://en.wikipedia.org/wiki/Sudoku">Sudoku</a> ' +
-                'is the a populat puzzle based on latin squares. I\'m not all that good at solving them by hand, ' +
+                'is a popular puzzle based on latin squares. I\'m not all that good at solving them by hand, ' +
                 'so I wrote a program to do it. Generation takes longer, because we ' +
                 'start with a solved board and randomly remove all the numbers we can and still infer a solution. ' +
                 'That means we have to solve the whole board each time we remove a number. ' +
-                'I originally collaborated with my mother, an avid soduko player and retired programmer, ' +
+                'I originally collaborated with my mother, an avid sudoku player and retired programmer, ' +
                 'when developing the code. More recently I changed the solver to take ' +
                 '<a href="http://norvig.com/sudoku.html">an approach suggested by Peter Norvig</a>.'
 ]
@@ -182,8 +182,8 @@ appMap['bridge'] = [
         command         : 'bb4-bridge',
         description     : 'The bridge crossing puzzle is a common brain teaser. ' +
                 'Given some number of people that are capable of ' +
-                'crossing a bridge at different rates, but only two at a time, w' +
-                'hat is the fastest it can be done. They must cross ' +
+                'crossing a bridge at different rates, but only two at a time, ' +
+                'what is the fastest it can be done. They must cross ' +
                 'at night and only have one flashlight.',
         longDescription : 'The <a href="http://en.wikipedia.org/wiki/Bridge_and_torch_problem">' +
                 'Bridge crossing puzzle</a> is a common brain teaser. Given some number of people ' +
@@ -253,3 +253,14 @@ appMap.each { appId, propMap ->
         }
     }
 }
+
+// This repo has no .dtd/.xsd files. The plugin's deploySchemas uses
+// fileTree(projectDir), which trips Gradle 8.14+ output-overlap validation during deploy.
+tasks.named('deploySchemas').configure { enabled = false }
+
+// jpackage --app-version rejects -SNAPSHOT and other non x[.y[.z]] strings.
+def rawVersion = project.version.toString()
+def strippedVersion = rawVersion.replaceAll(/-SNAPSHOT$/, '')
+ext.jpackageVersion = (strippedVersion ==~ /\d+(\.\d+){0,2}/) ? strippedVersion : '0.0.1'
+
+apply from: 'gradle/jpackage.gradle'
