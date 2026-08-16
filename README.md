@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/bb4/bb4-puzzles/actions/workflows/ci.yml/badge.svg)](https://github.com/bb4/bb4-puzzles/actions/workflows/ci.yml)
 
-📊 [Build status for all bb4 projects](https://github.com/bb4)
+📊 [Build status for all bb4 projects](https://github.com/bb4/.github)
 
 A Scala puzzle framework with generators and solvers for classic puzzles — Sudoku, Hi-Q (peg solitaire), sliding tiles, Rubik’s Cube, Tantrix, mazes, and more. Each app shares a common search/UI framework so you can watch solvers find solutions or play by hand.
 
