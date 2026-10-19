@@ -4,14 +4,13 @@ package com.barrybecker4.puzzle.tantrix.solver
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
-import com.barrybecker4.optimization.strategy.{
-  GlobalHillClimbingStrategy,
-  OptimizationStrategy,
-  OptimizationStrategyType,
+import com.barrybecker4.optimization.strategy.annealing.{
   SimulatedAnnealingConfig,
   SimulatedAnnealingStepMode,
   SimulatedAnnealingStrategy
 }
+import com.barrybecker4.optimization.strategy.hillclimbing.{GlobalHillClimbingConfig, GlobalHillClimbingStrategy}
+import com.barrybecker4.optimization.strategy.{OptimizationStrategy, OptimizationStrategyType}
 import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
@@ -56,21 +55,23 @@ class GeneticSearchSolver(
             numTempIterations = 42,
             tempDropFactor = 0.88,
             defaultTempMax = 1000.0,
-            radiusMultiplier = 10.0
-          )
-        )
-        s.setStepMode(
-          SimulatedAnnealingStepMode.AdaptiveAcceptance(
-            targetRate = 0.42,
-            windowProposals = math.max(64, 4 * n),
-            initialScale = 1.0
+            radiusMultiplier = 10.0,
+            stepMode = SimulatedAnnealingStepMode.AdaptiveAcceptance(
+              targetRate = 0.42,
+              windowProposals = math.max(64, 4 * n),
+              initialScale = 1.0
+            )
           )
         )
         s
       case OptimizationStrategyType.GLOBAL_HILL_CLIMBING =>
         val s = new GlobalHillClimbingStrategy(this)
-        s.setMultistartCount(math.min(28, math.max(12, n)))
-        s.setGlobalSampleBudget(math.max(4000, 200 * n))
+        s.setConfig(
+          GlobalHillClimbingConfig(
+            multistartCount = math.min(28, math.max(12, n)),
+            globalSampleBudget = math.max(4000, 200 * n)
+          )
+        )
         s
       case other =>
         throw new IllegalStateException(s"Not a tuned metaheuristic: $other")

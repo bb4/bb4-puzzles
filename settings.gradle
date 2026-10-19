@@ -6,15 +6,15 @@ pluginManagement {
     }
 }
 
-// When this repo sits next to bb4-optimization, use that build so genetic crossover fixes compile and run locally.
-//def optimizationSibling = new File(settings.rootDir, '../bb4-optimization')
-//if (optimizationSibling.isDirectory()) {
-//    includeBuild(optimizationSibling.absolutePath) {
-//        dependencySubstitution {
-//            substitute module('com.barrybecker4:bb4-optimization') using project(':')
-//        }
-//    }
-//}
+// When this repo sits next to bb4-optimization, use that build so local changes to it compile and run here.
+def optimizationSibling = new File(settings.rootDir, '../bb4-optimization')
+if (optimizationSibling.isDirectory()) {
+    includeBuild(optimizationSibling.absolutePath) {
+        dependencySubstitution {
+            substitute module('com.barrybecker4:bb4-optimization') using project(':')
+        }
+    }
+}
 
 def aStarSibling = new File(settings.rootDir, '../bb4-A-star')
 if (aStarSibling.isDirectory()) {
