@@ -30,7 +30,7 @@ object BenchmarkTstUtil {
       medianTries = medianMillis.map(_ / 10)
     )
 
-  def run(version: String, results: List[CellResult], machine: MachineInfo = MACHINE): RunRecord =
+  def runRecord(version: String, results: List[CellResult], machine: MachineInfo = MACHINE): RunRecord =
     RunRecord(
       libName = "bb4-optimization",
       libVersion = version,

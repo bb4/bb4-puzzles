@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.benchmark
 
-import com.barrybecker4.puzzle.benchmark.BenchmarkTstUtil.{cell, run}
+import com.barrybecker4.puzzle.benchmark.BenchmarkTstUtil.{cell, runRecord}
 import org.scalatest.funsuite.AnyFunSuite
 
 class ReportGeneratorSuite extends AnyFunSuite {
@@ -32,7 +32,7 @@ class ReportGeneratorSuite extends AnyFunSuite {
   }
 
   test("a single run has a column for its version and no comparison column") {
-    val report = ReportGenerator.render(List(run("2.0.0", List(
+    val report = ReportGenerator.render(List(runRecord("2.0.0", List(
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(1900)),
       cell("SIMULATED_ANNEALING", solved = 0, timedOut = 2, attempts = 2)
     ))))
@@ -44,8 +44,8 @@ class ReportGeneratorSuite extends AnyFunSuite {
   }
 
   test("algorithms added in a newer version are n/a for the older version") {
-    val baseline = run("2.0.0", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(2000))))
-    val newer = run("2.1-SNAPSHOT", List(
+    val baseline = runRecord("2.0.0", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(2000))))
+    val newer = runRecord("2.1-SNAPSHOT", List(
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(1000)),
       cell("ITERATED_LOCAL_SEARCH", solved = 5, medianMillis = Some(300))
     ))
@@ -64,11 +64,11 @@ class ReportGeneratorSuite extends AnyFunSuite {
   }
 
   test("new algorithms are listed with the other algorithms of their variant") {
-    val baseline = run("2.0.0", List(
+    val baseline = runRecord("2.0.0", List(
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100), variant = "3 tiles"),
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100), variant = "6 tiles")
     ))
-    val newer = run("2.1", List(
+    val newer = runRecord("2.1", List(
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100), variant = "3 tiles"),
       cell("ITERATED_LOCAL_SEARCH", solved = 5, medianMillis = Some(100), variant = "3 tiles"),
       cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100), variant = "6 tiles")
@@ -93,8 +93,8 @@ class ReportGeneratorSuite extends AnyFunSuite {
   test("runs on different machines are flagged as not comparable") {
     val other = BenchmarkTstUtil.MACHINE.copy(cpus = 16)
     val report = ReportGenerator.render(List(
-      run("2.0.0", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100)))),
-      run("2.1", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100))), machine = other)
+      runRecord("2.0.0", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100)))),
+      runRecord("2.1", List(cell("GENETIC_SEARCH", solved = 5, medianMillis = Some(100))), machine = other)
     ))
     assert(report.contains("not directly comparable"))
   }
