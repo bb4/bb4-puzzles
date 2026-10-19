@@ -9,7 +9,7 @@ import com.barrybecker4.optimization.strategy.annealing.{
   SimulatedAnnealingStepMode,
   SimulatedAnnealingStrategy
 }
-import com.barrybecker4.optimization.strategy.hillclimbing.{GlobalHillClimbingConfig, GlobalHillClimbingStrategy}
+import com.barrybecker4.optimization.strategy.hillclimbing.{GlobalHillClimbingConfig, GlobalHillClimbingStrategy, SeedSelection}
 import com.barrybecker4.optimization.strategy.{OptimizationStrategy, OptimizationStrategyType}
 import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
@@ -69,7 +69,9 @@ class GeneticSearchSolver(
         s.setConfig(
           GlobalHillClimbingConfig(
             multistartCount = math.min(28, math.max(12, n)),
-            globalSampleBudget = math.max(4000, 200 * n)
+            globalSampleBudget = math.max(4000, 200 * n),
+            // bb4-optimization 2.0.0 climbed from the best-fitness samples; 2.1 defaults to diverse seeds.
+            seedSelection = SeedSelection.TopFitness
           )
         )
         s
