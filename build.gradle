@@ -28,7 +28,7 @@ sourceSets.named('test').configure {
 }
 
 // 3.7+: LwjglCanvas lives in jme3-lwjgl3 (LWJGL3 + macOS arm64). JME 3.3.x only shipped it in jme3-lwjgl (LWJGL2).
-def jme3 = [g: 'org.jmonkeyengine', v: '3.7.0-stable']
+def jme3 = [g: 'org.jmonkeyengine', v: '3.9.0-stable']
 
 def static jvmArgsForApp(Map propMap) {
     def args = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
