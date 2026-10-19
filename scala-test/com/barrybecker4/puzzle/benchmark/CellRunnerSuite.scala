@@ -54,6 +54,19 @@ class CellRunnerSuite extends AnyFunSuite {
     assert(!result.wasSolved)
   }
 
+  test("repetitions stop after consecutive errors and the cell keeps the error") {
+    var prepareCalls = 0
+    val benchCase = BenchmarkCase("P", "v", "A", _ => {
+      prepareCalls += 1
+      prepared()(throw new IllegalStateException("boom"))
+    })
+    val result = CellRunner.runCase(benchCase, repetitions = 5, timeoutSeconds = 5, isolated = false)
+    assert(prepareCalls == CellRunner.MAX_CONSECUTIVE_TIMEOUTS)
+    assert(result.errored == CellRunner.MAX_CONSECUTIVE_TIMEOUTS)
+    assert(result.lastError.exists(_.contains("boom")))
+    assert(!result.wasSolved)
+  }
+
   test("a cell aggregates all its repetitions") {
     val benchCase = BenchmarkCase("P", "v", "A", seed => prepared(tries = seed * 10)(true))
     val result = CellRunner.runCase(benchCase, repetitions = 3, timeoutSeconds = 5, isolated = false)

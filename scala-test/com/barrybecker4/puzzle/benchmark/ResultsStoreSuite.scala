@@ -20,6 +20,30 @@ class ResultsStoreSuite extends AnyFunSuite {
     assert(ResultsStore.fromJson(Json.parse(Json.write(ResultsStore.toJson(runs)))) == runs)
   }
 
+  test("the last error of a crashed cell survives a round trip") {
+    val crashed = runRecord("2.0.0", List(
+      cell("GENETIC_SEARCH", solved = 0, errored = 5, lastError = Some("java.lang.IndexOutOfBoundsException: boom"))
+    ))
+    val loaded = ResultsStore.fromJson(Json.parse(Json.write(ResultsStore.toJson(List(crashed)))))
+    assert(loaded == List(crashed))
+    assert(loaded.head.results.head.lastError.contains("java.lang.IndexOutOfBoundsException: boom"))
+  }
+
+  test("results written before errors were recorded can still be read") {
+    val json = Json.parse(Json.write(ResultsStore.toJson(List(baseline)))) match {
+      case Json.JObj(fields) => fields
+      case other => fail(s"Unexpected $other")
+    }
+    // Remove the lastError field from every cell, as in files written by the first version of the benchmark.
+    def withoutLastError(j: Json): Json = j match {
+      case Json.JObj(fs) => Json.JObj(fs.filterNot(_._1 == "lastError").map { case (k, v) => (k, withoutLastError(v)) })
+      case Json.JArr(items) => Json.JArr(items.map(withoutLastError))
+      case other => other
+    }
+    val old = withoutLastError(Json.JObj(json))
+    assert(ResultsStore.fromJson(old) == List(baseline))
+  }
+
   test("runs survive being saved to and loaded from a file") {
     val dir = Files.createTempDirectory("bench-results")
     val file = dir.resolve("nested").resolve("benchmarks.json").toString

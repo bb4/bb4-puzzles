@@ -53,7 +53,7 @@ final class PreparedRun(val cancel: () => Unit, val tries: () => Long, val solve
 /** Runs prepared solves with a time limit and aggregates the outcomes. */
 object CellRunner {
 
-  /** After this many timeouts in a row the remaining repetitions of a cell are skipped. */
+  /** After this many timeouts or errors in a row the remaining repetitions of a cell are skipped. */
   val MAX_CONSECUTIVE_TIMEOUTS = 2
   private val STOP_GRACE_MILLIS = 5000L
 
@@ -73,7 +73,7 @@ object CellRunner {
         else runOnce(benchCase.prepare(seed), timeoutSeconds * 1000L)
       outcomes += outcome
       outcome match {
-        case _: TimedOut => consecutiveTimeouts += 1
+        case _: TimedOut | _: Errored => consecutiveTimeouts += 1
         case _ => consecutiveTimeouts = 0
       }
       rep += 1
@@ -136,7 +136,8 @@ object CellStats {
       medianMillis = median(millis),
       minMillis = millis.minOption,
       maxMillis = millis.maxOption,
-      medianTries = median(solvedRuns.map(_.tries))
+      medianTries = median(solvedRuns.map(_.tries)),
+      lastError = outcomes.collect { case Errored(message) => message }.lastOption
     )
   }
 

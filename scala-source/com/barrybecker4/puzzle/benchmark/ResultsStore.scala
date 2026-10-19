@@ -81,7 +81,8 @@ object ResultsStore {
       "medianMillis" -> optNum(c.medianMillis),
       "minMillis" -> optNum(c.minMillis),
       "maxMillis" -> optNum(c.maxMillis),
-      "medianTries" -> optNum(c.medianTries)
+      "medianTries" -> optNum(c.medianTries),
+      "lastError" -> c.lastError.map(JStr(_)).getOrElse(JNull)
     ))
 
   private def field(obj: JObj, name: String): Json =
@@ -99,6 +100,11 @@ object ResultsStore {
 
   private def optLong(obj: JObj, name: String): Option[Long] = obj.get(name) match {
     case Some(JNum(n)) => Some(n.toLong)
+    case _ => None
+  }
+
+  private def optStr(obj: JObj, name: String): Option[String] = obj.get(name) match {
+    case Some(JStr(s)) => Some(s)
     case _ => None
   }
 
@@ -146,7 +152,8 @@ object ResultsStore {
         medianMillis = optLong(obj, "medianMillis"),
         minMillis = optLong(obj, "minMillis"),
         maxMillis = optLong(obj, "maxMillis"),
-        medianTries = optLong(obj, "medianTries")
+        medianTries = optLong(obj, "medianTries"),
+        lastError = optStr(obj, "lastError")
       )
     case _ => throw new IllegalArgumentException("Each result must be a JSON object")
   }

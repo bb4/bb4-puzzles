@@ -25,6 +25,24 @@ class ReportGeneratorSuite extends AnyFunSuite {
     assert(ReportGenerator.cellText(cell("SIMULATED_ANNEALING", solved = 0), 60) == "no solution")
   }
 
+  test("a cell that crashed shows the exception") {
+    val crashed = cell("GENETIC_SEARCH", solved = 0, errored = 5,
+      lastError = Some("java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)"))
+    assert(ReportGenerator.cellText(crashed, 60) ==
+      "error: java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)")
+    assert(ReportGenerator.cellText(cell("GENETIC_SEARCH", solved = 0, errored = 5), 60) == "error")
+  }
+
+  test("an error description cannot break the table") {
+    val text = ReportGenerator.cellText(
+      cell("A", solved = 0, errored = 2, lastError = Some("bad | thing\nnext line " + ("x" * 200))), 60)
+    assert(!text.contains("|"))
+    assert(!text.contains("\n"))
+    assert(text.startsWith("error: bad / thing next line"))
+    assert(text.length <= 100)
+    assert(text.endsWith("..."))
+  }
+
   test("an empty report explains how to record results") {
     val report = ReportGenerator.render(Nil)
     assert(report.contains("No results have been recorded yet"))

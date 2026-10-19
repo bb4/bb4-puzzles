@@ -48,6 +48,8 @@ object ReportGenerator {
       "(for example `1.90 s (5/5)`).\n")
     sb.append("- `no solution` means no run found a solution within the time limit. " +
       "A cell stops early after two runs in a row time out.\n")
+    sb.append("- `error: ...` means the solver crashed with that exception when it was run. " +
+      "A cell stops early after two runs in a row fail.\n")
     sb.append(s"- `$NOT_AVAILABLE` means that version of the library has no such algorithm, or the case was not run.\n")
     sb.append("- Tantrix variants use the first N tiles in numeric order. Each repetition seeds the shared random " +
       "generator, but the Tantrix simulated annealing and global hill climbing solvers create their own unseeded " +
@@ -93,9 +95,17 @@ object ReportGenerator {
     if (c.solved > 0) {
       val time = formatMillis(c.medianMillis.getOrElse(0L))
       if (c.attempts > 1) s"$time (${c.solved}/${c.attempts})" else time
-    } else if (c.timedOut > 0) s"no solution (timed out after ${timeoutSeconds}s)"
-    else if (c.attempts > 0 && c.errored == c.attempts) "error"
+    } else if (c.errored > 0) c.lastError.map(e => s"error: ${shorten(e)}").getOrElse("error")
+    else if (c.timedOut > 0) s"no solution (timed out after ${timeoutSeconds}s)"
     else "no solution"
+
+  /** Keeps an error description on one line and short enough for a table cell, without characters that break the table. */
+  private def shorten(message: String): String = {
+    val oneLine = message.replace('|', '/').replace('\n', ' ').replace('\r', ' ').trim
+    if (oneLine.length <= MAX_ERROR_LENGTH) oneLine else oneLine.take(MAX_ERROR_LENGTH - 3) + "..."
+  }
+
+  private val MAX_ERROR_LENGTH = 90
 
   def formatMillis(ms: Long): String =
     if (ms < 1000L) s"$ms ms"
