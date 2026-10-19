@@ -67,6 +67,25 @@ See the [releases page](https://github.com/bb4/bb4-puzzles/releases) if you need
 - **Per-puzzle packages** under `com.barrybecker4.puzzle.*` — model, UI, and solver code for each app in the table above
 - **`com.barrybecker4.puzzle.rubixcube`** — 3D cube UI built on jMonkeyEngine / LWJGL
 
+## Benchmarks
+
+The Tantrix and Red Puzzle solvers that use [bb4-optimization](https://github.com/bb4/bb4-optimization)
+(genetic search, simulated annealing, global hill climbing, ...) can be benchmarked, and the timings
+are compared across bb4-optimization versions in [docs/benchmarks.md](docs/benchmarks.md).
+
+```bash
+./gradlew benchmark                                   # run on the bb4-optimization version in build.gradle
+./gradlew benchmark -PbenchmarkArgs="--reps=3 --timeout=30 --tantrix-sizes=3,6,9"
+./gradlew benchmarkReport                             # regenerate docs/benchmarks.md from docs/benchmarks.json
+```
+
+Each run is recorded in `docs/benchmarks.json` under the bb4-optimization version found on the classpath, so
+changing the dependency version and running `./gradlew benchmark` again adds a column to the report without
+touching the existing numbers. Algorithms are discovered from each puzzle's `Algorithm` enum, so strategies that
+are added to the enum later appear automatically (older versions show `n/a`). Pass `--lib-version=2.0.0` to make
+the run fail if a different version (or a local composite build of bb4-optimization) is actually on the classpath.
+Timings are only comparable between runs on the same machine.
+
 ## Building from source
 
 See the [Building bb4 Projects wiki](https://github.com/bb4/bb4-common/wiki/Building-bb4-Projects).

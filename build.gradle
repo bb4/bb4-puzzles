@@ -221,6 +221,37 @@ appMap.each { appId, propMap ->
     }
 }
 
+// Benchmarks of the solvers that are driven by bb4-optimization (see docs/benchmarks.md).
+// Pass options with -PbenchmarkArgs, for example:
+//   ./gradlew benchmark -PbenchmarkArgs="--lib-version=2.0.0 --reps=3 --timeout=30"
+def benchmarkArgsList = {
+    def raw = project.findProperty('benchmarkArgs')
+    raw ? raw.toString().trim().split(/\s+/).toList() : []
+}
+
+tasks.register('benchmark', JavaExec) {
+    group = 'verification'
+    description = 'Runs every bb4-optimization backed solver on each puzzle variant and records the timings ' +
+            'for the bb4-optimization version on the classpath in docs/benchmarks.json and docs/benchmarks.md.'
+    mainClass.set('com.barrybecker4.puzzle.benchmark.BenchmarkMain')
+    classpath = sourceSets.main.runtimeClasspath
+    workingDir = projectDir
+    jvmArgs = jvmArgsForApp([mx: '4g'])
+    args = benchmarkArgsList()
+    // Timings are only meaningful when the work actually runs, so never treat this as up to date.
+    outputs.upToDateWhen { false }
+}
+
+tasks.register('benchmarkReport', JavaExec) {
+    group = 'verification'
+    description = 'Regenerates docs/benchmarks.md from the recorded results in docs/benchmarks.json without running benchmarks.'
+    mainClass.set('com.barrybecker4.puzzle.benchmark.ReportMain')
+    classpath = sourceSets.main.runtimeClasspath
+    workingDir = projectDir
+    args = benchmarkArgsList()
+    outputs.upToDateWhen { false }
+}
+
 ext.jarMap = new LinkedHashMap()
 jarMap['puzzle'] = [include: ['com/barrybecker4/puzzle/common/**']]
 jarMap['hiq'] = [include: ['com/barrybecker4/puzzle/hiq/**']]
