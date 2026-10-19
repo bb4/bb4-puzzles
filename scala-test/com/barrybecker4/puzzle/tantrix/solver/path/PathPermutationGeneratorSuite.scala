@@ -26,4 +26,15 @@ class PathPermutationGeneratorSuite extends AnyFunSuite {
     assert(nbr.primaryPathColor == board.primaryColor)
     assert(TantrixPath.hasOrderedPrimaryPath(nbr.tiles, board.primaryColor))
   }
+
+  test("candidate identity is the tiles, so a copy is the same candidate and a different path is not") {
+    val board = place3UnsolvedTiles
+    val path = TantrixPath(board.tantrix, board.primaryColor, board.numTiles, Random(42))
+    val copy = TantrixPath(path.tiles, path.primaryPathColor, path.desiredLength, Random(7))
+    assert(path.candidateIdentity == copy.candidateIdentity)
+    val others = (1 to 20).map(seed => PathPermutationGenerator(path, Random(seed)).getRandomNeighbor(0.55).asInstanceOf[TantrixPath])
+    others.foreach { nbr =>
+      assert((nbr.candidateIdentity == path.candidateIdentity) == (nbr.tiles == path.tiles))
+    }
+  }
 }

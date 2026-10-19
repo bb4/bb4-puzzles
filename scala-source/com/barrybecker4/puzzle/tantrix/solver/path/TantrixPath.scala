@@ -177,6 +177,13 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     HexUtil.distanceBetween(end1, end2)
   }
 
+  /**
+    * The parameters are ranks of the tile placements within this particular path, so different paths (different
+    * placements or rotations) can have the same parameter values. The candidate is the tiles in path order.
+    * Genetic search compares this when it removes duplicates.
+    */
+  override def candidateIdentity: Any = (primaryPathColor, tiles.toList)
+
   override def equals(o: Any): Boolean = o match {
     case that: TantrixPath =>
       (this eq that) || (primaryPathColor eq that.primaryPathColor) && tiles == that.tiles
