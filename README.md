@@ -84,6 +84,8 @@ changing the dependency version and running `./gradlew benchmark` again adds a c
 touching the existing numbers. Algorithms are discovered from each puzzle's `Algorithm` enum, so strategies that
 are added to the enum later appear automatically (older versions show `n/a`). Pass `--lib-version=2.0.0` to make
 the run fail if a different version (or a local composite build of bb4-optimization) is actually on the classpath.
+Each run executes in its own JVM that is killed if it exceeds the time limit, so a solver that gets stuck cannot
+slow down the runs that follow it (`--in-process` disables this, but then a runaway solver cannot be stopped).
 Timings are only comparable between runs on the same machine.
 
 ## Building from source

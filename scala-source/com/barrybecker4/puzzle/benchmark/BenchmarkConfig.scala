@@ -12,6 +12,8 @@ package com.barrybecker4.puzzle.benchmark
   * @param resultsFile     where the results are kept (one run per library version)
   * @param reportFile      where the markdown report is written
   * @param writeReport     whether to regenerate the markdown report after the run
+  * @param inProcess       run all solves in this JVM instead of one JVM per run. Not recommended: a solver that
+  *                        exceeds the time limit cannot be stopped and skews the timings of later runs.
   */
 final case class BenchmarkConfig(
   timeoutSeconds: Int = BenchmarkConfig.DEFAULT_TIMEOUT_SECONDS,
@@ -21,7 +23,8 @@ final case class BenchmarkConfig(
   libVersion: Option[String] = None,
   resultsFile: String = BenchmarkConfig.DEFAULT_RESULTS_FILE,
   reportFile: String = BenchmarkConfig.DEFAULT_REPORT_FILE,
-  writeReport: Boolean = true
+  writeReport: Boolean = true,
+  inProcess: Boolean = false
 )
 
 object BenchmarkConfig {
@@ -42,7 +45,8 @@ object BenchmarkConfig {
       |  --puzzles=tantrix,redpuzzle   which puzzles to run
       |  --results=docs/benchmarks.json
       |  --report=docs/benchmarks.md
-      |  --no-report                   do not regenerate the markdown report""".stripMargin
+      |  --no-report                   do not regenerate the markdown report
+      |  --in-process                  run solves in this JVM instead of one JVM per run (a runaway solver cannot be stopped)""".stripMargin
 
   /** @throws IllegalArgumentException for an unknown or malformed option */
   def parse(args: List[String]): BenchmarkConfig =
@@ -60,6 +64,7 @@ object BenchmarkConfig {
 
   private def applyArg(config: BenchmarkConfig, arg: String): BenchmarkConfig = {
     if (arg == "--no-report") config.copy(writeReport = false)
+    else if (arg == "--in-process") config.copy(inProcess = true)
     else if (arg.startsWith("--") && arg.contains("=")) {
       val name = arg.substring(2, arg.indexOf('='))
       val value = arg.substring(arg.indexOf('=') + 1)
