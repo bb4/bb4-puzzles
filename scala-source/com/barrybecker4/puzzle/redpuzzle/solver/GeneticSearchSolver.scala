@@ -33,7 +33,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
-    val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
+    val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS).best
     solution = theSolution.pa.asInstanceOf[PieceParameterArray].getPieceList
     val moves = if (evaluateFitness(theSolution.pa) == 0) Some(solution.pieces) else None
     val elapsedTime = System.currentTimeMillis - startTime

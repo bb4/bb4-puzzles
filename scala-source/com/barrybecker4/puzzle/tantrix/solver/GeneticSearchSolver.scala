@@ -94,7 +94,7 @@ class GeneticSearchSolver(
         else
           val guess = new TantrixPath(board, new Random(1))
           assert(guess.size > 0, "The random path should have some tiles!")
-          optimizer.doOptimization(optimizationStrategy, guess, FITNESS_RANGE, MathUtil.RANDOM)
+          optimizer.doOptimization(optimizationStrategy, guess, FITNESS_RANGE, MathUtil.RANDOM).best
 
       val bestPath = tantrixPath(foundSolution.pa)
       solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
