@@ -27,7 +27,7 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     */
   private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = boundary:
     require(paths.nonEmpty, "There must be at least one path to select from.")
-    val scores = paths.map { path =>
+    val scores = paths.toList.map { path =>
       val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
       if (score <= 0) break(path) // a path that cannot be given a positive weight is returned as is
       score
