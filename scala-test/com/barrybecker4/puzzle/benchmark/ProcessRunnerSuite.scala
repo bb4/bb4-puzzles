@@ -19,21 +19,44 @@ class ProcessRunnerSuite extends AnyFunSuite {
 
   test("a reported result is the outcome") {
     val solved = WorkerResult.format(found = true, millis = 900, tries = 5)
-    assert(ProcessRunner.interpret(solved, 0, Nil, 60000) == Solved(900, 5))
+    assert(ProcessRunner.interpret(solved, null, 0, Nil, 60000) == Solved(900, 5))
     val unsolved = WorkerResult.format(found = false, millis = 900, tries = 5)
-    assert(ProcessRunner.interpret(unsolved, 0, Nil, 60000) == Unsolved(900, 5))
+    assert(ProcessRunner.interpret(unsolved, null, 0, Nil, 60000) == Unsolved(900, 5))
   }
 
   test("a solve that finished but took longer than the limit timed out") {
     val slow = WorkerResult.format(found = true, millis = 61000, tries = 5)
-    assert(ProcessRunner.interpret(slow, 0, Nil, 60000) == TimedOut(5))
+    assert(ProcessRunner.interpret(slow, null, 0, Nil, 60000) == TimedOut(5))
   }
 
   test("a worker that reported nothing is an error that includes its last output") {
-    ProcessRunner.interpret(null, 3, List("Exception in thread main", "  at Foo.bar"), 60000) match {
+    ProcessRunner.interpret(null, null, 3, List("Exception in thread main", "  at Foo.bar"), 60000) match {
       case Errored(message) =>
         assert(message.contains("code 3"))
         assert(message.contains("Exception in thread main"))
+      case other => fail(s"Expected Errored but got $other")
+    }
+  }
+
+  test("an error line names the exception and its message") {
+    val error = new IndexOutOfBoundsException("0 is out of bounds (empty vector)\nsecond line")
+    val line = WorkerResult.formatError(error)
+    assert(line == "BENCH_ERROR java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)")
+    assert(WorkerResult.parseError(line).contains("java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)"))
+    assert(WorkerResult.formatError(new IllegalStateException()) == "BENCH_ERROR java.lang.IllegalStateException")
+  }
+
+  test("lines that are not error lines are ignored") {
+    assert(WorkerResult.parseError("some solver output").isEmpty)
+    assert(WorkerResult.parseError("BENCH_ERROR ").isEmpty)
+    assert(WorkerResult.parseError(WorkerResult.format(found = true, millis = 1, tries = 1)).isEmpty)
+  }
+
+  test("a worker that reported an error is an error with that cause, not its stack trace") {
+    val errorLine = "BENCH_ERROR java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)"
+    ProcessRunner.interpret(null, errorLine, 4, List("  at Foo.bar", "  at Foo.baz"), 60000) match {
+      case Errored(message) =>
+        assert(message == "java.lang.IndexOutOfBoundsException: 0 is out of bounds (empty vector)")
       case other => fail(s"Expected Errored but got $other")
     }
   }

@@ -11,6 +11,7 @@ package com.barrybecker4.puzzle.benchmark
   * @param errored      runs that threw an unexpected exception
   * @param medianMillis median wall clock time of the solved runs (None if no run solved it)
   * @param medianTries  median of the solver's reported number of tries/iterations for the solved runs
+  * @param lastError    description of the exception from the most recent errored run, if any
   */
 final case class CellResult(
   puzzle: String,
@@ -24,7 +25,8 @@ final case class CellResult(
   medianMillis: Option[Long],
   minMillis: Option[Long],
   maxMillis: Option[Long],
-  medianTries: Option[Long]
+  medianTries: Option[Long],
+  lastError: Option[String] = None
 ) {
   def wasSolved: Boolean = solved > 0
 }

@@ -9,10 +9,21 @@ import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.{ConcurrentLinkedDeque, TimeUnit}
 import scala.jdk.CollectionConverters.*
 
-/** The one line a [[BenchmarkWorker]] prints to report how its solve went. */
+/** The lines a [[BenchmarkWorker]] prints to report how its solve went: a result, or the exception that stopped it. */
 object WorkerResult {
 
   val PREFIX = "BENCH_RESULT "
+  val ERROR_PREFIX = "BENCH_ERROR "
+
+  /** A single line naming the exception and its message, so the cause is not lost in a long stack trace. */
+  def formatError(error: Throwable): String = {
+    val firstLine = Option(error.getMessage).getOrElse("").linesIterator.nextOption().getOrElse("")
+    s"$ERROR_PREFIX${error.getClass.getName}${if (firstLine.isEmpty) "" else ": " + firstLine}"
+  }
+
+  /** @return the description in an error line, or None if the line is not an error line */
+  def parseError(line: String): Option[String] =
+    if (line.startsWith(ERROR_PREFIX)) Some(line.substring(ERROR_PREFIX.length).trim).filter(_.nonEmpty) else None
 
   def format(found: Boolean, millis: Long, tries: Long): String =
     s"$PREFIX${if (found) "solved" else "unsolved"} $millis $tries"
@@ -51,6 +62,7 @@ object ProcessRunner {
   def runOnce(benchCase: BenchmarkCase, seed: Long, timeoutMillis: Long): RunOutcome = {
     val process = new ProcessBuilder(command(benchCase, seed).asJava).redirectErrorStream(true).start()
     val resultLine = new AtomicReference[String](null)
+    val errorLine = new AtomicReference[String](null)
     val tail = new ConcurrentLinkedDeque[String]()
 
     val reader = new Thread(new Runnable {
@@ -60,6 +72,7 @@ object ProcessRunner {
           var line = in.readLine()
           while (line != null) {
             if (line.startsWith(WorkerResult.PREFIX)) resultLine.set(line)
+            else if (line.startsWith(WorkerResult.ERROR_PREFIX)) errorLine.compareAndSet(null, line) // keep the first
             else {
               tail.addLast(line)
               while (tail.size > TAIL_LINES) tail.pollFirst()
@@ -76,7 +89,7 @@ object ProcessRunner {
 
     if (process.waitFor(timeoutMillis + STARTUP_ALLOWANCE_MILLIS, TimeUnit.MILLISECONDS)) {
       reader.join(5000L)
-      interpret(resultLine.get(), process.exitValue(), tail.asScala.toList, timeoutMillis)
+      interpret(resultLine.get(), errorLine.get(), process.exitValue(), tail.asScala.toList, timeoutMillis)
     } else {
       process.destroyForcibly()
       process.waitFor(KILL_GRACE_SECONDS, TimeUnit.SECONDS)
@@ -85,15 +98,20 @@ object ProcessRunner {
     }
   }
 
-  /** Turns what a worker left behind into an outcome. A solve that finished, but took longer than the limit, timed out. */
-  def interpret(resultLine: String, exitCode: Int, tail: List[String], timeoutMillis: Long): RunOutcome =
+  /**
+    * Turns what a worker left behind into an outcome. A solve that finished, but took longer than the limit, timed out.
+    * Without a result, the worker's error line says why; failing that, the end of its output is the best clue.
+    */
+  def interpret(resultLine: String, errorLine: String, exitCode: Int, tail: List[String], timeoutMillis: Long): RunOutcome =
     Option(resultLine).flatMap(WorkerResult.parse) match {
       case Some(Solved(millis, tries)) if millis > timeoutMillis => TimedOut(tries)
       case Some(Unsolved(millis, tries)) if millis > timeoutMillis => TimedOut(tries)
       case Some(outcome) => outcome
       case None =>
-        val details = if (tail.isEmpty) "" else ": " + tail.mkString(" | ")
-        Errored(s"worker exited with code $exitCode without reporting a result$details")
+        Errored(Option(errorLine).flatMap(WorkerResult.parseError).getOrElse {
+          val details = if (tail.isEmpty) "" else ": " + tail.mkString(" | ")
+          s"worker exited with code $exitCode without reporting a result$details"
+        })
     }
 
   private def command(benchCase: BenchmarkCase, seed: Long): List[String] = {

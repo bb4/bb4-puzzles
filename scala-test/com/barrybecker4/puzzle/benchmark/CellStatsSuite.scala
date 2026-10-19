@@ -33,6 +33,13 @@ class CellStatsSuite extends AnyFunSuite {
     assert(cell.wasSolved)
   }
 
+  test("the cell remembers the most recent error") {
+    val cell = CellStats.aggregate("Red Puzzle", "9 pieces", "GENETIC_SEARCH", List(Errored("first"), Errored("second")))
+    assert(cell.errored == 2)
+    assert(cell.lastError.contains("second"))
+    assert(CellStats.aggregate("P", "v", "A", List(Solved(1, 1))).lastError.isEmpty)
+  }
+
   test("a cell with no solved runs has no timings") {
     val cell = CellStats.aggregate("Tantrix", "15 tiles", "GENETIC_SEARCH", List(TimedOut(1), TimedOut(2)))
     assert(!cell.wasSolved)

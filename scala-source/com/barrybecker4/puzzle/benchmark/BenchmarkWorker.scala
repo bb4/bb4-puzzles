@@ -15,10 +15,20 @@ import java.io.{OutputStream, PrintStream}
 object BenchmarkWorker {
 
   def main(args: Array[String]): Unit = {
+    val realOut = System.out
+    // A solver that dies on one of its own threads would otherwise leave the main thread waiting until the time
+    // limit, and the failure would be reported as a timeout instead of the error it is.
+    Thread.setDefaultUncaughtExceptionHandler { (_, error) =>
+      realOut.println(WorkerResult.formatError(error))
+      realOut.flush()
+      error.printStackTrace()
+      Runtime.getRuntime.halt(4)
+    }
     val status =
       try runWorker(args.toList)
       catch {
         case t: Throwable =>
+          realOut.println(WorkerResult.formatError(t))
           t.printStackTrace()
           3
       }

@@ -12,6 +12,8 @@ object BenchmarkTstUtil {
     attempts: Int = 5,
     medianMillis: Option[Long] = None,
     timedOut: Int = 0,
+    errored: Int = 0,
+    lastError: Option[String] = None,
     puzzle: String = "Tantrix",
     variant: String = "6 tiles"
   ): CellResult =
@@ -21,13 +23,14 @@ object BenchmarkTstUtil {
       algorithm = algorithm,
       attempts = attempts,
       solved = solved,
-      unsolved = attempts - solved - timedOut,
+      unsolved = attempts - solved - timedOut - errored,
       timedOut = timedOut,
-      errored = 0,
+      errored = errored,
       medianMillis = medianMillis,
       minMillis = medianMillis,
       maxMillis = medianMillis,
-      medianTries = medianMillis.map(_ / 10)
+      medianTries = medianMillis.map(_ / 10),
+      lastError = lastError
     )
 
   def runRecord(version: String, results: List[CellResult], machine: MachineInfo = MACHINE): RunRecord =
