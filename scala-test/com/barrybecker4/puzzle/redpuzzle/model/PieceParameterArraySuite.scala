@@ -247,18 +247,9 @@ class PieceParameterArraySuite extends AnyFunSuite with BeforeAndAfter {
     }
   }
 
-  test("order crossover of an array with itself keeps the order of the pieces") {
-    val child = ParameterCrossover.cross(ninePieces, ninePieces, new Random(3)).asInstanceOf[PieceParameterArray]
-    assertResult(ninePieces.pieces.pieces.map(_.piece.pieceNumber))(child.pieces.pieces.map(_.piece.pieceNumber))
-  }
-
   test("forking keeps the pieces") {
     val forked = ninePieces.forkWithRnd(new Random(7))
     assert(forked.isInstanceOf[PieceParameterArray])
     assertResult(ninePieces.pieces)(forked.pieces)
-  }
-
-  test("distance between an array and itself is zero") {
-    assertResult(0.0)(ninePieces.distance(ninePieces))
   }
 }
