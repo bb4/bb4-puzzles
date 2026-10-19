@@ -15,12 +15,13 @@ class BenchmarkConfigSuite extends AnyFunSuite {
     assert(config.resultsFile == "docs/benchmarks.json")
     assert(config.reportFile == "docs/benchmarks.md")
     assert(config.writeReport)
+    assert(!config.inProcess)
   }
 
   test("every option can be overridden") {
     val config = BenchmarkConfig.parse(List(
       "--lib-version=2.0.0", "--timeout=30", "--reps=3", "--tantrix-sizes=4,8",
-      "--puzzles=tantrix", "--results=out/r.json", "--report=out/r.md", "--no-report"
+      "--puzzles=tantrix", "--results=out/r.json", "--report=out/r.md", "--no-report", "--in-process"
     ))
     assert(config.libVersion.contains("2.0.0"))
     assert(config.timeoutSeconds == 30)
@@ -30,6 +31,7 @@ class BenchmarkConfigSuite extends AnyFunSuite {
     assert(config.resultsFile == "out/r.json")
     assert(config.reportFile == "out/r.md")
     assert(!config.writeReport)
+    assert(config.inProcess)
   }
 
   test("bad options are rejected with a message") {

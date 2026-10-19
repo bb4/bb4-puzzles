@@ -47,7 +47,7 @@ class CellRunnerSuite extends AnyFunSuite {
       prepareCalls += 1
       prepared() { Thread.sleep(60000); true }
     })
-    val result = CellRunner.runCase(benchCase, repetitions = 5, timeoutSeconds = 1)
+    val result = CellRunner.runCase(benchCase, repetitions = 5, timeoutSeconds = 1, isolated = false)
     assert(prepareCalls == CellRunner.MAX_CONSECUTIVE_TIMEOUTS)
     assert(result.attempts == CellRunner.MAX_CONSECUTIVE_TIMEOUTS)
     assert(result.timedOut == CellRunner.MAX_CONSECUTIVE_TIMEOUTS)
@@ -56,7 +56,7 @@ class CellRunnerSuite extends AnyFunSuite {
 
   test("a cell aggregates all its repetitions") {
     val benchCase = BenchmarkCase("P", "v", "A", seed => prepared(tries = seed * 10)(true))
-    val result = CellRunner.runCase(benchCase, repetitions = 3, timeoutSeconds = 5)
+    val result = CellRunner.runCase(benchCase, repetitions = 3, timeoutSeconds = 5, isolated = false)
     assert(result.attempts == 3)
     assert(result.solved == 3)
     assert(result.medianTries.contains(20L))

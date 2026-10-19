@@ -38,7 +38,7 @@ object BenchmarkMain {
       s"${config.timeoutSeconds}s limit per run")
 
     val results = cases.zipWithIndex.map { case (benchCase, i) =>
-      val result = CellRunner.runCase(benchCase, config.repetitions, config.timeoutSeconds)
+      val result = CellRunner.runCase(benchCase, config.repetitions, config.timeoutSeconds, isolated = !config.inProcess)
       println(s"[${i + 1}/${cases.size}] ${benchCase.puzzle} | ${benchCase.variant} | ${benchCase.algorithm}: " +
         ReportGenerator.cellText(result, config.timeoutSeconds))
       result

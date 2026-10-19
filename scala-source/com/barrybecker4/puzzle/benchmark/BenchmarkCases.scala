@@ -34,6 +34,22 @@ object BenchmarkCases {
     (if (config.puzzles.contains("tantrix")) tantrixCases(config.tantrixSizes) else Nil) ++
       (if (config.puzzles.contains("redpuzzle")) redPuzzleCases() else Nil)
 
+  private val TantrixVariant = """(\d+) tiles""".r
+
+  /** Looks up one case by name; used by the worker JVM that runs a single solve. */
+  def find(puzzle: String, variant: String, algorithm: String): Option[BenchmarkCase] = {
+    val candidates = puzzle match {
+      case TANTRIX =>
+        variant match {
+          case TantrixVariant(numTiles) => tantrixCases(List(numTiles.toInt))
+          case _ => Nil
+        }
+      case RED_PUZZLE => redPuzzleCases()
+      case _ => Nil
+    }
+    candidates.find(c => c.variant == variant && c.algorithm == algorithm)
+  }
+
   /** Tantrix variants are the first n tiles in numeric order, so they are the same in every run and version. */
   def tantrixCases(sizes: List[Int]): List[BenchmarkCase] = {
     val probe = new TantrixController(new ProbeRefreshable[TantrixBoard, TilePlacement])

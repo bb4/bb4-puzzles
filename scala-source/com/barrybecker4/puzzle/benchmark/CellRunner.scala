@@ -57,12 +57,20 @@ object CellRunner {
   val MAX_CONSECUTIVE_TIMEOUTS = 2
   private val STOP_GRACE_MILLIS = 5000L
 
-  def runCase(benchCase: BenchmarkCase, repetitions: Int, timeoutSeconds: Int): CellResult = {
+  /**
+    * @param isolated true (the default) to run each repetition in its own JVM that is killed on timeout.
+    *                 False runs on a thread in this JVM, where a solver that stops reporting progress cannot be stopped
+    *                 and keeps running in the background (only meant for tests and quick experiments).
+    */
+  def runCase(benchCase: BenchmarkCase, repetitions: Int, timeoutSeconds: Int, isolated: Boolean = true): CellResult = {
     val outcomes = ListBuffer[RunOutcome]()
     var consecutiveTimeouts = 0
     var rep = 0
     while (rep < repetitions && consecutiveTimeouts < MAX_CONSECUTIVE_TIMEOUTS) {
-      val outcome = runOnce(benchCase.prepare(rep + 1L), timeoutSeconds * 1000L)
+      val seed = rep + 1L
+      val outcome =
+        if (isolated) ProcessRunner.runOnce(benchCase, seed, timeoutSeconds * 1000L)
+        else runOnce(benchCase.prepare(seed), timeoutSeconds * 1000L)
       outcomes += outcome
       outcome match {
         case _: TimedOut => consecutiveTimeouts += 1
@@ -73,7 +81,10 @@ object CellRunner {
     CellStats.aggregate(benchCase.puzzle, benchCase.variant, benchCase.algorithm, outcomes.toList)
   }
 
-  /** Runs the solve on its own thread so that it can be abandoned if it exceeds the time limit. */
+  /**
+    * Runs the solve on its own thread in this JVM, and stops it at its next progress report if it exceeds the time limit.
+    * A solver that never reports progress cannot be stopped this way; see [[ProcessRunner]] for the reliable way.
+    */
   def runOnce(prepared: PreparedRun, timeoutMillis: Long): RunOutcome = {
     val outcome = new AtomicReference[RunOutcome](Errored("The solver did not report a result"))
     val worker = new Thread(new Runnable {
