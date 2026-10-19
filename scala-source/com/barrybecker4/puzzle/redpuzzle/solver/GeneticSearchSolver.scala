@@ -5,6 +5,7 @@ import com.barrybecker4.optimization.OptimizationListener
 import com.barrybecker4.optimization.Optimizer
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
+import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.common.*
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceParameterArray}
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
@@ -20,8 +21,8 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
                    extends RedPuzzleSolver(puzzle) with Optimizee with OptimizationListener {
 
   private val strategy =
-    if (useConcurrency) com.barrybecker4.optimization.strategy.CONCURRENT_GENETIC_SEARCH
-    else com.barrybecker4.optimization.strategy.GENETIC_SEARCH
+    if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH
+    else OptimizationStrategyType.GENETIC_SEARCH
 
   private val fitnessFinder = new FitnessFinder
   private var currentBestFitness = 10 + MAX_FITS
@@ -32,7 +33,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     val startTime = System.currentTimeMillis
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
-    val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS)
+    val theSolution = optimizer.doOptimization(strategy, initialGuess, MAX_FITS).best
     solution = theSolution.pa.asInstanceOf[PieceParameterArray].getPieceList
     val moves = if (evaluateFitness(theSolution.pa) == 0) Some(solution.pieces) else None
     val elapsedTime = System.currentTimeMillis - startTime
