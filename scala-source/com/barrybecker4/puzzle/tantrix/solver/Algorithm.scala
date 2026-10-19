@@ -37,6 +37,12 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
       new GeneticSearchSolver(controller, OptimizationStrategyType.SIMULATED_ANNEALING)
     case GLOBAL_HILL_CLIMBING =>
       new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_HILL_CLIMBING)
+    case GLOBAL_SIMULATED_ANNEALING =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SIMULATED_ANNEALING)
+    case ITERATED_LOCAL_SEARCH =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.ITERATED_LOCAL_SEARCH)
+    case VARIABLE_NEIGHBORHOOD_SEARCH =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
   }
 
   case SIMPLE_SEQUENTIAL extends Algorithm
@@ -51,4 +57,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
   case SIMULATED_ANNEALING extends Algorithm
   case GLOBAL_HILL_CLIMBING extends Algorithm
+  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
+  case ITERATED_LOCAL_SEARCH extends Algorithm
+  case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
 }
