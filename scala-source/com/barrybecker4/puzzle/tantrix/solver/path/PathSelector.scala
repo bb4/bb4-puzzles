@@ -3,12 +3,17 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-import scala.util.boundary
-import scala.util.boundary.break
+import PathSelector.*
 
 
 object PathSelector {
   val RAND = new Random()
+
+  /** Controls how strongly selection favors good paths. Fitness values of neighboring paths typically differ by
+    * only a few hundredths or tenths, so weights proportional to (FITNESS_RANGE - fitness) would be almost equal,
+    * and the selection would be almost uniformly random. Smaller values favor the best paths more.
+    */
+  private val SELECTION_TEMPERATURE = 0.05
 }
 
 /**
@@ -25,14 +30,14 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     * @param paths list of paths to evaluate.
     * @return a random path with a likely good score. In other words, the path which is close to a valid solution.
     */
-  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = boundary:
+  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = {
     require(paths.nonEmpty, "There must be at least one path to select from.")
-    val scores = paths.toList.map { path =>
-      val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
-      if (score <= 0) break(path) // a path that cannot be given a positive weight is returned as is
-      score
-    }
-    paths(rouletteIndex(scores, rnd.nextDouble() * scores.sum))
+    val fitnesses = paths.toList.map(evaluator.evaluateFitness)
+    val best = fitnesses.min
+    // The best path always has a weight of 1, and worse paths get exponentially smaller weights.
+    val weights = fitnesses.map(fitness => Math.exp(-(fitness - best) / SELECTION_TEMPERATURE))
+    paths(rouletteIndex(weights, rnd.nextDouble() * weights.sum))
+  }
 
   /** Roulette wheel selection: the bigger the score, the more of the wheel the entry occupies.
     * @param scores positive weights

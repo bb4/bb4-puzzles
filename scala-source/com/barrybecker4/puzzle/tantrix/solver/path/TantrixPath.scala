@@ -6,7 +6,7 @@ import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Paramete
 import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor
-import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Tantrix, TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Rotation, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 import scala.util.Random
 
@@ -124,11 +124,16 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     generator.getRandomNeighbor(radius)
   }
 
-  /** @return get a completely random solution in the parameter space */
+  /** @return a completely random path through the same tiles (not just this path again).
+    * The random path generator needs a board where the first tile is placed and all the others are still unplaced.
+    * If it were given a board with every tile already placed, it would have nothing to randomize, and the
+    * global samples would all be the same path.
+    */
   override def getRandomSample: ParameterArray = {
-    val board: TantrixBoard = new TantrixBoard(tiles, primaryPathColor)
-    val gen = new RandomPathGenerator(board)
-    gen.generateRandomPath
+    val hexTiles = tiles.map(_.tile)
+    val first = TilePlacement(hexTiles.head, TantrixBoard.INITIAL_LOCATION, Rotation.ANGLE_0)
+    val board = TantrixBoard(new Tantrix(Seq(first)), primaryPathColor, hexTiles.tail, desiredLength)
+    new RandomPathGenerator(board, rnd).generateRandomPath
   }
 
   override def rebuildAfterOrderCrossover(childParams: IndexedSeq[Parameter], rnd: Random): PermutedParameterArray = {

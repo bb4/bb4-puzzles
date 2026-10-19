@@ -176,5 +176,16 @@ class TantrixPathSuite extends AnyFunSuite {
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, board.numTiles)
     assertResult(expectedPath) { nbr }
   }
+
+  test("random samples are different paths through the same tiles") {
+    val original = LOOP_PATH7
+    val samples = (0 until 50).map(_ => original.getRandomSample.asInstanceOf[TantrixPath])
+    assert(samples.toSet.size > 1, "all the random samples were the same path")
+    for (sample <- samples) {
+      assertResult(original.tiles.map(_.tile).toSet) { sample.tiles.map(_.tile).toSet }
+      assertResult(original.size) { sample.size }
+      assertResult(original.primaryPathColor) { sample.primaryPathColor }
+    }
+  }
 }
 

@@ -100,7 +100,7 @@ case class PathEvaluator() {
 
     toFitness(
       UNPLACED_TILE_WEIGHT * (MAX_NUM_MISSING_TILES - numMissingTiles) +
-        LOOP_PROXIMITY_WEIGHT * distance / numTiles +
+        LOOP_PROXIMITY_WEIGHT * (1.0 - Math.min(distance, numTiles) / numTiles) +
         PATH_MATCH_WEIGHT * (numFits.toDouble / numTiles) +
         COMPACTNESS_WEIGHT * compactness
     )

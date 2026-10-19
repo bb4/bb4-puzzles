@@ -70,4 +70,13 @@ class PathSelectorSuite extends AnyFunSuite {
       new PathSelector(eval, new Random(0)).selectPath(ListBuffer.empty[TantrixPath])
     }
   }
+
+  test("selectPath strongly favors the better path") {
+    val better = PathTstUtil.LOOP_PATH3
+    val worse = PathTstUtil.NON_LOOP_PATH3
+    assert(eval.evaluateFitness(better) < eval.evaluateFitness(worse))
+    val sel = new PathSelector(eval, new Random(1))
+    val numBetter = (0 until 200).count(_ => sel.selectPath(ListBuffer(worse, better)) eq better)
+    assert(numBetter >= 190, s"better path was only selected $numBetter times out of 200")
+  }
 }
