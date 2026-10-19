@@ -5,6 +5,7 @@ import scala.compiletime.uninitialized
 import org.scalatest.BeforeAndAfter
 import PieceParameterArraySuite._
 import com.barrybecker4.common.testsupport.strip
+import com.barrybecker4.optimization.parameter.ParameterCrossover
 import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -228,4 +229,27 @@ class PieceParameterArraySuite extends AnyFunSuite with BeforeAndAfter {
        |""")) { params.setPermutation(List(3, 5, 7)).toCSVString }
   }
 
+  test("there is one parameter per piece, valued by piece number") {
+    params = ninePieces
+    assertResult(9)(params.size)
+    assertResult((1 to 9).toSet)((0 until params.size).map(i => params.get(i).getValue.toInt).toSet)
+    assertResult(params.pieces.pieces.map(_.piece.pieceNumber))((0 until params.size).map(i => params.get(i).getValue.toInt).toList)
+  }
+
+  test("order crossover gives a full permutation of the pieces") {
+    val a = ninePieces
+    val b = a.getRandomSample
+    for (seed <- 1 to 50) {
+      val child = ParameterCrossover.cross(a, b, new Random(seed)).asInstanceOf[PieceParameterArray]
+      assert(child.size == 9)
+      assertResult((1 to 9).toList)(child.pieces.pieces.map(_.piece.pieceNumber).sorted)
+      assertResult(9)(child.pieces.numTotal)
+    }
+  }
+
+  test("forking keeps the pieces") {
+    val forked = ninePieces.forkWithRnd(new Random(7))
+    assert(forked.isInstanceOf[PieceParameterArray])
+    assertResult(ninePieces.pieces)(forked.pieces)
+  }
 }

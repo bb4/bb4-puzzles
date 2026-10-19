@@ -3,6 +3,7 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.PermutedParameterArray
+import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import PieceParameterArray._
 import scala.util.Random
 
@@ -11,6 +12,12 @@ object PieceParameterArray {
 
   /** Number of random puzzles in a generation population */
   private val SAMPLE_POPULATION_SIZE = 400
+
+  /** One parameter per piece, valued by the piece number. The numbers are unique, which is what the library's
+    * permutation operators (order crossover, distance) need. Orientation is deliberately not part of the value.
+    */
+  private def parametersFor(pieces: PieceList): IndexedSeq[Parameter] =
+    pieces.pieces.map(p => IntegerParameter(p.piece.pieceNumber, 1, 9, "piece")).toIndexedSeq
 
   /** Exchange 2 pieces, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
@@ -83,7 +90,7 @@ object PieceParameterArray {
   * non-fitting pieces rather than just offsetting the number by some random amount.
   * @author Barry Becker
   */
-class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(rnd) {
+class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(PieceParameterArray.parametersFor(pieces), rnd) {
 
   override def getSamplePopulationSize: Int = SAMPLE_POPULATION_SIZE
 
@@ -115,6 +122,20 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
   override def setPermutation(indices: List[Int]): PieceParameterArray = {
     val newPieces = indices.map(i => pieces.get(i))
     new PieceParameterArray(PieceList(newPieces, pieces.numTotal), rnd)
+  }
+
+  /** Keep the piece list (not just the parameters) when multistart searches re-seed the random generator. */
+  override def forkWithRnd(newRnd: Random): PieceParameterArray = new PieceParameterArray(pieces, newRnd)
+
+  /**
+    * Order crossover only sees piece numbers, so rebuild the pieces from them.
+    * Each piece keeps the orientation it has in this parent, and then every piece is rotated to the orientation
+    * that gives it the most matching nubs, as in [[getRandomNeighbor]].
+    */
+  override def rebuildAfterOrderCrossover(childParams: IndexedSeq[Parameter], rnd: Random): PermutedParameterArray = {
+    val byNumber = pieces.pieces.map(p => p.piece.pieceNumber -> p).toMap
+    val childPieces = childParams.map(param => byNumber(param.getValue.round.toInt)).toList
+    new PieceParameterArray(rotateEachPieceForBestLocalFits(PieceList(childPieces, pieces.numTotal)), rnd)
   }
 
   /** @return the piece list corresponding to the encoded parameter array */
