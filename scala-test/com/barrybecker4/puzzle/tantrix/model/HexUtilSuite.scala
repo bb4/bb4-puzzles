@@ -54,4 +54,23 @@ class HexUtilSuite extends AnyFunSuite {
   test("GetDistanceBetweenSameSpace") {
     assert(0.0 === HexUtil.distanceBetween(IntLocation(20, 21), IntLocation(20, 21)), "for distance")
   }
+
+  private val ROWS = -3 to 3
+
+  test("the neighbor in the opposite direction leads back to the starting location, even for negative rows") {
+    for (row <- ROWS; col <- -2 to 2; dir <- 0 until 6) {
+      val loc = IntLocation(row, col)
+      val neighbor = HexUtil.getNeighborLocation(loc, dir)
+      assertResult(loc, s"from $loc in direction $dir") { HexUtil.getNeighborLocation(neighbor, (dir + 3) % 6) }
+    }
+  }
+
+  test("neighbors are adjacent in the drawn hex grid, even for negative rows") {
+    for (row <- ROWS; col <- -2 to 2; dir <- 0 until 6) {
+      val loc = IntLocation(row, col)
+      val neighbor = HexUtil.getNeighborLocation(loc, dir)
+      val dist = HexUtil.distanceBetween(loc, neighbor)
+      assert(dist >= 1.0 - TOL && dist <= 1.12, s"distance from $loc in direction $dir was $dist")
+    }
+  }
 }

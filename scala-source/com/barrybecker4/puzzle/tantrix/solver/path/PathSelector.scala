@@ -26,24 +26,21 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     * @return a random path with a likely good score. In other words, the path which is close to a valid solution.
     */
   private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = boundary:
-    var totalScore: Double = 0
-    val scores: ListBuffer[Double] = ListBuffer()
-
-    for (path <- paths) {
+    require(paths.nonEmpty, "There must be at least one path to select from.")
+    val scores = paths.map { path =>
       val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
-
-      if (score <= 0) break(path)
-      totalScore += score
-      scores.append(score)
+      if (score <= 0) break(path) // a path that cannot be given a positive weight is returned as is
+      score
     }
+    paths(rouletteIndex(scores, rnd.nextDouble() * scores.sum))
 
-    scores.append(10000.0)
-    val r = rnd.nextDouble() * totalScore
-    var total: Double = 0
-    var ct: Int = 0
-    while (r > total) {
-      total += scores(ct)
-      ct += 1
-    }
-    paths(ct - 1)
+  /** Roulette wheel selection: the bigger the score, the more of the wheel the entry occupies.
+    * @param scores positive weights
+    * @param target a point on the wheel in the range [0, sum(scores)]
+    * @return index of the first entry whose cumulative score reaches the target. A target of 0 selects the first.
+    */
+  private def rouletteIndex(scores: Seq[Double], target: Double): Int = {
+    val index = scores.scanLeft(0.0)(_ + _).tail.indexWhere(target <= _)
+    if (index >= 0) index else scores.size - 1
+  }
 }

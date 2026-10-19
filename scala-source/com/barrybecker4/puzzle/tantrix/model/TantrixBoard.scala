@@ -83,8 +83,6 @@ case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
   /** @return the position of the top left bbox corner */
   def getBoundingBox: Box = tantrix.getBoundingBox
 
-  def getTantrixLocations: Set[Location] = tantrix.tileMap.keySet
-
   /** @param location get the tile placement for this location.
     * @return null of there is no placement at that location.
     */

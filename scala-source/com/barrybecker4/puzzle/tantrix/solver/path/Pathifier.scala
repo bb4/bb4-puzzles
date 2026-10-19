@@ -33,51 +33,25 @@ class Pathifier private[path](val primaryPathColor: PathColor)  {
 
   /** make an ordered path list from the tiles in tileList */
   private def reorderTiles(tileList: List[TilePlacement], tantrix: Tantrix): Seq[TilePlacement] = {
-    val newList: mutable.ListBuffer[TilePlacement] = mutable.ListBuffer()
-    val seenLoc = mutable.Set.empty[Location]
-    val lastAdded: TilePlacement = tileList.head
-    val remainder: Seq[TilePlacement] = tileList.tail
-
-    newList.append(lastAdded)
-    seenLoc += lastAdded.location
-    var outgoing: List[Location] = lastAdded.getOutgoingPathLocations(primaryPathColor).values.toList
-    addForwardTiles(newList, seenLoc, outgoing.head, remainder, tantrix)
-    outgoing = outgoing.tail
-    if (outgoing.nonEmpty) {
-      addBackwardTiles(newList, seenLoc, outgoing.head, remainder, tantrix)
-      outgoing = outgoing.tail
-    }
-    if (newList.size != tantrix.size) {
-      throw new IllegalStateException ("Did not find a " + primaryPathColor + " path among " + remainder)
-    }
+    val start = tileList.head
+    val newList = mutable.ListBuffer(start)
+    val seenLoc = mutable.Set(start.location)
+    // The path leaves the start tile in two directions. One is followed forward, the other backward.
+    val outgoing = start.getOutgoingPathLocations(primaryPathColor).values.toList
+    addTiles(newList, seenLoc, outgoing.head, tantrix, forward = true)
+    outgoing.tail.foreach(addTiles(newList, seenLoc, _, tantrix, forward = false))
+    if (newList.size != tantrix.size)
+      throw new IllegalStateException(s"Did not find a $primaryPathColor path among ${tileList.tail}")
     newList.toSeq
-  }
-
-  private def addForwardTiles(newList: mutable.ListBuffer[TilePlacement], seenLoc: mutable.Set[Location],
-                              outLocation: Location, remaining: Seq[TilePlacement], tantrix: Tantrix): Unit = {
-    addTiles(newList, seenLoc, outLocation, remaining, tantrix, forward = true)
-  }
-
-  private def addBackwardTiles(newList: mutable.ListBuffer[TilePlacement], seenLoc: mutable.Set[Location],
-                               outLocation: Location, remaining: Seq[TilePlacement], tantrix: Tantrix): Unit = {
-    addTiles(newList, seenLoc, outLocation, remaining, tantrix, forward = false)
   }
 
   /** add forward or backward tiles to the beginning or end of path respectively */
   private def addTiles(newList: mutable.ListBuffer[TilePlacement], seenLoc: mutable.Set[Location],
-                       outLocation: Location, remaining: Seq[TilePlacement], tantrix: Tantrix, forward: Boolean): Unit = {
-    val nextPlacement: Option[TilePlacement] = tantrix(outLocation)
-    if (nextPlacement.isDefined && !seenLoc.contains(nextPlacement.get.location) && remaining.nonEmpty) {
-      val placement = nextPlacement.get
-      if (forward) newList.append(placement)
-      else newList.prepend(placement)
+                       outLocation: Location, tantrix: Tantrix, forward: Boolean): Unit =
+    tantrix(outLocation).filterNot(next => seenLoc.contains(next.location)).foreach { placement =>
+      if (forward) newList.append(placement) else newList.prepend(placement)
       seenLoc += placement.location
-
-      val remainingAfterFilter = remaining.filter(_ != placement)
-      val outgoing: List[Location] = placement.getOutgoingPathLocations(primaryPathColor).values.toList
-
-      for (loc <- outgoing)
-        addTiles(newList, seenLoc, loc, remainingAfterFilter, tantrix, forward)
+      placement.getOutgoingPathLocations(primaryPathColor).values
+        .foreach(addTiles(newList, seenLoc, _, tantrix, forward))
     }
-  }
 }

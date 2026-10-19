@@ -19,13 +19,10 @@ object TantrixPath {
 
   /** One [[IntegerParameter]] per path position; values are ids from [[canonicalOrderedTiles]]. */
   private def permutationParamsForTiles(tiles: Seq[TilePlacement]): IndexedSeq[Parameter] = {
-    val n = tiles.size
-    if (n == 0) IndexedSeq.empty
-    else {
-      val canonical = canonicalOrderedTiles(tiles)
-      def idOf(tp: TilePlacement): Int = canonical.indexOf(tp)
-      tiles.map(tp => IntegerParameter(idOf(tp), 0, n - 1, "tile")).toIndexedSeq
-    }
+    // Index lookup is built once so that this is O(n log n) rather than O(n^2) (this runs for every new path).
+    val idByTile: Map[TilePlacement, Int] = canonicalOrderedTiles(tiles).zipWithIndex.toMap
+    val maxId = tiles.size - 1
+    tiles.map(tp => IntegerParameter(idByTile(tp), 0, maxId, "tile")).toIndexedSeq
   }
 
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
@@ -33,9 +30,7 @@ object TantrixPath {
     */
   def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean =
     tiles.length < 2 || tiles.iterator.sliding(2).forall {
-      case Seq(lastTile, currentTile) =>
-        val outgoing = currentTile.getOutgoingPathLocations(primaryColor)
-        outgoing.values.exists(_ == lastTile.location)
+      case Seq(lastTile, currentTile) => currentTile.hasPathTo(primaryColor, lastTile.location)
       case _ => true
     }
 
@@ -150,32 +145,21 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     * Having the distance between beginning and end be 0 is a prerequisite and quicker to compute.
     * @return true if the path is a complete loop (ignoring secondary paths)
     */
-  def isLoop: Boolean = {
-    if (size <= 2) return false
-    val distance = getEndPointDistance
-    if (distance == 0) {
-      val outgoing = getFirst.getOutgoingPathLocations(primaryPathColor)
-      if (outgoing.values.exists(_ == getLast.location)) return true
-    }
-    false
-  }
+  def isLoop: Boolean =
+    size > 2 && getEndPointDistance == 0 && getFirst.hasPathTo(primaryPathColor, getLast.location)
 
   /** Two adjacent tiles have a distance of 1. If the path length is one, then distance of 1 is returned.
     * @return the distance between the path end points. A distance of 1 does not automatically mean there is a loop.
     */
-  def getEndPointDistance: Double = {
-    if (tiles.isEmpty) return 1000.0
-    if (tiles.size == 1) return 1.0
-    val first = getFirst
-    val last = getLast
-    val end1 = first.location
-    val end2 = last.location
-    // if they touch return distance of 0
-    if (first.getOutgoingPathLocations(primaryPathColor).values.exists(_ == end2) &&
-        last.getOutgoingPathLocations(primaryPathColor).values.exists(_ == end1))
-      return 0
-    HexUtil.distanceBetween(end1, end2)
+  def getEndPointDistance: Double = tiles.size match {
+    case 0 => 1000.0
+    case 1 => 1.0
+    case _ => if (endsConnectViaPrimaryPath) 0.0 else HexUtil.distanceBetween(getFirst.location, getLast.location)
   }
+
+  /** @return true if both end tiles have a primary path leading directly to the other end tile. */
+  private def endsConnectViaPrimaryPath: Boolean =
+    getFirst.hasPathTo(primaryPathColor, getLast.location) && getLast.hasPathTo(primaryPathColor, getFirst.location)
 
   /**
     * The parameters are ranks of the tile placements within this particular path, so different paths (different

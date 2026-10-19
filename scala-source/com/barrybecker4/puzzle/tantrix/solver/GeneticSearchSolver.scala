@@ -81,30 +81,11 @@ class GeneticSearchSolver(
   /** @return list of moves to a solution. */
   def solve: Option[Seq[TilePlacement]] = {
     val startTime = System.currentTimeMillis
-    val optimizer = new Optimizer(this)
-    optimizer.setListener(this)
-
     try {
-      val foundSolution =
-        if useTantrixTunedMetaheuristic then
-          val rnd = new Random()
-          val guess = new TantrixPath(board, rnd)
-          assert(guess.size > 0, "The random path should have some tiles!")
-          val strategy = createTantrixTunedStrategy(rnd)
-          strategy.setListener(this)
-          strategy.doOptimization(guess, FITNESS_RANGE)
-        else
-          val guess = new TantrixPath(board, new Random(1))
-          assert(guess.size > 0, "The random path should have some tiles!")
-          optimizer.doOptimization(optimizationStrategy, guess, FITNESS_RANGE, MathUtil.RANDOM).best
-
-      val bestPath = tantrixPath(foundSolution.pa)
+      val bestPath = tantrixPath(findBestParams().pa)
       solution = new TantrixBoard(bestPath.tiles, board.primaryColor)
-      val tilePlacements =
-        if (evaluateFitness(foundSolution.pa) <= 0) Some(bestPath.tiles)
-        else None
-      val elapsedTime = System.currentTimeMillis - startTime
-      controller.finalRefresh(tilePlacements, Option.apply(solution), numTries, elapsedTime)
+      val tilePlacements = Option.when(evaluateFitness(bestPath) <= 0)(bestPath.tiles)
+      controller.finalRefresh(tilePlacements, Some(solution), numTries, System.currentTimeMillis - startTime)
       tilePlacements
     } catch {
       case _: InterruptedException =>
@@ -113,10 +94,35 @@ class GeneticSearchSolver(
     }
   }
 
+  /** @return the best parameters found by the tuned strategy, or by the standard optimizer for the other strategies. */
+  private def findBestParams() =
+    if useTantrixTunedMetaheuristic then runTunedStrategy() else runStandardOptimizer()
+
+  private def runTunedStrategy() = {
+    val rnd = new Random()
+    val guess = createInitialGuess(rnd)
+    val strategy = createTantrixTunedStrategy(rnd)
+    strategy.setListener(this)
+    strategy.doOptimization(guess, FITNESS_RANGE)
+  }
+
+  private def runStandardOptimizer() = {
+    val optimizer = new Optimizer(this)
+    optimizer.setListener(this)
+    optimizer.doOptimization(optimizationStrategy, createInitialGuess(new Random(1)), FITNESS_RANGE, MathUtil.RANDOM).best
+  }
+
+  /** @return a random path through all the tiles to start the search from. */
+  private def createInitialGuess(rnd: Random): TantrixPath = {
+    val guess = new TantrixPath(board, rnd)
+    assert(guess.size > 0, "The random path should have some tiles!")
+    guess
+  }
+
   def getName = s"Tantrix metaheuristic solver (${optimizationStrategy.toString})"
 
   /** terminate the solver if we find a solution with this fitness. */
-  def getOptimalFitness = 0 /* SOLVED_THRESH*/
+  def getOptimalFitness = 0
 
   def evaluateByComparison = false
 
@@ -142,8 +148,12 @@ class GeneticSearchSolver(
   def optimizerChanged(params: ParameterArrayWithFitness): Unit = {
     val path = tantrixPath(params.pa)
     solution = new TantrixBoard(path.tiles, path.primaryPathColor)
-    controller.refresh(solution, {
-      numTries += 1; numTries - 1
-    })
+    controller.refresh(solution, nextTryNumber())
+  }
+
+  /** @return the number of the try that is starting (the first is 0) */
+  private def nextTryNumber(): Int = {
+    numTries += 1
+    numTries - 1
   }
 }

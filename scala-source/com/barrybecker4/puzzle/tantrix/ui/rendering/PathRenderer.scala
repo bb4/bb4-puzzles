@@ -47,7 +47,7 @@ class PathRenderer private[rendering]() {
 
   /** @return (startIndex, endIndex) along unrotated hex sides where the path connects. */
   private def findPathEdgeIndices(tile: HexTile, pathNumber: Int): (Int, Int) = {
-    var pathStartIndex = getPathStartIndex(tile, pathNumber)
+    val pathStartIndex = getPathStartIndex(tile, pathNumber)
     var i = pathStartIndex + 1
     val pathColor = tile.edgeColors(pathStartIndex)
     while (pathColor != tile.edgeColors(i)) {

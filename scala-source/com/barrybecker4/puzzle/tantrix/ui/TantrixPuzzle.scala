@@ -53,7 +53,6 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
     spinner = new JSpinner(model)
     spinner.addChangeListener(this)
     val numTilesSelector = new JPanel
-    //val primaryColorPrefix = new JLabel("Primary color: ")
     primaryColorLabel = new JLabel("")
     setPrimaryColor(TantrixPuzzle.DEFAULT_NUM_TILES)
     numTilesSelector.add(label)
@@ -70,7 +69,7 @@ final class TantrixPuzzle(args: Array[String]) extends PuzzleApplet[TantrixBoard
   }
 
   private def setPrimaryColor(tileNum: Int): Unit = {
-    primaryColorLabel.setText(HexTiles.TILES.getTile(tileNum).primaryColor.toString)
+    primaryColorLabel.setText(TILES.getTile(tileNum).primaryColor.toString)
   }
 
   private def getController = controller.asInstanceOf[TantrixController]

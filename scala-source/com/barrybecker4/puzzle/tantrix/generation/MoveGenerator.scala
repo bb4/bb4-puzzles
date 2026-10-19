@@ -2,15 +2,13 @@
 package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.puzzle.tantrix.model.analysis.fitting.TantrixTileFitter
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
-
-import scala.collection.mutable.ListBuffer
+import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 
 /**
   * Tantrix puzzle move generator. Generates valid next moves given the current state.
   * @author Barry Becker
   */
-class MoveGenerator(var board: TantrixBoard) {
+class MoveGenerator(val board: TantrixBoard) {
   /** a set of all the places that a tile might be placed next. */
   private val borderSpaces = new BorderFinder(board.tantrix, board.numTiles, board.primaryColor).findBorderPositions
 
@@ -22,16 +20,8 @@ class MoveGenerator(var board: TantrixBoard) {
   def generateMoves: List[TilePlacement] = {
     val fitter = new TantrixTileFitter(board.tantrix, board.primaryColor)
     val borderList = borderSpaces.toList
-    def placementCount(tile: HexTile): Int =
-      borderList.iterator.map(loc => fitter.getFittingPlacements(tile, loc).size).sum
-
-    val tilesMrv = board.unplacedTiles.sortBy(placementCount)
-    val buf = ListBuffer.empty[TilePlacement]
-    for {
-      tile <- tilesMrv
-      loc <- borderList
-      p <- fitter.getFittingPlacements(tile, loc)
-    } buf += p
-    buf.toList
+    // finding the fitting placements is the expensive part, so it is only done once for each tile
+    val placementsByTile = board.unplacedTiles.map(tile => borderList.flatMap(loc => fitter.getFittingPlacements(tile, loc)))
+    placementsByTile.sortBy(_.size).flatten.toList
   }
 }

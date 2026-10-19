@@ -7,7 +7,8 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 
 import java.util.concurrent.ConcurrentHashMap
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexTiles, TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
+import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm.SIMPLE_SEQUENTIAL
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 
@@ -46,8 +47,7 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
   }
 
   def initialState: TantrixBoard = {
-    val tiles: Seq[HexTile] = new HexTiles().createRandomList(numTiles)
-    new TantrixBoard(tiles)
+    new TantrixBoard(TILES.createRandomList(numTiles))
   }
 
   /**

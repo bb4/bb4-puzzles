@@ -37,5 +37,12 @@ case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) 
     outgoingPathLocations
   }
 
+  /** @param primaryColor color of the path to follow
+    * @param target       location to check
+    * @return true if one of the two outgoing paths of the specified color leads to the target location.
+    */
+  def hasPathTo(primaryColor: PathColor, target: Location): Boolean =
+    getOutgoingPathLocations(primaryColor).values.exists(_ == target)
+
   override def toString: String = "[" + tile + " at " + location + " " + rotation + "]"
 }
