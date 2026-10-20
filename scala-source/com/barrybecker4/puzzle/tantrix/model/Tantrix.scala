@@ -52,6 +52,19 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement, boundingBox: Box) 
     tileMap.get(loc)
   }
 
+  /** Two tantrix instances are the same if they have the same placements. The last tile placed and the
+    * bounding box are derived from how the tantrix was built, not part of what it is. If they were included, the same
+    * set of placements reached by growing the path from the other end would look like a different state to the
+    * seen sets and caches that search algorithms keep, and it would be searched again.
+    */
+  override def equals(other: Any): Boolean = other match {
+    case that: Tantrix => (this eq that) || (hashCode == that.hashCode && tileMap == that.tileMap)
+    case _ => false
+  }
+
+  /** Cached because the map hash is O(n) and this is used as a key in large hash sets. */
+  override lazy val hashCode: Int = tileMap.hashCode
+
   def getEdgeLength: Int = getBoundingBox.getMaxDimension + 1
   def size: Int = tileMap.size
   def tiles: Iterable[TilePlacement] = tileMap.values

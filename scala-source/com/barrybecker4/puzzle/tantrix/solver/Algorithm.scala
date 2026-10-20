@@ -23,6 +23,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
     */
   def createSolver(controller: PuzzleController[TantrixBoard, TilePlacement]): PuzzleSolver[TilePlacement] = this match {
     case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[TantrixBoard, TilePlacement](controller)
+    case RESTARTING_DEPTH_FIRST => new RestartingDepthFirstSolver(controller)
     case BRUTE_FORCE_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
     case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
     case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[TantrixBoard, TilePlacement](controller)
@@ -46,6 +47,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   }
 
   case SIMPLE_SEQUENTIAL extends Algorithm
+  case RESTARTING_DEPTH_FIRST extends Algorithm
   case BRUTE_FORCE_SEQUENTIAL extends Algorithm
   case A_STAR_SEQUENTIAL extends Algorithm
   case A_STAR_CONCURRENT extends Algorithm
