@@ -68,7 +68,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   }
 
   def makeSound(): Unit = {
-    musicMaker.playNote(60, 5, 940)
+    musicMaker.playNote(60, 5, 40)
   }
 
   /**

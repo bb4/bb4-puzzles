@@ -57,7 +57,7 @@ final class RedPuzzleViewer private[ui]()
 
   /** make a little click noise when the piece fits into place. */
   override def makeSound(): Unit = {
-    musicMaker.playNote(60, 20, 940)
+    musicMaker.playNote(60, 20, 40)
   }
 
   /** This renders the current state of the PuzzlePanel to the screen.

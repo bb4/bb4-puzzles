@@ -41,7 +41,7 @@ final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
 
   override def makeSound(): Unit = {
     val note = Math.min(127, 20 + getBoard.unplacedTiles.size * 12)
-    musicMaker.playNote(note * 20, 20, 640)
+    musicMaker.playNote(note * 20, 20, 340)
   }
 }
 
