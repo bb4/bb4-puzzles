@@ -36,6 +36,9 @@ object TantrixPath {
   }
 
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
+    * Each tile must lead to the one before it, and that one must lead to it. Checking just one direction lets through
+    * a tile that sits at the end of the path next to some other tile without being connected to it. The permuting
+    * that follows the path tile by tile fails on such a path later, with an assertion error that is far from the cause.
     * @return true if there exists a primary path or loop.
     */
   def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = {
@@ -45,7 +48,7 @@ object TantrixPath {
       var previous = iterator.next()
       while (ordered && iterator.hasNext) {
         val current = iterator.next()
-        ordered = current.hasPathTo(primaryColor, previous.location)
+        ordered = current.hasPathTo(primaryColor, previous.location) && previous.hasPathTo(primaryColor, current.location)
         previous = current
       }
     }

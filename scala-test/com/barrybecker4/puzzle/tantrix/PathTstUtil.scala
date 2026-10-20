@@ -129,15 +129,6 @@ object PathTstUtil {
     TilePlacement(TILE2, new ByteLocation(21, 20), ANGLE_120)
   ), PathColor.RED, 5)
 
-  // linear. Not very compact
-  val NON_LOOP_PATH5 = new TantrixPath(Seq(
-    TilePlacement(TILE2, new ByteLocation(19, 20), ANGLE_0),
-    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_0),
-    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_60),
-    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_240),
-    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_0)
-  ), PathColor.RED, 5)
-
   val LINEAR_NON_LOOP_PATH5 = new TantrixPath(Seq(
     TilePlacement(TILE2, new ByteLocation(20, 18), ANGLE_120),
     TilePlacement(TILE4, new ByteLocation(20, 19), ANGLE_60),
@@ -154,14 +145,6 @@ object PathTstUtil {
     TilePlacement(TILE4, new ByteLocation(21, 20), ANGLE_240)
   ), PathColor.RED, 5)
   
-  val COMPACT_NON_LOOP_PATH5 = new TantrixPath(Seq(
-    TilePlacement(TILE2, new ByteLocation(19, 20), ANGLE_0),
-    TilePlacement(TILE1, new ByteLocation(20, 20), ANGLE_0),
-    TilePlacement(TILE4, new ByteLocation(20, 21), ANGLE_60),
-    TilePlacement(TILE5, new ByteLocation(21, 21), ANGLE_240),
-    TilePlacement(TILE3, new ByteLocation(22, 21), ANGLE_0)
-  ), PathColor.RED, 5)
-
   val LOOP_PATH6 = new TantrixPath(Seq(
     TilePlacement(TILE3, new ByteLocation(18, 20), ANGLE_240),
     TilePlacement(TILE2, new ByteLocation(19, 21), ANGLE_120),

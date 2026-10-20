@@ -38,8 +38,10 @@ class PathPermutationGenerator private[path](val path: TantrixPath, rnd: Random 
     */
   private[path] def getRandomNeighbor(radius: Double) = {
     val pathPermutations = findPermutedPaths(radius)
-    assert(pathPermutations.nonEmpty, "Could not find any permutations of " + this)
-    new PathSelector(rnd).selectPath(pathPermutations)
+    // Every way to change the path can overlap itself (for example, when the path is almost a loop), and then
+    // the best neighbor is the path itself. It is not an error that should end the search.
+    if (pathPermutations.isEmpty) path
+    else new PathSelector(rnd).selectPath(pathPermutations)
   }
 
   /**

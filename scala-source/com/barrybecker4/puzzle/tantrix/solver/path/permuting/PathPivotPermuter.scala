@@ -91,9 +91,10 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
 
   /**
     * @param tiles tiles to check
-    * @return true if no overlapping tiles.
+    * @return true if no overlapping tiles, and each one leads to the next by the primary path.
     */
   private def isValid(tiles: Seq[TilePlacement]): Boolean =
-    tiles.map(_.location).toSet.size == tiles.size
+    tiles.map(_.location).toSet.size == tiles.size &&
+      TantrixPath.hasOrderedPrimaryPath(tiles, myPath.primaryPathColor)
 }
 
