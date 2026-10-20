@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
@@ -62,13 +63,14 @@ object RestartingDepthFirstSolver {
   * Pair this with a puzzle controller that prunes the moves it returns (like [[com.barrybecker4.puzzle.tantrix.TantrixController]])
   * @param puzzle the puzzle to solve
   * @param baseBudget the number of steps allowed in the first attempt.
-  * @param rnd the source of randomness for ordering moves, so that a search can be repeated.
+  * @param rnd the source of randomness for ordering moves. It defaults to the shared generator, so that seeding that
+  *            generator makes a search repeatable (the benchmarks do that).
   * @author Barry Becker
   */
 class RestartingDepthFirstSolver(
     puzzle: PuzzleController[TantrixBoard, TilePlacement],
     baseBudget: Int = DEFAULT_BASE_BUDGET,
-    rnd: Random = new Random()
+    rnd: Random = MathUtil.RANDOM
 ) extends PuzzleSolver[TilePlacement] {
 
   require(baseBudget > 0, "The budget must be positive, but was " + baseBudget)

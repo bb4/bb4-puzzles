@@ -31,7 +31,7 @@ object BenchmarkConfig {
 
   val DEFAULT_TIMEOUT_SECONDS = 60
   val DEFAULT_REPETITIONS = 5
-  val DEFAULT_TANTRIX_SIZES: List[Int] = List(3, 6, 9, 12, 15)
+  val DEFAULT_TANTRIX_SIZES: List[Int] = List(3, 6, 9, 12, 15, 20, 24)
   val ALL_PUZZLES: Set[String] = Set("tantrix", "redpuzzle")
   val DEFAULT_RESULTS_FILE = "docs/benchmarks.json"
   val DEFAULT_REPORT_FILE = "docs/benchmarks.md"
@@ -41,7 +41,7 @@ object BenchmarkConfig {
       |  --lib-version=2.0.0           the bb4-optimization version you expect; the run fails if the classpath disagrees
       |  --timeout=60                  seconds a single run may take before it counts as "no solution"
       |  --reps=5                     runs per cell; the median of the successful runs is reported
-      |  --tantrix-sizes=3,6,9,12,15   numbers of tiles for the Tantrix variants
+      |  --tantrix-sizes=3,6,9,12,15,20,24   numbers of tiles for the Tantrix variants
       |  --puzzles=tantrix,redpuzzle   which puzzles to run
       |  --results=docs/benchmarks.json
       |  --report=docs/benchmarks.md
