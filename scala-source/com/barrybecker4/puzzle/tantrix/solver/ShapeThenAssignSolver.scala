@@ -39,7 +39,8 @@ class ShapeThenAssignSolver(
 
   override def solve: Option[Seq[TilePlacement]] = {
     val initial = puzzle.initialState
-    if (initial.numTiles > MAX_TILES || initial.tantrix.size != 1) new RestartingDepthFirstSolver(puzzle, rnd = rnd).solve
+    if (initial.numTiles > MAX_TILES || initial.tantrix.size != 1)
+      new RestartingDepthFirstSolver(puzzle, rnd = rnd).solve
     else if (!LoopTiles.allHavePrimaryPath(allTiles(initial), initial.primaryColor)) report(initial, None, 0, 0)
     else solveFromFirstTile(initial)
   }

@@ -26,14 +26,14 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 
   /** Create an instance of the algorithm given the controller and a refreshable. */
   def createSolver(controller: PuzzleController[PieceList, OrientedPiece]): PuzzleSolver[OrientedPiece] = this match {
-    case BRUTE_FORCE_ORIGINAL => new BruteForceSolver(controller)
-    case BRUTE_FORCE_SEQUENTIAL => new SequentialPuzzleSolver[PieceList, OrientedPiece](controller)
-    case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[PieceList, OrientedPiece](controller)
-    case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[PieceList, OrientedPiece](controller)
-    case IDA_STAR => new IDAStarPuzzleSolver[PieceList, OrientedPiece](controller)
-    case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.1f)
     case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.3f)
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.2f)
+    case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.1f)
+    case BRUTE_FORCE_ORIGINAL => new BruteForceSolver(controller)
+    case BRUTE_FORCE_SEQUENTIAL => new SequentialPuzzleSolver[PieceList, OrientedPiece](controller)
+    case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[PieceList, OrientedPiece](controller)
+    case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[PieceList, OrientedPiece](controller)
+    case IDA_STAR => new IDAStarPuzzleSolver[PieceList, OrientedPiece](controller)
     case GENETIC_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.GENETIC_SEARCH)
     case CONCURRENT_GENETIC_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH)
     case ITERATED_LOCAL_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.ITERATED_LOCAL_SEARCH)
