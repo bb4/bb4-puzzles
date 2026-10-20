@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, Gene
 import com.barrybecker4.puzzle.tantrix.TantrixController
 import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
-import com.barrybecker4.puzzle.tantrix.solver.{Algorithm as TantrixAlgorithm, GeneticSearchSolver as TantrixOptimizerSolver, RestartingDepthFirstSolver}
+import com.barrybecker4.puzzle.tantrix.solver.{Algorithm as TantrixAlgorithm, GeneticSearchSolver as TantrixOptimizerSolver, RestartingDepthFirstSolver, ShapeThenAssignSolver}
 import com.barrybecker4.search.Refreshable
 
 /**
@@ -65,7 +65,7 @@ object BenchmarkCases {
   }
 
   private def isBenchmarkedTantrixSolver(solver: AnyRef): Boolean = solver match {
-    case _: TantrixOptimizerSolver | _: RestartingDepthFirstSolver | _: SequentialPuzzleSolver[?, ?] => true
+    case _: TantrixOptimizerSolver | _: RestartingDepthFirstSolver | _: ShapeThenAssignSolver | _: SequentialPuzzleSolver[?, ?] => true
     case _ => false
   }
 

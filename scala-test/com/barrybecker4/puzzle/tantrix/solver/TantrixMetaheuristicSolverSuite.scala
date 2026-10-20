@@ -65,7 +65,8 @@ class TantrixMetaheuristicSolverSuite extends AnyFunSuite {
 
   test("the exact searches that work best come first, and the weakest strategies come last") {
     val values = Algorithm.values.toSeq
-    assertResult(Algorithm.RESTARTING_DEPTH_FIRST)(values.head)
+    assertResult(Algorithm.SHAPE_THEN_ASSIGN)(values.head)
+    assertResult(Algorithm.RESTARTING_DEPTH_FIRST)(values(1))
     assertResult(Algorithm.BRUTE_FORCE)(values.last)
     assert(values.indexOf(Algorithm.GLOBAL_SIMULATED_ANNEALING) < values.indexOf(Algorithm.HILL_CLIMBING))
     assert(values.indexOf(Algorithm.RESTARTING_DEPTH_FIRST) < values.indexOf(Algorithm.SIMPLE_SEQUENTIAL))
