@@ -13,6 +13,8 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   * The algorithms are listed in the order of how well they work, with the most effective first. That is the order they
   * have in the user interface. It is based on measurements on the first 12 to 20 tiles, so it will not hold for
   * every puzzle:
+  *  - The shape then assign search builds the shape of the loop and keeps the possible tiles for each cell as it
+  *    goes. It solves puzzles of 30 tiles in a fraction of a second, where nothing else can. It handles up to 32 tiles.
   *  - The restarting depth first search solves puzzles of up to about 26 tiles. The concurrent searches that
   *    are mostly breadth first or balanced are next, then the sequential depth first search. Depth first does well on
   *    small puzzles, but falls behind on larger ones.
@@ -37,6 +39,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
     */
   def createSolver(controller: PuzzleController[TantrixBoard, TilePlacement]): PuzzleSolver[TilePlacement] = this match {
     case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[TantrixBoard, TilePlacement](controller)
+    case SHAPE_THEN_ASSIGN => new ShapeThenAssignSolver(controller)
     case RESTARTING_DEPTH_FIRST => new RestartingDepthFirstSolver(controller)
     case BRUTE_FORCE_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
     case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[TantrixBoard, TilePlacement](controller)
@@ -64,6 +67,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   }
 
   // The cases are in order of how well they do on this puzzle, most effective first (see the documentation above).
+  case SHAPE_THEN_ASSIGN extends Algorithm
   case RESTARTING_DEPTH_FIRST extends Algorithm
   case CONCURRENT_OPTIMUM extends Algorithm
   case CONCURRENT_BREADTH extends Algorithm
