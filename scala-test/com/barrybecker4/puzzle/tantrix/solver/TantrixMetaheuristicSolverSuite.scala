@@ -37,4 +37,37 @@ class TantrixMetaheuristicSolverSuite extends AnyFunSuite {
     assert(ghc.optimizationStrategy == OptimizationStrategyType.GLOBAL_HILL_CLIMBING)
     assert(ga.optimizationStrategy == OptimizationStrategyType.GENETIC_SEARCH)
   }
+
+  test("every optimization strategy that can be used with a tantrix path is an algorithm") {
+    import com.barrybecker4.optimization.strategy.OptimizationStrategyType
+    val ctrl = new FixedStartTantrixController(ui, TantrixTstUtil.place2of3Tiles_OneThenTwo)
+    val used = Algorithm.values.toSeq.flatMap(a => a.createSolver(ctrl) match {
+      case solver: GeneticSearchSolver => Some(solver.optimizationStrategy)
+      case _ => None
+    }).toSet
+    val path = new com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath(ctrl.initialState, new scala.util.Random(1))
+    for (strategy <- OptimizationStrategyType.values) {
+      val solver = new GeneticSearchSolver(ctrl, strategy)
+      if (strategy.appliesTo(solver, path))
+        assert(used.contains(strategy), s"$strategy can be used for tantrix, but is not one of the algorithms")
+    }
+  }
+
+  test("each optimization algorithm uses the optimization strategy that has the same name") {
+    val ctrl = new FixedStartTantrixController(ui, TantrixTstUtil.place2of3Tiles_OneThenTwo)
+    Algorithm.values.foreach { a =>
+      a.createSolver(ctrl) match {
+        case solver: GeneticSearchSolver => assertResult(a.toString)(solver.optimizationStrategy.toString)
+        case _ =>
+      }
+    }
+  }
+
+  test("the exact searches that work best come first, and the weakest strategies come last") {
+    val values = Algorithm.values.toSeq
+    assertResult(Algorithm.RESTARTING_DEPTH_FIRST)(values.head)
+    assertResult(Algorithm.BRUTE_FORCE)(values.last)
+    assert(values.indexOf(Algorithm.GLOBAL_SIMULATED_ANNEALING) < values.indexOf(Algorithm.HILL_CLIMBING))
+    assert(values.indexOf(Algorithm.RESTARTING_DEPTH_FIRST) < values.indexOf(Algorithm.SIMPLE_SEQUENTIAL))
+  }
 }

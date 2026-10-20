@@ -13,16 +13,20 @@ import com.barrybecker4.puzzle.redpuzzle.solver.FitnessFinder.MAX_FITS
 import scala.util.Random
 
 /**
-  * Solve the red puzzle using a genetic search algorithm.
-  * Solves the puzzle in 3.5 seconds on Core2 duo system (6 generations).
+  * Solve the red puzzle using one of the bb4-optimization strategies, such as a genetic search.
+  * The genetic search solves the puzzle in 3.5 seconds on Core2 duo system (6 generations).
+  * @param puzzle the controller of the puzzle to solve
+  * @param strategy the optimization strategy to use. It needs to work with permutations of the pieces.
   * @author Barry Becker
   */
-class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece], val useConcurrency: Boolean)
+class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece],
+                          val strategy: OptimizationStrategyType)
                    extends RedPuzzleSolver(puzzle) with Optimizee with OptimizationListener {
 
-  private val strategy =
-    if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH
-    else OptimizationStrategyType.GENETIC_SEARCH
+  /** @param useConcurrency true to use the concurrent genetic search, and false for the plain genetic search. */
+  def this(puzzle: PuzzleController[PieceList, OrientedPiece], useConcurrency: Boolean) =
+    this(puzzle,
+      if (useConcurrency) OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH else OptimizationStrategyType.GENETIC_SEARCH)
 
   private val fitnessFinder = new FitnessFinder
   private var currentBestFitness = 10 + MAX_FITS
@@ -41,7 +45,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     moves
   }
 
-  def getName = "Genetic Search Solver for Red Puzzle"
+  def getName = s"Red Puzzle solver using $strategy"
 
   /** terminate the solver if we find a solution with this fitness. */
   def getOptimalFitness = 0

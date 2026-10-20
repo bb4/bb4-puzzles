@@ -10,6 +10,20 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 /**
   * Enum for type of solver to employ when solving the puzzle.
   *
+  * The algorithms are listed in the order of how well they work, with the most effective first. That is the order they
+  * have in the user interface. It is based on measurements on the first 12 to 20 tiles, so it will not hold for
+  * every puzzle:
+  *  - The restarting depth first search solves puzzles of up to about 26 tiles. The concurrent searches that
+  *    are mostly breadth first or balanced are next, then the sequential depth first search. Depth first does well on
+  *    small puzzles, but falls behind on larger ones.
+  *  - Of the strategies from bb4-optimization, the ones that anneal do best, then the genetic ones,
+  *    then iterated local search and variable neighborhood search. They find solutions of 12 to 15 tiles in
+  *    seconds, but not reliably.
+  *  - A*, which gets nothing from its estimate of the distance to the goal because every solution is as deep as
+  *    the number of tiles, comes after them.
+  *  - Hill climbing and sampling get stuck, and brute force over the orderings of the tiles can only
+  *    finish for a few tiles. They are listed for completeness.
+  *
   * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
@@ -44,22 +58,29 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
       new GeneticSearchSolver(controller, OptimizationStrategyType.ITERATED_LOCAL_SEARCH)
     case VARIABLE_NEIGHBORHOOD_SEARCH =>
       new GeneticSearchSolver(controller, OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
+    case HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.HILL_CLIMBING)
+    case GLOBAL_SAMPLING => new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SAMPLING)
+    case BRUTE_FORCE => new GeneticSearchSolver(controller, OptimizationStrategyType.BRUTE_FORCE)
   }
 
-  case SIMPLE_SEQUENTIAL extends Algorithm
+  // The cases are in order of how well they do on this puzzle, most effective first (see the documentation above).
   case RESTARTING_DEPTH_FIRST extends Algorithm
-  case BRUTE_FORCE_SEQUENTIAL extends Algorithm
-  case A_STAR_SEQUENTIAL extends Algorithm
-  case A_STAR_CONCURRENT extends Algorithm
-  case IDA_STAR extends Algorithm
-  case CONCURRENT_BREADTH extends Algorithm
-  case CONCURRENT_DEPTH extends Algorithm
   case CONCURRENT_OPTIMUM extends Algorithm
+  case CONCURRENT_BREADTH extends Algorithm
+  case SIMPLE_SEQUENTIAL extends Algorithm
+  case CONCURRENT_DEPTH extends Algorithm
+  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
+  case SIMULATED_ANNEALING extends Algorithm
   case GENETIC_SEARCH extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
-  case SIMULATED_ANNEALING extends Algorithm
-  case GLOBAL_HILL_CLIMBING extends Algorithm
-  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
   case ITERATED_LOCAL_SEARCH extends Algorithm
   case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
+  case IDA_STAR extends Algorithm
+  case A_STAR_CONCURRENT extends Algorithm
+  case A_STAR_SEQUENTIAL extends Algorithm
+  case BRUTE_FORCE_SEQUENTIAL extends Algorithm
+  case GLOBAL_HILL_CLIMBING extends Algorithm
+  case HILL_CLIMBING extends Algorithm
+  case GLOBAL_SAMPLING extends Algorithm
+  case BRUTE_FORCE extends Algorithm
 }
