@@ -7,7 +7,8 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, GeneticSearchSolver as RedOptimizerSolver}
 import com.barrybecker4.puzzle.tantrix.TantrixController
 import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}
-import com.barrybecker4.puzzle.tantrix.solver.{Algorithm as TantrixAlgorithm, GeneticSearchSolver as TantrixOptimizerSolver}
+import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
+import com.barrybecker4.puzzle.tantrix.solver.{Algorithm as TantrixAlgorithm, GeneticSearchSolver as TantrixOptimizerSolver, RestartingDepthFirstSolver}
 import com.barrybecker4.search.Refreshable
 
 /**
@@ -19,7 +20,10 @@ import com.barrybecker4.search.Refreshable
 final case class BenchmarkCase(puzzle: String, variant: String, algorithm: String, prepare: Long => PreparedRun)
 
 /**
-  * The puzzles and algorithms that are benchmarked: every solver that is driven by bb4-optimization.
+  * The puzzles and algorithms that are benchmarked: every solver that is driven by bb4-optimization, and for Tantrix
+  * the exact depth first solvers too, so that the heuristics can be compared with a search that is guaranteed to find
+  * a solution if it is given enough time. The exact solvers do not use bb4-optimization, so they give the same result
+  * for every library version.
   *
   * The algorithms are discovered from each puzzle's `Algorithm` enum rather than listed here, so when a new
   * bb4-optimization strategy is added to a puzzle's enum (for example in 2.1), it shows up in the next run with
@@ -53,11 +57,16 @@ object BenchmarkCases {
   /** Tantrix variants are the first n tiles in numeric order, so they are the same in every run and version. */
   def tantrixCases(sizes: List[Int]): List[BenchmarkCase] = {
     val probe = new TantrixController(new ProbeRefreshable[TantrixBoard, TilePlacement])
-    val algorithms = TantrixAlgorithm.values.toList.filter(a => a.createSolver(probe).isInstanceOf[TantrixOptimizerSolver])
+    val algorithms = TantrixAlgorithm.values.toList.filter(a => isBenchmarkedTantrixSolver(a.createSolver(probe)))
     for {
       size <- sizes
       alg <- algorithms
     } yield BenchmarkCase(TANTRIX, s"$size tiles", alg.toString, seed => prepareTantrix(alg, size, seed))
+  }
+
+  private def isBenchmarkedTantrixSolver(solver: AnyRef): Boolean = solver match {
+    case _: TantrixOptimizerSolver | _: RestartingDepthFirstSolver | _: SequentialPuzzleSolver[?, ?] => true
+    case _ => false
   }
 
   /** The red puzzle only has its standard 9 piece variant. */

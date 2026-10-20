@@ -9,7 +9,7 @@ class BenchmarkConfigSuite extends AnyFunSuite {
     val config = BenchmarkConfig.parse(Nil)
     assert(config.timeoutSeconds == 60)
     assert(config.repetitions == 5)
-    assert(config.tantrixSizes == List(3, 6, 9, 12, 15))
+    assert(config.tantrixSizes == List(3, 6, 9, 12, 15, 20, 24))
     assert(config.puzzles == Set("tantrix", "redpuzzle"))
     assert(config.libVersion.isEmpty)
     assert(config.resultsFile == "docs/benchmarks.json")
