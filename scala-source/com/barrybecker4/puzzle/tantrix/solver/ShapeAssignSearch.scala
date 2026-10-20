@@ -66,9 +66,10 @@ object ShapeAssignSearch {
   * @param primaryColor color of the loop
   * @param start the placement of the first tile
   * @param rnd source of randomness for the order in which the shapes are tried
+  * @param onProgress called now and then with the number of steps taken in the attempt. It may throw to stop the search.
   */
 class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, start: TilePlacement,
-                        rnd: Random) {
+                        rnd: Random, onProgress: Long => Unit = _ => ()) {
 
   private val n = tiles.size
   require(n >= 3 && n <= MAX_TILES, s"Need between 3 and $MAX_TILES tiles, but got $n")
@@ -170,6 +171,7 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
       return false
     }
     steps += 1
+    if ((steps & 255L) == 0L) onProgress(steps)
     val e = entry(i)
     val exits = if (i == n - 1) Array(lastExit) else rnd.shuffle(Seq(0, 1, 2, 3, 4, 5).filter(_ != e)).toArray
     var found = false

@@ -73,6 +73,14 @@ class ShapeThenAssignSolverSuite extends AnyFunSuite {
     assertResult(a)(b)
   }
 
+  test("the search stops when the user interface asks it to") {
+    val cancelling = new StubTantrixRefreshable {
+      override def refresh(board: TantrixBoard, numTries: Long): Unit = throw new InterruptedException("cancelled")
+    }
+    val controller = new FixedStartTantrixController(cancelling, shuffledStart(20, 1))
+    assertThrows[InterruptedException](new ShapeThenAssignSolver(controller).solve)
+  }
+
   test("the budget must be positive") {
     assertThrows[IllegalArgumentException](
       new ShapeThenAssignSolver(new FixedStartTantrixController(ui, shuffledStart(5, 1)), baseBudget = 0))

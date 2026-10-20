@@ -46,13 +46,15 @@ class ShapeThenAssignSolver(
     else {
       val startTime = System.currentTimeMillis
       val first = initial.tantrix.tiles.head
-      val search = new ShapeAssignSearch(first.tile +: initial.unplacedTiles.toIndexedSeq, initial.primaryColor, first, rnd)
       var totalSteps = 0L
+      val search = new ShapeAssignSearch(first.tile +: initial.unplacedTiles.toIndexedSeq, initial.primaryColor, first, rnd,
+        steps => puzzle.refresh(initial, totalSteps + steps))
       var moves: Option[Seq[TilePlacement]] = None
       var finished = false
       attempts = 0
       while (!finished) {
         attempts += 1
+        puzzle.refresh(initial, totalSteps)
         val outcome = search.run(baseBudget.toLong * luby(attempts))
         totalSteps += search.numSteps
         outcome match {
