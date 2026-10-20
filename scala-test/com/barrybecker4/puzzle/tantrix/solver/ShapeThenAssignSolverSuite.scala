@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
+import com.barrybecker4.puzzle.tantrix.solver.shapeassign.{LoopTiles, ShapeAssignSearch}
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.{FixedStartTantrixController, StubTantrixRefreshable, TantrixTstUtil}
 import org.scalatest.funsuite.AnyFunSuite
@@ -47,7 +48,7 @@ class ShapeThenAssignSolverSuite extends AnyFunSuite {
   test("there is no solution if some tile does not have the color of the loop") {
     // after the first 14 tiles, the tiles do not all have the color of the last tile
     val start = shuffledStart(32, 1)
-    assert(!ShapeAssignSearch.allHavePath(start.tantrix.tiles.head.tile +: start.unplacedTiles, start.primaryColor))
+    assert(!LoopTiles.allHavePrimaryPath(start.tantrix.tiles.head.tile +: start.unplacedTiles, start.primaryColor))
     assertResult(None)(new ShapeThenAssignSolver(new FixedStartTantrixController(ui, start)).solve)
   }
 
