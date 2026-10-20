@@ -141,7 +141,7 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
@@ -169,7 +169,7 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
