@@ -160,4 +160,53 @@ class LoopFeasibilityCheckerSuite extends AnyFunSuite {
       }
     }
   }
+
+  test("the turns of the path found incrementally after a move are the same as walking the path again") {
+    var numChecked = 0
+    for (numTiles <- Seq(6, 9, 12); seed <- 1 to 4) {
+      var board = shuffledStart(numTiles, seed)
+      val rnd = new Random(seed)
+      var moves = new MoveGenerator(board).generateMoves
+      while (moves.nonEmpty) {
+        val endsBefore = LoopFeasibilityChecker.findOpenEnds(board)
+        val turnsBefore = LoopFeasibilityChecker.turnsOfPath(board, endsBefore)
+        for (move <- moves; before <- turnsBefore) {
+          val next = board.placeTile(move)
+          val nextEnds = LoopFeasibilityChecker.endsAfterPlacing(board, endsBefore, move)
+          val expected = LoopFeasibilityChecker.turnsOfPath(next, nextEnds)
+          val incremental = LoopFeasibilityChecker.turnsAfterPlacing(board, endsBefore, before, move)
+          // A closed loop has no ends to walk from, and the checker does not use the turns of one.
+          if (nextEnds.size == 2) {
+            // The sign depends on which way the path is walked, which does not matter.
+            assertResult(expected.map(Math.abs), s"turns after $move on\n$board")(incremental.map(Math.abs))
+            numChecked += 1
+          }
+        }
+        board = board.placeTile(moves(rnd.nextInt(moves.size)))
+        moves = new MoveGenerator(board).generateMoves
+      }
+    }
+    assert(numChecked > 200, "should check a lot of moves, but was " + numChecked)
+  }
+
+  test("the feasibility is the same whether or not the turns of the path are provided") {
+    for (seed <- 1 to 4) {
+      var board = shuffledStart(10, seed)
+      val rnd = new Random(seed)
+      var moves = new MoveGenerator(board).generateMoves
+      while (moves.nonEmpty) {
+        val endsBefore = LoopFeasibilityChecker.findOpenEnds(board)
+        val turnsBefore = LoopFeasibilityChecker.turnsOfPath(board, endsBefore)
+        for (move <- moves) {
+          val next = board.placeTile(move)
+          val nextEnds = LoopFeasibilityChecker.endsAfterPlacing(board, endsBefore, move)
+          val turns = turnsBefore.flatMap(LoopFeasibilityChecker.turnsAfterPlacing(board, endsBefore, _, move))
+          assertResult(new LoopFeasibilityChecker(next, nextEnds).isFeasible, s"$move on\n$board")(
+            new LoopFeasibilityChecker(next, nextEnds, turns).isFeasible)
+        }
+        board = board.placeTile(moves(rnd.nextInt(moves.size)))
+        moves = new MoveGenerator(board).generateMoves
+      }
+    }
+  }
 }
