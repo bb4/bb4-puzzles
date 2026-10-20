@@ -1,12 +1,10 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
-import com.barrybecker4.common.geometry.{IntLocation, Location}
+import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, PathColor, TantrixBoard, TilePlacement}
 import LoopFeasibilityChecker.*
-
-import scala.collection.mutable
 
 
 object LoopFeasibilityChecker {
@@ -22,7 +20,8 @@ object LoopFeasibilityChecker {
   def findOpenEnds(board: TantrixBoard): Seq[OpenEnd] = {
     val tantrix = board.tantrix
     tantrix.tiles.iterator.flatMap { placement =>
-      val (d1, d2) = primaryDirections(placement, board.primaryColor)
+      val d1 = primaryDirection(placement, board.primaryColor, 0)
+      val d2 = primaryDirection(placement, board.primaryColor, 1)
       val open = Seq(d1, d2).filter(d => tantrix(HexUtil.getNeighborLocation(placement.location, d)).isEmpty)
       Option.when(open.nonEmpty)(OpenEnd(placement, open))
     }.toSeq
@@ -39,26 +38,112 @@ object LoopFeasibilityChecker {
       val exits = end.exits.filter(HexUtil.getNeighborLocation(end.placement.location, _) != move.location)
       Option.when(exits.nonEmpty)(OpenEnd(end.placement, exits))
     }
-    val (d1, d2) = primaryDirections(move, board.primaryColor)
+    val d1 = primaryDirection(move, board.primaryColor, 0)
+    val d2 = primaryDirection(move, board.primaryColor, 1)
     val moveExits = Seq(d1, d2).filter(d => board.tantrix(HexUtil.getNeighborLocation(move.location, d)).isEmpty)
     if (moveExits.isEmpty) stillOpen else stillOpen :+ OpenEnd(move, moveExits)
   }
 
-  /** @return the two sides of the placed tile that the primary path leaves through, in ascending order. */
-  private[generation] def primaryDirections(placement: TilePlacement, primaryColor: PathColor): (Int, Int) = {
-    var first = -1
-    var second = -1
+  /** @return the end that the walk of the path stops at (the one the last tile was placed at, if it is an end), and the
+    *         end that it starts from. This is only for paths with two ends that have more than one tile.
+    */
+  private[generation] def orientEnds(board: TantrixBoard, openEnds: Seq[OpenEnd]): Option[(OpenEnd, OpenEnd)] =
+    if (openEnds.size != 2 || board.tantrix.size == 1) None
+    else {
+      val tail = openEnds.find(_.placement.location == board.tantrix.lastTile.location).getOrElse(openEnds.head)
+      val other = openEnds.find(_.placement.location != tail.placement.location).get
+      Some((tail, other))
+    }
+
+  /** Add up the turns of the tiles of the path, walking from the start to the tail. The sum changes sign if the path is
+    * walked the other way. A tile turns the path to the left or right by the amount given by [[turn]].
+    * @param start the placement at the end of the path that the walk starts from
+    * @param startExit the side of start that leads out of the path
+    * @param tail the placement at the end of the path that the walk stops at
+    * @param tailExit the side of the tail that leads out of the path
+    * @return None if the tiles are not a simple path from start to tail.
+    */
+  private[generation] def walkTurns(board: TantrixBoard, start: TilePlacement, startExit: Int,
+                                    tail: TilePlacement, tailExit: Int): Option[Int] = {
+    val tantrix = board.tantrix
+    var current = start
+    var incoming = startExit
+    var turns = 0
+    var count = 1
+    var ok = true
+    while (ok && current.location != tail.location) {
+      val d1 = primaryDirection(current, board.primaryColor, 0)
+      val d2 = primaryDirection(current, board.primaryColor, 1)
+      val outgoing = if (d1 == incoming) d2 else d1
+      turns += turn(incoming, outgoing)
+      tantrix(HexUtil.getNeighborLocation(current.location, outgoing)) match {
+        case Some(next) if count < tantrix.size =>
+          current = next
+          incoming = (outgoing + NUM_SIDES / 2) % NUM_SIDES
+          count += 1
+        case _ => ok = false
+      }
+    }
+    if (!ok || count != tantrix.size) None
+    else Some(turns + turn(incoming, tailExit))
+  }
+
+  /** @return the sum of the turns of the tiles of the path, in one of the two directions it can be walked in.
+    *         This is None if the path does not have two ends or only has one tile.
+    */
+  def turnsOfPath(board: TantrixBoard, openEnds: Seq[OpenEnd]): Option[Int] =
+    orientEnds(board, openEnds).flatMap { case (tail, other) =>
+      walkTurns(board, other.placement, other.exits.head, tail.placement, tail.exits.head)
+    }
+
+  /** The same as [[turnsOfPath]] for the board after the move is made, but without walking the path again.
+    * Adding a tile only adds its own turn, because the turns of all the other tiles stay as they were.
+    * The direction of the path is the same before and after, so the result is on the same footing as `turnsBefore`
+    * (the sign does not matter to the feasibility check).
+    * @param board the board before the move
+    * @param endsBefore the open ends of the board before the move
+    * @param turnsBefore the sum of the turns of the board before the move, from [[turnsOfPath]]
+    * @param move the placement to add to the board. It must extend the path from one of its ends.
+    * @return None if it can't be told where on the path the move is made
+    */
+  def turnsAfterPlacing(board: TantrixBoard, endsBefore: Seq[OpenEnd], turnsBefore: Int, move: TilePlacement): Option[Int] =
+    orientEnds(board, endsBefore).flatMap { case (tail, other) =>
+      val atTail = HexUtil.getNeighborLocation(tail.placement.location, tail.exits.head) == move.location
+      val atOther = HexUtil.getNeighborLocation(other.placement.location, other.exits.head) == move.location
+      if (atTail == atOther) None // not at an end, or at both of them, in which case it closes the loop
+      else {
+        val d1 = primaryDirection(move, board.primaryColor, 0)
+        val d2 = primaryDirection(move, board.primaryColor, 1)
+        val anchor = if (atTail) tail.placement else other.placement
+        val towardPath = directionTo(move.location, anchor.location)
+        val away = if (d1 == towardPath) d2 else d1
+        // the path arrives at the move from the tail, but leaves the move toward the start if the move is at the start
+        Some(turnsBefore + (if (atTail) turn(towardPath, away) else turn(away, towardPath)))
+      }
+    }
+
+  /** @return the side of the first location that the second location is next to. */
+  private def directionTo(from: Location, to: Location): Int = {
+    var side = 0
+    while (side < NUM_SIDES && HexUtil.getNeighborLocation(from, side) != to) side += 1
+    assert(side < NUM_SIDES, s"$to is not next to $from")
+    side
+  }
+
+  /** @param which 0 for the first side of the placed tile that the primary path leaves through, and 1 for the second
+    *              (the sides are in ascending order). This does not allocate, since it is done for every move.
+    */
+  private[generation] def primaryDirection(placement: TilePlacement, primaryColor: PathColor, which: Int): Int = {
     var numFound = 0
     var side = 0
     while (side < NUM_SIDES) {
       if (placement.getPathColor(side) == primaryColor) {
-        if (numFound == 0) first = side else if (numFound == 1) second = side
+        if (numFound == which) return side
         numFound += 1
       }
       side += 1
     }
-    assert(numFound == 2, s"Expected 2 primary path sides on $placement, but found $numFound")
-    (first, second)
+    throw new AssertionError(s"Expected 2 primary path sides on $placement, but found $numFound")
   }
 
   /** The tile turns the primary path by this many 60 degree steps. It is positive if the turn is to the left, and
@@ -77,9 +162,19 @@ object LoopFeasibilityChecker {
     * The amount does not depend on how the tile is rotated, but which way it turns does.
     */
   private[generation] def turnMagnitude(tile: HexTile, primaryColor: PathColor): Int = {
-    val sides = (0 until NUM_SIDES).filter(tile.edgeColors(_) == primaryColor)
-    assert(sides.size == 2, s"Expected 2 primary path sides on $tile, but found $sides")
-    val gap = sides(1) - sides.head
+    var first = -1
+    var second = -1
+    var numFound = 0
+    var side = 0
+    while (side < NUM_SIDES) {
+      if (tile.edgeColors(side) == primaryColor) {
+        if (numFound == 0) first = side else if (numFound == 1) second = side
+        numFound += 1
+      }
+      side += 1
+    }
+    assert(numFound == 2, s"Expected 2 primary path sides on $tile, but found $numFound")
+    val gap = second - first
     Math.min(gap, NUM_SIDES - gap) match {
       case 1 => 2
       case 2 => 1
@@ -115,12 +210,15 @@ object LoopFeasibilityChecker {
   *    have to fit and exactly fill it. Also, `x` has to be in the same empty space as `e`.
   *
   * @param board the state after a placement. The checks are the same from either end of the primary path.
+  * @param openEnds the ends of the primary path of the board
+  * @param knownTurns the sum of the turns of the tiles of the path, if it is already known (see
+  *                   [[LoopFeasibilityChecker.turnsAfterPlacing]]). It saves walking the path to find it. Its sign does not matter.
   * @author Barry Becker
   */
-class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd]) {
+class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd], knownTurns: Option[Int] = None) {
 
   /** @param board the state after a placement */
-  def this(board: TantrixBoard) = this(board, LoopFeasibilityChecker.findOpenEnds(board))
+  def this(board: TantrixBoard) = this(board, LoopFeasibilityChecker.findOpenEnds(board), None)
 
   private val tantrix = board.tantrix
   private val color = board.primaryColor
@@ -135,13 +233,12 @@ class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd]) {
       val Seq(tailExit, otherExit) = openEnds.head.exits
       isFeasible(tail, tailExit, tail, otherExit)
     }
-    else if (openEnds.size == 2) {
+    else orientEnds(board, openEnds) match {
       // The checks are the same going around the loop in either direction, so it does not matter which end is the tail.
-      val tailEnd = openEnds.find(_.placement.location == tantrix.lastTile.location).getOrElse(openEnds.head)
-      val otherEnd = openEnds.find(_.placement.location != tailEnd.placement.location).get
-      isFeasible(tailEnd.placement, tailEnd.exits.head, otherEnd.placement, otherEnd.exits.head)
+      case Some((tailEnd, otherEnd)) =>
+        isFeasible(tailEnd.placement, tailEnd.exits.head, otherEnd.placement, otherEnd.exits.head)
+      case None => true // path is not what we expect, so do not claim anything
     }
-    else true // path is not what we expect, so do not claim anything
   }
 
   private def isFeasible(tail: TilePlacement, tailExit: Int, other: TilePlacement, otherExit: Int): Boolean = {
@@ -157,42 +254,29 @@ class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd]) {
     if (cellE == cellX) numRemaining == 1
     else HexUtil.hexDistance(cellE, cellX) <= numRemaining - 1
 
-  /** Walk from the other end of the path to the tail, adding up the turns.
+  /** Add up the turns from the other end of the path to the tail, unless that is already known.
     * @param start the placement at the other end of the path
     * @param startExit the side of start that leads out of the path
     * @param tail the placement at the end of the path that the walk stops at
     * @param tailExit the side of the tail that leads out of the path
     */
-  private def turningIsPossible(start: TilePlacement, startExit: Int, tail: TilePlacement, tailExit: Int): Boolean = {
-    var current = start
-    var incoming = startExit
-    var placedTurns = 0
-    var count = 1
-    var ok = true
-    while (ok && current.location != tail.location) {
-      val (d1, d2) = primaryDirections(current, color)
-      val outgoing = if (d1 == incoming) d2 else d1
-      placedTurns += turn(incoming, outgoing)
-      tantrix(HexUtil.getNeighborLocation(current.location, outgoing)) match {
-        case Some(next) if count < tantrix.size =>
-          current = next
-          incoming = (outgoing + NUM_SIDES / 2) % NUM_SIDES
-          count += 1
-        case _ => ok = false
-      }
+  private def turningIsPossible(start: TilePlacement, startExit: Int, tail: TilePlacement, tailExit: Int): Boolean =
+    knownTurns.orElse(walkTurns(board, start, startExit, tail, tailExit)) match {
+      case Some(placedTurns) => canTurnToFullCircle(placedTurns)
+      case None => true // not a simple path, so do not claim anything
     }
-    if (!ok || count != tantrix.size) true // not a simple path, so do not claim anything
-    else {
-      placedTurns += turn(incoming, tailExit)
-      canTurnToFullCircle(placedTurns)
-    }
-  }
 
   /** Each remaining tile contributes its amount of turn in either direction. See if some choice reaches a full circle. */
   private def canTurnToFullCircle(placedTurns: Int): Boolean = {
-    val magnitudes = board.unplacedTiles.map(turnMagnitude(_, color))
-    val numWide = magnitudes.count(_ == 1)
-    val numTight = magnitudes.count(_ == 2)
+    var numWide = 0
+    var numTight = 0
+    board.unplacedTiles.foreach { tile =>
+      turnMagnitude(tile, color) match {
+        case 1 => numWide += 1
+        case 2 => numTight += 1
+        case _ =>
+      }
+    }
     var possible = false
     var wide = -numWide
     while (!possible && wide <= numWide) {
@@ -206,46 +290,85 @@ class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd]) {
     possible
   }
 
-  /** Label the empty spaces next to the placed tiles as either connected to the outside or enclosed. */
+  /** Label the empty spaces next to the placed tiles as either connected to the outside or enclosed.
+    * This is the most expensive check and it is done for every move that is tried, so it works on arrays of
+    * ints that are indexed by the position in a grid that covers the tiles and a ring of empty space around them.
+    */
   private def emptySpacesAreOk(cellE: Location, cellX: Location): Boolean = {
     val box = tantrix.getBoundingBox
     val minRow = box.getMinRow - 1
     val minCol = box.getMinCol - 1
     val height = box.getMaxRow - box.getMinRow + 3
     val width = box.getMaxCol - box.getMinCol + 3
-    val region = new Array[Int](height * width) // 0 = unvisited, 1 = outside, 2 = same space as cellE, -1 = tile
-    for (placement <- tantrix.tiles)
-      region((placement.location.row - minRow) * width + placement.location.col - minCol) = -1
-
-    def index(loc: Location) = (loc.row - minRow) * width + loc.col - minCol
-    def inGrid(loc: Location) =
-      loc.row >= minRow && loc.row < minRow + height && loc.col >= minCol && loc.col < minCol + width
-
-    def fill(start: Location, label: Int): Int = {
-      var size = 0
-      val queue = mutable.Queue(start)
-      region(index(start)) = label
-      while (queue.nonEmpty) {
-        val loc = queue.dequeue()
-        size += 1
-        for (d <- 0 until NUM_SIDES) {
-          val nbr = HexUtil.getNeighborLocation(loc, d)
-          if (inGrid(nbr) && region(index(nbr)) == 0) {
-            region(index(nbr)) = label
-            queue.enqueue(nbr)
-          }
-        }
-      }
-      size
-    }
+    val labeler = new EmptySpaceLabeler(minRow, minCol, height, width)
+    tantrix.tiles.foreach(placement => labeler.markTile(placement.location))
 
     // The ring around the bounding box is all empty and all connected.
-    fill(IntLocation(minRow, minCol), 1)
-    val eIsOutside = region(index(cellE)) == 1
-    val enclosedSize = if (eIsOutside) 0 else fill(cellE, 2)
-    val sameSpace = region(index(cellX)) == region(index(cellE))
+    val outsideSize = labeler.fill(0, EmptySpaceLabeler.OUTSIDE)
+    val indexE = labeler.indexOf(cellE)
+    val eIsOutside = labeler.labelAt(indexE) == EmptySpaceLabeler.OUTSIDE
+    val enclosedSize = if (eIsOutside) 0 else labeler.fill(indexE, EmptySpaceLabeler.WITH_E)
+    val sameSpace = labeler.labelAt(labeler.indexOf(cellX)) == labeler.labelAt(indexE)
     val fillsExactly = eIsOutside || enclosedSize == numRemaining
-    // Any empty space that is still unlabeled is enclosed and cannot be reached by the remaining tiles.
-    sameSpace && fillsExactly && !region.contains(0)
+    // Any empty space that is not labeled is enclosed and cannot be reached by the remaining tiles.
+    sameSpace && fillsExactly && outsideSize + enclosedSize == height * width - tantrix.size
   }
+}
+
+private object EmptySpaceLabeler {
+  val OUTSIDE = 1
+  val WITH_E = 2
+  private val TILE = -1
+}
+
+/** Labels the connected empty spaces of a grid of hex cells in offset coordinates, where odd rows are shifted back by
+  * half a cell (see [[HexUtil.getNeighborLocation]]).
+  * @param minRow row of the first row of the grid
+  * @param minCol column of the first column of the grid
+  */
+private class EmptySpaceLabeler(minRow: Int, minCol: Int, height: Int, width: Int) {
+  import EmptySpaceLabeler.*
+
+  private val label = new Array[Int](height * width) // 0 = unlabeled
+  private val queue = new Array[Int](height * width)
+  private var tail = 0
+
+  def indexOf(loc: Location): Int = (loc.row - minRow) * width + loc.col - minCol
+  def labelAt(index: Int): Int = label(index)
+  def markTile(loc: Location): Unit = label(indexOf(loc)) = TILE
+
+  /** Label every empty cell that can be reached from the start cell.
+    * @return the number of cells labeled.
+    */
+  def fill(start: Int, newLabel: Int): Int = {
+    var head = 0
+    tail = 0
+    label(start) = newLabel
+    queue(tail) = start
+    tail += 1
+    while (head < tail) {
+      val index = queue(head)
+      head += 1
+      val row = index / width
+      val col = index - row * width
+      val shift = if (((minRow + row) & 1) == 1) -1 else 0
+      visit(row, col + 1, newLabel)
+      visit(row - 1, col + shift + 1, newLabel)
+      visit(row - 1, col + shift, newLabel)
+      visit(row, col - 1, newLabel)
+      visit(row + 1, col + shift, newLabel)
+      visit(row + 1, col + shift + 1, newLabel)
+    }
+    tail
+  }
+
+  private def visit(row: Int, col: Int, newLabel: Int): Unit =
+    if (row >= 0 && row < height && col >= 0 && col < width) {
+      val index = row * width + col
+      if (label(index) == 0) {
+        label(index) = newLabel
+        queue(tail) = index
+        tail += 1
+      }
+    }
 }
