@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix.generation
 
 import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
-import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, PathColor, TantrixBoard, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.model.{HexTile, HexUtil, PathColor, Tantrix, TantrixBoard, TilePlacement}
 import LoopFeasibilityChecker.*
 
 
@@ -22,9 +22,18 @@ object LoopFeasibilityChecker {
     tantrix.tiles.iterator.flatMap { placement =>
       val d1 = primaryDirection(placement, board.primaryColor, 0)
       val d2 = primaryDirection(placement, board.primaryColor, 1)
-      val open = Seq(d1, d2).filter(d => tantrix(HexUtil.getNeighborLocation(placement.location, d)).isEmpty)
+      val open = emptyExits(tantrix, placement.location, d1, d2)
       Option.when(open.nonEmpty)(OpenEnd(placement, open))
     }.toSeq
+  }
+
+  /** @return those of the two sides that lead to an empty space */
+  private def emptyExits(tantrix: Tantrix, location: Location, side1: Int, side2: Int): List[Int] = {
+    val empty1 = tantrix(HexUtil.getNeighborLocation(location, side1)).isEmpty
+    val empty2 = tantrix(HexUtil.getNeighborLocation(location, side2)).isEmpty
+    if (empty1) { if (empty2) List(side1, side2) else List(side1) }
+    else if (empty2) List(side2)
+    else Nil
   }
 
   /** The same as finding the ends of the board after the move is made, but faster since only the ends of the path
@@ -40,7 +49,7 @@ object LoopFeasibilityChecker {
     }
     val d1 = primaryDirection(move, board.primaryColor, 0)
     val d2 = primaryDirection(move, board.primaryColor, 1)
-    val moveExits = Seq(d1, d2).filter(d => board.tantrix(HexUtil.getNeighborLocation(move.location, d)).isEmpty)
+    val moveExits = emptyExits(board.tantrix, move.location, d1, d2)
     if (moveExits.isEmpty) stillOpen else stillOpen :+ OpenEnd(move, moveExits)
   }
 
@@ -121,6 +130,25 @@ object LoopFeasibilityChecker {
         Some(turnsBefore + (if (atTail) turn(towardPath, away) else turn(away, towardPath)))
       }
     }
+
+  /** Taking an empty cell away from an empty space leaves what is left of it in one piece if the empty cells next to it
+    * are in one run, going around it. That is because each of them is next to the ones on either side of it in the
+    * run, so anything that went through the cell can go around it.
+    * @param board the board before a tile is placed at the location
+    * @param location an empty location
+    * @return true if filling the location cannot split the empty space that it is part of (or leave it empty)
+    */
+  def keepsEmptySpaceTogether(board: TantrixBoard, location: Location): Boolean = {
+    var empty = 0 // a bit for each side that leads to an empty location
+    var side = 0
+    while (side < NUM_SIDES) {
+      if (board.tantrix(HexUtil.getNeighborLocation(location, side)).isEmpty) empty |= 1 << side
+      side += 1
+    }
+    // the number of runs of empty sides is the number of empty sides that follow a side that is not empty
+    val rotated = ((empty << 1) | (empty >> (NUM_SIDES - 1))) & ((1 << NUM_SIDES) - 1) // side i-1 moved to side i
+    Integer.bitCount(empty & ~rotated) == 1
+  }
 
   /** @return the side of the first location that the second location is next to. */
   private def directionTo(from: Location, to: Location): Int = {
@@ -213,12 +241,15 @@ object LoopFeasibilityChecker {
   * @param openEnds the ends of the primary path of the board
   * @param knownTurns the sum of the turns of the tiles of the path, if it is already known (see
   *                   [[LoopFeasibilityChecker.turnsAfterPlacing]]). It saves walking the path to find it. Its sign does not matter.
+  * @param emptySpacesKnownToBeOk true if it is already known that the empty spaces pass their check (see
+  *                   [[LoopFeasibilityChecker.keepsEmptySpaceTogether]]), which saves doing that check.
   * @author Barry Becker
   */
-class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd], knownTurns: Option[Int] = None) {
+class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd], knownTurns: Option[Int] = None,
+                             emptySpacesKnownToBeOk: Boolean = false) {
 
   /** @param board the state after a placement */
-  def this(board: TantrixBoard) = this(board, LoopFeasibilityChecker.findOpenEnds(board), None)
+  def this(board: TantrixBoard) = this(board, LoopFeasibilityChecker.findOpenEnds(board), None, false)
 
   private val tantrix = board.tantrix
   private val color = board.primaryColor
@@ -241,12 +272,30 @@ class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd], knownT
     }
   }
 
+  /** The two empty spaces that the ends of the path lead to, if the path is not closed. */
+  lazy val endCells: Option[(Location, Location)] =
+    if (openEnds.isEmpty || numRemaining == 0) None
+    else if (tantrix.size == 1) {
+      val Seq(exit1, exit2) = openEnds.head.exits
+      val loc = openEnds.head.placement.location
+      Some((HexUtil.getNeighborLocation(loc, exit1), HexUtil.getNeighborLocation(loc, exit2)))
+    }
+    else orientEnds(board, openEnds).map { case (tail, other) =>
+      (HexUtil.getNeighborLocation(tail.placement.location, tail.exits.head),
+        HexUtil.getNeighborLocation(other.placement.location, other.exits.head))
+    }
+
+  /** @return true if the empty spaces are such that the remaining tiles can fill the one the path leads to, and no
+    *         other is enclosed. This is false if the path does not have two ends to lead to empty spaces.
+    */
+  lazy val emptySpacesAreValid: Boolean = endCells.exists { case (cellE, cellX) => emptySpacesAreOk(cellE, cellX) }
+
   private def isFeasible(tail: TilePlacement, tailExit: Int, other: TilePlacement, otherExit: Int): Boolean = {
     val cellE = HexUtil.getNeighborLocation(tail.location, tailExit)
     val cellX = HexUtil.getNeighborLocation(other.location, otherExit)
     closureIsPossible(cellE, cellX) &&
       turningIsPossible(other, otherExit, tail, tailExit) &&
-      emptySpacesAreOk(cellE, cellX)
+      (emptySpacesKnownToBeOk || emptySpacesAreOk(cellE, cellX))
   }
 
   /** There need to be enough tiles to get from the empty space the tail leads to, to the one the other end leads to. */
