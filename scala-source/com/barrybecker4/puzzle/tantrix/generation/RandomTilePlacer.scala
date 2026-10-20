@@ -18,22 +18,13 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
     * Valid placements must extend the primary path but not necessarily match secondary paths.
     *
     * @return a random tile placement for the current tantrix state and set of unplaced tiles.
-    *         returns null if no placement is possible - such as when we have a loop, the end is blocked,
+    *         returns None if no placement is possible - such as when we have a loop, the end is blocked,
     *         or there are no more unplaced tiles.
     */
-  private[generation] def generateRandomPlacement(board: TantrixBoard): Option[TilePlacement] = {
-    val unplacedTiles = rnd.shuffle(board.unplacedTiles)
-    var nextMove: Option[TilePlacement] = None
-    var i = 0
-    while (nextMove.isEmpty && i < unplacedTiles.size) {
-      val tile = unplacedTiles(i)
-      i += 1
-      nextMove = findPrimaryPathPlacementForTile(board, tile)
-    }
-    if (nextMove.isEmpty)
-      println("no valid placements found among " + unplacedTiles + " to match existing tantrix of " + board.tantrix)
-    nextMove
-  }
+  private[generation] def generateRandomPlacement(board: TantrixBoard): Option[TilePlacement] =
+    rnd.shuffle(board.unplacedTiles).iterator
+      .flatMap(tile => findPrimaryPathPlacementForTile(board, tile))
+      .nextOption()
 
   /** A random placement for the specified tile which matches the primary path,
     * but not necessarily the secondary paths. The opposite end of the primary path can only
@@ -54,18 +45,17 @@ class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) 
     *
     * @return a valid primary path placement.
     */
-  private def findPrimaryPathPlacementForTile(board: TantrixBoard, tile: HexTile): Option[TilePlacement] = {
-    val lastPlaced = board.getLastTile
-    val fitter = new PrimaryPathFitter(board.tantrix, board.primaryColor)
-    val outgoing: Map[Int, Location] = lastPlaced.getOutgoingPathLocations(primaryColor)
-    var nextLocation: Option[Location] = None
-    for (i <- outgoing.keySet) {
-      if (board.getTilePlacement(outgoing(i)).isEmpty) nextLocation = outgoing.get(i)
+  private def findPrimaryPathPlacementForTile(board: TantrixBoard, tile: HexTile): Option[TilePlacement] =
+    findOpenPathEnd(board).flatMap { location =>
+      val validFits = new PrimaryPathFitter(board.tantrix, board.primaryColor).getFittingPlacements(tile, location)
+      Option.when(validFits.nonEmpty)(validFits(rnd.nextInt(validFits.size)))
     }
-    // this could happen if there is a loop, or the openQueue end of the primary path is blocked.
-    if (nextLocation.isEmpty) return None
-    val validFits = fitter.getFittingPlacements(tile, nextLocation.get)
-    if (validFits.isEmpty) return None
-    Some(validFits(rnd.nextInt(validFits.size)))
-  }
+
+  /** @return where the primary path leaves the last placed tile and is still open (no tile there yet).
+    *         There is no such place if there is a loop, or the open end of the primary path is blocked.
+    */
+  private def findOpenPathEnd(board: TantrixBoard): Option[Location] =
+    board.getLastTile.getOutgoingPathLocations(primaryColor).valuesIterator
+      .filter(location => board.isEmpty(location))
+      .toList.lastOption
 }

@@ -39,4 +39,44 @@ class PathSelectorSuite extends AnyFunSuite {
     assert(chosen.primaryPathColor == p.primaryPathColor)
     assert(chosen.size == p.size)
   }
+
+  /** A random number generator whose nextDouble always returns the same value. */
+  private class FixedDrawRandom(draw: Double) extends Random(0) {
+    override def nextDouble(): Double = draw
+  }
+
+  private def selectWithDraw(draw: Double, paths: TantrixPath*): TantrixPath =
+    new PathSelector(eval, new FixedDrawRandom(draw)).selectPath(ListBuffer.from(paths))
+
+  test("selectPath with equally good candidates picks according to where the roulette wheel lands") {
+    val first = PathTstUtil.LOOP_PATH3
+    val second = first.subPath(0, 2) // equal to the first, but not the same instance
+    assert(eval.evaluateFitness(first) < PathEvaluator.FITNESS_RANGE)
+    assert(eval.evaluateFitness(first) == eval.evaluateFitness(second))
+
+    assert(selectWithDraw(0.25, first, second) eq first)
+    assert(selectWithDraw(0.75, first, second) eq second)
+    assert(selectWithDraw(0.999999, first, second) eq second)
+  }
+
+  test("selectPath does not fail when the random draw is exactly zero") {
+    val first = PathTstUtil.LOOP_PATH3
+    val second = first.subPath(0, 2)
+    assert(selectWithDraw(0.0, first, second) eq first)
+  }
+
+  test("selectPath requires at least one path") {
+    intercept[IllegalArgumentException] {
+      new PathSelector(eval, new Random(0)).selectPath(ListBuffer.empty[TantrixPath])
+    }
+  }
+
+  test("selectPath strongly favors the better path") {
+    val better = PathTstUtil.LOOP_PATH3
+    val worse = PathTstUtil.NON_LOOP_PATH3
+    assert(eval.evaluateFitness(better) < eval.evaluateFitness(worse))
+    val sel = new PathSelector(eval, new Random(1))
+    val numBetter = (0 until 200).count(_ => sel.selectPath(ListBuffer(worse, better)) eq better)
+    assert(numBetter >= 190, s"better path was only selected $numBetter times out of 200")
+  }
 }

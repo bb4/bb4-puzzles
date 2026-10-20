@@ -6,6 +6,8 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 
+import scala.collection.mutable.ListBuffer
+
 
 /**
   * Given a TantrixPath and a pivot tile index, find the permuted paths.
@@ -23,9 +25,35 @@ abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
     */
   def mutate(pivotTile: TilePlacement, subPath: TantrixPath): TantrixPath
 
-  protected def fits(currentPlacement: TilePlacement, previousPlacement: TilePlacement): Boolean = {
-    val outgoingPathLocations = currentPlacement.getOutgoingPathLocations(primaryColor)
-    outgoingPathLocations.values.exists(_ == previousPlacement.location)
+  protected def fits(currentPlacement: TilePlacement, previousPlacement: TilePlacement): Boolean =
+    currentPlacement.hasPathTo(primaryColor, previousPlacement.location)
+
+  /**
+    * Lay out tiles one after another along the primary path, starting from a tile that has already been
+    * positioned. Each remaining tile is rotated by the same amount as the first one was,
+    * and is placed where the primary path leaves the tile before it.
+    *
+    * @param first         the already positioned and rotated first tile of the chain
+    * @param pivotLocation location of the pivot tile that the first tile is attached to
+    * @param remaining     the rest of the tiles in the order that they follow the first one (not yet moved)
+    * @param numRotations  how many times each of the remaining tiles is rotated from its original rotation
+    * @param action        description of what is being done, for the error message if a tile does not fit.
+    * @return the placements of all the tiles in the chain, starting with the first.
+    */
+  protected def layOutChain(first: TilePlacement, pivotLocation: Location, remaining: Seq[TilePlacement],
+                            numRotations: Int, action: => String): Seq[TilePlacement] = {
+    val chain = ListBuffer(first)
+    var previous = first
+    var attachedLocation = pivotLocation
+    for (tile <- remaining) {
+      val location = findOtherOutgoingLocation(previous, attachedLocation).get
+      val current = TilePlacement(tile.tile, location, tile.rotation.rotateBy(numRotations))
+      assert(fits(current, previous), s" current=$current did not fit with $previous $action")
+      chain.append(current)
+      attachedLocation = previous.location
+      previous = current
+    }
+    chain.toSeq
   }
 
   /**

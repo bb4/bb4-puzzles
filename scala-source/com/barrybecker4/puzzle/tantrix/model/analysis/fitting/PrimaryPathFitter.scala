@@ -59,7 +59,4 @@ class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends Abstr
 
   /** @return total number of primary path fits for the whole tantrix. */
   def numPrimaryFits: Int = if (tantrix.size < 2) 0 else tantrix.tiles.map(numPrimaryFits).sum
-
-  /** used only for debugging */
-  def getTantrix: Tantrix = tantrix
 }

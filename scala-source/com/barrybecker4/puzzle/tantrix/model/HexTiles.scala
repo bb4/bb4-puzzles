@@ -6,21 +6,12 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor._
 
 import scala.util.Random
 
-object HexTiles {
-  val TILES = new HexTiles()
-  private val RAND = new Random()
-}
-
-/**
-  * The complete set of hexagonal Tantrix tiles. There are 56 of them.
-  * I entered the tiles by hand by orienting the number on the back so that it is legible, 
-  * then flipping over the tile and recording the colors on the sides 
-  * starting with the rightmost side and moving clockwise.
-  * 
-  * @author Barry Becker
+/** The one and only set of tile instances, shared by every [[HexTiles]] instance so that tiles from
+  * different instances are equal ([[PathColors]] holds an array, which compares by reference).
+  * This is separate from the companion object so that creating TILES there does not depend on initialization order.
   */
-class HexTiles()  {
-  private val tiles = Seq(
+private object HexTileSet {
+  val ALL: Seq[HexTile] = Seq(
     HexTile(1, YELLOW, PathColors(RED, BLUE, RED, BLUE, YELLOW, YELLOW)),
     HexTile(2, YELLOW, PathColors(BLUE, YELLOW, YELLOW, BLUE, RED, RED)),
     HexTile(3, YELLOW, PathColors(BLUE, BLUE, RED, RED, YELLOW, YELLOW)),
@@ -77,6 +68,23 @@ class HexTiles()  {
     HexTile(54, WHITE, PathColors(BLUE, YELLOW, YELLOW, GREEN, BLUE, GREEN)),
     HexTile(55, WHITE, PathColors(GREEN, BLUE, BLUE, YELLOW, GREEN, YELLOW)),
     HexTile(56, WHITE, PathColors(YELLOW, BLUE, BLUE, GREEN, YELLOW, GREEN)))
+}
+
+object HexTiles {
+  val TILES = new HexTiles()
+  private val RAND = new Random()
+}
+
+/**
+  * The complete set of hexagonal Tantrix tiles. There are 56 of them.
+  * I entered the tiles by hand by orienting the number on the back so that it is legible, 
+  * then flipping over the tile and recording the colors on the sides 
+  * starting with the rightmost side and moving clockwise.
+  * 
+  * @author Barry Becker
+  */
+class HexTiles()  {
+  private val tiles = HexTileSet.ALL
 
   /**
     * Get a specific tile by its tantrix number (base index of 1, not 0).
@@ -84,8 +92,6 @@ class HexTiles()  {
     */
   def getTile(tantrixNumber: Int): HexTile = tiles(tantrixNumber - 1)
   
-  def getNumTiles: Int = tiles.length
-
   def getMaxSolitaireSize: Int = 30
 
   def createOrderedList(numTiles: Int): Seq[HexTile] = tiles.slice(0, numTiles)

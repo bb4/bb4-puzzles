@@ -23,8 +23,7 @@ object HexUtil {
   def getNeighborLocation(loc: Location, direction: Int): Location = {
     val row = loc.row
     val col = loc.col
-    val colOffset = if (Math.abs(row) % 2 == 1) -1
-    else 0
+    val colOffset = oddRowShift(row)
 
     direction match {
       case 0 => IntLocation(row, col + 1)
@@ -44,9 +43,10 @@ object HexUtil {
     */
   def distanceBetween(loc1: Location, loc2: Location): Double =
     pointFromLocation(loc1).distance(pointFromLocation(loc2))
-  
-  private def pointFromLocation(loc: Location): Point2D = {
-    val row = loc.row
-    new Point2D.Double(loc.col + (if (row % 2 == 1) -0.5 else 0), row)
-  }
+
+  /** @return -1 if the row is odd (odd rows are shifted back), else 0. Correct for negative rows too. */
+  private def oddRowShift(row: Int): Int = if ((row & 1) == 1) -1 else 0
+
+  private def pointFromLocation(loc: Location): Point2D =
+    new Point2D.Double(loc.col + oddRowShift(loc.row) / 2.0, loc.row)
 }

@@ -1,5 +1,6 @@
 package com.barrybecker4.puzzle.tantrix.solver.verification
 
+import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.model.HexTile
 import com.barrybecker4.puzzle.tantrix.model.HexUtil
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
@@ -7,32 +8,35 @@ import com.barrybecker4.puzzle.tantrix.solver.verification.CompactnessCalculator
 
 case class CompactnessCalculator() {
 
-  /** First add all the tiles to a hash keyed on location.
-    * Then for every one of the six sides of each tile, add one if the
-    * neighbor is in the hash. Return (num nbrs in hash - 2(numTiles-1)) / numTiles
+  /** Count how many of the six sides of each tile have another tile of the path next to them.
+    * Every neighboring pair is counted twice, so the number of touching pairs is half of that.
+    * A path that is a simple chain has numTiles - 1 touching pairs. Extra touching pairs make it more compact.
+    * Return (num touching pairs - (numTiles - 1)) / DENOMINATOR(numTiles)
     *
     * @param path the path to determine compactness of.
     * @return measure of path compactness between 0 and ~1 where 1 is most compact.
     */
   def determineCompactness(path: TantrixPath): Double = {
-    val locationHash = path.tiles.map(_.location).toSet
     val numTiles = path.size
+    val numNeighborRelations = countNeighborRelations(path.tiles.map(_.location))
+    (numNeighborRelations / 2.0 - (numTiles - 1)) / DENOMINATOR(numTiles)
+  }
 
-    var ct = 0
-    for (p <- path.tiles) {
-      for (i <- 0 until HexTile.NUM_SIDES) {
-        if (locationHash.contains(HexUtil.getNeighborLocation(p.location, i)))
-          ct += 1
-      }
-    }
-    (ct / 2.0 - (numTiles - 1)) / DENOMINATOR(numTiles)
+  /** @return how many (tile, side) pairs have another tile of the path next to them on that side.
+    *         Every pair of neighboring tiles is counted twice, once from each tile.
+    */
+  private def countNeighborRelations(locations: Seq[Location]): Int = {
+    val occupied = locations.toSet
+    locations.map { loc =>
+      (0 until HexTile.NUM_SIDES).count(side => occupied.contains(HexUtil.getNeighborLocation(loc, side)))
+    }.sum
   }
 }
 
 /**
   * The compactness is calculated as follows:
-  * numerator = (<num nbr connections> - 2(<num tiles> - 1))
-  * denominator = (<max connections possible> - 2(<num tiles> - 1))
+  * numerator = (<num nbr connections> - (<num tiles> - 1))
+  * denominator = (<max connections possible> - (<num tiles> - 1))
   * numerator / denominator = compactness
   */
 object CompactnessCalculator {

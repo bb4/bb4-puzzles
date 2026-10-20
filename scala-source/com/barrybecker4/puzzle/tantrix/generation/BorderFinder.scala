@@ -29,7 +29,7 @@ import scala.collection.mutable
   *
   * @author Barry Becker
   */
-class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, var primaryColor: PathColor) {
+class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, val primaryColor: PathColor) {
   private val maxHalfPathLength = (numTiles + 1) / 2
 
   /** Travel the primary path in both directions, adding all adjacent empty placements
@@ -44,30 +44,41 @@ class BorderFinder private[generation](var tantrix: Tantrix, val numTiles: Int, 
 
     while (queue.nonEmpty) {
       val (placement, box) = queue.dequeue()
-      var workBox = box
-      for (i <- 0 until NUM_SIDES) {
-        val nbrLoc = HexUtil.getNeighborLocation(placement.location, i)
-        if (tantrix(nbrLoc).isEmpty && placement.getPathColor(i) == primaryColor) {
-          val newBox = Box(workBox, nbrLoc)
-          if (newBox.getMaxDimension <= maxHalfPathLength) {
-            positions += nbrLoc
-            workBox = newBox
-          }
-        }
-      }
-      for (i <- 0 until NUM_SIDES) if (placement.getPathColor(i) == primaryColor) {
-        tantrix.getNeighbor(Some(placement), i).foreach { nbr =>
-          val newBox = Box(workBox, nbr.location)
-          if (newBox.getMaxDimension <= maxHalfPathLength) {
-            val key = (nbr.location, newBox)
-            if (!enqueued.contains(key)) {
-              enqueued += key
-              queue.enqueue((nbr, newBox))
-            }
-          }
-        }
-      }
+      val workBox = addEmptyNeighbors(placement, box, positions)
+      enqueueOccupiedNeighbors(placement, workBox, queue, enqueued)
     }
     positions
   }
+
+  /** Add the empty places that the primary path of the placement leads to, if they are not too far away.
+    * @return the box expanded to include each of the places that were added.
+    */
+  private def addEmptyNeighbors(placement: TilePlacement, box: Box, positions: mutable.Set[Location]): Box =
+    primaryPathSides(placement).foldLeft(box) { (workBox, side) =>
+      val nbrLoc = HexUtil.getNeighborLocation(placement.location, side)
+      val expandedBox = Option.when(tantrix(nbrLoc).isEmpty)(Box(workBox, nbrLoc)).filter(isWithinLimit)
+      expandedBox.fold(workBox) { newBox =>
+        positions += nbrLoc
+        newBox
+      }
+    }
+
+  /** Queue up the tiles that the primary path of the placement leads to (and not already queued with the same box).
+    * They are not added if that would stretch the bounding box too far.
+    */
+  private def enqueueOccupiedNeighbors(placement: TilePlacement, workBox: Box,
+                                       queue: mutable.Queue[(TilePlacement, Box)],
+                                       enqueued: mutable.Set[(Location, Box)]): Unit =
+    for {
+      side <- primaryPathSides(placement)
+      nbr <- tantrix.getNeighbor(Some(placement), side)
+      newBox = Box(workBox, nbr.location)
+      if isWithinLimit(newBox) && enqueued.add((nbr.location, newBox))
+    } queue.enqueue((nbr, newBox))
+
+  /** @return the sides of the tile (in order) that have the primary path color */
+  private def primaryPathSides(placement: TilePlacement): Seq[Int] =
+    (0 until NUM_SIDES).filter(side => placement.getPathColor(side) == primaryColor)
+
+  private def isWithinLimit(box: Box): Boolean = box.getMaxDimension <= maxHalfPathLength
 }

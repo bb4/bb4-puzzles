@@ -5,8 +5,6 @@ import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.TilePlacement
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 
-import scala.collection.mutable.ListBuffer
-
 /**
   * Reverse a subpath.
   *
@@ -22,33 +20,18 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
     *         the same point on the pivot tile.
     */
   def mutate(pivotTile: TilePlacement, subPath: TantrixPath): TantrixPath = {
-    val tiles: ListBuffer[TilePlacement] = new ListBuffer[TilePlacement]()
-    val subPathTiles = subPath.tiles //.to[ListBuffer]
+    val subPathTiles = subPath.tiles
     val lastTile = subPathTiles.last
     val outgoingDirection = findDirectionAwayFromLast(subPathTiles, lastTile, pivotTile)
-    var newLocation = subPathTiles.head.location
-    var startDir = 0
-    startDir = findOutgoingDirection(pivotTile, newLocation)
-    val numRotations = startDir - 3 - outgoingDirection
-    var origLocation = pivotTile.location
-    var tileRotation = lastTile.rotation.rotateBy(numRotations)
-    var previousTilePlacement = TilePlacement(lastTile.tile, newLocation, tileRotation)
-    tiles.append(previousTilePlacement)
-
-    // this part is almost the same as in swapper
-    for ( i<- subPathTiles.size - 2 to 0 by -1) {
-        val currentTile = subPathTiles(i)
-        newLocation = findOtherOutgoingLocation(previousTilePlacement, origLocation).get
-        tileRotation = currentTile.rotation.rotateBy(numRotations)
-        val currentTilePlacement = TilePlacement(currentTile.tile, newLocation, tileRotation)
-        assert(fits(currentTilePlacement, previousTilePlacement), " current=" + currentTilePlacement +
-          " (" + i + ") did not fit with " + previousTilePlacement + " when reversing "
-          + subPath + " at pivot = " + pivotTile)
-        tiles.append(currentTilePlacement)
-        origLocation = previousTilePlacement.location
-        previousTilePlacement = currentTilePlacement
-    }
-    new TantrixPath(tiles.toSeq, primaryColor, subPath.desiredLength)
+    // the reversed path starts where the original one did, which is the spot next to the pivot tile.
+    val newLocation = subPathTiles.head.location
+    val numRotations = findOutgoingDirection(pivotTile, newLocation) - 3 - outgoingDirection
+    val first = TilePlacement(lastTile.tile, newLocation, lastTile.rotation.rotateBy(numRotations))
+    // the remaining tiles are visited from the one next to the last, back to the original first
+    val reversedRemaining = subPathTiles.init.reverse
+    val tiles = layOutChain(first, pivotTile.location, reversedRemaining, numRotations,
+      s"when reversing $subPath at pivot = $pivotTile")
+    new TantrixPath(tiles, primaryColor, subPath.desiredLength)
   }
 
   /**
@@ -58,12 +41,10 @@ class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPat
     */
   private def findDirectionAwayFromLast(subPathTiles: Seq[TilePlacement], lastTile: TilePlacement,
                                         pivotTile: TilePlacement): Int = {
-    var outgoing = lastTile.getOutgoingPathLocations(primaryColor)
-    val directionToPrev = if (subPathTiles.size > 1)
-        findOutgoingDirection(lastTile, subPathTiles(subPathTiles.size - 2).location)
-      else findOutgoingDirection(lastTile, pivotTile.location)
+    val tileBefore = if (subPathTiles.size > 1) subPathTiles(subPathTiles.size - 2) else pivotTile
+    val directionToPrev = findOutgoingDirection(lastTile, tileBefore.location)
     // after removing, there will be only one outgoing path - the one that is free.
-    outgoing -= directionToPrev
-    outgoing.keySet.head
+    val freeOutgoing = lastTile.getOutgoingPathLocations(primaryColor) - directionToPrev
+    freeOutgoing.keySet.head
   }
 }

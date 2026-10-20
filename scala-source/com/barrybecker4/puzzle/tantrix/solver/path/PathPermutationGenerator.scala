@@ -18,7 +18,7 @@ import scala.util.Random
   * @param path to permute
   * @author Barry Becker
   */
-class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random = new Random()) {
+class PathPermutationGenerator private[path](val path: TantrixPath, rnd: Random = new Random()) {
 
   private val triedPaths: mutable.Set[TantrixPath] = mutable.Set.empty
 
@@ -51,17 +51,12 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
   private def findPermutedPaths(radius: Double): ListBuffer[TantrixPath] = {
     val permutedPaths = ListBuffer.empty[TantrixPath]
     val permuter = PathPivotPermuter(path)
-    val tiles = path.tiles
     val numTiles = path.size
-    if (radius >= 0.4) {
-      addAllPivotsSingleIndex(permuter, numTiles, permutedPaths)
-    } else if (radius >= 0.1) {
-      val inc = 1 + path.size / 4
-      addPivotGridPermutations(permuter, numTiles, inc, permutedPaths)
-    } else if (permutedPaths.isEmpty) {
-      addMixerPermutations(permutedPaths)
-    }
-    if (permutedPaths.isEmpty) fallbackSinglePivotPair(permuter, tiles)
+    if (radius >= 0.4) addAllPivotsSingleIndex(permuter, numTiles, permutedPaths)
+    else if (radius >= 0.1) addPivotGridPermutations(permuter, numTiles, 1 + numTiles / 4, permutedPaths)
+    else addMixerPermutations(permutedPaths)
+
+    if (permutedPaths.isEmpty) fallbackSinglePivotPair(permuter, path.tiles)
     else permutedPaths
   }
 
@@ -79,24 +74,22 @@ class PathPermutationGenerator private[path](var path: TantrixPath, rnd: Random 
       numTiles: Int,
       inc: Int,
       permutedPaths: ListBuffer[TantrixPath]): Unit = {
-    var pivot1 = 1
-    while (pivot1 < numTiles - 1) {
-      var pivot2 = pivot1
-      while (pivot2 < numTiles - 1) {
-        addAllPermutedPaths(permuter.findPermutedPaths(pivot1, pivot2), permutedPaths)
-        pivot2 += rand(inc)
-      }
-      pivot1 += rand(inc)
-    }
+    for {
+      pivot1 <- pivotIndices(1, numTiles, inc)
+      pivot2 <- pivotIndices(pivot1, numTiles, inc)
+    } addAllPermutedPaths(permuter.findPermutedPaths(pivot1, pivot2), permutedPaths)
   }
 
-  private def addMixerPermutations(permutedPaths: ListBuffer[TantrixPath]): Unit = {
-    val typeIter = rnd.shuffle(PathType.values.toList).iterator
-    while (typeIter.hasNext) {
-      val mixer = SameTypeTileMixer(typeIter.next(), path, rnd)
-      addAllPermutedPaths(mixer.findPermutedPaths, permutedPaths)
+  /** @return indices that start at `first` and then advance by a random step of 1 to `inc`.
+    *         They stop before the last tile, since the first and last tile of the path cannot be pivots.
+    */
+  private def pivotIndices(first: Int, numTiles: Int, inc: Int): Iterator[Int] =
+    Iterator.iterate(first)(_ + rand(inc)).takeWhile(_ < numTiles - 1)
+
+  private def addMixerPermutations(permutedPaths: ListBuffer[TantrixPath]): Unit =
+    rnd.shuffle(PathType.values.toList).foreach { pathType =>
+      addAllPermutedPaths(SameTypeTileMixer(pathType, path, rnd).findPermutedPaths, permutedPaths)
     }
-  }
 
   private def fallbackSinglePivotPair(permuter: PathPivotPermuter, tiles: Seq[TilePlacement]): ListBuffer[TantrixPath] = {
     require(tiles.size >= 3, "need at least 3 tiles for pivot fallback")

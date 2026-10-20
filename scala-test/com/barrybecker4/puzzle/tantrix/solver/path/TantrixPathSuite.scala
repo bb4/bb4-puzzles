@@ -141,7 +141,7 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
@@ -169,12 +169,23 @@ class TantrixPathSuite extends AnyFunSuite {
     //println("nbr = " + nbr.toString)
 
     val tiles = Seq(
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_180),
+      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20), ANGLE_120),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 21), ANGLE_60))
 
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, board.numTiles)
     assertResult(expectedPath) { nbr }
+  }
+
+  test("random samples are different paths through the same tiles") {
+    val original = LOOP_PATH7
+    val samples = (0 until 50).map(_ => original.getRandomSample.asInstanceOf[TantrixPath])
+    assert(samples.toSet.size > 1, "all the random samples were the same path")
+    for (sample <- samples) {
+      assertResult(original.tiles.map(_.tile).toSet) { sample.tiles.map(_.tile).toSet }
+      assertResult(original.size) { sample.size }
+      assertResult(original.primaryPathColor) { sample.primaryPathColor }
+    }
   }
 }
 

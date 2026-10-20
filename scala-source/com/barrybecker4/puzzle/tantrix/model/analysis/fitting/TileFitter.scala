@@ -17,7 +17,12 @@ import scala.util.boundary.break
   * @param tiles Current set of placed tiles
   */
 class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extends AbstractFitter(primaryColor) {
-  
+
+  /** Placed tiles by location, so that neighbor lookups are O(1) instead of a scan of all tiles.
+    * Lazy because TantrixTileFitter overrides getNeighbor and never needs it. Locations are unique.
+    */
+  private lazy val placementByLocation = tiles.map(tp => tp.location -> tp).toMap
+
   /** The tile fits if the primary path and all the other paths match for edges that have neighbors.
     * @param placement the tile to check for a valid fit.
     * @return true of the tile fits
@@ -42,8 +47,6 @@ class TileFitter(tiles: Iterable[TilePlacement], primaryColor: PathColor) extend
     * @param direction    side to navigate in order to find the neighbor. 0 is to the right.
     * @return the indicated neighbor of the specified tile if it exists, else None.
     */
-  protected def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] = {
-    val loc = getNeighborLocation(currentPlacement.get.location, direction)
-    tiles.find(_.location == loc)
-  }
+  protected def getNeighbor(currentPlacement: Option[TilePlacement], direction: Int): Option[TilePlacement] =
+    placementByLocation.get(getNeighborLocation(currentPlacement.get.location, direction))
 }

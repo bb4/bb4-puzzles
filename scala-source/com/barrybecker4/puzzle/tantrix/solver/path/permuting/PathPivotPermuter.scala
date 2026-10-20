@@ -19,24 +19,6 @@ import scala.collection.mutable.ListBuffer
   */
 class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray {
 
-  /** Try the seven cases and take any that are valid for the n squared positions of the pivot path.
-    * @return no more than 7 permuted path cases.
-    */
-  def findAllPermutedPaths: ListBuffer[TantrixPath] = {
-    val pathPermutations: ListBuffer[TantrixPath] = new ListBuffer[TantrixPath]()
-    val lowerIndexStart = 1
-    val upperIndexStop = myPath.size - 2
-    for (i <- lowerIndexStart until upperIndexStop) {
-      for (j <- upperIndexStop to i) {
-        val subPath1 = myPath.subPath(i - 1, 0)
-        val pivotPath = myPath.subPath(i, j)
-        val subPath2 = myPath.subPath(j + 1, myPath.size - 1)
-        pathPermutations.appendAll(createPermutedPathList(subPath1, pivotPath, subPath2))
-      }
-    }
-    pathPermutations
-  }
-
   override def setPermutation(indices: List[Int]): PathPivotPermuter = {
     val tilePlacements: Seq[TilePlacement] = indices.map(myPath.tiles(_))
     new PathPivotPermuter(new TantrixPath(tilePlacements, myPath.primaryPathColor, myPath.desiredLength))
@@ -60,52 +42,51 @@ class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray 
     * @return list of permuted paths.
     */
   private def createPermutedPathList(subPath1: TantrixPath, pivotPath: TantrixPath, subPath2: TantrixPath)
-      : ListBuffer[TantrixPath] = {
-    val primaryColor = myPath.primaryPathColor
-    val swapper = new SubPathSwapper(primaryColor)
-    val reverser = new SubPathReverser(primaryColor)
-    val firstPivot = pivotPath.getFirst
-    val lastPivot = pivotPath.getLast
+      : ListBuffer[TantrixPath] =
+    ListBuffer.from(
+      subPathCombinations(subPath1, pivotPath, subPath2).flatMap { case (before, after) =>
+        createPermutedPath(before, pivotPath, after)
+      }
+    )
+
+  /** The 7 ways (in a fixed order) to attach the two sub paths to the pivot, other than how they are already attached.
+    * Each sub path may be reversed (keeping its end next to the pivot), or swapped to the pivot's other primary
+    * path (and then optionally reversed). When swapped, the sub path that was on the other side comes first.
+    * @return pairs of (path that will be placed before the pivot, path that will be placed after the pivot)
+    */
+  private def subPathCombinations(subPath1: TantrixPath, pivotPath: TantrixPath, subPath2: TantrixPath)
+      : Seq[(TantrixPath, TantrixPath)] = {
+    val reverser = new SubPathReverser(myPath.primaryPathColor)
+    val swapper = new SubPathSwapper(myPath.primaryPathColor)
+    val (firstPivot, lastPivot) = (pivotPath.getFirst, pivotPath.getLast)
     val subPath1Reversed = reverser.mutate(firstPivot, subPath1)
     val subPath2Reversed = reverser.mutate(lastPivot, subPath2)
     val subPath1Swapped = swapper.mutate(firstPivot, subPath1)
     val subPath2Swapped = swapper.mutate(lastPivot, subPath2)
     val subPath1RevSwapped = swapper.mutate(firstPivot, subPath1Reversed)
     val subPath2RevSwapped = swapper.mutate(lastPivot, subPath2Reversed)
-    val pathPermutations = new ListBuffer[TantrixPath]()
-    addIfDefined(createPermutedPath(subPath1, pivotPath, subPath2Reversed), pathPermutations)
-    addIfDefined(createPermutedPath(subPath1Reversed, pivotPath, subPath2), pathPermutations)
-    addIfDefined(createPermutedPath(subPath1Reversed, pivotPath, subPath2Reversed), pathPermutations)
-    addIfDefined(createPermutedPath(subPath2Swapped, pivotPath, subPath1Swapped), pathPermutations)
-    addIfDefined(createPermutedPath(subPath2Swapped, pivotPath, subPath1RevSwapped), pathPermutations)
-    addIfDefined(createPermutedPath(subPath2RevSwapped, pivotPath, subPath1Swapped), pathPermutations)
-    addIfDefined(createPermutedPath(subPath2RevSwapped, pivotPath, subPath1RevSwapped), pathPermutations)
-    pathPermutations
+    Seq(
+      (subPath1, subPath2Reversed),
+      (subPath1Reversed, subPath2),
+      (subPath1Reversed, subPath2Reversed),
+      (subPath2Swapped, subPath1Swapped),
+      (subPath2Swapped, subPath1RevSwapped),
+      (subPath2RevSwapped, subPath1Swapped),
+      (subPath2RevSwapped, subPath1RevSwapped)
+    )
   }
 
-  private def addIfDefined(path: Option[TantrixPath], pathPermutations: ListBuffer[TantrixPath]): Unit =
-    path.foreach(pathPermutations.append)
-
-  /** Combine supPath1 and subPath2 to make a new path. SubPath1 needs to be reversed when adding.
-    * @param subPath1 first path
-    * @param subPath2 second path
-    * @return `None` if the resulting permuted path is not valid (i.e. has overlaps)
+  /** Combine the sub paths on either side of the pivot to make a new path.
+    * The first sub path leads away from the pivot, so it needs to be reversed when adding.
+    * @param subPath1 path that comes before the pivot
+    * @param subPath2 path that comes after the pivot
+    * @return `None` if the resulting permuted path is not valid (i.e. has overlaps). The TantrixPath constructor
+    *         verifies that the tiles form a continuous primary path.
     */
-  private def createPermutedPath(subPath1: TantrixPath, pivotPath: TantrixPath, subPath2: TantrixPath) = {
-    // add tiles from the first path in reverse order
-    val tiles: ListBuffer[TilePlacement] = new ListBuffer[TilePlacement]()
-    for (p <- subPath1.tiles) {
-      tiles.prepend(p)
-    }
-    tiles.appendAll(pivotPath.tiles)
-    tiles.appendAll(subPath2.tiles)
-    val tileSeq = tiles.toSeq
-    val path: Option[TantrixPath] = if (isValid(tileSeq)) {
-      assert(TantrixPath.hasOrderedPrimaryPath(tileSeq, myPath.primaryPathColor),
-        s"out of order path tiles \nsubpath1$subPath1\npivot=$pivotPath\nsubpath2=$subPath2\norigPath=$myPath")
-      Some(new TantrixPath(tileSeq, myPath.primaryPathColor, myPath.desiredLength))
-    } else None
-    path
+  private def createPermutedPath(subPath1: TantrixPath, pivotPath: TantrixPath, subPath2: TantrixPath)
+      : Option[TantrixPath] = {
+    val tiles = subPath1.tiles.reverse ++ pivotPath.tiles ++ subPath2.tiles
+    Option.when(isValid(tiles))(new TantrixPath(tiles, myPath.primaryPathColor, myPath.desiredLength))
   }
 
   /**

@@ -3,12 +3,17 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-import scala.util.boundary
-import scala.util.boundary.break
+import PathSelector.*
 
 
 object PathSelector {
   val RAND = new Random()
+
+  /** Controls how strongly selection favors good paths. Fitness values of neighboring paths typically differ by
+    * only a few hundredths or tenths, so weights proportional to (FITNESS_RANGE - fitness) would be almost equal,
+    * and the selection would be almost uniformly random. Smaller values favor the best paths more.
+    */
+  private val SELECTION_TEMPERATURE = 0.05
 }
 
 /**
@@ -25,25 +30,22 @@ class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
     * @param paths list of paths to evaluate.
     * @return a random path with a likely good score. In other words, the path which is close to a valid solution.
     */
-  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = boundary:
-    var totalScore: Double = 0
-    val scores: ListBuffer[Double] = ListBuffer()
+  private[path] def selectPath(paths: ListBuffer[TantrixPath]): TantrixPath = {
+    require(paths.nonEmpty, "There must be at least one path to select from.")
+    val fitnesses = paths.toList.map(evaluator.evaluateFitness)
+    val best = fitnesses.min
+    // The best path always has a weight of 1, and worse paths get exponentially smaller weights.
+    val weights = fitnesses.map(fitness => Math.exp(-(fitness - best) / SELECTION_TEMPERATURE))
+    paths(rouletteIndex(weights, rnd.nextDouble() * weights.sum))
+  }
 
-    for (path <- paths) {
-      val score = PathEvaluator.FITNESS_RANGE - evaluator.evaluateFitness(path)
-
-      if (score <= 0) break(path)
-      totalScore += score
-      scores.append(score)
-    }
-
-    scores.append(10000.0)
-    val r = rnd.nextDouble() * totalScore
-    var total: Double = 0
-    var ct: Int = 0
-    while (r > total) {
-      total += scores(ct)
-      ct += 1
-    }
-    paths(ct - 1)
+  /** Roulette wheel selection: the bigger the score, the more of the wheel the entry occupies.
+    * @param scores positive weights
+    * @param target a point on the wheel in the range [0, sum(scores)]
+    * @return index of the first entry whose cumulative score reaches the target. A target of 0 selects the first.
+    */
+  private def rouletteIndex(scores: Seq[Double], target: Double): Int = {
+    val index = scores.scanLeft(0.0)(_ + _).tail.indexWhere(target <= _)
+    if (index >= 0) index else scores.size - 1
+  }
 }

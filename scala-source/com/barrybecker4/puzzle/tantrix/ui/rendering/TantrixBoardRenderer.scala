@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.common.ui.PuzzleRenderer
 import com.barrybecker4.puzzle.tantrix.model.{BoundingBoxCalculator, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.ui.rendering.HexUtil.ROOT3
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer.*
-import scala.Iterable
 
 /**
   * Renders the the tantrix puzzle onscreen.
@@ -45,7 +44,7 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     val boardEdgeLength = bbox.getMaxDimension
     val minEdge = Math.min(width, height)
 
-    edgeLen = Math.max(MIN_EDGE_LEN, bbox.getMaxDimension)
+    edgeLen = Math.max(MIN_EDGE_LEN, boardEdgeLength)
     val padding = Math.max(0, MIN_EDGE_LEN - boardEdgeLength) / 2
     hexRadius = (1.0 - MARGIN_FRAC) * minEdge / (edgeLen * ROOT3 * .9)
     setHints(g2)
@@ -66,11 +65,6 @@ class TantrixBoardRenderer() extends PuzzleRenderer[TantrixBoard] {
     * Draw the gridlines over the background.
     */
   protected def drawGrid(g2: Graphics2D, topLeftCorner: Location): Unit = {
-    //val margin = (hexRadius / 2.0).toInt
-    //val hexWidth = ROOT3 * hexRadius
-    //val rightEdgePos = (margin + hexWidth * edgeLen).toInt
-    //val bottomEdgePos = (TOP_MARGIN + margin + hexWidth * edgeLen).toInt
-
     g2.setColor(GRID_COLOR)
 
     val bottomRightCorner = topLeftCorner.incrementOnCopy(edgeLen, edgeLen)
