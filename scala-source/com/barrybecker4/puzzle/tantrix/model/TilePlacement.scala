@@ -41,8 +41,22 @@ case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) 
     * @param target       location to check
     * @return true if one of the two outgoing paths of the specified color leads to the target location.
     */
-  def hasPathTo(primaryColor: PathColor, target: Location): Boolean =
-    getOutgoingPathLocations(primaryColor).values.exists(_ == target)
+  def hasPathTo(primaryColor: PathColor, target: Location): Boolean = {
+    // Does the same as checking getOutgoingPathLocations, but without building a map. This is checked
+    // for every pair of tiles every time a path is created, so it matters.
+    var numPaths = 0
+    var leadsToTarget = false
+    var i = 0
+    while (i < NUM_SIDES) {
+      if (primaryColor == getPathColor(i)) {
+        numPaths += 1
+        if (HexUtil.getNeighborLocation(location, i) == target) leadsToTarget = true
+      }
+      i += 1
+    }
+    assert(numPaths == 2, "Must always be two paths. Instead had " + numPaths + " for " + this + " pcolor=" + primaryColor)
+    leadsToTarget
+  }
 
   override def toString: String = "[" + tile + " at " + location + " " + rotation + "]"
 }

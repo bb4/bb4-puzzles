@@ -72,5 +72,30 @@ class TantrixSuite extends AnyFunSuite {
     assertNotNull("Placement at " + loc + " was unexpectedly null", placement)
     assertEquals("Unexpected tiles at " + loc, loc, placement.get.location)
   }
+
+  test("tantrix instances with the same placements are equal, no matter which was placed last") {
+    val placements = place3SolvedTiles.tantrix.tiles.toSeq
+    val oneOrder = new Tantrix(placements)
+    val otherOrder = new Tantrix(placements.reverse)
+    assert(oneOrder.lastTile != otherOrder.lastTile)
+    assertEquals(oneOrder, otherOrder)
+    assertEquals(oneOrder.hashCode, otherOrder.hashCode)
+    assertEquals(Set(oneOrder), Set(otherOrder))
+  }
+
+  test("tantrix instances with different placements are not equal") {
+    val placements = place3SolvedTiles.tantrix.tiles.toSeq
+    val rotated = placements.head.rotate() +: placements.tail
+    assert(new Tantrix(placements) != new Tantrix(rotated))
+    assert(new Tantrix(placements) != new Tantrix(placements.tail))
+  }
+
+  test("boards that only differ in the order the tiles were placed are equal") {
+    val board = place3SolvedTiles
+    val reordered = new TantrixBoard(new Tantrix(board.tantrix.tiles.toSeq.reverse), board.primaryColor,
+      board.unplacedTiles, board.numTiles)
+    assertEquals(board, reordered)
+    assertEquals(board.hashCode, reordered.hashCode)
+  }
 }
 

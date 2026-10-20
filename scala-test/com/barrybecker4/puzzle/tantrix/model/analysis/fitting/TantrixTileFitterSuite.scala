@@ -101,5 +101,31 @@ class TantrixTileFitterSuite extends AnyFunSuite  {
     fitter = new TantrixTileFitter(tantrix, PathColor.YELLOW)
     assert(fitter.isFit(tile2))
   }
-}
 
+  test("fitting placements are the same as those from the general fitter, for every tile at every border location") {
+    var numChecked = 0
+    var numFitting = 0
+    for (numTiles <- Seq(6, 9, 12); seed <- 1 to 3) {
+      val tiles = new scala.util.Random(seed).shuffle(TILES.createOrderedList(numTiles))
+      // look at the states along a few random paths through the search, so there are neighbors on various sides
+      var board = new TantrixBoard(tiles)
+      val rnd = new scala.util.Random(seed)
+      var moves = new com.barrybecker4.puzzle.tantrix.generation.MoveGenerator(board).generateMoves
+      while (moves.nonEmpty) {
+        val general = new TileFitter(board.tantrix.tiles, board.primaryColor)
+        val specialized = new TantrixTileFitter(board.tantrix, board.primaryColor)
+        val locations = board.tantrix.tiles.flatMap(tp => (0 until HexTile.NUM_SIDES).map(HexUtil.getNeighborLocation(tp.location, _))).toSet
+        for (loc <- locations if board.isEmpty(loc); tile <- tiles) {
+          val expected = general.getFittingPlacements(tile, loc)
+          assertResult(expected, s"$tile at $loc for \n$board")(specialized.getFittingPlacements(tile, loc))
+          numChecked += 1
+          numFitting += expected.size
+        }
+        board = board.placeTile(moves(rnd.nextInt(moves.size)))
+        moves = new com.barrybecker4.puzzle.tantrix.generation.MoveGenerator(board).generateMoves
+      }
+    }
+    assert(numChecked > 1000, "should check a lot of cases, but was " + numChecked)
+    assert(numFitting > 100, "should include cases where tiles do fit, but was " + numFitting)
+  }
+}

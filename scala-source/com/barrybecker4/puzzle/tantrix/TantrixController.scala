@@ -7,6 +7,7 @@ import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 
 import java.util.concurrent.ConcurrentHashMap
 import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator
+import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator.GrowthMode
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.Algorithm.SIMPLE_SEQUENTIAL
@@ -56,8 +57,14 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
     */
   def isGoal(position: TantrixBoard): Boolean = position.isSolved
 
+  /** The path is only extended at the end with the fewest choices, and moves that cannot lead to a solution are left out.
+    * This finds the same solutions as trying every move at either end, but searches far fewer states.
+    */
   def legalTransitions(position: TantrixBoard): Seq[TilePlacement] =
-    new MoveGenerator(position).generateMoves
+    new MoveGenerator(position, growthMode, prune = true).generateMoves
+
+  /** Which end of the path to add tiles to. Every mode finds the same solutions. */
+  protected def growthMode: GrowthMode = GrowthMode.SCARCER_END
 
   def transition(position: TantrixBoard, move: TilePlacement): TantrixBoard = position.placeTile(move)
 

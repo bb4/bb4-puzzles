@@ -32,6 +32,12 @@ import scala.collection.mutable
 class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, val primaryColor: PathColor) {
   private val maxHalfPathLength = (numTiles + 1) / 2
 
+  /** @return true if a tile placed at this location would not make the tantrix wider or taller than a loop of
+    *         this many tiles could be.
+    */
+  private[generation] def isWithinSizeLimit(loc: Location): Boolean =
+    Box(tantrix.getBoundingBox, loc).getMaxDimension <= maxHalfPathLength
+
   /** Travel the primary path in both directions, adding all adjacent empty placements
     * as long as they do not push either boundingBox dimension beyond maxHalfPathLength.
     * @return list of legal next placements

@@ -17,22 +17,40 @@ object TantrixPath {
   private[tantrix] def canonicalOrderedTiles(tiles: Seq[TilePlacement]): IndexedSeq[TilePlacement] =
     tiles.toIndexedSeq.sortBy(tp => (tp.location.row, tp.location.col, tp.rotation.ordinal))
 
+  /** A number that is in the same order as the (row, column, rotation) of the placement, so that sorting by it gives
+    * the canonical order without creating a tuple for every comparison. Columns need to be less than 2^20 away from 0.
+    */
+  private def canonicalSortKey(tp: TilePlacement): Long =
+    (tp.location.row.toLong << 32) + ((tp.location.col + (1 << 20)).toLong << 4) + tp.rotation.ordinal
+
   /** One [[IntegerParameter]] per path position; values are ids from [[canonicalOrderedTiles]]. */
   private def permutationParamsForTiles(tiles: Seq[TilePlacement]): IndexedSeq[Parameter] = {
-    // Index lookup is built once so that this is O(n log n) rather than O(n^2) (this runs for every new path).
-    val idByTile: Map[TilePlacement, Int] = canonicalOrderedTiles(tiles).zipWithIndex.toMap
-    val maxId = tiles.size - 1
-    tiles.map(tp => IntegerParameter(idByTile(tp), 0, maxId, "tile")).toIndexedSeq
+    // The id is the rank of the tile in canonical order. Ranking positions directly, rather than looking up
+    // tiles in a map, avoids hashing every tile. This runs for every new path, and there are a lot of those.
+    val keys = tiles.map(canonicalSortKey).toArray
+    val positionsInCanonicalOrder = keys.indices.sortBy(keys(_))
+    val idOfPosition = new Array[Int](keys.length)
+    for (id <- positionsInCanonicalOrder.indices) idOfPosition(positionsInCanonicalOrder(id)) = id
+    val maxId = keys.length - 1
+    idOfPosition.iterator.map(id => IntegerParameter(id, 0, maxId, "tile"): Parameter).toIndexedSeq
   }
 
   /** There is an ordered primary path if all the successive tiles are connected by the primary path.
     * @return true if there exists a primary path or loop.
     */
-  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean =
-    tiles.length < 2 || tiles.iterator.sliding(2).forall {
-      case Seq(lastTile, currentTile) => currentTile.hasPathTo(primaryColor, lastTile.location)
-      case _ => true
+  def hasOrderedPrimaryPath(tiles: Seq[TilePlacement], primaryColor: PathColor): Boolean = {
+    val iterator = tiles.iterator
+    var ordered = true
+    if (iterator.hasNext) {
+      var previous = iterator.next()
+      while (ordered && iterator.hasNext) {
+        val current = iterator.next()
+        ordered = current.hasPathTo(primaryColor, previous.location)
+        previous = current
+      }
     }
+    ordered
+  }
 
   private def getPathTilesFromBoard(board: TantrixBoard) = {
     val gen = new RandomPathGenerator(board)
@@ -179,7 +197,8 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     case _ => false
   }
 
-  override def hashCode: Int =
+  /** Cached because paths are put in sets, and hashing all of the tiles each time is slow. */
+  override lazy val hashCode: Int =
     31 * tiles.hashCode + primaryPathColor.hashCode
 
   override def toString: String = tiles.toString

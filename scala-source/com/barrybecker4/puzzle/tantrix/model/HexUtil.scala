@@ -44,6 +44,23 @@ object HexUtil {
   def distanceBetween(loc1: Location, loc2: Location): Double =
     pointFromLocation(loc1).distance(pointFromLocation(loc2))
 
+  /** Number of steps along neighboring tiles to get from one location to another.
+    * This is not the same as [[distanceBetween]], which is the straight line distance. Two tiles
+    * that are `hexDistance` apart need at least `hexDistance - 1` tiles between them to connect.
+    * @return the minimum number of moves between neighbors needed to get from loc1 to loc2.
+    */
+  def hexDistance(loc1: Location, loc2: Location): Int = {
+    val dq = axialColumn(loc1) - axialColumn(loc2)
+    val dr = loc1.row - loc2.row
+    Math.max(Math.abs(dq), Math.max(Math.abs(dr), Math.abs(dq + dr)))
+  }
+
+  /** Column in axial coordinates (where the row axis is unchanged). In axial coordinates, the six neighbor
+    * offsets are the same for every tile, which makes it easy to compute distances. Odd rows are shifted back,
+    * so that is undone by the floor of (row + 1) / 2.
+    */
+  private def axialColumn(loc: Location): Int = loc.col - Math.floorDiv(loc.row + 1, 2)
+
   /** @return -1 if the row is odd (odd rows are shifted back), else 0. Correct for negative rows too. */
   private def oddRowShift(row: Int): Int = if ((row & 1) == 1) -1 else 0
 
