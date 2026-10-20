@@ -12,8 +12,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class PathPivotPermuterInvariantsSuite extends AnyFunSuite {
 
   /** The permuter needs each tile's primary path to lead to the next tile and the next tile's back again.
-    * TantrixPath only requires the connection in one direction, and some test paths (like NON_LOOP_PATH5)
-    * are connected that way only, so they cannot be permuted.
+    * TantrixPath now validates both directions, so this is only a safety net for hand-built test paths.
     */
   private def isConnectedBothWays(path: TantrixPath): Boolean =
     path.tiles.sliding(2).forall {

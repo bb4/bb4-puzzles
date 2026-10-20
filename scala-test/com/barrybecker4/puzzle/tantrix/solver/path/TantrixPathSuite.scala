@@ -187,5 +187,29 @@ class TantrixPathSuite extends AnyFunSuite {
       assertResult(original.primaryPathColor) { sample.primaryPathColor }
     }
   }
-}
 
+  /** The tile 10 leads to tile 2, but tile 2 leads to other places. Tile 2 is next to the end of the path, but not connected. */
+  test("a tile that leads to the one before it, but is not led to by it, is not a primary path") {
+    val tile2 = TilePlacement(TILES.getTile(2), loc(26, 21), ANGLE_0)
+    val tile10 = TilePlacement(TILES.getTile(10), loc(27, 21), ANGLE_300)
+    assert(tile10.hasPathTo(PathColor.YELLOW, tile2.location))
+    assert(!tile2.hasPathTo(PathColor.YELLOW, tile10.location))
+    assert(!TantrixPath.hasOrderedPrimaryPath(Seq(tile2, tile10), PathColor.YELLOW))
+    assert(!TantrixPath.hasOrderedPrimaryPath(Seq(tile10, tile2), PathColor.YELLOW))
+    intercept[IllegalStateException] {
+      new TantrixPath(Seq(tile2, tile10), PathColor.YELLOW, 2)
+    }
+  }
+
+  test("when the tiles are put in another order by a crossover, the result is a primary path with the same tiles") {
+    import com.barrybecker4.optimization.parameter.types.IntegerParameter
+    val board = place3UnsolvedTiles
+    val original = new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, new Random(0))
+    for (order <- Seq(0, 1, 2).permutations) {
+      val params = order.map(id => IntegerParameter(id, 0, 2, "tile")).toIndexedSeq
+      val rebuilt = original.rebuildAfterOrderCrossover(params, new Random(1)).asInstanceOf[TantrixPath]
+      assert(TantrixPath.hasOrderedPrimaryPath(rebuilt.tiles, original.primaryPathColor), s"order $order")
+      assertResult(original.tiles.toSet)(rebuilt.tiles.toSet)
+    }
+  }
+}
