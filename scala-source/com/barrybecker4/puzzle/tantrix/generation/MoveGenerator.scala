@@ -82,10 +82,22 @@ class MoveGenerator(val board: TantrixBoard, growth: GrowthMode = GrowthMode.BOT
   /** The sum of the turns of the path. It is found once, and then each move only adds to it. */
   private lazy val turnsOfPath = LoopFeasibilityChecker.turnsOfPath(board, openEnds)
 
+  /** The empty spaces that the path leads to, if the empty spaces of the current board pass their check. When they do,
+    * the check is not needed again for a move into one of them unless it splits the empty space. That is the usual case
+    * (see [[LoopFeasibilityChecker.keepsEmptySpaceTogether]]), and it saves most of the cost of checking the moves.
+    */
+  private lazy val checkedEnds: Option[Set[Location]] = {
+    val checker = new LoopFeasibilityChecker(board, openEnds)
+    checker.endCells.filter { case (cellE, cellX) => cellE != cellX && checker.emptySpacesAreValid }
+      .map { case (cellE, cellX) => Set(cellE, cellX) }
+  }
+
   private def isFeasible(move: TilePlacement): Boolean = {
     val turnsAfter = turnsOfPath.flatMap(LoopFeasibilityChecker.turnsAfterPlacing(board, openEnds, _, move))
-    new LoopFeasibilityChecker(board.placeTile(move), LoopFeasibilityChecker.endsAfterPlacing(board, openEnds, move), turnsAfter)
-      .isFeasible
+    val spacesOk = checkedEnds.exists(_.contains(move.location)) &&
+      LoopFeasibilityChecker.keepsEmptySpaceTogether(board, move.location)
+    new LoopFeasibilityChecker(board.placeTile(move), LoopFeasibilityChecker.endsAfterPlacing(board, openEnds, move),
+      turnsAfter, spacesOk).isFeasible
   }
 
   /** Use the open end with the fewest moves. If there are no moves at one of them, then there is no solution. */

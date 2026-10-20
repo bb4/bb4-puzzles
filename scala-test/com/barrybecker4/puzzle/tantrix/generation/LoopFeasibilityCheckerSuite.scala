@@ -209,4 +209,31 @@ class LoopFeasibilityCheckerSuite extends AnyFunSuite {
       }
     }
   }
+
+  test("pruned moves are those that pass the full check, even when the check of the empty spaces is skipped") {
+    var numMoves = 0
+    for (numTiles <- Seq(8, 12, 16); seed <- 1 to 4; growth <- GrowthMode.values) {
+      var board = shuffledStart(numTiles, seed)
+      val rnd = new Random(seed)
+      var moves = new MoveGenerator(board, growth).generateMoves
+      while (moves.nonEmpty) {
+        val expected = moves.filter(move => new LoopFeasibilityChecker(board.placeTile(move)).isFeasible)
+        assertResult(expected.toSet, s"pruned moves of $growth on\n$board")(
+          new MoveGenerator(board, growth, prune = true).generateMoves.toSet)
+        numMoves += moves.size
+        board = board.placeTile(moves(rnd.nextInt(moves.size)))
+        moves = new MoveGenerator(board, growth).generateMoves
+      }
+    }
+    assert(numMoves > 500, "should check a lot of moves, but was " + numMoves)
+  }
+
+  test("filling a cell keeps the empty space together if the empty cells around it are in one run") {
+    // a single tile has exits in two directions, and the cell next to it has the tile on one side only
+    val board = shuffledStart(3, 1)
+    val ends = LoopFeasibilityChecker.findOpenEnds(board)
+    assert(ends.nonEmpty)
+    val cell = com.barrybecker4.puzzle.tantrix.model.HexUtil.getNeighborLocation(ends.head.placement.location, ends.head.exits.head)
+    assert(LoopFeasibilityChecker.keepsEmptySpaceTogether(board, cell))
+  }
 }
