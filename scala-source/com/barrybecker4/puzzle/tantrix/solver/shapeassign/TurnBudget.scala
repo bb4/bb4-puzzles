@@ -12,6 +12,10 @@ class TurnBudget(tiles: LoopTiles) {
 
   private val cellsLeft = new Array[Int](NUM_KINDS)
 
+  /** Turning a curve the other way instead changes the total by twice what the curve turns. */
+  private val REVERSED_WIDE_CURVE_CHANGE = 2 * WIDE_CURVE_TURN
+  private val REVERSED_TIGHT_CURVE_CHANGE = 2 * TIGHT_CURVE_TURN
+
   /** Start over with all the tiles after the first one, which is already placed, to be used. */
   def reset(): Unit = (0 until NUM_KINDS).foreach(kind => cellsLeft(kind) = tiles.numberOfKind(kind))
 
@@ -27,12 +31,16 @@ class TurnBudget(tiles: LoopTiles) {
 
   /** Each wide curve turns by one step and each tight curve by two, in either direction. */
   def canTurnBy(amount: Int): Boolean = {
-    val wide = cellsLeft(WIDE_CURVE)
-    (0 to wide).exists(numTurningBack => canTurnByTightCurves(amount - (wide - 2 * numTurningBack)))
+    val maxWideTurn = WIDE_CURVE_TURN * cellsLeft(WIDE_CURVE)
+    (0 to cellsLeft(WIDE_CURVE)).exists(numTurningBack =>
+      canTurnByTightCurves(amount - (maxWideTurn - REVERSED_WIDE_CURVE_CHANGE * numTurningBack)))
   }
 
+  /** The most the tight curves can turn is when they all turn the same way. Turning one of them back reduces that by
+    * [[REVERSED_TIGHT_CURVE_CHANGE]], so the amounts that can be reached are that far apart.
+    */
   private def canTurnByTightCurves(amount: Int): Boolean = {
-    val tight = cellsLeft(TIGHT_CURVE)
-    Math.abs(amount) <= 2 * tight && Math.floorMod(2 * tight - amount, 4) == 0
+    val maxTightTurn = TIGHT_CURVE_TURN * cellsLeft(TIGHT_CURVE)
+    Math.abs(amount) <= maxTightTurn && Math.floorMod(maxTightTurn - amount, REVERSED_TIGHT_CURVE_CHANGE) == 0
   }
 }

@@ -1,6 +1,14 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.shapeassign
 
+object LoopCells {
+  /** The first cell of the loop, where the tile that is already placed is. */
+  val START_CELL = 0
+
+  /** The first cell that a tile has to be chosen for. */
+  val FIRST_NEW_CELL = 1
+}
+
 /**
   * The cells of the loop that have been placed so far, in the order that they are along the loop. Each cell is entered
   * from the side that the loop comes from, and left by the side it goes on by. A cell is numbered by its place in the loop.
@@ -36,7 +44,9 @@ class LoopCells(numCells: Int, grid: HexGrid) {
   /** Take all the cells off. */
   def removeAll(): Unit = java.util.Arrays.fill(cellAtPosition, -1)
 
-  /** @return the cell on the given side of this one if it is earlier in the loop, otherwise -1 */
+  /** @return the cell on the given side of this one if it is earlier in the loop, otherwise -1. Positions
+    * that are free hold -1, which is also less than the cell, so they give -1 as well.
+    */
   def earlierCellOnSide(cell: Int, side: Int): Int = {
     val other = cellAtPosition(grid.neighbor(positions(cell), side))
     if (other < cell) other else -1

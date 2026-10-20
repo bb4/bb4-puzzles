@@ -1,11 +1,17 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.shapeassign
 
+object ShapeFeasibility {
+  /** The number of cells that come after the next cell when the next cell is the last one. */
+  private val ONLY_LAST_CELL_LEFT = 1
+}
+
 /**
   * Rules about the shape of the loop alone, that say when the cells that are left can not possibly finish it.
   * @param lastCellPosition where the last cell of the loop will be, which is next to the first cell
   */
 class ShapeFeasibility(grid: HexGrid, cells: LoopCells, turnBudget: TurnBudget, numCells: Int, lastCellPosition: Int) {
+  import ShapeFeasibility.*
 
   /** @param cell the cell that has just been given its exit
     * @param exitSide the exit of the cell
@@ -23,6 +29,6 @@ class ShapeFeasibility(grid: HexGrid, cells: LoopCells, turnBudget: TurnBudget, 
 
   /** The next cell is the last one only when it is the only cell left. Otherwise it needs to be close enough. */
   private def canReachLastCell(next: Int, cellsAfter: Int): Boolean =
-    if (next == lastCellPosition) cellsAfter == 1
-    else cellsAfter > 1 && grid.distance(next, lastCellPosition) <= cellsAfter - 1
+    if (next == lastCellPosition) cellsAfter == ONLY_LAST_CELL_LEFT
+    else cellsAfter > ONLY_LAST_CELL_LEFT && grid.distance(next, lastCellPosition) <= cellsAfter - ONLY_LAST_CELL_LEFT
 }
