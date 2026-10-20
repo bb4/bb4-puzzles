@@ -11,9 +11,24 @@ import org.scalatest.funsuite.AnyFunSuite
   */
 class PathPivotPermuterInvariantsSuite extends AnyFunSuite {
 
-  private val paths: Seq[TantrixPath] = PathVerificationCase.cases.map(_.path).filter(_.size >= 3)
+  /** The permuter needs each tile's primary path to lead to the next tile and the next tile's back again.
+    * TantrixPath only requires the connection in one direction, and some test paths (like NON_LOOP_PATH5)
+    * are connected that way only, so they cannot be permuted.
+    */
+  private def isConnectedBothWays(path: TantrixPath): Boolean =
+    path.tiles.sliding(2).forall {
+      case Seq(a, b) => a.hasPathTo(path.primaryPathColor, b.location) && b.hasPathTo(path.primaryPathColor, a.location)
+      case _ => true
+    }
+
+  private val paths: Seq[TantrixPath] =
+    PathVerificationCase.cases.map(_.path).filter(path => path.size >= 3 && isConnectedBothWays(path))
 
   private def tileSet(path: TantrixPath) = path.tiles.map(_.tile).toSet
+
+  test("most of the test paths can be used for the invariants") {
+    assert(paths.size >= PathVerificationCase.cases.size - 2, s"only ${paths.size} paths are connected both ways")
+  }
 
   test("permuted paths have the same tiles as the original, at distinct locations, and there are at most 7") {
     for (path <- paths; lower <- 1 to path.size - 2; upper <- lower to path.size - 2) {
