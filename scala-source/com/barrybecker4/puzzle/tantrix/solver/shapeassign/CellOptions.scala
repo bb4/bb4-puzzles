@@ -15,7 +15,8 @@ class CellOptions(numCells: Int, tiles: LoopTiles) {
   def rotationOf(cell: Int, option: Int): Int = rotations(cell)(option)
 
   /** @return the color number of the side of the cell when it has the option. */
-  def colorOnSide(cell: Int, option: Int, side: Int): Int = (sideColors(cell)(option) >> (LoopTiles.BITS_PER_COLOR * side)) & LoopTiles.COLOR_MASK
+  def colorOnSide(cell: Int, option: Int, side: Int): Int = 
+    (sideColors(cell)(option) >> (LoopTiles.BITS_PER_COLOR * side)) & LoopTiles.COLOR_MASK
 
   /** The first cell has only one option, which is its tile as it is already placed. */
   def setPlacedTile(rotation: Int): Long = record(LoopCells.START_CELL, LoopTiles.PLACED_TILE, 0, rotation)
