@@ -6,6 +6,7 @@ object DomainPropagator {
   private val UNCHANGED = 0
   private val CHANGED = 1
   private val FAILED = 2
+  // Combining the results of rules with Math.max gives the worst one, since FAILED > CHANGED > UNCHANGED.
 }
 
 /**
@@ -57,6 +58,7 @@ class DomainPropagator(numCells: Int, options: CellOptions, contacts: ContactLis
   private def keptIfAllowed(option: Int, cell: Int, side: Int, allowedColors: Int): Long =
     if ((allowedColors & (1 << options.colorOnSide(cell, option, side))) != 0) OptionSet.single(option) else 0L
 
+  /** Store the new domain for the cell. @return how it compares with the old one. */
   private def replaceDomain(domains: Array[Long], cell: Int, newDomain: Long): Int = {
     val status = if (newDomain == 0L) FAILED else if (newDomain == domains(cell)) UNCHANGED else CHANGED
     domains(cell) = newDomain
@@ -64,13 +66,13 @@ class DomainPropagator(numCells: Int, options: CellOptions, contacts: ContactLis
   }
 
   private def removeTilesThatAreTaken(domains: Array[Long]): Int =
-    worstStatus(1, numCells) { cell =>
+    worstStatus(LoopCells.FIRST_NEW_CELL, numCells) { cell =>
       if (OptionSet.hasExactlyOneTile(domains(cell))) removeTileFromOthers(domains, cell) else UNCHANGED
     }
 
   private def removeTileFromOthers(domains: Array[Long], owner: Int): Int = {
     val taken = OptionSet.optionsOfTile(OptionSet.tilesOf(domains(owner)))
-    worstStatus(1, numCells)(other => if (other != owner) removeOptions(domains, other, taken) else UNCHANGED)
+    worstStatus(LoopCells.FIRST_NEW_CELL, numCells)(other => if (other != owner) removeOptions(domains, other, taken) else UNCHANGED)
   }
 
   private def removeOptions(domains: Array[Long], cell: Int, removed: Long): Int =

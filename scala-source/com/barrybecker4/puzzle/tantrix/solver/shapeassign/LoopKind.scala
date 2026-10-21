@@ -13,18 +13,26 @@ object LoopKind {
   val TIGHT_CURVE = 2
   val NUM_KINDS = 3
 
+  /** The steps of 60 degrees that a wide curve or a tight curve turns the heading by. */
+  val WIDE_CURVE_TURN = 1
+  val TIGHT_CURVE_TURN = 2
+
   /** Steps of 60 degrees in a complete turn around the loop. */
   val FULL_TURN = 6
 
-  /** @return how many sides it is from the entry side to the exit side, going around the tile. Always 1 to 5. */
-  def sidesBetween(entrySide: Int, exitSide: Int): Int = Math.floorMod(exitSide - entrySide, 6)
+  /** The number of sides between the entry and exit of a straight path, which is directly across the tile. */
+  private val STRAIGHT_SIDES_BETWEEN = HexGrid.SIDES_TO_OPPOSITE
 
-  def kindOf(sidesBetween: Int): Int = sidesBetween match {
-    case 3 => STRAIGHT
-    case 2 | 4 => WIDE_CURVE
+  /** @return how many sides it is from the entry side to the exit side, going around the tile. Always 1 to 5. */
+  def sidesBetween(entrySide: Int, exitSide: Int): Int = Math.floorMod(exitSide - entrySide, HexGrid.NUM_SIDES)
+
+  /** A wide curve is one side from straight in either direction, and a tight curve is two sides from straight. */
+  def kindOf(sidesBetween: Int): Int = Math.abs(headingChange(sidesBetween)) match {
+    case 0 => STRAIGHT
+    case WIDE_CURVE_TURN => WIDE_CURVE
     case _ => TIGHT_CURVE
   }
 
   /** @return the change of heading in steps of 60 degrees. It is negative for turns one way and positive for the other. */
-  def headingChange(sidesBetween: Int): Int = sidesBetween - 3
+  def headingChange(sidesBetween: Int): Int = sidesBetween - STRAIGHT_SIDES_BETWEEN
 }

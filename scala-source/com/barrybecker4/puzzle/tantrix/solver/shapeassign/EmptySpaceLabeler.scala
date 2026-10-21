@@ -4,6 +4,9 @@ package com.barrybecker4.puzzle.tantrix.solver.shapeassign
 object EmptySpaceLabeler {
   private val UNLABELED = 0
   private val OCCUPIED = -1
+
+  /** The number of empty cells between the loop and the edge of the box. */
+  private val RING_WIDTH = 1
   private val OUTSIDE = 1
   private val ENCLOSED = 2
 }
@@ -29,10 +32,12 @@ class EmptySpaceLabeler(grid: HexGrid) {
   def mark(cells: LoopCells, lastCell: Int): Unit = {
     measureBox(cells, lastCell)
     java.util.Arrays.fill(labels, 0, area, UNLABELED)
-    (0 to lastCell).foreach(cell => labels(indexInBox(cells.position(cell))) = OCCUPIED)
+    (LoopCells.START_CELL to lastCell).foreach(cell => labels(indexInBox(cells.position(cell))) = OCCUPIED)
   }
 
-  /** Label the empty cells that are connected to the ring around the loop. @return how many there are. */
+  /** Label the empty cells that are connected to the ring around the loop. The corner of the box is in the ring.
+    * @return how many there are.
+    */
   def fillOutside(): Int = fill(0, OUTSIDE)
 
   /** Label the empty cells that are connected to the one at the position, unless they are already labeled as outside.
@@ -48,10 +53,15 @@ class EmptySpaceLabeler(grid: HexGrid) {
   private def measureBox(cells: LoopCells, lastCell: Int): Unit = {
     minColumn = lowest(cells, lastCell, grid.column)
     minRow = lowest(cells, lastCell, grid.row)
-    boxWidth = -lowest(cells, lastCell, position => -grid.column(position)) - minColumn + 3
-    boxHeight = -lowest(cells, lastCell, position => -grid.row(position)) - minRow + 3
+    boxWidth = highest(cells, lastCell, grid.column) - minColumn + 1 + 2 * RING_WIDTH
+    boxHeight = highest(cells, lastCell, grid.row) - minRow + 1 + 2 * RING_WIDTH
   }
 
+  /** The highest is the lowest of the negatives. */
+  private def highest(cells: LoopCells, lastCell: Int, coordinate: Int => Int): Int =
+    -lowest(cells, lastCell, position => -coordinate(position))
+
+  /** @return the lowest value of the coordinate over the cells of the loop up to the last cell */
   private def lowest(cells: LoopCells, lastCell: Int, coordinate: Int => Int): Int = {
     var best = Int.MaxValue
     for (cell <- 0 to lastCell) best = Math.min(best, coordinate(cells.position(cell)))
@@ -59,7 +69,7 @@ class EmptySpaceLabeler(grid: HexGrid) {
   }
 
   private def indexInBox(position: Int): Int =
-    (grid.row(position) - minRow + 1) * boxWidth + grid.column(position) - minColumn + 1
+    (grid.row(position) - minRow + RING_WIDTH) * boxWidth + grid.column(position) - minColumn + RING_WIDTH
 
   private def fill(startIndex: Int, label: Int): Int =
     if (labels(startIndex) != UNLABELED) 0 else floodFrom(startIndex, label)
@@ -68,9 +78,12 @@ class EmptySpaceLabeler(grid: HexGrid) {
     stackSize = 0
     push(startIndex, label)
     var count = 0
-    while (stackSize > 0) { count += 1; pushUnlabeledNeighbors(pop(), label) }
+    while (hasCellsToVisit) { count += 1; pushUnlabeledNeighbors(pop(), label) }
     count
   }
+
+  /** Cells are pushed when they are labeled and popped when their neighbors are looked at, so this runs out. */
+  private def hasCellsToVisit: Boolean = stackSize > 0
 
   private def push(index: Int, label: Int): Unit = {
     labels(index) = label

@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.tantrix.solver.shapeassign
 
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, PathColor, TilePlacement}
+import com.barrybecker4.puzzle.tantrix.solver.shapeassign.LoopCells.START_CELL
 import com.barrybecker4.puzzle.tantrix.solver.shapeassign.ShapeAssignSearch.*
 
 import scala.util.Random
@@ -10,6 +11,14 @@ object ShapeAssignSearch {
 
   /** The most tiles that can be used. The options for a cell are a set of bits in a long, with two bits for each tile. */
   val MAX_TILES: Int = OptionSet.MAX_TILES
+
+  /** The fewest tiles that can make a loop. */
+  private val MIN_TILES = 3
+
+  /** The contacts are added by the later cell of each pair, and a cell can touch up to this many earlier cells. They are
+    * the sides that are not the ones the loop enters and leaves by.
+    */
+  private val MAX_CONTACTS_PER_CELL = HexGrid.NUM_SIDES - 2
 
   /** A step is one more cell added to the loop. The search reports its progress this often. */
   private val STEPS_BETWEEN_PROGRESS_REPORTS = 256
@@ -52,23 +61,24 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
                         rnd: Random, onProgress: Long => Unit = _ => ()) {
 
   private val numCells = tiles.size
-  require(numCells >= 3 && numCells <= MAX_TILES, s"Need between 3 and $MAX_TILES tiles, but got $numCells")
+  require(numCells >= MIN_TILES && numCells <= MAX_TILES, s"Need between $MIN_TILES and $MAX_TILES tiles, but got $numCells")
 
   private val grid = new HexGrid(numCells)
   private val loopTiles = new LoopTiles(tiles, primaryColor)
   private val cells = new LoopCells(numCells, grid)
   private val options = new CellOptions(numCells, loopTiles)
-  private val contacts = new ContactList(HexGrid.NUM_SIDES * numCells)
+  private val contacts = new ContactList(MAX_CONTACTS_PER_CELL * numCells)
   private val turnBudget = new TurnBudget(loopTiles)
   private val propagator = new DomainPropagator(numCells, options, contacts)
   private val matcher = new DistinctTileMatcher
   private val assigner = new TileAssigner(numCells, propagator, matcher)
   private val placements = new PlacementBuilder(grid, cells, options, loopTiles, start.location)
 
-  // The first tile is placed, and the loop leaves it by one primary side and comes back to it by the other.
+  // The first tile is already placed, and the loop leaves it by one primary side and comes back to it by the other.
+  // The last cell of the loop is the one the loop comes back in through, so it is known before the rest of the loop.
   private val startRotation = start.rotation.ordinal
-  private val startExitSide = loopTiles.rotatedSide(0, 0, startRotation)
-  private val startEntrySide = loopTiles.rotatedSide(0, 1, startRotation)
+  private val startExitSide = loopTiles.rotatedSide(LoopTiles.PLACED_TILE, LoopTiles.FIRST_PATH_SIDE, startRotation)
+  private val startEntrySide = loopTiles.rotatedSide(LoopTiles.PLACED_TILE, LoopTiles.SECOND_PATH_SIDE, startRotation)
   private val startHeading = LoopKind.headingChange(LoopKind.sidesBetween(startEntrySide, startExitSide))
   private val lastCellPosition = grid.neighbor(grid.origin, startEntrySide)
   private val lastCellExitSide = HexGrid.oppositeSide(startEntrySide)
@@ -76,7 +86,10 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
   private val shapeFeasibility = new ShapeFeasibility(grid, cells, turnBudget, numCells, lastCellPosition)
   private val emptySpaces = new EmptySpaceCheck(grid, cells, numCells, lastCellPosition)
 
-  /** domainsAfterCell(i) are the options of all the cells, once cell i has been given its exit. */
+  /** domainsAfterCell(i) are the options of all the cells, once cell i has been given its exit. A separate copy is kept
+    * for each cell so that backing up to an earlier cell restores the options it had without having to undo the changes.
+    * The options of the cells that have not been reached yet are empty.
+    */
   private val domainsAfterCell = Array.ofDim[Long](numCells, numCells)
 
   private var steps = 0L
@@ -91,7 +104,7 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
     */
   def run(maxSteps: Long): Outcome = {
     startAttempt(maxSteps)
-    try outcomeOf(extend(1, startHeading))
+    try outcomeOf(extend(LoopCells.FIRST_NEW_CELL, startHeading))
     finally cells.removeAll()
   }
 
@@ -113,10 +126,10 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
   }
 
   private def placeStartCell(): Unit = {
-    cells.place(0, grid.origin, startEntrySide)
-    cells.setExitSide(0, startExitSide)
-    domainsAfterCell(0)(0) = options.setPlacedTile(startRotation)
-    cells.placeBeyond(0, startExitSide)
+    cells.place(START_CELL, grid.origin, startEntrySide)
+    cells.setExitSide(START_CELL, startExitSide)
+    domainsAfterCell(START_CELL)(START_CELL) = options.setPlacedTile(startRotation)
+    cells.placeBeyond(START_CELL, startExitSide)
   }
 
   /** @param cell the cell that has been positioned, with the side that it is entered by, but not yet its exit
@@ -126,7 +139,9 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
   private def extend(cell: Int, headingSoFar: Int): Boolean =
     if (countStep()) tryExits(cell, headingSoFar) else false
 
-  /** @return false if there are no steps left */
+  /** Count the step, or note that the limit has been reached so that the search can unwind.
+    * @return false if there are no steps left
+    */
   private def countStep(): Boolean = {
     stoppedForLackOfSteps = steps >= stepLimit
     if (!stoppedForLackOfSteps) { steps += 1; reportProgressSometimes() }
@@ -142,7 +157,7 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
   /** The last cell must lead back to the first. The other cells can leave by any side but the one they are entered by. */
   private def candidateExitSides(cell: Int): Array[Int] =
     if (cell == numCells - 1) Array(lastCellExitSide)
-    else rnd.shuffle(Seq(0, 1, 2, 3, 4, 5).filter(_ != cells.entrySide(cell))).toArray
+    else rnd.shuffle((0 until HexGrid.NUM_SIDES).filter(_ != cells.entrySide(cell))).toArray
 
   private def tryExit(cell: Int, exitSide: Int, headingSoFar: Int): Boolean = {
     val sidesBetween = LoopKind.sidesBetween(cells.entrySide(cell), exitSide)
@@ -152,6 +167,7 @@ class ShapeAssignSearch(tiles: IndexedSeq[HexTile], primaryColor: PathColor, sta
     }
   }
 
+  /** Use up a tile of the kind while the search runs, so that the cells after it see only the tiles that are left. */
   private def withKindUsed(kind: Int)(search: => Boolean): Boolean = {
     turnBudget.use(kind)
     val found = search

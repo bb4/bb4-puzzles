@@ -8,10 +8,21 @@ package com.barrybecker4.puzzle.tantrix.solver.shapeassign
   */
 object OptionSet {
   val MAX_TILES = 32
-  private val FIRST_ROTATION_BITS = 0x5555555555555555L
 
-  def optionOf(tile: Int, rotationNumber: Int): Int = 2 * tile + rotationNumber
-  def tileOf(option: Int): Int = option >> 1
+  /** A tile has up to two rotations that put its primary path in the right place: the straight tiles have two, and the others one. */
+  val OPTIONS_PER_TILE = 2
+
+  /** The number of bits in a long. */
+  val MAX_OPTIONS: Int = OPTIONS_PER_TILE * MAX_TILES
+
+  /** The bits for both of the options of a tile, when the tile is identified by its first option. */
+  private val BOTH_OPTIONS_OF_TILE = 3L
+
+  /** The bits of the first option of every tile: 0, 2, 4, and so on. */
+  private val FIRST_OPTION_BITS = 0x5555555555555555L
+
+  def optionOf(tile: Int, rotationNumber: Int): Int = OPTIONS_PER_TILE * tile + rotationNumber
+  def tileOf(option: Int): Int = option / OPTIONS_PER_TILE
   def single(option: Int): Long = 1L << option
   def firstOption(options: Long): Int = java.lang.Long.numberOfTrailingZeros(options)
   def withoutFirst(options: Long): Long = options & (options - 1)
@@ -41,8 +52,13 @@ object OptionSet {
     union
   }
 
-  /** @return a set with a bit for each tile that has an option in the set. Only the even bits are used. */
-  def tilesOf(options: Long): Long = (options | (options >>> 1)) & FIRST_ROTATION_BITS
+  /** @return true if there is more than one option in the set. */
+  def hasChoice(options: Long): Boolean = size(options) > 1
+
+  /** @return a set with a bit for each tile that has an option in the set, which is the bit of its first option.
+    * Moving the bits of the second options down one puts them on top of the bits of the first options.
+    */
+  def tilesOf(options: Long): Long = (options | (options >>> 1)) & FIRST_OPTION_BITS
 
   def hasExactlyOneTile(options: Long): Boolean = {
     val tiles = tilesOf(options)
@@ -50,5 +66,5 @@ object OptionSet {
   }
 
   /** @param tileBit the bit from [[tilesOf]] for the tile. @return both of the options of that tile. */
-  def optionsOfTile(tileBit: Long): Long = 3L << java.lang.Long.numberOfTrailingZeros(tileBit)
+  def optionsOfTile(tileBit: Long): Long = BOTH_OPTIONS_OF_TILE << java.lang.Long.numberOfTrailingZeros(tileBit)
 }

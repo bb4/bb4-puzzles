@@ -5,9 +5,24 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, PathColor}
 
 object LoopTiles {
 
+  /** The tile that is already placed. It is the first one in the list, and it goes with the first cell of the loop. */
+  val PLACED_TILE = 0
+
+  /** The first tile that has to be placed. The tiles from here on go in the cells from [[LoopCells.FIRST_NEW_CELL]] on. */
+  val FIRST_NEW_TILE = 1
+
+  /** Every primary path goes from one side of a tile to another. */
+  val SIDES_PER_PATH = 2
+  val FIRST_PATH_SIDE = 0
+  val SECOND_PATH_SIDE = 1
+
+  /** The colors of the sides are packed into an int, with this many bits for each. There are not more than 8 colors. */
+  val BITS_PER_COLOR = 3
+  val COLOR_MASK: Int = (1 << BITS_PER_COLOR) - 1
+
   /** @return true if every tile has a path of the color. Every tile of a loop of that color needs one. */
   def allHavePrimaryPath(tiles: Seq[HexTile], color: PathColor): Boolean =
-    tiles.forall(tile => (0 until HexGrid.NUM_SIDES).count(side => tile.edgeColors(side) == color) == 2)
+    tiles.forall(tile => (0 until HexGrid.NUM_SIDES).count(side => tile.edgeColors(side) == color) == SIDES_PER_PATH)
 }
 
 /**
@@ -17,6 +32,7 @@ object LoopTiles {
   * @param primaryColor the color of the loop
   */
 class LoopTiles(tiles: IndexedSeq[HexTile], primaryColor: PathColor) {
+  import LoopTiles.*
 
   val count: Int = tiles.size
   private val primarySides: Array[Array[Int]] = tiles.map(primarySidesOf).toArray
@@ -26,16 +42,18 @@ class LoopTiles(tiles: IndexedSeq[HexTile], primaryColor: PathColor) {
   def tile(index: Int): HexTile = tiles(index)
   def kind(index: Int): Int = kinds(index)
 
-  /** @param which 0 or 1, to choose one of the two sides of the unrotated tile that the primary path leaves by */
+  /** @param which [[FIRST_PATH_SIDE]] or [[SECOND_PATH_SIDE]], to choose one of the two sides of the unrotated tile
+    *              that the primary path leaves by
+    */
   def primarySide(index: Int, which: Int): Int = primarySides(index)(which)
 
   /** @return how many of the tiles after the first are of the given kind. */
-  def numberOfKind(kind: Int): Int = (1 until count).count(kinds(_) == kind)
+  def numberOfKind(kind: Int): Int = (FIRST_NEW_TILE until count).count(kinds(_) == kind)
 
   /** @return true if the primary path of the rotated tile leaves by exactly the two sides given. */
   def fits(index: Int, rotation: Int, side1: Int, side2: Int): Boolean = {
-    val first = rotatedSide(index, 0, rotation)
-    val second = rotatedSide(index, 1, rotation)
+    val first = rotatedSide(index, FIRST_PATH_SIDE, rotation)
+    val second = rotatedSide(index, SECOND_PATH_SIDE, rotation)
     (first == side1 && second == side2) || (first == side2 && second == side1)
   }
 
@@ -43,17 +61,18 @@ class LoopTiles(tiles: IndexedSeq[HexTile], primaryColor: PathColor) {
 
   /** @return the colors of the six sides of the rotated tile, with three bits for each. */
   def packedColors(index: Int, rotation: Int): Int =
-    (0 until HexGrid.NUM_SIDES).foldLeft(0)((packed, side) => packed | colorOnSide(index, side, rotation) << (3 * side))
+    (0 until HexGrid.NUM_SIDES).foldLeft(0)((packed, side) =>
+      packed | colorOnSide(index, side, rotation) << (BITS_PER_COLOR * side))
 
   private def colorOnSide(index: Int, side: Int, rotation: Int): Int =
     colorOrdinals(index)(Math.floorMod(side - rotation, HexGrid.NUM_SIDES))
 
   private def primarySidesOf(tile: HexTile): Array[Int] = {
     val sides = (0 until HexGrid.NUM_SIDES).filter(side => tile.edgeColors(side) == primaryColor).toArray
-    require(sides.length == 2, s"Tile $tile does not have a path of color $primaryColor")
+    require(sides.length == SIDES_PER_PATH, s"Tile $tile does not have a path of color $primaryColor")
     sides
   }
 
   private def kindOfSides(sides: Array[Int]): Int =
-    LoopKind.kindOf(LoopKind.sidesBetween(sides(0), sides(1)))
+    LoopKind.kindOf(LoopKind.sidesBetween(sides(FIRST_PATH_SIDE), sides(SECOND_PATH_SIDE)))
 }

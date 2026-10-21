@@ -30,7 +30,7 @@ class TileAssigner(numCells: Int, propagator: DomainPropagator, matcher: Distinc
 
   /** @return the cell that has the fewest options, not counting the ones with only one, or -1 if they all have just one */
   private def cellWithFewestOptions(domains: Array[Long]): Int = {
-    val undecided = (1 until numCells).filter(cell => OptionSet.size(domains(cell)) > 1)
+    val undecided = (LoopCells.FIRST_NEW_CELL until numCells).filter(cell => OptionSet.hasChoice(domains(cell)))
     if (undecided.isEmpty) -1 else undecided.minBy(cell => OptionSet.size(domains(cell)))
   }
 

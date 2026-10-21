@@ -9,12 +9,15 @@ package com.barrybecker4.puzzle.tantrix.solver.shapeassign
 class DistinctTileMatcher {
 
   private val cellOfTile = new Array[Int](OptionSet.MAX_TILES)
+  /** The tiles that have been looked at while trying to find a tile for one cell, with a bit for each. A tile is only looked
+    * at once, which stops cells from passing the same tiles back and forth.
+    */
   private var visitedTiles = 0L
 
   /** @param lastCell the last of the cells to check, from the second cell on, since the first one has its tile already */
   def canAssignDistinctTiles(domains: Array[Long], lastCell: Int): Boolean = {
     java.util.Arrays.fill(cellOfTile, -1)
-    (1 to lastCell).forall { cell =>
+    (LoopCells.FIRST_NEW_CELL to lastCell).forall { cell =>
       visitedTiles = 0L
       assignTile(domains, cell)
     }
