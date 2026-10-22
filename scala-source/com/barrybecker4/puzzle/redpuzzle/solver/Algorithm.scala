@@ -13,7 +13,8 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
   *
   * The algorithms are listed in the order of how well they work, with the most effective first. That is the order they
   * have in the user interface. Every one of the exact searches finds the solution of the standard 9 piece puzzle in
-  * well under a second, and iterative deepening A* is the quickest. The strategies from bb4-optimization
+  * well under a second. The fast backtracking search, which is written for this puzzle, is the quickest by far, and
+  * iterative deepening A* is the quickest of the generic ones. The strategies from bb4-optimization
   * come after them. They find it in a second or less when they succeed, which is about two times in three for the
   * iterated local search and the genetic searches, and less often for the others. Hill climbing and sampling get
   * stuck, and brute force over the orderings of the pieces is too slow to finish.
@@ -26,6 +27,7 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 
   /** Create an instance of the algorithm given the controller and a refreshable. */
   def createSolver(controller: PuzzleController[PieceList, OrientedPiece]): PuzzleSolver[OrientedPiece] = this match {
+    case FAST_BACKTRACKING => new FastBacktrackingSolver(controller)
     case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.3f)
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.2f)
     case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[PieceList, OrientedPiece](controller, 0.1f)
@@ -49,6 +51,7 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
   }
 
   // The cases are in order of how well they do on this puzzle, most effective first (see the documentation above).
+  case FAST_BACKTRACKING extends Algorithm
   case IDA_STAR extends Algorithm
   case BRUTE_FORCE_ORIGINAL extends Algorithm
   case CONCURRENT_DEPTH extends Algorithm

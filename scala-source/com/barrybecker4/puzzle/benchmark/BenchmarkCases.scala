@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.benchmark
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.redpuzzle.RedPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
-import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, GeneticSearchSolver as RedOptimizerSolver}
+import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, FastBacktrackingSolver as RedFastSolver, GeneticSearchSolver as RedOptimizerSolver}
 import com.barrybecker4.puzzle.tantrix.TantrixController
 import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.common.solver.SequentialPuzzleSolver
@@ -72,8 +72,13 @@ object BenchmarkCases {
   /** The red puzzle only has its standard 9 piece variant. */
   def redPuzzleCases(): List[BenchmarkCase] = {
     val probe = new RedPuzzleController(new ProbeRefreshable[PieceList, OrientedPiece])
-    val algorithms = RedAlgorithm.values.toList.filter(a => a.createSolver(probe).isInstanceOf[RedOptimizerSolver])
+    val algorithms = RedAlgorithm.values.toList.filter(a => isBenchmarkedRedSolver(a.createSolver(probe)))
     algorithms.map(alg => BenchmarkCase(RED_PUZZLE, "9 pieces", alg.toString, seed => prepareRedPuzzle(alg, seed)))
+  }
+
+  private def isBenchmarkedRedSolver(solver: AnyRef): Boolean = solver match {
+    case _: RedOptimizerSolver | _: RedFastSolver => true
+    case _ => false
   }
 
   private def prepareTantrix(alg: TantrixAlgorithm, numTiles: Int, seed: Long): PreparedRun = {
