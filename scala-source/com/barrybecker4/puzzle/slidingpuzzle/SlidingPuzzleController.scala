@@ -5,7 +5,7 @@ import com.barrybecker4.search.Refreshable
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.MoveGenerator
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
-import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
+import com.barrybecker4.puzzle.slidingpuzzle.model.{ShuffleStyle, SliderBoard}
 import com.barrybecker4.puzzle.slidingpuzzle.Algorithm.A_STAR_SEQUENTIAL
 
 
@@ -24,12 +24,15 @@ object SlidingPuzzleController {
 class SlidingPuzzleController(ui: Refreshable[SliderBoard, SlideMove])
   extends AbstractPuzzleController[SliderBoard, SlideMove](ui) {
 
-  private var initialPosition = new SliderBoard(SlidingPuzzleController.DEFAULT_SIZE).shuffle()
+  private var initialPosition = new SliderBoard(SlidingPuzzleController.DEFAULT_SIZE).shuffle(style = ShuffleStyle.RANDOM_WALK)
   algorithm = A_STAR_SEQUENTIAL
 
-  /** @param size the edge length of the puzzle to be solved */
-  def setSize(size: Int): Unit = {
-    initialPosition = new SliderBoard(size.toByte).shuffle()
+  /** Makes a new puzzle.
+    * @param size the edge length of the puzzle to be solved
+    * @param style how hard to mix up the tiles
+    */
+  def setSize(size: Int, style: ShuffleStyle = ShuffleStyle.RANDOM_WALK): Unit = {
+    initialPosition = new SliderBoard(size.toByte).shuffle(style = style)
     if (ui != null) ui.refresh(initialPosition, 0)
   }
 
