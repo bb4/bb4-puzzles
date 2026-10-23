@@ -38,12 +38,12 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
 
   case FAST_SHORTEST_IF_QUICK extends Algorithm
   case FAST_SHORTEST extends Algorithm
-  case SIMPLE_SEQUENTIAL extends Algorithm
   case A_STAR_SEQUENTIAL extends Algorithm
   case A_STAR_CONCURRENT extends Algorithm
   case IDA_STAR extends Algorithm
   case CONCURRENT_BREADTH extends Algorithm
   case CONCURRENT_DEPTH extends Algorithm
   case CONCURRENT_OPTIMUM extends Algorithm
+  case SIMPLE_SEQUENTIAL extends Algorithm
 }
 
