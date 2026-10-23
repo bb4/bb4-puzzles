@@ -21,11 +21,21 @@ object SliderTestSupport {
                               numTries: Long, elapsedMillis: Long): Unit = {}
   }
 
+  /** Remembers each board it is asked to show while the solver works, and the final result. */
+  class RecordingRefreshable extends Refreshable[SliderBoard, SlideMove] {
+    val shown = scala.collection.mutable.ArrayBuffer[SliderBoard]()
+    var finalCount = 0
+    override def refresh(state: SliderBoard, numTries: Long): Unit = shown += state
+    override def animateTransition(transition: SlideMove): SliderBoard = null
+    override def finalRefresh(path: Option[Seq[SlideMove]], state: Option[SliderBoard],
+                              numTries: Long, elapsedMillis: Long): Unit = finalCount += 1
+  }
+
   def boardOf(tiles: Seq[Int]): SliderBoard = SliderBoard(Tiles(tiles.map(_.toByte).toIndexedSeq))
 
   /** @return a controller whose puzzle starts from the given board */
-  def controllerFor(board: SliderBoard): SlidingPuzzleController =
-    new SlidingPuzzleController(new QuietRefreshable) {
+  def controllerFor(board: SliderBoard, ui: Refreshable[SliderBoard, SlideMove] = new QuietRefreshable): SlidingPuzzleController =
+    new SlidingPuzzleController(ui) {
       override def initialState: SliderBoard = board
     }
 

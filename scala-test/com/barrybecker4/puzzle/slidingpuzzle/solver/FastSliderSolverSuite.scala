@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.solver
 
 import com.barrybecker4.puzzle.common.solver.AStarPuzzleSolver
-import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard}
+import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard, Solvability}
 import com.barrybecker4.puzzle.slidingpuzzle.solver.FastSliderSolver.SearchStage
 import com.barrybecker4.puzzle.slidingpuzzle.solver.SliderTestSupport.*
 import org.scalatest.funsuite.AnyFunSuite
@@ -58,5 +58,37 @@ class FastSliderSolverSuite extends AnyFunSuite {
       assertResult(b.getEmptyLocation)(move.toPosition)
       b.doMove(move)
     }
+  }
+
+  private def uniformBoard(size: Int, seed: Int): SliderBoard = boardOf(randomSolvableTiles(size, new Random(seed)))
+
+  test("shows the positions the search is looking at while it works") {
+    val ui = new RecordingRefreshable
+    val board = uniformBoard(4, 3)
+    new FastSliderSolver(controllerFor(board, ui), Seq(SearchStage(100, 100_000L))).solve
+    assert(ui.shown.size > 5)
+    assert(ui.shown.distinct.size > 5)
+    ui.shown.foreach(shown => assertResult(board.tiles.tiles.sorted)(shown.tiles.tiles.sorted))
+  }
+
+  test("the positions shown can be solved, since they are reached by sliding") {
+    val ui = new RecordingRefreshable
+    new FastSliderSolver(controllerFor(uniformBoard(4, 5), ui), Seq(SearchStage(100, 100_000L))).solve
+    ui.shown.foreach(shown => assert(Solvability.isSolvable(4, shown.tiles.tiles.map(_.toInt))))
+  }
+
+  test("shows the board after each tile is put home when it falls back to solving tile by tile") {
+    val ui = new RecordingRefreshable
+    val board = uniformBoard(4, 7)
+    new FastSliderSolver(controllerFor(board, ui), Seq(SearchStage(100, 5_000L)), reduceIfGivenUp = true).solve
+    val solvedTopLeft = ui.shown.count(_.getPosition(0, 0) == 1.toByte)
+    assert(solvedTopLeft >= 2, s"saw $solvedTopLeft boards with tile 1 home")
+    assert(ui.shown.last.getPosition(2, 2) == 11.toByte && ui.shown.last.getPosition(3, 3) == 0.toByte)
+  }
+
+  test("tells the puzzle about the final result once, after the progress") {
+    val ui = new RecordingRefreshable
+    new FastSliderSolver(controllerFor(uniformBoard(4, 3), ui), Seq(SearchStage(100, 100_000L)), reduceIfGivenUp = true).solve
+    assertResult(1)(ui.finalCount)
   }
 }
