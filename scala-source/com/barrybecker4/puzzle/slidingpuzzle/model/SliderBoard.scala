@@ -30,10 +30,7 @@ case class SliderBoard(tiles: Tiles) {
 
   /** @return a board with the tiles mixed up in the given way. Either way it can be solved. */
   def shuffle(rand: Random = MathUtil.RANDOM, style: ShuffleStyle = ShuffleStyle.UNIFORM_RANDOM): SliderBoard =
-    style match {
-      case ShuffleStyle.RANDOM_WALK => SliderBoard(tiles.shuffleByRandomWalk(rand))
-      case ShuffleStyle.UNIFORM_RANDOM => SliderBoard(tiles.shuffleUniformly(rand))
-    }
+    SliderBoard(new TileShuffler(rand).shuffle(tiles, style))
 
   /** @return number of tiles not in the goal state (i.e. sequential order) */
   def getHamming: Byte = hamming
