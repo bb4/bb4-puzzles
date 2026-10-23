@@ -72,7 +72,7 @@ case class RubixCubeTopControls private[ui](
   override def itemStateChanged(e: ItemEvent): Unit = {
     super.itemStateChanged(e)
     if (e.getSource eq sizeSelector) {
-      controller.asInstanceOf[RubixCubeController].setSize(sizeSelector.getSelectedSize)
+      controller.setSize(sizeSelector.getSelectedSize)
       layerSelector.setSize(sizeSelector.getSelectedSize)
     }
   }

@@ -7,6 +7,7 @@ import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
 import RestartingDepthFirstSolver.*
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.util.Random
 import scala.util.boundary
@@ -32,7 +33,8 @@ object RestartingDepthFirstSolver {
     * Using it to set the limits on the restarts is within a log factor of the best possible schedule for any
     * distribution of run times, and it does not need to know what that distribution is.
     * @param i the position in the sequence, starting from 1.
-    */
+   */
+  @tailrec
   def luby(i: Int): Int = {
     require(i >= 1, "The Luby sequence starts at 1, but got " + i)
     var k = 1

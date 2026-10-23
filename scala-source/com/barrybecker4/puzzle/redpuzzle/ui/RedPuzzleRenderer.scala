@@ -81,7 +81,7 @@ object RedPuzzleRenderer {
           2 * col + 1, 2 * row,
           xpos + THIRD_SIZE + 2, ypos - 2 * PIECE_SIZE / 9)
       case Direction.RIGHT =>
-        ((if (outy) xpos + PIECE_SIZE else xpos + 2 * THIRD_SIZE),
+        (if (outy) xpos + PIECE_SIZE else xpos + 2 * THIRD_SIZE,
           ypos + THIRD_SIZE,
           2 * col + 2, 2 * row + 1,
           xpos + 8 * PIECE_SIZE / 9, ypos + 2 * PIECE_SIZE / 9)
@@ -91,7 +91,7 @@ object RedPuzzleRenderer {
           2 * col + 1, 2 * row + 2,
           xpos + THIRD_SIZE + 2, ypos + PIECE_SIZE)
       case Direction.LEFT =>
-        ((if (outy) xpos - THIRD_SIZE else xpos),
+        (if (outy) xpos - THIRD_SIZE else xpos,
           ypos + THIRD_SIZE,
           2 * col, 2 * row + 1,
           xpos - PIECE_SIZE / 9, ypos + 2 * PIECE_SIZE / 9)

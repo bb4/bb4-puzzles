@@ -38,7 +38,7 @@ object TestData {
   )
 
   /** Difficult to solve 9*9 puzzle */
-  val DIFFICULT_9 = Data.DIFFICULT_9
+  val DIFFICULT_9: Array[Array[Int]] = Data.DIFFICULT_9
 
   /** simple test of a 9*9 puzzle
     * (inconsistent. use only for testing)
@@ -95,13 +95,13 @@ object TestData {
 
   /** From http://norvig.com/sudoku.html
     */
-  val NORVIG_IMPOSSIBLE_9 = Data.NORVIG_IMPOSSIBLE_9
+  val NORVIG_IMPOSSIBLE_9: Array[Array[Int]] = Data.NORVIG_IMPOSSIBLE_9
 
   /**
     * hardest of a million samples
     * from https://norvig.com/sudoku.html
     */
-  val NORVIG_HARD_9 = Data.NORVIG_HARD_9
+  val NORVIG_HARD_9: Array[Array[Int]] = Data.NORVIG_HARD_9
 
   /** Complex 16x16 puzzle from grandma */
   val COMPLEX_16: Array[Array[Int]] = Data.SAMPLE_16

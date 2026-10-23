@@ -78,7 +78,8 @@ abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
     * Apply a move for UI animation. Subclasses that support stepping through moves must implement this;
     * puzzle solvers do not call it.
     */
-  override def animateTransition(trans: M): P = ???
+  override def animateTransition(trans: M): P = 
+    throw new UnsupportedOperationException()
 
   /** Once the puzzle search is done, this is called to show the solution (or lack thereof). */
   override def finalRefresh (path: Option[Seq[M]], position: Option[P], numTries: Long, elapsedMillis: Long): Unit = {
