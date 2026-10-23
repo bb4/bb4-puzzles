@@ -11,13 +11,13 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlaceme
   */
 object TantrixTstUtil {
   
-  val THREE_TILES = TILES.createOrderedList(3)
-  val FOUR_TILES = TILES.createOrderedList(4)
-  val FIVE_TILES = TILES.createOrderedList(5)
-  val SIX_TILES = TILES.createOrderedList(6)
-  val SEVEN_TILES = TILES.createOrderedList(7)
-  val TEN_TILES = TILES.createOrderedList(10)
-  val FOURTEEN_TILES = TILES.createOrderedList(14)
+  val THREE_TILES: Seq[HexTile] = TILES.createOrderedList(3)
+  val FOUR_TILES: Seq[HexTile] = TILES.createOrderedList(4)
+  val FIVE_TILES: Seq[HexTile] = TILES.createOrderedList(5)
+  val SIX_TILES: Seq[HexTile] = TILES.createOrderedList(6)
+  val SEVEN_TILES: Seq[HexTile] = TILES.createOrderedList(7)
+  val TEN_TILES: Seq[HexTile] = TILES.createOrderedList(10)
+  val FOURTEEN_TILES: Seq[HexTile] = TILES.createOrderedList(14)
 
   /** Places first tile in the middle and one of two remaining placed */
   def place2of3Tiles_OneThenTwo: TantrixBoard = {

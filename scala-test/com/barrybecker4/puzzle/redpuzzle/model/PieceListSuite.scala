@@ -11,7 +11,7 @@ import scala.util.Random
 object PieceListSuite {
   val ALL_OUTTY_CLUB_PIECE: Piece = Piece(Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, Nub.OUTY_CLUB, 5)
   val RANDOM_PIECE: Piece = Piece(Nub.INNY_CLUB, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 5)
-  val INCOMPLETE_PUZZLE = new PieceList(PieceLists.INITIAL_PIECES_4.take(2).map(new OrientedPiece(_)).toList, 4)
+  val INCOMPLETE_PUZZLE = new PieceList(PieceLists.INITIAL_PIECES_4.take(2).map(OrientedPiece(_)).toList, 4)
 }
 
 /**
@@ -202,13 +202,13 @@ class PieceListSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("See if new piece fits in partially solved puzzle (when it does not)") {
     val pieceList = INCOMPLETE_PUZZLE
-    assert(!pieceList.fits(new OrientedPiece(RANDOM_PIECE)))
+    assert(!pieceList.fits(OrientedPiece(RANDOM_PIECE)))
   }
 
   // In order to fit into the partial puzzle, we just need an outty daimond on top.
   test("See if new piece fits in partially solved puzzle (when it does)") {
     val pieceList = INCOMPLETE_PUZZLE
-    val newPiece = new OrientedPiece(Piece(Nub.OUTY_HEART, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 2))
+    val newPiece = OrientedPiece(Piece(Nub.OUTY_HEART, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 2))
     assert(pieceList.fits(newPiece))
   }
 }
