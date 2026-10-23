@@ -14,14 +14,19 @@ import scala.collection.mutable.ArrayBuffer
   */
 final class ReductionSolver(geometry: GridGeometry) {
 
-  /** @return the cell of the tile that is slid into the blank at each step. */
-  def solve(startTiles: Seq[Int]): Array[Int] = {
+  /**
+    * @param startTiles the tile in each cell, row by row, with 0 for the blank
+    * @param onStepDone told the tile in each cell after each step has put its tiles home, so progress can be shown
+    * @return the cell of the tile that is slid into the blank at each step.
+    */
+  def solve(startTiles: Seq[Int], onStepDone: Seq[Int] => Unit = _ => ()): Array[Int] = {
     val tiles = startTiles.toArray
     val fixedCells = new Array[Boolean](geometry.numCells)
     val slides = ArrayBuffer[Int]()
     for (step <- SolvingOrder.steps(geometry)) {
       slides ++= completeStep(step, tiles, fixedCells)
       step.foreach(tile => fixedCells(geometry.goalCell(tile)) = true)
+      onStepDone(tiles.toSeq)
     }
     slides.toArray
   }

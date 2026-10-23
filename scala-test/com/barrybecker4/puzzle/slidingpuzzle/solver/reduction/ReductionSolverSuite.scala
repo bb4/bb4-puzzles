@@ -41,4 +41,14 @@ class ReductionSolverSuite extends AnyFunSuite {
   test("fails clearly on a board that cannot be solved") {
     intercept[IllegalStateException](new ReductionSolver(new GridGeometry(3)).solve(Seq(2, 1, 3, 4, 5, 6, 7, 8, 0)))
   }
+
+  test("reports the board after each step, with more tiles home each time") {
+    val geometry = new GridGeometry(4)
+    val tiles = randomSolvableTiles(4, new Random(12))
+    val reported = scala.collection.mutable.ArrayBuffer[Seq[Int]]()
+    new ReductionSolver(geometry).solve(tiles, reported += _)
+    assertResult(SolvingOrder.steps(geometry).size)(reported.size)
+    assertResult((1 until 16) :+ 0)(reported.last)
+    assertResult(Seq(1))(reported.head.take(1).filter(_ == 1))
+  }
 }

@@ -28,6 +28,9 @@ final class SliderState(geometry: GridGeometry, startTiles: Seq[Int]) {
 
   def tileAt(cell: Int): Int = tiles(cell)
 
+  /** @return the tile in each cell, row by row, with 0 for the blank */
+  def snapshot: Seq[Int] = tiles.toSeq
+
   /** Moves the tile in `cell` (which must be next to the blank) into the blank. The blank takes its place. */
   def slideIntoBlank(cell: Int): Unit = {
     val tile = tiles(cell)

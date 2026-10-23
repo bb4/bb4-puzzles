@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard, Solvability}
+import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard, Solvability, Tiles}
 import com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch.*
 import com.barrybecker4.puzzle.slidingpuzzle.solver.reduction.ReductionSolver
 
@@ -55,24 +55,32 @@ class FastSliderSolver(
     val tiles = Seq.tabulate(geometry.numCells)(cell => start.tiles.tiles(cell).toInt)
     if (!Solvability.isSolvable(start.size, tiles)) (None, 0L)
     else {
-      val (cells, numTries) = findSlides(start, geometry, tiles)
+      val (cells, numTries) = findSlides(geometry, tiles)
       (cells.map(toMoves(_, tiles.indexOf(0), geometry)), numTries)
     }
   }
 
-  /** Tries each stage until one finds a solution, and then the tile by tile solver if allowed. */
-  private def findSlides(start: SliderBoard, geometry: GridGeometry, tiles: Seq[Int]): (Option[Array[Int]], Long) = {
+  /**
+    * Tries each stage until one finds a solution, and then the tile by tile solver if allowed.
+    * While it works, it shows the position the search is looking at (or the board after each tile is put home).
+    */
+  private def findSlides(geometry: GridGeometry, tiles: Seq[Int]): (Option[Array[Int]], Long) = {
     var numTries = 0L
     var cells: Option[Array[Int]] = None
     for (stage <- stages if cells.isEmpty) {
-      val search = new IdaStarSearch(new SliderState(geometry, tiles), geometry,
-        visited => puzzle.refresh(start, numTries + visited), stage.weightPercent, stage.maxPositions)
+      val state = new SliderState(geometry, tiles)
+      val search = new IdaStarSearch(state, geometry, visited => showProgress(state.snapshot, numTries + visited),
+        stage.weightPercent, stage.maxPositions)
       cells = search.solve()
       numTries += search.positionsVisited
     }
-    if (cells.isEmpty && reduceIfGivenUp) cells = Some(new ReductionSolver(geometry).solve(tiles))
+    if (cells.isEmpty && reduceIfGivenUp) cells = Some(new ReductionSolver(geometry).solve(tiles, showProgress(_, numTries)))
     (cells, numTries)
   }
+
+  private def showProgress(tiles: Seq[Int], numTries: Long): Unit = puzzle.refresh(boardOf(tiles), numTries)
+
+  private def boardOf(tiles: Seq[Int]): SliderBoard = SliderBoard(Tiles(tiles.map(_.toByte).toIndexedSeq))
 
   /** The tile in each cell is slid into the blank, which then takes the cell the tile left. */
   private def toMoves(slidCells: Array[Int], startBlank: Int, geometry: GridGeometry): Seq[SlideMove] = {
