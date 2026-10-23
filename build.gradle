@@ -108,7 +108,8 @@ appMap['slidingpuzzle'] = [
         longDescription : 'In the <a href="http://en.wikipedia.org/wiki/Sliding_puzzle">sliding puzzle</a> ' +
                 'you slide tiles around until the numbers are in order, ' +
                 'or some picture is completed. There is one tile missing, ' +
-                'which allows the rest to move around. Typical sizes are n^2-1, or 8, 16, and 25.'
+                'which allows the rest to move around. Typical sizes are n^2-1, or 8, 16, and 25.',
+        mx              : '8G'
 ]
 appMap['rubixcube'] = [
         title           : 'Rubix Cube',
@@ -146,7 +147,6 @@ appMap['tantrix'] = [
                 'There are a variety of different strategies that you can use for solving. ' +
                 'Some work better than others.',
         mx              : '16G'
-
 ]
 appMap['maze'] = [
         title           : 'Amazing Maze Puzzle',
