@@ -12,7 +12,7 @@ class AlgorithmSuite extends AnyFunSuite {
 
   test("the fast algorithms use the fast solver") {
     assert(Algorithm.FAST_SHORTEST.createSolver(controller).isInstanceOf[FastSliderSolver])
-    assert(Algorithm.FAST_QUICK.createSolver(controller).isInstanceOf[FastSliderSolver])
+    assert(Algorithm.FAST_SHORTEST_IF_QUICK.createSolver(controller).isInstanceOf[FastSliderSolver])
   }
 
   test("every algorithm can make a solver") {

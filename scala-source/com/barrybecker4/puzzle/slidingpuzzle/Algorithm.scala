@@ -25,7 +25,7 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     */
   def createSolver(controller: PuzzleController[SliderBoard, SlideMove]): PuzzleSolver[SlideMove] = this match {
     case FAST_SHORTEST => new FastSliderSolver(controller)
-    case FAST_QUICK => new FastSliderSolver(controller, FastSliderSolver.SHORTEST_IF_QUICK, reduceIfGivenUp = true)
+    case FAST_SHORTEST_IF_QUICK => new FastSliderSolver(controller, FastSliderSolver.SHORTEST_IF_QUICK, reduceIfGivenUp = true)
     case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[SliderBoard, SlideMove](controller)
     case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[SliderBoard, SlideMove](controller)
     case IDA_STAR => new IDAStarPuzzleSolver[SliderBoard, SlideMove](controller)
@@ -37,7 +37,7 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 0.3f)
   }
 
-  case FAST_QUICK extends Algorithm
+  case FAST_SHORTEST_IF_QUICK extends Algorithm
   case FAST_SHORTEST extends Algorithm
   case SIMPLE_SEQUENTIAL extends Algorithm
   case A_STAR_SEQUENTIAL extends Algorithm

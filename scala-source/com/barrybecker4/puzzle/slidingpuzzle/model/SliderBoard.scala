@@ -29,9 +29,9 @@ case class SliderBoard(tiles: Tiles) {
 
   def size: Int = tiles.size
 
-  /**  shuffle the board tiles */
+  /** @return a board with the tiles in a uniformly random arrangement that can be solved */
   def shuffle(rand: Random = MathUtil.RANDOM): SliderBoard = {
-    SliderBoard(tiles.shuffle(getEmptyLocation, rand))
+    SliderBoard(tiles.shuffle(rand))
   }
 
   /** @return number of tiles not in the goal state (i.e. sequential order) */

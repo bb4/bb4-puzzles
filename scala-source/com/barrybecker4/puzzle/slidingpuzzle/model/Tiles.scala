@@ -3,15 +3,12 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.{ByteLocation, Location}
 
-import scala.collection.immutable.{HashSet, IndexedSeq}
+import scala.collection.immutable.IndexedSeq
 import scala.util.Random
 import Tiles.*
 
 
 object Tiles {
-  /** Represents the four different directions that a tile can move */
-  val INDICES: List[Int] = List(0, 1, 2, 3)
-
   def createGoalTiles(edgeLen: Byte): IndexedSeq[Byte] = {
     val numTiles = edgeLen * edgeLen
     (1 to numTiles).map(_ % numTiles).map(_.toByte)
@@ -49,31 +46,27 @@ case class Tiles(tiles: IndexedSeq[Byte]) {
     totalDistance
   }
 
-  /** If the tiles are randomly placed, it is not guaranteed that there will be a solution.
-    * See http://en.wikipedia.org/wiki/15_puzzle#CITEREFJohnsonStory1879
-    * To shuffleUntilSorted, move tiles around until the blank position has been everywhere.
+  /**
+    * A uniformly random arrangement of the tiles that can be solved. Half of all arrangements cannot be solved
+    * (see [[Solvability]]), so if a random one is one of those, two tiles are swapped, which makes it a solvable one.
+    * Every solvable arrangement is equally likely.
     */
-  def shuffle(emptyLocation: Location, rand: Random): Tiles = {
-    var visited = HashSet[Location]()
-    var blankLocation = emptyLocation
-    visited += blankLocation
-    val newTiles: Array[Byte] = tiles.toArray
-
-    while (visited.size < tiles.length) {
-      val loc = randomNeighbor(blankLocation, rand)
-      internalSwap(newTiles, blankLocation, loc)
-      blankLocation = loc
-      visited += blankLocation
-    }
-    Tiles(newTiles.toIndexedSeq)
+  def shuffle(rand: Random): Tiles = {
+    val shuffled = rand.shuffle(tiles.toList)
+    Tiles(makeSolvable(shuffled).map(_.toByte).toIndexedSeq)
   }
 
-  /** A uniformly random orthogonally adjacent cell in bounds (neighbors of the blank exist while shuffling). */
-  private def randomNeighbor(blankLocation: Location, rand: Random): Location =
-    rand.shuffle(INDICES).iterator
-      .map(i => blankLocation.incrementOnCopy(MoveGenerator.OFFSETS(i)))
-      .find(isValidPosition)
-      .get
+  /** @return the arrangement, with the first two tiles (not counting the blank) swapped if it could not be solved. */
+  private def makeSolvable(arrangement: List[Byte]): List[Int] = {
+    val values = arrangement.map(_.toInt)
+    if (Solvability.isSolvable(size, values)) values
+    else swapFirstTwoTiles(values)
+  }
+
+  private def swapFirstTwoTiles(values: List[Int]): List[Int] = {
+    val (first, second) = values.indices.filter(values(_) != 0).take(2) match { case Seq(a, b) => (a, b) }
+    values.updated(first, values(second)).updated(second, values(first))
+  }
 
   def isValidPosition(loc: Location): Boolean =
     loc.row >= 0 && loc.row < size && loc.col >= 0 && loc.col < size

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver
 import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
-import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard}
+import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard, Solvability}
 import com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch.*
 import com.barrybecker4.puzzle.slidingpuzzle.solver.reduction.ReductionSolver
 
@@ -54,7 +54,7 @@ class FastSliderSolver(
   private def searchFrom(start: SliderBoard): (Option[Seq[SlideMove]], Long) = {
     val geometry = new GridGeometry(start.size)
     val tiles = Seq.tabulate(geometry.numCells)(cell => start.tiles.tiles(cell).toInt)
-    if (!Solvability.isSolvable(geometry, tiles)) (None, 0L)
+    if (!Solvability.isSolvable(start.size, tiles)) (None, 0L)
     else {
       val (cells, numTries) = findSlides(start, geometry, tiles)
       (cells.map(toMoves(_, tiles.indexOf(0), geometry)), numTries)
