@@ -10,7 +10,6 @@ import scala.collection.immutable.{HashSet, IndexedSeq}
 import scala.util.Random
 
 /**
-  * @author Barry Becker
   */
 class SliderSuite extends AnyFunSuite with BeforeAndAfter {
 

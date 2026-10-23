@@ -18,7 +18,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
   * come after them. They find it in a second or less when they succeed, which is about two times in three for the
   * iterated local search and the genetic searches, and less often for the others. Hill climbing and sampling get
   * stuck, and brute force over the orderings of the pieces is too slow to finish.
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 

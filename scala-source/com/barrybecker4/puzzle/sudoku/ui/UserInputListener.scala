@@ -21,7 +21,6 @@ object UserInputListener {
 
 /**
   * Responsible for managing interaction with the visible board as user makes guesses.
-  * @author Barry Becker
   */
 class UserInputListener private[ui](var locator: CellLocator) extends MouseListener with KeyListener {
 

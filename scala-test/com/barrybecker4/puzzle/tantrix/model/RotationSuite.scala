@@ -5,7 +5,6 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class RotationSuite extends AnyFunSuite {
 

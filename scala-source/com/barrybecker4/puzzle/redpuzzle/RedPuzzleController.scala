@@ -17,7 +17,6 @@ import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm.BRUTE_FORCE_ORIGINAL
   * and the Piece to represent a move. The way a move is applied is simply to add the piece to the
   * end of the current list.
   *
-  * @author Barry Becker
   */
 class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
   extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {

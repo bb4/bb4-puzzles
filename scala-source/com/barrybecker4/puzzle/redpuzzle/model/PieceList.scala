@@ -22,7 +22,6 @@ object PieceList {
   * A list of fit puzzle pieces (initially empty) for a numTotal sized puzzle.
   * @param pieces the currently fit pieces. May be be less than numTotal of them, but not more,
   * @param numTotal the total number of pieces in the puzzle.
-  * @author Barry Becker
   */
 case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
 

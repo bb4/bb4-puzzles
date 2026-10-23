@@ -13,7 +13,6 @@ import java.awt.Graphics2D
 /**
   * Responsible for drawing the Maze based on the MazeModel.
   *
-  * @author Barry Becker
   */
 object MazeRenderer {
   // rendering attributes

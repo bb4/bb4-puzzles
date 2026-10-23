@@ -13,7 +13,6 @@ import scala.collection.mutable
   * HiQ Puzzle Controller.
   * See puzzle.common for puzzle framework classes.
   * @param ui shows the current state on the screen.
-  * @author Barry Becker
   */
 class HiQController(ui: Refreshable[PegBoard, PegMove])
   extends AbstractPuzzleController[PegBoard, PegMove](ui) {

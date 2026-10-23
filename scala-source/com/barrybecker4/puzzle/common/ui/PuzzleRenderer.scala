@@ -9,7 +9,6 @@ import java.awt.Graphics
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the PuzzleViewer.
   *
-  * @author Barry Becker
   */
 trait PuzzleRenderer[P] {
 

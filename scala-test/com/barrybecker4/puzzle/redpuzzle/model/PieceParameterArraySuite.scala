@@ -17,7 +17,6 @@ object PieceParameterArraySuite {
 }
 
 /**
-  * @author Barry Becker
   */
 class PieceParameterArraySuite extends AnyFunSuite with BeforeAndAfter {
 

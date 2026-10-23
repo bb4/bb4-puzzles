@@ -17,7 +17,6 @@ import java.util.concurrent.atomic.AtomicLong
   *
   * @author Brian Goetz
   * @author Tim Peierls
-  * @author Barry Becker
   */
 object BaseConcurrentPuzzleSolver {
   private val THREAD_POOL_SIZE = 100

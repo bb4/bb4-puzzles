@@ -13,7 +13,6 @@ import scala.util.Random
 /**
   * The checker may only rule out states that cannot reach a solution. That is verified by comparing the solutions
   * found with and without it.
-  * @author Barry Becker
   */
 class LoopFeasibilityCheckerSuite extends AnyFunSuite {
 

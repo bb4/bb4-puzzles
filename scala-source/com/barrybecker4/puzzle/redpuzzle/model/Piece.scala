@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 
 /**
   * One of the 9 board pieces in the Red Puzzle. Immutable.
-  * @author Barry Becker
   */
 case class Piece(topNub: Nub, rightNub: Nub, bottomNub: Nub, leftNub: Nub, pieceNumber: Int) {
 

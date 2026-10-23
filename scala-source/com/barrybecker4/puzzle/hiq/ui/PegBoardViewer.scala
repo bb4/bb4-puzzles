@@ -11,7 +11,6 @@ import java.awt.Graphics
 
 /**
   * UI for drawing the current best solution to the puzzle.
-  * @author Barry Becker
   */
 final class PegBoardViewer(val theBoard: PegBoard, var doneListener: DoneListener)
   extends PuzzleViewer[PegBoard, PegMove] with PathNavigator {

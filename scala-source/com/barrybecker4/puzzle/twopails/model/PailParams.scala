@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.twopails.model
 
 /**
   * Defines the two parameters for the two pail problem.
-  * @author Barry Becker
   */
 object PailParams {
 

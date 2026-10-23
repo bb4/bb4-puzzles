@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.sudoku.model
 
 /**
   * Helps with showing large numbers on the board. Two digit numbers are converted to letters.
-  * @author Barry Becker
   */
 object ValueConverter {
 

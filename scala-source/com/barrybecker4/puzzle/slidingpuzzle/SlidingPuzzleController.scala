@@ -14,7 +14,6 @@ import com.barrybecker4.puzzle.slidingpuzzle.Algorithm.A_STAR_SEQUENTIAL
   * See http://kociemba.org/fifteen/fifteensolver.html
   * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
   *
-  * @author Barry Becker
   */
 object SlidingPuzzleController {
   private val DEFAULT_SIZE = 3.toByte

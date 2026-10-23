@@ -6,7 +6,6 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch
   * row by row, so cell = row * size + col. Tile t (1 to size*size-1) belongs in cell t-1, and the blank is tile 0.
   * Everything is looked up in arrays so that the search does not do any division or allocation.
   * @param size the number of cells along one edge
-  * @author Barry Becker
   */
 final class GridGeometry(val size: Int) {
 

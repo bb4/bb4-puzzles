@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.hiq.model
 
 /**
   * Static PegBoard symmetries.
-  * @author Barry Becker
   */
 object PegBoardSymmetries {
 

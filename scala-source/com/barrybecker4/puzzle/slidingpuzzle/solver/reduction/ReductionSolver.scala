@@ -11,7 +11,6 @@ import scala.collection.mutable.ArrayBuffer
   * where a shortest one would be about 40 to 60. What it offers is that it always finishes, and quickly, when the
   * search for a shortest solution would take minutes or longer.
   * @param geometry the shape of the puzzle
-  * @author Barry Becker
   */
 final class ReductionSolver(geometry: GridGeometry) {
 

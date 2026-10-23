@@ -16,7 +16,6 @@ import Algorithm.A_STAR_SEQUENTIAL
   * http://demonstrations.wolfram.com/WaterPouringProblem/
   * Inspired by Peter Norvig's "Design of Computer Programs" class on Udacity.
   *
-  * @author Barry Becker
   */
 object TwoPailsPuzzleController {
   private val DEFAULT_PARAMS = new PailParams(9, 4, 6)

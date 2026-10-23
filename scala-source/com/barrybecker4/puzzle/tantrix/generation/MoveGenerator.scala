@@ -39,7 +39,6 @@ object MoveGenerator {
   * @param board the current state
   * @param growth which end(s) of the path new tiles are added to.
   * @param prune If true, moves that [[LoopFeasibilityChecker]] can show will never lead to a solution are left out.
-  * @author Barry Becker
   */
 class MoveGenerator(val board: TantrixBoard, growth: GrowthMode = GrowthMode.BOTH_ENDS, prune: Boolean = false) {
 

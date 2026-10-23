@@ -6,7 +6,6 @@ import com.barrybecker4.common.geometry.Location
 
 /**
   * HiQ Puzzle move generator. Generates valid next moves.
-  * @author Barry Becker
   */
 class MoveGenerator(val board: PegBoard) {
 

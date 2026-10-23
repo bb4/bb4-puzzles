@@ -19,7 +19,6 @@ object PieceEdgeTable {
   * Slot `piece * 4 + rotation` is piece number `piece` (its index in the list given) turned `rotation` quarter turns
   * clockwise from the way the list had it.
   * @param pieces the pieces of the puzzle
-  * @author Barry Becker
   */
 final class PieceEdgeTable(pieces: Seq[OrientedPiece]) {
   import PieceEdgeTable.*

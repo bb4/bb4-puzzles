@@ -29,7 +29,6 @@ object IdaStarSearch {
   * @param onProgress told how many positions were looked at, every PROGRESS_INTERVAL positions. May throw to stop.
   * @param weightPercent how much the estimate counts for, compared to the slides so far, in percent
   * @param maxPositions the search gives up after looking at this many positions
-  * @author Barry Becker
   */
 final class IdaStarSearch(state: SliderState, geometry: GridGeometry, onProgress: Long => Unit,
                          weightPercent: Int = IdaStarSearch.OPTIMAL_WEIGHT_PERCENT,
@@ -79,7 +78,7 @@ final class IdaStarSearch(state: SliderState, geometry: GridGeometry, onProgress
     var smallestOver = UNBOUNDED
     var i = 0
     while (i < candidates.length && !isFinished) {
-      if (candidates(i) != previousBlank) 
+      if (candidates(i) != previousBlank)
         smallestOver = Math.min(smallestOver, slideAndSearch(depth, bound, candidates(i)))
       i += 1
     }

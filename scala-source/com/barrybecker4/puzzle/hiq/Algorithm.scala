@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.hiq.model.{PegBoard, PegMove}
 
 /**
   * Type of HiQ solver to use.
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[PegBoard, PegMove] {
 

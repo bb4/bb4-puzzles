@@ -9,7 +9,6 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
   * `size - 1` others. So: for an odd size the number of out of order pairs (inversions) must be even, and for an even
   * size the inversions plus the row of the blank (counting from the bottom) must be odd, when the solved board has the
   * blank in the last cell.
-  * @author Barry Becker
   */
 object Solvability {
 

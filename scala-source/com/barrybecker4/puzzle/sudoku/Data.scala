@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.sudoku
 /**
   * Some sample Sudoku test puzzle data.
   * Perhaps make these into separate date files and move to test.
-  * @author Barry Becker
   */
 object Data {
 

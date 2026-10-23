@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.slidingpuzzle.model
 
 /**
   * How the tiles of a new puzzle are mixed up.
-  * @author Barry Becker
   */
 enum ShuffleStyle {
   /**

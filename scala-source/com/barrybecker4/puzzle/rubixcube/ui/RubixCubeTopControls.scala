@@ -21,7 +21,6 @@ import javax.swing.JPanel
   *  - Thistlethwaite’s algorithm, which can solve any cube in 52 moves or fewer.
   *  - IDA* - Korf’s optimal algorithm, a.k.a. 'God’s algorithm', which can solve any cube in 20 or fewer moves.
   *
-  * @author Barry Becker
   */
 case class RubixCubeTopControls private[ui](
         override val controller: RubixCubeController,

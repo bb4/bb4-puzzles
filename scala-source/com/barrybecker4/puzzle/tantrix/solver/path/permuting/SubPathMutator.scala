@@ -14,7 +14,6 @@ import scala.collection.mutable.ListBuffer
   * Since there are 8 total ways to permute and the path already represents one of them,
   * the permuter will never return more than 7 valid permuted paths.
   *
-  * @author Barry Becker
   */
 abstract class SubPathMutator private[permuting](var primaryColor: PathColor) {
   /**

@@ -10,7 +10,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
-  * @author Barry Becker
   */
 class ConsistencyCheckerSuite extends AnyFunSuite {
   /** instance under test */

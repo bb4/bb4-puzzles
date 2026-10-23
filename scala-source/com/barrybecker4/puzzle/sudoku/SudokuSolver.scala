@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 /**
   * This does the hard work of actually solving the puzzle.
   * @param puzzlePanel optional viewer for animated solving
-  * @author Barry Becker
   */
 class SudokuSolver(puzzlePanel: Option[SudokuPanel] = None) {
 

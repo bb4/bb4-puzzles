@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.common.ui.{DoneListener, PathNavigator, PuzzleVie
 /**
   * UI for drawing the current best solution to the puzzle.
   * @param doneListener called when the puzzle has been solved.
-  * @author Barry Becker
   */
 final class BridgeViewer private[ui](var doneListener: DoneListener)
   extends PuzzleViewer[Bridge, BridgeMove] with PathNavigator {

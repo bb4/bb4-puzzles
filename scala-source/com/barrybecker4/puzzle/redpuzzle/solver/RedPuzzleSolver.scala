@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceL
   * Subclasses do the hard work of actually solving the puzzle.
   * @param puzzle the puzzle to solve.
   * @param pieces initial pool of shuffled pieces to place (defaults to a random standard set).
-  * @author Barry Becker
   */
 abstract class RedPuzzleSolver(
   val puzzle: PuzzleController[PieceList, OrientedPiece],

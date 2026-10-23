@@ -13,7 +13,6 @@ import com.barrybecker4.puzzle.slidingpuzzle.solver.FastSliderSolver
 /**
   * Type of solver to use.
   *
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
 

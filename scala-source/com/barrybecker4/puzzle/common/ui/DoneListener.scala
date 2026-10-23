@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.common.ui
 
 /**
   * Listens for something to be done.
-  * @author Barry Becker
   */
 trait DoneListener {
   def done(): Unit

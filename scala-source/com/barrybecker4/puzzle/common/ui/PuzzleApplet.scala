@@ -14,7 +14,6 @@ import java.util
 /**
   * Base class for Puzzle applets.
   *
-  * @author Barry Becker
   */
 abstract class PuzzleApplet[P, M](args: Array[String])  extends ApplicationApplet() {
   protected var controller:

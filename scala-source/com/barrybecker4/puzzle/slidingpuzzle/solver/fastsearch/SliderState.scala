@@ -10,7 +10,6 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch
   * Sliding a tile into the blank is its own undo: slide the same tile (now where the blank was) back.
   * @param geometry the shape of the puzzle
   * @param startTiles the tile in each cell, row by row, with 0 for the blank
-  * @author Barry Becker
   */
 final class SliderState(geometry: GridGeometry, startTiles: Seq[Int]) {
 

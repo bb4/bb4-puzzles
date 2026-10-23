@@ -21,7 +21,6 @@ object PlacementSearch {
   * @param edgeLength number of pieces in a row of the finished puzzle
   * @param onProgress told the slots placed so far, and the number of placements tried, every PROGRESS_INTERVAL tries.
   *                   It may throw to stop the search.
-  * @author Barry Becker
   */
 final class PlacementSearch(table: PieceEdgeTable, edgeLength: Int, onProgress: (Array[Int], Long) => Unit) {
   import PlacementSearch.*

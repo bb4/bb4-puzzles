@@ -10,7 +10,6 @@ import scala.util.Random
 
 /**
   * Generates random continuous primary color paths that do not necessarily match on secondary colors.
-  * @author Barry Becker
   */
 class RandomTilePlacer(var primaryColor: PathColor, rnd: Random = new Random()) {
 

@@ -81,7 +81,6 @@ object HexTiles {
   * then flipping over the tile and recording the colors on the sides 
   * starting with the rightmost side and moving clockwise.
   * 
-  * @author Barry Becker
   */
 class HexTiles()  {
   private val tiles = HexTileSet.ALL

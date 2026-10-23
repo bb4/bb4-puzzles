@@ -16,8 +16,6 @@ import HexTiles.TILES
 
 /**
   * Tantrix Puzzle Application to show the solving of the puzzle.
-  *
-  * @author Barry Becker
   */
 object TantrixPuzzle {
   private val DEFAULT_NUM_TILES = 7

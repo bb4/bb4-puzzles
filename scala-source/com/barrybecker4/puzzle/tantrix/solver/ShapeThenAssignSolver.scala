@@ -21,7 +21,6 @@ object ShapeThenAssignSolver {
   * (see [[ShapeAssignSearch]]), starting over with new random choices when an attempt does not find a solution within
   * its budget. The budgets follow the Luby sequence, as in [[RestartingDepthFirstSolver]].
   * Puzzles with more tiles than [[ShapeAssignSearch.MAX_TILES]] are given to [[RestartingDepthFirstSolver]].
-  * @author Barry Becker
   */
 class ShapeThenAssignSolver(
     puzzle: PuzzleController[TantrixBoard, TilePlacement],

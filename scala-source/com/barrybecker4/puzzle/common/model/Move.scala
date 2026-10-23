@@ -4,7 +4,5 @@ package com.barrybecker4.puzzle.common.model
 /**
   * Marker interface for puzzle moves.
   * Represents some puzzle movement (i.e. state transitions).
-  *
-  * @author Barry Becker
   */
 trait Move

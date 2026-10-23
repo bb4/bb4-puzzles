@@ -10,7 +10,6 @@ import java.awt.Graphics
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  * @author Barry Becker
   */
 object RedPuzzleViewer {
   private[ui] val MAX_ANIM_SPEED = 100

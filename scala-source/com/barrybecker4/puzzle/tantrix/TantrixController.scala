@@ -22,7 +22,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
   * to represent a move. The way a move is applied is simply to add the piece to the
   * end of the tantrix on the board.
   *
-  * @author Barry Becker
   */
 object TantrixController {
   private val MIN_NUM_TILES = 3

@@ -16,7 +16,6 @@ import scala.collection.mutable
   * but it is not required that it be a loop, or that any of the secondary colors match.
   *
   * @param primaryPathColor primary path color
-  * @author Barry Becker
   */
 class Pathifier private[path](val primaryPathColor: PathColor)  {
   require (primaryPathColor != null)

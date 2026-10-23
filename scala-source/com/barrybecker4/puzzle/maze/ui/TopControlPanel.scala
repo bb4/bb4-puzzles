@@ -15,7 +15,6 @@ import java.awt.event.ActionListener
 
 /**
   * A maze generator and solver
-  * @author Barry Becker
   */
 object TopControlPanel {
   /** the passage thickness in pixels */

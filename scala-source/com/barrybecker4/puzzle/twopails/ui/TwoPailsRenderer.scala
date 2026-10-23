@@ -14,7 +14,6 @@ import java.awt.Graphics
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the TwoPailsViewer.
   *
-  * @author Barry Becker
   */
 object TwoPailsRenderer {
   private val CONTAINER_WIDTH = 0.2f

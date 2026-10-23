@@ -28,7 +28,6 @@ object Board {
   * This implementation is based on Peter Norvig's algorithm - http://norvig.com/sudoku.html
   * @param cells map from location to Cell giving initially set values (immutable)
   * @param valuesMap map from locations to candidate values (immutable)
-  * @author Barry Becker
   */
 case class Board(cells: CellMap, valuesMap: ValuesMap) {
 

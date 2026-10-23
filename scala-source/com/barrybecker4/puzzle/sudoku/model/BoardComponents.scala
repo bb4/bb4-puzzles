@@ -21,7 +21,6 @@ object BoardComponents {
 
 /**
   * The internal structures for a board of a specified size.
-  * @author Barry Becker
   */
 case class BoardComponents(baseSize: Int = 3) {
 

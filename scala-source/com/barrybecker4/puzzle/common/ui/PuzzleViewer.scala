@@ -14,7 +14,6 @@ import java.awt._
 /**
   * Shows the current state of the puzzle in the ui.
   *
-  * @author Barry Becker
   */
 object PuzzleViewer {
   private val MARGIN = 15

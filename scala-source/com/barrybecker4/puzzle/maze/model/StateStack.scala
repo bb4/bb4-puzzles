@@ -7,7 +7,6 @@ import com.barrybecker4.common.geometry.Location
 /**
   * Stack of GenStates to try during the search.
   * @param probabilities the probabilities of moving each direction.
-  * @author Barry Becker
   */
 class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)) {
 

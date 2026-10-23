@@ -12,7 +12,6 @@ import org.junit.Test
 import scala.collection.mutable.ListBuffer
 
 /**
-  * @author Barry Becker
   */
 class PathTilePermuterSuite {
   /** instance under test */

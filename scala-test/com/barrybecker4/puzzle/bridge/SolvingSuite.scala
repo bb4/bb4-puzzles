@@ -14,7 +14,6 @@ import org.scalatest.funsuite.AnyFunSuite
 /**
   * These are more integration tests than unit tests.
   *
-  * @author Barry Becker
   */
 class SolvingSuite extends AnyFunSuite with BeforeAndAfterAll {
 

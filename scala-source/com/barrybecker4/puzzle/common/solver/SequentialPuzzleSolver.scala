@@ -16,7 +16,6 @@ import scala.collection.mutable
   * @param puzzle the puzzle to solve
   * @author Brian Goetz
   * @author Tim Peierls  (Java Concurrency in Practice)
-  * @author Barry Becker
   */
 class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends PuzzleSolver[M] {
   /** The set of visited nodes. Do not re-search them. */

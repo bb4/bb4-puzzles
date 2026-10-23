@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.sudoku.{SudokuGenerator, SudokuSolver}
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  * @author Barry Becker
   */
 final class SudokuPanel private(b: Board) extends JPanel with RepaintListener {
 

@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.bridge.model
 
 /**
   * Bridge Puzzle move generator. Generates valid next moves.
-  * @author Barry Becker
   */
 class MoveGenerator(val board: Bridge) {
 

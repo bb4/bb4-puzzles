@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.shuffle
 
 /**
-  * @author Barry Becker
   */
 trait Deck {
 

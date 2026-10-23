@@ -10,7 +10,6 @@ import scala.util.Random
 
 
 /**
-  * @author Barry Becker
   */
 class FitnessFinderSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */

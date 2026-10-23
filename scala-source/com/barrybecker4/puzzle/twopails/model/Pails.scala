@@ -6,7 +6,6 @@ import PourOperation.Action._
 
 
 /** Immutable representation of the two Pails and the amount of liquid they each contain at the moment.
-  * @author Barry Becker
   */
 case class Pails(fill1: Int, fill2: Int, params: PailParams) {
 

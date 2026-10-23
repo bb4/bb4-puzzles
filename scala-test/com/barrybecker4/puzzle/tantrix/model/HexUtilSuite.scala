@@ -9,7 +9,6 @@ import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 object HexUtilSuite {
   private val TOL = 0.001

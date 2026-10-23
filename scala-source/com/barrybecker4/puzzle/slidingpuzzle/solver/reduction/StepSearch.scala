@@ -14,7 +14,6 @@ import scala.collection.mutable
   * A position is the cell of the blank followed by the cell of each chosen tile, packed into one int.
   * @param geometry the shape of the puzzle
   * @param fixedCells true for each cell that must not be disturbed
-  * @author Barry Becker
   */
 final class StepSearch(geometry: GridGeometry, fixedCells: Array[Boolean]) {
 

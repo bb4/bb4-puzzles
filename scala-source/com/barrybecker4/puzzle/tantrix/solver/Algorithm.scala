@@ -26,7 +26,6 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   *  - Hill climbing and sampling get stuck, and brute force over the orderings of the tiles can only
   *    finish for a few tiles. They are listed for completeness.
   *
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
 

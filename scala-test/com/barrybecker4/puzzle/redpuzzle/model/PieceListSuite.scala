@@ -15,7 +15,6 @@ object PieceListSuite {
 }
 
 /**
-  * @author Barry Becker
   */
 class PieceListSuite extends AnyFunSuite with BeforeAndAfter {
 

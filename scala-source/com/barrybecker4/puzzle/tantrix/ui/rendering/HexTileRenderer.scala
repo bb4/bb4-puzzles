@@ -18,8 +18,6 @@ object HexTileRenderer {
 
 /**
   * Renders a single tantrix tile.
-  *
-  * @author Barry Becker
   */
 class HexTileRenderer() {
   private val pathRenderer = new PathRenderer

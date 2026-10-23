@@ -12,7 +12,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
-  * @author Barry Becker
   */
 class PrimaryPathFitterSuite extends AnyFunSuite  {
 

@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.Tantrix
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class InnerSpaceDetectorSuite extends AnyFunSuite {
 

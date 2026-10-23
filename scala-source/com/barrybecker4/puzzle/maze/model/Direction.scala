@@ -8,7 +8,6 @@ import com.barrybecker4.common.geometry.Location
   * Possible directions that we can go.
   * Vary the probability that each direction occurs for interesting effects.
   * The sum of these probabilities must sum to 1.
-  * @author Barry Becker
   */
 enum Direction {
   case FORWARD extends Direction

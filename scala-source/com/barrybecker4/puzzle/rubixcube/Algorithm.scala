@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 /**
   * Type of solver to use.
   *
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[Cube, CubeMove] {
 

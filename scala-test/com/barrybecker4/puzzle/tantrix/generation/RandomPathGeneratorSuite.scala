@@ -20,7 +20,6 @@ object RandomPathGeneratorSuite {
 }
 
 /**
-  * @author Barry Becker
   */
 class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 

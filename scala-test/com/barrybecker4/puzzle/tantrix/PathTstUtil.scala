@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.{TilePlacement, *}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 
 /**
-  * @author Barry Becker
   */
 object PathTstUtil {
   val LOWER_LEFT = new ByteLocation(22, 20)

@@ -10,7 +10,6 @@ import org.scalatest.funsuite.AnyFunSuite
 import scala.util.Random
 
 /**
-  * @author Barry Becker
   */
 class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 

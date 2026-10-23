@@ -7,7 +7,6 @@ package com.barrybecker4.puzzle.bridge.model
   * Note: It would be more efficient to use Sets instead of Lists for crossed and uncrossed, but it currently runs fine.
   * @param uncrossed the speeds of the people that have not crossed yet
   * @param crossed the people (really their speeds) that have crossed
-  * @author Barry Becker
   */
 case class Bridge(uncrossed: List[Int], crossed: List[Int], lightCrossed: Boolean) {
 

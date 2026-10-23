@@ -11,7 +11,6 @@ import java.awt.{Dimension, Graphics, Graphics2D}
 /**
   * This panel is responsible for drawing the MazeModel using the MazeRenderer.
   *
-  * @author Barry Becker
   */
 class MazePanel() extends JComponent {
 

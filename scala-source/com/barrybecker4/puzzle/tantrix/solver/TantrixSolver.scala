@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   * Subclasses do the hard work of actually solving the puzzle.
   * This is the controller in the model-view-controller pattern.
   *
-  * @author Barry Becker
   */
 abstract class TantrixSolver private[solver](var board: TantrixBoard) extends PuzzleSolver[TilePlacement] {
 

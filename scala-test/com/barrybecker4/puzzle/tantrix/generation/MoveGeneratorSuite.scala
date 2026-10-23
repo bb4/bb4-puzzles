@@ -12,7 +12,6 @@ import org.junit.Assert.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class MoveGeneratorSuite extends AnyFunSuite {
 

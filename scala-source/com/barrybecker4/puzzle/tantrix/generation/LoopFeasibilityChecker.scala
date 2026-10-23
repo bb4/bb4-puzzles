@@ -243,7 +243,6 @@ object LoopFeasibilityChecker {
   *                   [[LoopFeasibilityChecker.turnsAfterPlacing]]). It saves walking the path to find it. Its sign does not matter.
   * @param emptySpacesKnownToBeOk true if it is already known that the empty spaces pass their check (see
   *                   [[LoopFeasibilityChecker.keepsEmptySpaceTogether]]), which saves doing that check.
-  * @author Barry Becker
   */
 class LoopFeasibilityChecker(board: TantrixBoard, openEnds: Seq[OpenEnd], knownTurns: Option[Int] = None,
                              emptySpacesKnownToBeOk: Boolean = false) {

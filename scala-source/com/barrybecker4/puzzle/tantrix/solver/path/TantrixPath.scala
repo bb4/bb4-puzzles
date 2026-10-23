@@ -73,7 +73,6 @@ object TantrixPath {
   * @param tiles ordered path tiles.  The list of tiles that are passed in must be a continuous primary path,
   * but it is not required that it be a loop, or that any of the secondary colors match.
   * @param primaryPathColor primary path color
-  * @author Barry Becker
   */
 class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int,
                   rnd: Random = MathUtil.RANDOM)

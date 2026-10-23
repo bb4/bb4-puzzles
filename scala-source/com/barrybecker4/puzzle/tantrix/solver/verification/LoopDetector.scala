@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlaceme
   * Used to determine whether or not a given tantrix is a loop.
   *
   * @param board the tantrix state to test for solution.
-  * @author Barry Becker
   */
 case class LoopDetector(var board: TantrixBoard) {
 

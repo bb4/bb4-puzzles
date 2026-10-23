@@ -19,7 +19,6 @@ object PathSelector {
 /**
   * Select a path from a set of paths.
   * When testing, pass in mock evaluator.
-  * @author Barry Becker
   */
 class PathSelector private[path](evaluator: PathEvaluator, rnd: Random = RAND) {
 

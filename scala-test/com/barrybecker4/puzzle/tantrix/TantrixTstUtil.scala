@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard.INITIAL_LOCATION
 import com.barrybecker4.puzzle.tantrix.model.{HexTile, TantrixBoard, TilePlacement}
 
 /**
-  * @author Barry Becker
   */
 object TantrixTstUtil {
   

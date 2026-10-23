@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation.Container._
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class MoveGeneratorSuite extends AnyFunSuite {
 

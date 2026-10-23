@@ -12,7 +12,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
-  * @author Barry Becker
   */
 class SubPathSwapperSuite extends AnyFunSuite with SubPathMutatorBase {
   def createMutator(primaryColor: PathColor) = new SubPathSwapper(primaryColor)

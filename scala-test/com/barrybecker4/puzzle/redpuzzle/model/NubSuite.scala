@@ -5,7 +5,6 @@ import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class NubSuite extends AnyFunSuite with BeforeAndAfter {
 

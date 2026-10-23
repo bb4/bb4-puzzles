@@ -14,7 +14,6 @@ import org.scalatest.funsuite.AnyFunSuite
 import scala.util.Random
 
 /**
-  * @author Barry Becker
   */
 class PathPivotPermuterSuite extends AnyFunSuite {
 

@@ -10,7 +10,6 @@ import com.barrybecker4.ui.util.GUIUtil
 
 /**
   * Renders the the Sudoku puzzle onscreen.
-  * @author Barry Becker
   */
 object SudokuRenderer {
   private val MARGIN = 50

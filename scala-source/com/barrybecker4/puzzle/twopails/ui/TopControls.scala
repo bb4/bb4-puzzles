@@ -18,7 +18,6 @@ import com.barrybecker4.puzzle.twopails.model.PailParams.MAX_CAPACITY
 /**
   * Buttons at the top for generating and solving the puzzle using different strategies.
   * The solve and generate button at the top.
-  * @author Barry Becker
   */
 final class TopControls (controller: TwoPailsPuzzleController,
                          algorithmValues: Array[AlgorithmEnum[Pails, PourOperation]])

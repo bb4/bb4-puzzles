@@ -14,7 +14,6 @@ import PourOperation.{Action, Container}
   * 6) pour everything in second container to first.
   * Immutable.
   *
-  * @author Barry Becker
   */
 object PourOperation {
 

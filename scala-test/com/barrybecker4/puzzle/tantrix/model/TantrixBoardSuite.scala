@@ -9,7 +9,6 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class TantrixBoardSuite extends AnyFunSuite {
   /** instance under test */

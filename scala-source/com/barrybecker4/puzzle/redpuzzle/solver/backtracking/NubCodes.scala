@@ -9,7 +9,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.Nub
   *
   * The code is `suitIndex * 2 + (1 if outy else 0)`. The two nubs of one suit that fit together (an inny and an outy)
   * differ only in the lowest bit, so the nub that fits a given nub is found by flipping that bit.
-  * @author Barry Becker
   */
 object NubCodes {
 

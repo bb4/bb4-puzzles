@@ -13,7 +13,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Base class for sub path mutator tests.
-  * @author Barry Becker
   */
 trait  SubPathMutatorBase extends AnyFunSuite {
   /** instance under test */

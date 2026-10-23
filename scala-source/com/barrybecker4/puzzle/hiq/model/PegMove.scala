@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.common.model.Move
   * If we do this, we will quickly run out of memory because fo the vast numbers of moves that must be stored.
   * I will use just 1 byte to store the move information. I know that a jump is always 2 spaces.
   * Immutable.
-  * @author Barry Becker
   */
 final case class PegMove(fromPosition: ByteLocation, toPosition: ByteLocation) extends Move {
 

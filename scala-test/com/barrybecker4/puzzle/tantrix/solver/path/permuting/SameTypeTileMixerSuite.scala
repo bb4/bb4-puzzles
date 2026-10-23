@@ -20,7 +20,6 @@ object SameTypeTileMixerSuite {
 }
 
 /**
-  * @author Barry Becker
   */
 class SameTypeTileMixerSuite extends AnyFunSuite {
   /** instance under test */

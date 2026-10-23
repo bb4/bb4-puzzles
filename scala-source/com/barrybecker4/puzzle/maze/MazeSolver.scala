@@ -13,7 +13,6 @@ import com.barrybecker4.puzzle.maze.ui.MazePanel
   * Solves a maze using depth first search.
   * Its non-recursive to avoid stack overflow.
   *
-  * @author Barry Becker
   */
 class MazeSolver(var panel: MazePanel) {
 

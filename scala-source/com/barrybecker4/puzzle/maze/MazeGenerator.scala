@@ -14,11 +14,9 @@ import com.barrybecker4.puzzle.maze.ui.{MazePanel, TopControlPanel}
   * Program to automatically generate a Maze.
   * Motivation: Help my son, Brian, to excel at Kumon by trying these mazes with a pencil.
   * this is the global space containing all the cells, walls, and particles.
-  * Assumes an M*N grid of cells.
-  * X axis increases to the left.
+  * Assumes an M*N grid of cells. X axis increases to the left.
   * Y axis increases downwards to be consistent with java graphics.
   *
-  * @author Barry Becker
   */
 object MazeGenerator {
   /** if the animation speed is less than this things will slow down a lot */

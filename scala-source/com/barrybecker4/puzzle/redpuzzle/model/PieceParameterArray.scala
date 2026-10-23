@@ -88,7 +88,6 @@ object PieceParameterArray {
   * It has some unique properties.
   * For example, when finding a random neighbor, we consider rotations of
   * non-fitting pieces rather than just offsetting the number by some random amount.
-  * @author Barry Becker
   */
 class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(PieceParameterArray.parametersFor(pieces), rnd) {
 

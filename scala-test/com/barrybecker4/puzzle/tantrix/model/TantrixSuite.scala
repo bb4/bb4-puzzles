@@ -8,7 +8,6 @@ import org.junit.Assert.{assertEquals, assertNotNull}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class TantrixSuite extends AnyFunSuite {
 

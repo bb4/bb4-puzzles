@@ -11,7 +11,6 @@ import scala.collection.mutable.ListBuffer
 
 /**
   * Swap tiles in place in a specified originalPath.
-  * @author Barry Becker
   */
 class PathTilePermuter private[permuting](var originalPath: TantrixPath) {
 

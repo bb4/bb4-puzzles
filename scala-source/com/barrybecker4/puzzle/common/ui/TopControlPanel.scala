@@ -17,7 +17,6 @@ import java.awt.event.ItemListener
 /**
   * Shows the main button controls in a panel above the puzzle.
   *
-  * @author Barry Becker
   */
 class TopControlPanel[P, M](
                  val controller: PuzzleController[P, M],

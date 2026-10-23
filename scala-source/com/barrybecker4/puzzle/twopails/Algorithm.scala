@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation
 /**
   * Type of search solver to use.
   *
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[Pails, PourOperation] {
 

@@ -5,7 +5,6 @@ package com.barrybecker4.puzzle.common.solver
 /**
   * PuzzleSolver strategy pattern interface.
   * M is the move type
-  * @author Barry Becker
   */
 trait PuzzleSolver[M] {
 

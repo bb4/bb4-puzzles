@@ -27,7 +27,6 @@ import scala.collection.mutable
   * naive "occupied bbox union that one hex" half-length cap, and borders grow monotonically when
   * `numTiles` (the cap) increases.
   *
-  * @author Barry Becker
   */
 class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, val primaryColor: PathColor) {
   private val maxHalfPathLength = (numTiles + 1) / 2

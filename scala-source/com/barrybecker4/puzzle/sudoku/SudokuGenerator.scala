@@ -19,7 +19,6 @@ import scala.util.Random
   * The version that grandma and I created would find a solution by applying the set of rules that we had implemented.
   *
   * @param ppanel renders the puzzle when present
-  * @author Barry Becker
   */
 class SudokuGenerator(var ppanel: Option[SudokuPanel] = None, val rand: Random = new Random()) {
 

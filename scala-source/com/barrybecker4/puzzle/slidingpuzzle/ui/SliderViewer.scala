@@ -13,7 +13,6 @@ import java.awt.Graphics
 /**
   * UI for drawing the current best solution to the puzzle.
   * @param doneListener called when the puzzle has been solved.
-  * @author Barry Becker
   */
 final class SliderViewer(var doneListener: DoneListener)
       extends PuzzleViewer[SliderBoard, SlideMove] with PathNavigator {

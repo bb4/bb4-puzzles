@@ -10,7 +10,6 @@ import com.barrybecker4.ui.util.GUIUtil
 /**
   * Sudoku Puzzle UI.
   * This program can generate and solve Sudoku puzzles.
-  * @author Barry Becker
   */
 object SudokuPuzzle {
   def main(args: Array[String]): Unit = {

@@ -5,7 +5,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.PieceList
 
 /**
   * Calculates the number of matching nubs and uses MAX_FITS minus that as a fitness value.
-  * @author Barry Becker
   */
 object FitnessFinder {
 

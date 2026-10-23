@@ -9,7 +9,6 @@ import java.awt._
 
 /**
   * A maze generator and solver application.
-  * @author Barry Becker
   */
 object MazeSimulator {
   def main(args: Array[String]): Unit = {

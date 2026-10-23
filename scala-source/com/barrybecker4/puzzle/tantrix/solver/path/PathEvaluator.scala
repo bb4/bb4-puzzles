@@ -9,7 +9,6 @@ import PathEvaluator.*
   * Evaluates the fitness of a tantrix path.
   * It gets the top score if it is a loop and all the path colors match.
   *
-  * @author Barry Becker
   */
 object PathEvaluator {
   /** If fitness is 0, then puzzle is solved. The worst fitness is this value. */

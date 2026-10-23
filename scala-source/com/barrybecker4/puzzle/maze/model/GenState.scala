@@ -9,7 +9,6 @@ import com.barrybecker4.common.geometry.Location
   * @param position      current position
   * @param movement movement to make relative to current position.
   * @param depth    depth in the search
-  * @author Barry Becker
   */
 case class GenState(position: Location, movement: Location, depth: Int) {
 

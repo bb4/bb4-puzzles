@@ -12,7 +12,6 @@ import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener}
   * Controller part of the MVC pattern.
   * Launches generator and solvers in separate threads so the UI is not locked.
   *
-  * @author Barry Becker
   */
 final class MazeController(var mazePanel: MazePanel) extends SliderChangeListener {
 

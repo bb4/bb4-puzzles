@@ -6,7 +6,6 @@ import com.barrybecker4.puzzle.maze.model.Direction._
 
 /**
   * The three normalized directional probabilities.
-  * @author Barry Becker
   */
 case class Probabilities(fwdProbability: Double, leftProbability: Double, rightProbability: Double) {
   val total: Double = fwdProbability + leftProbability + rightProbability

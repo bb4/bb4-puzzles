@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
   * Singleton class that takes a PieceList and renders it for the SliderViewer.
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the SliderViewer.
-  * @author Barry Becker
   */
 object SliderRenderer {
   private val INC = 60

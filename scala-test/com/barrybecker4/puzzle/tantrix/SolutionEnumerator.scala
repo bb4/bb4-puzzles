@@ -11,7 +11,6 @@ import scala.collection.mutable
   * affect the solutions that can be found.
   *
   * @param generateMoves finds the moves that can be made from a state.
-  * @author Barry Becker
   */
 class SolutionEnumerator(generateMoves: TantrixBoard => Seq[TilePlacement]) {
 

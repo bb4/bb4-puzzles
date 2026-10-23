@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.common.model.Move
 /**
   * Allows navigating forward and backward in the solution path.
   *
-  * @author Barry Becker
   */
 trait PathNavigator {
 

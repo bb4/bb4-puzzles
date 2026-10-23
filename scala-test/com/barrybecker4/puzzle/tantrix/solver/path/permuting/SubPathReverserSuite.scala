@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class SubPathReverserSuite extends AnyFunSuite with SubPathMutatorBase {
 

@@ -18,7 +18,6 @@ object CubeComponents {
 
 /**
   * The internal structures for a board of a specified size.
-  * @author Barry Becker
   */
 case class CubeComponents(baseSize: Int = 3) {
 

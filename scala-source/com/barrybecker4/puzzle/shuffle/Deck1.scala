@@ -3,7 +3,6 @@ package com.barrybecker4.puzzle.shuffle
 
 /**
   * Brute-force iteration count for the perfect-shuffle problem (same permutation as [[Deck2]]).
-  * @author Barry Becker
   */
 class Deck1(val nCards: Int) extends Deck {
 

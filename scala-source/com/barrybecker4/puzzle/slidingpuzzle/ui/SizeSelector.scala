@@ -8,7 +8,6 @@ import java.awt.Choice
 /**
   * The choices for the size of the puzzle. Each size comes in two variations, easy (a random walk shuffle that leaves
   * the tiles close to solved) and hard (uniformly random tiles). The easy one comes first.
-  * @author Barry Becker
   */
 object SizeSelector {
   /** The names of the sizes, smallest first. The smallest is a 2 by 2 board (3 tiles). */

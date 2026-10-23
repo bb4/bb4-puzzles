@@ -6,7 +6,6 @@ import com.barrybecker4.puzzle.sudoku.Data
 /**
   * Some sample sudoku test puzzle data.
   *
-  * @author Barry Becker
   */
 object TestData {
   /** simple test of a 4*4 puzzle */

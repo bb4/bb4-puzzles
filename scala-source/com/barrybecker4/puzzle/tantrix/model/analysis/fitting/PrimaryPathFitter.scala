@@ -11,7 +11,6 @@ import scala.util.boundary.break
 /**
   * Determines valid primary path fits for a specified tile relative to an existing set at a specific location.
   * This is less strict than tile fitter - which checks all paths.
-  * @author Barry Becker
   */
 class PrimaryPathFitter(tantrix: Tantrix, primaryColor: PathColor) extends AbstractFitter(primaryColor) {
 

@@ -4,7 +4,6 @@ package com.barrybecker4.puzzle.redpuzzle.model
 /**
   * That little thing on the edge of a piece that allows it to connect to another.
   * It can either be an inny or an outty, like your belly button.
-  * @author Barry Becker
   */
 object Nub {
   val SPADE = Suit('S')

@@ -45,7 +45,6 @@ object PegBoard {
 /**
   * Immutable representation of a PegBoard.
   * Maintains the compressed peg position information for the board.
-  * @author Barry Becker
   */
 case class PegBoard(bits: PegBits) {
   def this() = { this(PegBits()) }

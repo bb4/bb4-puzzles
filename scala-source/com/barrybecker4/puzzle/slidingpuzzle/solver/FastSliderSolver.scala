@@ -34,7 +34,6 @@ object FastSliderSolver {
   * a much longer solution.
   * @param stages the attempts to make, in order
   * @param reduceIfGivenUp true to finish with the tile by tile solver when every stage has given up.
-  * @author Barry Becker
   */
 class FastSliderSolver(
   puzzle: PuzzleController[SliderBoard, SlideMove],

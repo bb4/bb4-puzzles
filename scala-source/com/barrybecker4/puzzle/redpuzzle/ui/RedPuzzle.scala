@@ -24,7 +24,6 @@ import RedPuzzleViewer._
   * After refactoring and applying the generic solver pattern (see puzzle.common) things were faster
   * BruteForce Sequential &lt; 1.0s  BruteForce concurrent &lt; 0.1s
   *
-  * @author Barry Becker
   */
 object RedPuzzle {
   def main(args: Array[String]): Unit = {

@@ -8,7 +8,6 @@ import PegBoard.NUM_PEG_HOLES
   * @param bits bit representation
   * @param finalBit the last bit not in the integer
   * @param nextToFinalBit bit before the last bit
-  * @author Barry Becker
   */
 case class PegBits(bits: Int = 0, finalBit: Boolean = false, nextToFinalBit: Boolean = false) {
 

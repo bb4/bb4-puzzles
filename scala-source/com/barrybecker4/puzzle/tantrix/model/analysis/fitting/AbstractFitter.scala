@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, TilePlacement}
 /**
   * Used to check the consistency of all the paths.
   * @param primaryColor color of the loop path
-  * @author Barry Becker
   */
 abstract class AbstractFitter(val primaryColor: PathColor) {
 

@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
   * Used to determine whether or not a given tantrix state is a valid solution.
   *
   * @param board the tantrix state to test for solution.
-  * @author Barry Becker
   */
 class SolutionVerifier(var board: TantrixBoard) {
 

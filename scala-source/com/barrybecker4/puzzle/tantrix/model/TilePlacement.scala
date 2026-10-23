@@ -11,7 +11,6 @@ import scala.collection.immutable.HashMap
 
 /**
   * Represents the positioning of a tantrix tile on the tantrix. Immutable.
-  * @author Barry Becker
   */
 case class TilePlacement(tile: HexTile, location: Location, rotation: Rotation) {
   assert(location != null)

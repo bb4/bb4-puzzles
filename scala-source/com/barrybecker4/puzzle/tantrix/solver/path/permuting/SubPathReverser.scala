@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 /**
   * Reverse a subpath.
   *
-  * @author Barry Becker
   */
 class SubPathReverser private[permuting](primaryColor: PathColor) extends SubPathMutator(primaryColor) {
   /**

@@ -16,7 +16,6 @@ import scala.util.Random
   * (thread-safe: no shared global state).
   *
   * @param path to permute
-  * @author Barry Becker
   */
 class PathPermutationGenerator private[path](val path: TantrixPath, rnd: Random = new Random()) {
 

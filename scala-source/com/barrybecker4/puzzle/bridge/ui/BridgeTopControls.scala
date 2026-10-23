@@ -16,7 +16,6 @@ import javax.swing.{JComboBox, JPanel}
 /**
   * Buttons at the top for generating and solving the puzzle using different strategies, and initial configurations.
   * The solve and generate button at the top.
-  * @author Barry Becker
   */
 final class BridgeTopControls(bridgeController: BridgePuzzleController,
                               algorithmValues: Array[AlgorithmEnum[Bridge, BridgeMove]])

@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer
 /**
   * Draws the current best solution to the puzzle in a panel.
   * The view in the model-view-controller pattern.
-  * @author Barry Becker
   */
 final class TantrixViewer() extends PuzzleViewer[TantrixBoard, TilePlacement] {
 

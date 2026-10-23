@@ -11,7 +11,6 @@ import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStar
 
 /**
   * Type of solver to use.
-  * @author Barry Becker
   */
 enum Algorithm extends AlgorithmEnum[Bridge, BridgeMove] {
 

@@ -15,7 +15,6 @@ import java.awt.Graphics
 /**
   * UI for drawing the current state of the puzzle.
   * @param doneListener called when the puzzle has been solved.
-  * @author Barry Becker
   */
 final class TwoPailsViewer(var doneListener: DoneListener)
   extends PuzzleViewer[Pails, PourOperation] with PathNavigator {

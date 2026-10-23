@@ -20,7 +20,6 @@ object TantrixBoard {
   * @param primaryColor color of the loop path that we are searching for
   * @param unplacedTiles tiles that have not yet been placed on the tantrix
   * @param numTiles number of tiles in the puzzle
-  * @author Barry Becker
   */
 case class TantrixBoard(tantrix: Tantrix, primaryColor: PathColor,
                         unplacedTiles: Seq[HexTile], numTiles: Int) {

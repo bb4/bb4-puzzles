@@ -7,7 +7,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.PathType._
 import org.junit.Assert.assertTrue
 import org.scalatest.funsuite.AnyFunSuite
 /**
-  * @author Barry Becker
   */
 class TilesOfTypeIndicesSuite extends AnyFunSuite {
 

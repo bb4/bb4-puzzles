@@ -8,7 +8,6 @@ enum Direction:
 
 /**
   * A puzzle piece and its orientation. Immutable
-  * @author Barry Becker
   */
 case class OrientedPiece(piece: Piece, orientation: Direction = Direction.TOP) {
 

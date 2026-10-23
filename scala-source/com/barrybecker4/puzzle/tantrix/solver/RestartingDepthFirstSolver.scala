@@ -65,7 +65,6 @@ object RestartingDepthFirstSolver {
   * @param baseBudget the number of steps allowed in the first attempt.
   * @param rnd the source of randomness for ordering moves. It defaults to the shared generator, so that seeding that
   *            generator makes a search repeatable (the benchmarks do that).
-  * @author Barry Becker
   */
 class RestartingDepthFirstSolver(
     puzzle: PuzzleController[TantrixBoard, TilePlacement],

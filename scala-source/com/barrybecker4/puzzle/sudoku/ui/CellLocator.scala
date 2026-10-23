@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.sudoku.model.Board
 
 /**
   * Locates cell coordinates given a point location on the screen.
-  * @author Barry Becker
   */
 trait CellLocator {
 

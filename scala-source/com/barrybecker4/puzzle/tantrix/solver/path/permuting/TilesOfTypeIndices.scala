@@ -13,7 +13,6 @@ import scala.collection.mutable.ListBuffer
   *
   * @param pathType type of the arc on a tile.
   * @param originalPath tantrix primary path of a single color.
-  * @author Barry Becker
   */
 class TilesOfTypeIndices private[permuting](val pathType: PathType, val originalPath: TantrixPath) {
   private val primColor: PathColor = originalPath.primaryPathColor

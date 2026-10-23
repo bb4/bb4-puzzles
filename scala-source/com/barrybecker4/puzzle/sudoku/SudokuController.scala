@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.sudoku.ui.SudokuPanel
 
 /**
   * Controller part of the MVC pattern.
-  * @author Barry Becker
   */
 final class SudokuController(var puzzlePanel: SudokuPanel) {
 

@@ -9,7 +9,6 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch
   * 2 extra slides. The least number of tiles that have to step out is all of the tiles that belong in the line
   * except for the longest run of them that is already in the right order. Counting that gives a larger estimate that is
   * still never more than the true number of slides, so the search stays optimal.
-  * @author Barry Becker
   */
 final class LineConflicts(geometry: GridGeometry) {
 

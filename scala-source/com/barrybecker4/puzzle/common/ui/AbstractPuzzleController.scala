@@ -15,7 +15,6 @@ import scala.collection.mutable
   * If a non-null Refreshable is passed into the constructor that that will be delegated
   * to when the controller is asked to do a refresh.
   *
-  * @author Barry Becker
   */
 abstract class AbstractPuzzleController[P, M](val ui: Refreshable[P, M])
   extends PuzzleController[P, M] {

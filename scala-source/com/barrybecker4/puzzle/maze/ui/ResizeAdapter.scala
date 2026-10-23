@@ -7,7 +7,6 @@ import java.awt.event.ComponentEvent
 
 /**
   * Called whenever the maze window resizes. Avoids redrawing if the size did not change.
-  * @author Barry Becker
   */
 class ResizeAdapter private[ui](var mazePanel: MazePanel, var topControls: TopControlPanel) extends ComponentAdapter {
   private var oldSize: Option[Dimension] = None

@@ -13,7 +13,6 @@ import com.barrybecker4.puzzle.redpuzzle.solver.backtracking.{PieceEdgeTable, Pl
   * The generic and handcrafted exact solvers copy immutable lists for every placement. This one turns the nubs into
   * integers up front (see [[backtracking.PlacementSearch]]) and searches without allocating anything.
   * It does not use bb4-optimization.
-  * @author Barry Becker
   */
 class FastBacktrackingSolver(
   override val puzzle: PuzzleController[PieceList, OrientedPiece],

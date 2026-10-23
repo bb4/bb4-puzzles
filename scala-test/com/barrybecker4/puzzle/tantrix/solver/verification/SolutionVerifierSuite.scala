@@ -7,7 +7,6 @@ import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class SolutionVerifierSuite extends AnyFunSuite {
   /** instance under test */

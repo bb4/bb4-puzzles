@@ -8,7 +8,6 @@ import scala.util.Random
 /**
   * Immutable representation of a slider board.
   * @param tiles square grid of tiles. Size is the board edge. If size = 4, then there will be 16-1 = 15 tiles.
-  * @author Barry Becker
   */
 case class SliderBoard(tiles: Tiles) {
 

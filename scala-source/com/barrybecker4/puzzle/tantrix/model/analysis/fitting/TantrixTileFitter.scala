@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.tantrix.model.{HexTile, Rotation, Tantrix, TilePl
 /**
   * Used to check the consistency of all the paths.
   * The process of finding neighbors is a bit more efficient if we have the tantrix.
-  * @author Barry Becker
   */
 class TantrixTileFitter(tantrix: Tantrix, primaryColor: PathColor) extends TileFitter(tantrix.tiles, primaryColor) {
 

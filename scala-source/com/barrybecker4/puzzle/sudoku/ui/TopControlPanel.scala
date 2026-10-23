@@ -11,7 +11,6 @@ import com.barrybecker4.ui.components.GradientButton
 /**
   * Buttons at the top for generating and solving the puzzle using different strategies.
   * The solve and generate button at the top.
-  * @author Barry Becker
   */
 object TopControlPanel {
   /** initial value of the show candidates checkbox. */

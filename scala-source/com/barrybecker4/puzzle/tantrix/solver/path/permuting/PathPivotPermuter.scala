@@ -15,7 +15,6 @@ import scala.collection.mutable.ListBuffer
   * but it is not required that it be a loop, or that any of the secondary colors match.
   *
   * @param myPath ordered path tiles.
-  * @author Barry Becker
   */
 class PathPivotPermuter(val myPath: TantrixPath) extends PermutedParameterArray {
 

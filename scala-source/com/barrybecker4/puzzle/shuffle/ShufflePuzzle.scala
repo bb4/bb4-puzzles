@@ -13,7 +13,7 @@ package com.barrybecker4.puzzle.shuffle
   * Find the result for shuffles(402, 101)
   * Find the result for shuffles(802, 101)
   * Find the result for shuffles(1002, 101)
-  * @author Barry Becker Date: Jan 3, 2006
+  * Date: Jan 3, 2006
   */
 object ShufflePuzzle {
 

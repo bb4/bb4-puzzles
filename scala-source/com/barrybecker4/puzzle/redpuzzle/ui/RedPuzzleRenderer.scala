@@ -15,7 +15,6 @@ import java.awt.Graphics2D
   * Singleton class that takes a PieceList and renders it for the RedPuzzleViewer.
   * Having the renderer separate from the viewer helps to separate out the rendering logic
   * from other features of the RedPuzzleViewer.
-  * @author Barry Becker
   */
 object RedPuzzleRenderer {
   /** size of piece in pixels. */

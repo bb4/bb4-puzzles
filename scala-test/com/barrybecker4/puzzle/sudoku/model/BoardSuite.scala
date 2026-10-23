@@ -11,7 +11,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
-  * @author Barry Becker
   */
 class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 

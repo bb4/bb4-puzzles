@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.hiq.model.PegBoard
 
 /**
   * Layout constants and colors for drawing the peg board.
-  * @author Barry Becker
   */
 object PegBoardRenderer {
 

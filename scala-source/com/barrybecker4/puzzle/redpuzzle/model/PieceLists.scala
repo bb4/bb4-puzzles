@@ -7,7 +7,6 @@ import scala.util.Random
 
 /**
   * Some standard puzzle configurations to try.
-  * @author Barry Becker
   */
 object PieceLists {
 

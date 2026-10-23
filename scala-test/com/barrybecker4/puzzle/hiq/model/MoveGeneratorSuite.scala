@@ -6,7 +6,6 @@ import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
-  * @author Barry Becker
   */
 class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 

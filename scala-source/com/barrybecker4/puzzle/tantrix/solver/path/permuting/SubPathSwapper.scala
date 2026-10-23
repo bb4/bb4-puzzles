@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
 /**
   * Swap a subpath from on outgoing primary path to the other on the pivot tile.
   *
-  * @author Barry Becker
   */
 class SubPathSwapper private[permuting](primaryColor: PathColor) extends SubPathMutator(primaryColor) {
 

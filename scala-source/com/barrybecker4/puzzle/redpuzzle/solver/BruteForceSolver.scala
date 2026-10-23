@@ -8,7 +8,6 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceL
 /**
   * Works really well in spite of being brute force.
   * Solves the puzzle in 10 seconds on Core2Duo sequentially.
-  * @author Barry Becker
   */
 class BruteForceSolver(
   override val puzzle: PuzzleController[PieceList, OrientedPiece],

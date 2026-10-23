@@ -10,7 +10,6 @@ import com.barrybecker4.puzzle.twopails.model.PourOperation.Container._
   * Two pails puzzle move generator. Generates valid next moves.
   * There are at most 6 moves which could be generated.
   *
-  * @author Barry Becker
   */
 class MoveGenerator(private val pails: Pails) {
 

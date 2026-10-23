@@ -17,7 +17,6 @@ import scala.util.Random
   * The genetic search solves the puzzle in 3.5 seconds on Core2 duo system (6 generations).
   * @param puzzle the controller of the puzzle to solve
   * @param strategy the optimization strategy to use. It needs to work with permutations of the pieces.
-  * @author Barry Becker
   */
 class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, OrientedPiece],
                           val strategy: OptimizationStrategyType)

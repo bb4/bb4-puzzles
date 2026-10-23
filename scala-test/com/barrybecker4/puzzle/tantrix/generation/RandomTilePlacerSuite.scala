@@ -18,7 +18,6 @@ object RandomTilePlacerSuite {
 }
 
 /**
-  * @author Barry Becker
   */
 class RandomTilePlacerSuite extends AnyFunSuite with BeforeAndAfter {
   /** instance under test */

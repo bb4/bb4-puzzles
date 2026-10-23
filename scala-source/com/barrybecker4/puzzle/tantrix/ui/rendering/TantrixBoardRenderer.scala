@@ -10,9 +10,7 @@ import com.barrybecker4.puzzle.tantrix.ui.rendering.HexUtil.ROOT3
 import com.barrybecker4.puzzle.tantrix.ui.rendering.TantrixBoardRenderer.*
 
 /**
-  * Renders the the tantrix puzzle onscreen.
-  *
-  * @author Barry Becker
+  * Renders the tantrix puzzle onscreen.
   */
 object TantrixBoardRenderer {
   private val MARGIN_FRAC = 0.2

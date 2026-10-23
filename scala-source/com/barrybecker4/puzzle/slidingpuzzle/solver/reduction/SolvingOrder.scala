@@ -12,7 +12,6 @@ import com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch.GridGeometry
   *  3. That leaves a 2 by 2 corner. Its three tiles go in together.
   *
   * Each step is a list of the tile numbers that it places. A tile's number is one more than the cell it belongs in.
-  * @author Barry Becker
   */
 object SolvingOrder {
 
