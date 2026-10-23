@@ -7,7 +7,7 @@ object PlacementSearch {
   /** Stands for "no neighbor, so any nub is fine" where a required nub code is expected. */
   val NO_REQUIREMENT = -1
   /** How many placements are tried between reports of progress (which are slow compared to a placement). */
-  val PROGRESS_INTERVAL = 1024
+  val PROGRESS_INTERVAL = 512
 }
 
 /**

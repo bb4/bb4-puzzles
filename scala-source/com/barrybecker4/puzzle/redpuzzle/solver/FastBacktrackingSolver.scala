@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.backtracking.{PieceEdgeTable, Pl
   * Solves the red puzzle with a depth first search that is written to be fast rather than general.
   * It always finds a solution if there is one, and takes well under a millisecond for the standard puzzle.
   *
-  * The generic and hand crafted exact solvers copy immutable lists for every placement. This one turns the nubs into
+  * The generic and handcrafted exact solvers copy immutable lists for every placement. This one turns the nubs into
   * integers up front (see [[backtracking.PlacementSearch]]) and searches without allocating anything.
   * It does not use bb4-optimization.
   * @author Barry Becker
