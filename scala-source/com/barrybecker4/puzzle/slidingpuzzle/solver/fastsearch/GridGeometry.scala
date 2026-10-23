@@ -13,7 +13,7 @@ final class GridGeometry(val size: Int) {
   val numCells: Int = size * size
 
   /** The cell the blank is in when the puzzle is solved. */
-  val goalBlankCell: Int = numCells - 1
+  private val goalBlankCell: Int = numCells - 1
 
   private val rowOfCell = Array.tabulate(numCells)(_ / size)
   private val colOfCell = Array.tabulate(numCells)(_ % size)

@@ -3,9 +3,9 @@ package com.barrybecker4.puzzle.slidingpuzzle.solver.fastsearch
 
 object IdaStarSearch {
   /** The longest solution that can be recorded. The longest optimal solution of the 5 by 5 puzzle is far shorter. */
-  val MAX_SOLUTION_LENGTH = 1024
+  private val MAX_SOLUTION_LENGTH = 1024
   /** How many positions are looked at between reports of progress. Must be a power of 2 (it is used as a mask). */
-  val PROGRESS_INTERVAL = 1 << 16
+  val PROGRESS_INTERVAL: Int = 1 << 16
   /** A weight of 100 percent is the plain estimate. Weights above it make the search greedier. */
   val OPTIMAL_WEIGHT_PERCENT = 100
   private val NOT_APPLICABLE = -1
@@ -79,7 +79,8 @@ final class IdaStarSearch(state: SliderState, geometry: GridGeometry, onProgress
     var smallestOver = UNBOUNDED
     var i = 0
     while (i < candidates.length && !isFinished) {
-      if (candidates(i) != previousBlank) smallestOver = Math.min(smallestOver, slideAndSearch(depth, bound, candidates(i)))
+      if (candidates(i) != previousBlank) 
+        smallestOver = Math.min(smallestOver, slideAndSearch(depth, bound, candidates(i)))
       i += 1
     }
     smallestOver

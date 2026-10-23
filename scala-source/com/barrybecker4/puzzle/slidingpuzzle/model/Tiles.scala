@@ -10,9 +10,9 @@ import Tiles.*
 
 object Tiles {
   /** The four directions that a tile can move */
-  val INDICES: List[Int] = List(0, 1, 2, 3)
+  private val INDICES: List[Int] = List(0, 1, 2, 3)
 
-  def createGoalTiles(edgeLen: Byte): IndexedSeq[Byte] = {
+  private def createGoalTiles(edgeLen: Byte): IndexedSeq[Byte] = {
     val numTiles = edgeLen * edgeLen
     (1 to numTiles).map(_ % numTiles).map(_.toByte)
   }

@@ -29,12 +29,12 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     case A_STAR_SEQUENTIAL => new AStarPuzzleSolver[SliderBoard, SlideMove](controller)
     case A_STAR_CONCURRENT => new AStarConcurrentPuzzleSolver[SliderBoard, SlideMove](controller)
     case IDA_STAR => new IDAStarPuzzleSolver[SliderBoard, SlideMove](controller)
-    // this will find a solution, but not necessarily the shortest path
-    case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[SliderBoard, SlideMove](controller)
     // this will find the shortest path to a solution if one exists, but takes longer
     case CONCURRENT_BREADTH => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 1.0f)
     case CONCURRENT_DEPTH => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 0.12f)
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 0.3f)
+    // this will find a solution, but not necessarily the shortest path
+    case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[SliderBoard, SlideMove](controller)
   }
 
   case FAST_SHORTEST_IF_QUICK extends Algorithm
