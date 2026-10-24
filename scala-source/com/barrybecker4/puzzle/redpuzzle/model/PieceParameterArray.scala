@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.model
 
 import com.barrybecker4.math.MathUtil
-import com.barrybecker4.optimization.parameter.PermutedParameterArray
+import com.barrybecker4.optimization.parameter.{Move, PermutedParameterArray, Swap, SwapSequence}
 import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import PieceParameterArray._
 import scala.util.Random
@@ -19,17 +19,14 @@ object PieceParameterArray {
   private def parametersFor(pieces: PieceList): IndexedSeq[Parameter] =
     pieces.pieces.map(p => IntegerParameter(p.piece.pieceNumber, 1, 9, "piece")).toIndexedSeq
 
-  /** Exchange 2 pieces, even if it means the fitness gets worse.
+  /** Pick 2 pieces to exchange, even if it means the fitness gets worse.
     * Skew away from selecting pieces that have fits.
     * The probability of selecting pieces that already have fits is sharply reduced.
     * The denominator is 1 + the number of fits that the piece has.
     */
-  private def doPieceSwap(pieces: PieceList, rnd: Random): PieceList = {
+  private def pickSwap(pieces: PieceList, rnd: Random): Swap = {
     val swapProbabilities: IndexedSeq[Double] = findSwapProbabilities(pieces)
-    var totalProb: Double = 0
-
-    for (i <- 0 until pieces.numTotal) totalProb += swapProbabilities(i)
-
+    val totalProb = swapProbabilities.sum
     val tot = pieces.numTotal
     val p1: Int = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
     var p2: Int = 0
@@ -37,8 +34,7 @@ object PieceParameterArray {
     while (p2 == p1) {
       p2 = getPieceFromProb(totalProb * rnd.nextDouble(), swapProbabilities, tot)
     }
-
-    pieces.doSwap(p1, p2)
+    Swap(p1, p2)
   }
 
   /** @param p some value between 0 and the totalProbability (i.e. 100%).
@@ -98,19 +94,32 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
     * @param radius proportional to the number of pieces that you want to vary.
     * @return the random nbr (potential solution).
     */
-  override def getRandomNeighbor(radius: Double): PieceParameterArray = {
+  override def getRandomNeighbor(radius: Double): PieceParameterArray = applyMove(proposeMove(radius))
 
-    var pieceList: PieceList = pieces
-    val numSwaps: Int = Math.max(1.0, 3.0 * radius ).toInt
+  /** The neighbor is described by its swaps, so that a strategy can ask for the fitness after it without building it. */
+  override def supportsMoves: Boolean = true
 
-    for (_ <- 0 until numSwaps)
-      pieceList = doPieceSwap(pieceList, rnd)
-
-    assert(pieceList.size == pieceList.numTotal)
-
-    pieceList = rotateEachPieceForBestLocalFits(pieceList)
-    new PieceParameterArray(pieceList, rnd)
+  /** The swaps that [[getRandomNeighbor]] makes. Each is picked in the list as the earlier ones left it. */
+  override def proposeMove(radius: Double): Move = {
+    val numSwaps: Int = Math.max(1.0, 3.0 * radius).toInt
+    val (_, swaps) = (0 until numSwaps).foldLeft((pieces, Vector.empty[Swap])) { case ((list, done), _) =>
+      val swap = pickSwap(list, rnd)
+      (list.doSwap(swap.first, swap.second), done :+ swap)
+    }
+    SwapSequence(swaps)
   }
+
+  /** Swap the pieces, then rotate each to the rotation that maximizes local nub fits. */
+  override def applyMove(move: Move): PieceParameterArray = move match {
+    case SwapSequence(swaps) =>
+      val swapped = swaps.foldLeft(pieces)((list, swap) => list.doSwap(swap.first, swap.second))
+      assert(swapped.size == swapped.numTotal)
+      new PieceParameterArray(rotateEachPieceForBestLocalFits(swapped), rnd)
+    case other => throw new UnsupportedOperationException("A piece list does not understand the move " + other)
+  }
+
+  /** A swap that puts a piece where it would fit its neighbor, in place of one that does not; None if there is none. */
+  def proposeGuidedMove(guideRnd: Random): Option[Move] = GuidedSwap.find(pieces, guideRnd).map(swap => SwapSequence(Vector(swap)))
 
   /** @return get a completely random solution in the parameter space.*/
   override def getRandomSample: PieceParameterArray = {

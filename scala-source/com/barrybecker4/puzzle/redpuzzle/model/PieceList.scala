@@ -118,6 +118,12 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
     count
   }
 
+  /** @return true if the piece at `pos` fits the one to its right (which must exist) */
+  def fitsRight(pos: Int): Boolean = nubsFitHorizontally(get(pos), get(pos + 1))
+
+  /** @return true if the piece at `pos` fits the one below it (which must exist) */
+  def fitsBelow(pos: Int): Boolean = nubsFitVertically(get(pos), get(pos + edgeLength))
+
   /** @return true if we contain p */
   def contains(p: Piece): Boolean = pieces.exists(_.piece == p)
 
