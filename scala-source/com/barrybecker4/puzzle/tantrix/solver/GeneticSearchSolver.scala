@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.tantrix.solver
 
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.optimizee.Optimizee
-import com.barrybecker4.optimization.parameter.{ParameterArray, ParameterArrayWithFitness}
+import com.barrybecker4.optimization.parameter.{Move, ParameterArray, ParameterArrayWithFitness}
 import com.barrybecker4.optimization.strategy.annealing.{
   SimulatedAnnealingConfig,
   SimulatedAnnealingStepMode,
@@ -18,6 +18,16 @@ import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import com.barrybecker4.puzzle.tantrix.solver.path.PathEvaluator.FITNESS_RANGE
 import scala.util.Random
 
+
+object GeneticSearchSolver {
+  /**
+    * How often the tuned simulated annealing makes a rearrangement next to a tile that does not fit (see
+    * [[GuidedPivot]]) rather than a random one. It is 0 because the measurements are mixed: with 0.5, 40 runs on 9
+    * tiles solved 40 instead of 37, and on 12 tiles 40 instead of 35, but the median time of a solved run went from
+    * 42 to 104 ms and from 70 to 616 ms. Genetic search got no better. Change it if reliability matters more than time.
+    */
+  val GUIDED_MOVE_PROBABILITY: Double = 0.0
+}
 
 /**
   * Solve the Tantrix puzzle using a bb4-optimization strategy (genetic, simulated annealing, hill climbing, etc.).
@@ -60,7 +70,8 @@ class GeneticSearchSolver(
               targetRate = 0.42,
               windowProposals = math.max(64, 4 * n),
               initialScale = 1.0
-            )
+            ),
+            guidedMoveProbability = GeneticSearchSolver.GUIDED_MOVE_PROBABILITY
           )
         )
         s
@@ -135,6 +146,10 @@ class GeneticSearchSolver(
     if (fitness < currentBestFitness) currentBestFitness = fitness
     fitness
   }
+
+  /** Rearrange the path next to a tile that does not fit, instead of at a random place. */
+  override def proposeGuidedMove(current: ParameterArray, radius: Double, rnd: Random): Option[Move] =
+    tantrixPath(current).proposeGuidedMove(rnd)
 
   def compareFitness(params1: ParameterArray, params2: ParameterArray): Double = {
     assert(assertion = false, "compareFitness not used since we evaluate in an absolute way.")
