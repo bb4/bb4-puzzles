@@ -3,13 +3,16 @@ package com.barrybecker4.puzzle.tantrix.solver.path
 
 import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
-import com.barrybecker4.optimization.parameter.{ParameterArray, PermutedParameterArray}
+import com.barrybecker4.optimization.parameter.{Move, ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
 import com.barrybecker4.puzzle.tantrix.model.PathColor
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, Rotation, Tantrix, TantrixBoard, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath._
 import scala.util.Random
 
+
+/** The path that a move leads to; building it was the work of choosing the move. */
+case class PathMove(path: TantrixPath) extends Move
 
 object TantrixPath {
 
@@ -143,6 +146,20 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
     val generator = new PathPermutationGenerator(this, rnd)
     generator.getRandomNeighbor(radius)
   }
+
+  /** A neighbor is a whole rearranged path, not a swap, so a move just carries the path that it leads to. */
+  override def supportsMoves: Boolean = true
+
+  /** The random neighbor, as a move. It draws the same random numbers as [[getRandomNeighbor]]. */
+  override def proposeMove(radius: Double): Move = PathMove(getRandomNeighbor(radius).asInstanceOf[TantrixPath])
+
+  override def applyMove(move: Move): TantrixPath = move match {
+    case PathMove(path) => path
+    case other => throw new UnsupportedOperationException("A tantrix path does not understand the move " + other)
+  }
+
+  /** A rearrangement of the path next to a tile that does not fit, or None if there is none. */
+  def proposeGuidedMove(guideRnd: Random): Option[Move] = GuidedPivot.find(this, guideRnd).map(PathMove(_))
 
   /** @return a completely random path through the same tiles (not just this path again).
     * The random path generator needs a board where the first tile is placed and all the others are still unplaced.
