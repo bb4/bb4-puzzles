@@ -42,4 +42,17 @@ class PieceParameterArrayMovesSuite extends AnyFunSuite {
       assertResult((1 to 9).toSet)(start.applyMove(move).pieces.pieces.map(_.piece.pieceNumber).toSet)
     }
   }
+
+  test("pieces have local moves, which are swaps of a position with each other position") {
+    val pieces = puzzle(9, 1)
+    assert(pieces.supportsLocalMoves)
+    assertResult((0 until 9).filter(_ != 3).map(other => Swap(3, other)))(pieces.movesAt(3).toList)
+  }
+
+  test("a single swap is applied like a sequence of that swap, and keeps every piece exactly once") {
+    val pieces = puzzle(9, 2)
+    val viaSwap = pieces.applyMove(Swap(1, 6))
+    assertResult(pieces.applyMove(SwapSequence(Vector(Swap(1, 6)))).pieces)(viaSwap.pieces)
+    assertResult(pieces.pieces.pieces.map(_.piece.pieceNumber).sorted)(viaSwap.pieces.pieces.map(_.piece.pieceNumber).sorted)
+  }
 }

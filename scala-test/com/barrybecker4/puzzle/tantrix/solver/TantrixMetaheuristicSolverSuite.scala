@@ -27,6 +27,16 @@ class TantrixMetaheuristicSolverSuite extends AnyFunSuite {
     assert(strategyOf(Algorithm.VARIABLE_NEIGHBORHOOD_SEARCH) == OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
   }
 
+  test("tabu search is an algorithm, and a path has no single swap moves so min-conflicts is not one") {
+    import com.barrybecker4.optimization.strategy.OptimizationStrategyType
+    val ctrl = new FixedStartTantrixController(ui, TantrixTstUtil.place2of3Tiles_OneThenTwo)
+    val tabu = Algorithm.TABU_SEARCH.createSolver(ctrl).asInstanceOf[GeneticSearchSolver]
+    assert(tabu.optimizationStrategy == OptimizationStrategyType.TABU_SEARCH)
+    val path = new com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath(ctrl.initialState, new scala.util.Random(1))
+    assert(!path.supportsLocalMoves)
+    assert(!OptimizationStrategyType.MIN_CONFLICTS.appliesTo(tabu, path))
+  }
+
   test("SA, global HC, and genetic construct GeneticSearchSolver with correct optimization strategy") {
     val ctrl = new FixedStartTantrixController(ui, TantrixTstUtil.place2of3Tiles_OneThenTwo)
     val sa = Algorithm.SIMULATED_ANNEALING.createSolver(ctrl).asInstanceOf[GeneticSearchSolver]

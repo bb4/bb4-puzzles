@@ -111,11 +111,15 @@ class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) 
 
   /** Swap the pieces, then rotate each to the rotation that maximizes local nub fits. */
   override def applyMove(move: Move): PieceParameterArray = move match {
-    case SwapSequence(swaps) =>
-      val swapped = swaps.foldLeft(pieces)((list, swap) => list.doSwap(swap.first, swap.second))
-      assert(swapped.size == swapped.numTotal)
-      new PieceParameterArray(rotateEachPieceForBestLocalFits(swapped), rnd)
+    case SwapSequence(swaps) => applySwaps(swaps)
+    case swap: Swap => applySwaps(Vector(swap))
     case other => throw new UnsupportedOperationException("A piece list does not understand the move " + other)
+  }
+
+  private def applySwaps(swaps: Seq[Swap]): PieceParameterArray = {
+    val swapped = swaps.foldLeft(pieces)((list, swap) => list.doSwap(swap.first, swap.second))
+    assert(swapped.size == swapped.numTotal)
+    new PieceParameterArray(rotateEachPieceForBestLocalFits(swapped), rnd)
   }
 
   /** A swap that puts a piece where it would fit its neighbor, in place of one that does not; None if there is none. */

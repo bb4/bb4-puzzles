@@ -19,7 +19,8 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   *    are mostly breadth first or balanced are next, then the sequential depth first search. Depth first does well on
   *    small puzzles, but falls behind on larger ones.
   *  - Of the strategies from bb4-optimization, the ones that anneal do best, then the genetic ones,
-  *    then iterated local search and variable neighborhood search. They find solutions of 12 to 15 tiles in
+  *    then iterated local search and variable neighborhood search, and then tabu search, which solves small
+  *    puzzles but fails at 9 tiles within 15 seconds. They find solutions of 12 to 15 tiles in
   *    seconds, but not reliably.
   *  - A*, which gets nothing from its estimate of the distance to the goal because every solution is as deep as
   *    the number of tiles, comes after them.
@@ -60,6 +61,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
       new GeneticSearchSolver(controller, OptimizationStrategyType.ITERATED_LOCAL_SEARCH)
     case VARIABLE_NEIGHBORHOOD_SEARCH =>
       new GeneticSearchSolver(controller, OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
+    case TABU_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.TABU_SEARCH)
     case HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.HILL_CLIMBING)
     case GLOBAL_SAMPLING => new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SAMPLING)
     case BRUTE_FORCE => new GeneticSearchSolver(controller, OptimizationStrategyType.BRUTE_FORCE)
@@ -78,6 +80,7 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
   case ITERATED_LOCAL_SEARCH extends Algorithm
   case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
+  case TABU_SEARCH extends Algorithm
   case IDA_STAR extends Algorithm
   case A_STAR_CONCURRENT extends Algorithm
   case A_STAR_SEQUENTIAL extends Algorithm

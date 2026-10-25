@@ -15,8 +15,10 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
   * have in the user interface. Every one of the exact searches finds the solution of the standard 9 piece puzzle in
   * well under a second. The fast backtracking search, which is written for this puzzle, is the quickest by far, and
   * iterative deepening A* is the quickest of the generic ones. The strategies from bb4-optimization
-  * come after them. They find it in a second or less when they succeed, which is about two times in three for the
-  * iterated local search and the genetic searches, and less often for the others. Hill climbing and sampling get
+  * come after them. Min-conflicts and tabu search, which repair the pieces that do not fit, come first among them: they
+  * found it in every run, in a few hundredths of a second. The other strategies find it in a second or less when they
+  * succeed, which is about two times in three for the iterated local search and the genetic searches, and less often
+  * for the others. Hill climbing and sampling get
   * stuck, and brute force over the orderings of the pieces is too slow to finish.
   */
 enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
@@ -42,6 +44,8 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
       new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SIMULATED_ANNEALING)
     case VARIABLE_NEIGHBORHOOD_SEARCH =>
       new GeneticSearchSolver(controller, OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
+    case MIN_CONFLICTS => new GeneticSearchSolver(controller, OptimizationStrategyType.MIN_CONFLICTS)
+    case TABU_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.TABU_SEARCH)
     case SIMULATED_ANNEALING => new GeneticSearchSolver(controller, OptimizationStrategyType.SIMULATED_ANNEALING)
     case GLOBAL_HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_HILL_CLIMBING)
     case HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.HILL_CLIMBING)
@@ -59,6 +63,8 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
   case A_STAR_SEQUENTIAL extends Algorithm
   case CONCURRENT_BREADTH extends Algorithm
   case CONCURRENT_OPTIMUM extends Algorithm
+  case MIN_CONFLICTS extends Algorithm
+  case TABU_SEARCH extends Algorithm
   case ITERATED_LOCAL_SEARCH extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
   case GENETIC_SEARCH extends Algorithm

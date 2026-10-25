@@ -150,6 +150,9 @@ class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor
   /** A neighbor is a whole rearranged path, not a swap, so a move just carries the path that it leads to. */
   override def supportsMoves: Boolean = true
 
+  /** A path is not changed by swapping two positions, so the strategies that work on single swaps cannot use it. */
+  override def supportsLocalMoves: Boolean = false
+
   /** The random neighbor, as a move. It draws the same random numbers as [[getRandomNeighbor]]. */
   override def proposeMove(radius: Double): Move = PathMove(getRandomNeighbor(radius).asInstanceOf[TantrixPath])
 

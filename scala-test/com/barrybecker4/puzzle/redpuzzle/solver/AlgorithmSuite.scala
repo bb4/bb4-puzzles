@@ -2,6 +2,7 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.common.app.AppContext
+import com.barrybecker4.math.MathUtil
 import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.redpuzzle.{RedPuzzleController, StubRefreshable}
@@ -56,5 +57,18 @@ class AlgorithmSuite extends AnyFunSuite {
     val firstOptimizer = values.indexWhere(a => a.createSolver(controller).isInstanceOf[GeneticSearchSolver])
     assert(values.drop(firstOptimizer).forall(a => a.createSolver(controller).isInstanceOf[GeneticSearchSolver]))
     assertResult(Algorithm.BRUTE_FORCE)(values.last)
+  }
+
+  test("min-conflicts and tabu search solve the puzzle, which the other strategies do not always do") {
+    List(Algorithm.MIN_CONFLICTS, Algorithm.TABU_SEARCH).foreach { algorithm =>
+      MathUtil.RANDOM.setSeed(1)
+      assert(algorithm.createSolver(new RedPuzzleController(new StubRefreshable)).solve.isDefined, algorithm.toString)
+    }
+  }
+
+  test("the solver reports the pieces that do not fit as the conflicted positions") {
+    val pieces = new PieceParameterArray(new PieceList(RED_INITIAL_PIECES_9), new Random(1))
+    val solver = new GeneticSearchSolver(controller, OptimizationStrategyType.MIN_CONFLICTS)
+    assertResult(pieces.getPieceList.conflictedPositions)(solver.conflictedPositions(pieces))
   }
 }
