@@ -16,9 +16,9 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
   * well under a second. The fast backtracking search, which is written for this puzzle, is the quickest by far, and
   * iterative deepening A* is the quickest of the generic ones. The strategies from bb4-optimization
   * come after them. Min-conflicts and tabu search, which repair the pieces that do not fit, come first among them: they
-  * found it in every run, in a few hundredths of a second. The other strategies find it in a second or less when they
-  * succeed, which is about two times in three for the iterated local search and the genetic searches, and less often
-  * for the others. Hill climbing and sampling get
+  * found it in every run, in well under a second. Global simulated annealing is next, then the genetic searches
+  * (about two runs in three, in about a second), the iterated local search, variable neighborhood search and
+  * simulated annealing (about one run in three, but quickly). Hill climbing and sampling get
   * stuck, and brute force over the orderings of the pieces is too slow to finish.
   */
 enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
@@ -65,10 +65,10 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
   case CONCURRENT_OPTIMUM extends Algorithm
   case MIN_CONFLICTS extends Algorithm
   case TABU_SEARCH extends Algorithm
-  case ITERATED_LOCAL_SEARCH extends Algorithm
+  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
   case GENETIC_SEARCH extends Algorithm
-  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
+  case ITERATED_LOCAL_SEARCH extends Algorithm
   case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
   case SIMULATED_ANNEALING extends Algorithm
   case GLOBAL_HILL_CLIMBING extends Algorithm

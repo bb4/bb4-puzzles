@@ -19,7 +19,7 @@ import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
   *    are mostly breadth first or balanced are next, then the sequential depth first search. Depth first does well on
   *    small puzzles, but falls behind on larger ones.
   *  - Of the strategies from bb4-optimization, the ones that anneal do best, then the genetic ones,
-  *    then iterated local search and variable neighborhood search. They find solutions of 12 to 15 tiles in
+  *    then variable neighborhood search and iterated local search. They find solutions of 12 to 15 tiles in
   *    seconds, but not reliably. Tabu search comes after them: it solved 12 tiles in all 3 runs, but slowly (about 9 seconds
   *    in a 15 second limit), because a Tantrix path has no single swap move and it has to score whole random neighbors.
   *  - A*, which gets nothing from its estimate of the distance to the goal because every solution is as deep as
@@ -78,8 +78,8 @@ enum Algorithm extends AlgorithmEnum[TantrixBoard, TilePlacement] {
   case SIMULATED_ANNEALING extends Algorithm
   case GENETIC_SEARCH extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
-  case ITERATED_LOCAL_SEARCH extends Algorithm
   case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
+  case ITERATED_LOCAL_SEARCH extends Algorithm
   case TABU_SEARCH extends Algorithm
   case IDA_STAR extends Algorithm
   case A_STAR_CONCURRENT extends Algorithm
