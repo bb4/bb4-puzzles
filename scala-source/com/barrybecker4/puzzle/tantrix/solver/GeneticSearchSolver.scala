@@ -10,6 +10,7 @@ import com.barrybecker4.optimization.strategy.annealing.{
   SimulatedAnnealingStrategy
 }
 import com.barrybecker4.optimization.strategy.hillclimbing.{GlobalHillClimbingConfig, GlobalHillClimbingStrategy, SeedSelection}
+import com.barrybecker4.optimization.strategy.tabu.{TabuSearchConfig, TabuSearchStrategy}
 import com.barrybecker4.optimization.strategy.{OptimizationStrategy, OptimizationStrategyType}
 import com.barrybecker4.optimization.{OptimizationListener, Optimizer}
 import com.barrybecker4.puzzle.common.PuzzleController
@@ -27,6 +28,10 @@ object GeneticSearchSolver {
     * 42 to 104 ms and from 70 to 616 ms. Genetic search got no better. Change it if reliability matters more than time.
     */
   val GUIDED_MOVE_PROBABILITY: Double = 0.0
+
+  /** Tabu search takes this many steps, and starts over from a random path after this many without a new best. */
+  val TABU_ITERATIONS = 3000
+  val TABU_RESTART_AFTER = 50
 }
 
 /**
@@ -48,7 +53,8 @@ class GeneticSearchSolver(
   /** SA / global hill climb need more exploration than default bb4-optimization presets for this puzzle. */
   private def useTantrixTunedMetaheuristic: Boolean =
     optimizationStrategy == OptimizationStrategyType.SIMULATED_ANNEALING ||
-      optimizationStrategy == OptimizationStrategyType.GLOBAL_HILL_CLIMBING
+      optimizationStrategy == OptimizationStrategyType.GLOBAL_HILL_CLIMBING ||
+      optimizationStrategy == OptimizationStrategyType.TABU_SEARCH
 
   /**
     * Hotter SA, longer inner chains, slower cooling, adaptive step scaling; larger global sample + multistart for GHC.
@@ -85,6 +91,12 @@ class GeneticSearchSolver(
             seedSelection = SeedSelection.TopFitness
           )
         )
+        s
+      case OptimizationStrategyType.TABU_SEARCH =>
+        val s = new TabuSearchStrategy(this, rnd)
+        // Every step moves, even to a worse path, so a long walk drifts across the board. Restart often to stay near the start.
+        s.setConfig(TabuSearchConfig(maxIterations = GeneticSearchSolver.TABU_ITERATIONS,
+          restartAfterStagnantIterations = GeneticSearchSolver.TABU_RESTART_AFTER))
         s
       case other =>
         throw new IllegalStateException(s"Not a tuned metaheuristic: $other")

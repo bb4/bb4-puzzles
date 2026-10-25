@@ -124,6 +124,20 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   /** @return true if the piece at `pos` fits the one below it (which must exist) */
   def fitsBelow(pos: Int): Boolean = nubsFitVertically(get(pos), get(pos + edgeLength))
 
+  /** @return the positions of the pieces that do not fit one of their neighbors, in order */
+  def conflictedPositions: Seq[Int] =
+    (0 until numTotal).filter(pos => hasLooseEdge(pos))
+
+  private def hasLooseEdge(pos: Int): Boolean = {
+    val col = pos % edgeLength
+    val row = pos / edgeLength
+    val rightLoose = col < edgeLength - 1 && !fitsRight(pos)
+    val belowLoose = row < edgeLength - 1 && !fitsBelow(pos)
+    val leftLoose = col > 0 && !fitsRight(pos - 1)
+    val aboveLoose = row > 0 && !fitsBelow(pos - edgeLength)
+    rightLoose || belowLoose || leftLoose || aboveLoose
+  }
+
   /** @return true if we contain p */
   def contains(p: Piece): Boolean = pieces.exists(_.piece == p)
 

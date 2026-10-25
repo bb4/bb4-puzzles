@@ -211,4 +211,22 @@ class PieceListSuite extends AnyFunSuite with BeforeAndAfter {
     val newPiece = OrientedPiece(Piece(Nub.OUTY_HEART, Nub.OUTY_DIAMOND, Nub.INNY_HEART, Nub.OUTY_CLUB, 2))
     assert(pieceList.fits(newPiece))
   }
+
+  test("the conflicted positions are the pieces that do not fit a neighbor") {
+    val pieces = PieceLists.getInitialPuzzlePieces(9, new scala.util.Random(3))
+    val expected = (0 until pieces.numTotal).filter { pos =>
+      val (row, col) = PieceList.rowColForIndex(pos, pieces.numTotal)
+      (col < pieces.edgeLength - 1 && !pieces.fitsRight(pos)) || (col > 0 && !pieces.fitsRight(pos - 1)) ||
+        (row < pieces.edgeLength - 1 && !pieces.fitsBelow(pos)) || (row > 0 && !pieces.fitsBelow(pos - pieces.edgeLength))
+    }
+    assertResult(expected)(pieces.conflictedPositions)
+    assert(expected.nonEmpty)
+  }
+
+  test("a piece list with no loose edge has no conflicted positions") {
+    val solver = new com.barrybecker4.puzzle.redpuzzle.solver.FastBacktrackingSolver(
+      new com.barrybecker4.puzzle.redpuzzle.RedPuzzleController(new com.barrybecker4.puzzle.redpuzzle.StubRefreshable))
+    val answer = solver.solve.get
+    assertResult(Seq.empty)(PieceList(answer.toList, 9).conflictedPositions)
+  }
 }

@@ -102,6 +102,10 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
   override def proposeGuidedMove(current: ParameterArray, radius: Double, rnd: Random): Option[Move] =
     current.asInstanceOf[PieceParameterArray].proposeGuidedMove(rnd)
 
+  /** The pieces that do not fit a neighbor, which is where min-conflicts and tabu search look for a repair. */
+  override def conflictedPositions(current: ParameterArray): Seq[Int] =
+    current.asInstanceOf[PieceParameterArray].getPieceList.conflictedPositions
+
   def compareFitness(params1: ParameterArray, params2: ParameterArray): Double =
     throw new UnsupportedOperationException("compareFitness not used since we evaluate in an absolute way.")
 
