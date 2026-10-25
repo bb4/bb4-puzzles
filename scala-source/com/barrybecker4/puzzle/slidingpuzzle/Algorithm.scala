@@ -46,4 +46,3 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
   case CONCURRENT_OPTIMUM extends Algorithm
   case SIMPLE_SEQUENTIAL extends Algorithm
 }
-
