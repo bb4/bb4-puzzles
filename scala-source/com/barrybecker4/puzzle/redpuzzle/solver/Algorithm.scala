@@ -11,14 +11,15 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 /**
   * Enum for type of solver to employ when solving the puzzle.
   *
-  * The algorithms are listed in the order of how well they work, with the most effective first. That is the order they
-  * have in the user interface. Every one of the exact searches finds the solution of the standard 9 piece puzzle in
-  * well under a second. The fast backtracking search, which is written for this puzzle, is the quickest by far, and
-  * iterative deepening A* is the quickest of the generic ones. The strategies from bb4-optimization
-  * come after them. Min-conflicts and tabu search, which repair the pieces that do not fit, come first among them: they
-  * found it in every run, in well under a second. Global simulated annealing is next, then the genetic searches
-  * (about two runs in three, in about a second), the iterated local search, variable neighborhood search and
-  * simulated annealing (about one run in three, but quickly). Hill climbing and sampling get
+  * The algorithms are listed in the order of how reliably and quickly they solve the standard 9 piece puzzle, the best
+  * first. That is the order they have in the user interface. The order comes from 12 runs of each on one machine, with
+  * the median time of the runs that solved it in brackets. Every exact search and the first two strategies from
+  * bb4-optimization solved it in all 12: the fast backtracking search written for this puzzle (2 ms), the hand
+  * crafted brute force (3 ms), the generic brute force (7 ms), iterative deepening A* (8 ms), the A* searches
+  * (14 and 18 ms), the concurrent search that is mostly depth first (22 ms), min-conflicts (24 ms, which repairs the
+  * pieces that do not fit), the other concurrent searches (36 and 37 ms) and tabu search (51 ms). Global simulated
+  * annealing is next (9 of 12), then the genetic searches (about 2 in 3, in about a second), the iterated local search,
+  * variable neighborhood search and simulated annealing (about 1 in 3, but quickly). Hill climbing and sampling get
   * stuck, and brute force over the orderings of the pieces is too slow to finish.
   */
 enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
@@ -55,15 +56,15 @@ enum Algorithm extends AlgorithmEnum[PieceList, OrientedPiece] {
 
   // The cases are in order of how well they do on this puzzle, most effective first (see the documentation above).
   case FAST_BACKTRACKING extends Algorithm
-  case IDA_STAR extends Algorithm
   case BRUTE_FORCE_ORIGINAL extends Algorithm
-  case CONCURRENT_DEPTH extends Algorithm
   case BRUTE_FORCE_SEQUENTIAL extends Algorithm
+  case IDA_STAR extends Algorithm
   case A_STAR_CONCURRENT extends Algorithm
   case A_STAR_SEQUENTIAL extends Algorithm
-  case CONCURRENT_BREADTH extends Algorithm
-  case CONCURRENT_OPTIMUM extends Algorithm
+  case CONCURRENT_DEPTH extends Algorithm
   case MIN_CONFLICTS extends Algorithm
+  case CONCURRENT_OPTIMUM extends Algorithm
+  case CONCURRENT_BREADTH extends Algorithm
   case TABU_SEARCH extends Algorithm
   case GLOBAL_SIMULATED_ANNEALING extends Algorithm
   case CONCURRENT_GENETIC_SEARCH extends Algorithm
