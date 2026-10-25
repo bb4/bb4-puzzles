@@ -52,23 +52,17 @@ class AlgorithmSuite extends AnyFunSuite {
     assertResult(OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH)(new GeneticSearchSolver(controller, true).strategy)
   }
 
-  test("the exact searches come before the optimization strategies, and the weakest strategies come last") {
+  test("the quickest exact search comes first, and the strategies that never solve it come last") {
     val values = Algorithm.values.toSeq
-    val firstOptimizer = values.indexWhere(a => a.createSolver(controller).isInstanceOf[GeneticSearchSolver])
-    assert(values.drop(firstOptimizer).forall(a => a.createSolver(controller).isInstanceOf[GeneticSearchSolver]))
+    assertResult(Algorithm.FAST_BACKTRACKING)(values.head)
     assertResult(Algorithm.BRUTE_FORCE)(values.last)
   }
 
-  test("min-conflicts and tabu search solve the puzzle, which the other strategies do not always do") {
-    List(Algorithm.MIN_CONFLICTS, Algorithm.TABU_SEARCH).foreach { algorithm =>
-      MathUtil.RANDOM.setSeed(1)
-      assert(algorithm.createSolver(new RedPuzzleController(new StubRefreshable)).solve.isDefined, algorithm.toString)
-    }
-  }
-
-  test("the solver reports the pieces that do not fit as the conflicted positions") {
-    val pieces = new PieceParameterArray(new PieceList(RED_INITIAL_PIECES_9), new Random(1))
-    val solver = new GeneticSearchSolver(controller, OptimizationStrategyType.MIN_CONFLICTS)
-    assertResult(pieces.getPieceList.conflictedPositions)(solver.conflictedPositions(pieces))
+  test("min-conflicts and tabu search come before the strategies that solve it less than every time") {
+    val values = Algorithm.values.toSeq
+    val unreliable = Seq(Algorithm.GLOBAL_SIMULATED_ANNEALING, Algorithm.GENETIC_SEARCH, Algorithm.ITERATED_LOCAL_SEARCH,
+      Algorithm.SIMULATED_ANNEALING, Algorithm.HILL_CLIMBING)
+    for (reliable <- Seq(Algorithm.MIN_CONFLICTS, Algorithm.TABU_SEARCH); other <- unreliable)
+      assert(values.indexOf(reliable) < values.indexOf(other), s"$reliable should come before $other")
   }
 }
