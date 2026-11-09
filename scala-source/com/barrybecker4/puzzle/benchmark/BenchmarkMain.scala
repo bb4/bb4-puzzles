@@ -17,6 +17,7 @@ object BenchmarkMain {
   def main(args: Array[String]): Unit = {
     val status =
       try {
+        BenchmarkAppContext.ensureInitialized()
         run(BenchmarkConfig.parse(args.toList))
         0
       } catch {

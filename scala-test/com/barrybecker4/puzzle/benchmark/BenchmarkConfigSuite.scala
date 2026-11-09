@@ -10,7 +10,8 @@ class BenchmarkConfigSuite extends AnyFunSuite {
     assert(config.timeoutSeconds == 60)
     assert(config.repetitions == 5)
     assert(config.tantrixSizes == List(3, 6, 9, 12, 15, 20, 24))
-    assert(config.puzzles == Set("tantrix", "redpuzzle"))
+    assert(config.slidingSizes == List(3, 4))
+    assert(config.puzzles == Set("tantrix", "redpuzzle", "slidingpuzzle"))
     assert(config.libVersion.isEmpty)
     assert(config.resultsFile == "docs/benchmarks.json")
     assert(config.reportFile == "docs/benchmarks.md")
@@ -20,14 +21,15 @@ class BenchmarkConfigSuite extends AnyFunSuite {
 
   test("every option can be overridden") {
     val config = BenchmarkConfig.parse(List(
-      "--lib-version=2.0.0", "--timeout=30", "--reps=3", "--tantrix-sizes=4,8",
-      "--puzzles=tantrix", "--results=out/r.json", "--report=out/r.md", "--no-report", "--in-process"
+      "--lib-version=2.0.0", "--timeout=30", "--reps=3", "--tantrix-sizes=4,8", "--sliding-sizes=3,5",
+      "--puzzles=tantrix,slidingpuzzle", "--results=out/r.json", "--report=out/r.md", "--no-report", "--in-process"
     ))
     assert(config.libVersion.contains("2.0.0"))
     assert(config.timeoutSeconds == 30)
     assert(config.repetitions == 3)
     assert(config.tantrixSizes == List(4, 8))
-    assert(config.puzzles == Set("tantrix"))
+    assert(config.slidingSizes == List(3, 5))
+    assert(config.puzzles == Set("tantrix", "slidingpuzzle"))
     assert(config.resultsFile == "out/r.json")
     assert(config.reportFile == "out/r.md")
     assert(!config.writeReport)
@@ -35,7 +37,8 @@ class BenchmarkConfigSuite extends AnyFunSuite {
   }
 
   test("bad options are rejected with a message") {
-    List("--timeout=abc", "--reps=0", "--puzzles=chess", "--bogus=1", "positional", "--tantrix-sizes=3,x").foreach { bad =>
+    List("--timeout=abc", "--reps=0", "--puzzles=chess", "--bogus=1", "positional", "--tantrix-sizes=3,x",
+      "--sliding-sizes=x").foreach { bad =>
       intercept[IllegalArgumentException] {
         BenchmarkConfig.parse(List(bad))
       }

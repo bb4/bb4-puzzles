@@ -39,6 +39,7 @@ object BenchmarkWorker {
 
   private def runWorker(args: List[String]): Int = args match {
     case puzzle :: variant :: algorithm :: seed :: Nil =>
+      BenchmarkAppContext.ensureInitialized()
       BenchmarkCases.find(puzzle, variant, algorithm) match {
         case Some(benchCase) =>
           val prepared = benchCase.prepare(seed.toLong)

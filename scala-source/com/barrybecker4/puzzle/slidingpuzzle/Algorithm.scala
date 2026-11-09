@@ -1,18 +1,22 @@
-// Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle
 
 import com.barrybecker4.common.app.AppContext
+import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.common.AlgorithmEnum
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.{AStarConcurrentPuzzleSolver, AStarPuzzleSolver, ConcurrentPuzzleSolver, IDAStarPuzzleSolver, PuzzleSolver, SequentialPuzzleSolver}
 import com.barrybecker4.puzzle.slidingpuzzle.model.SlideMove
 import com.barrybecker4.puzzle.slidingpuzzle.model.SliderBoard
-import com.barrybecker4.puzzle.slidingpuzzle.solver.FastSliderSolver
+import com.barrybecker4.puzzle.slidingpuzzle.solver.{FastSliderSolver, GeneticSearchSolver}
 
 
 /**
   * Type of solver to use.
   *
+  * Exact custom IDA* and generic searches come first. Metaheuristics from bb4-optimization follow; they rearrange
+  * the tiles as a permutation and then extract a legal slide path. On 3 by 3 boards they usually reach the goal;
+  * on 15-puzzle and larger they may time out or fail within the default search budget — prefer FAST_SHORTEST* there.
   */
 enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
 
@@ -34,6 +38,20 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
     case CONCURRENT_OPTIMUM => new ConcurrentPuzzleSolver[SliderBoard, SlideMove](controller, 0.3f)
     // this will find a solution, but not necessarily the shortest path
     case SIMPLE_SEQUENTIAL => new SequentialPuzzleSolver[SliderBoard, SlideMove](controller)
+    case MIN_CONFLICTS => new GeneticSearchSolver(controller, OptimizationStrategyType.MIN_CONFLICTS)
+    case TABU_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.TABU_SEARCH)
+    case GENETIC_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.GENETIC_SEARCH)
+    case CONCURRENT_GENETIC_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.CONCURRENT_GENETIC_SEARCH)
+    case GLOBAL_SIMULATED_ANNEALING =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SIMULATED_ANNEALING)
+    case ITERATED_LOCAL_SEARCH => new GeneticSearchSolver(controller, OptimizationStrategyType.ITERATED_LOCAL_SEARCH)
+    case VARIABLE_NEIGHBORHOOD_SEARCH =>
+      new GeneticSearchSolver(controller, OptimizationStrategyType.VARIABLE_NEIGHBORHOOD_SEARCH)
+    case SIMULATED_ANNEALING => new GeneticSearchSolver(controller, OptimizationStrategyType.SIMULATED_ANNEALING)
+    case GLOBAL_HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_HILL_CLIMBING)
+    case HILL_CLIMBING => new GeneticSearchSolver(controller, OptimizationStrategyType.HILL_CLIMBING)
+    case GLOBAL_SAMPLING => new GeneticSearchSolver(controller, OptimizationStrategyType.GLOBAL_SAMPLING)
+    case BRUTE_FORCE => new GeneticSearchSolver(controller, OptimizationStrategyType.BRUTE_FORCE)
   }
 
   case FAST_SHORTEST_IF_QUICK extends Algorithm
@@ -45,4 +63,16 @@ enum Algorithm extends AlgorithmEnum[SliderBoard, SlideMove] {
   case CONCURRENT_DEPTH extends Algorithm
   case CONCURRENT_OPTIMUM extends Algorithm
   case SIMPLE_SEQUENTIAL extends Algorithm
+  case MIN_CONFLICTS extends Algorithm
+  case TABU_SEARCH extends Algorithm
+  case GENETIC_SEARCH extends Algorithm
+  case CONCURRENT_GENETIC_SEARCH extends Algorithm
+  case GLOBAL_SIMULATED_ANNEALING extends Algorithm
+  case ITERATED_LOCAL_SEARCH extends Algorithm
+  case VARIABLE_NEIGHBORHOOD_SEARCH extends Algorithm
+  case SIMULATED_ANNEALING extends Algorithm
+  case GLOBAL_HILL_CLIMBING extends Algorithm
+  case HILL_CLIMBING extends Algorithm
+  case GLOBAL_SAMPLING extends Algorithm
+  case BRUTE_FORCE extends Algorithm
 }

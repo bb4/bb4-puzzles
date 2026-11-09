@@ -7,7 +7,8 @@ package com.barrybecker4.puzzle.benchmark
   * @param timeoutSeconds  longest a single run may take before it is counted as "no solution"
   * @param repetitions     runs per puzzle variant and algorithm. The median of the successful runs is reported.
   * @param tantrixSizes    numbers of tiles for the Tantrix variants
-  * @param puzzles         which puzzles to run: "tantrix" and/or "redpuzzle"
+  * @param slidingSizes    board edge lengths for the Sliding Puzzle variants (e.g. 3 for 3x3)
+  * @param puzzles         which puzzles to run: "tantrix", "redpuzzle", and/or "slidingpuzzle"
   * @param libVersion      the bb4-optimization version the person expects to be on the classpath (a safety check)
   * @param resultsFile     where the results are kept (one run per library version)
   * @param reportFile      where the markdown report is written
@@ -19,6 +20,7 @@ final case class BenchmarkConfig(
   timeoutSeconds: Int = BenchmarkConfig.DEFAULT_TIMEOUT_SECONDS,
   repetitions: Int = BenchmarkConfig.DEFAULT_REPETITIONS,
   tantrixSizes: List[Int] = BenchmarkConfig.DEFAULT_TANTRIX_SIZES,
+  slidingSizes: List[Int] = BenchmarkConfig.DEFAULT_SLIDING_SIZES,
   puzzles: Set[String] = BenchmarkConfig.ALL_PUZZLES,
   libVersion: Option[String] = None,
   resultsFile: String = BenchmarkConfig.DEFAULT_RESULTS_FILE,
@@ -32,7 +34,8 @@ object BenchmarkConfig {
   val DEFAULT_TIMEOUT_SECONDS = 60
   val DEFAULT_REPETITIONS = 5
   val DEFAULT_TANTRIX_SIZES: List[Int] = List(3, 6, 9, 12, 15, 20, 24)
-  val ALL_PUZZLES: Set[String] = Set("tantrix", "redpuzzle")
+  val DEFAULT_SLIDING_SIZES: List[Int] = List(3, 4)
+  val ALL_PUZZLES: Set[String] = Set("tantrix", "redpuzzle", "slidingpuzzle")
   val DEFAULT_RESULTS_FILE = "docs/benchmarks.json"
   val DEFAULT_REPORT_FILE = "docs/benchmarks.md"
 
@@ -42,7 +45,8 @@ object BenchmarkConfig {
       |  --timeout=60                  seconds a single run may take before it counts as "no solution"
       |  --reps=5                     runs per cell; the median of the successful runs is reported
       |  --tantrix-sizes=3,6,9,12,15,20,24   numbers of tiles for the Tantrix variants
-      |  --puzzles=tantrix,redpuzzle   which puzzles to run
+      |  --sliding-sizes=3,4,5         board edge lengths for the Sliding Puzzle variants
+      |  --puzzles=tantrix,redpuzzle,slidingpuzzle   which puzzles to run
       |  --results=docs/benchmarks.json
       |  --report=docs/benchmarks.md
       |  --no-report                   do not regenerate the markdown report
@@ -73,6 +77,7 @@ object BenchmarkConfig {
         case "timeout" => config.copy(timeoutSeconds = positiveInt(name, value))
         case "reps" => config.copy(repetitions = positiveInt(name, value))
         case "tantrix-sizes" => config.copy(tantrixSizes = value.split(',').toList.map(v => positiveInt(name, v)))
+        case "sliding-sizes" => config.copy(slidingSizes = value.split(',').toList.map(v => positiveInt(name, v)))
         case "puzzles" =>
           val chosen = value.split(',').toList.map(_.trim.toLowerCase).toSet
           val unknown = chosen.diff(ALL_PUZZLES)

@@ -64,8 +64,9 @@ class ProcessRunnerSuite extends AnyFunSuite {
   test("every case can be found by the name the worker is given") {
     val tantrix = BenchmarkCases.tantrixCases(List(3, 6))
     val redPuzzle = BenchmarkCases.redPuzzleCases()
-    assert(tantrix.nonEmpty && redPuzzle.nonEmpty)
-    (tantrix ++ redPuzzle).foreach { c =>
+    val sliding = BenchmarkCases.slidingPuzzleCases(List(3))
+    assert(tantrix.nonEmpty && redPuzzle.nonEmpty && sliding.nonEmpty)
+    (tantrix ++ redPuzzle ++ sliding).foreach { c =>
       val found = BenchmarkCases.find(c.puzzle, c.variant, c.algorithm)
       assert(found.exists(f => f.puzzle == c.puzzle && f.variant == c.variant && f.algorithm == c.algorithm), c)
     }
@@ -75,5 +76,6 @@ class ProcessRunnerSuite extends AnyFunSuite {
     assert(BenchmarkCases.find("Tantrix", "seven tiles", "GENETIC_SEARCH").isEmpty)
     assert(BenchmarkCases.find("Tantrix", "6 tiles", "NO_SUCH_ALGORITHM").isEmpty)
     assert(BenchmarkCases.find("Chess", "6 tiles", "GENETIC_SEARCH").isEmpty)
+    assert(BenchmarkCases.find("Sliding Puzzle", "3x4", "GENETIC_SEARCH").isEmpty)
   }
 }
