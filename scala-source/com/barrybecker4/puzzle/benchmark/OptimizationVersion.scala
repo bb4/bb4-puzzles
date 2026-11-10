@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.benchmark
 
-import com.barrybecker4.optimization.Optimizer
+import java.net.URLDecoder
 
 /**
   * Determines which bb4-optimization version is actually on the classpath, so that results are never recorded
@@ -12,24 +12,36 @@ object OptimizationVersion {
 
   private val JarName = """bb4-optimization-(.+)\.jar""".r
 
+  /** Anchor class in bb4-optimization; referenced by resource path so the IDE does not need that dependency on its classpath. */
+  private val LibraryAnchorResource = "com/barrybecker4/optimization/Optimizer.class"
+
   /** @return the version taken from the jar file name, or None if the classes are not from a versioned jar */
-  def detect(): Option[String] = {
-    val source = classOf[Optimizer].getProtectionDomain.getCodeSource
-    if (source == null) None
-    else {
-      val path = source.getLocation.getPath
-      val fileName = path.substring(path.lastIndexOf('/') + 1)
-      fileName match {
-        case JarName(version) => Some(version)
-        case _ => None
-      }
+  def detect(): Option[String] =
+    Option(OptimizationVersion.getClass.getClassLoader.getResource(LibraryAnchorResource))
+      .flatMap(versionFromOptimizationLibraryUrl)
+
+  private def versionFromOptimizationLibraryUrl(url: java.net.URL): Option[String] =
+    jarFileName(url).flatMap {
+      case JarName(version) => Some(version)
+      case _ => None
     }
+
+  private def jarFileName(url: java.net.URL): Option[String] = url.getProtocol match {
+    case "jar" =>
+      val path = URLDecoder.decode(url.getPath, "UTF-8")
+      val bang = path.indexOf("!/")
+      if (bang < 0) None
+      else {
+        val jarPath = path.substring(0, bang)
+        Some(jarPath.substring(jarPath.lastIndexOf('/') + 1))
+      }
+    case _ => None
   }
 
   /**
     * @param requested the version the person says is on the classpath (--lib-version), if any
     * @return the version to record results under
-    * @throws [IllegalStateException] if the requested version disagrees with the detected one,
+    * @throws java.lang.IllegalStateException if the requested version disagrees with the detected one,
     *                               or if there is no way to know the version
     */
   def resolve(requested: Option[String]): String =
