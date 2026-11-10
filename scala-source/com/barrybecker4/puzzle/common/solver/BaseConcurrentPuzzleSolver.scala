@@ -1,7 +1,7 @@
 package com.barrybecker4.puzzle.common.solver
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
+import java.util.concurrent.ThreadLocalRandom
 import com.barrybecker4.puzzle.common.model.PuzzleNode
 import scala.collection.mutable
 import java.util.concurrent.Executors
@@ -138,7 +138,7 @@ class BaseConcurrentPuzzleSolver[P, M](val puzzle: PuzzleController[P, M])
       val transitions = puzzle.legalTransitions(getPosition)
       for (move <- transitions) {
         val task = newTask(puzzle.transition(getPosition, move), Some(move), Some(this))
-        if (MathUtil.RANDOM.nextFloat() > depthBreadthFactor) { // go deep
+        if (ThreadLocalRandom.current().nextFloat() > depthBreadthFactor) { // go deep
           task.run()
         } else { // go wide
           exec.execute(task)

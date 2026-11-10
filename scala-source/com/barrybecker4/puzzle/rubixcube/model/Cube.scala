@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.model
 
-import com.barrybecker4.math.MathUtil
 import CubeComponents.{getCompsForSize, numMinicubesToBaseSize}
 import com.barrybecker4.puzzle.rubixcube.Location
 
@@ -23,7 +22,7 @@ case class Cube(locationToMinicube: Map[Location, Minicube]) {
   }
 
   /** shuffle the cube tiles */
-  def shuffle(rand: Random = MathUtil.RANDOM): Cube =
+  def shuffle(rand: Random = new Random()): Cube =
     new CubeShuffler(rand).shuffle(this)
 
   def getSlice(orientation: Orientation, level: Int): Map[Location, Minicube] = {

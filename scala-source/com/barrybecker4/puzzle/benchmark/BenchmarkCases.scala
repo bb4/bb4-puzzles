@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.benchmark
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.redpuzzle.RedPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, FastBacktrackingSolver as RedFastSolver, GeneticSearchSolver as RedOptimizerSolver}
@@ -20,8 +19,8 @@ import scala.util.Random
 /**
   * One algorithm on one puzzle variant.
   *
-  * @param prepare builds a ready-to-run solve for the given repetition seed. The seed is applied to the shared
-  *                random number generator, so repetition N of a cell starts from the same state in every version.
+ * @param prepare builds a ready-to-run solve for the given repetition seed. Callers use `new Random(seed)` so
+ *                repetition N of a cell starts from the same state in every version.
   */
 final case class BenchmarkCase(puzzle: String, variant: String, algorithm: String, prepare: Long => PreparedRun)
 
@@ -117,24 +116,23 @@ object BenchmarkCases {
   }
 
   private def prepareTantrix(alg: TantrixAlgorithm, numTiles: Int, seed: Long): PreparedRun = {
-    MathUtil.RANDOM.setSeed(seed)
+    val rnd = new Random(seed)
     val ui = new ProbeRefreshable[TantrixBoard, TilePlacement]
     val start = new TantrixBoard(new HexTiles().createOrderedList(numTiles))
-    val controller = new FixedStartTantrixController(ui, start)
+    val controller = new FixedStartTantrixController(ui, start, rnd)
     val solver = alg.createSolver(controller)
     new PreparedRun(() => ui.cancel(), () => ui.numTries, () => solver.solve.isDefined)
   }
 
   private def prepareRedPuzzle(alg: RedAlgorithm, seed: Long): PreparedRun = {
-    MathUtil.RANDOM.setSeed(seed)
+    val rnd = new Random(seed)
     val ui = new ProbeRefreshable[PieceList, OrientedPiece]
-    val controller = new RedPuzzleController(ui)
+    val controller = new RedPuzzleController(ui, rnd)
     val solver = alg.createSolver(controller)
     new PreparedRun(() => ui.cancel(), () => ui.numTries, () => solver.solve.isDefined)
   }
 
   private def prepareSlidingPuzzle(alg: SlidingAlgorithm, edge: Int, seed: Long): PreparedRun = {
-    MathUtil.RANDOM.setSeed(seed)
     val ui = new ProbeRefreshable[SliderBoard, SlideMove]
     val start = solvableBoard(edge, new Random(seed))
     val controller = new FixedStartSlidingPuzzleController(ui, start)
@@ -151,8 +149,9 @@ object BenchmarkCases {
   /** A controller that always starts from the same board so that runs are comparable. */
   private final class FixedStartTantrixController(
     refreshable: Refreshable[TantrixBoard, TilePlacement],
-    private val startBoard: TantrixBoard
-  ) extends TantrixController(refreshable) {
+    private val startBoard: TantrixBoard,
+    heuristicRnd: Random
+  ) extends TantrixController(refreshable, heuristicRnd) {
     override def initialState: TantrixBoard = startBoard
   }
 

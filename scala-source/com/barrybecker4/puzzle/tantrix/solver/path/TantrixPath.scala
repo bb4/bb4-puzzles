@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver.path
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import com.barrybecker4.optimization.parameter.{Move, ParameterArray, PermutedParameterArray}
 import com.barrybecker4.puzzle.tantrix.generation.RandomPathGenerator
@@ -78,7 +77,7 @@ object TantrixPath {
   * @param primaryPathColor primary path color
   */
 class TantrixPath(val tiles: Seq[TilePlacement], val primaryPathColor: PathColor, val desiredLength: Int,
-                  rnd: Random = MathUtil.RANDOM)
+                  rnd: Random = new Random(1))
     extends PermutedParameterArray(TantrixPath.permutationParamsForTiles(tiles), rnd) {
 
   assert(desiredLength >= tiles.length)

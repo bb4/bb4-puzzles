@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import com.barrybecker4.math.MathUtil
 
 import scala.util.Random
 
@@ -87,7 +86,7 @@ case class PieceList(pieces: List[OrientedPiece], numTotal: Int) {
   }
 
   /** @return a new shuffled PieceList object based on the old. All pieces moved and rotated */
-  def shuffle(rnd: Random = MathUtil.RANDOM): PieceList = {
+  def shuffle(rnd: Random = new Random()): PieceList = {
     val pieceList = for (p <- pieces) yield p.rotate(rnd.nextInt(4))
     PieceList(rnd.shuffle(pieceList), numTotal)
   }

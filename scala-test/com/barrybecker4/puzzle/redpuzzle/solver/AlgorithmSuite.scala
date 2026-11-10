@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.redpuzzle.solver
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.optimization.strategy.OptimizationStrategyType
 import com.barrybecker4.puzzle.redpuzzle.{RedPuzzleController, StubRefreshable}

@@ -4,8 +4,8 @@ package com.barrybecker4.puzzle.common.ui
 import scala.compiletime.uninitialized
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.format.FormatUtil
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.search.Refreshable
+import scala.util.Random
 import com.barrybecker4.sound.MusicMaker
 import javax.swing._
 import java.awt._
@@ -21,6 +21,7 @@ object PuzzleViewer {
 }
 
 abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
+  private val rnd = new Random()
   protected var board: P = uninitialized
   protected var status: String = ""
   private var numTries = 0L
@@ -77,7 +78,7 @@ abstract class PuzzleViewer[P, M]() extends JPanel with Refreshable[P, M] {
   protected def createStatusMessage(numTries: Long): String = {
     var msg = "\nNumber of tries :" + FormatUtil.formatNumber(numTries)
     // I think this might be an expensive operation so don't do it every time
-    if (MathUtil.RANDOM.nextDouble() < .05) {
+    if (rnd.nextDouble() < .05) {
       totalMem = Runtime.getRuntime.totalMemory / 1000
       freeMem = Runtime.getRuntime.freeMemory / 1000
     }

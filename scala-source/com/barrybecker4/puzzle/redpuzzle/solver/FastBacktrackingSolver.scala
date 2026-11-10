@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.solver
 
-import com.barrybecker4.math.MathUtil
+import scala.util.Random
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceLists}
 import com.barrybecker4.puzzle.redpuzzle.solver.backtracking.{PieceEdgeTable, PlacementSearch}
@@ -16,7 +16,7 @@ import com.barrybecker4.puzzle.redpuzzle.solver.backtracking.{PieceEdgeTable, Pl
   */
 class FastBacktrackingSolver(
   override val puzzle: PuzzleController[PieceList, OrientedPiece],
-  override val pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
+  override val pieces: PieceList = PieceLists.getInitialPuzzlePieces(new Random(1))
 ) extends RedPuzzleSolver(puzzle, pieces) {
 
   private val table = new PieceEdgeTable(pieces.pieces)

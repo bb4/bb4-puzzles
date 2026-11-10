@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.search.Refreshable
+import scala.util.Random
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 
 import java.util.concurrent.ConcurrentHashMap
@@ -27,8 +27,10 @@ object TantrixController {
   private val MIN_NUM_TILES = 3
 }
 
-class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
-  extends AbstractPuzzleController[TantrixBoard, TilePlacement](ui) {
+class TantrixController(
+    ui: Refreshable[TantrixBoard, TilePlacement],
+    private val heuristicRnd: Random = new Random(1)
+) extends AbstractPuzzleController[TantrixBoard, TilePlacement](ui) {
 
   algorithm = SIMPLE_SEQUENTIAL
   private var numTiles = TantrixController.MIN_NUM_TILES
@@ -78,7 +80,7 @@ class TantrixController(ui: Refreshable[TantrixBoard, TilePlacement])
       .computeIfAbsent(
         position,
         p => {
-          val path = new TantrixPath(p.tantrix, p.primaryColor, p.numTiles, MathUtil.RANDOM)
+          val path = new TantrixPath(p.tantrix, p.primaryColor, p.numTiles, heuristicRnd)
           val fitness = evaluator.evaluateFitness(path)
           Integer.valueOf((10.0 * Math.max(0, fitness)).toInt)
         }

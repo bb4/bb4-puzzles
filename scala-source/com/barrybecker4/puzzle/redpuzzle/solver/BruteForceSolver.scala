@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.solver
 
-import com.barrybecker4.math.MathUtil
+import scala.util.Random
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceLists}
 
@@ -11,7 +11,7 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceL
   */
 class BruteForceSolver(
   override val puzzle: PuzzleController[PieceList, OrientedPiece],
-  override val pieces: PieceList = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
+  override val pieces: PieceList = PieceLists.getInitialPuzzlePieces(new Random(1))
 ) extends RedPuzzleSolver(puzzle, pieces) {
 
   private val Rotations = 4

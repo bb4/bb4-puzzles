@@ -1,21 +1,17 @@
 package com.barrybecker4.puzzle.maze.model
 
-import com.barrybecker4.math.MathUtil
-import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
+import scala.util.Random
 
 /**
   * Statistical checks on shuffled direction order (fixed RNG seed).
   */
-class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
+class ProbabilitiesSuite extends AnyFunSuite {
 
-  override def beforeEach(): Unit =
-    MathUtil.RANDOM.setSeed(0)
-
-  private def getDistribution(num: Int, probs: Probabilities): DistributionMap = {
+  private def getDistribution(num: Int, probs: Probabilities, rnd: Random): DistributionMap = {
     var dist = DistributionMap()
     for (_ <- 0 until num) {
-      val dirs = probs.getShuffledDirections
+      val dirs = probs.getShuffledDirections(rnd)
       dist = dist.increment(dirs)
     }
     dist
@@ -28,7 +24,7 @@ class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
       leftDist = List(34, 33, 33),
       rightDist = List(35, 31, 34)
     )
-    assert(getDistribution(100, probs) == expDist)
+    assert(getDistribution(100, probs, new Random(0)) == expDist)
   }
 
   test("skew forward") {
@@ -38,7 +34,7 @@ class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
       leftDist = List(34, 94, 72),
       rightDist = List(39, 88, 73)
     )
-    assert(getDistribution(200, probs) == expDist)
+    assert(getDistribution(200, probs, new Random(0)) == expDist)
   }
 
   test("skew left") {
@@ -48,7 +44,7 @@ class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
       leftDist = List(124, 3, 73),
       rightDist = List(5, 177, 18)
     )
-    assert(getDistribution(200, probs) == expDist)
+    assert(getDistribution(200, probs, new Random(0)) == expDist)
   }
 
   test("skew right") {
@@ -58,6 +54,6 @@ class ProbabilitiesSuite extends AnyFunSuite with BeforeAndAfterEach {
       leftDist = List(14, 38, 148),
       rightDist = List(182, 1, 17)
     )
-    assert(getDistribution(200, probs) == expDist)
+    assert(getDistribution(200, probs, new Random(0)) == expDist)
   }
 }

@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.common.PuzzleController
 import com.barrybecker4.puzzle.common.solver.PuzzleSolver
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
@@ -71,7 +70,7 @@ object RestartingDepthFirstSolver {
 class RestartingDepthFirstSolver(
     puzzle: PuzzleController[TantrixBoard, TilePlacement],
     baseBudget: Int = DEFAULT_BASE_BUDGET,
-    rnd: Random = MathUtil.RANDOM
+    rnd: Random = new Random(1)
 ) extends PuzzleSolver[TilePlacement] {
 
   require(baseBudget > 0, "The budget must be positive, but was " + baseBudget)

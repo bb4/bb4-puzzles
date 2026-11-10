@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.{Move, PermutedParameterArray, Swap, SwapSequence}
 import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import TileParameterArray._
@@ -64,7 +63,7 @@ object TileParameterArray {
   * The parameter array used when searching (with bb4-optimization) for a sliding-puzzle layout that matches the goal.
   * Each parameter is a cell's tile id; neighbors are made by swapping cells.
   */
-class TileParameterArray(val board: SliderBoard, rnd: Random = MathUtil.RANDOM)
+class TileParameterArray(val board: SliderBoard, rnd: Random = new Random(1))
   extends PermutedParameterArray(TileParameterArray.parametersFor(board.tiles), rnd) {
 
   override def getSamplePopulationSize: Int = samplePopulationSize(board.tiles.tiles.length)

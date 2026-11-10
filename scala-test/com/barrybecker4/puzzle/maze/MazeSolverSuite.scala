@@ -1,17 +1,13 @@
 package com.barrybecker4.puzzle.maze
 
 import com.barrybecker4.common.geometry.IntLocation
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.ui.MazePanel
-import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
+import scala.util.Random
 
 import java.awt.Dimension
 
-class MazeSolverSuite extends AnyFunSuite with BeforeAndAfterEach {
-
-  override def beforeEach(): Unit =
-    MathUtil.RANDOM.setSeed(0)
+class MazeSolverSuite extends AnyFunSuite {
 
   /** Avoids real painting during tests. */
   private class TestMazePanel extends MazePanel {
@@ -24,7 +20,7 @@ class MazeSolverSuite extends AnyFunSuite with BeforeAndAfterEach {
     panel.setThickness(40)
     val maze = panel.maze
     maze.stopPosition = IntLocation(4, 2)
-    val solver = new MazeSolver(panel)
+    val solver = new MazeSolver(panel, new Random(0))
     solver.solve()
     assert(maze.getCell(maze.stopPosition).visited)
   }

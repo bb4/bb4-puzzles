@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017-2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.parameter.{Move, PermutedParameterArray, Swap, SwapSequence}
 import com.barrybecker4.optimization.parameter.types.{IntegerParameter, Parameter}
 import PieceParameterArray._
@@ -85,7 +84,7 @@ object PieceParameterArray {
   * For example, when finding a random neighbor, we consider rotations of
   * non-fitting pieces rather than just offsetting the number by some random amount.
   */
-class PieceParameterArray(var pieces: PieceList, rnd: Random = MathUtil.RANDOM) extends PermutedParameterArray(PieceParameterArray.parametersFor(pieces), rnd) {
+class PieceParameterArray(var pieces: PieceList, rnd: Random = new Random(1)) extends PermutedParameterArray(PieceParameterArray.parametersFor(pieces), rnd) {
 
   override def getSamplePopulationSize: Int = SAMPLE_POPULATION_SIZE
 

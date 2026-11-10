@@ -3,7 +3,6 @@
 package com.barrybecker4.puzzle.sudoku.model
 
 import scala.compiletime.uninitialized
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.BeforeAndAfter
@@ -16,10 +15,6 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test */
   private var board: Board = uninitialized
-
-  before {
-    MathUtil.RANDOM.setSeed(1)
-  }
 
   test("updateFromInitialData removes assigned value from peer candidates") {
     val empty = new Board(2)

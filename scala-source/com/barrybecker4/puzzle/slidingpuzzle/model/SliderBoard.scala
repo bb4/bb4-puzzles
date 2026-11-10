@@ -2,7 +2,6 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.math.MathUtil
 import scala.util.Random
 
 /**
@@ -29,7 +28,7 @@ case class SliderBoard(tiles: Tiles) {
   def size: Int = tiles.size
 
   /** @return a board with the tiles mixed up in the given way. Either way it can be solved. */
-  def shuffle(rand: Random = MathUtil.RANDOM, style: ShuffleStyle = ShuffleStyle.UNIFORM_RANDOM): SliderBoard =
+  def shuffle(rand: Random = new Random(), style: ShuffleStyle = ShuffleStyle.UNIFORM_RANDOM): SliderBoard =
     SliderBoard(new TileShuffler(rand).shuffle(tiles, style))
 
   /** @return number of tiles not in the goal state (i.e. sequential order) */

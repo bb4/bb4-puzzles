@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.maze.model
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.model.Direction._
+import scala.util.Random
 
 /**
   * The three normalized directional probabilities.
@@ -16,17 +16,17 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
   /** @return a shuffled list of directions
     * they are ordered given the potentially skewed probabilities at the top.
     */
-  def getShuffledDirections: List[Direction] = {
+  def getShuffledDirections(rnd: Random): List[Direction] = {
 
-    val rnd = MathUtil.RANDOM.nextDouble()
+    val roll = rnd.nextDouble()
     var directions: List[Direction] = List()
 
-    if (rnd < forwardProb) {
-      directions = FORWARD +: getNextTwoDirs(List(LEFT, RIGHT), leftProb / (leftProb + rightProb))
-    } else if (rnd < forwardProb + leftProb) {
-      directions = LEFT +: getNextTwoDirs(List(FORWARD, RIGHT), forwardProb / (forwardProb + rightProb))
+    if (roll < forwardProb) {
+      directions = FORWARD +: getNextTwoDirs(List(LEFT, RIGHT), leftProb / (leftProb + rightProb), rnd)
+    } else if (roll < forwardProb + leftProb) {
+      directions = LEFT +: getNextTwoDirs(List(FORWARD, RIGHT), forwardProb / (forwardProb + rightProb), rnd)
     } else {
-      directions = RIGHT +: getNextTwoDirs(List(FORWARD, LEFT), forwardProb / (forwardProb + leftProb))
+      directions = RIGHT +: getNextTwoDirs(List(FORWARD, LEFT), forwardProb / (forwardProb + leftProb), rnd)
     }
     directions
   }
@@ -35,9 +35,9 @@ case class Probabilities(fwdProbability: Double, leftProbability: Double, rightP
     * @param prob probability of taking the first of the two directions as the next element
     * @return the second direction.
     */
-  private def getNextTwoDirs(twoDirections: Seq[Direction], prob: Double): List[Direction] = {
-    val rnd = MathUtil.RANDOM.nextDouble()
-    if (rnd < prob) List(twoDirections.tail.head, twoDirections.head)
+  private def getNextTwoDirs(twoDirections: Seq[Direction], prob: Double, rnd: Random): List[Direction] = {
+    val roll = rnd.nextDouble()
+    if (roll < prob) List(twoDirections.tail.head, twoDirections.head)
     else List(twoDirections.head, twoDirections.tail.head)
   }
 }

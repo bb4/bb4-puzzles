@@ -2,13 +2,17 @@
 package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.common.geometry.Location
+import scala.util.Random
 
 
 /**
   * Stack of GenStates to try during the search.
   * @param probabilities the probabilities of moving each direction.
   */
-class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)) {
+class StateStack(
+    val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0),
+    val rnd: Random = new Random(1)
+) {
 
   // Push and pop from the beginning of the list
   private var stack: List[GenState] = List()
@@ -31,7 +35,7 @@ class StateStack(val probabilities: Probabilities = Probabilities(1.0, 1.0, 1.0)
     * can give interesting effects.
     */
   def pushMoves(currentPosition: Location, currentDir: Location, depth: Int): Unit = {
-    val directions = probabilities.getShuffledDirections
+    val directions = probabilities.getShuffledDirections(rnd)
     // check all the directions except the one we came from
     for (direction <- directions.reverse) {
       push(GenState(currentPosition, direction(currentDir), depth))

@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.search.Refreshable
+import scala.util.Random
 import com.barrybecker4.puzzle.common.ui.AbstractPuzzleController
 import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList, PieceLists}
 import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm.BRUTE_FORCE_ORIGINAL
@@ -18,11 +18,13 @@ import com.barrybecker4.puzzle.redpuzzle.solver.Algorithm.BRUTE_FORCE_ORIGINAL
   * end of the current list.
   *
   */
-class RedPuzzleController(ui: Refreshable[PieceList, OrientedPiece])
-  extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {
+class RedPuzzleController(
+    ui: Refreshable[PieceList, OrientedPiece],
+    pieceRnd: Random = new Random(1)
+) extends AbstractPuzzleController[PieceList, OrientedPiece](ui) {
 
   algorithm = BRUTE_FORCE_ORIGINAL
-  final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces(MathUtil.RANDOM)
+  final private val SHUFFLED_PIECES = PieceLists.getInitialPuzzlePieces(pieceRnd)
 
   def initialState: PieceList = new PieceList  // empty piece list
 

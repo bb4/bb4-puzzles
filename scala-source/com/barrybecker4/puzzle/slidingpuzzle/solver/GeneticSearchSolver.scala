@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.slidingpuzzle.solver
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.OptimizationListener
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{Move, ParameterArray, ParameterArrayWithFitness}
@@ -76,7 +75,7 @@ class GeneticSearchSolver(
     * facade does, except that it has no way to configure the strategy it makes.
     */
   private def optimize(initialGuess: ParameterArray, fitnessRange: Double): ParameterArrayWithFitness = {
-    val optimization = strategy.getStrategy(this, fitnessRange, MathUtil.RANDOM)
+    val optimization = strategy.getStrategy(this, fitnessRange, new Random(1))
     preferGuidedMoves(optimization)
     optimization.setListener(this)
     val best = optimization.doOptimization(initialGuess, fitnessRange)

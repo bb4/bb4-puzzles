@@ -3,8 +3,8 @@ package com.barrybecker4.puzzle.maze.ui
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.model.MazeModel
+import scala.util.Random
 import javax.swing.JComponent
 import java.awt.{Dimension, Graphics, Graphics2D}
 
@@ -14,6 +14,7 @@ import java.awt.{Dimension, Graphics, Graphics2D}
   */
 class MazePanel() extends JComponent {
 
+  private val rnd = new Random()
   val maze = new MazeModel(100, 100)
   private val renderer = new MazeRenderer()
   var animationSpeed: Int = 0
@@ -54,7 +55,7 @@ class MazePanel() extends JComponent {
       }
     }
     else {
-      val rand = MathUtil.RANDOM.nextDouble()
+      val rand = rnd.nextDouble()
       if (animationSpeed > 0 && rand < 1.0 / animationSpeed)
         this.repaint(xpos - csized2, ypos - csized2, 2 * cellSize, 2 * cellSize)
     }

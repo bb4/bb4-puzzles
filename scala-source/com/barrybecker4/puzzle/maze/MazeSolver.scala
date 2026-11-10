@@ -8,16 +8,17 @@ import com.barrybecker4.puzzle.maze.model.MazeCell
 import com.barrybecker4.puzzle.maze.model.MazeModel
 import com.barrybecker4.puzzle.maze.model.StateStack
 import com.barrybecker4.puzzle.maze.ui.MazePanel
+import scala.util.Random
 
 /**
   * Solves a maze using depth first search.
   * Its non-recursive to avoid stack overflow.
   *
   */
-class MazeSolver(var panel: MazePanel) {
+class MazeSolver(var panel: MazePanel, rnd: Random = new Random(1)) {
 
   private val maze: MazeModel = panel.maze
-  private val stack: StateStack = new StateStack
+  private val stack: StateStack = new StateStack(rnd = rnd)
   var isWorking: Boolean = false
   private var interrupted: Boolean = false
 

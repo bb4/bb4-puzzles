@@ -1,17 +1,15 @@
 package com.barrybecker4.puzzle.maze.model
 
 import com.barrybecker4.common.geometry.IntLocation
-import com.barrybecker4.math.MathUtil
-import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
+import scala.util.Random
 
-class StateStackSuite extends AnyFunSuite with BeforeAndAfterEach {
+class StateStackSuite extends AnyFunSuite {
 
-  override def beforeEach(): Unit =
-    MathUtil.RANDOM.setSeed(0)
+  private val rnd = new Random(0)
 
   test("pushMoves adds three states at the same position") {
-    val stack = new StateStack(Probabilities(1.0, 1.0, 1.0))
+    val stack = new StateStack(Probabilities(1.0, 1.0, 1.0), rnd)
     val pos = IntLocation(3, 4)
     val baseDir = IntLocation(0, 1)
     stack.pushMoves(pos, baseDir, 2)
@@ -27,7 +25,7 @@ class StateStackSuite extends AnyFunSuite with BeforeAndAfterEach {
   }
 
   test("pushMoves uses relative transforms of base direction") {
-    val stack = new StateStack(Probabilities(1.0, 1.0, 1.0))
+    val stack = new StateStack(Probabilities(1.0, 1.0, 1.0), rnd)
     val baseDir = IntLocation(1, 0)
     stack.pushMoves(IntLocation(0, 0), baseDir, 0)
     val popped = List(stack.pop(), stack.pop(), stack.pop())

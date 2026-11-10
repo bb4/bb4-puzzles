@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
+import scala.util.Random
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathEvaluator, TantrixPath}
 import org.scalatest.funsuite.AnyFunSuite
@@ -14,11 +14,12 @@ import org.scalatest.funsuite.AnyFunSuite
 class TantrixDistanceFromGoalSuite extends AnyFunSuite {
 
   private val ui = new StubTantrixRefreshable
-  private val c = new TantrixController(ui)
+  private val heuristicRnd = new Random(1)
+  private val c = new TantrixController(ui, heuristicRnd)
   private val eval = PathEvaluator()
 
   private def scaledFitness(board: TantrixBoard): Int = {
-    val path = new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, MathUtil.RANDOM)
+    val path = new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, heuristicRnd)
     (10.0 * Math.max(0, eval.evaluateFitness(path))).toInt
   }
 

@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.model
 
-import com.barrybecker4.math.MathUtil
 import scala.util.Random
 
 
@@ -48,7 +47,7 @@ object PieceLists {
   /** Factory method for creating the initial puzzle pieces.
     * @return the initial pieces (in random order) to use when solving.
     */
-  def getInitialPuzzlePieces(numPieces: Int, rnd: Random = MathUtil.RANDOM): PieceList = {
+  def getInitialPuzzlePieces(numPieces: Int, rnd: Random = new Random(1)): PieceList = {
     val initialPieces = numPieces match {
       case 4 => PieceLists.INITIAL_PIECES_4
       case 9 => PieceLists.RED_INITIAL_PIECES_9

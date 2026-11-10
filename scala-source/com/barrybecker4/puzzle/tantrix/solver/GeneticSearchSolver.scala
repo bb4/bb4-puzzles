@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.solver
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{Move, ParameterArray, ParameterArrayWithFitness}
 import com.barrybecker4.optimization.strategy.annealing.{
@@ -132,7 +131,7 @@ class GeneticSearchSolver(
   private def runStandardOptimizer() = {
     val optimizer = new Optimizer(this)
     optimizer.setListener(this)
-    optimizer.doOptimization(optimizationStrategy, createInitialGuess(new Random(1)), FITNESS_RANGE, MathUtil.RANDOM).best
+    optimizer.doOptimization(optimizationStrategy, createInitialGuess(new Random(1)), FITNESS_RANGE, new Random(1)).best
   }
 
   /** @return a random path through all the tiles to start the search from. */

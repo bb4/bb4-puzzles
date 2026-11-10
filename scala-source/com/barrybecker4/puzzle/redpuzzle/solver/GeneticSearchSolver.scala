@@ -1,7 +1,6 @@
 // Copyright by Barry G. Becker, 2017 - 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.redpuzzle.solver
 
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.optimization.OptimizationListener
 import com.barrybecker4.optimization.optimizee.Optimizee
 import com.barrybecker4.optimization.parameter.{Move, ParameterArray, ParameterArrayWithFitness}
@@ -57,7 +56,7 @@ class GeneticSearchSolver(override val puzzle: PuzzleController[PieceList, Orien
     * facade does, except that it has no way to configure the strategy it makes.
     */
   private def optimize(initialGuess: ParameterArray): ParameterArrayWithFitness = {
-    val optimization = strategy.getStrategy(this, MAX_FITS, MathUtil.RANDOM)
+    val optimization = strategy.getStrategy(this, MAX_FITS, new Random(1))
     preferGuidedMoves(optimization)
     optimization.setListener(this)
     val best = optimization.doOptimization(initialGuess, MAX_FITS)

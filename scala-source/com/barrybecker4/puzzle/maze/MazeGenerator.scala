@@ -4,8 +4,8 @@ package com.barrybecker4.puzzle.maze
 import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.common.geometry.Location
-import com.barrybecker4.math.MathUtil
 import com.barrybecker4.puzzle.maze.model.MazeCell
+import scala.util.Random
 import com.barrybecker4.puzzle.maze.model.Probabilities
 import com.barrybecker4.puzzle.maze.model.StateStack
 import com.barrybecker4.puzzle.maze.ui.{MazePanel, TopControlPanel}
@@ -26,7 +26,8 @@ object MazeGenerator {
 class MazeGenerator(val panel: MazePanel) {
 
   private val maze = panel.maze
-  private var stack: StateStack = new StateStack(Probabilities(1.0, 1.0, 1.0))
+  private val rnd = new Random()
+  private var stack: StateStack = new StateStack(Probabilities(1.0, 1.0, 1.0), rnd)
   /** put the stop point at the maximum search depth. */
   private var maxDepth = 0
   /** set this to true to get the generator to stop generating */
@@ -36,7 +37,7 @@ class MazeGenerator(val panel: MazePanel) {
   def generate(forwardProb: Double, leftProb: Double, rightProb: Double): Unit = {
     maxDepth = 0
     val probs = Probabilities(forwardProb, leftProb, rightProb)
-    stack = new StateStack(probs)
+    stack = new StateStack(probs, rnd)
     search()
     panel.repaint()
   }
@@ -125,7 +126,7 @@ class MazeGenerator(val panel: MazePanel) {
   private def refresh(): Unit = {
     val speed = math.max(1, panel.animationSpeed)
     val thresh = 0.3 * (TopControlPanel.MAX_ANIMATION_SPEED.toDouble / speed) - 0.3
-    if (MathUtil.RANDOM.nextDouble() < thresh) {
+    if (rnd.nextDouble() < thresh) {
       panel.paintAll()
       if (speed < MazeGenerator.SLOW_SPEED_THRESH) {
         val diff = MazeGenerator.SLOW_SPEED_THRESH - speed
