@@ -15,7 +15,7 @@ object TileParameterArray {
   /** One parameter per cell, valued by the tile id. The numbers are unique for the library's permutation operators. */
   private def parametersFor(tiles: Tiles): IndexedSeq[Parameter] = {
     val maxId = tiles.tiles.length - 1
-    tiles.tiles.map(t => IntegerParameter(t.toInt, 0, maxId, "tile")).toIndexedSeq
+    tiles.tiles.map(t => IntegerParameter(t.toInt, 0, maxId, "tile"))
   }
 
   /** Prefer swapping cells that are not already correct; correct cells get a low probability. */
@@ -111,7 +111,7 @@ class TileParameterArray(val board: SliderBoard, rnd: Random = new Random(1))
 
   /** Rebuild the board from the child's tile-id parameters after order crossover. */
   override def rebuildAfterOrderCrossover(childParams: IndexedSeq[Parameter], rnd: Random): PermutedParameterArray = {
-    val newTiles = childParams.map(p => p.getValue.round.toByte).toIndexedSeq
+    val newTiles = childParams.map(p => p.getValue.round.toByte)
     new TileParameterArray(SliderBoard(Tiles(newTiles)), rnd)
   }
 

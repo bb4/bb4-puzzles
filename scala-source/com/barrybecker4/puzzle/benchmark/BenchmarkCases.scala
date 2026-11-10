@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.redpuzzle.model.{OrientedPiece, PieceList}
 import com.barrybecker4.puzzle.redpuzzle.solver.{Algorithm as RedAlgorithm, FastBacktrackingSolver as RedFastSolver, GeneticSearchSolver as RedOptimizerSolver}
 import com.barrybecker4.puzzle.slidingpuzzle.SlidingPuzzleController
 import com.barrybecker4.puzzle.slidingpuzzle.model.{SlideMove, SliderBoard, Solvability, Tiles}
-import com.barrybecker4.puzzle.slidingpuzzle.{Algorithm as SlidingAlgorithm}
+import com.barrybecker4.puzzle.slidingpuzzle.Algorithm as SlidingAlgorithm
 import com.barrybecker4.puzzle.slidingpuzzle.solver.{FastSliderSolver, GeneticSearchSolver as SlidingOptimizerSolver}
 import com.barrybecker4.puzzle.tantrix.TantrixController
 import com.barrybecker4.puzzle.tantrix.model.{HexTiles, TantrixBoard, TilePlacement}

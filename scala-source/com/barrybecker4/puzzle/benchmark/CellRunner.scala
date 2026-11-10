@@ -87,19 +87,17 @@ object CellRunner {
     */
   def runOnce(prepared: PreparedRun, timeoutMillis: Long): RunOutcome = {
     val outcome = new AtomicReference[RunOutcome](Errored("The solver did not report a result"))
-    val worker = new Thread(new Runnable {
-      override def run(): Unit = {
-        try {
-          // The puzzle controllers print the solution board, which would bury the benchmark's own output.
-          val quiet = new PrintStream(OutputStream.nullOutputStream())
-          val start = System.nanoTime()
-          val found = Console.withOut(quiet)(prepared.solve())
-          val millis = (System.nanoTime() - start) / 1000000L
-          outcome.set(if (found) Solved(millis, prepared.tries()) else Unsolved(millis, prepared.tries()))
-        } catch {
-          case _: InterruptedException => outcome.set(TimedOut(prepared.tries()))
-          case t: Throwable => outcome.set(Errored(t.toString))
-        }
+    val worker = new Thread(() => {
+      try {
+        // The puzzle controllers print the solution board, which would bury the benchmark's own output.
+        val quiet = new PrintStream(OutputStream.nullOutputStream())
+        val start = System.nanoTime()
+        val found = Console.withOut(quiet)(prepared.solve())
+        val millis = (System.nanoTime() - start) / 1000000L
+        outcome.set(if (found) Solved(millis, prepared.tries()) else Unsolved(millis, prepared.tries()))
+      } catch {
+        case _: InterruptedException => outcome.set(TimedOut(prepared.tries()))
+        case t: Throwable => outcome.set(Errored(t.toString))
       }
     }, "benchmark-solver")
     worker.setDaemon(true)

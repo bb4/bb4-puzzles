@@ -36,7 +36,7 @@ class LoopTiles(tiles: IndexedSeq[HexTile], primaryColor: PathColor) {
 
   val count: Int = tiles.size
   private val primarySides: Array[Array[Int]] = tiles.map(primarySidesOf).toArray
-  private val kinds: Array[Int] = primarySides.map(sides => kindOfSides(sides)).toArray
+  private val kinds: Array[Int] = primarySides.map(sides => kindOfSides(sides))
   private val colorOrdinals: Array[Array[Int]] = tiles.map(tile => Array.tabulate(HexGrid.NUM_SIDES)(tile.edgeColors(_).ordinal)).toArray
 
   def tile(index: Int): HexTile = tiles(index)

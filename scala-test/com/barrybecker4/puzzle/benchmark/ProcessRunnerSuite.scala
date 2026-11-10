@@ -6,8 +6,8 @@ import org.scalatest.funsuite.AnyFunSuite
 class ProcessRunnerSuite extends AnyFunSuite {
 
   test("worker results survive being formatted and parsed") {
-    assert(WorkerResult.parse(WorkerResult.format(found = true, millis = 1234, tries = 56)) == Some(Solved(1234, 56)))
-    assert(WorkerResult.parse(WorkerResult.format(found = false, millis = 7, tries = 0)) == Some(Unsolved(7, 0)))
+    assert(WorkerResult.parse(WorkerResult.format(found = true, millis = 1234, tries = 56)).contains(Solved(1234, 56)))
+    assert(WorkerResult.parse(WorkerResult.format(found = false, millis = 7, tries = 0)).contains(Unsolved(7, 0)))
   }
 
   test("lines that are not well formed results are ignored") {

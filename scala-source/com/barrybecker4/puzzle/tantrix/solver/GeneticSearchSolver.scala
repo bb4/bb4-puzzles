@@ -69,12 +69,10 @@ class GeneticSearchSolver(
             innerIterationsPerDimension = math.max(30, 2 * n),
             numTempIterations = 42,
             tempDropFactor = 0.88,
-            defaultTempMax = 1000.0,
             radiusMultiplier = 10.0,
             stepMode = SimulatedAnnealingStepMode.AdaptiveAcceptance(
               targetRate = 0.42,
               windowProposals = math.max(64, 4 * n),
-              initialScale = 1.0
             ),
             guidedMoveProbability = GeneticSearchSolver.GUIDED_MOVE_PROBABILITY
           )

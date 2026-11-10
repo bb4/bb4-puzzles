@@ -20,7 +20,7 @@ object Json {
     def get(name: String): Option[Json] = fields.collectFirst { case (k, v) if k == name => v }
   }
 
-  /** @throws[IllegalArgumentException] if the text is not valid JSON */
+  /** @throws [IllegalArgumentException] if the text is not valid JSON */
   def parse(text: String): Json = {
     val parser = new Parser(text)
     val value = parser.parseValue()

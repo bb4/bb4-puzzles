@@ -217,7 +217,7 @@ appMap.each { appId, propMap ->
         mainClass.set("${propMap['mainClass']}")
         args = argsList
         classpath = sourceSets.main.runtimeClasspath
-        jvmArgs = jvmArgsForApp(propMap)
+        jvmArgs = jvmArgsForApp(propMap as Map)
     }
 }
 
@@ -290,7 +290,7 @@ appMap.each { appId, propMap ->
         classpath = startScripts.classpath
         outputDir = startScripts.outputDir
         applicationName = "bb4-${appId}"
-        defaultJvmOpts = jvmArgsForApp(propMap)
+        defaultJvmOpts = jvmArgsForApp(propMap as Map)
     }
     application.applicationDistribution.into('bin') {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE

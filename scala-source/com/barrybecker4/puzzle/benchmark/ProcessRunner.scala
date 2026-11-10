@@ -65,24 +65,22 @@ object ProcessRunner {
     val errorLine = new AtomicReference[String](null)
     val tail = new ConcurrentLinkedDeque[String]()
 
-    val reader = new Thread(new Runnable {
-      override def run(): Unit = {
-        val in = new BufferedReader(new InputStreamReader(process.getInputStream, StandardCharsets.UTF_8))
-        try {
-          var line = in.readLine()
-          while (line != null) {
-            if (line.startsWith(WorkerResult.PREFIX)) resultLine.set(line)
-            else if (line.startsWith(WorkerResult.ERROR_PREFIX)) errorLine.compareAndSet(null, line) // keep the first
-            else {
-              tail.addLast(line)
-              while (tail.size > TAIL_LINES) tail.pollFirst()
-            }
-            line = in.readLine()
+    val reader = new Thread(() => {
+      val in = new BufferedReader(new InputStreamReader(process.getInputStream, StandardCharsets.UTF_8))
+      try {
+        var line = in.readLine()
+        while (line != null) {
+          if (line.startsWith(WorkerResult.PREFIX)) resultLine.set(line)
+          else if (line.startsWith(WorkerResult.ERROR_PREFIX)) errorLine.compareAndSet(null, line) // keep the first
+          else {
+            tail.addLast(line)
+            while (tail.size > TAIL_LINES) tail.pollFirst()
           }
-        } catch {
-          case _: IOException => () // the process was killed
-        } finally in.close()
-      }
+          line = in.readLine()
+        }
+      } catch {
+        case _: IOException => () // the process was killed
+      } finally in.close()
     }, "benchmark-worker-output")
     reader.setDaemon(true)
     reader.start()
