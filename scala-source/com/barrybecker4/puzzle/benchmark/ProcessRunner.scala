@@ -114,13 +114,28 @@ object ProcessRunner {
         })
     }
 
+  /**
+    * Classpath for worker JVMs. Gradle's JavaExec may not put every entry on `java.class.path` (for example when it
+    * uses a classpath JAR), so the benchmark task also sets `benchmark.classpath`.
+    */
+  private def workerClasspath: String =
+    Seq("benchmark.classpath", "java.class.path")
+      .flatMap(name => Option(System.getProperty(name)).map(_.trim).filter(_.nonEmpty))
+      .headOption
+      .getOrElse(
+        throw new IllegalStateException(
+          "Cannot determine the classpath for benchmark worker JVMs. Run `./gradlew benchmark`, or pass " +
+            "-Dbenchmark.classpath=<same as -cp> when starting BenchmarkMain."
+        )
+      )
+
   private def command(benchCase: BenchmarkCase, seed: Long): List[String] = {
     val java = Paths.get(System.getProperty("java.home"), "bin", "java").toString
     // Same JVM options (heap, stack, assertions) as this JVM, but never a debugger or agent port that is already taken.
     val jvmArgs = ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
       .filterNot(arg => arg.startsWith("-agentlib:jdwp") || arg.startsWith("-javaagent"))
     List(java) ++ jvmArgs ++ List(
-      "-cp", System.getProperty("java.class.path"),
+      "-cp", workerClasspath,
       WORKER_CLASS, benchCase.puzzle, benchCase.variant, benchCase.algorithm, seed.toString
     )
   }
