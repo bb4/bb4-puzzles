@@ -31,9 +31,14 @@ final case class BenchmarkConfig(
 
 object BenchmarkConfig {
 
-  val DEFAULT_TIMEOUT_SECONDS = 60
-  val DEFAULT_REPETITIONS = 5
-  val DEFAULT_TANTRIX_SIZES: List[Int] = List(3, 6, 9, 12, 15, 20, 24)
+  val DEFAULT_TIMEOUT_SECONDS = 30
+  val DEFAULT_REPETITIONS = 3
+  val DEFAULT_TANTRIX_SIZES: List[Int] = List(3, 6, 9)
+
+  /** Settings for the full matrix documented as `./gradlew benchmarkFull` (long run). */
+  val FULL_TIMEOUT_SECONDS = 60
+  val FULL_REPETITIONS = 5
+  val FULL_TANTRIX_SIZES: List[Int] = List(3, 6, 9, 12, 15, 20, 24)
   val DEFAULT_SLIDING_SIZES: List[Int] = List(3, 4)
   val ALL_PUZZLES: Set[String] = Set("tantrix", "redpuzzle", "slidingpuzzle")
   val DEFAULT_RESULTS_FILE = "docs/benchmarks.json"
@@ -42,9 +47,9 @@ object BenchmarkConfig {
   val USAGE: String =
     """Options (all optional):
       |  --lib-version=2.0.0           the bb4-optimization version you expect; the run fails if the classpath disagrees
-      |  --timeout=60                  seconds a single run may take before it counts as "no solution"
-      |  --reps=5                     runs per cell; the median of the successful runs is reported
-      |  --tantrix-sizes=3,6,9,12,15,20,24   numbers of tiles for the Tantrix variants
+      |  --timeout=30                  seconds a single run may take before it counts as "no solution"
+      |  --reps=3                      runs per cell; the median of the successful runs is reported
+      |  --tantrix-sizes=3,6,9         numbers of tiles for the Tantrix variants (see benchmarkFull for all sizes)
       |  --sliding-sizes=3,4,5         board edge lengths for the Sliding Puzzle variants
       |  --puzzles=tantrix,redpuzzle,slidingpuzzle   which puzzles to run
       |  --results=docs/benchmarks.json

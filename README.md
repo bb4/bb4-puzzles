@@ -73,19 +73,55 @@ The Tantrix and Red Puzzle solvers that use [bb4-optimization](https://github.co
 (genetic search, simulated annealing, global hill climbing, ...) can be benchmarked, and the timings
 are compared across bb4-optimization versions in [docs/benchmarks.md](docs/benchmarks.md).
 
+Each solve runs in its own JVM that is killed if it exceeds the time limit, so a stuck solver cannot
+skew later timings (`--in-process` turns that off and is only for quick experiments). Results are
+merged into `docs/benchmarks.json` under the bb4-optimization version on the classpath; regenerating
+the markdown table without re-running solvers is `./gradlew benchmarkReport`. Pass
+`-PbenchmarkArgs="..."` to override any task’s defaults (see options below).
+
+### Standard run (default)
+
+Runs Tantrix at 3, 6, and 9 tiles, Red Puzzle, and Sliding Puzzle 3×3 and 4×4 — three repetitions per
+cell, 30s limit per run. Usually on the order of tens of minutes, not hours.
+
 ```bash
-./gradlew benchmark                                   # run on the bb4-optimization version in build.gradle
-./gradlew benchmark -PbenchmarkArgs="--reps=3 --timeout=30 --tantrix-sizes=3,6,9"
-./gradlew benchmarkReport                             # regenerate docs/benchmarks.md from docs/benchmarks.json
+./gradlew benchmark
 ```
 
-Each run is recorded in `docs/benchmarks.json` under the bb4-optimization version found on the classpath, so
-changing the dependency version and running `./gradlew benchmark` again adds a column to the report without
-touching the existing numbers. Algorithms are discovered from each puzzle's `Algorithm` enum, so strategies that
-are added to the enum later appear automatically (older versions show `n/a`). Pass `--lib-version=2.0.0` to make
-the run fail if a different version (or a local composite build of bb4-optimization) is actually on the classpath.
-Each run executes in its own JVM that is killed if it exceeds the time limit, so a solver that gets stuck cannot
-slow down the runs that follow it (`--in-process` disables this, but then a runaway solver cannot be stopped).
+### Full matrix (long run)
+
+All Tantrix sizes through 24 tiles, five repetitions, 60s limit — roughly **139** algorithm×variant
+cells, with many minutes spent on timeouts and JVM startup. Use when you want numbers comparable to
+historical full runs in [docs/benchmarks.md](docs/benchmarks.md).
+
+```bash
+./gradlew benchmarkFull
+```
+
+### Quick smoke test
+
+Sanity-check that benchmarks run; skips regenerating the markdown report.
+
+```bash
+./gradlew benchmark -PbenchmarkArgs="--reps=1 --timeout=15 --tantrix-sizes=3,6,9 --puzzles=tantrix --no-report"
+```
+
+### Red Puzzle only
+
+```bash
+./gradlew benchmark -PbenchmarkArgs="--puzzles=redpuzzle --reps=1 --timeout=10"
+```
+
+### Classpath check and other options
+
+```bash
+./gradlew benchmark -PbenchmarkArgs="--lib-version=2.0.0"
+```
+
+`--lib-version` makes the run fail if a different bb4-optimization (or composite build) is actually on
+the classpath. Algorithms are discovered from each puzzle’s `Algorithm` enum, so new strategies appear
+automatically (older versions show `n/a` in the report). Further flags: `--timeout`, `--reps`,
+`--tantrix-sizes`, `--sliding-sizes`, `--puzzles`, `--results`, `--report`, `--no-report`, `--in-process`.
 Timings are only comparable between runs on the same machine.
 
 ## Building from source

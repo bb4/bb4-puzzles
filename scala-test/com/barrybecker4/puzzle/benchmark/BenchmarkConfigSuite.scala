@@ -7,9 +7,9 @@ class BenchmarkConfigSuite extends AnyFunSuite {
 
   test("no arguments gives the defaults") {
     val config = BenchmarkConfig.parse(Nil)
-    assert(config.timeoutSeconds == 60)
-    assert(config.repetitions == 5)
-    assert(config.tantrixSizes == List(3, 6, 9, 12, 15, 20, 24))
+    assert(config.timeoutSeconds == 30)
+    assert(config.repetitions == 3)
+    assert(config.tantrixSizes == List(3, 6, 9))
     assert(config.slidingSizes == List(3, 4))
     assert(config.puzzles == Set("tantrix", "redpuzzle", "slidingpuzzle"))
     assert(config.libVersion.isEmpty)

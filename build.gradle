@@ -221,29 +221,42 @@ appMap.each { appId, propMap ->
     }
 }
 
-// Benchmarks of the solvers that are driven by bb4-optimization (see docs/benchmarks.md).
+// Benchmarks of the solvers that are driven by bb4-optimization (see README and docs/benchmarks.md).
 // Pass options with -PbenchmarkArgs, for example:
-//   ./gradlew benchmark -PbenchmarkArgs="--lib-version=2.0.0 --reps=3 --timeout=30"
+//   ./gradlew benchmark -PbenchmarkArgs="--lib-version=2.0.0"
 def benchmarkArgsList = {
     def raw = project.findProperty('benchmarkArgs')
     raw ? raw.toString().trim().split(/\s+/).toList() : []
 }
 
-tasks.register('benchmark', JavaExec) {
-    group = 'verification'
-    description = 'Runs every bb4-optimization backed solver on each puzzle variant and records the timings ' +
-            'for the bb4-optimization version on the classpath in docs/benchmarks.json and docs/benchmarks.md.'
-    mainClass.set('com.barrybecker4.puzzle.benchmark.BenchmarkMain')
-    classpath = sourceSets.main.runtimeClasspath
-    workingDir = projectDir
-    jvmArgs = jvmArgsForApp([mx: '4g'])
-    // ProcessRunner spawns worker JVMs with this property; Gradle's -cp is not always mirrored on java.class.path.
-    doFirst {
+def fullBenchmarkArgs = [
+        '--reps=5',
+        '--timeout=60',
+        '--tantrix-sizes=3,6,9,12,15,20,24',
+]
+
+def configureBenchmarkExec = { JavaExec task, List<String> defaultArgs ->
+    task.group = 'verification'
+    task.mainClass.set('com.barrybecker4.puzzle.benchmark.BenchmarkMain')
+    task.classpath = sourceSets.main.runtimeClasspath
+    task.workingDir = projectDir
+    task.jvmArgs = jvmArgsForApp([mx: '4g'])
+    task.doFirst {
         systemProperty 'benchmark.classpath', classpath.asPath
     }
-    args = benchmarkArgsList()
-    // Timings are only meaningful when the work actually runs, so never treat this as up to date.
-    outputs.upToDateWhen { false }
+    def extra = benchmarkArgsList()
+    task.args = extra.isEmpty() ? defaultArgs : extra
+    task.outputs.upToDateWhen { false }
+}
+
+tasks.register('benchmark', JavaExec) {
+    configureBenchmarkExec(it, [])
+    description = 'Standard benchmark (3 Tantrix sizes, 3 reps, 30s limit); records timings in docs/benchmarks.json.'
+}
+
+tasks.register('benchmarkFull', JavaExec) {
+    configureBenchmarkExec(it, fullBenchmarkArgs)
+    description = 'Full benchmark (all Tantrix sizes through 24 tiles, 5 reps, 60s limit); expect a long run.'
 }
 
 tasks.register('benchmarkReport', JavaExec) {
