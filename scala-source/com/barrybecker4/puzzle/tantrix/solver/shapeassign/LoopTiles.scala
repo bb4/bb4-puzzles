@@ -42,7 +42,7 @@ class LoopTiles(tiles: IndexedSeq[HexTile], primaryColor: PathColor) {
   def tile(index: Int): HexTile = tiles(index)
   def kind(index: Int): Int = kinds(index)
 
-  /** @param which [[FIRST_PATH_SIDE]] or [[SECOND_PATH_SIDE]], to choose one of the two sides of the unrotated tile
+  /** @param which [[LoopTiles.FIRST_PATH_SIDE]] or [[LoopTiles.SECOND_PATH_SIDE]], to choose one of the two sides of the unrotated tile
     *              that the primary path leaves by
     */
   def primarySide(index: Int, which: Int): Int = primarySides(index)(which)

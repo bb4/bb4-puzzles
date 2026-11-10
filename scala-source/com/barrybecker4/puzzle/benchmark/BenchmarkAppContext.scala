@@ -7,7 +7,7 @@ import com.barrybecker4.ui.util.Log
 
 /**
   * Headless entry points construct puzzle [[com.barrybecker4.puzzle.common.AlgorithmEnum]] values, which call
-  * [[AppContext.getLabel]] for each case. Without an initialized message context (and logger), that throws.
+  * [[com.barrybecker4.common.app.AppContext.getLabel]] for each case. Without an initialized message context (and logger), that throws.
   */
 object BenchmarkAppContext {
 

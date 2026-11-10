@@ -17,9 +17,9 @@ object ShapeThenAssignSolver {
 
 /**
   * Solves the puzzle by choosing the shape of the loop and the tiles that go in it together
-  * (see [[ShapeAssignSearch]]), starting over with new random choices when an attempt does not find a solution within
+  * (see [[com.barrybecker4.puzzle.tantrix.solver.shapeassign.ShapeAssignSearch]]), starting over with new random choices when an attempt does not find a solution within
   * its budget. The budgets follow the Luby sequence, as in [[RestartingDepthFirstSolver]].
-  * Puzzles with more tiles than [[ShapeAssignSearch.MAX_TILES]] are given to [[RestartingDepthFirstSolver]].
+  * Puzzles with more tiles than [[com.barrybecker4.puzzle.tantrix.solver.shapeassign.ShapeAssignSearch.MAX_TILES]] are given to [[RestartingDepthFirstSolver]].
   */
 class ShapeThenAssignSolver(
     puzzle: PuzzleController[TantrixBoard, TilePlacement],

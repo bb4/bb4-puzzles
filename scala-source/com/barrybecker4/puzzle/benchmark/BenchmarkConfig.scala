@@ -57,7 +57,7 @@ object BenchmarkConfig {
       |  --no-report                   do not regenerate the markdown report
       |  --in-process                  run solves in this JVM instead of one JVM per run (a runaway solver cannot be stopped)""".stripMargin
 
-  /** @throws IllegalArgumentException for an unknown or malformed option */
+  /** @throws[IllegalArgumentException] for an unknown or malformed option */
   def parse(args: List[String]): BenchmarkConfig =
     args.foldLeft(BenchmarkConfig())((config, arg) => applyArg(config, arg))
 

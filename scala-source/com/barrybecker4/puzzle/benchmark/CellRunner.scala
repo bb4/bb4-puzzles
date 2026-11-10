@@ -16,8 +16,8 @@ final case class TimedOut(tries: Long) extends RunOutcome
 final case class Errored(message: String) extends RunOutcome
 
 /**
-  * A [[Refreshable]] that records progress and can be told to abort the solve.
-  * Solvers report progress through the puzzle controller, which calls [[refresh]] here, so throwing an
+  * A [[com.barrybecker4.search.Refreshable]] that records progress and can be told to abort the solve.
+  * Solvers report progress through the puzzle controller, which calls [[com.barrybecker4.search.Refreshable.refresh]] here, so throwing an
   * InterruptedException from it is the cooperative way to stop a solver that has run out of time.
   */
 final class ProbeRefreshable[P, M] extends Refreshable[P, M] {

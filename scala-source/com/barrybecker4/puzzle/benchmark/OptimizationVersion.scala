@@ -29,7 +29,7 @@ object OptimizationVersion {
   /**
     * @param requested the version the person says is on the classpath (--lib-version), if any
     * @return the version to record results under
-    * @throws IllegalStateException if the requested version disagrees with the detected one,
+    * @throws[IllegalStateException] if the requested version disagrees with the detected one,
     *                               or if there is no way to know the version
     */
   def resolve(requested: Option[String]): String =

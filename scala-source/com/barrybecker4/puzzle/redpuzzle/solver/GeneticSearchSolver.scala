@@ -15,7 +15,7 @@ import scala.util.Random
 
 object GeneticSearchSolver {
   /**
-    * How often a move comes from [[GuidedSwap]] rather than being random. Over 20 puzzles, genetic search solved
+    * How often a move comes from [[com.barrybecker4.puzzle.redpuzzle.model.GuidedSwap]] rather than being random. Over 20 puzzles, genetic search solved
     * 9 with none, 12 with 0.6 and 15 with 1.0; annealing solved 1, 3 and 8. So always use it.
     */
   val GUIDED_MOVE_PROBABILITY = 1.0
