@@ -37,6 +37,23 @@ def macPackageNameFor = { Map propMap ->
     cleaned.length() <= 16 ? cleaned : cleaned.substring(0, 16).trim()
 }
 
+// jarMap disables the default :jar task; installDist only copies dependency jars into lib/.
+def jarMapJarTaskNames = jarMap.keySet().collect { String key -> "${key}Jar" }
+
+def syncJarMapIntoInstallLib = { File installLib ->
+    jarMap.keySet().each { String key ->
+        def jarFile = tasks.named("${key}Jar").get().archiveFile.get().asFile
+        if (!jarFile.isFile()) {
+            throw new GradleException("jpackage: ${jarFile.name} not built; run ${key}Jar first")
+        }
+        def target = new File(installLib, jarFile.name)
+        if (!target.isFile() || target.lastModified() < jarFile.lastModified()) {
+            Files.copy(
+                jarFile.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
 def javaOptionsFor = { Map propMap ->
     def opts = []
     jvmArgsForApp(propMap).each { String arg ->
@@ -44,6 +61,13 @@ def javaOptionsFor = { Map propMap ->
     }
     opts.addAll(['--java-options', '-Dfile.encoding=UTF-8'])
     opts
+}
+
+def jarMapMainJarNameFor = { String appId ->
+    if (!jarMap.containsKey(appId)) {
+        throw new GradleException("jpackage ${appId}: no jarMap entry (expected '${appId}Jar')")
+    }
+    tasks.named("${appId}Jar").get().archiveFile.get().asFile.name
 }
 
 def jpackageAppIds = appMap.findAll { String ignored, Map propMap ->
@@ -56,7 +80,7 @@ def jpackageTasks = jpackageAppIds.collect { String appId ->
     tasks.register(taskName, Exec) {
         group = 'distribution'
         description = "Build a native ${jpackageType} installer for ${propMap.title}"
-        dependsOn 'installDist'
+        dependsOn 'installDist', jarMapJarTaskNames
 
         def destDir = layout.buildDirectory.dir("jpackage/${appId}")
         outputs.dir(destDir)
@@ -76,7 +100,14 @@ def jpackageTasks = jpackageAppIds.collect { String appId ->
             logger.lifecycle("jpackage ${appId}: --app-version ${project.jpackageVersion} (raw project.version=${project.version})")
 
             def installLib = layout.buildDirectory.dir("install/${project.name}/lib").get().asFile
-            def mainJarName = tasks.named('jar').get().archiveFile.get().asFile.name
+            syncJarMapIntoInstallLib(installLib)
+            def mainJarName = jarMapMainJarNameFor(appId)
+            def mainJarFile = new File(installLib, mainJarName)
+            if (!mainJarFile.isFile()) {
+                throw new GradleException(
+                    "jpackage ${appId}: missing ${mainJarName} in ${installLib}. " +
+                        "Run installDist after all jarMap jars are built.")
+            }
             def mainClassName = propMap['mainClass'] as String
             def displayName = jpackageNameFor(propMap)
             def cli = [

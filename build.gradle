@@ -281,6 +281,18 @@ jarMap['tantrix'] = [include: ['com/barrybecker4/puzzle/tantrix/**']]
 jarMap['bridge'] = [include: ['com/barrybecker4/puzzle/bridge/**']]
 jarMap['twopails'] = [include: ['com/barrybecker4/puzzle/twopails/**']]
 
+def jarMapJarTaskNames = jarMap.keySet().collect { String key -> "${key}Jar" }
+afterEvaluate {
+    tasks.named('startScripts').configure {
+        dependsOn jarMapJarTaskNames
+    }
+    appMap.keySet().each { String appId ->
+        tasks.named("create${appId.capitalize()}App").configure {
+            dependsOn jarMapJarTaskNames
+        }
+    }
+}
+
 // add extra execution scripts
 // The application is deployed to /build/distributions. Run scripts are in the bin directory.
 appMap.each { appId, propMap ->
