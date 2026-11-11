@@ -36,6 +36,40 @@ A Scala puzzle framework with generators and solvers for classic puzzles — Sud
 [latest release](https://github.com/bb4/bb4-puzzles/releases/latest)
 (macOS `.dmg`, Windows `.msi`, Linux `.deb` — one installer per puzzle).
 
+### macOS installers (Gatekeeper)
+
+Release `.dmg` files are built with [jpackage](https://docs.oracle.com/en/java/javase/21/docs/specs/man/jpackage.html)
+and are **not** signed with an Apple Developer ID or notarized (we do not use Apple’s paid developer
+program). macOS tags apps you install from the internet with a **quarantine** flag and may refuse to
+run them, showing *“could not verify … is free of malware”* with only **Move to Trash** — not because
+the build is infected, but because Gatekeeper does not recognize the developer.
+
+That extra step is unfortunate friction for users; the tradeoff is shipping free, unsigned open-source
+installers. The app is open source here, or you can build the same `.dmg` yourself with
+`./gradlew jpackage<Puzzle>`.
+
+**After installing from the `.dmg` (required on most current Macs):**
+
+1. Drag the app into **Applications** as usual. Note the exact name (e.g. `Hi-Q.app`, `Sudoku.app`).
+
+2. In **Terminal**, remove the quarantine attribute **once per app** (only if you trust this GitHub
+   release):
+
+   ```bash
+   xattr -dr com.apple.quarantine "/Applications/Hi-Q.app"
+   ```
+
+   Replace `Hi-Q` with your puzzle’s app name. Then open it normally (Finder, Launchpad, or Spotlight).
+
+   Without this step, **Control‑click → Open** in Finder and Apple’s **Open Anyway** in System
+   Settings often **do not** help on recent macOS; quarantine removal is what usually works.
+
+**If it still will not launch:** open the app once, then **System Settings → Privacy & Security →
+Security → Open Anyway** for that app.
+
+**Avoid the `.app` entirely:** use **Option 2** below (`./gradlew runHiq`, etc.) with JDK 25+, or
+`./gradlew installDist` and run scripts under `build/install/bb4-puzzles/bin/` — no quarantine step.
+
 **Option 2 — from source:**
 
 ```bash
