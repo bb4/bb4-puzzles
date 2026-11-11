@@ -106,7 +106,7 @@ def jpackageTasks = jpackageAppIds.collect { String appId ->
             def installLib = layout.buildDirectory.dir("install/${project.name}/lib").get().asFile
             syncJarMapIntoInstallLib(installLib)
             def mainJarName = jarMapMainJarNameFor(appId)
-            def mainJarFile = new File(installLib as String as File, mainJarName)
+            def mainJarFile = new File(installLib, mainJarName)
             if (!mainJarFile.isFile()) {
                 throw new GradleException(
                     "jpackage ${appId}: missing ${mainJarName} in ${installLib}. " +
