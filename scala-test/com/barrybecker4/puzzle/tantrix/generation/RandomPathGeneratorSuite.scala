@@ -9,7 +9,7 @@ import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.junit.Assert.{assertEquals, assertNotEquals}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertNotEquals}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -30,20 +30,20 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   test("3TilesPathGen") {
     pathGenerator = new RandomPathGenerator(place3UnsolvedTiles, RND)
     val rPath = pathGenerator.generateRandomPath
-    assertEquals("Unexpected length for randomly generated path.", 3, rPath.size)
+    assertEquals(3, rPath.size, "Unexpected length for randomly generated path.")
     val tiles = Seq[TilePlacement](
       TilePlacement(TILES.getTile(2), new ByteLocation(22, 20), ANGLE_0),
       TilePlacement(TILES.getTile(1), new ByteLocation(21, 21), ANGLE_0),
       TilePlacement(TILES.getTile(3), new ByteLocation(22, 21), ANGLE_180)
     )
     val expectedPath = new TantrixPath(tiles, PathColor.YELLOW, 3)
-    assertEquals("Unexpected path.", expectedPath, rPath)
+    assertEquals(expectedPath, rPath, "Unexpected path.")
   }
 
   test("6TilesPathGen") {
     pathGenerator = new RandomPathGenerator(place3of6UnsolvedTiles, RND)
     val rPath = pathGenerator.generateRandomPath
-    assertEquals("Unexpected length for randomly generated path.", 6, rPath.size)
+    assertEquals(6, rPath.size, "Unexpected length for randomly generated path.")
     /*
     val tiles = Seq[TilePlacement](
       TilePlacement(TILES.getTile(5), new ByteLocation(21, 20), ANGLE_300),
@@ -88,8 +88,8 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
     // make sure we get a different random path on the second call.
     val rPath2 = pathGenerator.generateRandomPath
     val rPath3 = pathGenerator.generateRandomPath
-    assertNotEquals("Unexpected path.", rPath.toString, rPath2.toString)
-    assertNotEquals("Unexpected path.", rPath2.toString, rPath3.toString)
+    assertNotEquals(rPath.toString, rPath2.toString, "Unexpected path.")
+    assertNotEquals(rPath2.toString, rPath3.toString, "Unexpected path.")
   }
 
   test("5TilesPathGenNeverNull") {
@@ -97,7 +97,7 @@ class RandomPathGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
 
     for (i <- 0 until 100) {
         val rPath = pathGenerator.generateRandomPath
-        assertEquals("Unexpected length for randomly generated path.", 5, rPath.size)
+        assertEquals(5, rPath.size, "Unexpected length for randomly generated path.")
     }
   }
 }

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.sudoku.model
 
 import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.sudoku.data.TestData
-import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -36,53 +36,44 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
       Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
       Array(0, 0, 0, 0, 0, 0, 0, 0, 0))
     )
-    assertEquals("Unexpected board constructed", expectedBoard.toString, board.toString)
+    assertEquals(expectedBoard.toString, board.toString, "Unexpected board constructed")
   }
 
 
   test("Easy to Solve") {
     board = new Board(TestData.SIMPLE_4)
     val solution = board.solve()
-    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+    assertTrue(solution.isDefined && solution.get.isSolved, "Unexpectedly not solved")
   }
 
   test("Remove if possible on 4x4") {
     board = new Board(TestData.SIMPLE_4)
-    assertTrue(
-      "Removing this clue should not leave a puzzle fully determined by propagation alone",
-      board.removeValueIfPossible((1, 2)).isEmpty
-    )
+    assertTrue(board.removeValueIfPossible((1, 2)).isEmpty, "Removing this clue should not leave a puzzle fully determined by propagation alone")
   }
 
   test("Difficult to Solve") {
     board = new Board(TestData.DIFFICULT_9)
     val solution = board.solve()
-    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+    assertTrue(solution.isDefined && solution.get.isSolved, "Unexpectedly not solved")
   }
 
   test("Remove if possible on 9x9") {
     board = new Board(TestData.DIFFICULT_9)
-    assertTrue(
-      "Removing this clue should not leave a puzzle fully determined by propagation alone",
-      board.removeValueIfPossible((1, 3)).isEmpty
-    )
+    assertTrue(board.removeValueIfPossible((1, 3)).isEmpty, "Removing this clue should not leave a puzzle fully determined by propagation alone")
   }
 
   test("Remove redundant clue yields Some without refresh callback") {
     val solved = new Board(TestData.SIMPLE_4_SOLVED).updateFromInitialData().get
-    assertTrue("Sanity check: filled valid grid should be propagation-solved", solved.isSolved)
+    assertTrue(solved.isSolved, "Sanity check: filled valid grid should be propagation-solved")
     val locations = for (r <- solved.comps.digits; c <- solved.comps.digits) yield (r, c)
     val removable = locations.find(loc => solved.removeValueIfPossible(loc).isDefined)
-    assertTrue(
-      "Expected at least one clue removable while keeping full propagation to singletons",
-      removable.isDefined
-    )
+    assertTrue(removable.isDefined, "Expected at least one clue removable while keeping full propagation to singletons")
   }
 
   test("Norvig hard 9") {
     board = new Board(TestData.NORVIG_HARD_9)
     val solution = board.solve()
-    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+    assertTrue(solution.isDefined && solution.get.isSolved, "Unexpectedly not solved")
   }
 
   // We cannot solve an invalid or inconsistent puzzle
@@ -90,20 +81,20 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
 
     board = new Board(TestData.INCONSISTENT_9)
     val solution = board.solve()
-    assertFalse("Unexpectedly solved impossible puzzle", solution.isDefined)
+    assertFalse(solution.isDefined, "Unexpectedly solved impossible puzzle")
   }
 
   test("Invalid puzzle") {
 
     board = new Board(TestData.INVALID_9)
     val solution = board.solve()
-    assertFalse("Unexpectedly solved invalid puzzle", solution.isDefined)
+    assertFalse(solution.isDefined, "Unexpectedly solved invalid puzzle")
   }
 
   test("Completely Solved") {
     board = new Board(TestData.SIMPLE_4_SOLVED)
     val solution = board.solve()
-    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+    assertTrue(solution.isDefined && solution.get.isSolved, "Unexpectedly not solved")
   }
 
   test("Large complex 16") {
@@ -113,7 +104,7 @@ class BoardSuite extends AnyFunSuite with BeforeAndAfter {
     assertResult(16) {board.edgeLength}
     assertResult(256) {board.numCells}
 
-    assertTrue("Unexpectedly not solved", solution.isDefined && solution.get.isSolved)
+    assertTrue(solution.isDefined && solution.get.isSolved, "Unexpectedly not solved")
   }
 }
 

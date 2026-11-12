@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.hiq
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.puzzle.hiq.Algorithm.{A_STAR_CONCURRENT, A_STAR_SEQUENTIAL, CONCURRENT_OPTIMUM, SIMPLE_SEQUENTIAL}
-import org.junit.Assert.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.BeforeAndAfter
 
@@ -40,13 +40,13 @@ class SolvingSuite extends AnyFunSuite with BeforeAndAfter {
 
     //System.out.println("initial pos = " + controller.initialState)
     val path = solver.solve
-    assertTrue("No solution found for case: " + path, path.isDefined)
+    assertTrue(path.isDefined, "No solution found for case: " + path)
 
     println("time to solve = " + (System.currentTimeMillis() - start) + " millis")
     //println("paths = " + path.get)
 
     val EXP_NUM_STEPS = 31 // shortest path
-    assertEquals("Unexpected number of steps", EXP_NUM_STEPS, path.get.size)
+    assertEquals(EXP_NUM_STEPS, path.get.size, "Unexpected number of steps")
   }
 
 }

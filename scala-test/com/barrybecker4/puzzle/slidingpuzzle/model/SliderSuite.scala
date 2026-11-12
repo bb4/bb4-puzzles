@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.slidingpuzzle.model
 
 import com.barrybecker4.common.geometry.ByteLocation
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -16,11 +16,11 @@ class SliderSuite extends AnyFunSuite with BeforeAndAfter {
   val RAND = new Random(1)
 
   test("Random") {
-    assertEquals("unexpected first rnd ", 985, RAND.nextInt(1000))
-    assertEquals("unexpected second rnd ", 588, RAND.nextInt(1000))
+    assertEquals(985, RAND.nextInt(1000), "unexpected first rnd ")
+    assertEquals(588, RAND.nextInt(1000), "unexpected second rnd ")
     val nums: List[Int] = RAND.shuffle(Range(0, 10).toList)
     val expList = List(5, 0, 4, 3, 9, 2, 8, 1, 6, 7)
-    assertEquals("lists not equal", expList, nums)
+    assertEquals(expList, nums, "lists not equal")
   }
 
   test("BoardConstruction") {

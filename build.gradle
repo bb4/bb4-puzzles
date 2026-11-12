@@ -169,11 +169,6 @@ bb4 {
     }
 }
 
-tasks.withType(ScalaCompile).configureEach {
-    // Deprecation + imports/privates: full -Wunused:all is very noisy for UI/test code.
-    scalaCompileOptions.additionalParameters += ['-deprecation', '-Wunused:imports']
-}
-
 // Manual UI harness under scala-test/ (not a test suite); exclude so test compile does not pick it up as tests.
 sourceSets.named('test').configure {
     scala {
@@ -221,10 +216,8 @@ dependencies {
     // OGG audio loader (com.jme3.audio.plugins.OGGLoader); desktop.cfg references it — without this jar, startup logs a warning.
     implementation "${jme3.g}:jme3-jogg:${jme3.v}"
 
-    // JUnit 4-style tests (Assert, @Test) alongside ScalaTest / JUnit 5 from bb4.scala-library
+    // ScalaCheck; JUnit Jupiter + ScalaTest come from bb4.scala-library (no Vintage).
     testImplementation 'org.scalacheck:scalacheck_3:1.20.0'
-    testImplementation 'junit:junit:4.13.2'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:6.1.3'
 }
 
 

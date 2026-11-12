@@ -5,7 +5,7 @@ import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.IntLocation
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, Tantrix, TantrixBoard}
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
@@ -90,7 +90,7 @@ class BorderFinderSuite extends AnyFunSuite {
 
   private def verifyBorderLocations(locations: IntLocation*): Unit = {
     val positions = borderFinder.findBorderPositions
-    assertEquals("Unexpected number of border locations.", locations.toSet, positions)
+    assertEquals(locations.toSet, positions, "Unexpected number of border locations.")
   }
 }
 

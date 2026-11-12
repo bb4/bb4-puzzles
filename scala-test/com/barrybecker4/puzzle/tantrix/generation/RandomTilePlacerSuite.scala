@@ -7,7 +7,7 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
 import com.barrybecker4.puzzle.tantrix.generation.RandomTilePlacerSuite.RND
 import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TantrixBoard, TilePlacement}
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -90,7 +90,7 @@ class RandomTilePlacerSuite extends AnyFunSuite with BeforeAndAfter {
 
   private def verifyPlacement(expPlacement: Option[TilePlacement]): Unit = {
     val placement = placer.generateRandomPlacement(tantrix)
-    assertEquals("Unexpected placement.", expPlacement, placement)
+    assertEquals(expPlacement, placement, "Unexpected placement.")
   }
 }
 

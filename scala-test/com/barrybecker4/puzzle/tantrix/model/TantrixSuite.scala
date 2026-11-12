@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.model
 import scala.compiletime.uninitialized
 import com.barrybecker4.common.geometry.{Box, ByteLocation, Location}
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil._
-import org.junit.Assert.{assertEquals, assertNotNull}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull}
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
@@ -24,35 +24,35 @@ class TantrixSuite extends AnyFunSuite {
   test("GetNeighborLocationOnOddRow") {
     tantrix = place3UnsolvedTiles.tantrix
     val loc = ByteLocation(1, 1)
-    assertEquals("Unexpected right neighbor", ByteLocation(1, 2), HexUtil.getNeighborLocation(loc, 0))
-    assertEquals("Unexpected bottom left neighbor", ByteLocation(2, 0), HexUtil.getNeighborLocation(loc, 4))
-    assertEquals("Unexpected bottom right neighbor", ByteLocation(2, 1), HexUtil.getNeighborLocation(loc, 5))
+    assertEquals(ByteLocation(1, 2), HexUtil.getNeighborLocation(loc, 0), "Unexpected right neighbor")
+    assertEquals(ByteLocation(2, 0), HexUtil.getNeighborLocation(loc, 4), "Unexpected bottom left neighbor")
+    assertEquals(ByteLocation(2, 1), HexUtil.getNeighborLocation(loc, 5), "Unexpected bottom right neighbor")
   }
 
   test("GetNeighborLocationOnEvenRow") {
     tantrix = place3UnsolvedTiles.tantrix
     val loc = ByteLocation(2, 2)
-    assertEquals("Unexpected right neighbor", ByteLocation(2, 3), HexUtil.getNeighborLocation(loc, 0))
-    assertEquals("Unexpected bottom left neighbor", ByteLocation(3, 2), HexUtil.getNeighborLocation(loc, 4))
-    assertEquals("Unexpected bottom right neighbor", ByteLocation(3, 3), HexUtil.getNeighborLocation(loc, 5))
+    assertEquals(ByteLocation(2, 3), HexUtil.getNeighborLocation(loc, 0), "Unexpected right neighbor")
+    assertEquals(ByteLocation(3, 2), HexUtil.getNeighborLocation(loc, 4), "Unexpected bottom left neighbor")
+    assertEquals(ByteLocation(3, 3), HexUtil.getNeighborLocation(loc, 5), "Unexpected bottom right neighbor")
   }
 
   test("GetNeighborFromUnrotatedTile") {
     tantrix = place3SolvedTiles.tantrix
-    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor( tantrix(21, 21), 0))
+    assertEquals(None, tantrix.getNeighbor( tantrix(21, 21), 0), "Unexpected right neighbor")
     val bottomLeft = tantrix(22, 20)
-    assertEquals("Unexpected bottom left neighbor", bottomLeft, tantrix.getNeighbor(tantrix(21, 21), 4))
+    assertEquals(bottomLeft, tantrix.getNeighbor(tantrix(21, 21), 4), "Unexpected bottom left neighbor")
     val bottomRight = tantrix(22, 21)
-    assertEquals("Unexpected bottom right neighbor", bottomRight, tantrix.getNeighbor(tantrix(21, 21), 5))
+    assertEquals(bottomRight, tantrix.getNeighbor(tantrix(21, 21), 5), "Unexpected bottom right neighbor")
   }
 
   test("GetNeighborFromRotatedTile") {
     tantrix = place3SolvedTiles.tantrix
-    assertEquals("Unexpected right neighbor", None, tantrix.getNeighbor(tantrix(22, 21), 0))
+    assertEquals(None, tantrix.getNeighbor(tantrix(22, 21), 0), "Unexpected right neighbor")
     val topLeft = tantrix(21, 21)
-    assertEquals("Unexpected top left neighbor", topLeft, tantrix.getNeighbor(tantrix(22, 21), 2))
+    assertEquals(topLeft, tantrix.getNeighbor(tantrix(22, 21), 2), "Unexpected top left neighbor")
     val left = tantrix(22, 20)
-    assertEquals("Unexpected left neighbor", left, tantrix.getNeighbor(tantrix(22, 21), 3))
+    assertEquals(left, tantrix.getNeighbor(tantrix(22, 21), 3), "Unexpected left neighbor")
   }
 
   test("Bounding box for 3 solved tiles") {
@@ -68,8 +68,8 @@ class TantrixSuite extends AnyFunSuite {
 
   private def verifyPlacement(loc: Location): Unit = {
     val placement = tantrix(loc)
-    assertNotNull("Placement at " + loc + " was unexpectedly null", placement)
-    assertEquals("Unexpected tiles at " + loc, loc, placement.get.location)
+    assertNotNull(placement, "Placement at " + loc + " was unexpectedly null")
+    assertEquals(loc, placement.get.location, "Unexpected tiles at " + loc)
   }
 
   test("tantrix instances with the same placements are equal, no matter which was placed last") {

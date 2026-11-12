@@ -5,8 +5,8 @@ import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.testsupport.i18n.StubMessageContext
 import com.barrybecker4.puzzle.bridge.Algorithm.{A_STAR_CONCURRENT, A_STAR_SEQUENTIAL}
 import com.barrybecker4.puzzle.bridge.model._
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -57,10 +57,10 @@ class SolvingSuite extends AnyFunSuite with BeforeAndAfterAll {
       val solver = algorithm.createSolver(controller)
       //System.out.println("initial pos = " + controller.initialState)
       val path = solver.solve
-      assertNotNull("No solution found for case: " + testCase.labelText, path)
+      assertNotNull(path, "No solution found for case: " + testCase.labelText)
       val msg = "Unexpected minimum amount of time to cross for (" + testCase.labelText + ") " +
         "for " + algorithm.getLabel + ". The path was " + path + ". "
-      assertEquals(msg + "path length =" + path.get.size, testCase.shortestPath, pathCost(path.get))
+      assertEquals(testCase.shortestPath, pathCost(path.get), msg + "path length =" + path.get.size)
     }
   }
 

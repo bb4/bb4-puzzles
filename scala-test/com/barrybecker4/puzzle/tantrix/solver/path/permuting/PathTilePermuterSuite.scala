@@ -6,8 +6,8 @@ import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{PathColor, TilePlacement}
 import com.barrybecker4.puzzle.tantrix.solver.path.TantrixPath
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows}
+import org.junit.jupiter.api.Test
 
 import scala.collection.mutable.ListBuffer
 
@@ -27,7 +27,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE2, UPPER, ANGLE_180), 
       TilePlacement(TILE3, LOWER_LEFT, ANGLE_120)
     )
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testPermute3TileLoopSecond2Permuted(): Unit = {
@@ -39,7 +39,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE3, UPPER, ANGLE_0),
       TilePlacement(TILE1, LOWER_LEFT, ANGLE_120)
     )
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testPermute3TileLoopAll3PermutedA(): Unit = {
@@ -51,7 +51,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE1, UPPER, ANGLE_0),
       TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)
     )
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testPermute3TileLoopAll3PermutedB(): Unit = {
@@ -63,7 +63,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE3, UPPER, ANGLE_0),
       TilePlacement(TILE2, LOWER_LEFT, ANGLE_300)
     )
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testPermute3TileNonLoopPath1(): Unit = {
@@ -71,7 +71,7 @@ class PathTilePermuterSuite {
     permuter = new PathTilePermuter(path)
     val permutedPath = permuter.permute(ListBuffer(0, 1), ListBuffer(1, 0)).get
     val expPath = createPath(TilePlacement(TILE1, LOWER_RIGHT, ANGLE_240), TilePlacement(TILE2, UPPER, ANGLE_180), TilePlacement(TILE3, LOWER_LEFT, ANGLE_120))
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testSwapIn3TileNonLoopPath2(): Unit = {
@@ -83,7 +83,7 @@ class PathTilePermuterSuite {
       TilePlacement(TILE3, UPPER, ANGLE_0),
       TilePlacement(TILE1, LOWER_LEFT, ANGLE_180)
     )
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   @Test def testSwapIn4TileLoopPathWideArc(): Unit = {
@@ -108,23 +108,27 @@ class PathTilePermuterSuite {
       TilePlacement(TILE4, UPPER, ANGLE_60),
       TilePlacement(TILE2, LOWER_RIGHT, ANGLE_180)
     ), PathColor.RED, 4)
-    assertEquals("Unexpected permuted path.", expPath, permutedPath)
+    assertEquals(expPath, permutedPath, "Unexpected permuted path.")
   }
 
   /** Exception if the tiles cannot be swapped.
     * Should not be able to swap a tile with itself.
     */
-  @Test(expected = classOf[AssertionError]) def testSwapDuplicateIdices(): Unit = {
+  @Test def testSwapDuplicateIdices(): Unit = {
     permuter = new PathTilePermuter(NON_LOOP_PATH3)
-    permuter.permute(ListBuffer(0, 0), ListBuffer(0, 0))
+    assertThrows(classOf[AssertionError], () =>
+      permuter.permute(ListBuffer(0, 0), ListBuffer(0, 0))
+    )
   }
 
   /** Exception if the tiles cannot be swapped.
     * The permutation indices need to match.
     */
-  @Test(expected = classOf[AssertionError]) def testSwapInvalidIndices(): Unit = {
+  @Test def testSwapInvalidIndices(): Unit = {
     permuter = new PathTilePermuter(NON_LOOP_PATH3)
-    permuter.permute(ListBuffer(0, 2), ListBuffer(0, 1))
+    assertThrows(classOf[AssertionError], () =>
+      permuter.permute(ListBuffer(0, 2), ListBuffer(0, 1))
+    )
   }
 }
 

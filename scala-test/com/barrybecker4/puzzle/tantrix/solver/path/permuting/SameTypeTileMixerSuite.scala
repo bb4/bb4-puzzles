@@ -10,7 +10,7 @@ import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model._
 import com.barrybecker4.puzzle.tantrix.solver.path.permuting.SameTypeTileMixerSuite.RND
 import com.barrybecker4.puzzle.tantrix.solver.path.{PathType, TantrixPath}
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
@@ -79,49 +79,49 @@ class SameTypeTileMixerSuite extends AnyFunSuite {
     val board = place3SolvedTiles
     mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
+    assertEquals(0, permutedPathList.size, "Unexpected number of permuted paths.")
   }
 
   test("Mix3TilesSTRAIGHT") {
     val board = place3SolvedTiles
     mixer = new SameTypeTileMixer(PathType.STRAIGHT, new TantrixPath(board.tantrix, board.primaryColor, board.numTiles, RND), RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
+    assertEquals(0, permutedPathList.size, "Unexpected number of permuted paths.")
   }
 
   test("Mix5TilesTIGHT") {
     val origPath = createPathOf5Tiles
     mixer = new SameTypeTileMixer(PathType.TIGHT_CURVE, origPath, RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 1, permutedPathList.size)
+    assertEquals(1, permutedPathList.size, "Unexpected number of permuted paths.")
     val expPathList = Seq(new TantrixPath(Seq(
       TilePlacement(TILES.getTile(5), new ByteLocation(21, 22), ANGLE_120),
       TilePlacement(TILES.getTile(2), new ByteLocation(20, 21), ANGLE_0),
       TilePlacement(TILES.getTile(3), new ByteLocation(21, 21), ANGLE_300),
       TilePlacement(TILES.getTile(1), new ByteLocation(20, 20), ANGLE_300),
       TilePlacement(TILES.getTile(4), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED, 5))
-    assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
+    assertEquals(expPathList, permutedPathList, "Unexpected permuted paths.")
   }
 
   test("Mix5TilesWIDE") {
     val origPath = createPathOf5Tiles
     mixer = new SameTypeTileMixer(PathType.WIDE_CURVE, origPath, RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 1, permutedPathList.size)
+    assertEquals(1, permutedPathList.size, "Unexpected number of permuted paths.")
     val expPathList = Seq(new TantrixPath(Seq(
       TilePlacement(TILES.getTile(5), new ByteLocation(21, 22), ANGLE_120),
       TilePlacement(TILES.getTile(3), new ByteLocation(20, 21), ANGLE_120),
       TilePlacement(TILES.getTile(2), new ByteLocation(21, 21), ANGLE_180),
       TilePlacement(TILES.getTile(4), new ByteLocation(20, 20), ANGLE_180),
       TilePlacement(TILES.getTile(1), new ByteLocation(19, 21), ANGLE_120)), PathColor.RED, 5))
-    assertEquals("Unexpected permuted paths.", expPathList, permutedPathList)
+    assertEquals(expPathList, permutedPathList, "Unexpected permuted paths.")
   }
 
   test("Mix5TilesSTRAIGHT") {
     val origPath = createPathOf5Tiles
     mixer = new SameTypeTileMixer(PathType.STRAIGHT, origPath, RND)
     val permutedPathList = mixer.findPermutedPaths
-    assertEquals("Unexpected number of permuted paths.", 0, permutedPathList.size)
+    assertEquals(0, permutedPathList.size, "Unexpected number of permuted paths.")
   }
 
   private def createPathOf5Tiles = {

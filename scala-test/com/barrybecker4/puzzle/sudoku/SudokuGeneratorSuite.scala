@@ -3,7 +3,7 @@ package com.barrybecker4.puzzle.sudoku
 
 import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.sudoku.model.Board
-import org.junit.Assert.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -27,7 +27,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       Array(3, 1, 2, 4),
       Array(1, 3, 4, 2),
       Array(2, 4, 1, 3)))
-    assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
+    assertEquals(expBoard.toString, board.get.toString, "Unexpected generated board")
   }
 
   test("GenerateInitialSolution3") {
@@ -42,7 +42,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       Array(8, 7, 9, 5, 6, 3, 1, 4, 2),
       Array(2, 5, 6, 4, 1, 9, 8, 7, 3),
       Array(1, 3, 4, 8, 2, 7, 5, 6, 9)))
-    assertEquals("Unexpected generated board", expBoard.toString, board.get.toString)
+    assertEquals(expBoard.toString, board.get.toString, "Unexpected generated board")
   }
 
   /** Generate solutions for a bunch of random puzzles  */
@@ -51,7 +51,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       val rand = new Random()
       rand.setSeed(i)
       val board = generateInitialSolution(4, rand)
-      assertTrue("Could not create a consistent board", board.isDefined)
+      assertTrue(board.isDefined, "Could not create a consistent board")
     }
   }
 
@@ -62,7 +62,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       rand.setSeed(i)
       val board = generateInitialSolution(5, rand)
       //println(board)
-      assertTrue("Could not create a consistent board", board.isDefined)
+      assertTrue(board.isDefined, "Could not create a consistent board")
     }
   }
 
@@ -74,7 +74,7 @@ class SudokuGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
       Array(0, 0, 0, 2),
       Array(0, 0, 0, 0)))
 
-    assertEquals("Unexpected generated board", expBoard.toString, board.toString)
+    assertEquals(expBoard.toString, board.toString, "Unexpected generated board")
   }
 
   private def generateInitialSolution(baseSize: Int, rand: Random): Option[Board] = {

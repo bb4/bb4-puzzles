@@ -2,7 +2,7 @@
 package com.barrybecker4.puzzle.sudoku.model
 
 import com.barrybecker4.puzzle.sudoku.data.TestData
-import org.junit.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.scalacheck.{Gen, Prop, Test as ScalaCheckTest}
 import org.scalatest.funsuite.AnyFunSuite
 

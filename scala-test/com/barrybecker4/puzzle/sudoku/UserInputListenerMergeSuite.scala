@@ -5,7 +5,7 @@ import com.barrybecker4.common.geometry.ByteLocation
 import com.barrybecker4.puzzle.sudoku.data.TestData
 import com.barrybecker4.puzzle.sudoku.model.Board
 import com.barrybecker4.puzzle.sudoku.ui.{UserInputListener, UserValue}
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 
 class UserInputListenerMergeSuite extends AnyFunSuite {

@@ -4,7 +4,7 @@ package com.barrybecker4.puzzle.tantrix.solver.path.permuting
 import scala.compiletime.uninitialized
 import com.barrybecker4.puzzle.tantrix.PathTstUtil._
 import com.barrybecker4.puzzle.tantrix.solver.path.PathType._
-import org.junit.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.scalatest.funsuite.AnyFunSuite
 /**
   */

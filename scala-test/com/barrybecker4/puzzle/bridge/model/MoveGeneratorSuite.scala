@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.bridge.model
 
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.BeforeAndAfter
 
@@ -58,6 +58,6 @@ class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   private def verifyGeneratedMoves(initialState: Bridge, expectedMoves: Seq[BridgeMove]): Unit = {
     val generator = new MoveGenerator(initialState)
     val possibleMoves = generator.generateMoves
-    assertEquals("Unexpected list of candidate moves", expectedMoves, possibleMoves)
+    assertEquals(expectedMoves, possibleMoves, "Unexpected list of candidate moves")
   }
 }

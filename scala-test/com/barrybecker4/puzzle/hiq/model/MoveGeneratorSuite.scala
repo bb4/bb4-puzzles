@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.hiq.model
 
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -36,6 +36,6 @@ class MoveGeneratorSuite extends AnyFunSuite with BeforeAndAfter {
   private def verifyGeneratedMoves(initialState: PegBoard, expectedMoves: Seq[PegMove]): Unit = {
     val generator = new MoveGenerator(initialState)
     val possibleMoves = generator.generateMoves
-    assertEquals("Unexpected list of candidate moves", expectedMoves, possibleMoves)
+    assertEquals(expectedMoves, possibleMoves, "Unexpected list of candidate moves")
   }
 }

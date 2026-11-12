@@ -8,7 +8,7 @@ import com.barrybecker4.puzzle.tantrix.generation.MoveGenerator.GrowthMode
 import com.barrybecker4.puzzle.tantrix.model.HexTiles.TILES
 import com.barrybecker4.puzzle.tantrix.model.Rotation._
 import com.barrybecker4.puzzle.tantrix.model.{TantrixBoard, TilePlacement}
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 
 /**
@@ -22,25 +22,23 @@ class MoveGeneratorSuite extends AnyFunSuite {
     board = place2of3Tiles_OneThenTwo
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    assertEquals("Unexpected number of next moves.", 1, moves.size)
-    assertEquals("Unexpected first next move.",
-      TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head)
-    //assertEquals("Unexpected second next move.",
-    //    new TilePlacement(TILES.getTile(3), new ByteLocation(1, 0), Rotation.ANGLE_0), moves.get(1));
+    assertEquals(1, moves.size, "Unexpected number of next moves.")
+    assertEquals(TilePlacement(TILES.getTile(3), new ByteLocation(22, 20),ANGLE_120), moves.head, "Unexpected first next move.")
+    //assertEquals(//    new TilePlacement(TILES.getTile(3), new ByteLocation(1, 0), Rotation.ANGLE_0), moves.get(1), "Unexpected second next move.");
   }
 
   test("MoveGenerationFromTwoOfThreeTilesB") {
     board = place2of3Tiles_OneThenThree
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    assertEquals("Unexpected number of next moves.", 1, moves.size)
+    assertEquals(1, moves.size, "Unexpected number of next moves.")
   }
 
   test("MoveGenerationFromFirstTileOfThree") {
     board = new TantrixBoard(THREE_TILES)
     generator = new MoveGenerator(board)
     val moves = generator.generateMoves
-    assertEquals("Unexpected number of next moves.", 8, moves.size)
+    assertEquals(8, moves.size, "Unexpected number of next moves.")
   }
 
   test("single ended generation from the first tile of three only places tiles at one location") {
@@ -50,7 +48,7 @@ class MoveGeneratorSuite extends AnyFunSuite {
     assert(moves.nonEmpty)
     assert(moves.size < allMoves.size)
     assert(moves.forall(allMoves.contains))
-    assertEquals("All moves should be at the same location.", 1, moves.map(_.location).distinct.size)
+    assertEquals(1, moves.map(_.location).distinct.size, "All moves should be at the same location.")
   }
 
   test("single ended generation continues from the end of the path where the last tile was placed") {
@@ -77,7 +75,7 @@ class MoveGeneratorSuite extends AnyFunSuite {
     val moves = new MoveGenerator(board, GrowthMode.SCARCER_END).generateMoves
     assert(moves.nonEmpty)
     assert(moves.forall(allMoves.contains))
-    assertEquals("All moves should be at the same location.", 1, moves.map(_.location).distinct.size)
+    assertEquals(1, moves.map(_.location).distinct.size, "All moves should be at the same location.")
     val countsByLocation = allMoves.groupBy(_.location).view.mapValues(_.size)
     assertEquals(countsByLocation.values.min, moves.size)
   }

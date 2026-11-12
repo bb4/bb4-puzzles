@@ -5,7 +5,7 @@ import java.util.Random
 import java.util.concurrent.BrokenBarrierException
 import java.util.concurrent.CyclicBarrier
 
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import CyclicBarrierSuite._
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalactic.{Equality, TolerantNumerics}
@@ -53,13 +53,13 @@ class CyclicBarrierSuite extends AnyFunSuite {
   test("SumMatrix") {
     val solver = new Solver(MATRIX)
     assert(55.1 === solver.getTotal)
-    //assertEquals("Unexpected grand total", 55.1, solver.getTotal, 0.0001)
+    //assertEquals(55.1, solver.getTotal, 0.0001, "Unexpected grand total")
   }
 
   test("SumBigMatrix") {
     val solver = new Solver(BIG_MATRIX)
     assert(5023.338 === solver.getTotal)
-    assertEquals("Unexpected grand total", 5023.338, solver.getTotal, 0.01)
+    assertEquals(5023.338, solver.getTotal, 0.01, "Unexpected grand total")
   }
 
   /**

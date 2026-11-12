@@ -6,7 +6,7 @@ import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.PathColor.*
 import com.barrybecker4.puzzle.tantrix.model.TantrixBoard
 import com.barrybecker4.puzzle.tantrix.solver.path.PathVerificationCase
-import org.junit.Assert.{assertFalse, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertFalse, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 
 
@@ -61,8 +61,8 @@ class LoopDetectorSuite extends AnyFunSuite {
     */
   private def verifyHasLoop(board: TantrixBoard, expHasLoop: Boolean): Unit = {
     detector = LoopDetector(board)
-    if (expHasLoop) assertTrue("Unexpectedly did not have loop.", detector.hasLoop)
-    else assertFalse("Unexpectedly had loop.", detector.hasLoop)
+    if (expHasLoop) assertTrue(detector.hasLoop, "Unexpectedly did not have loop.")
+    else assertFalse(detector.hasLoop, "Unexpectedly had loop.")
   }
 }
 
