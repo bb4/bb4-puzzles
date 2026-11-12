@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2013  - 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 plugins {
-    id 'com.barrybecker4.bb4.scala-library' version '3.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.publish' version '3.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.application' version '3.0-SNAPSHOT'
+    alias(bb4Libs.plugins.scala.library)
+    alias(bb4Libs.plugins.publish)
+    alias(bb4Libs.plugins.application)
 }
 
 description = 'A Scala puzzle framework with generator and solver implementations ' +
@@ -55,12 +55,12 @@ dependencies {
         }
     }
 
-    implementation 'com.barrybecker4:bb4-A-star:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-sound:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-optimization:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-ui:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-common:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-math:3.0-SNAPSHOT'
+    implementation bb4Libs.a.star
+    implementation bb4Libs.sound
+    implementation bb4Libs.optimization
+    implementation bb4Libs.ui
+    implementation bb4Libs.common
+    implementation bb4Libs.math
 
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
