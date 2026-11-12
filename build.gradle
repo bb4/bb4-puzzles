@@ -194,13 +194,8 @@ def static jvmArgsForApp(Map propMap) {
     args
 }
 dependencies {
-    // jme3-plugins pulls gson:2.8.1; bump for CVE-2022-25647 / WS-2021-0419
-    constraints {
-        implementation('com.google.code.gson:gson') {
-            version { require '[2.11.0,)' }
-            because 'Transitive from jme3-plugins; addresses known Gson deserialization CVEs'
-        }
-    }
+    // Align transitive gson from jme3-plugins (was a local constraint; now bb4-platform / #40).
+    implementation platform(bb4Libs.bb4.platform)
 
     implementation bb4Libs.a.star
     implementation bb4Libs.sound
