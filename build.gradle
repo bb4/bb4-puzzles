@@ -13,6 +13,13 @@ version = '3.0-SNAPSHOT'
 bb4 {
     archivesBaseName.set('bb4-puzzle')
     mainClass.set('com.barrybecker4.puzzle.maze.ui.MazeSimulator')
+    jpackage {
+        enabled = true
+        packageIdentifierPrefix = 'com.barrybecker4.puzzle'
+        javaOptions = { String appId, Map props ->
+            jvmArgsForApp(props) + ['-Dfile.encoding=UTF-8']
+        }
+    }
 }
 
 tasks.withType(ScalaCompile).configureEach {
@@ -318,9 +325,3 @@ appMap.each { appId, propMap ->
 // fileTree(projectDir), which trips Gradle 8.14+ output-overlap validation during deploy.
 tasks.named('deploySchemas').configure { enabled = false }
 
-// jpackage --app-version rejects -SNAPSHOT and other non x[.y[.z]] strings.
-def rawVersion = project.version.toString()
-def strippedVersion = rawVersion.replaceAll(/-SNAPSHOT$/, '')
-ext.jpackageVersion = (strippedVersion ==~ /\d+(\.\d+){0,2}/) ? strippedVersion : '0.0.1'
-
-apply from: 'gradle/jpackage.gradle'
