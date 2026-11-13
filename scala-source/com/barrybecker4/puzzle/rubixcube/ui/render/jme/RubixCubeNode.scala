@@ -57,9 +57,9 @@ class RubixCubeNode(cube: Cube, assetManager: AssetManager)
 
   def isRotating: Boolean = sliceNode.isDefined
 
-  def incrementSliceRotation(): Unit = {
+  def incrementSliceRotation(tpf: Float): Unit = {
     if (sliceNode.isDefined) {
-      sliceNode.get.incrementSliceRotation()
+      sliceNode.get.incrementSliceRotation(tpf)
     }
   }
 

@@ -4,13 +4,14 @@ import com.barrybecker4.puzzle.rubixcube.model._
 import com.barrybecker4.puzzle.rubixcube.model.Orientation._
 import com.jme3.math.{FastMath, Quaternion, Vector3f}
 import com.jme3.scene.instancing.InstancedNode
-import com.barrybecker4.puzzle.rubixcube.ui.render.jme.SliceNode.DEFAULT_ROTATION_INCREMENT
+import com.barrybecker4.puzzle.rubixcube.ui.render.jme.SliceNode.DEFAULT_ROTATION_SPEED
 import com.jme3.asset.AssetKey
 
 
 
 object SliceNode {
-  private val DEFAULT_ROTATION_INCREMENT: Float = 0.005f
+  /** Radians per second — ~0.4s for a 90° quarter-turn regardless of frame rate. */
+  private[jme] val DEFAULT_ROTATION_SPEED: Float = FastMath.HALF_PI / 0.4f
 }
 
 
@@ -20,15 +21,15 @@ class SliceNode(miniCubes: Seq[MinicubeNode],
                 isClockwise: Boolean = false,
                 onFinished: Runnable) extends InstancedNode("slice") {
 
-  private var rotationInc: Float = DEFAULT_ROTATION_INCREMENT
+  private var rotationSpeed: Float = DEFAULT_ROTATION_SPEED
   private var sliceRotationAngle: Float = 0f
   miniCubes.foreach( this.attachChild)
 
   // hack to avoid error overriding method clone in trait CloneableSmartAsset
   override def clone: SliceNode = super.clone.asInstanceOf[SliceNode]
 
-  def incrementSliceRotation(): Unit = {
-      sliceRotationAngle += rotationInc
+  def incrementSliceRotation(tpf: Float): Unit = {
+      sliceRotationAngle += rotationSpeed * math.min(tpf, 0.05f)
       val sign = if (isClockwise) -1 else 1
       rotateSlice(sign * sliceRotationAngle)
       if (sliceRotationAngle >= FastMath.HALF_PI) {

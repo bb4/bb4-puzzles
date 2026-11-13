@@ -1,7 +1,7 @@
 package com.barrybecker4.puzzle.rubixcube.ui.render
 
 import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
-import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer.{AA_SAMPLES, APP_CLASS, BACKGROUND}
+import com.barrybecker4.puzzle.rubixcube.ui.render.CubeCanvasContainer.{AA_SAMPLES, APP_CLASS, BACKGROUND, isMacOS}
 import com.jme3.math.ColorRGBA
 import com.jme3.system.{AppSettings, JmeCanvasContext}
 import org.lwjgl.system.Configuration
@@ -17,11 +17,13 @@ object CubeCanvasContainer {
   private val APP_CLASS: String = "com.barrybecker4.puzzle.rubixcube.ui.render.CubeSceneRenderer"
   private val AA_SAMPLES: Int = 5
   private val BACKGROUND: ColorRGBA = new ColorRGBA(0.3f, 0.3f, 0.4f, 1.0f)
+
+  private def isMacOS: Boolean =
+    System.getProperty("os.name", "").toLowerCase.contains("mac")
 }
 
 class CubeCanvasContainer() {
-  // On macOS the JME render thread (not thread-0) calls glfwInit. Disable LWJGL's strict thread-0 check so
-  // the render thread can proceed. The LwjglAWTGLCanvas path uses JAWT (not a GLFW window) for pixel output.
+  // Soften LWJGL's thread-0 check; JME 3.10 runs the macOS canvas loop via invokeLater on AppKit/EDT.
   Configuration.GLFW_CHECK_THREAD0.set(false)
 
   private val clazz = Class.forName(APP_CLASS)
@@ -31,11 +33,25 @@ class CubeCanvasContainer() {
   renderer.setPauseOnLostFocus(false)
   val settings = new AppSettings(true)
   settings.setRenderer(AppSettings.LWJGL_OPENGL3)
-  settings.setSamples(AA_SAMPLES)
+  settings.setUseJoysticks(false)
+  settings.setVSync(false)
+  settings.setFrameRate(60)
+  // macOS + AWT: gamma/sRGB remains flaky on NSOpenGLView with lwjgl3-awt.
+  // Stock 3.10 createContext uses a compatibility profile that NSOpenGL rejects — use MacLwjglCanvas.
+  if (isMacOS) {
+    settings.setGammaCorrection(false)
+    settings.setSamples(4)
+    settings.setCustomRenderer(classOf[MacLwjglCanvas])
+  } else {
+    settings.setSamples(AA_SAMPLES)
+  }
   renderer.setSettings(settings)
   renderer.createCanvas()
-  // startCanvas() must not run from applet.init() on macOS: LwjglWindow.create() calls run()
-  // synchronously on the calling thread, which would block main before the JFrame is shown.
+  if (isMacOS) {
+    // setCustomRenderer stores "CUSTOM"+className; GL init needs a real LWJGL_* id.
+    renderer.getContext.getSettings.setRenderer(AppSettings.LWJGL_OPENGL3)
+  }
+  // startCanvas() is deferred until the JFrame is showing (see RubixCubePuzzle.main).
 
   val context: JmeCanvasContext = renderer.getContext.asInstanceOf[JmeCanvasContext]
   var canvas: Canvas = context.getCanvas

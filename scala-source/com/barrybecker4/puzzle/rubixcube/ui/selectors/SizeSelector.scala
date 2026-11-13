@@ -3,10 +3,10 @@ package com.barrybecker4.puzzle.rubixcube.ui.selectors
 
 import com.barrybecker4.puzzle.rubixcube.ui.selectors.SizeSelector.DEFAULT_SIZE
 
-import java.awt.Choice
+import javax.swing.JComboBox
 
 /**
-  * A combo box that allows the user to select the size of the puzzle
+  * Combo box for puzzle edge size. Swing (not AWT Choice) so it paints correctly over a GL canvas on macOS.
   */
 object SizeSelector {
   val DEFAULT_SIZE: Int = 4
@@ -19,11 +19,10 @@ object SizeSelector {
   )
 }
 
-final class SizeSelector() extends Choice {
+final class SizeSelector() extends JComboBox[String](SizeSelector.MENU_ITEMS) {
+  setSelectedIndex(DEFAULT_SIZE - 2)
+  setToolTipText("Cube edge size")
 
-  for (item <- SizeSelector.MENU_ITEMS) { add(item) }
-  select(DEFAULT_SIZE - 2)
-
-  /** @return the puzzle size for what was selected.*/
+  /** @return the puzzle size for what was selected. */
   def getSelectedSize: Int = this.getSelectedIndex + 2
 }

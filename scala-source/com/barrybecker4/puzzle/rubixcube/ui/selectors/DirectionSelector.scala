@@ -2,13 +2,15 @@
 package com.barrybecker4.puzzle.rubixcube.ui.selectors
 
 import com.barrybecker4.puzzle.rubixcube.model.Direction
-import java.awt.Choice
+
+import javax.swing.JComboBox
 
 
-final class DirectionSelector() extends Choice {
+final class DirectionSelector()
+  extends JComboBox[String](Direction.values.map(_.toString)) {
 
-  for (direction <- Direction.values) { add(direction.toString) }
-  select(0)
+  setSelectedIndex(0)
+  setToolTipText("Rotation direction")
 
   def getSelectedDirection: Direction = Direction.values(this.getSelectedIndex)
 }

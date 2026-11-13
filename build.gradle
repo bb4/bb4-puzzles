@@ -55,7 +55,9 @@ bb4 {
             longDescription : 'Rotate layers of the <a href="https://en.wikipedia.org/wiki/Rubik%27s_Cube">Rubix Cube</a> ' +
                     ' until every face has a uniform color.',
             mx              : '16G',
-            startOnFirstThreadMac : true
+            // 3.10 AWT canvas uses JAWT + AwtMouse/KeyInput (no GLFW context). Leaving
+            // startOnFirstThread on forces a CFRunLoop pump that steals clicks from Swing.
+            startOnFirstThreadMac : false
     ])
 
     apps.put('sudoku', [
@@ -177,14 +179,15 @@ sourceSets.named('test').configure {
 }
 
 // 3.7+: LwjglCanvas lives in jme3-lwjgl3 (LWJGL3 + macOS arm64). JME 3.3.x only shipped it in jme3-lwjgl (LWJGL2).
-def jme3 = [g: 'org.jmonkeyengine', v: '3.9.0-stable']
+// 3.10.0-beta3: macOS AWT canvas main-thread fix (#2935) + lwjgl3-awt 0.2.5.
+def jme3 = [g: 'org.jmonkeyengine', v: '3.10.0-beta3']
 
 def static jvmArgsForApp(Map propMap) {
     def args = ['-ea', '-Xss128m', "-Xmx${propMap.mx ?: '256m'}"]
-    // LWJGL3/GLFW on macOS must run on thread-0. Without -XstartOnFirstThread the native Cocoa code
-    // crashes with SIGTRAP when glfwInit() is called from the JME render thread.
+    // LWJGL3 natives on macOS still expect thread-0 for some Cocoa paths.
     if (propMap.startOnFirstThreadMac && System.getProperty('os.name').toLowerCase().contains('mac')) {
         args.add(0, '-XstartOnFirstThread')
+        args.add('-Xdock:name=Rubix Cube')
     }
     args
 }
@@ -203,13 +206,11 @@ dependencies {
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
     // LWJGL 3 (jme3-lwjgl3) ships macOS arm64 natives; jme3-lwjgl uses LWJGL 2 (x86_64-only on Mac) and fails on Apple Silicon.
     implementation("${jme3.g}:jme3-lwjgl3:${jme3.v}") {
-        // 0.1.8 embeds x86_64-only liblwjgl3awt.dylib; 0.2+ uses LWJGL jawt natives (arm64 on Apple Silicon). POM uses Maven-only ${lwjgl.natives}, so use transitive=false.
+        // POM uses Maven-only ${lwjgl.natives}; pin lwjgl3-awt ourselves.
         exclude group: 'org.lwjglx', module: 'lwjgl3-awt'
     }
-    // macOS: 0.2.x for LWJGL jawt natives on Apple Silicon. Windows/Linux: 0.1.8 calls User32.RegisterClassEx(WNDCLASSEX),
-    // which matches JME's LWJGL 3.3.3; 0.2.4 bytecode expects RegisterClassEx(IntBuffer, WNDCLASSEX) and throws NoSuchMethodError on Windows.
-    def lwjgl3AwtVersion = System.getProperty('os.name', '').toLowerCase().contains('mac') ? '0.2.4' : '0.1.8'
-    implementation("org.lwjglx:lwjgl3-awt:${lwjgl3AwtVersion}") {
+    // 3.10 ships 0.2.5 (LWJGL jawt natives; arm64 on Apple Silicon).
+    implementation('org.lwjglx:lwjgl3-awt:0.2.5') {
         transitive = false
     }
     implementation "${jme3.g}:jme3-plugins:${jme3.v}"

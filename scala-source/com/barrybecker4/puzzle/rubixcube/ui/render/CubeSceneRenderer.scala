@@ -107,7 +107,7 @@ class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
         rubixCubeNode.startRotatingSlice(nextRotation.move)
       }
       if (rubixCubeNode.isRotating) {
-        rubixCubeNode.incrementSliceRotation()
+        rubixCubeNode.incrementSliceRotation(tpf)
       }
       else if (rotationDoneCallback.isDefined) {
         rotationDoneCallback.get.apply()

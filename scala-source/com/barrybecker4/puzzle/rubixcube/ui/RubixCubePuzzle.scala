@@ -1,4 +1,4 @@
-// Copyright by Barry G. Becker, 2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2021-2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.rubixcube.ui
 
 import scala.compiletime.uninitialized
@@ -9,10 +9,11 @@ import com.barrybecker4.puzzle.rubixcube.model.{Cube, CubeMove}
 import com.barrybecker4.search.Refreshable
 
 import java.awt.event.{WindowAdapter, WindowEvent}
+import java.util.concurrent.CountDownLatch
 import javax.swing._
 
-import org.lwjgl.glfw.GLFW
 import org.lwjgl.system.Configuration
+import org.lwjgl.system.Platform
 
 
 /**
@@ -23,24 +24,21 @@ import org.lwjgl.system.Configuration
   */
 object RubixCubePuzzle {
 
-  // With -XstartOnFirstThread, JME / LwjglWindow on macOS runs the game loop on whatever thread
-  // calls startCanvas(), so startCanvas() must not run during applet.init().
-  //
-  // GLFW must be initialized on the main thread before showing the Swing window; otherwise
-  // LWCToolkit ↔ AppKit can wedge (invokeLater never runs while the main thread waits).
-  // Call glfwInit here, then show the frame from the main thread, then startCanvas on the same
-  // thread (JME macOS path enters run() synchronously).
+  // JME 3.10 macOS AWT canvas: render loop is scheduled via SwingUtilities.invokeLater.
+  // Do not pump CFRunLoop on main after AWT starts — that steals mouse/keyboard from Swing.
   def main(args: Array[String]): Unit = {
     JmeLwjglVerboseLogging.configureIfEnabled()
     Configuration.GLFW_CHECK_THREAD0.set(false)
-    if (!GLFW.glfwInit())
-      throw new IllegalStateException("Unable to initialize GLFW")
 
     JPopupMenu.setDefaultLightWeightPopupEnabled(false)
     val applet = new RubixCubePuzzle(args)
     val frame   = new JFrame()
+    val keepAlive = new CountDownLatch(1)
     frame.addWindowListener(new WindowAdapter {
-      override def windowClosing(e: WindowEvent): Unit = System.exit(0)
+      override def windowClosing(e: WindowEvent): Unit = {
+        keepAlive.countDown()
+        System.exit(0)
+      }
     })
     frame.setContentPane(applet.getContentPane)
     val screen = java.awt.Toolkit.getDefaultToolkit.getScreenSize
@@ -52,12 +50,17 @@ object RubixCubePuzzle {
     applet.init()
 
     frame.setTitle(applet.getName)
-
     frame.setVisible(true)
     frame.toFront()
 
     applet.start()
-    applet.startCubeRendering()
+    // Create/start the GL canvas on the EDT so it shares the thread with 3.10's invokeLater loop.
+    if (Platform.get() == Platform.MACOSX) {
+      SwingUtilities.invokeLater(() => applet.startCubeRendering())
+      keepAlive.await()
+    } else {
+      applet.startCubeRendering()
+    }
   }
 }
 
@@ -92,5 +95,3 @@ case class RubixCubePuzzle(myargs: Array[String])
   def startCubeRendering(): Unit =
     viewer.asInstanceOf[CubeViewer].startCubeRendering()
 }
-
-

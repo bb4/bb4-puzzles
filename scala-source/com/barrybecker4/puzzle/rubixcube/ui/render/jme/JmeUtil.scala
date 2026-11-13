@@ -8,8 +8,7 @@ import com.jme3.scene.control.BillboardControl
 import com.jme3.scene.Node
 
 case class JmeUtil(assetManager: AssetManager) {
-
-  //val TEXT_FONT: BitmapFont = assetManager.loadFont("Interface/Fonts/Console.fnt")
+  
   val TEXT_FONT: BitmapFont = assetManager.loadFont("Interface/Fonts/Default.fnt")
 
 
@@ -18,7 +17,8 @@ case class JmeUtil(assetManager: AssetManager) {
     val hudText = new BitmapText(TEXT_FONT, false)
 
     hudText.setText(text)
-    hudText.setSize(0.3f) //TEXT_FONT.getCharSet.getRenderedSize) // font size
+    // Keep axis labels small in world space (0.3 looked huge / washed-out on retina + BillboardControl).
+    hudText.setSize(0.12f)
     hudText.setColor(ColorRGBA.White)
 
     val bbControl: BillboardControl = new BillboardControl()
