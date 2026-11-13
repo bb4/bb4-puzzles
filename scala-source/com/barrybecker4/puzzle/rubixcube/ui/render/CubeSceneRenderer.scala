@@ -21,7 +21,7 @@ object CubeSceneRenderer {
     val renderer = new CubeSceneRenderer(5)
     val settings = new AppSettings(false)
     settings.setTitle("Rubix Cube Solver")
-    settings.setRenderer(AppSettings.LWJGL_OPENGL3)
+    settings.setRenderer(AppSettings.LWJGL_OPENGL30)
     renderer.setSettings(settings)
     renderer.start()
   }
@@ -49,6 +49,9 @@ class CubeSceneRenderer(initialCubeSize: Int) extends SimpleApplication {
     util = jme.JmeUtil(assetManager)
     setDisplayStatView(false)
     flyCam.setDragToRotate(true)
+    // AWT mouse deltas are smaller than native GLFW; bump so drag-orbit feels responsive.
+    flyCam.setRotationSpeed(5f)
+    flyCam.setZoomSpeed(2f)
 
     updateCube(currentCube)
 

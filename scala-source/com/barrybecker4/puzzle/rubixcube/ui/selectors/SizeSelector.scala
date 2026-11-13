@@ -9,7 +9,7 @@ import javax.swing.JComboBox
   * Combo box for puzzle edge size. Swing (not AWT Choice) so it paints correctly over a GL canvas on macOS.
   */
 object SizeSelector {
-  val DEFAULT_SIZE: Int = 4
+  val DEFAULT_SIZE: Int = 3
 
   private val MENU_ITEMS = Array(
     "edge size = 2",

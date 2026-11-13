@@ -5,29 +5,26 @@ import org.lwjgl.system.Configuration
 
 import java.util.logging.{ConsoleHandler, Level, Logger}
 
-/**
+  /**
   * Turns up java.util.logging for JMonkeyEngine and LWJGL, and enables LWJGL's Configuration.DEBUG.
   * Call from [[RubixCubePuzzle.main]] before any LWJGL natives load (i.e. before `applet.init()`).
   *
+  * Off by default — JME 3.10 logs "Using LWJGL …" at FINE on every canvas frame, which
+  * floods the console and stalls the EDT/render loop.
+  *
   * System property `bb4.rubix.jmeVerbose`:
-  *   - unset: verbose on macOS only (helps diagnose embedded canvas / GLFW issues)
-  *   - `true` / `1` / `yes`: verbose on any OS
-  *   - `false` / `0` / `no`: off
+  *   - unset / `false` / `0` / `no`: off
+  *   - `true` / `1` / `yes`: verbose
   */
 object JmeLwjglVerboseLogging {
 
   val PropertyName: String = "bb4.rubix.jmeVerbose"
 
-  private val MacOs: Boolean =
-    System.getProperty("os.name", "").toLowerCase.contains("mac")
-
   def isVerboseEnabled: Boolean = {
     val raw = Option(System.getProperty(PropertyName)).map(_.trim.toLowerCase).filter(_.nonEmpty)
     raw match
-      case Some("false") | Some("0") | Some("no")  => false
       case Some("true") | Some("1") | Some("yes") => true
-      case Some(_)                                 => true
-      case None                                    => MacOs
+      case _                                      => false
   }
 
   /** JUL level for JME / LWJGL loggers (below this, root/handler levels must allow it). */
