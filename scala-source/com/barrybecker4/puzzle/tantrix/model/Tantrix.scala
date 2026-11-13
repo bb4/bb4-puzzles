@@ -35,7 +35,7 @@ case class Tantrix(tileMap: TileMap, lastTile: TilePlacement, boundingBox: Box) 
     * @return the new immutable tantrix instance.
     */
   def placeTile(placement: TilePlacement): Tantrix =
-    new Tantrix(tileMap + (placement.location -> placement), placement, Box(boundingBox, placement.location))
+    new Tantrix(tileMap + (placement.location -> placement), placement, boundingBox.expandBy(placement.location))
 
   /** @return the placement at the specified location, if there is one, else None. */
   def apply(row: Int, col: Int): Option[TilePlacement] = tileMap.get(new ByteLocation(row, col))

@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.puzzle.tantrix.generation
 
-import com.barrybecker4.common.geometry.{Box, Location}
+import com.barrybecker4.common.geometry.Location
 import com.barrybecker4.puzzle.tantrix.TantrixTstUtil.*
 import com.barrybecker4.puzzle.tantrix.model.HexTile.NUM_SIDES
 import com.barrybecker4.puzzle.tantrix.model.{HexUtil, PathColor, Tantrix, TantrixBoard}
@@ -34,7 +34,7 @@ class BorderFinderCorrectnessSuite extends AnyFunSuite {
     val maxHalf = (numTiles + 1) / 2
     val bbox = tantrix.getBoundingBox
     primaryAdjacentEmpty(tantrix, primaryColor).filter { loc =>
-      Box(bbox, loc).getMaxDimension <= maxHalf
+      bbox.expandBy(loc).getMaxDimension <= maxHalf
     }
   }
 
@@ -91,7 +91,7 @@ class BorderFinderCorrectnessSuite extends AnyFunSuite {
     assert(wide.nonEmpty)
     val tight = new BorderFinder(t, 1, PathColor.YELLOW).findBorderPositions.toSet
     assert(tight.subsetOf(wide.toSet))
-    assert(tight.forall(loc => Box(t.getBoundingBox, loc).getMaxDimension <= 1))
+    assert(tight.forall(loc => t.getBoundingBox.expandBy(loc).getMaxDimension <= 1))
   }
 
   test("red wrong-loop seven tiles still yields coherent border set") {

@@ -99,11 +99,11 @@ class MazeSolver(var panel: MazePanel, rnd: Random = new Random(1)) {
       currentCell.southPath = true
       nextCell.northPath = true
     }
-    else if (dir.getX == - 1) {   // west
+    else if (dir.getX == -1) {   // west
       currentCell.westPath = true
       nextCell.eastPath = true
     }
-    else if (dir.getY == - 1) {   // north
+    else if (dir.getY == -1) {   // north
       currentCell.northPath = true
       nextCell.southPath = true
     }

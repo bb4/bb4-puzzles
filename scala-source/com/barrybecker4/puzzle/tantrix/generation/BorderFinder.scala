@@ -35,7 +35,7 @@ class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, 
     *         this many tiles could be.
     */
   private[generation] def isWithinSizeLimit(loc: Location): Boolean =
-    Box(tantrix.getBoundingBox, loc).getMaxDimension <= maxHalfPathLength
+    tantrix.getBoundingBox.expandBy(loc).getMaxDimension <= maxHalfPathLength
 
   /** Travel the primary path in both directions, adding all adjacent empty placements
     * as long as they do not push either boundingBox dimension beyond maxHalfPathLength.
@@ -61,7 +61,7 @@ class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, 
   private def addEmptyNeighbors(placement: TilePlacement, box: Box, positions: mutable.Set[Location]): Box =
     primaryPathSides(placement).foldLeft(box) { (workBox, side) =>
       val nbrLoc = HexUtil.getNeighborLocation(placement.location, side)
-      val expandedBox = Option.when(tantrix(nbrLoc).isEmpty)(Box(workBox, nbrLoc)).filter(isWithinLimit)
+      val expandedBox = Option.when(tantrix(nbrLoc).isEmpty)(workBox.expandBy(nbrLoc)).filter(isWithinLimit)
       expandedBox.fold(workBox) { newBox =>
         positions += nbrLoc
         newBox
@@ -77,7 +77,7 @@ class BorderFinder private[generation](val tantrix: Tantrix, val numTiles: Int, 
     for {
       side <- primaryPathSides(placement)
       nbr <- tantrix.getNeighbor(Some(placement), side)
-      newBox = Box(workBox, nbr.location)
+      newBox = workBox.expandBy(nbr.location)
       if isWithinLimit(newBox) && enqueued.add((nbr.location, newBox))
     } queue.enqueue((nbr, newBox))
 
