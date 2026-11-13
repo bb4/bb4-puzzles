@@ -10,6 +10,7 @@ import scala.collection.mutable
   * Performs a depth first search on the state space.
   * It will find a solution if there is one, but it may not be the best solution or the shortest path to it.
   * See A* for a better way to search that involves priority sorting of current paths.
+  * Uses an explicit stack so deep searches (e.g. 15-puzzle) do not overflow the JVM call stack.
   * P represents a puzzle state
   * M represents a move transition
   *
@@ -38,25 +39,28 @@ class SequentialPuzzleSolver[P, M](val puzzle: PuzzleController[P, M]) extends P
   }
 
   /**
-    * Recursive Depth first search for a solution to the puzzle.
+    * Iterative depth-first search for a solution to the puzzle.
+    * Same exploration order as the former recursive version: first legal transition first.
     *
-    * @param node the current state of the puzzle.
+    * @param start the initial state of the puzzle.
     * @return list of moves leading to a solution. None if no solution.
     */
-  private def search(node: PuzzleNode[P, M]): Option[PuzzleNode[P, M]] = {
-    val currentState = node.getPosition
-    if (puzzle.alreadySeen(currentState, seen)) None
-    else if (puzzle.isGoal(currentState)) Some(node)
-    else {
-      puzzle.legalTransitions(currentState).iterator
-        .map { move =>
+  private def search(start: PuzzleNode[P, M]): Option[PuzzleNode[P, M]] = {
+    val stack = mutable.Stack[PuzzleNode[P, M]](start)
+    while (stack.nonEmpty) {
+      val node = stack.pop()
+      val currentState = node.getPosition
+      if (!puzzle.alreadySeen(currentState, seen)) {
+        if (puzzle.isGoal(currentState)) return Some(node)
+        // Push in reverse so the first legal transition is explored first (DFS LIFO).
+        for (move <- puzzle.legalTransitions(currentState).reverseIterator) {
           val position = puzzle.transition(currentState, move)
           puzzle.refresh(position, numTries)
-          val child = new PuzzleNode[P, M](position, Some(move), Some(node))
           numTries += 1
-          search(child)
+          stack.push(new PuzzleNode[P, M](position, Some(move), Some(node)))
         }
-        .collectFirst { case Some(result) => result }
+      }
     }
+    None
   }
 }
